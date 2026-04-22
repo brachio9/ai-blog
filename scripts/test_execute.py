@@ -24,7 +24,11 @@ import execute as ex
 
 @pytest.fixture
 def tmp_project(tmp_path):
-    """phases/, CLAUDE.md, docs/ 를 갖춘 임시 프로젝트 구조."""
+    """phases/, CLAUDE.md, docs/ 를 갖춘 임시 프로젝트 구조.
+
+    화이트리스트 정책(ALWAYS_INLINE_DOCS)에 맞춰 PRD/ADR/ARCHITECTURE/UI_GUIDE 를 채운다.
+    REFERENCE_ONLY_DOCS 도 하나 심어 footer 동작을 검증할 수 있게 한다.
+    """
     phases_dir = tmp_path / "phases"
     phases_dir.mkdir()
 
@@ -33,8 +37,12 @@ def tmp_project(tmp_path):
 
     docs_dir = tmp_path / "docs"
     docs_dir.mkdir()
-    (docs_dir / "arch.md").write_text("# Architecture\nSome content")
-    (docs_dir / "guide.md").write_text("# Guide\nAnother doc")
+    (docs_dir / "PRD.md").write_text("# PRD\nproduct reqs")
+    (docs_dir / "ADR.md").write_text("# ADR\nPHILOSOPHY")
+    (docs_dir / "ARCHITECTURE.md").write_text("# Architecture\nSome content")
+    (docs_dir / "UI_GUIDE.md").write_text("# UI Guide\nAnother doc")
+    # reference-only 문서 — inline 되면 안 되고 footer에 경로만 노출
+    (docs_dir / "PLAN.md").write_text("# Plan\nshould-not-inline")
 
     return tmp_path
 
@@ -146,44 +154,66 @@ class TestJsonHelpers:
 # ---------------------------------------------------------------------------
 
 class TestLoadGuardrails:
-    def test_loads_claude_md_and_docs(self, executor, tmp_project):
+    def test_inlines_whitelisted_docs(self, executor, tmp_project):
+        """ALWAYS_INLINE_DOCS 의 내용이 전부 preamble 에 포함된다."""
         with patch.object(ex, "ROOT", tmp_project):
             result = executor._load_guardrails()
         assert "# Rules" in result
         assert "rule one" in result
         assert "# Architecture" in result
-        assert "# Guide" in result
+        assert "# UI Guide" in result
+        assert "# PRD" in result
+        assert "# ADR" in result
+
+    def test_reference_only_docs_not_inlined(self, executor, tmp_project):
+        """REFERENCE_ONLY_DOCS 의 본문은 inline 되지 않고 경로만 노출된다."""
+        with patch.object(ex, "ROOT", tmp_project):
+            result = executor._load_guardrails()
+        assert "should-not-inline" not in result
+        assert "docs/PLAN.md" in result
+        assert "Read 도구로 조회" in result
 
     def test_sections_separated_by_divider(self, executor, tmp_project):
         with patch.object(ex, "ROOT", tmp_project):
             result = executor._load_guardrails()
         assert "---" in result
 
-    def test_docs_sorted_alphabetically(self, executor, tmp_project):
+    def test_inline_order_follows_whitelist(self, executor, tmp_project):
+        """ALWAYS_INLINE_DOCS 의 리스트 순서가 그대로 유지된다 (알파벳 정렬 아님)."""
         with patch.object(ex, "ROOT", tmp_project):
             result = executor._load_guardrails()
-        arch_pos = result.index("arch")
-        guide_pos = result.index("guide")
-        assert arch_pos < guide_pos
+        # CLAUDE.md → docs/PRD.md → docs/ADR.md → docs/ARCHITECTURE.md → docs/UI_GUIDE.md
+        claude_pos = result.index("CLAUDE.md")
+        prd_pos = result.index("docs/PRD.md")
+        adr_pos = result.index("docs/ADR.md")
+        arch_pos = result.index("docs/ARCHITECTURE.md")
+        ui_pos = result.index("docs/UI_GUIDE.md")
+        assert claude_pos < prd_pos < adr_pos < arch_pos < ui_pos
 
-    def test_no_claude_md(self, executor, tmp_project):
+    def test_missing_claude_md_is_skipped_silently(self, executor, tmp_project):
         (tmp_project / "CLAUDE.md").unlink()
         with patch.object(ex, "ROOT", tmp_project):
             result = executor._load_guardrails()
-        assert "CLAUDE.md" not in result
-        assert "Architecture" in result
+        assert "# Rules" not in result
+        assert "# Architecture" in result  # 남은 화이트리스트는 정상 주입
+
+    def test_missing_reference_doc_omitted_from_footer(self, executor, tmp_project):
+        (tmp_project / "docs" / "PLAN.md").unlink()
+        with patch.object(ex, "ROOT", tmp_project):
+            result = executor._load_guardrails()
+        # 파일이 없으면 footer 라인에서도 제외됨
+        assert "docs/PLAN.md" not in result
 
     def test_no_docs_dir(self, executor, tmp_project):
         import shutil
         shutil.rmtree(tmp_project / "docs")
         with patch.object(ex, "ROOT", tmp_project):
             result = executor._load_guardrails()
-        assert "Rules" in result
-        assert "Architecture" not in result
+        assert "# Rules" in result  # CLAUDE.md 만 남음
+        assert "# Architecture" not in result
 
     def test_empty_project(self, tmp_path):
         with patch.object(ex, "ROOT", tmp_path):
-            # executor가 필요 없는 static-like 동작이므로 임시 인스턴스
             phases_dir = tmp_path / "phases" / "dummy"
             phases_dir.mkdir(parents=True)
             idx = {"project": "T", "phase": "t", "steps": []}
@@ -420,6 +450,104 @@ class TestCommitStep:
 
 
 # ---------------------------------------------------------------------------
+# _is_hook_autofix + pre-commit 재시도
+# ---------------------------------------------------------------------------
+
+class TestIsHookAutofix:
+    def test_detects_files_were_modified(self):
+        r = MagicMock(stdout="ruff format...Failed\n- files were modified by this hook\n", stderr="")
+        assert ex.StepExecutor._is_hook_autofix(r) is True
+
+    def test_detects_reformatted(self):
+        r = MagicMock(stdout="1 file reformatted, 5 files left unchanged", stderr="")
+        assert ex.StepExecutor._is_hook_autofix(r) is True
+
+    def test_returns_false_for_unrelated_failure(self):
+        r = MagicMock(stdout="", stderr="fatal: some other git error")
+        assert ex.StepExecutor._is_hook_autofix(r) is False
+
+    def test_handles_empty_outputs(self):
+        r = MagicMock(stdout="", stderr="")
+        assert ex.StepExecutor._is_hook_autofix(r) is False
+
+    def test_handles_none_outputs(self):
+        r = MagicMock(stdout=None, stderr=None)
+        assert ex.StepExecutor._is_hook_autofix(r) is False
+
+    def test_checks_stderr_as_well(self):
+        r = MagicMock(stdout="", stderr="- files were modified by this hook")
+        assert ex.StepExecutor._is_hook_autofix(r) is True
+
+
+class TestCommitStepAutofixRetry:
+    def test_retries_after_pre_commit_autofix_then_succeeds(self, executor):
+        """pre-commit 훅이 파일을 수정해 첫 feat 커밋이 실패하면, 재스테이지 후 1회 재시도해 성공한다."""
+        calls = []
+        commit_attempt = {"n": 0}
+
+        def fake_git(*args):
+            calls.append(args)
+            if args[0] == "commit":
+                commit_attempt["n"] += 1
+                if commit_attempt["n"] == 1:
+                    # 첫 시도: pre-commit 훅이 파일을 수정 → abort
+                    return MagicMock(
+                        returncode=1,
+                        stdout="ruff format...Failed\n- files were modified by this hook\n1 file reformatted",
+                        stderr="",
+                    )
+                # 재시도 / 이후 chore 커밋은 성공
+                return MagicMock(returncode=0, stdout="", stderr="")
+            if args[:2] == ("diff", "--cached"):
+                return MagicMock(returncode=1)  # staged changes 있음
+            return MagicMock(returncode=0, stdout="", stderr="")
+
+        executor._run_git = fake_git
+        executor._commit_step(2, "ui")
+
+        commit_calls = [c for c in calls if c[0] == "commit"]
+        # feat (실패) + feat 재시도 + chore = 총 3회
+        assert len(commit_calls) == 3
+        assert all("feat(mvp):" in c[2] for c in commit_calls[:2])
+        assert "chore(mvp):" in commit_calls[2][2]
+
+    def test_does_not_retry_if_not_autofix(self, executor):
+        """pre-commit 외 실패(예: 훅 에러)는 재시도하지 않는다."""
+        calls = []
+
+        def fake_git(*args):
+            calls.append(args)
+            if args[0] == "commit":
+                return MagicMock(returncode=1, stdout="", stderr="fatal: unrelated error")
+            if args[:2] == ("diff", "--cached"):
+                return MagicMock(returncode=1)
+            return MagicMock(returncode=0, stdout="", stderr="")
+
+        executor._run_git = fake_git
+        executor._commit_step(2, "ui")
+
+        commit_calls = [c for c in calls if c[0] == "commit"]
+        # feat (실패, 재시도 X) + chore = 총 2회
+        assert len(commit_calls) == 2
+
+
+# ---------------------------------------------------------------------------
+# progress_indicator elapsed 타이밍 (bug fix 회귀)
+# ---------------------------------------------------------------------------
+
+class TestProgressIndicatorElapsedTiming:
+    def test_elapsed_is_zero_inside_with_block(self):
+        """finally 실행 전에는 pi.elapsed 가 초기값 0.0 — with 블록 안에서 읽으면 안 된다."""
+        import time
+        with ex.progress_indicator("test") as pi:
+            time.sleep(0.1)
+            inside = pi.elapsed
+        outside = pi.elapsed
+        assert inside == 0.0, "elapsed must be 0.0 inside the with block (before finally)"
+        assert outside > 0, "elapsed must be populated after finally executes"
+
+
+# ---------------------------------------------------------------------------
 # _invoke_claude (mocked)
 # ---------------------------------------------------------------------------
 
@@ -467,7 +595,79 @@ class TestInvokeClaude:
         with patch("subprocess.run", return_value=mock_result) as mock_run:
             executor._invoke_claude(step, "preamble")
 
-        assert mock_run.call_args[1]["timeout"] == 1800
+        assert mock_run.call_args[1]["timeout"] == ex.StepExecutor.CLAUDE_TIMEOUT_SEC
+
+    def test_timeout_marks_step_error(self, executor):
+        """TimeoutExpired 발생 시 step 을 error 상태로 전이시키고 output.json 에 timedOut 을 기록."""
+        step = {"step": 2, "name": "ui"}
+        timeout_exc = subprocess.TimeoutExpired(
+            cmd=["claude"], timeout=ex.StepExecutor.CLAUDE_TIMEOUT_SEC,
+            output="", stderr=None,
+        )
+
+        with patch("subprocess.run", side_effect=timeout_exc):
+            output = executor._invoke_claude(step, "preamble")
+
+        # output.json 에 타임아웃 표식
+        assert output["timedOut"] is True
+        assert output["exitCode"] == -1
+        assert "TIMEOUT" in output["stderr"]
+
+        # index.json 상 해당 step 상태가 error 로 전이
+        index = json.loads(executor._index_file.read_text())
+        ui_step = next(s for s in index["steps"] if s["step"] == 2)
+        assert ui_step["status"] == "error"
+        assert "TIMEOUT" in ui_step["error_message"]
+
+    def test_timeout_does_not_overwrite_completed(self, executor):
+        """이미 completed 된 step 이 어찌된 영문인지 retry 루트로 들어와 타임아웃이 나도 status를 덮지 않는다."""
+        # 사전 세팅: step 2 를 completed 로 변경
+        index = json.loads(executor._index_file.read_text())
+        for s in index["steps"]:
+            if s["step"] == 2:
+                s["status"] = "completed"
+        executor._index_file.write_text(json.dumps(index, ensure_ascii=False, indent=2))
+
+        step = {"step": 2, "name": "ui"}
+        timeout_exc = subprocess.TimeoutExpired(
+            cmd=["claude"], timeout=ex.StepExecutor.CLAUDE_TIMEOUT_SEC,
+            output="", stderr=None,
+        )
+        with patch("subprocess.run", side_effect=timeout_exc):
+            executor._invoke_claude(step, "preamble")
+
+        index = json.loads(executor._index_file.read_text())
+        ui_step = next(s for s in index["steps"] if s["step"] == 2)
+        assert ui_step["status"] == "completed"  # pending 만 error 로 전이, 이미 completed 된 건 보호
+
+
+# ---------------------------------------------------------------------------
+# _append_event (이력 배열)
+# ---------------------------------------------------------------------------
+
+class TestAppendEvent:
+    def test_appends_event_with_timestamp_and_status(self):
+        step_entry = {"step": 0, "name": "setup", "status": "pending"}
+        ex.StepExecutor._append_event(step_entry, "started")
+        assert len(step_entry["events"]) == 1
+        assert step_entry["events"][0]["status"] == "started"
+        assert "+0900" in step_entry["events"][0]["at"]
+
+    def test_appends_multiple_events_in_order(self):
+        step_entry = {"step": 0, "name": "setup", "status": "pending"}
+        ex.StepExecutor._append_event(step_entry, "started")
+        ex.StepExecutor._append_event(step_entry, "retry", attempt=1, error="test")
+        ex.StepExecutor._append_event(step_entry, "completed", attempt=2)
+        assert [e["status"] for e in step_entry["events"]] == ["started", "retry", "completed"]
+        assert step_entry["events"][1]["attempt"] == 1
+        assert step_entry["events"][1]["error"] == "test"
+
+    def test_omits_none_extras(self):
+        step_entry = {"step": 0, "name": "setup", "status": "pending"}
+        ex.StepExecutor._append_event(step_entry, "blocked", reason=None, attempt=3)
+        event = step_entry["events"][0]
+        assert "reason" not in event
+        assert event["attempt"] == 3
 
 
 # ---------------------------------------------------------------------------

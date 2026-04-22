@@ -54,9 +54,23 @@ class StepExecutor:
     """Phase 디렉토리 안의 step들을 순차 실행하는 하네스."""
 
     MAX_RETRIES = 3
+    CLAUDE_TIMEOUT_SEC = 1800
     FEAT_MSG = "feat({phase}): step {num} — {name}"
     CHORE_MSG = "chore({phase}): step {num} output"
     TZ = timezone(timedelta(hours=9))
+
+    # 매 step preamble에 inline 주입되는 가드레일 (토큰 효율 — 2-tier 정책).
+    ALWAYS_INLINE_DOCS = [
+        "CLAUDE.md",
+        "docs/PRD.md",
+        "docs/ADR.md",
+        "docs/ARCHITECTURE.md",
+        "docs/UI_GUIDE.md",
+    ]
+    # footer에 경로만 노출 — 필요 시 Read 도구로 조회하도록 안내.
+    REFERENCE_ONLY_DOCS = [
+        "docs/PLAN.md",
+    ]
 
     def __init__(self, phase_dir_name: str, *, auto_push: bool = False):
         self._root = str(ROOT)
@@ -93,6 +107,16 @@ class StepExecutor:
 
     def _stamp(self) -> str:
         return datetime.now(self.TZ).strftime("%Y-%m-%dT%H:%M:%S%z")
+
+    @staticmethod
+    def _append_event(step_entry: dict, status: str, **extra) -> None:
+        """step 항목에 append-only 이벤트 이력을 기록한다 (재시도·타임아웃 등 감사용)."""
+        events = step_entry.setdefault("events", [])
+        event = {"at": datetime.now(StepExecutor.TZ).strftime("%Y-%m-%dT%H:%M:%S%z"), "status": status}
+        for k, v in extra.items():
+            if v is not None:
+                event[k] = v
+        events.append(event)
 
     # --- JSON I/O ---
 
@@ -133,6 +157,16 @@ class StepExecutor:
 
         print(f"  Branch: {branch}")
 
+    @staticmethod
+    def _is_hook_autofix(r: subprocess.CompletedProcess) -> bool:
+        """pre-commit 훅이 파일을 auto-fix 하고 commit을 중단시켰는지 감지.
+
+        ruff-format / trailing-whitespace / end-of-file-fixer 등 일부 훅은 파일을 직접 수정한 뒤
+        pre-commit이 commit을 abort한다. 이 경우 수정된 파일을 재스테이지하고 한 번 재시도하면 통과한다.
+        """
+        text = (r.stdout or "") + (r.stderr or "")
+        return "files were modified by this hook" in text or " reformatted" in text
+
     def _commit_step(self, step_num: int, step_name: str):
         output_rel = f"phases/{self._phase_dir_name}/step{step_num}-output.json"
         index_rel = f"phases/{self._phase_dir_name}/index.json"
@@ -144,6 +178,15 @@ class StepExecutor:
         if self._run_git("diff", "--cached", "--quiet").returncode != 0:
             msg = self.FEAT_MSG.format(phase=self._phase_name, num=step_num, name=step_name)
             r = self._run_git("commit", "-m", msg)
+
+            # pre-commit 훅이 파일을 auto-fix 했다면 1회 재시도.
+            if r.returncode != 0 and self._is_hook_autofix(r):
+                print(f"  ↻ pre-commit 훅이 파일 수정 — 재스테이지 후 1회 재시도")
+                self._run_git("add", "-A")
+                self._run_git("reset", "HEAD", "--", output_rel)
+                self._run_git("reset", "HEAD", "--", index_rel)
+                r = self._run_git("commit", "-m", msg)
+
             if r.returncode == 0:
                 print(f"  Commit: {msg}")
             else:
@@ -175,14 +218,28 @@ class StepExecutor:
     # --- guardrails & context ---
 
     def _load_guardrails(self) -> str:
+        """매 step preamble에 주입되는 가드레일을 구성한다.
+
+        2-tier 전략:
+          - ALWAYS_INLINE_DOCS: 전문을 inline. Claude가 매 step마다 반드시 읽어야 하는 핵심 규칙.
+          - REFERENCE_ONLY_DOCS: 경로만 footer에 노출. 토큰 낭비 방지, 필요 시 Read로 조회.
+        """
         sections = []
-        claude_md = ROOT / "CLAUDE.md"
-        if claude_md.exists():
-            sections.append(f"## 프로젝트 규칙 (CLAUDE.md)\n\n{claude_md.read_text()}")
-        docs_dir = ROOT / "docs"
-        if docs_dir.is_dir():
-            for doc in sorted(docs_dir.glob("*.md")):
-                sections.append(f"## {doc.stem}\n\n{doc.read_text()}")
+
+        for rel in self.ALWAYS_INLINE_DOCS:
+            path = ROOT / rel
+            if path.exists():
+                sections.append(f"## {rel}\n\n{path.read_text()}")
+
+        ref_list = [f"- `{rel}`" for rel in self.REFERENCE_ONLY_DOCS if (ROOT / rel).exists()]
+        if ref_list:
+            sections.append(
+                "## 참조 문서 (필요 시에만 Read 도구로 조회)\n\n"
+                + "\n".join(ref_list)
+                + "\n\n상세 결정 근거·장기 설계는 위 파일을 **필요할 때만** 읽어라. "
+                "preamble에 포함되지 않으므로 자동 주입되지 않는다."
+            )
+
         return "\n\n---\n\n".join(sections) if sections else ""
 
     @staticmethod
@@ -235,20 +292,46 @@ class StepExecutor:
             sys.exit(1)
 
         prompt = preamble + step_file.read_text()
-        result = subprocess.run(
-            ["claude", "-p", "--dangerously-skip-permissions", "--output-format", "json", prompt],
-            cwd=self._root, capture_output=True, text=True, timeout=1800,
-        )
+        timed_out = False
 
-        if result.returncode != 0:
-            print(f"\n  WARN: Claude가 비정상 종료됨 (code {result.returncode})")
-            if result.stderr:
-                print(f"  stderr: {result.stderr[:500]}")
+        try:
+            result = subprocess.run(
+                ["claude", "-p", "--dangerously-skip-permissions", "--output-format", "json", prompt],
+                cwd=self._root, capture_output=True, text=True, timeout=self.CLAUDE_TIMEOUT_SEC,
+            )
+            returncode = result.returncode
+            stdout = result.stdout
+            stderr = result.stderr
+        except subprocess.TimeoutExpired as e:
+            timed_out = True
+            returncode = -1
+            stdout = (e.stdout.decode() if isinstance(e.stdout, (bytes, bytearray)) else e.stdout) or ""
+            stderr = (
+                f"TIMEOUT after {self.CLAUDE_TIMEOUT_SEC}s — "
+                f"Claude가 step {step_num} ({step_name})을(를) 완료하지 못했습니다. "
+                f"retry 루프가 이 실패를 error로 처리합니다."
+            )
+            # index.json 이 업데이트되지 않은 채 타임아웃된 경우, error 상태를 직접 기록한다.
+            # (Claude가 status를 쓰지 못했으므로 기본값 pending 에서 전이시킴)
+            index = self._read_json(self._index_file)
+            for s in index["steps"]:
+                if s["step"] == step_num and s.get("status", "pending") == "pending":
+                    s["status"] = "error"
+                    s["error_message"] = stderr
+                    break
+            self._write_json(self._index_file, index)
+            print(f"\n  ⏱ TIMEOUT: step {step_num} ({step_name}) after {self.CLAUDE_TIMEOUT_SEC}s")
+
+        if not timed_out and returncode != 0:
+            print(f"\n  WARN: Claude가 비정상 종료됨 (code {returncode})")
+            if stderr:
+                print(f"  stderr: {stderr[:500]}")
 
         output = {
             "step": step_num, "name": step_name,
-            "exitCode": result.returncode,
-            "stdout": result.stdout, "stderr": result.stderr,
+            "exitCode": returncode,
+            "stdout": stdout, "stderr": stderr,
+            "timedOut": timed_out,
         }
         out_path = self._phase_dir / f"step{step_num}-output.json"
         with open(out_path, "w") as f:
@@ -305,9 +388,11 @@ class StepExecutor:
             if attempt > 1:
                 tag += f" [retry {attempt}/{self.MAX_RETRIES}]"
 
+            # pi.elapsed 는 progress_indicator 의 finally 에서만 세팅된다.
+            # with 블록 안에서 읽으면 0.0 을 받는다 — 반드시 블록 종료 후 읽는다.
             with progress_indicator(tag) as pi:
                 self._invoke_claude(step, preamble)
-                elapsed = int(pi.elapsed)
+            elapsed = int(pi.elapsed)
 
             index = self._read_json(self._index_file)
             status = next((s.get("status", "pending") for s in index["steps"] if s["step"] == step_num), "pending")
@@ -317,6 +402,7 @@ class StepExecutor:
                 for s in index["steps"]:
                     if s["step"] == step_num:
                         s["completed_at"] = ts
+                        self._append_event(s, "completed", attempt=attempt)
                 self._write_json(self._index_file, index)
                 self._commit_step(step_num, step_name)
                 print(f"  ✓ Step {step_num}: {step_name} [{elapsed}s]")
@@ -326,6 +412,8 @@ class StepExecutor:
                 for s in index["steps"]:
                     if s["step"] == step_num:
                         s["blocked_at"] = ts
+                        self._append_event(s, "blocked", attempt=attempt,
+                                           reason=s.get("blocked_reason"))
                 self._write_json(self._index_file, index)
                 reason = next((s.get("blocked_reason", "") for s in index["steps"] if s["step"] == step_num), "")
                 print(f"  ⏸ Step {step_num}: {step_name} blocked [{elapsed}s]")
@@ -341,6 +429,7 @@ class StepExecutor:
             if attempt < self.MAX_RETRIES:
                 for s in index["steps"]:
                     if s["step"] == step_num:
+                        self._append_event(s, "retry", attempt=attempt, error=err_msg)
                         s["status"] = "pending"
                         s.pop("error_message", None)
                 self._write_json(self._index_file, index)
@@ -352,6 +441,7 @@ class StepExecutor:
                         s["status"] = "error"
                         s["error_message"] = f"[{self.MAX_RETRIES}회 시도 후 실패] {err_msg}"
                         s["failed_at"] = ts
+                        self._append_event(s, "error", attempt=attempt, error=err_msg)
                 self._write_json(self._index_file, index)
                 self._commit_step(step_num, step_name)
                 print(f"  ✗ Step {step_num}: {step_name} failed after {self.MAX_RETRIES} attempts [{elapsed}s]")
@@ -373,6 +463,7 @@ class StepExecutor:
             for s in index["steps"]:
                 if s["step"] == step_num and "started_at" not in s:
                     s["started_at"] = self._stamp()
+                    self._append_event(s, "started")
                     self._write_json(self._index_file, index)
                     break
 
@@ -396,6 +487,9 @@ class StepExecutor:
             r = self._run_git("push", "-u", "origin", branch)
             if r.returncode != 0:
                 print(f"\n  ERROR: git push 실패: {r.stderr.strip()}")
+                remote_info = self._run_git("remote", "-v")
+                print(f"  Remote 설정: {remote_info.stdout.strip() or '(없음 — git remote add origin <url> 필요)'}")
+                print(f"  Hint: 인증(SSH key/token) · 브랜치 protection · network 중 어느 쪽인지 확인.")
                 sys.exit(1)
             print(f"  ✓ Pushed to origin/{branch}")
 

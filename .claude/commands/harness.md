@@ -38,14 +38,14 @@
 {
   "phases": [
     {
-      "dir": "0-mvp",
+      "dir": "demo-0-repo-scaffold",
       "status": "pending"
     }
   ]
 }
 ```
 
-- `dir`: task 디렉토리명.
+- `dir`: task 디렉토리명. 권장 네이밍 규약 — `{prefix}-{N}-{kebab-slug}` (예: `demo-0-repo-scaffold`, `phase-3-retrieval-langgraph`). 프로젝트별 prefix 는 `CLAUDE.md` 에서 정의.
 - `status`: `"pending"` | `"completed"` | `"error"` | `"blocked"`. execute.py가 실행 중 자동으로 업데이트한다.
 - 타임스탬프(`completed_at`, `failed_at`, `blocked_at`)는 execute.py가 상태 변경 시 자동 기록한다. 생성 시 넣지 않는다.
 
@@ -53,12 +53,12 @@
 
 ```json
 {
-  "project": "<프로젝트명>",
-  "phase": "<task-name>",
+  "project": "<YourProject>",
+  "phase": "repo-scaffold",
   "steps": [
-    { "step": 0, "name": "project-setup", "status": "pending" },
-    { "step": 1, "name": "core-types", "status": "pending" },
-    { "step": 2, "name": "api-layer", "status": "pending" }
+    { "step": 0, "name": "python-workspace", "status": "pending" },
+    { "step": 1, "name": "api-skeleton", "status": "pending" },
+    { "step": 2, "name": "admin-skeleton", "status": "pending" }
   ]
 }
 ```
@@ -66,7 +66,7 @@
 필드 규칙:
 
 - `project`: 프로젝트명 (CLAUDE.md 참조).
-- `phase`: task 이름. 디렉토리명과 일치시킨다.
+- `phase`: 커밋 메시지용 slug. 디렉토리명 `{prefix}-{N}-{slug}` 에서 **`{prefix}-{N}-` 부분을 제거한 `{slug}` 만** 사용 (예: dir `demo-0-repo-scaffold` → phase `repo-scaffold`). 브랜치는 `feat-{phase}`, 커밋은 `feat({phase}): step N — <name>`.
 - `steps[].step`: 0부터 시작하는 순번.
 - `steps[].name`: kebab-case slug.
 - `steps[].status`: 초기값은 모두 `"pending"`.
@@ -106,10 +106,27 @@
 
 ## Acceptance Criteria
 
+실행 가능한 커맨드를 명시하라. 스택별 예시:
+
 ```bash
-npm run build   # 컴파일 에러 없음
-npm test        # 테스트 통과
+# 백엔드(Python/FastAPI) step
+pytest <테스트 경로> -q          # 신규/회귀 테스트 통과
+ruff check <소스 경로>           # 린트 통과
+pyright <소스 경로>              # 타입 검사 통과
 ```
+
+```bash
+# 프론트엔드(Admin React / Widget Preact) step
+pnpm --filter <app> test
+pnpm --filter <app> build
+```
+
+```bash
+# 인프라/스크립트 step
+pytest scripts/test_execute.py -q   # 하네스 자신을 수정한 경우
+```
+
+추상적 서술 금지("~가 동작해야 한다"). AC는 **복붙해서 바로 실행 가능한 커맨드**여야 한다.
 
 ## 검증 절차
 
@@ -118,6 +135,9 @@ npm test        # 테스트 통과
    - ARCHITECTURE.md 디렉토리 구조를 따르는가?
    - ADR 기술 스택을 벗어나지 않았는가?
    - CLAUDE.md CRITICAL 규칙을 위반하지 않았는가?
+   - **ADR-002 멀티테넌트 불변식**: 모든 API에 `tenant_id` 주입 강제? DB 쿼리에 RLS/`tenant_id` 필터? Redis 키 `t:{id}:` prefix? Object Storage `tenants/{id}/` prefix?
+   - **ADR-003 egress_policy**: 외부 API 호출이 AI Gateway 경유? 공공 테넌트(`DENY_ALL_INTERNATIONAL`) 경로에 GPT/Langfuse Cloud 호출 가능한 분기 없음?
+   - **lineage_id**: 새로 만든 데이터 객체(Chunk/QA/Graph node/Cache entry)에 lineage_id 필드 포함?
 3. 결과에 따라 `phases/{task-name}/index.json`의 해당 step을 업데이트한다:
    - 성공 → `"status": "completed"`, `"summary": "산출물 한 줄 요약"`
    - 수정 3회 시도 후에도 실패 → `"status": "error"`, `"error_message": "구체적 에러 내용"`
@@ -139,11 +159,11 @@ python3 scripts/execute.py {task-name} --push  # 실행 후 push
 execute.py가 자동으로 처리하는 것:
 
 - `feat-{task-name}` 브랜치 생성/checkout
-- 가드레일 주입 — CLAUDE.md + docs/*.md 내용을 매 step 프롬프트에 포함
+- 가드레일 주입 — `CLAUDE.md`, `docs/PRD.md`, `docs/ADR.md`, `docs/ARCHITECTURE.md`, `docs/UI_GUIDE.md` **5개 파일만** 매 step 프롬프트에 inline. 장문 참조(`docs/PLAN.md` 등)는 footer에 경로만 노출 — 필요 시 Read 도구로 조회
 - 컨텍스트 누적 — 완료된 step의 summary를 다음 step 프롬프트에 전달
-- 자가 교정 — 실패 시 최대 3회 재시도하며, 이전 에러 메시지를 프롬프트에 피드백
+- 자가 교정 — 실패 시 최대 3회 재시도하며, 이전 에러 메시지를 프롬프트에 피드백 (타임아웃도 동일하게 error 처리)
 - 2단계 커밋 — 코드 변경(`feat`)과 메타데이터(`chore`)를 분리 커밋
-- 타임스탬프 — started_at, completed_at, failed_at, blocked_at 자동 기록
+- 타임스탬프 — started_at, completed_at, failed_at, blocked_at 자동 기록 + `events[]` append-only 이력
 
 에러 복구:
 

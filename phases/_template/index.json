@@ -1,0 +1,8 @@
+{
+  "project": "<YourProject>",
+  "phase": "<slug>",
+  "steps": [
+    { "step": 0, "name": "first-step-name", "status": "pending" },
+    { "step": 1, "name": "second-step-name", "status": "pending" }
+  ]
+}
