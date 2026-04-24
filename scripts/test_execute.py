@@ -807,14 +807,16 @@ class TestWatchForCompletion:
         (phase_dir / "index.json").write_text(json.dumps(index))
 
         # grace 0 으로 즉시 kill
+        kill_flag = {"killed": False}
         t = threading.Thread(
             target=executor._watch_for_completion,
-            args=(2, proc, stop, 0, 0.05),  # grace=0, poll=50ms
+            args=(2, proc, stop, 0, kill_flag, 0.05),  # grace=0, poll=50ms
         )
         t.start()
         t.join(timeout=2)
 
         assert proc._state["terminated"], "watcher 가 terminate() 호출 안 함"
+        assert kill_flag["killed"] is True, "kill_flag 가 set 되지 않음 (WARN 억제 신호)"
 
     def test_does_not_terminate_if_status_not_completed(self, executor, phase_dir):
         import threading
@@ -830,7 +832,7 @@ class TestWatchForCompletion:
 
         t = threading.Thread(
             target=executor._watch_for_completion,
-            args=(2, proc, stop, 0, 0.05),
+            args=(2, proc, stop, 0, {"killed": False}, 0.05),
         )
         t.start()
         # 작은 poll 여러 번 후 subprocess 가 자연 종료
@@ -853,7 +855,7 @@ class TestWatchForCompletion:
         start = time.perf_counter()
         t = threading.Thread(
             target=executor._watch_for_completion,
-            args=(2, proc, stop, 1, 0.05),  # grace 1s
+            args=(2, proc, stop, 1, {"killed": False}, 0.05),  # grace 1s
         )
         t.start()
         t.join(timeout=3)
@@ -871,7 +873,7 @@ class TestWatchForCompletion:
 
         t = threading.Thread(
             target=executor._watch_for_completion,
-            args=(2, proc, stop, 30, 0.1),
+            args=(2, proc, stop, 30, {"killed": False}, 0.1),
         )
         t.start()
         stop.set()

@@ -289,6 +289,7 @@ class StepExecutor:
         process: subprocess.Popen,
         stop_event: threading.Event,
         grace_sec: int,
+        kill_flag: dict,
         poll_interval_sec: float = 5.0,
     ) -> None:
         """index.json 에서 해당 step.status == 'completed' 를 감지하면 grace 후 terminate.
@@ -297,6 +298,7 @@ class StepExecutor:
         수행하며 시간을 소진하는 패턴을 차단. grace_sec 동안은 2단계 commit 여유로 기다림.
 
         HARNESS_KILL_ON_COMPLETED=1 일 때만 활성.
+        kill_flag['killed'] = True 로 호출자에게 signal (WARN 메시지 억제 용).
         """
         while not stop_event.is_set() and process.poll() is None:
             try:
@@ -306,6 +308,7 @@ class StepExecutor:
                         # grace period — chore commit 여유
                         stop_event.wait(grace_sec)
                         if process.poll() is None and not stop_event.is_set():
+                            kill_flag["killed"] = True
                             process.terminate()
                             try:
                                 process.wait(timeout=5)
@@ -331,6 +334,7 @@ class StepExecutor:
         kill_on_completed = os.environ.get("HARNESS_KILL_ON_COMPLETED") == "1"
         grace_sec = int(os.environ.get("HARNESS_KILL_GRACE_SEC", "30"))
 
+        watcher_killed = False
         try:
             if kill_on_completed:
                 # Popen + watcher thread 방식
@@ -342,9 +346,10 @@ class StepExecutor:
                     text=True,
                 )
                 stop_event = threading.Event()
+                kill_flag = {"killed": False}
                 watcher = threading.Thread(
                     target=self._watch_for_completion,
-                    args=(step_num, process, stop_event, grace_sec),
+                    args=(step_num, process, stop_event, grace_sec, kill_flag),
                     daemon=True,
                 )
                 watcher.start()
@@ -354,6 +359,7 @@ class StepExecutor:
                 finally:
                     stop_event.set()
                     watcher.join(timeout=2)
+                    watcher_killed = kill_flag["killed"]
             else:
                 result = subprocess.run(
                     ["claude", "-p", "--dangerously-skip-permissions", "--output-format", "json", prompt],
@@ -383,9 +389,12 @@ class StepExecutor:
             print(f"\n  ⏱ TIMEOUT: step {step_num} ({step_name}) after {self.CLAUDE_TIMEOUT_SEC}s")
 
         if not timed_out and returncode != 0:
-            print(f"\n  WARN: Claude가 비정상 종료됨 (code {returncode})")
-            if stderr:
-                print(f"  stderr: {stderr[:500]}")
+            if watcher_killed:
+                print(f"\n  ✓ Watcher terminated Claude (status=completed 감지 후 grace {grace_sec}s)")
+            else:
+                print(f"\n  WARN: Claude가 비정상 종료됨 (code {returncode})")
+                if stderr:
+                    print(f"  stderr: {stderr[:500]}")
 
         output = {
             "step": step_num, "name": step_name,
