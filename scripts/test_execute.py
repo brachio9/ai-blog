@@ -757,3 +757,125 @@ class TestCheckBlockers:
         with pytest.raises(SystemExit) as exc_info:
             inst._check_blockers()
         assert exc_info.value.code == 2
+
+
+# ---------------------------------------------------------------------------
+# Watcher (HARNESS_KILL_ON_COMPLETED)
+# ---------------------------------------------------------------------------
+
+class TestWatchForCompletion:
+    """watcher thread 가 index.json 의 status='completed' 를 감지하고
+    grace 후 subprocess 를 종료시키는지."""
+
+    def _make_fake_process(self, alive_iters: int = 10):
+        """poll() 가 처음 alive_iters 번 None 반환 후 0 반환하는 fake subprocess."""
+        proc = MagicMock()
+        state = {"polls": 0, "terminated": False, "killed": False}
+
+        def poll():
+            if state["terminated"] or state["killed"]:
+                return 0
+            state["polls"] += 1
+            return None if state["polls"] <= alive_iters else 0
+
+        def terminate():
+            state["terminated"] = True
+
+        def wait(timeout=None):
+            return 0
+
+        def kill():
+            state["killed"] = True
+
+        proc.poll = poll
+        proc.terminate = terminate
+        proc.wait = wait
+        proc.kill = kill
+        proc._state = state
+        return proc
+
+    def test_terminates_when_status_completed(self, executor, phase_dir):
+        import threading
+        proc = self._make_fake_process(alive_iters=100)
+        stop = threading.Event()
+
+        # index.json 에 step 2 status='completed' 로 업데이트
+        index = json.loads((phase_dir / "index.json").read_text())
+        for s in index["steps"]:
+            if s["step"] == 2:
+                s["status"] = "completed"
+        (phase_dir / "index.json").write_text(json.dumps(index))
+
+        # grace 0 으로 즉시 kill
+        t = threading.Thread(
+            target=executor._watch_for_completion,
+            args=(2, proc, stop, 0, 0.05),  # grace=0, poll=50ms
+        )
+        t.start()
+        t.join(timeout=2)
+
+        assert proc._state["terminated"], "watcher 가 terminate() 호출 안 함"
+
+    def test_does_not_terminate_if_status_not_completed(self, executor, phase_dir):
+        import threading
+        proc = self._make_fake_process(alive_iters=5)
+        stop = threading.Event()
+
+        # status 를 pending 으로 유지
+        index = json.loads((phase_dir / "index.json").read_text())
+        for s in index["steps"]:
+            if s["step"] == 2:
+                s["status"] = "pending"
+        (phase_dir / "index.json").write_text(json.dumps(index))
+
+        t = threading.Thread(
+            target=executor._watch_for_completion,
+            args=(2, proc, stop, 0, 0.05),
+        )
+        t.start()
+        # 작은 poll 여러 번 후 subprocess 가 자연 종료
+        t.join(timeout=2)
+
+        assert not proc._state["terminated"], "status 가 completed 아닌데 terminate 됨"
+
+    def test_respects_grace_period(self, executor, phase_dir):
+        """status='completed' 감지 후 grace 동안 기다렸다가 terminate."""
+        import threading, time
+        proc = self._make_fake_process(alive_iters=100)
+        stop = threading.Event()
+
+        index = json.loads((phase_dir / "index.json").read_text())
+        for s in index["steps"]:
+            if s["step"] == 2:
+                s["status"] = "completed"
+        (phase_dir / "index.json").write_text(json.dumps(index))
+
+        start = time.perf_counter()
+        t = threading.Thread(
+            target=executor._watch_for_completion,
+            args=(2, proc, stop, 1, 0.05),  # grace 1s
+        )
+        t.start()
+        t.join(timeout=3)
+        elapsed = time.perf_counter() - start
+
+        assert proc._state["terminated"]
+        assert elapsed >= 1.0, f"grace 1s 인데 {elapsed:.2f}s 에 terminate"
+        assert elapsed < 2.5, f"grace 1s 대비 너무 늦게 terminate: {elapsed:.2f}s"
+
+    def test_stop_event_aborts_watcher(self, executor, phase_dir):
+        """외부에서 stop_event set 되면 watcher 가 정상 종료."""
+        import threading
+        proc = self._make_fake_process(alive_iters=1000)
+        stop = threading.Event()
+
+        t = threading.Thread(
+            target=executor._watch_for_completion,
+            args=(2, proc, stop, 30, 0.1),
+        )
+        t.start()
+        stop.set()
+        t.join(timeout=2)
+
+        assert not t.is_alive(), "stop_event set 에도 watcher 살아있음"
+        assert not proc._state["terminated"]

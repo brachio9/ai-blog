@@ -39,7 +39,7 @@ python3 scripts/execute.py demo-0-scaffold
 harness_framework/
 ├── scripts/
 │   ├── execute.py           하네스 본체 (retry, timeout, 2단계 commit, 상태/events 추적)
-│   └── test_execute.py      67 회귀 테스트 (harness 수정 시 필수 통과)
+│   └── test_execute.py      71 회귀 테스트 (harness 수정 시 필수 통과)
 ├── .claude/
 │   ├── commands/
 │   │   ├── harness.md       phase/step 저작 스펙 (정본)
@@ -92,6 +92,18 @@ harness_framework/
 ### 4. 상태 전이
 - `pending` → `completed` (성공) / `error` (3회 실패) / `blocked` (사람 개입 대기)
 - `blocked` 는 즉시 `exit 2` — 사용자 수동 처리 대기
+
+### 4-1. Kill-on-Completed (opt-in)
+Claude 가 index.json 에 `status='completed'` 를 쓴 후에도 추가 리팩터/테스트로
+1800s timeout 까지 시간 소진하는 패턴을 방지.
+
+```bash
+HARNESS_KILL_ON_COMPLETED=1 python3 scripts/execute.py <phase-dir>
+# optional: HARNESS_KILL_GRACE_SEC=30 (2단계 commit 여유, 기본 30s)
+```
+
+동작: watcher thread 가 5s 간격으로 `phases/{phase}/index.json` 의 step status
+를 polling → `completed` 감지 시 grace 대기 → SIGTERM (5s 후 SIGKILL).
 
 ### 5. 가드레일 자동 주입
 매 step 프롬프트에 `CLAUDE.md` + `docs/PRD.md` + `docs/ADR.md` + `docs/ARCHITECTURE.md` + `docs/UI_GUIDE.md` 내용이 inline 포함된다. 추가 참조 문서는 `execute.py` 의 `guardrails` 로 확장.

@@ -283,6 +283,39 @@ class StepExecutor:
 
     # --- Claude 호출 ---
 
+    def _watch_for_completion(
+        self,
+        step_num: int,
+        process: subprocess.Popen,
+        stop_event: threading.Event,
+        grace_sec: int,
+        poll_interval_sec: float = 5.0,
+    ) -> None:
+        """index.json 에서 해당 step.status == 'completed' 를 감지하면 grace 후 terminate.
+
+        Claude 가 작업을 완료하고 status='completed' 를 기록했으나 이후 추가 테스트/리팩터를
+        수행하며 시간을 소진하는 패턴을 차단. grace_sec 동안은 2단계 commit 여유로 기다림.
+
+        HARNESS_KILL_ON_COMPLETED=1 일 때만 활성.
+        """
+        while not stop_event.is_set() and process.poll() is None:
+            try:
+                index = self._read_json(self._index_file)
+                for s in index.get("steps", []):
+                    if s.get("step") == step_num and s.get("status") == "completed":
+                        # grace period — chore commit 여유
+                        stop_event.wait(grace_sec)
+                        if process.poll() is None and not stop_event.is_set():
+                            process.terminate()
+                            try:
+                                process.wait(timeout=5)
+                            except subprocess.TimeoutExpired:
+                                process.kill()
+                        return
+            except Exception:
+                pass
+            stop_event.wait(poll_interval_sec)
+
     def _invoke_claude(self, step: dict, preamble: str) -> dict:
         step_num, step_name = step["step"], step["name"]
         step_file = self._phase_dir / f"step{step_num}.md"
@@ -294,14 +327,41 @@ class StepExecutor:
         prompt = preamble + step_file.read_text()
         timed_out = False
 
+        # kill-on-completed opt-in (env flag). 기본 off → 기존 동작 유지.
+        kill_on_completed = os.environ.get("HARNESS_KILL_ON_COMPLETED") == "1"
+        grace_sec = int(os.environ.get("HARNESS_KILL_GRACE_SEC", "30"))
+
         try:
-            result = subprocess.run(
-                ["claude", "-p", "--dangerously-skip-permissions", "--output-format", "json", prompt],
-                cwd=self._root, capture_output=True, text=True, timeout=self.CLAUDE_TIMEOUT_SEC,
-            )
-            returncode = result.returncode
-            stdout = result.stdout
-            stderr = result.stderr
+            if kill_on_completed:
+                # Popen + watcher thread 방식
+                process = subprocess.Popen(
+                    ["claude", "-p", "--dangerously-skip-permissions", "--output-format", "json", prompt],
+                    cwd=self._root,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                )
+                stop_event = threading.Event()
+                watcher = threading.Thread(
+                    target=self._watch_for_completion,
+                    args=(step_num, process, stop_event, grace_sec),
+                    daemon=True,
+                )
+                watcher.start()
+                try:
+                    stdout, stderr = process.communicate(timeout=self.CLAUDE_TIMEOUT_SEC)
+                    returncode = process.returncode
+                finally:
+                    stop_event.set()
+                    watcher.join(timeout=2)
+            else:
+                result = subprocess.run(
+                    ["claude", "-p", "--dangerously-skip-permissions", "--output-format", "json", prompt],
+                    cwd=self._root, capture_output=True, text=True, timeout=self.CLAUDE_TIMEOUT_SEC,
+                )
+                returncode = result.returncode
+                stdout = result.stdout
+                stderr = result.stderr
         except subprocess.TimeoutExpired as e:
             timed_out = True
             returncode = -1
