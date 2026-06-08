@@ -133,11 +133,9 @@ pytest scripts/test_execute.py -q   # 하네스 자신을 수정한 경우
 1. 위 AC 커맨드를 실행한다.
 2. 아키텍처 체크리스트를 확인한다:
    - ARCHITECTURE.md 디렉토리 구조를 따르는가?
-   - ADR 기술 스택을 벗어나지 않았는가?
+   - ADR 기술 스택 / 결정 사항을 벗어나지 않았는가?
    - CLAUDE.md CRITICAL 규칙을 위반하지 않았는가?
-   - **ADR-002 멀티테넌트 불변식**: 모든 API에 `tenant_id` 주입 강제? DB 쿼리에 RLS/`tenant_id` 필터? Redis 키 `t:{id}:` prefix? Object Storage `tenants/{id}/` prefix?
-   - **ADR-003 egress_policy**: 외부 API 호출이 AI Gateway 경유? 공공 테넌트(`DENY_ALL_INTERNATIONAL`) 경로에 GPT/Langfuse Cloud 호출 가능한 분기 없음?
-   - **lineage_id**: 새로 만든 데이터 객체(Chunk/QA/Graph node/Cache entry)에 lineage_id 필드 포함?
+   - {프로젝트 고유 불변식이 있다면 여기에 명시. 예: 멀티테넌트 격리, 데이터 주권, lineage 추적, 감사 로깅 등. ADR/CLAUDE.md 에 근거가 있어야 한다.}
 3. 결과에 따라 `phases/{task-name}/index.json`의 해당 step을 업데이트한다:
    - 성공 → `"status": "completed"`, `"summary": "산출물 한 줄 요약"`
    - 수정 3회 시도 후에도 실패 → `"status": "error"`, `"error_message": "구체적 에러 내용"`
