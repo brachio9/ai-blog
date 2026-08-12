@@ -7,7 +7,7 @@
       "name": "intro-page",
       "status": "completed",
       "started_at": "2026-08-12T17:17:10+0900",
-      "completed_at": "2026-08-12T17:22:49+0900",
+      "completed_at": "2026-08-12T17:23:33+0900",
       "summary": "공개 페이지를 src/app/(public)/ 라우트 그룹으로 옮기고(루트 layout=html·폰트·테마 스크립트, (public)/layout=SiteHeader+main+SiteFooter — 이후 공개 페이지는 전부 (public) 안에 둔다) 홈을 히어로 + CATEGORIES 순회 카테고리별 최신 3건으로 재작성. 재사용 계약: PostCard({ post: Post, showCategory?: boolean }) from '@/components/post/PostCard' (카드 전체가 링크, 커버·태그 최대 3개 포함), formatDate(iso)->'2026년 8월 9일' · formatDateShort(iso)->'2026.08.09' from '@/lib/format' (KST 고정, 날짜 포맷은 여기서만), 글 상세 URL 규약은 /{category}/{slug}. src/app/mdx-preview/ 삭제.",
       "events": [
         {
@@ -17,6 +17,11 @@
         {
           "at": "2026-08-12T17:22:49+0900",
           "status": "completed"
+        },
+        {
+          "at": "2026-08-12T17:23:33+0900",
+          "status": "completed",
+          "attempt": 1
         }
       ]
     },
