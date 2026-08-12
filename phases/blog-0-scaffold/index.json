@@ -7,7 +7,7 @@
       "name": "project-setup",
       "status": "completed",
       "started_at": "2026-08-12T14:56:25+0900",
-      "completed_at": "2026-08-12T14:58:40+0900",
+      "completed_at": "2026-08-12T14:58:50+0900",
       "summary": "Next.js 16.3.0 + React 19.2.8 + TypeScript 5 strict + Tailwind v4 (CSS-first, config 파일 없음) 골격 생성. 생성 파일: next.config.ts · tsconfig.json(@/* → ./src) · eslint.config.mjs(eslint-config-next 16.3.0) · postcss.config.mjs · package.json(name=ai-trends-blog, scripts: dev/build/start/lint/test/typecheck) · vitest.config.ts(jsdom·globals·include src/**/*.test.{ts,tsx}·@ 별칭) · src/app/{layout.tsx,globals.css,page.tsx,favicon.ico} · src/lib/smoke.test.ts. layout.tsx 은 아직 create-next-app 기본 Geist 폰트와 lang=\"en\" 유지 (step 1·2 소관), globals.css 도 기본 토큰 그대로. public/ 데모 SVG·AGENTS.md·CLAUDE.md 미유입.",
       "events": [
         {
@@ -17,6 +17,11 @@
         {
           "at": "2026-08-12T14:58:40+0900",
           "status": "completed"
+        },
+        {
+          "at": "2026-08-12T14:58:50+0900",
+          "status": "completed",
+          "attempt": 1
         }
       ]
     },
