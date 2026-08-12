@@ -11,9 +11,10 @@ content/                   # 글 원본 (git = 저장소)
 public/                    # 정적 자산 (샘플 이미지 포함)
 
 src/
+├── proxy.ts               # Next 16 의 구 middleware. /admin/* 보호
 ├── app/
 │   ├── (public)/          # 공개 페이지 — Intro, 카테고리, 글 상세
-│   ├── admin/             # 관리자 — middleware 로 전체 보호
+│   ├── admin/             # 관리자 — proxy + 페이지 레벨 세션 확인 이중 보호
 │   └── api/               # API 라우트 (조회수, 발행, 업로드)
 ├── components/
 │   ├── mdx/               # MDX 매핑 컴포넌트 (표·이미지·코드·차트·다이어그램)

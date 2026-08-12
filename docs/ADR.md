@@ -38,9 +38,15 @@
 
 ### ADR-006: 인증은 Auth.js v5 GitHub OAuth + 계정 화이트리스트
 
-**결정**: 로그인은 GitHub OAuth. `signIn` 콜백에서 허용 login 화이트리스트로 대조하고, `/admin/*`은 middleware로 전부 막는다. 발행 커밋은 **별도의 fine-grained PAT**을 쓴다.
-**이유**: 비밀번호 관리 불필요. OAuth 토큰에 `repo` 스코프를 주면 계정 전체 레포 권한이 열리므로, 커밋용은 이 레포 하나에만 권한이 있는 PAT으로 분리한다.
+**결정**: 로그인은 GitHub OAuth (`next-auth@beta`, v5). `signIn` 콜백에서 허용 login 화이트리스트로 대조하고, `/admin/*`은 `src/proxy.ts`로 막은 뒤 각 페이지·라우트에서 세션을 다시 확인한다. 발행 커밋은 **별도의 fine-grained PAT**을 쓴다.
+**이유**: 비밀번호 관리 불필요. OAuth 토큰에 `repo` 스코프를 주면 계정 전체 레포 권한이 열리므로, 커밋용은 이 레포 하나에만 권한이 있는 PAT으로 분리한다. proxy(구 middleware)는 Next.js 공식 문서상 유일한 방어선이 되어선 안 되므로 페이지 레벨에서 한 번 더 확인한다.
 **트레이드오프**: 시크릿이 하나 늘어난다. 대신 권한 폭발 반경이 레포 하나로 제한된다.
+
+### ADR-008: Tailwind v4 CSS-first 토큰
+
+**결정**: `tailwind.config.js` 를 만들지 않는다. 디자인 토큰은 `src/app/globals.css` 에서 CSS 변수 + `@theme inline` 으로 선언하고, 다크모드는 `@custom-variant dark (&:where(.dark, .dark *));` 로 클래스 기반 토글을 쓴다.
+**이유**: Tailwind v4 의 기본 방식이며 토큰이 CSS 한 곳에 모인다. v4 의 `dark:` 는 기본이 `prefers-color-scheme` 이라 사용자 토글을 지원하려면 custom-variant 선언이 반드시 필요하다 (실제 빌드로 검증함).
+**트레이드오프**: v3 문법(`tailwind.config.js`, `darkMode: 'class'`)에 익숙한 예제를 그대로 못 쓴다.
 
 ### ADR-007: 검색은 DB 없이 클라이언트에서
 
