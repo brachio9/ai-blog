@@ -17,8 +17,9 @@
     },
     {
       "dir": "blog-3-comments-and-views",
-      "status": "error",
-      "failed_at": "2026-08-12T18:33:46+0900"
+      "status": "completed",
+      "failed_at": "2026-08-12T18:33:46+0900",
+      "completed_at": "2026-08-12T20:53:49+0900"
     }
   ]
 }
