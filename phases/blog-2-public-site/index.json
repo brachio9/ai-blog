@@ -54,7 +54,7 @@
       "name": "post-page",
       "status": "completed",
       "started_at": "2026-08-12T17:32:07+0900",
-      "completed_at": "2026-08-12T17:45:00+0900",
+      "completed_at": "2026-08-12T17:44:43+0900",
       "summary": "글 상세 /{category}/{slug} 를 SSG 로 구현 (src/app/(public)/[category]/[slug]/page.tsx — generateStaticParams=getAllPosts() 전건·generateMetadata(title/summary/openGraph/alternates.canonical)·notFound()·searchParams 미사용, 본문은 renderMdx(post.body) 를 MdxBody 로 감싼다). 목차 추출은 순수 함수 extractHeadings(mdx: string) -> { id, text, depth: 2|3 }[] from '@/lib/toc' — github-slugger 로 rehype-slug 와 같은 id 를 만들고(h1~h6 전부를 같은 slugger 에 통과시켜 중복 번호를 맞춘다) 펜스(```·~~~) 구간을 건너뛴다. 컴포넌트: TableOfContents({headings}) from '@/components/post/TableOfContents' (client, IntersectionObserver 로 aria-current, 데스크톱 sticky·모바일 접이식), SourceNote({source?, paper?}) from '@/components/post/SourceNote' (CLAUDE.md CRITICAL 출처 표기 구현체 — source 없으면 null, papers 는 arXiv 링크 병기), PostNav({previous?, next?}) from '@/components/post/PostNav' (같은 카테고리 publishedAt 기준, 없으면 자리를 비운다). ExternalIcon 을 '@/components/mdx/Anchor' 에서 export 해 재사용. 글 상세 8건 SSG 확인, 목차 링크 23개 전부 본문 id 와 일치.",
       "events": [
         {
@@ -63,6 +63,11 @@
         },
         {
           "at": "2026-08-12T17:45:00+0900",
+          "status": "completed",
+          "attempt": 1
+        },
+        {
+          "at": "2026-08-12T17:44:43+0900",
           "status": "completed",
           "attempt": 1
         }
