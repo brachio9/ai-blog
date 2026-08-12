@@ -2,10 +2,44 @@
   "project": "AI 동향 블로그",
   "phase": "content-pipeline",
   "steps": [
-    { "step": 0, "name": "content-schema", "status": "pending" },
-    { "step": 1, "name": "mdx-renderer", "status": "pending" },
-    { "step": 2, "name": "math-and-diagrams", "status": "pending" },
-    { "step": 3, "name": "charts", "status": "pending" },
-    { "step": 4, "name": "sample-content", "status": "pending" }
-  ]
+    {
+      "step": 0,
+      "name": "content-schema",
+      "status": "completed",
+      "started_at": "2026-08-12T15:46:52+0900",
+      "completed_at": "2026-08-12T15:50:44+0900",
+      "summary": "콘텐츠 데이터 계층: src/types/content.ts (Post·PostFrontmatter·PostSource·PaperMeta) · src/lib/content/schema.ts (parseFrontmatter(raw, filePath) → PostFrontmatter, 실패 시 파일경로+필드+사유로 throw) · src/lib/content/posts.ts (getAllPosts() / getPostsByCategory(slug) / getPost(category, slug) / getAllTags() — publishedAt 내림차순, draft 는 NODE_ENV=production 에서 제외, 파일명·slug중복·미지 카테고리 디렉토리는 throw, readingMinutes = 공백제외 글자수/500 최소 1) · content/{hf-blog,papers,notes}/.gitkeep. frontmatter 필수: title · category(categories.ts 파생) · summary · publishedAt(+0900 ISO-8601 강제) / 기본값: tags=[] · draft=false / 선택: updatedAt · cover · source{url,title,author?,license?,publishedAt?} · paper{arxivId,authors} (papers 전용이자 필수). 파일 규약 content/{category}/YYYY-MM-DD-{slug}.mdx, Post.body 는 미컴파일 MDX 문자열.",
+      "events": [
+        {
+          "at": "2026-08-12T15:46:52+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-12T15:50:44+0900",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "name": "mdx-renderer",
+      "status": "pending"
+    },
+    {
+      "step": 2,
+      "name": "math-and-diagrams",
+      "status": "pending"
+    },
+    {
+      "step": 3,
+      "name": "charts",
+      "status": "pending"
+    },
+    {
+      "step": 4,
+      "name": "sample-content",
+      "status": "pending"
+    }
+  ],
+  "created_at": "2026-08-12T15:46:52+0900"
 }
