@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { Container } from "@/components/layout/Container";
 import { MdxBody } from "@/components/mdx";
+import { Comments } from "@/components/post/Comments";
 import { PostNav } from "@/components/post/PostNav";
 import { SourceNote } from "@/components/post/SourceNote";
 import { TableOfContents } from "@/components/post/TableOfContents";
@@ -11,6 +12,7 @@ import { ViewCount } from "@/components/post/ViewCount";
 import { categoryHref, getCategory } from "@/lib/categories";
 import { getAllPosts, getPost, getPostsByCategory } from "@/lib/content/posts";
 import { formatDate } from "@/lib/format";
+import { getGiscusConfig } from "@/lib/giscus";
 import { renderMdx } from "@/lib/mdx";
 import { extractHeadings } from "@/lib/toc";
 import type { Post } from "@/types/content";
@@ -134,6 +136,18 @@ export default async function PostPage(props: PageProps<"/[category]/[slug]">) {
             <MdxBody>{renderMdx(post.body)}</MdxBody>
 
             <PostNav previous={older} next={newer} />
+
+            {/* Giscus 설정이 없으면 댓글 영역째 없앤다 — 빈 제목만 남기지 않는다. */}
+            {getGiscusConfig() ? (
+              <section
+                aria-label="댓글"
+                className="mt-12 max-w-[68ch] border-t border-border pt-6"
+              >
+                <h2 className="text-2xl font-semibold text-heading">댓글</h2>
+                {/* 댓글은 클라이언트가 iframe 으로 붙인다 — 서버에서 그리면 정적 생성이 무너진다. */}
+                <Comments />
+              </section>
+            ) : null}
           </div>
         </div>
       </article>
