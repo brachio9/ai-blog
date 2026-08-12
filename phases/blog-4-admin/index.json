@@ -1,0 +1,11 @@
+{
+  "project": "AI 동향 블로그",
+  "phase": "admin",
+  "steps": [
+    { "step": 0, "name": "auth", "status": "pending" },
+    { "step": 1, "name": "github-service", "status": "pending" },
+    { "step": 2, "name": "admin-dashboard", "status": "pending" },
+    { "step": 3, "name": "editor", "status": "pending" },
+    { "step": 4, "name": "publish", "status": "pending" }
+  ]
+}
