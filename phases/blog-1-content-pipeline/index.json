@@ -28,7 +28,21 @@
     {
       "step": 1,
       "name": "mdx-renderer",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-12T15:51:24+0900",
+      "completed_at": "2026-08-12T16:08:00+0900",
+      "summary": "MDX 렌더 파이프라인: src/lib/mdx.ts 의 renderMdx(source: string, options?: { components?: MDXComponents }): ReactElement 가 유일한 컴파일 진입점 (remark-gfm · rehype-slug · rehype-pretty-code 이중 테마 github-light/github-dark, defaultLang=plaintext; options.components 가 기본 매핑을 덮어씀) · MDX_COMPONENTS(src/components/mdx/index.ts) 키 = a·h2·h3·h4·img·p·pre·table·th·td·Callout (Anchor 내부는 next/link·외부는 새 탭+아이콘, Heading 은 rehype-slug id 에 hover 앵커, Image 는 figure+figcaption+라이트박스이며 alt 없으면 throw, Paragraph 는 홑이미지 단락을 벗겨 p>figure 중첩 방지, CodeBlock 은 언어 라벨+hover 복사 버튼(CopyButton.tsx 만 use client), Table 은 .mdx-scroll-x 컨테이너로 표만 가로 스크롤) · 본문 래퍼는 src/components/mdx/MdxBody.tsx (max-w-[68ch] font-serif leading-[1.75], mdx-body 클래스로 단락·목록·인용·인라인코드 스타일) · globals.css 에 shiki 이중 테마 규칙 + .mdx-body + .mdx-scroll-x 추가(기존 토큰 블록 보존) · 검증 라우트 /mdx-preview (blog-2 에서 삭제) · public/sample-figure.png · src/lib/mdx.test.ts.",
+      "events": [
+        {
+          "at": "2026-08-12T15:51:24+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-12T16:08:00+0900",
+          "status": "completed",
+          "attempt": 1
+        }
+      ]
     },
     {
       "step": 2,

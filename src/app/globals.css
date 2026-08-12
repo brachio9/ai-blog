@@ -96,3 +96,95 @@ body {
   color: var(--body);
   font-family: var(--sans);
 }
+
+/* ------------------------------------------------------------------
+   코드 하이라이팅 — rehype-pretty-code 이중 테마
+   색은 인라인이 아니라 --shiki-light / --shiki-dark 변수로 심긴다.
+   어느 쪽을 쓸지는 여기서만 정한다.
+   ------------------------------------------------------------------ */
+pre[data-theme],
+code[data-theme],
+code[data-theme] span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+.dark pre[data-theme],
+.dark code[data-theme],
+.dark code[data-theme] span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
+/* ------------------------------------------------------------------
+   글 본문 (src/components/mdx/MdxBody.tsx)
+   매핑 컴포넌트가 없는 요소만 다룬다 — 매핑된 것은 각 컴포넌트의 Tailwind 클래스가 맡는다.
+   ------------------------------------------------------------------ */
+.mdx-body p {
+  margin: 1.25rem 0;
+}
+
+.mdx-body ul,
+.mdx-body ol {
+  margin: 1.25rem 0;
+  padding-left: 1.5rem;
+}
+
+.mdx-body ul {
+  list-style: disc;
+}
+
+.mdx-body ol {
+  list-style: decimal;
+}
+
+.mdx-body li {
+  margin: 0.375rem 0;
+}
+
+.mdx-body li::marker {
+  color: var(--faint);
+}
+
+.mdx-body blockquote {
+  margin: 1.5rem 0;
+  border-left: 3px solid var(--border);
+  padding-left: 1rem;
+  color: var(--muted);
+}
+
+.mdx-body hr {
+  margin: 2.5rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.mdx-body strong {
+  color: var(--heading);
+  font-weight: 600;
+}
+
+/* 인라인 코드는 블록과 달리 본문 흐름 안에 있어야 한다 — 테마 배경 대신 표면 토큰을 쓴다. */
+.mdx-body :not(pre) > code[data-theme] {
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  background-color: var(--surface);
+  padding: 0.1em 0.35em;
+  font-family: var(--mono);
+  font-size: 0.875em;
+}
+
+/* 가로 스크롤 컨테이너(표) — 스크롤이 가능할 때만 우측 페이드가 보인다 (JS 없이).
+   덮개는 콘텐츠와 함께 움직이고 페이드는 박스에 고정되므로,
+   내용이 다 보이거나 끝까지 스크롤하면 덮개가 페이드를 가린다. */
+.mdx-scroll-x {
+  overflow-x: auto;
+  background:
+    linear-gradient(to left, var(--bg), var(--bg)) right center / 2rem 100%
+      no-repeat local,
+    linear-gradient(
+        to left,
+        color-mix(in oklab, var(--heading) 14%, transparent),
+        transparent
+      )
+      right center / 2rem 100% no-repeat scroll;
+}
