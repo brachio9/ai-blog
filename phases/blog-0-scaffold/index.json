@@ -30,7 +30,7 @@
       "name": "design-tokens",
       "status": "completed",
       "started_at": "2026-08-12T14:58:50+0900",
-      "completed_at": "2026-08-12T15:03:19+0900",
+      "completed_at": "2026-08-12T15:04:08+0900",
       "summary": "globals.css 전면 재작성 — @custom-variant dark (&:where(.dark, .dark *)) + :root/.dark 원시 변수 + @theme inline 노출. 토큰: --color-bg · surface · border · heading · body · muted · faint · accent · accent-hover / 시맨틱 success · warning · danger · info / 차트 chart-1~5 / 폰트 --font-sans(Inter) · --font-serif(Source Serif 4) · --font-mono(JetBrains Mono, 모두 next/font self-host + \"Apple SD Gothic Neo\",\"Malgun Gothic\" 한글 폴백). 테마 헬퍼는 src/lib/theme.ts (THEME_STORAGE_KEY=\"theme\" · DARK_CLASS=\"dark\" · DARK_MEDIA_QUERY · resolveTheme() · setTheme()) — step 2 토글이 재사용, 테스트 src/lib/theme.test.ts 6개. layout.tsx 에 lang=\"ko\" · suppressHydrationWarning · head 인라인 테마 스크립트(FOUC 방지, theme.ts 상수 주입). page.tsx 는 토큰 확인용 임시 화면(토글 UI 없음).",
       "events": [
         {
@@ -39,6 +39,11 @@
         },
         {
           "at": "2026-08-12T15:03:19+0900",
+          "status": "completed",
+          "attempt": 1
+        },
+        {
+          "at": "2026-08-12T15:04:08+0900",
           "status": "completed",
           "attempt": 1
         }
