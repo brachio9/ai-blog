@@ -1,0 +1,8 @@
+{
+  "project": "AI 동향 블로그",
+  "phase": "comments-and-views",
+  "steps": [
+    { "step": 0, "name": "view-counts", "status": "pending" },
+    { "step": 1, "name": "comments", "status": "pending" }
+  ]
+}
