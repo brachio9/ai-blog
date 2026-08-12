@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 
 import { Container } from "@/components/layout/Container";
 import { MdxBody } from "@/components/mdx";
+import { getCategory } from "@/lib/categories";
+import { getAllPosts } from "@/lib/content/posts";
 import { renderMdx } from "@/lib/mdx";
+import type { Post } from "@/types/content";
 
 export const metadata: Metadata = {
   title: "MDX 렌더 검증",
@@ -11,115 +14,65 @@ export const metadata: Metadata = {
 
 /**
  * 렌더 파이프라인 검증 전용 라우트. 사이트 내비게이션에 링크하지 않는다.
- * blog-1 step 4 에서 실제 샘플 글로 대체되고, blog-2 에서 삭제된다.
+ * 인라인 문자열이 아니라 **실제 `content/**` 파일**을 로더로 읽어 렌더한다 —
+ * 파일 경로를 통과하는 진짜 글이 깨지지 않는지 보는 것이 이 라우트의 용도다.
+ * 목록·상세 페이지는 blog-2 의 몫이고, 이 라우트는 그때 삭제된다.
  */
-const SOURCE = `
-## 표
+function PostPreview({ post }: { post: Post }) {
+  const { frontmatter } = post;
+  const category = getCategory(post.category);
 
-좁은 화면에서 표만 가로로 스크롤되고 페이지 본문은 밀리지 않아야 한다.
+  return (
+    <article className="border-t border-border pt-10">
+      <p className="font-sans text-sm text-muted">
+        {category?.name} · {post.filePath}
+      </p>
+      <h1 className="mt-3 font-serif text-3xl font-semibold text-heading md:text-4xl">
+        {frontmatter.title}
+      </h1>
+      <p className="mt-3 max-w-[68ch] font-sans text-sm text-muted">
+        {frontmatter.summary}
+      </p>
+      <p className="mt-2 font-sans text-sm text-muted">
+        {frontmatter.publishedAt} · 읽는 데 {post.readingMinutes}분
+        {frontmatter.draft ? " · 초안" : ""}
+        {frontmatter.tags.length > 0 ? ` · ${frontmatter.tags.join(" · ")}` : ""}
+      </p>
+      {frontmatter.source ? (
+        <p className="mt-2 max-w-[68ch] font-sans text-sm text-muted">
+          출처:{" "}
+          <a
+            href={frontmatter.source.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent underline decoration-border underline-offset-2"
+          >
+            {frontmatter.source.title}
+          </a>
+          {frontmatter.source.license ? ` (${frontmatter.source.license})` : ""}
+        </p>
+      ) : null}
 
-| 모델 | 파라미터 | 컨텍스트 | 라이선스 | 공개일 |
-|:--|--:|--:|:--|:--|
-| Llama 3.1 405B | 405B | 128K | Llama 3.1 Community | 2024-07-23 |
-| Mistral Large 2 | 123B | 128K | Mistral Research | 2024-07-24 |
-| Qwen2.5 72B | 72B | 131K | Apache-2.0 | 2024-09-19 |
-
-## 코드
-
-인라인 코드는 \`getAllPosts()\` 처럼 본문 흐름 안에 놓인다.
-
-\`\`\`ts
-import { getAllPosts } from "@/lib/content/posts";
-
-export function latest(count: number) {
-  // publishedAt 내림차순으로 이미 정렬되어 있다.
-  return getAllPosts().slice(0, count);
+      <div className="mt-8">
+        <MdxBody>{renderMdx(post.body)}</MdxBody>
+      </div>
+    </article>
+  );
 }
-\`\`\`
-
-### 인용
-
-> 본문 단폭은 68ch 를 넘지 않는다. 그보다 넓으면 읽기 어렵다.
-
-## 이미지
-
-![분기별 공개 모델 수 — 자리 이미지](/sample-figure.png)
-
-## 콜아웃
-
-<Callout type="info" title="출처 표기">
-  외부 원문을 요약·인용하면 source.url 표기가 필수다.
-</Callout>
-
-<Callout type="warning">
-  단일 테마로 하이라이팅하면 색이 인라인으로 박혀 다크모드에서 바뀌지 않는다.
-</Callout>
-
-## 수식
-
-인라인 수식은 본문 행간을 깨지 않는다 — 어텐션 차원 $d_k$ 로 나누는 이유는 $\\sqrt{d_k}$ 만큼 분산이 커지기 때문이다.
-
-별행 수식은 좁은 화면에서 페이지를 밀어내지 않고 자체적으로 가로 스크롤된다.
-
-$$
-\\mathrm{Attention}(Q, K, V) = \\mathrm{softmax}\\!\\left(\\frac{QK^{\\top}}{\\sqrt{d_k}}\\right) V
-$$
-
-## 차트
-
-계열이 여럿이면 차트 색을 --chart-1 부터 순서대로 돌려 쓴다. 다크 전환 시 축·툴팁까지 함께 바뀐다.
-
-<Chart
-  kind="bar"
-  xKey="model"
-  data='[{"model":"Llama 3.1 405B","mmlu":88.6,"gsm8k":96.8},{"model":"Mistral Large 2","mmlu":84.0,"gsm8k":93.0},{"model":"Qwen2.5 72B","mmlu":86.1,"gsm8k":95.8}]'
-  series='[{"key":"mmlu","label":"MMLU"},{"key":"gsm8k","label":"GSM8K"}]'
-  yLabel="점수"
-  caption="공개 모델 벤치마크 점수 (자리 수치)"
-/>
-
-<Chart
-  kind="line"
-  xKey="quarter"
-  data='[{"quarter":"24Q1","open":12,"closed":7},{"quarter":"24Q2","open":18,"closed":9},{"quarter":"24Q3","open":27,"closed":11},{"quarter":"24Q4","open":31,"closed":14}]'
-  series='[{"key":"open","label":"공개 가중치"},{"key":"closed","label":"비공개"}]'
-  yLabel="모델 수"
-  height="300"
-  caption="분기별 공개 모델 수 (자리 수치)"
-/>
-
-## 다이어그램
-
-\`\`\`mermaid
-graph LR
-  A["content/**/*.mdx"] --> B[gray-matter]
-  B --> C{zod 검증}
-  C -->|실패| D[빌드 실패]
-  C -->|통과| E["renderMdx"]
-  E --> F[정적 HTML]
-\`\`\`
-
-문법이 틀린 다이어그램은 페이지를 깨뜨리지 않고 원본 텍스트로 남는다.
-
-\`\`\`mermaid
-graph !!! 이건 문법 오류다
-\`\`\`
-
-## 링크와 목록
-
-- 내부 링크: [홈으로](/)
-- 외부 링크: [Hugging Face 블로그](https://huggingface.co/blog)
-
-#### 더 작은 제목
-
-제목에 마우스를 올리면 앵커 표식이 나타난다.
-`;
 
 export default function MdxPreviewPage() {
+  const posts = getAllPosts();
+
   return (
     <Container>
-      <div className="py-12">
-        <MdxBody>{renderMdx(SOURCE)}</MdxBody>
+      <div className="space-y-16 py-12">
+        <p className="font-sans text-sm text-muted">
+          content/ 의 샘플 글 {posts.length}건을 renderMdx 로 렌더한 검증
+          페이지다.
+        </p>
+        {posts.map((post) => (
+          <PostPreview key={post.filePath} post={post} />
+        ))}
       </div>
     </Container>
   );

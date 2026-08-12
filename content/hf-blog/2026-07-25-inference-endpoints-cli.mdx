@@ -1,0 +1,94 @@
+---
+title: "추론 엔드포인트 CLI 가 정식으로 나왔다"
+category: hf-blog
+summary: "웹 콘솔에서만 하던 엔드포인트 생성·확장·삭제를 명령줄과 SDK 로 다룰 수 있게 됐다. 배포 설정을 코드로 남길 수 있다는 점이 핵심이다."
+publishedAt: "2026-07-25T14:20:00+0900"
+tags:
+  - 추론
+  - 도구
+  - 오픈 가중치
+source:
+  url: https://huggingface.co/blog/inference-endpoints-cli
+  title: "Ship Inference Endpoints from Your Terminal"
+  author: "Hugging Face Infrastructure Team"
+  license: "cc-by-4.0"
+  publishedAt: "2026-07-23T22:05:00+0900"
+---
+
+콘솔 클릭으로 만든 배포는 재현이 안 된다. 스케일 설정을 누가 언제 바꿨는지 기록이 남지 않고, 스테이징과 프로덕션이 조용히 어긋난다. 이번에 정식 공개된 엔드포인트 CLI 는 이 문제를 정면으로 겨냥한다. 설정을 파일로 두고, 명령 한 줄로 반영한다.
+
+## 설치와 첫 배포
+
+```bash
+# 설치 — CLI 는 SDK 에 함께 들어 있다
+pip install "huggingface-hub[cli]>=0.42"
+
+# 토큰은 환경변수로만 넘긴다. 명령 이력에 남기지 마라
+export HF_TOKEN="$(cat ~/.config/hf/token)"
+
+hf endpoints create \
+  --name trends-summarizer \
+  --repo mistralai/Mistral-NeXT-24B-Instruct \
+  --instance gpu.a10g.large \
+  --min-replica 0 \
+  --max-replica 2
+```
+
+`--min-replica 0` 을 주면 요청이 없을 때 컨테이너가 내려간다. 개인 프로젝트에서는 이 설정 하나가 월 비용의 대부분을 결정한다.
+
+<Callout type="warning" title="0 으로 줄이면 첫 요청이 느리다">
+  스케일 투 제로 상태에서의 첫 호출은 콜드 스타트 때문에 30초 이상 걸릴 수 있다. 사용자 대면 경로에는 큐를 두거나 최소 복제본을 1로 두는 편이 낫다.
+</Callout>
+
+## SDK 에서 다루기
+
+파이썬 쪽 API 는 CLI 와 같은 객체를 돌려준다. 배포를 만들고 준비될 때까지 기다린 뒤 바로 호출하는 흐름이다.
+
+```python
+from huggingface_hub import create_inference_endpoint
+
+endpoint = create_inference_endpoint(
+    name="trends-summarizer",
+    repository="mistralai/Mistral-NeXT-24B-Instruct",
+    framework="pytorch",
+    task="text-generation",
+    accelerator="gpu",
+    instance_size="large",
+    min_replica=0,
+)
+
+endpoint.wait()  # 상태가 running 이 될 때까지 블록한다
+print(endpoint.client.text_generation("한 문장으로 요약하면", max_new_tokens=64))
+```
+
+## 앱에서 부르기
+
+서버 라우트에서 호출하는 타입스크립트 쪽은 이렇게 된다. 토큰이 브라우저로 새지 않도록 클라이언트 컴포넌트에서 직접 부르지 않는 것이 중요하다.
+
+```ts
+const ENDPOINT = process.env.HF_ENDPOINT_URL;
+
+export async function summarize(text: string): Promise<string> {
+  const response = await fetch(`${ENDPOINT}/generate`, {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${process.env.HF_TOKEN}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ inputs: text, parameters: { max_new_tokens: 256 } }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`엔드포인트 호출 실패: ${response.status}`);
+  }
+
+  const [result] = (await response.json()) as { generated_text: string }[];
+  return result.generated_text;
+}
+```
+
+<Callout type="success" title="설정을 저장소에 남길 수 있다">
+  `hf endpoints export --name trends-summarizer` 로 현재 상태를 YAML 로 뽑아 커밋해 두면, 다음 배포가 클릭이 아니라 리뷰 대상이 된다.
+</Callout>
+
+지금 단계에서 아쉬운 점은 롤백이다. 이전 리비전으로 되돌리는 명령이 아직 없어서, 실수한 배포는 설정 파일을 되돌린 뒤 다시 적용하는 수밖에 없다.

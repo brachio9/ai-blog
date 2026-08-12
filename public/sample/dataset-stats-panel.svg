@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="라벨 분포와 중복 비율을 함께 보여 주는 통계 탭 구성">
+  <style>
+    .label { font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif; font-size: 30px; fill: #1c1917; }
+    .sub { font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif; font-size: 24px; fill: #78716c; }
+    .num { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 24px; fill: #44403c; }
+    .panel { fill: #ffffff; stroke: #e7e2da; stroke-width: 2; }
+    .axis { stroke: #e7e2da; stroke-width: 2; }
+  </style>
+
+  <rect x="0" y="0" width="1600" height="900" fill="#fdfcfa" />
+  <rect x="1" y="1" width="1598" height="898" fill="none" stroke="#e7e2da" stroke-width="2" />
+
+  <text class="label" x="80" y="110" font-size="34">통계 탭 구성</text>
+  <text class="sub" x="80" y="158">왼쪽은 라벨 분포, 오른쪽은 중복·결측 요약</text>
+
+  <!-- 라벨 분포 -->
+  <rect class="panel" x="80" y="220" width="760" height="580" rx="10" />
+  <text class="label" x="120" y="286" font-size="28">라벨 분포</text>
+
+  <line class="axis" x1="120" y1="740" x2="800" y2="740" />
+
+  <rect x="150" y="380" width="90" height="360" fill="#a8442a" />
+  <rect x="290" y="470" width="90" height="270" fill="#3f6b8a" />
+  <rect x="430" y="560" width="90" height="180" fill="#4d7c46" />
+  <rect x="570" y="650" width="90" height="90" fill="#b8860b" />
+  <rect x="710" y="700" width="90" height="40" fill="#6e6259" />
+
+  <text class="sub" x="150" y="782" font-size="22">긍정</text>
+  <text class="sub" x="290" y="782" font-size="22">중립</text>
+  <text class="sub" x="430" y="782" font-size="22">부정</text>
+  <text class="sub" x="570" y="782" font-size="22">혼합</text>
+  <text class="sub" x="710" y="782" font-size="22">미상</text>
+
+  <text class="num" x="150" y="360">41%</text>
+  <text class="num" x="290" y="450">31%</text>
+  <text class="num" x="430" y="540">20%</text>
+  <text class="num" x="570" y="630">6%</text>
+  <text class="num" x="710" y="680">2%</text>
+
+  <!-- 요약 지표 -->
+  <rect class="panel" x="880" y="220" width="640" height="180" rx="10" />
+  <text class="sub" x="920" y="286">근사 중복 비율</text>
+  <text class="label" x="920" y="350" font-size="44">7.4%</text>
+  <text class="sub" x="1180" y="350" font-size="22">학습·평가 분할 간 3.1%p</text>
+
+  <rect class="panel" x="880" y="420" width="640" height="180" rx="10" />
+  <text class="sub" x="920" y="486">결측이 있는 열</text>
+  <text class="label" x="920" y="550" font-size="44">2 / 11</text>
+  <text class="sub" x="1180" y="550" font-size="22">source_url · published_at</text>
+
+  <rect class="panel" x="880" y="620" width="640" height="180" rx="10" />
+  <text class="sub" x="920" y="686">문자열 길이 중앙값</text>
+  <text class="label" x="920" y="750" font-size="44">612자</text>
+  <text class="sub" x="1180" y="750" font-size="22">상위 1% 는 8천자 이상</text>
+</svg>

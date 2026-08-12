@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="데이터셋 업로드부터 통계 탭이 만들어지기까지의 처리 흐름">
+  <style>
+    .box { fill: #ffffff; stroke: #e7e2da; stroke-width: 2; }
+    .accent-box { fill: #ffffff; stroke: #a8442a; stroke-width: 2; }
+    .label { font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif; font-size: 30px; fill: #1c1917; }
+    .sub { font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif; font-size: 24px; fill: #78716c; }
+    .step { font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif; font-size: 22px; fill: #a8442a; letter-spacing: 0.08em; }
+    .edge { stroke: #a8442a; stroke-width: 2.5; fill: none; }
+  </style>
+
+  <rect x="0" y="0" width="1600" height="900" fill="#fdfcfa" />
+  <rect x="1" y="1" width="1598" height="898" fill="none" stroke="#e7e2da" stroke-width="2" />
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M1 1 L11 6 L1 11" fill="none" stroke="#a8442a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </marker>
+  </defs>
+
+  <text class="label" x="80" y="110" font-size="34">데이터셋 뷰어 처리 흐름</text>
+  <text class="sub" x="80" y="158">업로드 이후 통계 탭이 채워지기까지</text>
+
+  <rect class="box" x="80" y="240" width="330" height="150" rx="10" />
+  <text class="step" x="110" y="290">1 · 업로드</text>
+  <text class="label" x="110" y="340" font-size="28">원본 파일 수신</text>
+  <text class="sub" x="110" y="374">csv · json · 이미지</text>
+
+  <path class="edge" d="M410 315 H 560" marker-end="url(#arrow)" />
+
+  <rect class="box" x="580" y="240" width="330" height="150" rx="10" />
+  <text class="step" x="610" y="290">2 · 변환</text>
+  <text class="label" x="610" y="340" font-size="28">파케이 변환</text>
+  <text class="sub" x="610" y="374">열 단위 저장으로 재배치</text>
+
+  <path class="edge" d="M910 315 H 1060" marker-end="url(#arrow)" />
+
+  <rect class="box" x="1080" y="240" width="330" height="150" rx="10" />
+  <text class="step" x="1110" y="290">3 · 집계</text>
+  <text class="label" x="1110" y="340" font-size="28">열 통계 계산</text>
+  <text class="sub" x="1110" y="374">분포 · 결측 · 고유값</text>
+
+  <path class="edge" d="M1245 390 V 500 H 830" marker-end="url(#arrow)" />
+
+  <rect class="box" x="480" y="500" width="330" height="150" rx="10" />
+  <text class="step" x="510" y="550">4 · 중복 탐지</text>
+  <text class="label" x="510" y="600" font-size="28">근사 중복 스캔</text>
+  <text class="sub" x="510" y="634">분할 간 누수 확인</text>
+
+  <path class="edge" d="M645 650 V 730 H 400" marker-end="url(#arrow)" />
+
+  <rect class="accent-box" x="80" y="660" width="320" height="150" rx="10" />
+  <text class="step" x="110" y="710">5 · 노출</text>
+  <text class="label" x="110" y="760" font-size="28">통계 탭 게시</text>
+  <text class="sub" x="110" y="794">내려받기 전 판단 가능</text>
+
+  <text class="sub" x="880" y="740" font-size="22">집계는 업로드와 분리되어 비동기로 돈다 —</text>
+  <text class="sub" x="880" y="778" font-size="22">큰 데이터셋은 통계가 나중에 채워진다.</text>
+</svg>
