@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
+/* Tailwind v4 의 dark: 는 기본이 prefers-color-scheme 이다.
+   사용자 토글(.dark 클래스)로 제어하려면 이 선언이 반드시 필요하다. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  /* 표면·텍스트 */
+  --bg: #fdfcfa;
+  --surface: #ffffff;
+  --border: #e7e2da;
+  --heading: #1c1917;
+  --body: #44403c;
+  --muted: #78716c;
+  --faint: #a8a29e;
+  --accent: #a8442a;
+  --accent-hover: #8a3721;
+
+  /* 시맨틱 (콜아웃·상태) */
+  --success: #4d7c46;
+  --warning: #b45309;
+  --danger: #b91c1c;
+  --info: #3f6b8a;
+
+  /* 차트 카테고리 색 (순서대로 사용) */
+  --chart-1: #a8442a;
+  --chart-2: #3f6b8a;
+  --chart-3: #4d7c46;
+  --chart-4: #b8860b;
+  --chart-5: #6e6259;
+
+  /* 폰트 스택 — 3종 모두 한글 글리프가 없으므로 한글 폴백을 명시한다. */
+  --sans: var(--font-inter), "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --serif: var(--font-source-serif-4), "Apple SD Gothic Neo", "Malgun Gothic",
+    serif;
+  --mono: var(--font-jetbrains-mono), "Apple SD Gothic Neo", "Malgun Gothic",
+    ui-monospace, monospace;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --bg: #14110f;
+  --surface: #1c1917;
+  --border: #33302c;
+  --heading: #fafaf9;
+  --body: #d6d3d1;
+  --muted: #a8a29e;
+  --faint: #78716c;
+  --accent: #e07a55;
+  --accent-hover: #ec9273;
+
+  --success: #7fae76;
+  --warning: #d99a4e;
+  --danger: #e07a7a;
+  --info: #7aa8c4;
+
+  --chart-1: #e07a55;
+  --chart-2: #7aa8c4;
+  --chart-3: #7fae76;
+  --chart-4: #d9a94e;
+  --chart-5: #a89c92;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-heading: var(--heading);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --font-sans: var(--sans);
+  --font-serif: var(--serif);
+  --font-mono: var(--mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  color: var(--body);
+  font-family: var(--sans);
 }
