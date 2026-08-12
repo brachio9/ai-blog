@@ -1,158 +1,142 @@
-# Harness Framework
+# AI 동향 블로그
 
-Claude Code 기반 phase-driven 개발 하네스. 한 프로젝트를 여러 phase 로 쪼개, 각 phase 를 여러 step 으로 세분화한 뒤, 하네스가 Claude 서브프로세스를 호출해 step 단위로 구현/테스트/커밋을 자동화한다.
+HuggingFace 블로그·arXiv 논문 등 영문 AI 최신 동향을 한글 요약으로 정리해 공개하는 1인 운영 블로그.
 
-**DootaWiki** 실 프로젝트에서 17-phase (Demo 0~16) 로드맵 실행 중 발견한 edge case 와 fix 를 반영한 최신 버전.
+운영 비용 **월 $0** 을 목표로, 글은 이 레포의 MDX 파일에 두고 사이트는 전부 정적으로 생성한다.
 
-## 빠른 시작 (신규 프로젝트 부트스트랩)
+## 카테고리
+
+| slug | 이름 | 성격 |
+|---|---|---|
+| `hf-blog` | 허깅페이스 소식 | HuggingFace 블로그 글 요약 + 원문 링크 |
+| `papers` | 최신 논문 | arXiv 논문 리뷰. 수식·도표 비중이 높다 |
+| `notes` | 수집 자료 | 개인 스크랩·메모 |
+
+카테고리는 [`src/lib/categories.ts`](src/lib/categories.ts) 한 곳에 정의되어 있고, 내비게이션·목록·푸터는 전부 그것을 순회해 그린다. 추가하려면 그 파일만 고치면 된다.
+
+## 본문에서 쓸 수 있는 것
+
+MDX 로 쓰며 아래가 전부 라이트/다크 양쪽에서 동작한다.
+
+| 표현 | 방법 |
+|---|---|
+| 수식 | `$인라인$` · `$$별행$$` (KaTeX). 좁은 화면에서 별행 수식은 자체 가로 스크롤 |
+| 차트 | `<Chart kind="bar" data={...} xKey="..." series={[...]} />` (Recharts). 테마 전환 시 색이 함께 바뀐다 |
+| 다이어그램 | Mermaid. 테마가 바뀌면 다시 렌더된다 |
+| 표 | GFM 문법. 좁은 화면에서 표만 가로 스크롤되고 페이지는 밀리지 않는다 |
+| 코드 | 구문 강조 + 복사 버튼. 라이트/다크 이중 테마 |
+| 이미지 | 캡션 + 클릭 확대 |
+| 콜아웃 | `<Callout type="info|success|warning|danger">` |
+
+무거운 라이브러리(Mermaid·Recharts)는 해당 요소가 있는 글에서만 내려받는다.
+
+## 글 쓰기
+
+`content/{category}/YYYY-MM-DD-{slug}.mdx` 형식으로 파일을 만든다.
+
+```yaml
+---
+title: "글 제목"
+category: papers                       # hf-blog | papers | notes
+summary: "목록과 검색에 쓰이는 한두 문장 요약"
+publishedAt: "2026-08-05T10:00:00+0900"   # KST(+0900) 고정
+tags: [LLM, MoE]
+draft: false                           # true 면 프로덕션에서 제외
+source:                                # 외부 원문을 요약했다면 필수
+  url: "https://..."
+  title: "원문 제목"
+  author: "저자"
+  license: "cc-by-4.0"
+paper:                                 # papers 카테고리 전용, 필수
+  arxivId: "2608.01337"
+  authors: ["A", "B"]
+---
+```
+
+frontmatter 검증에 실패하면 **빌드가 깨진다.** 깨진 글이 조용히 배포되는 것보다 낫다는 판단이다.
+
+> 외부 글을 다룰 때는 원문 전재가 아니라 **요약 + 출처 링크** 형태로 쓴다. `source.url` 은 필수이며 글 상단에 출처가 항상 표기된다.
+
+## 개발
 
 ```bash
-# 1. 새 프로젝트 디렉토리로 복사 (또는 git clone 후 remote 교체)
-cp -R ~/work2/harness_framework ~/work2/MyNewProject
-cd ~/work2/MyNewProject
-rm -rf .git && git init -b main
+npm install
+cp .env.example .env.local     # 값은 비워둬도 개발/빌드가 돌아간다
+npm run dev                    # http://localhost:3000
 
-# 2. CLAUDE.md 의 {플레이스홀더} 채움 (기술 스택, CRITICAL 규칙, 비-목표)
-#    docs/PRD.md · ADR.md · ARCHITECTURE.md · UI_GUIDE.md 초안 작성
-
-# 3. 하네스 self-test
-pytest scripts/test_execute.py -q
-
-# 4. 첫 phase 설계 (.claude/commands/harness.md 스펙 참조)
-mkdir -p phases/demo-0-scaffold
-cat > phases/index.json <<'JSON'
-{
-  "phases": [
-    { "dir": "demo-0-scaffold", "status": "pending" }
-  ]
-}
-JSON
-# phases/demo-0-scaffold/index.json 과 step0.md ... stepN.md 작성
-
-# 5. 실행
-python3 scripts/execute.py demo-0-scaffold
+npm run lint && npm run build && npm run test
+npm run typecheck
 ```
 
-## 구성
+환경변수가 없으면 조회수·댓글만 조용히 꺼지고 나머지는 정상 동작한다. 필요한 값과 발급 방법은 [`.env.example`](.env.example) 에 적혀 있다.
+
+## 구조
 
 ```
-harness_framework/
-├── scripts/
-│   ├── execute.py           하네스 본체 (retry, timeout, 2단계 commit, 상태/events 추적)
-│   └── test_execute.py      71 회귀 테스트 (harness 수정 시 필수 통과)
-├── .claude/
-│   ├── commands/
-│   │   ├── harness.md       phase/step 저작 스펙 (정본)
-│   │   └── review.md        변경 리뷰 체크리스트
-│   ├── hooks/
-│   │   └── pre_tool_use.py  위험 명령 차단 (case-sensitive)
-│   └── settings.json        Stop / PreToolUse 훅 연결 ($CLAUDE_PROJECT_DIR 기반)
-├── docs/
-│   ├── PRD.md               제품 요구사항 (placeholder)
-│   ├── ADR.md               아키텍처 결정 (placeholder)
-│   ├── ARCHITECTURE.md      시스템 구조 (placeholder)
-│   └── UI_GUIDE.md          UI 가이드 (placeholder)
-├── phases/                  (비어 있음 — 프로젝트별 phase 추가)
-├── CLAUDE.md                상위 가이드 (매 step 프롬프트 inline 주입)
-└── README.md                이 문서
+content/                  글 원본 (MDX) — 이게 저장소다
+public/                   정적 자산. 업로드 이미지는 public/uploads/
+src/
+├── app/
+│   ├── (public)/         공개 페이지 — 홈·카테고리·글 상세·검색
+│   └── api/              런타임 API (조회수)
+├── components/
+│   ├── mdx/              본문 요소 (표·이미지·코드·수식·차트·다이어그램)
+│   ├── post/             글 카드·목록·목차·출처·조회수·댓글
+│   └── layout/           헤더·푸터·테마 토글
+├── lib/                  콘텐츠 로더·MDX 컴파일·검색 인덱스·유틸
+├── services/             외부 API 래퍼 (turso.ts)
+└── types/
+docs/                     PRD · ADR · ARCHITECTURE · UI_GUIDE
+phases/                   개발 phase 정의 (아래 참고)
+scripts/execute.py        phase 실행 하네스
 ```
 
-## 핵심 기능
+## 설계 결정
 
-### 1. 2단계 Commit
-각 step 완료 시:
-- `feat(<phase>): step N — <name>` — 실 작업 산출물
-- `chore(<phase>): step N output` — step-output.json + index.json 상태 업데이트
+전문은 [`docs/ADR.md`](docs/ADR.md). 요약하면:
 
-→ rollback 시 작업 단위로 정확히 revert 가능.
+- **글 본문은 git 레포의 MDX 파일** — 비용 0, 버전관리·롤백·백업이 공짜. DB 가 죽어도 글은 살아 있다
+- **Turso 는 조회수 같은 휘발성 수치 전용** — 본문·인증정보·댓글을 넣지 않는다
+- **댓글은 Giscus(GitHub Discussions)** — 자체 저장소도 스팸 관리도 필요 없다
+- **이미지도 레포에 커밋** — 외부 스토리지를 쓰지 않는다
+- **검색은 클라이언트에서** — 빌드 타임 JSON 인덱스 + minisearch, 서버·DB 없이
+- **MDX 컴파일 진입점은 하나** (`src/lib/mdx.ts`) — 프리뷰와 실제 렌더가 갈라지면 "프리뷰는 되는데 발행하면 깨진다" 가 생긴다
 
-### 2. 재시도 (MAX_RETRIES = 3)
-- step 실패 / 타임아웃 시 최대 3회 재시도
-- 이전 에러 메시지가 다음 preamble 에 `preceding_error` 로 주입되어 Claude 가 맥락 이해
-- 타임아웃 (`CLAUDE_TIMEOUT_SEC = 1800s`) 도 error 로 처리
+정적 생성을 유지하기 위해 **서버 컴포넌트에서 `searchParams` 를 읽지 않는다.** 필터·페이지네이션·검색어는 클라이언트에서 `useSearchParams()` 로 다룬다. 현재 동적 라우트는 `/api/views` 하나뿐이다.
 
-### 3. 상태 + Events 추적
-`phases/{phase}/index.json` 의 각 step:
-```json
-{
-  "step": 2,
-  "name": "...",
-  "status": "completed",
-  "started_at": "2026-04-21T15:47:46+0900",
-  "completed_at": "2026-04-21T16:30:00+0900",
-  "summary": "한 줄 산출물 요약 (다음 step 에 컨텍스트 전달)",
-  "events": [
-    { "at": "...", "status": "started" },
-    { "at": "...", "status": "retry", "attempt": 1, "error": "..." },
-    { "at": "...", "status": "completed", "attempt": 2 }
-  ]
-}
-```
+## 기술 스택
 
-### 4. 상태 전이
-- `pending` → `completed` (성공) / `error` (3회 실패) / `blocked` (사람 개입 대기)
-- `blocked` 는 즉시 `exit 2` — 사용자 수동 처리 대기
+Next.js 16 (App Router · Turbopack) · React 19 · TypeScript 5 · Tailwind CSS v4 (CSS-first `@theme`)
+· MDX (`next-mdx-remote`) · KaTeX · Recharts · Mermaid · minisearch · zod
+· Turso(libSQL) · Giscus · Vitest · Vercel
 
-### 4-1. Kill-on-Completed (opt-in)
-Claude 가 index.json 에 `status='completed'` 를 쓴 후에도 추가 리팩터/테스트로
-1800s timeout 까지 시간 소진하는 패턴을 방지.
+## 개발 방식 — phase 하네스
+
+이 레포는 [Harness Framework](https://github.com/brachio9/harness_framework) 위에서 만들어졌다. 작업을 phase 로 나누고 각 phase 를 step 으로 쪼갠 뒤, `scripts/execute.py` 가 Claude 서브프로세스를 호출해 step 단위로 구현·검증·커밋한다.
 
 ```bash
-HARNESS_KILL_ON_COMPLETED=1 python3 scripts/execute.py <phase-dir>
-# optional: HARNESS_KILL_GRACE_SEC=30 (2단계 commit 여유, 기본 30s)
+python3 scripts/execute.py <phase-dir>          # 예: blog-2-public-site
+pytest scripts/test_execute.py -q               # 하네스 회귀 (71 tests)
 ```
 
-동작: watcher thread 가 5s 간격으로 `phases/{phase}/index.json` 의 step status
-를 polling → `completed` 감지 시 grace 대기 → SIGTERM (5s 후 SIGKILL).
+각 step 은 독립 세션에서 실행되며, `CLAUDE.md` 와 `docs/*.md` 가 매 프롬프트에 주입되어 가드레일 역할을 한다. 완료된 step 의 `summary` 만 다음 step 에 전달된다.
 
-### 5. 가드레일 자동 주입
-매 step 프롬프트에 `CLAUDE.md` + `docs/PRD.md` + `docs/ADR.md` + `docs/ARCHITECTURE.md` + `docs/UI_GUIDE.md` 내용이 inline 포함된다. 추가 참조 문서는 `execute.py` 의 `guardrails` 로 확장.
+진행 상황은 [`phases/index.json`](phases/index.json) 에 있다.
 
-## Hooks
+| phase | 내용 |
+|---|---|
+| `blog-0-scaffold` | Next.js 골격 · 디자인 토큰 · 레이아웃 셸 |
+| `blog-1-content-pipeline` | 콘텐츠 스키마 · MDX 렌더러 · 수식/다이어그램 · 차트 · 샘플 글 |
+| `blog-2-public-site` | 홈 · 카테고리 · 글 상세 · 검색/RSS/sitemap/OG |
+| `blog-3-comments-and-views` | 조회수(Turso) · 댓글(Giscus) |
 
-### Stop 훅
-매 Claude 서브프로세스 종료 시:
-- `scripts/test_execute.py` 존재 → 회귀 pytest 자동 실행
-- `pyproject.toml` 존재 → `ruff check .` (설치되어 있을 때)
-- `package.json` 존재 → `npm run lint && build && test`
-
-### PreToolUse 훅 — 위험 명령 차단
-[.claude/hooks/pre_tool_use.py](.claude/hooks/pre_tool_use.py) 가 차단:
-- `rm -rf /`, `sudo rm`
-- `git push --force` / `--force-with-lease`, `git reset --hard`, `git clean -fdx`
-- `git branch -D` (대소문자 정확히 — `-d` 는 통과)
-- `DROP TABLE`, `TRUNCATE`, `DELETE FROM` (WHERE 없이)
-- `kubectl delete --all`, `aws s3 rb --force`
-- Supabase/DB 초기화 계열
-
-`$CLAUDE_PROJECT_DIR` 기반 절대경로로 로드 — cwd 독립.
-
-## DootaWiki 프로젝트에서 발견된 fix (반영됨)
-
-1. **git branch -d 차단 버그** (PreToolUse): IGNORECASE regex 가 `-d` 를 `-D` 로 오판 → `(?-i:-D)` inline case-sensitive 로 수정
-2. **하네스 timeout 후 commit 인식**: Claude 가 마지막 1초에 commit 했으나 timeout 처리되는 race → status 재확인 로직 추가
-3. **Retry preamble 에 preceding_error 주입**: 실패 원인을 다음 시도에 context 로 전달해 동일 실수 반복 방지
-4. **Event log 보존 (append-only)**: 상태 변경 시 덮어쓰지 않고 `events[]` 에 append → 디버깅 가능
-5. **2단계 commit**: feat + chore 분리로 작업 단위 명확화
-
-## 회귀 테스트
-
-하네스 자체 수정 시 반드시 통과:
+## 테스트
 
 ```bash
-pytest scripts/test_execute.py -q
-# 67 passed
+npm run test                        # 133 tests
+pytest scripts/test_execute.py -q   # 71 tests (하네스)
 ```
-
-테스트 커버리지:
-- 상태 전이 (pending → completed / error / blocked)
-- 재시도 로직
-- 타임아웃 처리
-- 2단계 commit
-- Events append-only
-- 가드레일 주입
-- Phase 완료 검증
 
 ## 라이선스
 
-MIT. 자유롭게 포크/수정하여 사용.
+코드는 MIT. 글(`content/`)의 저작권은 작성자에게 있으며, 인용한 원문의 권리는 각 원저작자에게 있다.
