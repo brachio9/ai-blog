@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "katex": "^0.18.4",
     "mermaid": "^11.16.1",

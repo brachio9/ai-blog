@@ -34,7 +34,8 @@ export function MdxAnchor({ href, children, ...props }: ComponentProps<"a">) {
   );
 }
 
-function ExternalIcon() {
+/** 외부 링크 표식. 출처 표기(SourceNote)도 같은 표식을 쓴다. */
+export function ExternalIcon() {
   return (
     <svg
       width="16"
