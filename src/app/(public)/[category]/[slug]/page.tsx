@@ -7,6 +7,7 @@ import { MdxBody } from "@/components/mdx";
 import { PostNav } from "@/components/post/PostNav";
 import { SourceNote } from "@/components/post/SourceNote";
 import { TableOfContents } from "@/components/post/TableOfContents";
+import { ViewCount } from "@/components/post/ViewCount";
 import { categoryHref, getCategory } from "@/lib/categories";
 import { getAllPosts, getPost, getPostsByCategory } from "@/lib/content/posts";
 import { formatDate } from "@/lib/format";
@@ -101,6 +102,8 @@ export default async function PostPage(props: PageProps<"/[category]/[slug]">) {
             </time>
             <span aria-hidden="true">·</span>
             <span>{post.readingMinutes}분</span>
+            {/* 조회수는 클라이언트가 API 로 가져온다 — 서버에서 읽으면 이 페이지가 동적이 된다. */}
+            <ViewCount postId={`${post.category}/${post.slug}`} />
           </p>
 
           {frontmatter.tags.length > 0 ? (

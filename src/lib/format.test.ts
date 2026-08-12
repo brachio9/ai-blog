@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { formatDate, formatDateShort } from "./format";
+import { formatCount, formatDate, formatDateShort } from "./format";
 
 describe("formatDate", () => {
   it("KST 새벽 시각을 UTC 로 밀지 않는다 (UTC 로는 전날)", () => {
@@ -23,5 +23,14 @@ describe("formatDateShort", () => {
     expect(formatDateShort("2026-08-09T00:30:00+0900")).toBe("2026.08.09");
     expect(formatDateShort("2026-08-08T16:00:00Z")).toBe("2026.08.09");
     expect(formatDateShort("2026-01-05T09:00:00+0900")).toBe("2026.01.05");
+  });
+});
+
+describe("formatCount", () => {
+  it("천 단위로 끊어 쓴다", () => {
+    expect(formatCount(0)).toBe("0");
+    expect(formatCount(42)).toBe("42");
+    expect(formatCount(1234)).toBe("1,234");
+    expect(formatCount(1234567)).toBe("1,234,567");
   });
 });

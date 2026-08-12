@@ -31,3 +31,10 @@ export function formatDateShort(iso: string): string {
   const { year, month, day } = kstParts(iso);
   return `${year}.${month}.${day}`;
 }
+
+const COUNT_FORMAT = new Intl.NumberFormat("ko-KR");
+
+/** "1,234" — 조회수 같은 정수 표기 */
+export function formatCount(value: number): string {
+  return COUNT_FORMAT.format(value);
+}
