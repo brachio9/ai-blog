@@ -86,9 +86,14 @@
         {
           "at": "2026-08-12T16:40:00+0900",
           "status": "completed"
+        },
+        {
+          "at": "2026-08-12T16:34:48+0900",
+          "status": "completed",
+          "attempt": 1
         }
       ],
-      "completed_at": "2026-08-12T16:40:00+0900",
+      "completed_at": "2026-08-12T16:34:48+0900",
       "summary": "차트: src/components/mdx/Chart.tsx('use client', recharts@3 를 import 하는 유일한 파일) 의 default export Chart({ kind: \"bar\"|\"line\"|\"scatter\", data, xKey, series, yLabel?, height?, caption? }) — MDX_COMPONENTS 에 next/dynamic 으로 등록되어 <Chart> 로 바로 쓴다. **next-mdx-remote 가 표현식 속성을 지우므로 MDX 에서는 data·series 를 JSON 문자열로, height 를 문자열 숫자로 넘긴다** (컴포넌트가 배열/숫자와 문자열을 모두 받아 파싱한다). 사용 예: <Chart kind=\"bar\" xKey=\"model\" data='[{\"model\":\"Llama 3.1 405B\",\"mmlu\":88.6,\"gsm8k\":96.8}]' series='[{\"key\":\"mmlu\",\"label\":\"MMLU\"},{\"key\":\"gsm8k\",\"label\":\"GSM8K\"}]' yLabel=\"점수\" height=\"300\" caption=\"벤치마크 점수\" /> — data 항목의 필드명을 xKey·series[].key 가 가리키고, 계열 색은 원시 변수 var(--chart-1)~(--chart-5) 를 순서대로 순환한다(축·격자 --border, 눈금·라벨 --muted, 툴팁 --surface/--heading/--body 로 다크모드 자동 전환). 컨테이너는 border border-border rounded-md p-4 + ResponsiveContainer(기본 높이 280), 접근성용 원본 수치 표를 <details>「수치 표 보기」로 병기하고, data·series 가 비거나 JSON 이 깨지면 안내 문구로 폴백한다. 검증: /mdx-preview 에 막대·선 차트 추가, src/components/mdx/Chart.test.tsx."
     },
     {
