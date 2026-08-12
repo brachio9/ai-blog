@@ -36,6 +36,33 @@ export function paginate<T>(
   };
 }
 
+/**
+ * 목록 링크. 쿼리 규약은 `?tag=<한글 URL 인코딩>&page=<1부터, 1은 생략>` 다.
+ * basePath 에 이미 쿼리가 붙어 있으면(검색 페이지의 `?q=`) 그대로 보존한다 —
+ * 페이지를 넘겼더니 검색어가 사라지는 일을 막는다.
+ * tag 를 바꾸면 page 는 넘겨받은 값만 남는다 (호출부가 생략하면 1페이지로 리셋).
+ */
+export function listHref(
+  basePath: string,
+  { tag, page }: { tag?: string; page?: number },
+): string {
+  const [path, existing] = basePath.split("?");
+  const params = new URLSearchParams(existing);
+
+  params.delete("tag");
+  params.delete("page");
+  if (tag) {
+    // 한글 태그는 URL 인코딩이 필요하다. URLSearchParams 가 대신 해 준다.
+    params.set("tag", tag);
+  }
+  if (page && page > 1) {
+    params.set("page", String(page));
+  }
+
+  const query = params.toString();
+  return query ? `${path}?${query}` : path;
+}
+
 /** 태그 목록. 글 수 내림차순, 같으면 이름 오름차순. */
 export function collectTags(
   items: { tags: string[] }[],

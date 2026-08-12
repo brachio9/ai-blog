@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 import type { CategorySlug } from "@/lib/categories";
-import { collectTags, filterByTag, paginate } from "@/lib/pagination";
+import { collectTags, filterByTag, listHref, paginate } from "@/lib/pagination";
 import type { Post } from "@/types/content";
 
 import { PostCard } from "./PostCard";
@@ -23,7 +23,10 @@ export interface PostListItem {
 
 export interface PostListProps {
   items: PostListItem[];
-  /** 태그 링크의 기준 경로 (예: "/papers"). 검색 페이지도 재사용한다. */
+  /**
+   * 태그·페이지 링크의 기준 경로 (예: "/papers").
+   * 검색 페이지처럼 유지해야 할 쿼리가 있으면 `"/search?q=추론"` 처럼 붙여서 넘긴다.
+   */
   basePath: string;
   showCategory?: boolean;
 }
@@ -50,19 +53,6 @@ function toPost(item: PostListItem): Post {
     filePath: "",
     readingMinutes: item.readingMinutes,
   };
-}
-
-function listHref(basePath: string, tag: string | undefined, page: number) {
-  const params = new URLSearchParams();
-  if (tag) {
-    // 한글 태그는 URL 인코딩이 필요하다. URLSearchParams 가 대신 해 준다.
-    params.set("tag", tag);
-  }
-  if (page > 1) {
-    params.set("page", String(page));
-  }
-  const query = params.toString();
-  return query ? `${basePath}?${query}` : basePath;
 }
 
 /**
@@ -93,7 +83,7 @@ export function PostList({ items, basePath, showCategory }: PostListProps) {
             해당 페이지에 글이 없습니다. 전체 {totalPages}페이지입니다.
           </p>
           <Link
-            href={listHref(basePath, activeTag, 1)}
+            href={listHref(basePath, { tag: activeTag, page: 1 })}
             className="mt-2 inline-block text-sm text-accent transition-colors hover:text-accent-hover focus-visible:outline-2 focus-visible:outline-accent"
           >
             1페이지로 이동
@@ -122,7 +112,7 @@ export function PostList({ items, basePath, showCategory }: PostListProps) {
         >
           {page > 1 ? (
             <Link
-              href={listHref(basePath, activeTag, page - 1)}
+              href={listHref(basePath, { tag: activeTag, page: page - 1 })}
               rel="prev"
               className="rounded border border-border px-4 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-accent"
             >
@@ -138,7 +128,7 @@ export function PostList({ items, basePath, showCategory }: PostListProps) {
 
           {page < totalPages ? (
             <Link
-              href={listHref(basePath, activeTag, page + 1)}
+              href={listHref(basePath, { tag: activeTag, page: page + 1 })}
               rel="next"
               className="rounded border border-border px-4 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-accent"
             >

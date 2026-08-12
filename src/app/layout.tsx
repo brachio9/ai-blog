@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import { DARK_CLASS, DARK_MEDIA_QUERY, THEME_STORAGE_KEY } from "@/lib/theme";
 import "./globals.css";
 
@@ -22,12 +23,13 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  // 각 페이지가 상대 경로로 적은 canonical·openGraph.url 을 절대 URL 로 만들어 준다.
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "AI 동향 블로그",
-    template: "%s | AI 동향 블로그",
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "HuggingFace 블로그·arXiv 논문 등 영문 AI 최신 동향을 한글 요약으로 정리합니다.",
+  description: SITE_DESCRIPTION,
 };
 
 /**

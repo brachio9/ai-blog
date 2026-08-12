@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { PAGE_SIZE, collectTags, filterByTag, paginate } from "./pagination";
+import {
+  PAGE_SIZE,
+  collectTags,
+  filterByTag,
+  listHref,
+  paginate,
+} from "./pagination";
 
 const items = Array.from({ length: 25 }, (_, index) => index + 1);
 
@@ -88,5 +94,38 @@ describe("collectTags", () => {
 
   it("빈 목록이면 빈 배열을 준다", () => {
     expect(collectTags([])).toEqual([]);
+  });
+});
+
+describe("listHref", () => {
+  it("파라미터가 없으면 basePath 그대로다", () => {
+    expect(listHref("/papers", {})).toBe("/papers");
+  });
+
+  it("1페이지는 생략하고 그 뒤만 page 를 붙인다", () => {
+    expect(listHref("/papers", { page: 1 })).toBe("/papers");
+    expect(listHref("/papers", { page: 3 })).toBe("/papers?page=3");
+  });
+
+  it("한글 태그를 URL 인코딩한다", () => {
+    expect(listHref("/papers", { tag: "추론", page: 2 })).toBe(
+      `/papers?tag=${encodeURIComponent("추론")}&page=2`,
+    );
+  });
+
+  it("basePath 에 이미 붙은 쿼리를 보존한다 — 검색어가 페이지 이동에서 사라지면 안 된다", () => {
+    const base = `/search?q=${encodeURIComponent("추론")}`;
+
+    expect(listHref(base, {})).toBe(base);
+    expect(listHref(base, { tag: "LLM", page: 2 })).toBe(
+      `${base}&tag=LLM&page=2`,
+    );
+  });
+
+  it("basePath 의 tag·page 는 인자로 덮어쓴다", () => {
+    expect(listHref("/papers?tag=LLM&page=5", { tag: "추론" })).toBe(
+      `/papers?tag=${encodeURIComponent("추론")}`,
+    );
+    expect(listHref("/papers?tag=LLM&page=5", {})).toBe("/papers");
   });
 });

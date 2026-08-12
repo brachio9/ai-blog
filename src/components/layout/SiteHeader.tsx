@@ -47,6 +47,30 @@ export function SiteHeader() {
             })}
           </nav>
 
+          <Link
+            href="/search"
+            aria-label="검색"
+            aria-current={pathname === "/search" ? "page" : undefined}
+            className={`transition-colors focus-visible:outline-2 focus-visible:outline-accent ${
+              pathname === "/search"
+                ? "text-accent"
+                : "text-muted hover:text-heading"
+            }`}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="M16.5 16.5L21 21" />
+            </svg>
+          </Link>
+
           <ThemeToggle />
         </div>
       </Container>

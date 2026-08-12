@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { listHref } from "@/lib/pagination";
+
 export interface TagFilterProps {
   tags: { tag: string; count: number }[];
   activeTag?: string;
@@ -12,13 +14,9 @@ const CHIP =
 const INACTIVE = "border-border text-muted hover:border-accent hover:text-accent";
 const ACTIVE = "border-accent bg-surface text-accent";
 
-/** 태그를 바꾸면 페이지는 1로 되돌아간다 — 3페이지에서 태그만 갈아끼우면 빈 목록이 된다. */
+/** page 를 넘기지 않는다 — 태그를 바꾸면 1페이지로 돌아가야 3페이지에서 빈 목록을 보지 않는다. */
 function tagHref(basePath: string, tag?: string): string {
-  if (!tag) {
-    return basePath;
-  }
-  const params = new URLSearchParams({ tag });
-  return `${basePath}?${params.toString()}`;
+  return listHref(basePath, { tag });
 }
 
 export function TagFilter({ tags, activeTag, basePath }: TagFilterProps) {
