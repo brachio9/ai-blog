@@ -112,7 +112,7 @@ Next.js 16 (App Router · Turbopack) · React 19 · TypeScript 5 · Tailwind CSS
 
 ## 개발 방식 — phase 하네스
 
-이 레포는 [Harness Framework](https://github.com/brachio9/harness_framework) 위에서 만들어졌다. 작업을 phase 로 나누고 각 phase 를 step 으로 쪼갠 뒤, `scripts/execute.py` 가 Claude 서브프로세스를 호출해 step 단위로 구현·검증·커밋한다.
+이 레포는 phase 기반 개발 하네스 위에서 만들어졌다. 작업을 phase 로 나누고 각 phase 를 step 으로 쪼갠 뒤, [`scripts/execute.py`](scripts/execute.py) 가 Claude 서브프로세스를 호출해 step 단위로 구현·검증·커밋한다.
 
 ```bash
 python3 scripts/execute.py <phase-dir>          # 예: blog-2-public-site
