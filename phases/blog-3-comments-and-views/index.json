@@ -52,9 +52,14 @@
         {
           "at": "2026-08-12T20:52:49+0900",
           "status": "completed"
+        },
+        {
+          "at": "2026-08-12T20:53:49+0900",
+          "status": "completed",
+          "attempt": 1
         }
       ],
-      "completed_at": "2026-08-12T20:52:49+0900",
+      "completed_at": "2026-08-12T20:53:49+0900",
       "summary": "댓글은 Giscus/GitHub Discussions (ADR-004) — 자체 저장소·Turso 사용 없음. src/lib/giscus.ts 의 getGiscusConfig(): GiscusConfig | null 이 NEXT_PUBLIC_GISCUS_REPO·_REPO_ID·_CATEGORY·_CATEGORY_ID 를 (동적 키가 아닌) 전체 이름으로 읽고 trim 후 하나라도 비면 null — 값이 없으면 예외 없이 조용히 꺼진다. src/components/post/Comments.tsx 는 \"use client\" 로 useEffect 안에서 https://giscus.app/client.js 를 컨테이너 div 에 삽입한다 (data-mapping=\"pathname\" 이라 글 URL 이 곧 Discussion 키 · reactions-enabled=1 · emit-metadata=0 · input-position=top · lang=ko · loading=lazy · crossorigin=anonymous, 초기 data-theme 은 DARK_CLASS 유무로 light|dark). 테마 동기화는 이미 만들어진 iframe 이 data-theme 변경에 반응하지 않으므로 MutationObserver(document.documentElement, class) → iframe.giscus-frame.contentWindow.postMessage({giscus:{setConfig:{theme}}}, \"https://giscus.app\") 이며, 로딩 중 전환이 유실되지 않도록 giscus origin 의 message 이벤트에서도 같은 sync 를 돌리고 마지막 적용 테마를 기억해 중복 전송을 막는다. cleanup 에서 observer.disconnect() + message 리스너 해제 + host.replaceChildren() 으로 글 이동 시 iframe 중복을 막는다. 배치: 글 상세의 PostNav(이전/다음) 아래 max-w-[68ch] border-t 섹션(h2 \"댓글\", aria-label=\"댓글\")이며 getGiscusConfig() 가 null 이면 서버에서 섹션째 렌더하지 않는다. 검증: 글 상세는 여전히 SSG(●) 8건, 환경변수 빈 값 빌드도 성공, 브라우저에서 다크↔라이트 전환 시 iframe 내부까지 함께 전환·글 이동 후 iframe 1개·375px 가로 스크롤 없음·조회수(step 0) 정상."
     }
   ],
