@@ -17,7 +17,8 @@
     },
     {
       "dir": "blog-3-comments-and-views",
-      "status": "pending"
+      "status": "error",
+      "failed_at": "2026-08-12T18:33:46+0900"
     }
   ]
 }

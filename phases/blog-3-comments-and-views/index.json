@@ -5,7 +5,7 @@
     {
       "step": 0,
       "name": "view-counts",
-      "status": "error",
+      "status": "completed",
       "started_at": "2026-08-12T18:08:38+0900",
       "events": [
         {
@@ -29,10 +29,15 @@
           "status": "error",
           "attempt": 3,
           "error": "Step did not update status"
+        },
+        {
+          "at": "2026-08-12T20:45:00+0900",
+          "status": "completed",
+          "note": "1차 시도(18분)가 작업을 완료했으나 Claude 세션이 API 연결 오류(ENOTFOUND)로 죽어 상태 기록에 실패했다. 재시도 2·3회도 같은 네트워크 장애로 즉시 종료. 네트워크 복구 후 AC 전량·API 동작(경로순회 400 차단 포함)·브라우저 표시·세션당 1회 증가를 재검증하고 수동으로 completed 로 복구했다."
         }
       ],
-      "error_message": "[3회 시도 후 실패] Step did not update status",
-      "failed_at": "2026-08-12T18:33:46+0900"
+      "completed_at": "2026-08-12T18:26:59+0900",
+      "summary": "조회수 계층: src/services/turso.ts 가 유일한 DB 경유점 — isValidPostId(id) (형식 + categories.ts 카테고리 소속 검증, getPost 런타임 파일접근 없음) · isViewTrackingEnabled() · incrementView(postId)->number · getView(postId)->number · getViews(postIds)->Record<string,number> (반환되지 않은 글은 mergeViewRows 로 0 채움). 환경변수 없으면 예외 대신 0 을 반환하고 조용히 비활성화된다. 스키마 post_views(post_id TEXT PRIMARY KEY, count INTEGER NOT NULL, updated_at TEXT) 를 모듈 수준 Promise 캐시로 프로세스당 1회만 CREATE TABLE IF NOT EXISTS. API: src/app/api/views/route.ts (force-dynamic) — POST body {postId} 로 증가, GET ?id= 로 증가 없이 조회, 잘못된 형식·카테고리는 400. post_id 규약은 {category}/{slug}. UI: src/components/post/ViewCount.tsx 가 sessionStorage 키 `viewed:{postId}` 로 세션당 1회만 증가시키고 실패 시 null 을 렌더한다. 글 상세 메타 줄(발행일·읽기시간 옆)에 연결됨. 글 상세는 여전히 SSG(●) 이며 동적 라우트는 /api/views 하나뿐이다."
     },
     {
       "step": 1,
