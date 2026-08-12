@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { DARK_CLASS, DARK_MEDIA_QUERY, THEME_STORAGE_KEY } from "@/lib/theme";
 import "./globals.css";
 
@@ -22,7 +24,10 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI 동향 블로그",
+  title: {
+    default: "AI 동향 블로그",
+    template: "%s | AI 동향 블로그",
+  },
   description:
     "HuggingFace 블로그·arXiv 논문 등 영문 AI 최신 동향을 한글 요약으로 정리합니다.",
 };
@@ -44,7 +49,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full flex flex-col bg-bg text-body font-sans">
-        {children}
+        <SiteHeader />
+        <main className="flex-1">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );

@@ -52,7 +52,21 @@
     {
       "step": 2,
       "name": "layout-shell",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-12T15:04:08+0900",
+      "completed_at": "2026-08-12T15:11:50+0900",
+      "summary": "레이아웃 셸 4종 생성 — src/components/layout/{SiteHeader,SiteFooter,ThemeToggle,Container}.tsx. Container=max-w-6xl mx-auto px-5 md:px-8 (children 만 받음). SiteHeader 는 usePathname 활성표시 때문에 유일한 \"use client\" (flex-wrap 2행 → 375px 가로스크롤 없음, nav aria-label=\"카테고리\", 활성 링크 text-accent + aria-current=\"page\", `/{slug}` 와 `/{slug}/...` 둘 다 활성). SiteFooter 는 서버 컴포넌트 — © 연도는 Intl timeZone Asia/Seoul, 출처 정책 한 줄, /rss.xml 링크(파일은 다음 phase). ThemeToggle 은 lib/theme 의 DARK_CLASS·setTheme 재사용 + useSyncExternalStore(getServerSnapshot=null) 로 하이드레이션 불일치 회피 — React 19 의 react-hooks/set-state-in-effect 린트가 useEffect+setState 마운트 패턴을 막으므로 이 방식이 필수다. 테마의 소재지는 <html>.dark 클래스 하나이며 인라인 스크립트가 페인트 전에 확정(FOUC 없음, 실측: 스크립트 offset 1904 < <body> 2233). 카테고리 계약: src/lib/categories.ts 가 단일 진실 공급원 — CategorySlug 유니온 · Category{slug,name,description} · CATEGORIES(hf-blog/papers/notes, PRD 표 그대로) · categoryHref(category)=`/${slug}` · getCategory(slug). 헤더·푸터·홈 어디에도 slug·이름 하드코딩 없음. layout.tsx 은 metadata.title{default,template:\"%s | AI 동향 블로그\"} + SiteHeader/main.flex-1/SiteFooter 조립 (step1 폰트·테마 스크립트 그대로 유지). page.tsx 는 제목+한 줄 소개+카테고리 카드 3개로 축소. 테스트 +11 (categories.test.ts 6 · SiteHeader.test.tsx 4 는 CATEGORIES 순회 검증, jest-dom 미설정이라 순수 DOM 단언 사용) → 총 17 통과. 부수 발견: next dev 가 CLAUDE.md 에 nextjs-agent-rules 블록을 자동 추가하므로 next.config.ts 에 agentRules:false 를 넣어 차단함 (CLAUDE.md 는 매 step 주입되는 가드레일).",
+      "events": [
+        {
+          "at": "2026-08-12T15:04:08+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-12T15:11:50+0900",
+          "status": "completed",
+          "attempt": 1
+        }
+      ]
     }
   ],
   "created_at": "2026-08-12T14:56:25+0900"
