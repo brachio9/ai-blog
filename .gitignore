@@ -4,6 +4,14 @@ out/
 next-env.d.ts
 tsconfig.tsbuildinfo
 
+# 비밀값 — .env.example 만 커밋한다.
+# 하네스(scripts/execute.py)가 매 step 종료 시 `git add -A` 로 커밋하므로
+# 이 항목이 없으면 토큰이 그대로 올라간다. 레포는 Giscus 때문에 public 이다.
+.env
+.env.*
+!.env.example
+.vercel
+
 # phase execution outputs
 phases/**/phase*-output.json
 phases/**/step*-output.json
