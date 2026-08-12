@@ -12,6 +12,9 @@ import { MdxTable, MdxTd, MdxTh } from "./Table";
 /** 다이어그램이 있는 글에서만 청크를 내려받게 한다 (mermaid 는 무겁다). */
 const Diagram = dynamic(() => import("./Diagram"));
 
+/** 차트가 있는 글에서만 청크를 내려받게 한다 (recharts 는 무겁다). */
+const Chart = dynamic(() => import("./Chart"));
+
 /** MDX 스코프에 주입하는 기본 컴포넌트. 컴파일은 src/lib/mdx.ts 하나가 담당한다. */
 export const MDX_COMPONENTS: MDXComponents = {
   a: MdxAnchor,
@@ -25,6 +28,7 @@ export const MDX_COMPONENTS: MDXComponents = {
   th: MdxTh,
   td: MdxTd,
   Callout,
+  Chart,
   Diagram,
 };
 

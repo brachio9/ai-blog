@@ -65,6 +65,29 @@ $$
 \\mathrm{Attention}(Q, K, V) = \\mathrm{softmax}\\!\\left(\\frac{QK^{\\top}}{\\sqrt{d_k}}\\right) V
 $$
 
+## 차트
+
+계열이 여럿이면 차트 색을 --chart-1 부터 순서대로 돌려 쓴다. 다크 전환 시 축·툴팁까지 함께 바뀐다.
+
+<Chart
+  kind="bar"
+  xKey="model"
+  data='[{"model":"Llama 3.1 405B","mmlu":88.6,"gsm8k":96.8},{"model":"Mistral Large 2","mmlu":84.0,"gsm8k":93.0},{"model":"Qwen2.5 72B","mmlu":86.1,"gsm8k":95.8}]'
+  series='[{"key":"mmlu","label":"MMLU"},{"key":"gsm8k","label":"GSM8K"}]'
+  yLabel="점수"
+  caption="공개 모델 벤치마크 점수 (자리 수치)"
+/>
+
+<Chart
+  kind="line"
+  xKey="quarter"
+  data='[{"quarter":"24Q1","open":12,"closed":7},{"quarter":"24Q2","open":18,"closed":9},{"quarter":"24Q3","open":27,"closed":11},{"quarter":"24Q4","open":31,"closed":14}]'
+  series='[{"key":"open","label":"공개 가중치"},{"key":"closed","label":"비공개"}]'
+  yLabel="모델 수"
+  height="300"
+  caption="분기별 공개 모델 수 (자리 수치)"
+/>
+
 ## 다이어그램
 
 \`\`\`mermaid
