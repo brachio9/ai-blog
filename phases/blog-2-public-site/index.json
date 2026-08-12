@@ -78,7 +78,7 @@
       "name": "search-and-feeds",
       "status": "completed",
       "started_at": "2026-08-12T17:44:43+0900",
-      "completed_at": "2026-08-12T18:05:12+0900",
+      "completed_at": "2026-08-12T17:57:44+0900",
       "summary": "검색·RSS·sitemap·OG 를 전부 빌드 타임 정적 산출물로 붙였다. 추가 라우트: /rss.xml (src/app/rss.xml/route.ts, force-static, application/xml) · /search-index.json (src/app/search-index.json/route.ts, force-static) · /sitemap.xml (src/app/sitemap.ts, MetadataRoute.Sitemap — 홈+카테고리3+글8+/search = 13 URL) · /robots.txt (src/app/robots.ts, /admin/ disallow + sitemap 위치) · /opengraph-image (사이트 기본) · /{category}/{slug}/opengraph-image (글별, generateStaticParams 를 이 파일에도 둬야 SSG 됨) · /search (src/app/(public)/search/page.tsx, ○ Static). src/lib/site.ts = SITE_URL (NEXT_PUBLIC_SITE_URL 을 trim 후 `||` 로 폴백 — .env.example 이 빈 문자열을 실어 보내므로 `??` 는 안 된다, 뒤 슬래시 제거, 기본값 http://localhost:3000) · SITE_NAME · SITE_DESCRIPTION 이고 루트 layout 이 metadataBase 로 쓴다. src/lib/feed.ts = buildSearchIndex(posts: Post[]) -> SearchDoc[] · buildRssXml(posts: Post[], siteUrl: string) -> string (RSS 2.0, language ko, lastBuildDate=최신 글, guid isPermaLink, pubDate RFC822, &<>\"' 이스케이프, 본문 없이 summary 까지만). SearchDoc = {id:`${category}/${slug}`, title, summary, category, slug, tags, publishedAt, readingMinutes, cover?} — 뒤 2개는 검색 대상이 아니라 PostList 재사용용이고 body 는 절대 넣지 않는다 (ADR-007, 인덱스 3.7KB/8건). 검색은 SearchClient(client)가 /search-index.json 을 한 번만 fetch 해 minisearch(fields: title·summary·tags, {prefix:true, combineWith:'AND'})로 돌린다 — 기본 토크나이저가 한글을 공백·문장부호로 끊으므로 prefix 만으로 '벤치마'→'벤치마크'가 잡힌다(실측 3건). 검색어는 URL(?q=)이 단일 진실 공급원이고 입력은 200ms 디바운스 후 router.replace, 서버 페이지는 searchParams 를 읽지 않고 <Suspense> 로만 감싼다. src/lib/pagination.ts 에 listHref(basePath, {tag?, page?}) 를 추가하고 PostList·TagFilter 가 이걸 쓴다 — basePath 에 이미 붙은 쿼리(`/search?q=…`)를 보존해 태그·페이지 이동에서 검색어가 날아가지 않는다. SiteHeader 에 /search 돋보기 링크 1개 추가(카테고리 nav 밖이라 활성 표시 로직은 그대로).",
       "events": [
         {
@@ -87,6 +87,11 @@
         },
         {
           "at": "2026-08-12T18:05:12+0900",
+          "status": "completed",
+          "attempt": 1
+        },
+        {
+          "at": "2026-08-12T17:57:44+0900",
           "status": "completed",
           "attempt": 1
         }
