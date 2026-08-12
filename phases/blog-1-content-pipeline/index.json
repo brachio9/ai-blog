@@ -52,7 +52,21 @@
     {
       "step": 2,
       "name": "math-and-diagrams",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-12T16:07:44+0900",
+      "completed_at": "2026-08-12T16:27:30+0900",
+      "summary": "수식·다이어그램: 수식은 remark-math + rehype-katex (rehypeKatex 를 rehypePrettyCode 앞에 둠) — 본문에 인라인 `$E=mc^2$`, 별행 `$$ ... $$` 로 쓰고 백슬래시 명령은 그대로 쓴다(`\\sqrt{d_k}`); katex CSS 는 src/lib/mdx.ts 가 `katex/dist/katex.min.css` 를 import 하고 globals.css 의 .mdx-body .katex-display 가 넘칠 때 자체 가로 스크롤한다. 다이어그램은 ```mermaid 코드펜스로 쓴다 (펜스 본문이 곧 mermaid 소스) — src/lib/mdx.ts 의 remarkMermaid 가 code[lang=mermaid] 를 <Diagram chart=\"...\"/> 로 바꾸고, MDX_COMPONENTS 에 next/dynamic 으로 등록된 src/components/mdx/Diagram.tsx('use client')가 useEffect 안에서 await import('mermaid') 로 지연 로드해 렌더한다(theme:'base' + 원시 CSS 변수 --surface/--border/--body/--heading/--accent, MutationObserver 로 .dark 감시해 테마 전환 시 재렌더, 문법 오류는 원문 <pre> 로 폴백하고 console.warn 만 남김). **주의: next-mdx-remote v6 는 기본값 blockJS 로 MDX 의 JS 표현식을 전부 제거한다 — `<Comp prop={...} />` 는 프롭이 조용히 사라지므로 컴포넌트에는 문자열 속성·children·코드펜스로만 값을 넘겨라.** 검증: /mdx-preview 에 수식·정상/오류 다이어그램 추가, src/lib/mdx.test.ts 에 수식·mermaid 펜스 테스트 추가.",
+      "events": [
+        {
+          "at": "2026-08-12T16:07:44+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-12T16:27:30+0900",
+          "status": "completed",
+          "attempt": 1
+        }
+      ]
     },
     {
       "step": 3,

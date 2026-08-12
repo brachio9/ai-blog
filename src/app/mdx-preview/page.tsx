@@ -55,6 +55,33 @@ export function latest(count: number) {
   단일 테마로 하이라이팅하면 색이 인라인으로 박혀 다크모드에서 바뀌지 않는다.
 </Callout>
 
+## 수식
+
+인라인 수식은 본문 행간을 깨지 않는다 — 어텐션 차원 $d_k$ 로 나누는 이유는 $\\sqrt{d_k}$ 만큼 분산이 커지기 때문이다.
+
+별행 수식은 좁은 화면에서 페이지를 밀어내지 않고 자체적으로 가로 스크롤된다.
+
+$$
+\\mathrm{Attention}(Q, K, V) = \\mathrm{softmax}\\!\\left(\\frac{QK^{\\top}}{\\sqrt{d_k}}\\right) V
+$$
+
+## 다이어그램
+
+\`\`\`mermaid
+graph LR
+  A["content/**/*.mdx"] --> B[gray-matter]
+  B --> C{zod 검증}
+  C -->|실패| D[빌드 실패]
+  C -->|통과| E["renderMdx"]
+  E --> F[정적 HTML]
+\`\`\`
+
+문법이 틀린 다이어그램은 페이지를 깨뜨리지 않고 원본 텍스트로 남는다.
+
+\`\`\`mermaid
+graph !!! 이건 문법 오류다
+\`\`\`
+
 ## 링크와 목록
 
 - 내부 링크: [홈으로](/)

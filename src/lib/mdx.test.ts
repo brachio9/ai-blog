@@ -35,6 +35,34 @@ describe("renderMdx", () => {
     expect(pre?.getAttribute("style")).toContain("--shiki-light");
   });
 
+  it("인라인 수식과 별행 수식을 조판한다", async () => {
+    const { container } = await compile(
+      renderMdx("질량-에너지 등가는 $E=mc^2$ 이다.\n\n$$\n\\sum_{i=1}^{n} x_i\n$$\n"),
+    );
+
+    // .katex 가 없으면 수식이 날것의 텍스트로 남았다는 뜻이다.
+    expect(container.querySelector(".katex")).not.toBeNull();
+    expect(container.querySelector(".katex-display")).not.toBeNull();
+  });
+
+  it("mermaid 코드펜스를 Diagram 으로 넘긴다", async () => {
+    const charts: string[] = [];
+    const Diagram = ({ chart }: { chart?: string }) => {
+      charts.push(chart ?? "");
+      return createElement("div");
+    };
+
+    const { container } = await compile(
+      renderMdx("```mermaid\ngraph LR\n  A --> B\n```\n", {
+        components: { Diagram },
+      }),
+    );
+
+    // 하이라이터가 아니라 Diagram 이 받아야 한다.
+    expect(charts).toEqual(["graph LR\n  A --> B"]);
+    expect(container.querySelector("pre")).toBeNull();
+  });
+
   it("options.components 가 기본 매핑을 덮어쓴다", async () => {
     const h2 = ({ children }: { children?: ReactNode }) =>
       createElement("h2", { "data-custom": "yes" }, children);
