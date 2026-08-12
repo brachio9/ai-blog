@@ -1,0 +1,10 @@
+{
+  "project": "AI 동향 블로그",
+  "phase": "public-site",
+  "steps": [
+    { "step": 0, "name": "intro-page", "status": "pending" },
+    { "step": 1, "name": "category-pages", "status": "pending" },
+    { "step": 2, "name": "post-page", "status": "pending" },
+    { "step": 3, "name": "search-and-feeds", "status": "pending" }
+  ]
+}
