@@ -1,0 +1,11 @@
+{
+  "project": "AI 동향 블로그",
+  "phase": "content-pipeline",
+  "steps": [
+    { "step": 0, "name": "content-schema", "status": "pending" },
+    { "step": 1, "name": "mdx-renderer", "status": "pending" },
+    { "step": 2, "name": "math-and-diagrams", "status": "pending" },
+    { "step": 3, "name": "charts", "status": "pending" },
+    { "step": 4, "name": "sample-content", "status": "pending" }
+  ]
+}
