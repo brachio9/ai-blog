@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
-import { SiteFooter } from "@/components/layout/SiteFooter";
-import { SiteHeader } from "@/components/layout/SiteHeader";
 import { DARK_CLASS, DARK_MEDIA_QUERY, THEME_STORAGE_KEY } from "@/lib/theme";
 import "./globals.css";
 
@@ -38,6 +36,10 @@ export const metadata: Metadata = {
  */
 const themeScript = `try{var t=localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)});if(t!=="light"&&t!=="dark"){t=matchMedia(${JSON.stringify(DARK_MEDIA_QUERY)}).matches?"dark":"light"}document.documentElement.classList.toggle(${JSON.stringify(DARK_CLASS)},t==="dark")}catch(e){}`;
 
+/**
+ * 문서 뼈대만 담는다 — 헤더·푸터는 `(public)` 레이아웃의 몫이다.
+ * App Router 레이아웃은 교체가 아니라 중첩이라, 여기에 두면 `/admin` 이 블로그 껍데기를 물려받는다.
+ */
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -49,9 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full flex flex-col bg-bg text-body font-sans">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
+        {children}
       </body>
     </html>
   );
