@@ -22,7 +22,7 @@ src/
 │   └── ui/                # 범용 프리미티브
 ├── types/                 # TypeScript 타입 정의
 ├── lib/                   # 유틸 + 콘텐츠 로더 + MDX 컴파일
-└── services/              # 외부 API 래퍼 — github.ts, turso.ts, r2.ts
+└── services/              # 외부 API 래퍼 — github.ts, turso.ts
 
 scripts/                   # 하네스 (execute.py) — 앱 코드 아님
 phases/                    # 하네스 phase 정의
@@ -49,7 +49,7 @@ content/**/*.mdx
 
 조회수: Client → /api/views → services/turso.ts → Turso
 댓글:   Client → Giscus iframe → GitHub Discussions
-이미지: R2 공개 도메인 → next/image
+이미지: public/uploads/ (레포에 커밋) → next/image
 ```
 
 **발행**

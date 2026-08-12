@@ -33,7 +33,7 @@ HuggingFace 블로그·arXiv 논문 등 영문 AI 최신 동향을 한글 요약
 7. 글 목록 대시보드 (발행/초안, 조회수)
 8. MDX 에디터 + 실시간 프리뷰
 9. GitHub 커밋으로 발행 → Vercel 자동 재배포
-10. 이미지 업로드 (Cloudflare R2)
+10. 이미지 업로드 — 글과 같은 GitHub 커밋으로 `public/uploads/` 에 저장 (ADR-005)
 
 ## MVP 제외 사항
 

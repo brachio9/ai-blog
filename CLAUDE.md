@@ -10,7 +10,7 @@ HuggingFace 블로그·arXiv 논문 등 영문 AI 동향을 한글 요약으로 
 - 콘텐츠: MDX 파일 (`content/**/*.mdx`) + `gray-matter` + `zod` 검증
 - MDX 컴파일: `next-mdx-remote/rsc` — `remark-gfm` · `remark-math`/`rehype-katex` · `rehype-pretty-code` · `rehype-slug`
 - 시각화: Recharts(차트) · Mermaid(다이어그램) — 둘 다 lazy-load
-- 저장소: GitHub(본문) · Turso/libSQL(조회수) · Cloudflare R2(이미지)
+- 저장소: GitHub(본문 **및 이미지**) · Turso/libSQL(조회수). Cloudflare R2 는 쓰지 않는다 (ADR-005)
 - 인증: Auth.js v5 GitHub OAuth — **반드시 `npm i next-auth@beta`** (`latest` 는 API 가 전혀 다른 v4 다) · 댓글: Giscus
 - 테스트: Vitest — 테스트 파일은 `src/**/*.test.{ts,tsx}` 에 둔다 (`vitest.config.ts` 의 include 범위)
 - 배포: Vercel
@@ -68,7 +68,7 @@ phase 는 서로 다른 세션에서 실행되므로 이름이 갈리면 마지�
 | `AUTH_SECRET` · `AUTH_GITHUB_ID` · `AUTH_GITHUB_SECRET` | Auth.js v5 | blog-3 |
 | `ADMIN_GITHUB_LOGINS` | 허용 계정 화이트리스트 (콤마 구분) | blog-3 |
 | `GITHUB_CONTENT_REPO` (`owner/repo`) · `GITHUB_CONTENT_BRANCH` · `GITHUB_CONTENT_TOKEN` | 발행 커밋 (fine-grained PAT) | blog-3 |
-| `R2_ACCOUNT_ID` · `R2_ACCESS_KEY_ID` · `R2_SECRET_ACCESS_KEY` · `R2_BUCKET` · `R2_PUBLIC_BASE_URL` | 이미지 업로드 | blog-3 |
+| ~~`R2_*`~~ | ~~이미지 업로드~~ — **쓰지 않는다.** 이미지도 레포에 커밋한다 (ADR-005) | — |
 
 `NEXT_PUBLIC_` 접두사는 **브라우저에 노출되어도 되는 값에만** 붙인다. 토큰·시크릿에 붙이지 마라.
 
