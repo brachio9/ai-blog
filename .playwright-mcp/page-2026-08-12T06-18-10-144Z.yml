@@ -1,0 +1,44 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "AI 동향 블로그" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - navigation "카테고리" [ref=e6]:
+        - link "허깅페이스 소식" [ref=e7] [cursor=pointer]:
+          - /url: /hf-blog
+        - link "최신 논문" [ref=e8] [cursor=pointer]:
+          - /url: /papers
+        - link "수집 자료" [ref=e9] [cursor=pointer]:
+          - /url: /notes
+      - button "라이트 모드로 전환" [ref=e10]:
+        - img [ref=e11]
+  - main [ref=e14]:
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - heading "AI 동향 블로그" [level=1] [ref=e18]
+        - paragraph [ref=e19]: HuggingFace 블로그와 arXiv 논문 등 영문 AI 최신 동향을 한글 요약으로 정리합니다.
+      - generic [ref=e20]:
+        - heading "카테고리" [level=2] [ref=e21]
+        - list [ref=e22]:
+          - listitem [ref=e23]:
+            - link "허깅페이스 소식 HuggingFace 블로그 글을 한글로 요약하고 원문 링크를 함께 답니다." [ref=e24] [cursor=pointer]:
+              - /url: /hf-blog
+              - generic [ref=e25]: 허깅페이스 소식
+              - generic [ref=e26]: HuggingFace 블로그 글을 한글로 요약하고 원문 링크를 함께 답니다.
+          - listitem [ref=e27]:
+            - link "최신 논문 arXiv 논문 리뷰. 수식과 도표로 핵심을 정리합니다." [ref=e28] [cursor=pointer]:
+              - /url: /papers
+              - generic [ref=e29]: 최신 논문
+              - generic [ref=e30]: arXiv 논문 리뷰. 수식과 도표로 핵심을 정리합니다.
+          - listitem [ref=e31]:
+            - link "수집 자료 따로 모아둔 개인 스크랩과 메모." [ref=e32] [cursor=pointer]:
+              - /url: /notes
+              - generic [ref=e33]: 수집 자료
+              - generic [ref=e34]: 따로 모아둔 개인 스크랩과 메모.
+  - contentinfo [ref=e35]:
+    - generic [ref=e37]:
+      - paragraph [ref=e38]: © 2026 AI 동향 블로그
+      - paragraph [ref=e39]: 외부 글을 요약·인용할 때는 원문 출처를 반드시 함께 표기합니다.
+      - link "RSS" [ref=e40] [cursor=pointer]:
+        - /url: /rss.xml
+  - alert [ref=e41]

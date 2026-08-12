@@ -53,6 +53,19 @@ CSS 변수로 정의하고 Tailwind 토큰으로 노출한다. 컴포넌트에 h
 
 계열 하나면 `accent` 만 쓴다. 색만으로 구분하지 말고 범례·직접 라벨을 함께 둔다.
 
+### ⚠ 런타임 JS 에서 색을 읽을 때 (Recharts·Mermaid 등)
+
+토큰은 두 겹으로 존재한다. **런타임에는 원시 변수를 읽어라.**
+
+| 계층 | 이름 | 런타임 조회 |
+|---|---|---|
+| 원시 (`:root` / `.dark`) | `--chart-1` · `--accent` · `--success` … | **항상 가능** |
+| Tailwind 노출 (`@theme inline`) | `--color-chart-1` · `--color-accent` … | 마크업에서 그 유틸리티를 실제로 쓸 때만 존재 |
+
+Tailwind v4 는 **사용되지 않는 `@theme` 변수를 빌드에서 제거한다.** 실제로 확인한 결과, 마크업에 등장하지 않는 `--color-chart-1` · `--color-success` · `--color-faint` 는 브라우저에서 빈 문자열로 조회된다.
+
+따라서 `getComputedStyle(el).getPropertyValue("--color-chart-1")` 은 **빈 값을 반환할 수 있다.** 차트·다이어그램에 색을 넘길 때는 `--chart-1` … `--chart-5`, `--accent`, `--muted`, `--border` 같은 **원시 변수명**을 쓴다. 테마 전환 시 값이 자동으로 바뀌므로 다크모드 대응도 이쪽이 옳다.
+
 ## 타이포그래피
 
 | 역할 | 폰트 | 비고 |
