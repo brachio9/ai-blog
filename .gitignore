@@ -8,3 +8,7 @@ tsconfig.tsbuildinfo
 phases/**/phase*-output.json
 phases/**/step*-output.json
 __pycache__
+.pytest_cache/
+
+# macOS
+.DS_Store

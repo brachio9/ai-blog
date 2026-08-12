@@ -36,6 +36,10 @@ DESTRUCTIVE_PATTERNS = [
     (r"\bsupabase\s+(projects\s+delete|db\s+reset)\b", "supabase 파괴적 명령"),
     (r"\baws\s+s3\s+rb\b.*--force", "aws s3 rb --force"),
     (r"\baws\s+rds\s+delete-db-instance\b", "aws rds delete-db-instance"),
+    (r"\bvercel\s+(remove|rm)\b", "vercel remove (배포/프로젝트 삭제)"),
+    (r"\bturso\s+db\s+(destroy|shell\s+\S+\s+[\"']?\s*DROP)\b", "turso db destroy"),
+    (r"\bwrangler\s+r2\s+bucket\s+delete\b", "wrangler r2 bucket delete"),
+    (r"\bwrangler\s+(d1\s+delete|delete)\b", "wrangler delete (Worker/D1 삭제)"),
 ]
 
 
