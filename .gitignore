@@ -20,3 +20,6 @@ __pycache__
 
 # macOS
 .DS_Store
+
+# 브라우저 검증 산출물 (Playwright MCP)
+.playwright-mcp/
