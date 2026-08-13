@@ -1,0 +1,12 @@
+{
+  "project": "초록 (AI 동향 사이트)",
+  "phase": "redesign",
+  "steps": [
+    { "step": 0, "name": "identity", "status": "pending" },
+    { "step": 1, "name": "tokens-and-type", "status": "pending" },
+    { "step": 2, "name": "post-index", "status": "pending" },
+    { "step": 3, "name": "discovery", "status": "pending" },
+    { "step": 4, "name": "data-surfacing", "status": "pending" },
+    { "step": 5, "name": "article-polish", "status": "pending" }
+  ]
+}
