@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { ComponentProps } from "react";
 
+import { ExternalLinkIcon } from "@/components/ui/icons";
+
 const EXTERNAL_PATTERN = /^https?:\/\//;
 
 const LINK_CLASS =
@@ -34,22 +36,12 @@ export function MdxAnchor({ href, children, ...props }: ComponentProps<"a">) {
   );
 }
 
-/** 외부 링크 표식. 출처 표기(SourceNote)도 같은 표식을 쓴다. */
+/**
+ * 링크 글자 뒤에 붙는 외부 표식 — 아이콘 자체는 icons.tsx 가 그리고 여기서는 붙는 자리만 정한다.
+ * 출처 표기(SourceNote)도 같은 표식을 쓴다.
+ */
 export function ExternalIcon() {
   return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="ml-0.5 inline-block align-baseline"
-    >
-      <path d="M14 4h6v6M20 4l-8.5 8.5M18 14v4.5A1.5 1.5 0 0 1 16.5 20h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10" />
-    </svg>
+    <ExternalLinkIcon size={16} className="ml-0.5 inline-block align-baseline" />
   );
 }

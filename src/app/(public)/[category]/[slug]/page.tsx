@@ -43,7 +43,7 @@ export async function generateMetadata(
   const { frontmatter } = post;
   const url = `/${post.category}/${post.slug}`;
 
-  // 루트 레이아웃의 title.template 이 " | AI 동향 블로그" 를 붙인다.
+  // 루트 레이아웃의 title.template 이 " | {SITE_NAME}" 을 붙인다.
   return {
     title: frontmatter.title,
     description: frontmatter.summary,

@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { SearchIcon } from "@/components/ui/icons";
 import { CATEGORIES, categoryHref } from "@/lib/categories";
+import { SITE_NAME } from "@/lib/site";
 
 import { Container } from "./Container";
 import { ThemeToggle } from "./ThemeToggle";
@@ -23,7 +25,7 @@ export function SiteHeader() {
             href="/"
             className="mr-auto text-base font-semibold tracking-tight text-heading transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-accent"
           >
-            AI 동향 블로그
+            {SITE_NAME}
           </Link>
 
           <nav aria-label="카테고리" className="flex items-center gap-x-5">
@@ -57,18 +59,7 @@ export function SiteHeader() {
                 : "text-muted hover:text-heading"
             }`}
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="M16.5 16.5L21 21" />
-            </svg>
+            <SearchIcon />
           </Link>
 
           <ThemeToggle />

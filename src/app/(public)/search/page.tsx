@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { Container } from "@/components/layout/Container";
 import { SearchClient } from "@/components/search/SearchClient";
 
-// 루트 레이아웃의 title.template 이 " | AI 동향 블로그" 를 붙인다.
+// 루트 레이아웃의 title.template 이 " | {SITE_NAME}" 을 붙인다.
 export const metadata: Metadata = {
   title: "검색",
   description: "글 제목·요약·태그에서 찾습니다.",

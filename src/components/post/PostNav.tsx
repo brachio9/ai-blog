@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ArrowLeftIcon, ArrowRightIcon } from "@/components/ui/icons";
 import type { Post } from "@/types/content";
 
 export interface PostNavProps {
@@ -67,37 +68,14 @@ function PostNavLink({
           isNext ? " justify-end" : ""
         }`}
       >
-        {isNext ? null : <ArrowIcon direction="previous" />}
+        {isNext ? null : <ArrowLeftIcon size={16} className="shrink-0" />}
         {label}
-        {isNext ? <ArrowIcon direction="next" /> : null}
+        {isNext ? <ArrowRightIcon size={16} className="shrink-0" /> : null}
       </span>
 
       <span className="mt-1 block text-base font-medium text-heading transition-colors group-hover:text-accent">
         {post.frontmatter.title}
       </span>
     </Link>
-  );
-}
-
-function ArrowIcon({ direction }: { direction: "previous" | "next" }) {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="shrink-0"
-    >
-      {direction === "next" ? (
-        <path d="M5 12h14M13 6l6 6-6 6" />
-      ) : (
-        <path d="M19 12H5M11 6l-6 6 6 6" />
-      )}
-    </svg>
   );
 }

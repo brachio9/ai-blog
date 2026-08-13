@@ -9,7 +9,8 @@ export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL?.trim() || "http://localhost:3000"
 ).replace(/\/+$/, "");
 
-export const SITE_NAME = "AI 동향 블로그";
+/** 사이트명의 유일한 소재지 — 헤더·푸터·metadata·RSS·OG 가 전부 여기를 읽는다. */
+export const SITE_NAME = "초록";
 
 export const SITE_DESCRIPTION =
-  "HuggingFace 블로그·arXiv 논문 등 영문 AI 최신 동향을 한글 요약으로 정리합니다.";
+  "HuggingFace 블로그와 arXiv 논문 등 영문 AI 자료를 한글로 추려 적습니다. 전문 번역이 아니라 요약이며, 원문 링크를 반드시 함께 답니다.";

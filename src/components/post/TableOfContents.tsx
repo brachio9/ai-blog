@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { ChevronDownIcon, ChevronUpIcon } from "@/components/ui/icons";
 import type { TocHeading } from "@/lib/toc";
 
 /** 제목이 하나뿐인 글에서 목차는 본문을 한 번 더 적는 것뿐이다. */
@@ -72,7 +73,11 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
         className="flex w-full items-center justify-between rounded border border-border px-4 py-2 text-sm text-heading transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-accent lg:hidden"
       >
         <span>목차</span>
-        <ChevronIcon isOpen={isOpen} />
+        {isOpen ? (
+          <ChevronUpIcon size={16} className="text-muted" />
+        ) : (
+          <ChevronDownIcon size={16} className="text-muted" />
+        )}
       </button>
 
       <p className="hidden text-sm font-medium text-heading lg:block">목차</p>
@@ -103,24 +108,5 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
         </ol>
       </nav>
     </aside>
-  );
-}
-
-function ChevronIcon({ isOpen }: { isOpen: boolean }) {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="text-muted"
-    >
-      <path d={isOpen ? "M18 15l-6-6-6 6" : "M6 9l6 6 6-6"} />
-    </svg>
   );
 }

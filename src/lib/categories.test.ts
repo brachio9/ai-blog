@@ -22,6 +22,23 @@ describe("CATEGORIES", () => {
       expect(category.description).not.toBe("");
     }
   });
+
+  it("짧은 이름은 밀집 목록의 구분 열에 들어갈 만큼 짧다", () => {
+    for (const category of CATEGORIES) {
+      expect(category.shortName.length).toBeGreaterThanOrEqual(1);
+      expect(category.shortName.length).toBeLessThanOrEqual(4);
+    }
+  });
+
+  it("색 토큰 키가 세 종류 안에 있고 서로 겹치지 않는다", () => {
+    // 겹치면 목록에서 두 카테고리가 같은 색으로 보인다 — 색이 정보 부호 노릇을 못 한다.
+    const accents = CATEGORIES.map((category) => category.accent);
+
+    for (const accent of accents) {
+      expect(["hf", "paper", "note"]).toContain(accent);
+    }
+    expect(new Set(accents).size).toBe(accents.length);
+  });
 });
 
 describe("categoryHref", () => {

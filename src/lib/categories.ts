@@ -5,11 +5,18 @@
  */
 export type CategorySlug = "hf-blog" | "papers" | "notes";
 
+/** 카테고리 색 토큰 키. globals.css 의 `--cat-*` 와 짝을 이룬다. */
+export type CategoryAccent = "hf" | "paper" | "note";
+
 export interface Category {
+  /** URL·디렉토리 이름. 발행된 글 주소·RSS·sitemap 이 걸려 있어 바꿀 수 없다. */
   slug: CategorySlug;
-  /** 화면 표기 (한글) */
+  /** 카테고리 페이지 제목용 (예: "최신 논문") */
   name: string;
-  /** 카테고리 페이지 상단 설명 */
+  /** 밀집 목록의 구분 열용. 2~3자 (예: "논문") */
+  shortName: string;
+  /** 색 토큰 키. globals.css 의 --cat-* 와 짝을 이룬다 */
+  accent: CategoryAccent;
   description: string;
 }
 
@@ -17,18 +24,26 @@ export const CATEGORIES: readonly Category[] = [
   {
     slug: "hf-blog",
     name: "허깅페이스 소식",
+    shortName: "소식",
+    accent: "hf",
     description:
-      "HuggingFace 블로그 글을 한글로 요약하고 원문 링크를 함께 답니다.",
+      "HuggingFace 블로그의 모델·데이터셋·라이브러리 발표를 한글로 추려 적고 원문 링크를 답니다.",
   },
   {
     slug: "papers",
     name: "최신 논문",
-    description: "arXiv 논문 리뷰. 수식과 도표로 핵심을 정리합니다.",
+    shortName: "논문",
+    accent: "paper",
+    description:
+      "arXiv 논문을 읽고 문제 설정·방법·결과를 한글로 정리합니다. 수식과 도표 비중이 높습니다.",
   },
   {
     slug: "notes",
     name: "수집 자료",
-    description: "따로 모아둔 개인 스크랩과 메모.",
+    shortName: "메모",
+    accent: "note",
+    description:
+      "글 한 편으로 묶기 전의 스크랩과 메모. 짧은 인용과 링크 위주입니다.",
   },
 ];
 

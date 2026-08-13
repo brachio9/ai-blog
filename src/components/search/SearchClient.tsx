@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { PostList } from "@/components/post/PostList";
+import { SearchIcon } from "@/components/ui/icons";
 import type { SearchDoc } from "@/lib/feed";
 
 /** 빌드 타임에 만들어진 정적 인덱스. 서버도 DB 도 쓰지 않는다 (ADR-007). */
@@ -141,19 +142,7 @@ export function SearchClient() {
           검색어
         </label>
         <div className="flex items-center gap-2 rounded border border-border bg-surface px-3 py-2 focus-within:outline-2 focus-within:outline-accent">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            className="shrink-0 text-muted"
-            aria-hidden="true"
-          >
-            <circle cx="11" cy="11" r="7" />
-            <path d="M16.5 16.5L21 21" />
-          </svg>
+          <SearchIcon className="shrink-0 text-muted" />
           <input
             id="search-query"
             type="search"

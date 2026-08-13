@@ -22,7 +22,7 @@ export async function generateMetadata(
     return {};
   }
 
-  // 루트 레이아웃의 title.template 이 " | AI 동향 블로그" 를 붙인다.
+  // 루트 레이아웃의 title.template 이 " | {SITE_NAME}" 을 붙인다.
   return { title: found.name, description: found.description };
 }
 

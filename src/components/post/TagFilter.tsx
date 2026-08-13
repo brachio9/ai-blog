@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { CloseIcon } from "@/components/ui/icons";
 import { listHref } from "@/lib/pagination";
 
 export interface TagFilterProps {
@@ -50,19 +51,7 @@ export function TagFilter({ tags, activeTag, basePath }: TagFilterProps) {
               >
                 <span>{tag}</span>
                 <span className="text-faint">{count}</span>
-                {isActive ? (
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    aria-hidden="true"
-                  >
-                    <path d="M6 6l12 12M18 6L6 18" />
-                  </svg>
-                ) : null}
+                {isActive ? <CloseIcon size={16} /> : null}
                 {isActive ? <span className="sr-only">필터 해제</span> : null}
               </Link>
             </li>

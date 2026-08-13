@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/Container";
 import { PostCard } from "@/components/post/PostCard";
 import { CATEGORIES, categoryHref } from "@/lib/categories";
 import { getPostsByCategory } from "@/lib/content/posts";
+import { SITE_NAME } from "@/lib/site";
 
 const POSTS_PER_CATEGORY = 3;
 
@@ -19,11 +20,12 @@ export default function Home() {
         {/* 히어로만 중앙 정렬 예외다 (docs/UI_GUIDE.md 레이아웃). */}
         <section className="mx-auto max-w-[42ch] text-center md:py-8">
           <h1 className="text-5xl font-semibold tracking-tight text-heading md:text-6xl">
-            영문 AI 동향을 한글로 읽는다
+            {SITE_NAME}
           </h1>
           <p className="mt-6 text-[1.0625rem] leading-[1.75] text-body">
-            HuggingFace 블로그와 arXiv 논문에서 지금 볼 만한 것만 골라 요약합니다.
-            원문 링크는 언제나 함께 답니다.
+            HuggingFace 블로그와 arXiv 논문을 읽고 한글로 추려 적습니다. 논문 맨
+            앞의 초록(抄錄)이 그렇듯 전문 번역이 아니라 요점만 남긴 요약이고,
+            원문 링크는 모든 글에 답니다.
           </p>
         </section>
 
