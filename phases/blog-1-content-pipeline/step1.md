@@ -114,7 +114,8 @@ console.log('MDX 컴포넌트 파일 OK');
 node -e "
 const fs=require('fs'), path=require('path');
 const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):[path.join(d,e.name)]);
-const offenders=walk('src').filter(f=>/\.tsx?$/.test(f) && f!=='src/lib/mdx.ts' && /next-mdx-remote/.test(fs.readFileSync(f,'utf8')));
+// import 만 잡는다. 단순 substring 이면 next-mdx-remote 의 동작을 설명하는 주석까지 위반으로 걸린다.
+const offenders=walk('src').filter(f=>/\.tsx?$/.test(f) && f!=='src/lib/mdx.ts' && /from [\"']next-mdx-remote/.test(fs.readFileSync(f,'utf8')));
 if(offenders.length) throw new Error('ADR-003 위반 — src/lib/mdx.ts 외부에서 next-mdx-remote 를 직접 import: '+offenders.join(', '));
 console.log('MDX 컴파일 진입점 단일화 OK');
 "

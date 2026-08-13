@@ -103,8 +103,10 @@ const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?
 const files=walk('.next/static').filter(f=>f.endsWith('.css'));
 if(!files.length)throw new Error('빌드 산출 CSS 를 찾지 못했다');
 const css=files.map(f=>fs.readFileSync(f,'utf8')).join('');
-if(!css.includes('where(.dark'))throw new Error('빌드 산출 CSS 에 dark 배리언트가 없다');
-console.log('빌드 산출 dark 배리언트 OK ('+files.length+' 파일 검사)');
+// 테마는 .dark 의 토큰 재정의가 구동한다. `dark:` 유틸리티를 마크업에서 쓰지 않으면
+// Tailwind v4 는 그 배리언트를 아예 산출하지 않으므로 where(.dark 유무로 판정하면 안 된다.
+if(!/\.dark\{[^}]*--bg:/.test(css))throw new Error('빌드 산출 CSS 에 .dark 토큰 재정의가 없다 — 다크모드가 동작하지 않는다');
+console.log('빌드 산출 .dark 토큰 재정의 OK ('+files.length+' 파일 검사)');
 "
 ```
 
