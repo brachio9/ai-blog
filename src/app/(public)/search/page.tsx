@@ -15,6 +15,7 @@ export const metadata: Metadata = {
  * 검색은 클라이언트에서만 돈다 (ADR-007).
  * 여기서 searchParams 를 읽으면 페이지가 통째로 동적이 되어 정적 생성이 사라진다 —
  * 검색어(`?q=`)는 <Suspense> 안의 SearchClient 가 useSearchParams 로 읽는다.
+ * 결과 목록은 SearchClient → PostList → PostTable 로, 카테고리 목록과 같은 밀집 표를 쓴다.
  */
 export default function SearchPage() {
   return (

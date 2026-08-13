@@ -5,9 +5,9 @@ import { useSearchParams } from "next/navigation";
 
 import type { CategorySlug } from "@/lib/categories";
 import { collectTags, filterByTag, listHref, paginate } from "@/lib/pagination";
-import type { Post } from "@/types/content";
+import type { PaperMeta, Post } from "@/types/content";
 
-import { PostCard } from "./PostCard";
+import { PostTable } from "./PostTable";
 import { TagFilter } from "./TagFilter";
 
 export interface PostListItem {
@@ -18,7 +18,8 @@ export interface PostListItem {
   publishedAt: string;
   tags: string[];
   readingMinutes: number;
-  cover?: string;
+  /** 논문이면 식별자 열에 arXiv ID 가 나온다 */
+  paper?: PaperMeta;
 }
 
 export interface PostListProps {
@@ -29,11 +30,13 @@ export interface PostListProps {
    */
   basePath: string;
   showCategory?: boolean;
+  showIdentifier?: boolean;
+  reserveViews?: boolean;
 }
 
 /**
- * PostCard 의 계약은 Post 다. 목록은 본문(body)을 클라이언트로 넘기지 않으므로
- * 카드가 읽는 필드만 채워 되돌린다 — 카드를 새로 만들지 않기 위한 어댑터다.
+ * PostTable 의 계약은 Post 다. 목록은 본문(body)을 클라이언트로 넘기지 않으므로
+ * 표가 읽는 필드만 채워 되돌린다 — 표를 새로 만들지 않기 위한 어댑터다.
  */
 function toPost(item: PostListItem): Post {
   return {
@@ -43,13 +46,13 @@ function toPost(item: PostListItem): Post {
       summary: item.summary,
       publishedAt: item.publishedAt,
       tags: item.tags,
-      cover: item.cover,
+      paper: item.paper,
       draft: false,
     },
     slug: item.slug,
     category: item.category,
     body: "",
-    // 원본 경로는 에러 메시지용이라 목록에는 넘어오지 않는다. PostCard 도 읽지 않는다.
+    // 원본 경로는 에러 메시지용이라 목록에는 넘어오지 않는다. PostTable 도 읽지 않는다.
     filePath: "",
     readingMinutes: item.readingMinutes,
   };
@@ -60,7 +63,13 @@ function toPost(item: PostListItem): Post {
  * 서버에서 searchParams 를 읽으면 페이지가 통째로 동적이 되어 정적 생성이 사라진다 (실측).
  * 이 컴포넌트를 쓰는 쪽은 반드시 <Suspense> 로 감싼다.
  */
-export function PostList({ items, basePath, showCategory }: PostListProps) {
+export function PostList({
+  items,
+  basePath,
+  showCategory,
+  showIdentifier,
+  reserveViews,
+}: PostListProps) {
   const searchParams = useSearchParams();
 
   // get() 은 인코딩된 한글 태그를 자동으로 디코딩해 준다.
@@ -96,13 +105,12 @@ export function PostList({ items, basePath, showCategory }: PostListProps) {
             : "아직 올라온 글이 없습니다."}
         </p>
       ) : (
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((item) => (
-            <li key={`${item.category}/${item.slug}`}>
-              <PostCard post={toPost(item)} showCategory={showCategory} />
-            </li>
-          ))}
-        </ul>
+        <PostTable
+          posts={visible.map(toPost)}
+          showCategory={showCategory}
+          showIdentifier={showIdentifier}
+          reserveViews={reserveViews}
+        />
       )}
 
       {!isOutOfRange && totalPages > 1 ? (

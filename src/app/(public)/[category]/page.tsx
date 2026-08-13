@@ -26,7 +26,7 @@ export async function generateMetadata(
   return { title: found.name, description: found.description };
 }
 
-/** 본문(body)은 카드에 쓰이지 않는다. 직렬화하면 HTML 만 커진다. */
+/** 본문(body)은 목록에 쓰이지 않는다. 직렬화하면 HTML 만 커진다. */
 function toListItem(post: Post): PostListItem {
   return {
     slug: post.slug,
@@ -36,14 +36,15 @@ function toListItem(post: Post): PostListItem {
     publishedAt: post.frontmatter.publishedAt,
     tags: post.frontmatter.tags,
     readingMinutes: post.readingMinutes,
-    cover: post.frontmatter.cover,
+    paper: post.frontmatter.paper,
   };
 }
 
 /**
  * 최상위 동적 세그먼트라 알 수 없는 경로를 전부 삼킨다 — 반드시 notFound() 로 걸러낸다.
  * 쿼리 파라미터(tag·page)는 여기서 읽지 않는다. 서버에서 읽는 순간 페이지가 통째로 동적이 되어
- * 정적 생성이 사라진다 (실측). 필터·페이지네이션은 PostList 가 클라이언트에서 처리한다.
+ * 정적 생성이 사라진다 (실측). 필터·페이지네이션은 PostList 가 클라이언트에서 처리하고,
+ * 목록 자체는 PostList 안의 PostTable(밀집 표)이 그린다.
  */
 export default async function CategoryPage(props: PageProps<"/[category]">) {
   const { category } = await props.params;
@@ -53,6 +54,8 @@ export default async function CategoryPage(props: PageProps<"/[category]">) {
   }
 
   const items = getPostsByCategory(found.slug).map(toListItem);
+  // 식별자 열은 arXiv ID 가 있는 목록에서만 쓴다 — 카테고리 slug 를 여기 박지 않는다.
+  const showIdentifier = items.some((item) => item.paper !== undefined);
 
   return (
     <Container>
@@ -68,7 +71,12 @@ export default async function CategoryPage(props: PageProps<"/[category]">) {
 
         {/* 쿼리 파라미터를 읽는 클라이언트 목록은 Suspense 없이는 정적 생성이 실패한다. */}
         <Suspense fallback={null}>
-          <PostList items={items} basePath={categoryHref(found)} />
+          <PostList
+            items={items}
+            basePath={categoryHref(found)}
+            showIdentifier={showIdentifier}
+            reserveViews
+          />
         </Suspense>
       </div>
     </Container>

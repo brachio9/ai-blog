@@ -44,7 +44,21 @@
     {
       "step": 2,
       "name": "post-index",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-13T20:31:46+0900",
+      "completed_at": "2026-08-13T20:50:00+0900",
+      "summary": "목록을 카드 그리드에서 밀집 표로 교체하고 첫 화면을 콘텐츠에 돌려줬다. (1) src/components/post/PostTable.tsx 신설 — PostTableProps { posts: Post[]; showCategory?: boolean; showIdentifier?: boolean; reserveViews?: boolean; caption?: string (기본 '글 목록'. 홈에 표가 둘이라 접근 이름을 구분하려고 더한 프롭이다) }. 진짜 table + sr-only caption + th scope=col 이고, 열은 날짜(7rem, mono tabular-nums) · 구분(3.5rem, showCategory) · 제목(가변, truncate) · 식별자|태그(9rem — showIdentifier 면 arXiv:{frontmatter.paper.arxivId}, 아니면 태그 2개를 · 로 이어 붙인다) · 읽힘(4rem) · 조회(4.5rem, reserveViews) 다. 카테고리는 accent 키 → ACCENT_TEXT/ACCENT_RULE 맵으로 tr 좌측 2px 규칙선과 shortName 라벨 텍스트를 함께 낸다(색만으로 알리지 않는다). ACCENT_TEXT 는 export 해서 홈이 재사용한다. (2) 조회수 열 자리 확보 방식 — reserveViews 가 켜지면 th(w-[4.5rem] text-right)와 빈 td 를 함께 렌더한다. table-fixed 라 폭은 머리글에서 정해지고 td 는 비어 있어도 열이 유지되므로, step 4 는 이 빈 td 안만 채우면 되고 레이아웃은 흔들리지 않는다. 지금 켠 곳은 홈 최근 글 표와 카테고리 페이지(PostList reserveViews)이고 검색 결과는 껐다. (3) 행 높이 편차 0 을 위해 실측으로 두 가지를 고쳤다: 셀 정렬 align-baseline → align-middle (제목의 truncate 가 overflow:hidden 이라 기준선이 셀 아래 모서리로 잡혀 행이 26px 늘어났다), 메타 텍스트에 whitespace-nowrap + 날짜 열 6rem → 7rem (날짜가 두 줄로 접혔다). tr 은 border-y 로 위아래 모두 준다 — 아래만 주면 collapse 된 머리글 경계가 첫 행에만 0.5px 걸려 45 vs 44.5 로 갈린다. (4) 모바일(<md)은 열을 접는다 — thead 는 hidden md:table-header-group, 메타 열은 hidden md:table-cell, 제목 셀 안에 md:hidden 메타 한 줄(날짜 · 구분 · 식별자 · 읽힘)을 둔다. 가로 스크롤 없음. (5) 홈 구역 구성은 셋을 서로 다르게 했다 — 마스트헤드(좌측 정렬 text-3xl/md:text-4xl, 높이 210px 로 화면 1/4 이내) / 1. 최근 글: 카테고리를 섞은 한 표, 라벨형 소제목 + 전체 N편, showCategory + reserveViews / 2. 최신 논문: h2 text-xl + 설명 + 전체 보기, showIdentifier (구분 열도 조회 열도 없다) / 3. 소식·메모: 표가 아니라 md:grid-cols-2 2열의 한 줄 목록(날짜 + 제목만), 구역 제목을 카테고리 색으로. 논문 외 카테고리는 CATEGORIES 에서 자동으로 3구역에 붙는다. (6) PostList 는 태그 필터·페이지네이션 껍데기로 유지하고 카드 렌더만 PostTable 로 갈아 끼웠다 — pagination.ts(filterByTag/paginate/collectTags/listHref) 재사용, useSearchParams + Suspense 구조 그대로. props 에 showIdentifier·reserveViews 를 추가하고 PostListItem 은 cover 를 빼고(표가 쓰지 않는다) paper?: PaperMeta 를 넣었다. 카테고리 페이지는 items.some(paper) 로 식별자 열을 켜므로 slug 하드코딩이 없다. (7) PostCard.tsx·PostCard.test.tsx 삭제, 참조 0. 테스트 273 → 277 (PostTable.test.tsx 7건: 제목 링크·KST 날짜 / 색과 함께 shortName 텍스트 / showIdentifier 일 때만 arXiv ID / 요약 미렌더 / reserveViews 조회 열 존재와 빈 값 / reserveViews 끄면 열 자체 없음 / caption 접근 이름). (8) 1440x1000 프로덕션 실측 — 첫 표 top 327px(스크롤 없이 보인다), 행 높이 9행 전부 45.00px 로 편차 0, 홈 문서 높이 1919 → 1317px, 375px 에서 scrollWidth 375 = clientWidth(가로 밀림 0, 행 높이 67.5px 균일), 카테고리 3색은 라이트 rgb(138,90,0)/rgb(15,107,99)/rgb(168,68,42) · 다크 rgb(217,164,65)/rgb(79,179,165)/rgb(224,122,85) 로 양쪽 다 구분된다. ?tag=MoE → 1건, 검색 벤치마크 → 3건 정상. (9) AC 는 lint·build·test 277 passed·typecheck·PostTable 규약·목록 화면 적용·죽은 참조 없음·pytest 71 passed 통과. SSG 카운트 AC 만 9건으로 실패하는데 같은 명령이 이 step 이전 HEAD 에서도 9건이라 회귀가 아니다 — Next 16 이 경로 목록을 3개 + [+N more paths] 로 접어 찍어서 정규식이 그룹당 3개까지만 잡는다(3 카테고리 + 3 글 + 3 OG = 9, 10 도달 불가). 실제 정적 생성은 .next/prerender-manifest.json 기준 29개 라우트(/ · /search · /hf-blog · /papers · /notes · 글 8건 · OG 8건 전부)로 유지됐고 동적은 admin·api 뿐이다. (10) 발견(미수정, 범위 밖): src/lib/feed.ts 의 SearchDoc.cover 는 PostCard 가 유일한 소비자였어서 이제 아무도 읽지 않는 검색 인덱스 payload 다. feed.ts 는 이 step 의 파일 목록 밖이라 두었다.",
+      "events": [
+        {
+          "at": "2026-08-13T20:31:46+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-13T20:50:00+0900",
+          "status": "completed",
+          "attempt": 1
+        }
+      ]
     },
     {
       "step": 3,
