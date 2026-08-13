@@ -75,6 +75,29 @@ const frontmatterSchema = z
     }
   });
 
+export interface FrontmatterIssue {
+  /** "publishedAt" · "source.url" — 중첩 필드는 점으로 잇는다 */
+  field: string;
+  message: string;
+}
+
+/**
+ * 검증만 하고 던지지 않는다. 관리자 에디터가 필드별 오류를 화면에 그리는 데 쓴다 —
+ * 저장 전에 무엇이 왜 틀렸는지 보여줘야 하므로 예외 메시지를 되파싱할 수는 없다.
+ * 스키마는 위의 frontmatterSchema 하나뿐이다 (에디터가 규칙을 다시 적지 않는다).
+ */
+export function checkFrontmatter(raw: unknown): FrontmatterIssue[] {
+  const result = frontmatterSchema.safeParse(raw);
+  return result.success ? [] : toIssues(result.error);
+}
+
+function toIssues(error: z.ZodError): FrontmatterIssue[] {
+  return error.issues.map((issue) => ({
+    field: issue.path.length > 0 ? issue.path.join(".") : "(전체)",
+    message: issue.message,
+  }));
+}
+
 /**
  * frontmatter 를 검증해 반환한다. 실패하면 던진다 — 조용히 건너뛰지 않는다.
  * 빌드가 깨질 때 어느 글의 어느 필드가 문제인지 메시지만 보고 알 수 있어야 한다.
@@ -86,11 +109,8 @@ export function parseFrontmatter(
   const result = frontmatterSchema.safeParse(raw);
 
   if (!result.success) {
-    const details = result.error.issues
-      .map((issue) => {
-        const field = issue.path.length > 0 ? issue.path.join(".") : "(전체)";
-        return `  - ${field}: ${issue.message}`;
-      })
+    const details = toIssues(result.error)
+      .map((issue) => `  - ${issue.field}: ${issue.message}`)
       .join("\n");
 
     throw new Error(`frontmatter 검증 실패: ${filePath}\n${details}`);

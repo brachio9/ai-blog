@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import { createElement, type ReactElement, type ReactNode } from "react";
 import { describe, expect, it } from "vitest";
 
-import { renderMdx } from "./mdx";
+import { compileMdxChecked, renderMdx } from "./mdx";
 
 /**
  * renderMdx 는 서버에서 await 되는 엘리먼트를 돌려준다.
@@ -72,5 +72,49 @@ describe("renderMdx", () => {
     );
 
     expect(container.querySelector("h2[data-custom]")).not.toBeNull();
+  });
+});
+
+describe("compileMdxChecked", () => {
+  it("정상 MDX 는 ok: true 와 렌더 가능한 트리를 준다", async () => {
+    const result = await compileMdxChecked(SOURCE);
+
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+
+    const { container } = render(result.content);
+    expect(container.querySelector("table")).not.toBeNull();
+    expect(container.querySelector("pre[data-theme]")).not.toBeNull();
+  });
+
+  it("renderMdx 와 같은 플러그인 설정을 쓴다 (수식·mermaid)", async () => {
+    const charts: string[] = [];
+    const Diagram = ({ chart }: { chart?: string }) => {
+      charts.push(chart ?? "");
+      return createElement("div");
+    };
+
+    const result = await compileMdxChecked(
+      "$E=mc^2$\n\n```mermaid\ngraph LR\n  A --> B\n```\n",
+      { components: { Diagram } },
+    );
+
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+
+    const { container } = render(result.content);
+    expect(container.querySelector(".katex")).not.toBeNull();
+    expect(charts).toEqual(["graph LR\n  A --> B"]);
+  });
+
+  it("깨진 MDX 는 던지지 않고 읽을 수 있는 메시지를 준다", async () => {
+    const result = await compileMdxChecked("<Broken **\n");
+
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+
+    // 빈 메시지면 관리자는 무엇이 틀렸는지 알 수 없다.
+    expect(result.message.length).toBeGreaterThan(0);
+    expect(result.message).toContain("MDX");
   });
 });
