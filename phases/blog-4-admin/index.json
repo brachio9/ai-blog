@@ -2,10 +2,44 @@
   "project": "AI 동향 블로그",
   "phase": "admin",
   "steps": [
-    { "step": 0, "name": "auth", "status": "pending" },
-    { "step": 1, "name": "github-service", "status": "pending" },
-    { "step": 2, "name": "admin-dashboard", "status": "pending" },
-    { "step": 3, "name": "editor", "status": "pending" },
-    { "step": 4, "name": "publish", "status": "pending" }
-  ]
+    {
+      "step": 0,
+      "name": "auth",
+      "status": "completed",
+      "started_at": "2026-08-13T08:51:44+0900",
+      "completed_at": "2026-08-13T09:00:32+0900",
+      "summary": "next-auth@5.0.0-beta.32 · src/lib/auth.ts 가 { handlers, auth, signIn, signOut } + requireAdmin(): Promise<{login:string}> (실패 시 notFound()) + getAdminLogin(): Promise<string|null> (API 라우트용 — null 이면 호출부가 직접 404) + isAuthConfigured(): boolean + isAllowedLogin(login, rawList) (판정 순수함수는 src/lib/auth-allowlist.ts, next-auth 가 vitest 에서 next/server 를 못 찾아 분리) 를 export; GitHub provider·JWT 세션·trustHost:true·pages.signIn=pages.error='/admin/login'·session.user.login 에 GitHub login 적재; src/app/api/auth/[...nextauth]/route.ts 가 handlers 를 GET·POST 로 노출; src/proxy.ts 는 세션 유무만 보고 matcher ['/admin','/admin/:path*','/api/publish','/api/publish/:path*','/api/upload','/api/upload/:path*'] — /admin/login 은 통과, 페이지는 /admin/login 리다이렉트, /api/* 는 404 (빌드 라우트 표에 'ƒ Proxy (Middleware)' 확인); src/app/admin/layout.tsx 는 (public) 밖 자체 상단바(관리자 홈·사이트로 돌아가기·계정명·signOut 서버액션, getAdminLogin() 으로 로그인 시에만 계정/로그아웃 노출)에 <main> 만 감싸므로 하위 페이지는 mx-auto max-w-6xl px-5 md:px-8 컨테이너를 직접 두면 된다; src/app/admin/page.tsx 는 requireAdmin() 자리표시(step 2 가 대체), src/app/admin/login/page.tsx 는 signIn('github',{redirectTo:'/admin'}) 서버액션 + ?error=AccessDenied 안내 + 환경변수 미설정 시 버튼 대신 안내; 실측 검증: next start 에서 /api/auth/providers 200, 미로그인 /admin→307 /admin/login, 위조 세션으로 화이트리스트 계정 200·목록 밖 계정 404·ADMIN_GITHUB_LOGINS 빈 값이면 유효 세션도 404, /api/publish·/api/upload 404; 테스트 147개 통과(신규 14)",
+      "events": [
+        {
+          "at": "2026-08-13T08:51:44+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-13T09:00:32+0900",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "name": "github-service",
+      "status": "pending"
+    },
+    {
+      "step": 2,
+      "name": "admin-dashboard",
+      "status": "pending"
+    },
+    {
+      "step": 3,
+      "name": "editor",
+      "status": "pending"
+    },
+    {
+      "step": 4,
+      "name": "publish",
+      "status": "pending"
+    }
+  ],
+  "created_at": "2026-08-13T08:51:44+0900"
 }
