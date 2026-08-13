@@ -4,14 +4,15 @@ import { notFound } from "next/navigation";
 
 import { Container } from "@/components/layout/Container";
 import { MdxBody } from "@/components/mdx";
+import { ExternalIcon } from "@/components/mdx/Anchor";
 import { Comments } from "@/components/post/Comments";
+import { PostHeader } from "@/components/post/PostHeader";
 import { PostNav } from "@/components/post/PostNav";
 import { SourceNote } from "@/components/post/SourceNote";
 import { TableOfContents } from "@/components/post/TableOfContents";
 import { ViewCount } from "@/components/post/ViewCount";
-import { categoryHref, getCategory } from "@/lib/categories";
+import { categoryHref, getCategory, type Category } from "@/lib/categories";
 import { getAllPosts, getPost, getPostsByCategory } from "@/lib/content/posts";
-import { formatDate } from "@/lib/format";
 import { getGiscusConfig } from "@/lib/giscus";
 import { renderMdx } from "@/lib/mdx";
 import { extractHeadings } from "@/lib/toc";
@@ -59,6 +60,68 @@ export async function generateMetadata(
   };
 }
 
+const LINK_CLASS =
+  "text-heading underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus";
+
+/** 레일은 좁다 — URL 전체를 넣으면 줄이 깨진다. 출처는 도메인만으로도 알아본다. */
+function sourceDomain(url: string): string {
+  return new URL(url).hostname.replace(/^www\./, "");
+}
+
+/**
+ * 우측 레일의 글 정보 — 목차가 두세 줄뿐이라 레일이 길게 비는 것을 이 블록이 채운다.
+ * 태그·출처는 글 머리에 다시 적지 않는다 (같은 것을 두 번 적지 않는다).
+ * 데스크톱에서는 레일이 sticky 라 본문을 한참 내려가도 이 글이 어디에 걸려 있는지가 남는다.
+ */
+function PostAside({ post, category }: { post: Post; category: Category }) {
+  const { tags, source } = post.frontmatter;
+
+  if (tags.length === 0 && !source) {
+    return null;
+  }
+
+  return (
+    <dl className="space-y-4 border-t border-border pt-5">
+      {tags.length > 0 ? (
+        <div>
+          <dt className="text-xs text-muted">태그</dt>
+          <dd className="mt-1.5 flex flex-wrap gap-1.5">
+            {tags.map((tag) => (
+              // 목록의 태그 필터 규약을 그대로 쓴다 — 같은 카테고리 안에서 걸러 보여준다.
+              <Link
+                key={tag}
+                href={`${categoryHref(category)}?tag=${encodeURIComponent(tag)}`}
+                className="inline-block rounded-sm border border-border px-2 py-0.5 text-xs text-muted transition-colors hover:border-muted hover:text-heading focus-visible:outline-2 focus-visible:outline-focus"
+              >
+                {tag}
+              </Link>
+            ))}
+          </dd>
+        </div>
+      ) : null}
+
+      {source ? (
+        /* 표기의 정본은 본문 위 출처 블록이다. 여기는 sticky 레일에 남는 이정표라
+           레일이 접히는 좁은 화면에서는 뺀다 — 안 그러면 바로 아래 블록과 같은 말을 두 번 한다. */
+        <div className="hidden lg:block">
+          <dt className="text-xs text-muted">출처</dt>
+          <dd className="mt-1 text-sm">
+            <a
+              href={source.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={LINK_CLASS}
+            >
+              {sourceDomain(source.url)}
+              <ExternalIcon />
+            </a>
+          </dd>
+        </div>
+      ) : null}
+    </dl>
+  );
+}
+
 /**
  * 글 상세 — `/{category}/{slug}`.
  * 쿼리 파라미터는 읽지 않는다. 서버에서 읽는 순간 페이지가 동적이 되어 정적 생성이 사라진다.
@@ -82,52 +145,22 @@ export default async function PostPage(props: PageProps<"/[category]/[slug]">) {
   return (
     <Container>
       <article className="py-12 md:py-16">
-        <header className="max-w-[68ch] border-b border-border pb-6">
-          <Link
-            href={categoryHref(found)}
-            className="inline-block rounded-full border border-border px-2.5 py-0.5 text-xs text-muted transition-colors hover:border-muted hover:text-heading focus-visible:outline-2 focus-visible:outline-focus"
-          >
-            {found.name}
-          </Link>
-
-          <h1 className="mt-4 font-serif text-3xl font-semibold text-heading md:text-4xl">
-            {frontmatter.title}
-          </h1>
-
-          <p className="mt-3 text-[1.0625rem] leading-[1.75] text-muted">
-            {frontmatter.summary}
-          </p>
-
-          <p className="mt-4 flex flex-wrap items-center gap-x-2 text-sm text-muted">
-            <time dateTime={frontmatter.publishedAt}>
-              {formatDate(frontmatter.publishedAt)}
-            </time>
-            <span aria-hidden="true">·</span>
-            <span>{post.readingMinutes}분</span>
-            {/* 조회수는 클라이언트가 API 로 가져온다 — 서버에서 읽으면 이 페이지가 동적이 된다. */}
-            <ViewCount postId={`${post.category}/${post.slug}`} />
-          </p>
-
-          {frontmatter.tags.length > 0 ? (
-            <ul className="mt-3 flex flex-wrap gap-1.5">
-              {frontmatter.tags.map((tag) => (
-                <li key={tag}>
-                  {/* 목록의 태그 필터 규약(step 1)을 그대로 쓴다. */}
-                  <Link
-                    href={`${categoryHref(found)}?tag=${encodeURIComponent(tag)}`}
-                    className="inline-block rounded-full border border-border px-2.5 py-0.5 text-xs text-muted transition-colors hover:border-muted hover:text-heading focus-visible:outline-2 focus-visible:outline-focus"
-                  >
-                    {tag}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </header>
+        <PostHeader
+          post={post}
+          category={found}
+          /* 조회수는 클라이언트가 API 로 가져온다 — 서버에서 읽으면 이 페이지가 동적이 된다. */
+          views={<ViewCount postId={`${post.category}/${post.slug}`} />}
+        />
 
         <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
           {/* DOM 순서상 본문보다 앞이라 모바일에서는 본문 위, 데스크톱에서는 order 로 오른쪽. */}
-          <TableOfContents headings={extractHeadings(post.body)} />
+          <aside
+            aria-label="글 정보"
+            className="space-y-6 lg:sticky lg:top-8 lg:order-2 lg:w-56 lg:shrink-0"
+          >
+            <TableOfContents headings={extractHeadings(post.body)} />
+            <PostAside post={post} category={found} />
+          </aside>
 
           <div className="min-w-0 lg:flex-1">
             <SourceNote source={frontmatter.source} paper={frontmatter.paper} />
@@ -135,7 +168,8 @@ export default async function PostPage(props: PageProps<"/[category]/[slug]">) {
             {/* 본문 컴파일은 renderMdx 하나뿐이다 (ADR-003). 타이포그래피는 MdxBody 가 맡는다. */}
             <MdxBody>{renderMdx(post.body)}</MdxBody>
 
-            <PostNav previous={older} next={newer} />
+            {/* 이전/다음은 같은 카테고리 안에서만 이어진다 (siblings) — 그 이름을 화면에도 적는다. */}
+            <PostNav previous={older} next={newer} categoryName={found.name} />
 
             {/* Giscus 설정이 없으면 댓글 영역째 없앤다 — 빈 제목만 남기지 않는다. */}
             {getGiscusConfig() ? (
@@ -143,7 +177,7 @@ export default async function PostPage(props: PageProps<"/[category]/[slug]">) {
                 aria-label="댓글"
                 className="mt-12 max-w-[68ch] border-t border-border pt-6"
               >
-                <h2 className="text-2xl font-semibold text-heading">댓글</h2>
+                <h2 className="text-xl font-semibold text-heading">댓글</h2>
                 {/* 댓글은 클라이언트가 iframe 으로 붙인다 — 서버에서 그리면 정적 생성이 무너진다. */}
                 <Comments />
               </section>

@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
  */
 export function MdxBody({ children }: { children: ReactNode }) {
   return (
-    <div className="mdx-body max-w-[68ch] font-serif text-[1.0625rem] leading-[1.75] text-body">
+    <div className="mdx-body max-w-[68ch] font-serif text-[1.0625rem] leading-[1.8] text-body">
       {children}
     </div>
   );

@@ -41,6 +41,17 @@ describe("SourceNote", () => {
     expect(screen.getByText(/요약/)).toBeTruthy();
   });
 
+  it("원문 제목과 발행일을 함께 표기한다", () => {
+    render(<SourceNote source={source} />);
+
+    // 원문 제목은 링크 글자 그대로여야 한다 — 요약본 제목으로 바꿔 적으면 표기가 아니다.
+    expect(
+      screen.getByRole("link", { name: /Ship Inference Endpoints/ })
+        .textContent,
+    ).toContain(source.title);
+    expect(screen.getByText(/원문 발행 2026년 7월 23일/)).toBeTruthy();
+  });
+
   it("논문 메타가 있으면 arXiv 링크와 저자를 덧붙인다", () => {
     render(<SourceNote source={source} paper={paper} />);
 

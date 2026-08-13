@@ -19,7 +19,8 @@ export interface TableOfContentsProps {
 }
 
 /**
- * 데스크톱은 본문 오른쪽 sticky, 모바일은 본문 위 접이식.
+ * 데스크톱은 본문 오른쪽, 모바일은 본문 위 접이식.
+ * 레일의 위치·폭·sticky 는 감싸는 쪽(글 상세)이 정한다 — 목차 아래에 글 정보가 함께 서기 때문이다.
  * id 는 `src/lib/toc.ts` 가 rehype-slug 와 같은 방식으로 만든다 — 링크가 어긋나면 그쪽이 원인이다.
  */
 export function TableOfContents({ headings }: TableOfContentsProps) {
@@ -64,7 +65,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
   }
 
   return (
-    <aside className="lg:sticky lg:top-8 lg:order-2 lg:w-56 lg:shrink-0">
+    <div>
       <button
         type="button"
         onClick={() => setIsOpen((open) => !open)}
@@ -108,6 +109,6 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
           ))}
         </ol>
       </nav>
-    </aside>
+    </div>
   );
 }

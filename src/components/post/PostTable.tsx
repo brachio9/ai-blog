@@ -28,7 +28,7 @@ export const ACCENT_TEXT: Record<CategoryAccent, string> = {
   note: "text-cat-note",
 };
 
-const ACCENT_RULE: Record<CategoryAccent, string> = {
+export const ACCENT_RULE: Record<CategoryAccent, string> = {
   hf: "border-l-cat-hf",
   paper: "border-l-cat-paper",
   note: "border-l-cat-note",

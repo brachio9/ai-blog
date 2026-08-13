@@ -8,28 +8,37 @@ export interface PostNavProps {
   previous?: Post;
   /** 같은 카테고리의 더 최신 글 */
   next?: Post;
+  /**
+   * 이어지는 범위. 이전/다음은 **같은 카테고리 안에서만** 이어지므로
+   * 그 이름을 라벨에 적어 어디까지가 한 줄기인지 화면에서 바로 읽히게 한다.
+   */
+  categoryName: string;
 }
 
 /** 첫 글·마지막 글에서는 한쪽이 없다. 빈 링크를 만들지 말고 자리를 비운다. */
-export function PostNav({ previous, next }: PostNavProps) {
+export function PostNav({ previous, next, categoryName }: PostNavProps) {
   if (!previous && !next) {
     return null;
   }
 
   return (
     <nav
-      aria-label="이전 다음 글"
+      aria-label={`${categoryName} 이전 다음 글`}
       // 본문 단폭에 맞춘다 — 본문보다 넓으면 글의 끝이 흐려진다.
       className="mt-12 grid max-w-[68ch] gap-4 border-t border-border pt-6 sm:grid-cols-2"
     >
       {previous ? (
-        <PostNavLink post={previous} label="이전 글" direction="previous" />
+        <PostNavLink
+          post={previous}
+          label={`${categoryName}에서 이전 글`}
+          direction="previous"
+        />
       ) : null}
 
       {next ? (
         <PostNavLink
           post={next}
-          label="다음 글"
+          label={`${categoryName}에서 다음 글`}
           direction="next"
           // 이전 글이 없으면 다음 글이 왼쪽으로 흘러온다 — 오른쪽 칸에 고정한다.
           className={previous ? undefined : "sm:col-start-2"}
