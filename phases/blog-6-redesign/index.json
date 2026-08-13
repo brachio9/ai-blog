@@ -102,9 +102,14 @@
         {
           "at": "2026-08-13T21:21:58+0900",
           "status": "completed"
+        },
+        {
+          "at": "2026-08-13T21:22:50+0900",
+          "status": "completed",
+          "attempt": 1
         }
       ],
-      "completed_at": "2026-08-13T21:21:58+0900",
+      "completed_at": "2026-08-13T21:22:50+0900",
       "summary": "조회수·분포 수치를 화면에 드러냈다. (1) /api/views 에 배치 조회 GET ?ids=a/b,c/d 추가 — 응답 { views: { \"papers/moe-routing-pipeline\": 10, ... } }, 단건 ?id= 와 POST 증가는 그대로. 잘못된 id 는 400 으로 전체를 실패시키지 않고 조용히 버리고(목록 하나가 깨졌다고 열 전체가 사라지면 안 된다), 중복 제거 후 앞에서부터 MAX_BATCH_IDS=100 개까지만 getViews() 로 넘긴다(새 쿼리 없음). 추적이 꺼져 있으면 isViewTrackingEnabled() 로 걸러 200 + { views: {} } (에러 아님, DB 미접촉). force-dynamic 유지. (2) src/components/post/ViewCounts.tsx 신설 — \"use client\" 컨텍스트 프로바이더. <ViewCounts ids={['papers/x', ...]}>…</ViewCounts> 로 감싸면 id 목록을 GET 한 번에 물어보고(증가 없음, POST 안 함) 내부 <ViewCell postId> 가 각 행을 채운다. 서버 컴포넌트 자식을 그대로 감싸므로 목록은 계속 SSG 다. PostTable 은 reserveViews 켜면 조회 열에 <ViewCell> 을 놓고, 열 폭은 thead(table-fixed)가 잡아 값이 늦게 와도 흔들리지 않는다. PostList 는 지금 보이는 페이지의 id 만 모아 한 번 부른다(reserveViews 꺼지면 ids=[] 라 호출 자체가 없다). 홈은 실린 글 8건을 한 번에 물어 표와 순위가 그 결과를 나눠 쓴다 — 배치 호출 1회 실측. (3) 인기 글 = 홈 맨 아래 '많이 읽힌 글' — 표가 아니라 순위·제목·조회수 3조각 줄 목록(rankByViews 로 클라이언트 정렬, 동률은 postId 코드포인트순), 상위 3편. 맨 아래라 나중에 붙어도 위 목록이 밀리지 않는다. (4) 분포 — 홈 카테고리 구역 제목 옆 countByCategory() 편수(논문 3편·소식 3편·메모 2편), 카테고리 페이지 헤더에 '3편 · 2026.06.29 ~ 2026.08.05' 수록 기간 한 줄. 아카이브 총계·기간과 태그 빈도는 step 3 이 이미 해서 중복하지 않았다. 차트 없음. (5) 데이터가 없을 때: 값 0·실패·추적 꺼짐 모두 아무것도 그리지 않는다 — 조회 칸은 빈 채로 남고(0 을 그리면 실제 0회와 구분 불가) 인기 글은 구역 자체가 사라진다. TURSO 환경변수를 비운 서버로 실측: 열 폭 112/56/639/144/64/72px·행 높이 45px 가 값 있을 때와 완전히 동일(레이아웃 이동 0), 표에 0 없음, 콘솔 에러 0, 문서 높이만 1724→1520(사라진 인기 글 구역 만큼). 목록을 여러 번 새로고침해도 조회수 불변(9), 글 상세는 세션당 1회 증가(9→10, 새로고침 후 10) 확인. 375px 가로 스크롤 0·행 높이 67.5px 균일. 테스트 289→310 (route.test.ts 7건: 다건 응답·잘못된 id 혼입·중복 제거·100개 상한·추적 꺼짐 200 빈 객체·유효 id 0개·단건 회귀 / ViewCounts.test.tsx 14건: rankByViews 4건 + 배치 1회·GET 뿐(증가 안 함)·중복 id·빈 목록 미호출·실패/비200/0 미표시·인기 글 렌더와 미렌더 2건). AC 전부 통과: lint·build·test 310 passed·typecheck·node 검사 4종(배치 API·ViewCounts 규약·DB 경계·Turso 없이 빌드 시 공개 페이지 전부 정적)·pytest 71 passed."
     },
     {
