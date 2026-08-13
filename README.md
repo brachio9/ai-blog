@@ -70,6 +70,12 @@ npm run typecheck
 
 환경변수가 없으면 조회수·댓글만 조용히 꺼지고 나머지는 정상 동작한다. 필요한 값과 발급 방법은 [`.env.example`](.env.example) 에 적혀 있다.
 
+## 배포
+
+Vercel 에 배포한다. 순서와 환경변수, 스모크 체크 목록은 [`docs/DEPLOY.md`](docs/DEPLOY.md) 에 있다.
+
+도메인이 정해져야 채울 수 있는 값(`NEXT_PUBLIC_SITE_URL`, OAuth 콜백)이 있어 **첫 배포 → 환경변수 등록 → 재배포** 순으로 두 번 배포하게 된다.
+
 ## 구조
 
 ```
