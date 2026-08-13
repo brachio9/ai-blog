@@ -13,13 +13,13 @@ public/                    # 정적 자산 (샘플 이미지 포함)
 src/
 ├── proxy.ts               # Next 16 의 구 middleware. /admin/* 보호
 ├── app/
-│   ├── (public)/          # 공개 페이지 — Intro, 카테고리, 글 상세
+│   ├── (public)/          # 공개 페이지 — 홈·카테고리·글 상세·검색·태그·아카이브·소개
 │   ├── admin/             # 관리자 — proxy + 페이지 레벨 세션 확인 이중 보호
 │   └── api/               # API 라우트 (조회수, 발행, 업로드)
 ├── components/
 │   ├── mdx/               # MDX 매핑 컴포넌트 (표·이미지·코드·차트·다이어그램)
 │   ├── layout/            # 헤더·푸터·테마 토글
-│   └── ui/                # 범용 프리미티브
+│   └── ui/                # 범용 프리미티브 (icons.tsx — 아이콘 단일 출처)
 ├── types/                 # TypeScript 타입 정의
 ├── lib/                   # 유틸 + 콘텐츠 로더 + MDX 컴파일
 └── services/              # 외부 API 래퍼 — github.ts, turso.ts

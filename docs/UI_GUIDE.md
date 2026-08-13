@@ -1,57 +1,104 @@
 # UI 디자인 가이드
 
+「초록」— 영문 AI 원문을 한글로 추려 적는 사이트. 화면은 **연구 피드에 가깝고 개인 블로그처럼 보이면 안 된다.**
+
 ## 디자인 원칙
+
 1. **읽기 우선.** 콘텐츠가 주인공이고 UI는 물러난다. 장식이 본문 이해를 돕지 못하면 뺀다.
-2. **편집물처럼 보여야 한다.** SaaS 랜딩이 아니라 기술 잡지. 본문 세리프 + 넉넉한 행간 + 좁은 단폭.
-3. **라이트/다크 동등.** 어느 쪽도 "덤"이 아니다. 표·차트·수식·코드가 양쪽에서 똑같이 읽혀야 한다.
+2. **인덱스는 조밀하게, 본문은 넉넉하게.** 목록의 목적은 *고르기* 이고 본문의 목적은 *읽기* 다. 같은 밀도를 쓰면 둘 다 나빠진다.
+3. **색은 정보다.** 카테고리 색은 "어떤 종류의 글인가" 를 알리는 부호다. 예뻐 보이려고 칠하지 마라.
+4. **라이트/다크 동등.** 어느 쪽도 덤이 아니다.
+5. **한글이 1급 시민이다.** 본문의 대부분이 한글이다. 라틴 문자만 보고 조판을 정하지 마라.
+
+## 균일함을 피하라 (중요)
+
+"AI가 만든 것 같다" 는 인상은 대개 **모든 것이 같은 규격으로 반복될 때** 생긴다. 아래를 의도적으로 어긋내라.
+
+| 하지 마라 | 대신 |
+|---|---|
+| 모든 섹션이 `제목 + 설명 + 균일 그리드` 반복 | 구역마다 다루는 방식을 달리한다. 논문 목록은 arXiv ID·저자를 보이고, 소식은 날짜 중심으로, 메모는 한 줄로 |
+| 화면의 모든 상자가 같은 모서리·같은 여백 | 목록은 **선으로만** 나눈다. 테두리 상자는 강조 블록에만 |
+| 좌우 대칭 균등 그리드 | 최신·주요 항목에 다른 무게를 준다 |
+| 중앙 정렬 히어로 | 좌측 정렬 마스트헤드. 콘텐츠가 접힘선 위에서 시작한다 |
+| "AI 시대의 인사이트" 류 일반론 문구 | 구체적 사실 — 어떤 출처를, 어떤 원칙으로, 얼마나 자주 |
+
+**문구 판정 기준:** 그 문장을 다른 AI 블로그에 그대로 붙여도 말이 되면 다시 써라.
 
 ## AI 슬롭 안티패턴 — 하지 마라
+
 | 금지 사항 | 이유 |
 |-----------|------|
 | backdrop-filter: blur() | glass morphism은 AI 템플릿의 가장 흔한 징후 |
 | gradient-text (배경 그라데이션 텍스트) | AI가 만든 SaaS 랜딩의 1번 특징 |
-| "Powered by AI" 배지 | 기능이 아니라 장식. 사용자에게 가치 없음 |
+| "Powered by AI" 배지 | 기능이 아니라 장식 |
 | box-shadow 글로우 애니메이션 | 네온 글로우 = AI 슬롭 |
 | 보라/인디고 브랜드 색상 | "AI = 보라색" 클리셰 |
 | 모든 카드에 동일한 rounded-2xl | 균일한 둥근 모서리는 템플릿 느낌 |
 | 배경 gradient orb (blur-3xl 원형) | 모든 AI 랜딩 페이지에 있는 장식 |
-| 이모지 아이콘 (🚀 ✨ 🔥) | 인터페이스에 이모지를 쓰지 마라. SVG 아이콘만 |
+| 이모지 아이콘 (🚀 ✨ 🔥) | 인터페이스에 이모지를 쓰지 마라. SVG 만 |
 | 스크롤 트리거 등장 애니메이션 | 읽는 흐름을 끊는다 |
+| **아이콘 라이브러리 도입** (lucide·heroicons 등) | 그 기본 룩 자체가 템플릿 신호다. 필요한 것만 직접 그린다 |
+| **목록을 카드 그리드로** | 텍스트 목록에 카드를 쓰면 밀도가 죽고 높이가 들쭉날쭉해진다 |
 
 ## 색상
 
 CSS 변수로 정의하고 Tailwind 토큰으로 노출한다. 컴포넌트에 hex를 직접 쓰지 마라.
 
+### 중성 (기반)
+
 | 토큰 | 라이트 | 다크 | 용도 |
 |---|---|---|---|
-| `bg` | `#fdfcfa` | `#14110f` | 페이지 배경 |
-| `surface` | `#ffffff` | `#1c1917` | 카드·코드블록 |
-| `border` | `#e7e2da` | `#33302c` | 구분선·테두리 |
-| `heading` | `#1c1917` | `#fafaf9` | 제목 |
-| `body` | `#44403c` | `#d6d3d1` | 본문 |
-| `muted` | `#78716c` | `#a8a29e` | 보조·메타 정보 |
-| `faint` | `#a8a29e` | `#78716c` | 비활성 |
-| `accent` | `#a8442a` | `#e07a55` | 링크·활성 상태 |
-| `accent-hover` | `#8a3721` | `#ec9273` | 링크 hover |
+| `bg` | `#fafafa` | `#0c0c0d` | 페이지 배경 |
+| `surface` | `#ffffff` | `#161617` | 강조 블록·코드블록 |
+| `border` | `#e5e5e5` | `#2a2a2c` | 구분선·테두리 |
+| `heading` | `#171717` | `#f5f5f5` | 제목·링크 텍스트 |
+| `body` | `#404040` | `#d4d4d4` | 본문 |
+| `muted` | `#737373` | `#8f8f93` | 메타 정보 |
+| `faint` | `#a3a3a3` | `#6b6b70` | **장식·비활성 전용** (아래 주의) |
+| `focus` | `#1d4ed8` | `#60a5fa` | **포커스 링 전용.** 다른 데 쓰지 마라 |
+
+> ⚠ `faint` 는 라이트 모드에서 배경 대비 **2.42:1** 이라 텍스트 기준(3:1)에 못 미친다. 구분 기호(`·`)·비활성 상태·연한 경계선처럼 **정보를 담지 않는 곳에만** 쓴다. 읽어야 하는 텍스트에는 `muted`(4.54:1) 를 써라.
+
+### 카테고리 (정보 부호)
+
+측정값이다 (라이트는 `bg` `#fafafa`, 다크는 `bg` `#0c0c0d` 대비. `surface` 대비도 전부 이보다 높다).
+
+| 카테고리 | 라이트 | 다크 | 라이트 대비 | 다크 대비 |
+|---|---|---|---|---|
+| `cat-hf` (허깅페이스) | `#8a5a00` | `#d9a441` | 5.68 | 8.69 |
+| `cat-paper` (논문) | `#0f6b63` | `#4fb3a5` | 6.09 | 7.75 |
+| `cat-note` (메모) | `#a8442a` | `#e07a55` | 5.71 | 6.60 |
+
+**용도는 셋뿐이다:** 1px 좌측 규칙선, 작은 라벨 텍스트, 카테고리 페이지 제목 옆 표식.
+배경을 이 색으로 칠하지 마라. 링크 색으로 쓰지 마라.
+
+### 링크
+
+색을 쓰지 않는다. **본문 링크는 `heading` 색 + 밑줄**(`underline-offset-[0.2em]`, 밑줄 색 `border` → hover 시 `heading`). 내비게이션 링크는 `muted` → hover `heading`, 밑줄 없음.
+이유: 카테고리 3색이 이미 색을 쓰고 있다. 링크까지 색을 가지면 화면이 산만해진다.
 
 ### 시맨틱 (콜아웃·상태)
+
 | 용도 | 라이트 | 다크 |
 |---|---|---|
-| 성공 | `#4d7c46` | `#7fae76` |
-| 주의 | `#b45309` | `#d99a4e` |
-| 오류 | `#b91c1c` | `#e07a7a` |
-| 정보 | `#3f6b8a` | `#7aa8c4` |
+| 성공 | `#3f7d3a` | `#78ad70` |
+| 주의 | `#8a5a00` | `#d9a441` |
+| 오류 | `#b02020` | `#e08080` |
+| 정보 | `#0f6b63` | `#4fb3a5` |
 
 ### 차트 카테고리 색 (순서대로 사용)
+
+**변수 이름 `--chart-1` … `--chart-5` 를 바꾸지 마라.** `src/components/mdx/Chart.tsx` 가 이 이름으로 읽는다.
+
 | # | 라이트 | 다크 |
 |---|---|---|
-| 1 | `#a8442a` | `#e07a55` |
-| 2 | `#3f6b8a` | `#7aa8c4` |
-| 3 | `#4d7c46` | `#7fae76` |
-| 4 | `#b8860b` | `#d9a94e` |
-| 5 | `#6e6259` | `#a89c92` |
+| 1 | `#0f6b63` | `#4fb3a5` |
+| 2 | `#a8442a` | `#e07a55` |
+| 3 | `#8a5a00` | `#d9a441` |
+| 4 | `#3f6b8a` | `#7aa8c4` |
+| 5 | `#6b6b70` | `#a3a3a3` |
 
-계열 하나면 `accent` 만 쓴다. 색만으로 구분하지 말고 범례·직접 라벨을 함께 둔다.
+계열 하나면 `--chart-1` 만 쓴다. 색만으로 구분하지 말고 범례·직접 라벨을 함께 둔다.
 
 ### ⚠ 런타임 JS 에서 색을 읽을 때 (Recharts·Mermaid 등)
 
@@ -59,76 +106,123 @@ CSS 변수로 정의하고 Tailwind 토큰으로 노출한다. 컴포넌트에 h
 
 | 계층 | 이름 | 런타임 조회 |
 |---|---|---|
-| 원시 (`:root` / `.dark`) | `--chart-1` · `--accent` · `--success` … | **항상 가능** |
-| Tailwind 노출 (`@theme inline`) | `--color-chart-1` · `--color-accent` … | 마크업에서 그 유틸리티를 실제로 쓸 때만 존재 |
+| 원시 (`:root` / `.dark`) | `--chart-1` · `--cat-paper` · `--muted` … | **항상 가능** |
+| Tailwind 노출 (`@theme inline`) | `--color-chart-1` … | 마크업에서 그 유틸리티를 실제로 쓸 때만 존재 |
 
-Tailwind v4 는 **사용되지 않는 `@theme` 변수를 빌드에서 제거한다.** 실제로 확인한 결과, 마크업에 등장하지 않는 `--color-chart-1` · `--color-success` · `--color-faint` 는 브라우저에서 빈 문자열로 조회된다.
-
-따라서 `getComputedStyle(el).getPropertyValue("--color-chart-1")` 은 **빈 값을 반환할 수 있다.** 차트·다이어그램에 색을 넘길 때는 `--chart-1` … `--chart-5`, `--accent`, `--muted`, `--border` 같은 **원시 변수명**을 쓴다. 테마 전환 시 값이 자동으로 바뀌므로 다크모드 대응도 이쪽이 옳다.
+Tailwind v4 는 **사용되지 않는 `@theme` 변수를 빌드에서 제거한다.** 마크업에 등장하지 않는 `--color-chart-1` 은 브라우저에서 빈 문자열로 조회된다. 없는 변수를 받은 Recharts 는 경고도 빌드 실패도 없이 **그냥 검정으로 칠한다.**
 
 ## 타이포그래피
 
+### 폰트
+
+한글에 웹폰트를 반드시 지정한다. 라틴 전용 폰트만 지정하면 **한글이 OS 기본 글꼴로 떨어져** 맥과 윈도우에서 다르게 보이고, 한 문장 안에서 세리프와 산세리프가 섞인다.
+
 | 역할 | 폰트 | 비고 |
 |---|---|---|
-| 본문 (글 상세) | 세리프 — Source Serif 4 | `next/font` 로 self-host |
-| UI·목록·내비 | 산세리프 — Inter | |
-| 코드·수식 보조 | 모노 — JetBrains Mono | |
+| UI·목록·내비 | **IBM Plex Sans KR** | 라틴·한글이 한 가족이라 이음매가 없다 |
+| 본문 (글 상세) | **Noto Serif KR** | 라틴 글리프를 포함한다 — 별도 라틴 세리프를 겹치지 마라 |
+| 데이터·코드 | **IBM Plex Mono** + 한글 폴백 | 표의 날짜·숫자, 코드블록 |
+
+`next/font/google` 로 self-host 한다. 한글은 용량이 크므로 **필요한 굵기만** 불러온다 (본문 400, 제목 600 정도).
+
+### 한글 조판 규칙 (필수)
+
+```css
+word-break: keep-all;      /* 단어 중간에서 끊지 않는다 */
+overflow-wrap: break-word; /* 긴 URL·식별자는 예외적으로 끊는다 */
+```
+
+`word-break: normal` 이면 제목이 "…한 / 글로" 처럼 단어 중간에서 끊긴다. **전역에 적용한다.**
+표의 날짜·숫자 열에는 `font-variant-numeric: tabular-nums` 로 자리를 고정한다.
+
+### 스케일
 
 | 용도 | 스타일 |
 |------|--------|
-| 히어로 제목 | `text-5xl md:text-6xl font-semibold tracking-tight text-heading` (sans) |
-| 글 제목 (상세) | `text-3xl md:text-4xl font-semibold text-heading` (serif) |
-| 섹션 제목 (h2) | `text-2xl font-semibold text-heading mt-12 mb-4` |
-| 본문 | `text-[1.0625rem] leading-[1.75] text-body` (serif) |
-| 카드 제목 | `text-base font-medium text-heading` (sans) |
-| 메타 정보 | `text-sm text-muted` (sans) |
+| 마스트헤드 | `text-3xl md:text-4xl font-semibold tracking-tight text-heading` (sans) |
+| 글 제목 (상세) | `text-2xl md:text-3xl font-semibold text-heading` (serif) |
+| 섹션 제목 (h2) | `text-xl font-semibold text-heading` |
+| 목록 구역 제목 | `text-sm font-semibold uppercase tracking-wide text-muted` |
+| 본문 | `text-[1.0625rem] leading-[1.8] text-body` (serif) |
+| 목록 행 제목 | `text-[0.9375rem] text-heading` (sans) |
+| 메타·데이터 | `text-xs text-muted tabular-nums` (mono) |
 
-**본문 단폭은 `max-w-[68ch]`.** 그보다 넓으면 읽기 어렵다. 표·차트·코드블록은 이 폭을 넘어 확장해도 된다.
+히어로 제목을 `text-6xl` 로 키우지 마라. 첫 화면은 **콘텐츠가 차지한다.**
+
+**본문 단폭은 `max-w-[68ch]`.** 표·차트·코드블록은 이 폭을 넘어도 된다.
 
 ## 레이아웃
+
 - 페이지 컨테이너: `max-w-6xl mx-auto px-5 md:px-8`
 - 글 본문: `max-w-[68ch]` (컨테이너 안에서 좌측 정렬)
-- 섹션 간격: `space-y-12`, 카드 내부 `p-5`, 그리드 `gap-4`
-- 좌측 정렬 기본. 히어로만 예외적으로 중앙 정렬 허용.
+- 좌측 정렬이 기본이다. **중앙 정렬은 쓰지 마라** (빈 상태 안내 정도만 예외)
+- 마스트헤드는 화면 높이의 **1/4 을 넘지 않는다.** 첫 글이 스크롤 없이 보여야 한다
+
+## 목록 (밀집 테이블)
+
+목록 화면의 기본 단위다. 카드를 쓰지 마라.
+
+```
+날짜         구분   제목                                   태그/식별자        읽힘   조회
+──────────────────────────────────────────────────────────────────────────────
+2026.08.09  소식   공개 가중치 모델 벤치마크 정리            LLM 벤치마크       3분    128
+2026.08.05  논문   MoE 라우팅을 두 단계로 쪼갠 학습…         arXiv:2608.01337  2분     94
+```
+
+| 규칙 | 내용 |
+|---|---|
+| 구분선 | 행 사이 `border-b border-border` **하나만.** 박스·배경·그림자 금지 |
+| 카테고리 표식 | 행 왼쪽 2px 세로선 또는 짧은 라벨에 카테고리 색 |
+| 숫자 | `tabular-nums` — 스크롤할 때 자리가 흔들리면 안 된다 |
+| 행 높이 | **모든 행이 같아야 한다.** 제목은 한 줄로 자르고(`truncate`) 요약은 목록에 넣지 않는다 |
+| hover | 배경색 `surface` 로만. 이동·확대 금지 |
+| 모바일 (`< md`) | 열을 접어 2줄 블록(제목 / 메타 한 줄)으로. **가로 스크롤 금지** — 목록에서 가로 스크롤은 스캔을 방해한다 |
+| 조회수 | 런타임 값이라 비어 있을 수 있다. **없어도 레이아웃이 흔들리면 안 된다** (자리를 미리 확보) |
 
 ## 컴포넌트
 
 모서리 반경을 **의도적으로 다르게** 준다 (균일한 rounded-2xl 금지).
 
 ```
-카드      rounded-md border border-border bg-surface p-5
-버튼 주   rounded bg-heading text-bg px-4 py-2 text-sm font-medium
-버튼 보조 rounded border border-border px-4 py-2 text-sm hover:bg-surface
+목록 행    border-b border-border (박스 없음)
+강조 블록  rounded-md border border-border bg-surface p-5
+버튼 주    rounded bg-heading text-bg px-4 py-2 text-sm font-medium
+버튼 보조  rounded border border-border px-4 py-2 text-sm hover:bg-surface
 텍스트 버튼 text-muted hover:text-heading
-입력      rounded border border-border bg-surface px-3 py-2
-태그/뱃지 rounded-full border border-border px-2.5 py-0.5 text-xs text-muted
-이미지    rounded-sm
-코드블록  rounded-md bg-surface border border-border
+입력       rounded border border-border bg-surface px-3 py-2
+태그       rounded-sm border border-border px-2 py-0.5 text-xs text-muted
+이미지     rounded-sm
+코드블록   rounded-md bg-surface border border-border
 ```
 
 ### 본문 요소 (핵심 요구사항)
 
 | 요소 | 규격 |
 |---|---|
-| **표** | `overflow-x-auto` 컨테이너로 감싼다. 헤더 행 `bg-surface` + 하단 보더. 셀 `px-3 py-2 text-sm`. 좁은 화면에서 가로 스크롤되고 페이지 본문은 절대 가로 스크롤되지 않는다. 스크롤 가능함을 시각적으로 알린다 (우측 페이드). |
-| **이미지** | `<figure>` + `<figcaption>` (캡션 `text-sm text-muted`). 클릭하면 라이트박스로 확대. `next/image` 로 최적화하고 `alt` 필수. |
-| **차트** | 컨테이너 `border border-border rounded-md p-4`. 축·격자선은 `border` 색, 라벨은 `muted`. 반응형 높이. 다크모드에서 색 토큰이 자동 전환되어야 한다. |
+| **표** | `overflow-x-auto` 로 감싼다. 헤더 행 `bg-surface` + 하단 보더. 셀 `px-3 py-2 text-sm`. 좁은 화면에서 표만 가로 스크롤되고 페이지는 절대 밀리지 않는다. 우측 페이드로 스크롤 가능함을 알린다. |
+| **이미지** | `<figure>` + `<figcaption>` (`text-sm text-muted`). 클릭 시 확대. `next/image` + `alt` 필수. |
+| **차트** | 컨테이너 `border border-border rounded-md p-4`. 축·격자선 `border`, 라벨 `muted`. 다크에서 색이 자동 전환되어야 한다. |
 | **다이어그램** | Mermaid 테마를 CSS 변수에 맞춰 라이트/다크 각각 설정. 배경 투명. |
-| **수식** | KaTeX. 인라인은 본문 행간을 깨지 않게, 별행 수식은 좌우 여백 + 넘칠 때 가로 스크롤. |
-| **코드블록** | 구문 강조 + 복사 버튼(우상단, hover 시 노출). 언어 라벨 표시. 줄바꿈 대신 가로 스크롤. |
+| **수식** | KaTeX. 별행 수식은 넘칠 때 자체 가로 스크롤. |
+| **코드블록** | 구문 강조 + 복사 버튼(우상단). 언어 라벨. 가로 스크롤. |
 | **콜아웃** | 좌측 3px 보더 + 시맨틱 색. 아이콘은 인라인 SVG. |
 
 ## 애니메이션
-- **허용**: 색·불투명도 `transition-colors`/`transition-opacity` 150ms ease. 페이지 진입 fade-in 300ms 1회.
-- **그 외 전부 금지.** 스크롤 트리거, transform 확대/이동, 무한 루프, glow, 패럴랙스.
+
+- **허용**: `transition-colors` / `transition-opacity` 150ms ease.
+- **그 외 전부 금지.** 스크롤 트리거, transform 확대·이동, 무한 루프, glow, 패럴랙스.
 - `prefers-reduced-motion` 을 존중한다.
 
 ## 아이콘
-- 인라인 SVG, `strokeWidth 1.5`, `currentColor`, 크기 16/20/24.
-- 아이콘을 둥근 배경 박스로 감싸지 않는다.
-- 이모지를 아이콘 대용으로 쓰지 않는다.
+
+- **`src/components/icons.tsx` 하나에 모아 둔다.** 파일마다 인라인 SVG 를 새로 그리지 마라 — 획 두께와 크기가 갈린다.
+- 24px 그리드, `strokeWidth 1.5`, `stroke-linecap="round"`, `currentColor`, 표시 크기 16/20.
+- 아이콘 라이브러리를 설치하지 마라.
+- 둥근 배경 박스로 감싸지 마라. 이모지를 아이콘 대용으로 쓰지 마라.
 
 ## 접근성
-- 본문 대비 최소 4.5:1, 큰 텍스트 3:1.
-- 포커스 링을 지우지 마라 — `focus-visible:outline-2 outline-accent`.
+
+- 본문 대비 최소 4.5:1, 큰 텍스트 3:1. **카테고리 색을 텍스트로 쓸 때도 지켜야 한다.**
+- 포커스 링을 지우지 마라 — `focus-visible:outline-2 outline-focus`.
+- 색만으로 정보를 전달하지 마라. 카테고리는 색 **과 함께** 라벨을 붙인다.
 - 표에 `<caption>` 또는 `aria-label`. 차트에 텍스트 요약 또는 원본 표 병기.
