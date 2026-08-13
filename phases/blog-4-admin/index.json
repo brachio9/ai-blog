@@ -86,9 +86,14 @@
           "at": "2026-08-13T09:34:51+0900",
           "status": "completed",
           "attempt": 1
+        },
+        {
+          "at": "2026-08-13T09:35:33+0900",
+          "status": "completed",
+          "attempt": 1
         }
       ],
-      "completed_at": "2026-08-13T09:34:51+0900",
+      "completed_at": "2026-08-13T09:35:33+0900",
       "summary": "src/lib/mdx.ts 확장 (플러그인 설정을 MDX_OPTIONS 상수 하나로 뽑아 renderMdx 와 공유 — ADR-003) + compileMdxChecked(source, options?): Promise<{ok:true;content:ReactElement}|{ok:false;message:string}> (compileMDX 로 컴파일을 즉시 await 해 try/catch — renderMdx 는 시그니처·동작 그대로); 신규 파일 src/app/admin/editor/{page.tsx, Editor.tsx('use client'), actions.ts, draft.ts, serialize.ts, draft.test.ts}; page.tsx 는 첫 줄 requireAdmin() → ?path= 있으면 readFile(path) + gray-matter 로 갈라 toDraftForm(data, content, path) 로 초기값, 없으면 newDraft(nowKstIso()); **Client Manifest 등록은 page.tsx 에서** `import { MDX_COMPONENTS } from '@/components/mdx'` 를 `const PREVIEW_COMPONENTS = Object.keys(MDX_COMPONENTS).length` 로 참조해 루트 div 의 data-preview-components 에 실어 트리셰이킹을 막는다 (빠지면 프리뷰의 Chart/Diagram 이 프로덕션은 Client Manifest 에러, 개발은 빈 화면); page.tsx 는 `import '@/lib/mdx'` 도 한다 — 'use server' 모듈의 katex CSS 는 이 라우트 스타일시트에 실리지 않아 프리뷰 수식이 조판되지 않았다(실측); actions.ts 는 'use server' + getAdminLogin() 판정(던지지 않고 {ok:false,message}) 후 compileMdxChecked 호출하는 previewMdx(source) 하나; Editor.tsx 는 600ms 디바운스로 previewMdx 를 부르고 실패 시 이전 프리뷰를 지운 뒤 컴파일러 메시지를 그대로 노출, 프리뷰는 공개 글과 같은 MdxBody 컨테이너, 좁은 화면은 작성/프리뷰 탭 전환, 저장 버튼은 비활성(step 4); **step 4 가 물려받을 값: Editor props = { initial: DraftForm, filePath: string|null, sha: string|null }** — DraftForm 은 title·category·slug·summary·publishedAt·updatedAt·tags(콤마)·cover·draft·source*·paper*(문자열)·body 이고, draft.ts 가 toFrontmatterObject(form) · serialize.ts 의 serializeDraft(form)=gray-matter MDX 문자열 · draftFilePath(category, publishedAt, slug)=`content/{category}/YYYY-MM-DD-{slug}.mdx` · nowKstIso() · isValidSlug/suggestSlug(한글은 빈 값 — 로마자화 안 함) · validateDraft(form)=슬러그 + schema.ts 재사용 검증(신규 export checkFrontmatter → FrontmatterIssue{field,message}) 을 준다 (커밋은 filePath/sha 로: sha 있으면 덮어쓰기); 실측 검증: dev(3000)·prod(3100) 양쪽에서 유효 세션 /admin/editor 200, 프리뷰에 표·코드블록(shiki 이중테마)·콜아웃·figure 이미지·KaTeX(인라인·별행, font-family KaTeX_Main)·Recharts SVG·mermaid SVG 모두 렌더, 깨진 MDX 는 '[next-mdx-remote] error compiling MDX: …' 를 그대로 띄우고 이전 프리뷰 제거·고치면 복구, 콘솔 에러 0건, 375/768/1280px 가로 밀림 없음, 라이트·다크 동일, ?path=content/papers/2026-08-05-moe-routing-pipeline.mdx 로 열면 제목·slug·발행일·태그·arXiv·본문·프리뷰가 채워지고 검증 통과 표시; Server Action 인증: 화이트리스트 밖 계정의 유효 세션은 {ok:false} 만 받고(컴파일 안 함) 세션 없는 호출은 빈 응답, 미로그인 /admin/editor 는 307 /admin/login; 공개 페이지·글 상세는 그대로 SSG(●)이고 katex·표 렌더 유지; 테스트 192개 통과(신규 19)"
     },
     {
