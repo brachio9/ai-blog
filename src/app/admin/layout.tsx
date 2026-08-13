@@ -16,14 +16,14 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-2 px-5 py-3 md:h-14 md:px-8 md:py-0">
           <Link
             href="/admin"
-            className="mr-auto text-base font-semibold tracking-tight text-heading transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-accent"
+            className="mr-auto text-base font-semibold tracking-tight text-heading underline-offset-[0.2em] hover:underline focus-visible:outline-2 focus-visible:outline-focus"
           >
             관리자
           </Link>
 
           <Link
             href="/"
-            className="text-sm text-muted transition-colors hover:text-heading focus-visible:outline-2 focus-visible:outline-accent"
+            className="text-sm text-muted transition-colors hover:text-heading focus-visible:outline-2 focus-visible:outline-focus"
           >
             사이트로 돌아가기
           </Link>
@@ -39,7 +39,7 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
               >
                 <button
                   type="submit"
-                  className="rounded border border-border px-3 py-1.5 text-sm text-body transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-accent"
+                  className="rounded border border-border px-3 py-1.5 text-sm text-body transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus"
                 >
                   로그아웃
                 </button>

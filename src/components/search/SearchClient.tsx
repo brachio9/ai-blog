@@ -141,7 +141,7 @@ export function SearchClient() {
         <label htmlFor="search-query" className="sr-only">
           검색어
         </label>
-        <div className="flex items-center gap-2 rounded border border-border bg-surface px-3 py-2 focus-within:outline-2 focus-within:outline-accent">
+        <div className="flex items-center gap-2 rounded border border-border bg-surface px-3 py-2 focus-within:outline-2 focus-within:outline-focus">
           <SearchIcon className="shrink-0 text-muted" />
           <input
             id="search-query"
@@ -150,7 +150,7 @@ export function SearchClient() {
             onChange={(event) => setDraft(event.target.value)}
             placeholder="제목·요약·태그에서 검색"
             autoComplete="off"
-            className="w-full min-w-0 bg-transparent text-body outline-none placeholder:text-faint"
+            className="w-full min-w-0 bg-transparent text-body outline-none placeholder:text-muted"
           />
         </div>
       </div>

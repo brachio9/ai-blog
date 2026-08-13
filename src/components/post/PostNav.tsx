@@ -52,7 +52,7 @@ function PostNavLink({
 }) {
   const isNext = direction === "next";
   const classes = [
-    "group rounded-md border border-border p-4 transition-colors hover:border-accent focus-visible:outline-2 focus-visible:outline-accent",
+    "group rounded-md border border-border p-4 transition-colors hover:border-muted focus-visible:outline-2 focus-visible:outline-focus",
     isNext ? "text-right" : undefined,
     className,
   ].filter((item) => item !== undefined);
@@ -73,7 +73,7 @@ function PostNavLink({
         {isNext ? <ArrowRightIcon size={16} className="shrink-0" /> : null}
       </span>
 
-      <span className="mt-1 block text-base font-medium text-heading transition-colors group-hover:text-accent">
+      <span className="mt-1 block text-base font-medium text-heading underline-offset-[0.2em] group-hover:underline">
         {post.frontmatter.title}
       </span>
     </Link>

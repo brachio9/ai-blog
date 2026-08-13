@@ -20,7 +20,21 @@
     {
       "step": 1,
       "name": "tokens-and-type",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-13T20:13:24+0900",
+      "completed_at": "2026-08-13T20:31:10+0900",
+      "summary": "색 토큰·폰트·조판 규칙을 UI_GUIDE 신 팔레트로 교체. (1) globals.css :root/.dark 전면 재작성 — 중성 bg/surface/border/heading/body/muted/faint 를 웜톤(#fdfcfa·#1c1917·#78716c·#e7e2da)에서 중성(#fafafa·#ffffff·#e5e5e5·#171717·#404040·#737373·#a3a3a3 / 다크 #0c0c0d·#161617·#2a2a2c·#f5f5f5·#d4d4d4·#8f8f93·#6b6b70)으로. 신규 토큰: --focus(#1d4ed8/#60a5fa, 포커스 링 전용) · --cat-hf(#8a5a00/#d9a441) · --cat-paper(#0f6b63/#4fb3a5) · --cat-note(#a8442a/#e07a55) — categories.ts 의 accent 키 hf|paper|note 와 1:1. 시맨틱 4종(success #3f7d3a/#78ad70 · warning #8a5a00/#d9a441 · danger #b02020/#e08080 · info #0f6b63/#4fb3a5)과 차트 5색 전부 신값으로 교체. --chart-1…--chart-5 **이름은 그대로** (Chart.tsx 가 런타임에 읽는다) — 브라우저 실측으로 계열색 rgb(15,107,99)/rgb(168,68,42)/rgb(138,90,0), 다크 rgb(79,179,165)/rgb(224,122,85)/rgb(217,164,65) 확인, 검정 아님. @theme inline 에 --color-focus · --color-cat-hf/paper/note 노출. (2) 폰트 3종 교체 — layout.tsx 에서 Inter/Source_Serif_4/JetBrains_Mono 제거, IBM_Plex_Sans_KR(400,600, --font-plex-sans-kr) · Noto_Serif_KR(400,600, --font-noto-serif-kr) · IBM_Plex_Mono(400, --font-plex-mono). subsets 는 [\"latin\"] 만 (korean 은 next/font 타입에 없다). globals.css 의 --sans/--serif/--mono 가 이 변수를 받고 한글 폴백(Apple SD Gothic Neo·Malgun Gothic)은 유지. 빌드 산출 CSS 에 @font-face 464개·unicode-range 441개·woff2 청크 337개, 브라우저에서 한글 폭 실측 serif 370.94 / sans 342.53 / monospace 332.16 으로 셋 다 달라 두 웹폰트가 한글을 직접 그림을 확인. (3) 한글 조판 전역 — html { word-break: keep-all; overflow-wrap: break-word } (둘 다 상속 속성이라 html 한 곳이면 문서 전체에 걸린다). 숫자는 Tailwind 의 tabular-nums 를 쓰므로 별도 CSS 없음. (4) 링크는 색을 쓰지 않는다 — 본문 링크(Anchor·SourceNote·PostList·SiteFooter·Editor)는 `text-heading underline decoration-border underline-offset-[0.2em] hover:decoration-heading`, 내비 링크는 muted → hover heading(밑줄 없음), 현재 위치는 색 대신 `font-medium text-heading`(SiteHeader·TableOfContents·TagFilter·admin 칩·Editor 탭). 포커스 링은 전부 `focus-visible:outline-focus` 로 통일(35곳) — 실측 rgb(29,78,216) 2px solid. (5) --accent/--accent-hover **삭제** — 구 값 #a8442a 가 신 팔레트에서 --cat-note 와 같은 색이라 카테고리 부호와 충돌한다. 참조 40여 곳을 전부 이관: 링크→위 규칙, hover 테두리→border-muted, 활성 칩/탭→border-heading+font-medium, 제목 hover→hover:underline, SourceNote 좌측 3px→border-l-info, Diagram.tsx 의 런타임 조회 read(\"--accent\")→read(\"--muted\") (lineColor, 실측 라이트 rgb(115,115,115)·다크 rgb(143,143,147)). src/ 에 accent 참조 0. (6) faint 오용 2곳 정리 — TagFilter 태그 개수·SearchClient placeholder 를 text-muted 로(실측 rgb(115,115,115)). 비활성 페이지네이션·앵커 표식·li::marker 는 장식이므로 faint 유지. (7) step 0 이 넘긴 OG 이미지 hex 정합 — 두 파일 모두 신 팔레트로(bg #fafafa·heading #171717·muted #737373·border #e5e5e5). 글 OG 는 카테고리별 색(ACCENT_COLOR 맵, accent 키 기반)으로 좌측 규칙선·라벨을 칠하고 홈 OG 는 중성 heading. 실제 PNG 렌더로 papers=teal·notes=rust·홈=중성 확인. (8) 레이아웃·컴포넌트 구조는 손대지 않았다(step 2~5 몫) — 중앙정렬 히어로·카드 그리드 그대로. AC 전부 통과: lint·build(글 상세 SSG ● 유지)·test 273 passed·typecheck·node 검사 4종·pytest 71 passed. 브라우저 실측 대비: 본문 13.19:1 · 메타 6.07:1. (9) 발견(미수정, 범위 밖): Editor.tsx:680 의 커밋 sha 표시가 text-faint 라 정보 텍스트에 대비 미달 토큰을 쓴다 — step 이 지정한 2곳에 포함되지 않아 건드리지 않았다.",
+      "events": [
+        {
+          "at": "2026-08-13T20:13:24+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-13T20:31:10+0900",
+          "status": "completed",
+          "attempt": 1
+        }
+      ]
     },
     {
       "step": 2,

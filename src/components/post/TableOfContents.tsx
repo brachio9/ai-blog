@@ -70,7 +70,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
         onClick={() => setIsOpen((open) => !open)}
         aria-expanded={isOpen}
         aria-controls="table-of-contents"
-        className="flex w-full items-center justify-between rounded border border-border px-4 py-2 text-sm text-heading transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-accent lg:hidden"
+        className="flex w-full items-center justify-between rounded border border-border px-4 py-2 text-sm text-heading transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus lg:hidden"
       >
         <span>목차</span>
         {isOpen ? (
@@ -95,9 +95,10 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
                 // 모바일에서는 펼친 목차가 본문을 가린다. 고르면 접는다.
                 onClick={() => setIsOpen(false)}
                 aria-current={activeId === heading.id ? "location" : undefined}
-                className={`block leading-snug transition-colors focus-visible:outline-2 focus-visible:outline-accent ${
+                className={`block leading-snug transition-colors focus-visible:outline-2 focus-visible:outline-focus ${
+                  // 링크는 색을 쓰지 않으므로 현재 절은 굵기로 구분한다.
                   activeId === heading.id
-                    ? "text-accent"
+                    ? "font-medium text-heading"
                     : "text-muted hover:text-heading"
                 }`}
               >

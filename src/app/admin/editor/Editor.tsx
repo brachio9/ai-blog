@@ -19,15 +19,15 @@ import {
 const PREVIEW_DEBOUNCE_MS = 600;
 
 const INPUT =
-  "w-full rounded border border-border bg-surface px-3 py-2 text-sm text-body focus-visible:outline-2 focus-visible:outline-accent";
+  "w-full rounded border border-border bg-surface px-3 py-2 text-sm text-body focus-visible:outline-2 focus-visible:outline-focus";
 const LABEL = "block text-sm text-muted";
 const LEGEND = "text-sm font-medium text-heading";
 const TAB =
-  "rounded border px-3 py-1.5 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-accent";
+  "rounded border px-3 py-1.5 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-focus";
 const PRIMARY_BUTTON =
-  "rounded bg-heading px-4 py-2 text-sm font-medium text-bg transition-opacity focus-visible:outline-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-40";
+  "rounded bg-heading px-4 py-2 text-sm font-medium text-bg transition-opacity focus-visible:outline-2 focus-visible:outline-focus disabled:cursor-not-allowed disabled:opacity-40";
 const SECONDARY_BUTTON =
-  "rounded border border-border px-3 py-1.5 text-sm text-body transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-40";
+  "rounded border border-border px-3 py-1.5 text-sm text-body transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus disabled:cursor-not-allowed disabled:opacity-40";
 
 /** 커밋한 뒤 Vercel 이 다시 빌드해 사이트에 반영되기까지 걸리는 시간 (ADR-001). */
 const REDEPLOY_NOTICE =
@@ -342,7 +342,7 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
               href={notice.commitUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-1 inline-block text-sm text-accent transition-colors hover:text-accent-hover"
+              className="mt-1 inline-block text-sm text-heading underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading"
             >
               커밋 확인하기 →
             </a>
@@ -356,7 +356,7 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
           type="button"
           onClick={() => setPane("write")}
           aria-pressed={pane === "write"}
-          className={`${TAB} ${pane === "write" ? "border-accent text-accent" : "border-border text-muted"}`}
+          className={`${TAB} ${pane === "write" ? "border-heading font-medium text-heading" : "border-border text-muted"}`}
         >
           작성
         </button>
@@ -364,7 +364,7 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
           type="button"
           onClick={() => setPane("preview")}
           aria-pressed={pane === "preview"}
-          className={`${TAB} ${pane === "preview" ? "border-accent text-accent" : "border-border text-muted"}`}
+          className={`${TAB} ${pane === "preview" ? "border-heading font-medium text-heading" : "border-border text-muted"}`}
         >
           프리뷰
         </button>

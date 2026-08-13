@@ -1,24 +1,40 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
+import {
+  IBM_Plex_Mono,
+  IBM_Plex_Sans_KR,
+  Noto_Serif_KR,
+} from "next/font/google";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import { DARK_CLASS, DARK_MEDIA_QUERY, THEME_STORAGE_KEY } from "@/lib/theme";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+/**
+ * 한글 웹폰트 3종. `subsets` 에 `"korean"` 을 넣지 마라 — next/font 타입에 없는 값이라 컴파일 에러다.
+ * `["latin"]` 만 선언해도 생성된 CSS 에 한글 유니코드 범위(U+AC00…)가 함께 들어가고
+ * 브라우저가 필요한 청크만 받아 간다. 다만 그 범위는 preload 되지 않아 첫 페인트에 폴백이 잠깐 보인다 —
+ * next/font 가 만드는 metric-adjusted 폴백이 그 흔들림을 줄이므로 adjustFontFallback 을 끄지 마라.
+ *
+ * 굵기는 꼭 필요한 것만 부른다. 한글 폰트는 굵기 하나가 곧 청크 한 벌이다.
+ */
+const plexSansKr = IBM_Plex_Sans_KR({
+  variable: "--font-plex-sans-kr",
   subsets: ["latin"],
+  weight: ["400", "600"],
   display: "swap",
 });
 
-const sourceSerif = Source_Serif_4({
-  variable: "--font-source-serif-4",
+const notoSerifKr = Noto_Serif_KR({
+  variable: "--font-noto-serif-kr",
   subsets: ["latin"],
+  weight: ["400", "600"],
   display: "swap",
 });
 
-const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+/** 숫자·라틴 전용이다 — 한글이 없으므로 globals.css 스택 뒤의 한글 폴백이 실제로 쓰인다. */
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
   subsets: ["latin"],
+  weight: ["400"],
   display: "swap",
 });
 
@@ -47,7 +63,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="ko"
       suppressHydrationWarning
-      className={`${inter.variable} ${sourceSerif.variable} ${jetBrainsMono.variable} h-full antialiased`}
+      className={`${plexSansKr.variable} ${notoSerifKr.variable} ${plexMono.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

@@ -85,7 +85,7 @@ export default async function PostPage(props: PageProps<"/[category]/[slug]">) {
         <header className="max-w-[68ch] border-b border-border pb-6">
           <Link
             href={categoryHref(found)}
-            className="inline-block rounded-full border border-border px-2.5 py-0.5 text-xs text-muted transition-colors hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-accent"
+            className="inline-block rounded-full border border-border px-2.5 py-0.5 text-xs text-muted transition-colors hover:border-muted hover:text-heading focus-visible:outline-2 focus-visible:outline-focus"
           >
             {found.name}
           </Link>
@@ -115,7 +115,7 @@ export default async function PostPage(props: PageProps<"/[category]/[slug]">) {
                   {/* 목록의 태그 필터 규약(step 1)을 그대로 쓴다. */}
                   <Link
                     href={`${categoryHref(found)}?tag=${encodeURIComponent(tag)}`}
-                    className="inline-block rounded-full border border-border px-2.5 py-0.5 text-xs text-muted transition-colors hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-accent"
+                    className="inline-block rounded-full border border-border px-2.5 py-0.5 text-xs text-muted transition-colors hover:border-muted hover:text-heading focus-visible:outline-2 focus-visible:outline-focus"
                   >
                     {tag}
                   </Link>

@@ -9,7 +9,7 @@ export interface SourceNoteProps {
 }
 
 const LINK_CLASS =
-  "text-accent underline underline-offset-2 transition-colors hover:text-accent-hover focus-visible:outline-2 focus-visible:outline-accent";
+  "text-heading underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus";
 
 /**
  * 출처 표기 — CLAUDE.md CRITICAL 의 구현체다.
@@ -30,7 +30,7 @@ export function SourceNote({ source, paper }: SourceNoteProps) {
   return (
     <aside
       aria-label="원문 출처"
-      className="my-8 max-w-[68ch] border border-border border-l-[3px] border-l-accent bg-surface p-5 font-sans"
+      className="my-8 max-w-[68ch] border border-border border-l-[3px] border-l-info bg-surface p-5 font-sans"
     >
       <p className="text-sm font-medium text-heading">원문 출처</p>
 

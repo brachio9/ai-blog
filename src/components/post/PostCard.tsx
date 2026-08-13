@@ -28,7 +28,7 @@ export function PostCard({ post, showCategory = false }: PostCardProps) {
     <article className="h-full">
       <Link
         href={`/${post.category}/${post.slug}`}
-        className="group flex h-full flex-col rounded-md border border-border bg-surface p-5 transition-colors hover:border-accent focus-visible:outline-2 focus-visible:outline-accent"
+        className="group flex h-full flex-col rounded-md border border-border bg-surface p-5 transition-colors hover:border-muted focus-visible:outline-2 focus-visible:outline-focus"
       >
         {frontmatter.cover ? (
           // 제목이 바로 아래에 있으므로 커버는 장식이다 — alt 를 비워 중복 낭독을 막는다.
@@ -48,7 +48,7 @@ export function PostCard({ post, showCategory = false }: PostCardProps) {
           </span>
         ) : null}
 
-        <h3 className="text-base font-medium text-heading transition-colors group-hover:text-accent">
+        <h3 className="text-base font-medium text-heading underline-offset-[0.2em] group-hover:underline">
           {frontmatter.title}
         </h3>
 

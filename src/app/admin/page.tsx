@@ -23,10 +23,10 @@ export const metadata: Metadata = {
 };
 
 const CHIP =
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs transition-colors focus-visible:outline-2 focus-visible:outline-accent";
+  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs transition-colors focus-visible:outline-2 focus-visible:outline-focus";
 const CHIP_INACTIVE =
-  "border-border text-muted hover:border-accent hover:text-accent";
-const CHIP_ACTIVE = "border-accent bg-surface text-accent";
+  "border-border text-muted hover:border-muted hover:text-heading";
+const CHIP_ACTIVE = "border-heading bg-surface font-medium text-heading";
 
 const BADGE = "rounded-full border px-2.5 py-0.5 text-xs";
 
@@ -86,7 +86,7 @@ export default async function AdminHomePage(props: PageProps<"/admin">) {
 
         <Link
           href="/admin/editor"
-          className="rounded bg-heading px-4 py-2 text-sm font-medium text-bg transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-accent"
+          className="rounded bg-heading px-4 py-2 text-sm font-medium text-bg transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-focus"
         >
           새 글 작성
         </Link>
@@ -161,7 +161,7 @@ function PostRow({ row }: { row: AdminPostRow }) {
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <Link
           href={editorHref(row.path)}
-          className="text-base font-medium text-heading transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-accent"
+          className="text-base font-medium text-heading underline-offset-[0.2em] hover:underline focus-visible:outline-2 focus-visible:outline-focus"
         >
           {row.title}
         </Link>

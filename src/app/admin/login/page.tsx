@@ -63,7 +63,7 @@ export default async function AdminLoginPage(
           >
             <button
               type="submit"
-              className="rounded bg-heading px-4 py-2 text-sm font-medium text-bg transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-accent"
+              className="rounded bg-heading px-4 py-2 text-sm font-medium text-bg transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-focus"
             >
               GitHub 계정으로 로그인
             </button>

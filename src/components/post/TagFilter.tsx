@@ -11,9 +11,9 @@ export interface TagFilterProps {
 }
 
 const CHIP =
-  "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs transition-colors focus-visible:outline-2 focus-visible:outline-accent";
-const INACTIVE = "border-border text-muted hover:border-accent hover:text-accent";
-const ACTIVE = "border-accent bg-surface text-accent";
+  "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs transition-colors focus-visible:outline-2 focus-visible:outline-focus";
+const INACTIVE = "border-border text-muted hover:border-muted hover:text-heading";
+const ACTIVE = "border-heading bg-surface font-medium text-heading";
 
 /** page 를 넘기지 않는다 — 태그를 바꾸면 1페이지로 돌아가야 3페이지에서 빈 목록을 보지 않는다. */
 function tagHref(basePath: string, tag?: string): string {
@@ -50,7 +50,8 @@ export function TagFilter({ tags, activeTag, basePath }: TagFilterProps) {
                 className={`${CHIP} ${isActive ? ACTIVE : INACTIVE}`}
               >
                 <span>{tag}</span>
-                <span className="text-faint">{count}</span>
+                {/* 태그 개수는 읽어야 하는 정보다 — faint 는 라이트에서 대비가 2.42:1 이라 못 쓴다. */}
+                <span className="text-muted tabular-nums">{count}</span>
                 {isActive ? <CloseIcon size={16} /> : null}
                 {isActive ? <span className="sr-only">필터 해제</span> : null}
               </Link>

@@ -47,7 +47,7 @@ function ZoomableImage({ src, alt }: { src: string; alt: string }) {
         type="button"
         onClick={() => setZoomed(true)}
         aria-label={`이미지 확대: ${alt}`}
-        className="block w-full cursor-zoom-in focus-visible:outline-2 focus-visible:outline-accent"
+        className="block w-full cursor-zoom-in focus-visible:outline-2 focus-visible:outline-focus"
       >
         <NextImage
           src={src}

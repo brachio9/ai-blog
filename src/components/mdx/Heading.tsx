@@ -10,7 +10,7 @@ function heading(Tag: "h2" | "h3" | "h4", className: string) {
           <a
             href={`#${id}`}
             aria-label="이 절로 가는 링크"
-            className="ml-2 text-faint no-underline opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-accent hover:text-accent"
+            className="ml-2 text-faint no-underline opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-focus hover:text-heading"
           >
             #
           </a>

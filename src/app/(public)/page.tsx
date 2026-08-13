@@ -42,7 +42,7 @@ export default function Home() {
               </div>
               <Link
                 href={categoryHref(category)}
-                className="text-sm text-muted transition-colors hover:text-heading focus-visible:outline-2 focus-visible:outline-accent"
+                className="text-sm text-muted transition-colors hover:text-heading focus-visible:outline-2 focus-visible:outline-focus"
               >
                 전체 보기
               </Link>

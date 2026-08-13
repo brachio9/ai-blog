@@ -18,10 +18,11 @@ export default function OpengraphImage() {
           width: "100%",
           height: "100%",
           display: "flex",
-          backgroundColor: "#fdfcfa",
+          backgroundColor: "#fafafa",
         }}
       >
-        <div style={{ width: 16, height: "100%", backgroundColor: "#a8442a" }} />
+        {/* 사이트 전체를 대표하는 카드라 카테고리 색을 쓰지 않는다 — 중성 heading 으로 긋는다. */}
+        <div style={{ width: 16, height: "100%", backgroundColor: "#171717" }} />
         <div
           style={{
             flex: 1,
@@ -31,7 +32,7 @@ export default function OpengraphImage() {
             padding: "0 80px",
           }}
         >
-          <div style={{ fontSize: 76, fontWeight: 600, color: "#1c1917" }}>
+          <div style={{ fontSize: 76, fontWeight: 600, color: "#171717" }}>
             {SITE_NAME}
           </div>
           <div
@@ -39,7 +40,7 @@ export default function OpengraphImage() {
               marginTop: 28,
               fontSize: 34,
               lineHeight: 1.5,
-              color: "#78716c",
+              color: "#737373",
             }}
           >
             {SITE_DESCRIPTION}

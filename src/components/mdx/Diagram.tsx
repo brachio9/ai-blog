@@ -18,7 +18,7 @@ function readThemeColors() {
     border: read("--border"),
     body: read("--body"),
     heading: read("--heading"),
-    accent: read("--accent"),
+    muted: read("--muted"),
     sans: read("--sans"),
   };
 }
@@ -84,7 +84,8 @@ export default function Diagram({ chart }: { chart: string }) {
             mainBkg: color.surface,
             nodeBorder: color.border,
             nodeTextColor: color.body,
-            lineColor: color.accent,
+            // 연결선은 노드보다 물러나야 한다 — 중성 muted 로 긋는다 (색은 카테고리 부호 전용).
+            lineColor: color.muted,
             textColor: color.body,
             titleColor: color.heading,
             edgeLabelBackground: color.surface,

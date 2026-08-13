@@ -20,7 +20,7 @@ export function SiteFooter() {
           {/* rss.xml 은 다음 phase 에서 생성된다. */}
           <a
             href="/rss.xml"
-            className="text-accent transition-colors hover:text-accent-hover focus-visible:outline-2 focus-visible:outline-accent"
+            className="text-heading underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus"
           >
             RSS
           </a>

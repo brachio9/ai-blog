@@ -5,8 +5,12 @@ import { ExternalLinkIcon } from "@/components/ui/icons";
 
 const EXTERNAL_PATTERN = /^https?:\/\//;
 
+/**
+ * 본문 링크는 색을 쓰지 않는다 — 카테고리 3색이 이미 색을 정보로 쓰고 있어
+ * 링크까지 색을 가지면 화면이 산만해진다. 구분은 밑줄이 맡는다 (UI_GUIDE 링크 절).
+ */
 const LINK_CLASS =
-  "text-accent underline decoration-border underline-offset-2 transition-colors hover:text-accent-hover hover:decoration-current focus-visible:outline-2 focus-visible:outline-accent";
+  "text-heading underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus";
 
 /** 본문 링크. 내부는 next/link, 외부는 새 탭 + 외부 표시. */
 export function MdxAnchor({ href, children, ...props }: ComponentProps<"a">) {

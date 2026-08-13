@@ -23,7 +23,7 @@ export function SiteHeader() {
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 py-3 md:h-16 md:py-0">
           <Link
             href="/"
-            className="mr-auto text-base font-semibold tracking-tight text-heading transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-accent"
+            className="mr-auto text-base font-semibold tracking-tight text-heading underline-offset-[0.2em] hover:underline focus-visible:outline-2 focus-visible:outline-focus"
           >
             {SITE_NAME}
           </Link>
@@ -39,8 +39,11 @@ export function SiteHeader() {
                   key={category.slug}
                   href={href}
                   aria-current={isActive ? "page" : undefined}
-                  className={`text-sm transition-colors focus-visible:outline-2 focus-visible:outline-accent ${
-                    isActive ? "text-accent" : "text-muted hover:text-heading"
+                  className={`text-sm transition-colors focus-visible:outline-2 focus-visible:outline-focus ${
+                    // 색을 뺀 자리를 굵기가 대신한다 — 현재 위치가 색만으로 전달되면 안 된다.
+                    isActive
+                      ? "font-medium text-heading"
+                      : "text-muted hover:text-heading"
                   }`}
                 >
                   {category.name}
@@ -53,9 +56,9 @@ export function SiteHeader() {
             href="/search"
             aria-label="검색"
             aria-current={pathname === "/search" ? "page" : undefined}
-            className={`transition-colors focus-visible:outline-2 focus-visible:outline-accent ${
+            className={`transition-colors focus-visible:outline-2 focus-visible:outline-focus ${
               pathname === "/search"
-                ? "text-accent"
+                ? "text-heading"
                 : "text-muted hover:text-heading"
             }`}
           >

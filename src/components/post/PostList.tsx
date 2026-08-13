@@ -84,7 +84,7 @@ export function PostList({ items, basePath, showCategory }: PostListProps) {
           </p>
           <Link
             href={listHref(basePath, { tag: activeTag, page: 1 })}
-            className="mt-2 inline-block text-sm text-accent transition-colors hover:text-accent-hover focus-visible:outline-2 focus-visible:outline-accent"
+            className="mt-2 inline-block text-sm text-heading underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus"
           >
             1페이지로 이동
           </Link>
@@ -114,7 +114,7 @@ export function PostList({ items, basePath, showCategory }: PostListProps) {
             <Link
               href={listHref(basePath, { tag: activeTag, page: page - 1 })}
               rel="prev"
-              className="rounded border border-border px-4 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-accent"
+              className="rounded border border-border px-4 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus"
             >
               이전
             </Link>
@@ -130,7 +130,7 @@ export function PostList({ items, basePath, showCategory }: PostListProps) {
             <Link
               href={listHref(basePath, { tag: activeTag, page: page + 1 })}
               rel="next"
-              className="rounded border border-border px-4 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-accent"
+              className="rounded border border-border px-4 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus"
             >
               다음
             </Link>

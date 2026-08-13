@@ -54,7 +54,7 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label={label}
       title={label}
-      className="rounded border border-border p-1.5 text-muted transition-colors hover:bg-surface hover:text-heading focus-visible:outline-2 focus-visible:outline-accent"
+      className="rounded border border-border p-1.5 text-muted transition-colors hover:bg-surface hover:text-heading focus-visible:outline-2 focus-visible:outline-focus"
     >
       {theme === null ? (
         <span className="block size-5" />

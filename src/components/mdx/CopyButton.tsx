@@ -29,7 +29,7 @@ export function CopyButton({ text }: { text: string }) {
       onClick={copy}
       aria-label={copied ? "복사됨" : "코드 복사"}
       title={copied ? "복사됨" : "코드 복사"}
-      className="pointer-events-auto rounded border border-border bg-surface p-1.5 text-muted opacity-0 transition-opacity hover:text-heading focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-accent group-hover:opacity-100"
+      className="pointer-events-auto rounded border border-border bg-surface p-1.5 text-muted opacity-0 transition-opacity hover:text-heading focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-focus group-hover:opacity-100"
     >
       {copied ? <CheckIcon size={16} /> : <ClipboardIcon size={16} />}
     </button>
