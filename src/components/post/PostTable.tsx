@@ -4,13 +4,15 @@ import { getCategory, type CategoryAccent } from "@/lib/categories";
 import { formatDateShort } from "@/lib/format";
 import type { Post } from "@/types/content";
 
+import { ViewCell } from "./ViewCounts";
+
 export interface PostTableProps {
   posts: Post[];
   /** 카테고리 페이지 안에서는 구분 열이 불필요하다 */
   showCategory?: boolean;
   /** 논문 목록에서 arXiv ID 를 식별자 열에 보인다 */
   showIdentifier?: boolean;
-  /** 조회수 열 자리를 확보할지. step 4 가 채운다 */
+  /** 조회수 열을 둘지. 값은 감싸는 <ViewCounts> 가 런타임에 채운다 */
   reserveViews?: boolean;
   /** 표의 접근 가능한 이름. 한 화면에 표가 둘 이상이면 서로 달라야 한다. */
   caption?: string;
@@ -106,10 +108,12 @@ export function PostTable({
           const { frontmatter } = post;
           const category = getCategory(post.category);
           const identifier = identifierOf(post, showIdentifier);
+          // 조회수 저장소의 post_id 는 글 상세 URL 과 같은 `{category}/{slug}` 다 (services/turso.ts).
+          const postId = `${post.category}/${post.slug}`;
 
           return (
             <tr
-              key={`${post.category}/${post.slug}`}
+              key={postId}
               // 위·아래 모두 선을 준다. 아래만 주면 collapse 된 머리글 경계가
               // 첫 행에만 0.5px 로 걸려 행 높이가 갈린다 (실측).
               className={`border-y border-l-2 border-y-border transition-colors hover:bg-surface ${
@@ -178,11 +182,14 @@ export function PostTable({
               </td>
 
               {reserveViews ? (
-                /* 조회수는 런타임 값이라 여기서 가져오지 않는다 (step 4 의 범위).
-                   값이 늦게 들어와도 표가 흔들리지 않도록 자리만 먼저 잡아 둔다. */
+                /* 조회수는 런타임 값이라 서버에서 읽지 않는다 — 감싸는 <ViewCounts> 가 채운다.
+                   열 폭은 머리글이 잡아 두므로(table-fixed) 값이 늦게 들어와도 표가 흔들리지 않고,
+                   못 받으면 이 칸만 빈 채로 남는다. */
                 <td
                   className={`hidden py-2.5 pr-3 text-right align-middle md:table-cell ${META}`}
-                />
+                >
+                  <ViewCell postId={postId} />
+                </td>
               ) : null}
             </tr>
           );

@@ -9,6 +9,7 @@ import type { PaperMeta, Post } from "@/types/content";
 
 import { PostTable } from "./PostTable";
 import { TagFilter } from "./TagFilter";
+import { ViewCounts } from "./ViewCounts";
 
 export interface PostListItem {
   slug: string;
@@ -58,6 +59,11 @@ export function toPost(item: PostListItem): Post {
   };
 }
 
+/** 조회수 저장소의 post_id — 글 상세 URL 과 같다 (services/turso.ts). */
+function viewId(item: PostListItem): string {
+  return `${item.category}/${item.slug}`;
+}
+
 /**
  * 필터·페이지네이션을 클라이언트에서 처리한다.
  * 서버에서 searchParams 를 읽으면 페이지가 통째로 동적이 되어 정적 생성이 사라진다 (실측).
@@ -105,12 +111,16 @@ export function PostList({
             : "아직 올라온 글이 없습니다."}
         </p>
       ) : (
-        <PostTable
-          posts={visible.map(toPost)}
-          showCategory={showCategory}
-          showIdentifier={showIdentifier}
-          reserveViews={reserveViews}
-        />
+        /* 조회수는 지금 보이는 페이지의 글만, 한 번에 물어본다.
+           reserveViews 가 꺼져 있으면 채울 칸이 없으므로 호출도 하지 않는다. */
+        <ViewCounts ids={reserveViews ? visible.map(viewId) : []}>
+          <PostTable
+            posts={visible.map(toPost)}
+            showCategory={showCategory}
+            showIdentifier={showIdentifier}
+            reserveViews={reserveViews}
+          />
+        </ViewCounts>
       )}
 
       {!isOutOfRange && totalPages > 1 ? (

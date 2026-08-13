@@ -6,6 +6,7 @@ import { Container } from "@/components/layout/Container";
 import { PostList, type PostListItem } from "@/components/post/PostList";
 import { CATEGORIES, categoryHref, getCategory } from "@/lib/categories";
 import { getPostsByCategory } from "@/lib/content/posts";
+import { formatDateShort } from "@/lib/format";
 import type { Post } from "@/types/content";
 
 /** 카테고리 3종을 빌드 타임에 정적 생성한다. */
@@ -57,6 +58,10 @@ export default async function CategoryPage(props: PageProps<"/[category]">) {
   // 식별자 열은 arXiv ID 가 있는 목록에서만 쓴다 — 카테고리 slug 를 여기 박지 않는다.
   const showIdentifier = items.some((item) => item.paper !== undefined);
 
+  // 수록 기간. 목록은 최신순이라 양 끝이 곧 처음과 마지막이다.
+  const newest = items.at(0);
+  const oldest = items.at(-1);
+
   return (
     <Container>
       <div className="space-y-8 py-12 md:py-16">
@@ -66,6 +71,20 @@ export default async function CategoryPage(props: PageProps<"/[category]">) {
           </h1>
           <p className="mt-2 max-w-[68ch] text-[1.0625rem] leading-[1.75] text-muted">
             {found.description}
+          </p>
+
+          {/* 이 카테고리에 무엇이 얼마나 쌓였는지 — 문장이 아니라 수치로 알린다. */}
+          <p className="mt-3 flex flex-wrap items-baseline gap-x-3 font-mono text-xs text-muted tabular-nums">
+            <span>{items.length}편</span>
+            {oldest && newest ? (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>
+                  {formatDateShort(oldest.publishedAt)} ~{" "}
+                  {formatDateShort(newest.publishedAt)}
+                </span>
+              </>
+            ) : null}
           </p>
         </header>
 
