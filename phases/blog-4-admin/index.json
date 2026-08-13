@@ -28,7 +28,21 @@
     {
       "step": 1,
       "name": "github-service",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-13T09:00:36+0900",
+      "completed_at": "2026-08-13T09:07:06+0900",
+      "summary": "src/services/github.ts (UI 없음, 서비스+테스트만) 가 isPublishConfigured(): boolean (GITHUB_CONTENT_REPO·GITHUB_CONTENT_BRANCH·GITHUB_CONTENT_TOKEN 셋 다 non-blank 여야 true — 브랜치 기본값 main 은 .env.example 이 들고 있다) · readFile(path): Promise<RemoteFile|null> (404→null 이 '신규 파일' 신호, RemoteFile={path,sha,content}, content 는 Buffer utf8↔base64 로 복원, GitHub 의 줄바꿈 접힌 base64·encoding!=='base64'(1MB 초과) 처리) · listPosts(): Promise<RemotePostSummary[]> (CATEGORIES 순회 → content/{category} 디렉토리 목록(404=빈 카테고리) → YYYY-MM-DD-{slug}.mdx 만, 파일명 날짜 내림차순, 동시 요청 5개로 제한, RemotePostSummary={path,category,slug,sha,frontmatter:PostFrontmatter|null,error?} — parseFrontmatter(src/lib/content/schema.ts 재사용) 나 YAML 이 깨지면 그 글만 frontmatter:null+error 로 남고 목록은 살아남는다) · commitFile({path,content,message,sha?}) · commitBinaryFile({path,base64,message}) · deleteFile({path,sha,message}) 를 export; 쓰기·읽기 모두 미설정이면 '설정되지 않았다' Error 를 던진다(조용한 성공 없음, 호출부가 isPublishConfigured() 로 먼저 거른다); 커밋류는 {sha,commitUrl(=commit.html_url)} 반환, PUT/DELETE body 에 branch 를 항상 싣고 sha 는 있을 때만(sha 있으면 덮어쓰기·없으면 신규); 실패는 export 한 GitHubApiError(status,message) 로 던지며 message 는 'GitHub {동작} 실패 ({status} — 힌트): {GitHub message}' 형식(401 토큰무효·403 권한없음·404 경로없음·409 브랜치 충돌·422 sha 불일치) 이고 토큰 문자열은 어디에도 담기지 않는다; 모든 fetch 는 Bearer 헤더 + Accept: application/vnd.github+json + X-GitHub-Api-Version: 2022-11-28 + cache:'no-store', 조회는 ?ref={branch}; 테스트 162개 통과(신규 15, fetch 전부 모킹 — 실제 GitHub 호출 없음)",
+      "events": [
+        {
+          "at": "2026-08-13T09:00:36+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-13T09:07:06+0900",
+          "status": "completed",
+          "attempt": 1
+        }
+      ]
     },
     {
       "step": 2,
