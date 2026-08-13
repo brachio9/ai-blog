@@ -38,7 +38,7 @@ export interface PostListProps {
  * PostTable 의 계약은 Post 다. 목록은 본문(body)을 클라이언트로 넘기지 않으므로
  * 표가 읽는 필드만 채워 되돌린다 — 표를 새로 만들지 않기 위한 어댑터다.
  */
-function toPost(item: PostListItem): Post {
+export function toPost(item: PostListItem): Post {
   return {
     frontmatter: {
       title: item.title,

@@ -68,7 +68,21 @@
     {
       "step": 3,
       "name": "discovery",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-13T20:51:03+0900",
+      "completed_at": "2026-08-13T21:08:00+0900",
+      "summary": "글 하나를 읽고 난 뒤의 길을 냈다 — 태그 색인·아카이브·소개 3개 라우트 신설 + 푸터를 두 번째 내비게이션으로. (1) src/lib/stats.ts 신설 (파생 통계, 빌드 타임 전용·네트워크 없음): `countByCategory(): { slug: CategorySlug; count: number }[]` (CATEGORIES 순서 그대로, 0편 카테고리도 남긴다) · `postsByMonth(): { ym: string; count: number; posts: Post[] }[]` (ym 은 KST YYYY-MM, 최신 월 먼저, 월 안은 getAllPosts() 의 최신순 유지) · `tagIndex(): { tag: string; count: number }[]` (빈도 내림차순, 동률은 태그 이름 코드포인트순). 타입 CategoryCount·MonthGroup export. 재사용 원칙 준수 — 태그 집계는 getAllTags() 를 감싸 정렬만 더하고 다시 세지 않는다, 초안 제외도 getAllPosts() 가 하는 대로 두고 다시 거르지 않는다. ym 은 publishedAt.slice(0,7) 로 뽑는다: 스키마가 +0900 을 강제하므로 앞 7자가 곧 KST 의 연-월이고, Date 로 되파싱하면 빌드 머신 타임존이 끼어든다. 동률 정렬에 localeCompare 대신 코드포인트 비교를 쓴 이유는 실행 환경 ICU 차이를 없애기 위해서다(한글 완성형은 코드포인트 순서가 곧 가나다순). (2) /tags — 태그 선택 URL 규약은 **`/tags?tag=<태그>` (listHref 재사용, 카테고리·검색과 같은 `?tag=` 규약)** 이고 이 페이지 안에서 결과를 보여준다(다른 페이지로 넘기지 않는다). 색인 목록(태그 + 글 수, sm 2열·lg 3열 grid, 행마다 border-b) 은 **서버가** 그리고 — 색인이 이 페이지의 본체라 정적 HTML 에 있어야 한다 — 고른 태그의 글만 `<Suspense>` 안의 신설 클라이언트 컴포넌트 src/components/post/TagPosts.tsx 가 useSearchParams 로 읽어 PostTable(showCategory)로 채운다. 태그 클라우드는 만들지 않았다(빈도는 크기가 아니라 mono tabular-nums 숫자로). 빈도 1 태그는 정렬로 뒤에 밀리되 전부 보인다. 없는 태그·빈 결과는 \"'X' 태그의 글이 없습니다\" + 선택 해제 링크라 막다른 길이 없다. TagPosts 가 PostTable 의 Post 계약을 맞추려고 PostList.tsx 의 `toPost` 어댑터를 export 로 바꿔 재사용했다(표를 새로 만들지 않기 위해 step 2 가 세운 패턴 그대로). (3) /archive — 상단 한 줄에 총 9편 · 2026년 6월 ~ 2026년 8월 · 소식 3 · 논문 3 · 메모 3 (카테고리 색은 라벨 텍스트에만). 연도(h2 + 연 합계) 아래 월별 `<details>` 이고 최근 3개월(OPEN_MONTHS)만 펼친다. 여닫기는 브라우저 기본 `<details>`/marker 로만 — JS 도 아이콘도 새로 만들지 않았다. 각 달은 PostTable(showCategory). (4) /about — 4구역을 서로 다른 형태로 짰다: 왜 「초록」인가(산문 2문단, 抄錄=abstract) / 세 가지 원칙(번호 목록 — 번역이 아니라 요약·출처를 먼저 적는다·고른 사람의 오해가 남는다) / 무엇을 읽는가(CATEGORIES 순회 + countByCategory 편수, 태그 색인·아카이브로 가는 길) / 잘못된 곳을 발견했다면(GitHub Issues https://github.com/brachio9/ai-blog/issues — 공개 레포임을 확인, ExternalLinkIcon). 본문만 font-serif, 페이지 크롬은 sans. 카테고리 색은 shortName 라벨에만 쓰고 링크는 heading+밑줄(UI_GUIDE: 색을 링크에 쓰지 마라). 일반론 문장 없음. (5) 헤더는 손대지 않았다 — 카테고리 3 + 검색 + 테마 그대로(무거워지지 않게). 푸터는 사이트명·원칙 한 줄 블록 + `<nav aria-label=\"둘러보기\">` 로 태그 색인(주제로 훑기)·아카이브(연·월별 발행 이력)·소개(무엇을 어떻게 추리는지)·RSS(구독) 4행, 각 행에 한 줄 설명을 붙여 헤더의 맨 링크 나열과 형태를 다르게 했다. 카테고리는 푸터에 다시 늘어놓지 않는다. (6) sitemap 에 /tags·/archive(weekly 0.4)·/about(monthly 0.3) 추가, 검색 인덱스는 글만 담는 채로 두었다. (7) 테스트 277 → 289 (stats.test.ts 12건: 월 최신순·같은 달 한 묶음·월 안 최신순·합계 일치·초안 제외 / 빈도 내림차순·동률 이름순·빈도1 후미·getAllTags 집계 일치·초안 태그 제외 / 카테고리 합계·순서·초안 제외). (8) 실측 — 신설 3개 라우트 전부 ○(정적), 공개 페이지 중 ƒ 없음(admin·api 만). 1440px 라이트/다크 양쪽 확인(다크 본문 13.19:1 · 제목 17.93:1 · 카테고리 라벨 8.69:1 · 푸터 설명 6.07:1), 375px 에서 세 페이지 모두 scrollWidth 375 = clientWidth(가로 스크롤 0), 태그 결과 표 행 높이 5행 전부 67.5px. 클릭 경로 완주: 홈 → 글 상세 → 푸터 태그 색인 → LLM(5편) → 아카이브(8월 접기/펼치기 동작) → 소개. 한글 태그(`?tag=긴 컨텍스트`) URL 인코딩·없는 태그 빈 상태도 확인. AC 전부 통과: lint·build·test 289 passed·typecheck·node 검사 4종·pytest 71 passed. (9) 발견(미수정, 범위 밖): 아카이브는 달마다 표가 하나씩이라 열 머리글(날짜/구분/제목/태그/읽힘)이 달 수만큼 반복된다 — 표를 나누는 이상 접근성상 맞는 구조라 두었고, 줄이려면 PostTable 에 머리글 숨김 프롭이 필요하다.",
+      "events": [
+        {
+          "at": "2026-08-13T20:51:03+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-13T21:08:00+0900",
+          "status": "completed",
+          "attempt": 1
+        }
+      ]
     },
     {
       "step": 4,

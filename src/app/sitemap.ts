@@ -34,11 +34,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),
-    {
-      url: `${SITE_URL}/search`,
+    // 색인·아카이브는 글이 늘 때마다 내용이 바뀐다. 소개·검색은 그렇지 않다.
+    ...["/tags", "/archive"].map((path) => ({
+      url: `${SITE_URL}${path}`,
       lastModified: latest,
-      changeFrequency: "monthly",
+      changeFrequency: "weekly" as const,
+      priority: 0.4,
+    })),
+    ...["/about", "/search"].map((path) => ({
+      url: `${SITE_URL}${path}`,
+      lastModified: latest,
+      changeFrequency: "monthly" as const,
       priority: 0.3,
-    },
+    })),
   ];
 }
