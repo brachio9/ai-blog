@@ -23,7 +23,8 @@
     },
     {
       "dir": "blog-4-admin",
-      "status": "pending"
+      "status": "completed",
+      "completed_at": "2026-08-13T09:56:36+0900"
     }
   ]
 }
