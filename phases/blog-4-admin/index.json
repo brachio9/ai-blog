@@ -52,7 +52,20 @@
     {
       "step": 2,
       "name": "admin-dashboard",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-13T09:08:01+0900",
+      "events": [
+        {
+          "at": "2026-08-13T09:08:01+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-13T09:20:00+0900",
+          "status": "completed"
+        }
+      ],
+      "completed_at": "2026-08-13T09:20:00+0900",
+      "summary": "src/app/admin/page.tsx (대시보드) + src/app/admin/posts.ts (순수 로직) + posts.test.ts (신규 11개); 페이지는 첫 줄 requireAdmin() → isPublishConfigured() → listPosts() 로 **레포**를 읽고 (fs/빌드타임 로더 금지 — 동적 라우트라 배포 후에만 깨지고, 발행 직후 재배포 전 글이 빠진다), isViewTrackingEnabled() 일 때만 getViews(postId='{category}/{slug}') 로 조회수를 한 번에 병합; posts.ts 가 toAdminRows(RemotePostSummary[])→AdminPostRow{path,category,slug,postId,title,publishedAt|null,fileDate,tags,draft,error?,views?} (발행일 내림차순, frontmatter 깨진 글은 파일명·파일명날짜로 자리를 지키고 오류 배지+사유를 함께 노출하며 편집 링크는 살아 있다) · resolveCategoryFilter(searchParams.category → 아는 slug 만) · filterByCategory · withViews · editorHref 를 export; **에디터 규약: 편집 링크는 `/admin/editor?path={encodeURIComponent(레포기준경로)}` (예: /admin/editor?path=content%2Fpapers%2F2026-08-05-moe-routing-pipeline.mdx), 신규 작성은 파라미터 없는 `/admin/editor`** — step 3 이 이 규약대로 받는다; 한 행에 제목(=편집 링크)·초안/발행/오류 배지·카테고리·발행일(KST formatDateShort)·조회수·경로·태그, 상단에 카테고리 필터 칩(?category=slug, 다시 누르면 해제)과 건수, 우상단 '새 글 작성'; 미설정이면 GITHUB_CONTENT_REPO·GITHUB_CONTENT_BRANCH·GITHUB_CONTENT_TOKEN **이름만** 안내하고 listPosts() 실패는 GitHubApiError 메시지를 그대로 노출(토큰 문자열 없음); layout.tsx·proxy.ts·공개 페이지·components/post 는 손대지 않았다; 실측 검증: next start 에서 유효 세션으로 /admin 200·글 9건 전부·초안 1건 배지·조회수 표시(Turso 켜짐)·?category=papers|notes|hf-blog 각 3건·잘못된 category 는 전체, 미로그인 307 /admin/login, 토큰 빈 값이면 미설정 안내·잘못된 토큰이면 '401 토큰이 유효하지 않다' 노출(응답에 토큰 문자열 0건), 375/768/1280px 에서 scrollWidth==clientWidth (가로 밀림 없음) 라이트·다크 양쪽 확인; 테스트 173개 통과(신규 11), 글 상세는 여전히 SSG·동적 라우트 증가 없음"
     },
     {
       "step": 3,
