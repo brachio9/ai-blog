@@ -21,8 +21,11 @@ export interface PostLeadProps {
  * 요약을 부제와 리드로 가른다. 첫 문장이 부제, 나머지가 리드다 —
  * 리드까지 읽으면 본문을 안 읽어도 무슨 얘긴지 알아야 한다 (design/brief.md).
  * 한 문장뿐이면 부제만 남는다. 없는 리드를 지어내지 않는다.
+ *
+ * 1면(머리기사)과 기사면(글 머리)이 같은 규칙으로 갈라야 두 지면에서 같은 문장이
+ * 다르게 잘리지 않는다 — 그래서 PostHeader 가 이 함수를 가져다 쓴다.
  */
-function splitSummary(summary: string): { deck: string; lede: string | null } {
+export function splitSummary(summary: string): { deck: string; lede: string | null } {
   const end = summary.indexOf(". ");
   if (end === -1) {
     return { deck: summary, lede: null };

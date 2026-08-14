@@ -34,12 +34,16 @@ export function ViewCount({ postId }: { postId: string }) {
   }
 
   return (
-    <span className="inline-flex items-center gap-x-2">
-      <span aria-hidden="true">·</span>
-      {/* 숫자가 늦게 들어와도 줄 길이가 변하지 않도록 자리를 먼저 잡는다. */}
-      <span className="inline-block min-w-[7ch] tabular-nums">
-        {count === null ? "" : `조회 ${formatCount(count)}`}
-      </span>
+    /* 데이트라인의 한 조각이다 — 구분 기호는 그쪽의 gap 이 맡으므로 여기서 달지 않는다.
+       숫자가 늦게 들어와도 뒤따르는 조각이 밀리지 않도록 폭을 먼저 예약한다. */
+    <span className="voice-ui inline-block min-w-[7ch] text-muted">
+      {count === null ? (
+        ""
+      ) : (
+        <>
+          조회 <span className="voice-source">{formatCount(count)}</span>
+        </>
+      )}
     </span>
   );
 }

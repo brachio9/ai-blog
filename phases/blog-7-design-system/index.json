@@ -124,7 +124,21 @@
     {
       "step": 5,
       "name": "article",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-14T13:06:53+0900",
+      "events": [
+        {
+          "at": "2026-08-14T13:06:53+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-14T13:26:00+0900",
+          "status": "completed",
+          "attempt": 1
+        }
+      ],
+      "completed_at": "2026-08-14T13:26:00+0900",
+      "summary": "글 상세를 기사면으로 바꿨다. (1) globals.css — design/styles.css 의 .ratio-scale/.ratio-row/.ratio-key/.ratio-track/.ratio-fill 을 정의 그대로 이식하고, 정본에 없는 640px 접힘 한 블록(.ratio-key 40px · .ratio-track 96px)만 앱 쪽 판단으로 덧붙였다 — 320px 에서 값 라벨('3,240 words')이 두 줄로 접혀 막대와 수치가 어긋났고, 줄인 뒤 행 높이가 38→20px 로 한 줄이 됐다(실측). (2) PostHeader 는 이름·props 계약(post·category·views)을 지킨 채 기사면 머리로 교체됐다: 데이트라인(.dateline — cat-label 카테고리 링크 · 날짜 · arXiv · 읽기 시간 · 조회수 · '추림 14:1' .ratio 한 조각) → h1.headline(--text-h1 40px) → .deck → .lede → .rule-pair. 1면의 머리기사가 clamp 54px 로 스케일 밖까지 커지는 것과 반대로 여기서는 척도 안에 세웠다 — 고르는 자리가 아니라 정독하는 자리이기 때문이다. 부제/리드는 PostLead 의 splitSummary 를 export 해 같은 규칙(첫 문장=부제, 나머지=리드)으로 가른다. 두 지면에서 같은 문장이 다르게 잘리면 안 되기 때문이고, 실제 콘텐츠 9편의 summary 가 전부 두 문장이라 3단이 그대로 선다. 새 prop 은 ratio?: RatioInfo|null 하나이고 안 넘기면 post.body 로 직접 구한다. 저자·라이선스는 머리에서 뺐다(출처 표기가 이미 적는다) — 대신 papers/hf-blog 는 source 가 필수라 저자가 사라질 수 없다. (3) SourceNote 는 정본(article.html)을 따라 상자+bg-surface 를 걷어내고 안료 좌측 괘선(border-l-2, --cat) 한 줄로 세웠다. 원문 링크는 15→17px(--text-h4)로 키워 이 블록에서 가장 큰 글자가 됐다 — 출처를 약하게 만들지 않으면서 상자를 없앤 방법이다. 여기 .ratio-scale 이 한 번 들어간다: 위 막대 원문 100%, 아래 막대 100/ratio %(반올림된 비율의 역수라 막대와 '1/14' 표기가 정확히 같은 말을 한다), 라벨은 '원문 3,240 words' · '초록 582자 · 1/14'. 정본 데모는 '396 자'를 mono 덩어리에 넣었지만 불변 1(mono 자리에 한글 금지)을 지켜 '자'만 .voice-ui 로 뺐고, 그것을 테스트로 고정했다(.voice-source 의 직속 텍스트 노드에 한글이 없다). ratio 가 null 이면 막대째 그리지 않고 출처 표기는 그대로 남는다. (4) 정정 표기(빈칸 채움) — 새 파일 src/components/post/Correction.tsx + 테스트. 형태: 기사 끝(본문과 이전/다음 사이)에 얇은 괘선 → .kicker '정정' → '2026.08.13에 고쳐 실었습니다. 처음 실은 날은 2026.08.05입니다.'(날짜만 mono, 둘 다 <time datetime>). 결정 셋 — ① 머리가 아니라 끝에 둔다(정정은 경고가 아니라 기록이다), ② 안료를 쓰지 않는다(muted + --color-line 뿐), ③ 발행일을 덮어쓰지 않고 두 날짜가 함께 남으며 머리의 데이트라인에도 발행일이 그대로 있다. 나타나는 조건은 'updatedAt 이 있고 KST 날짜가 publishedAt 과 다를 때' 다 — 같은 날 안의 손질은 발행 작업의 일부지 정정이 아니라고 봤다(시각이 아니라 formatDateShort 로 비교). 지금 content 에 updatedAt 이 있는 글은 없어서, 한 편에 임시로 넣고 빌드해 실측한 뒤 되돌렸다. (5) 배선 — page.tsx 가 compressionRatio(source.words, countBodyChars(body)) 를 한 번만 구해 머리(한 조각)와 출처 표기(확장형)에 나눠 주고, 바깥 <article> 에 CAT_CLASS 를 붙여 --cat 이 양쪽으로 상속된다. 곁줄은 그대로 오른쪽 sticky 레일이고 태그는 .tag, 라벨은 .kicker 로 정본에 맞췄다. ViewCount 는 앞에 달고 다니던 '·' 를 뗐다(데이트라인의 gap 이 맡는다) — '조회 <mono>24</mono>' 로 두 목소리를 갈랐고 폭 예약(min-w-7ch)은 유지해 늦게 들어와도 뒤의 비율 조각이 밀리지 않는다. (6) 부수 결정 둘 — 괘선 쌍이 이 화면에서 3개다(헤더·기사 머리·푸터). step 2 가 '상한 2' 라 적었지만 step 5 지시문과 정본 article.html 이 모두 머리/본문 구분에 .rule-pair 를 쓰므로 그쪽을 따랐다. 그리고 AC 의 'MDX 진입점' 검사가 src/components/mdx/Chart.tsx 의 주석에 적힌 패키지 이름에 걸려 실패해서(이전 phase 산출물이고 컴파일은 하지 않는다), 그 한 줄을 '컴파일 진입점(src/lib/mdx.ts)이 쓰는 렌더러 v6' 로 고쳐 적었다 — 동작 변화 없음. 실측(headless Chrome for Testing, next start): 1280 에서 가로 오버플로 0 · .rule-pair 3 · .ratio-scale 1 · headline 40px(홈 54px) · 본문 폭 643px(68ch) · 목차 x=960 으로 본문(96~739) 침범 없음 · 원문 링크 top 559(첫 화면 안) · 막대 132px/9.36px = 1/14 · 낮 안료 oklch(0.5 0.095 140), 밤 oklch(0.78 0.068 140) · 정정 색 oklch(0.66 0.01 82) 무채. 320·360 에서도 오버플로 0. 홈과 나란히 놓으면 다른 물건이다: 홈은 masthead 46px + headline 54px + 단신 5개 + 괘선 쌍 2, 기사면은 masthead 없음 + headline 40px + 확장형 비율 1 + 목차 레일 + 괘선 쌍 3."
     }
   ],
   "created_at": "2026-08-14T11:48:53+0900"

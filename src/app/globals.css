@@ -448,6 +448,22 @@ body {
   color: var(--cat, var(--color-accent));
 }
 
+/* 기사면에서만 쓰는 확장형 — 원문과 초록의 길이를 나란히 놓는다.
+   목록에서는 쓰지 마라. 한 화면에 한 번이라야 뜻이 산다.
+   쓰는 곳은 src/components/post/SourceNote.tsx 한 곳뿐이다. */
+.ratio-scale { display: grid; gap: 4px; }
+.ratio-row { display: flex; align-items: center; gap: var(--space-2); }
+.ratio-key { width: 52px; flex: none; }
+.ratio-track { width: 132px; height: 7px; background: var(--color-line); position: relative; flex: none; }
+.ratio-fill { position: absolute; inset: 0 auto 0 0; background: var(--cat, var(--color-accent)); }
+
+/* 좁은 화면 접힘 — 정본에 없는 앱 쪽 추가다. 320px 에서 값 라벨('3,240 words')이
+   두 줄로 접혀 막대와 수치가 어긋났다. 레일과 막대를 줄여 한 줄로 되돌린다 (실측). */
+@media (max-width: 640px) {
+  .ratio-key { width: 40px; }
+  .ratio-track { width: 96px; }
+}
+
 /* ------------------------------------------------------------------
    코드 하이라이팅 — rehype-pretty-code 이중 테마
    색은 인라인이 아니라 --shiki-light / --shiki-dark 변수로 심긴다.

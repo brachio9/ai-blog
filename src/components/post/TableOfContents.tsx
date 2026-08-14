@@ -81,7 +81,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
         )}
       </button>
 
-      <p className="hidden text-sm font-medium text-heading lg:block">목차</p>
+      <p className="kicker hidden lg:block">목차</p>
 
       <nav
         id="table-of-contents"

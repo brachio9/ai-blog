@@ -30,8 +30,9 @@ export interface ChartProps {
   kind: ChartKind;
   /**
    * 배열, 또는 같은 모양의 JSON 문자열.
-   * MDX 에서는 문자열만 쓸 수 있다 — next-mdx-remote v6 가 `{...}` 표현식 속성을
-   * 조용히 제거하므로 배열을 그대로 넘기면 프롭이 사라진다 (Diagram 의 chart 와 같은 사정).
+   * MDX 에서는 문자열만 쓸 수 있다 — 컴파일 진입점(src/lib/mdx.ts)이 쓰는 렌더러 v6 가
+   * `{...}` 표현식 속성을 조용히 제거하므로 배열을 그대로 넘기면 프롭이 사라진다
+   * (Diagram 의 chart 와 같은 사정).
    */
   data: ChartDatum[] | string;
   /** 가로축으로 쓸 필드명 */

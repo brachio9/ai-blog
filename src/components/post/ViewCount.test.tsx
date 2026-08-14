@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import { StrictMode } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -36,9 +36,10 @@ describe("ViewCount", () => {
   it("세션에서 처음 보는 글이면 증가시키고 숫자를 그린다", async () => {
     respond(1234);
 
-    render(<ViewCount postId={POST_ID} />);
+    const { container } = render(<ViewCount postId={POST_ID} />);
 
-    expect(await screen.findByText("조회 1,234")).toBeTruthy();
+    // 한글 라벨과 수치가 두 목소리로 갈려 있어 요소 하나의 문장으로 찾지 않는다.
+    await waitFor(() => expect(container.textContent).toBe("조회 1,234"));
     expect(methods()).toEqual(["POST"]);
     expect(fetchMock.mock.calls[0][0]).toBe("/api/views");
   });
@@ -47,9 +48,9 @@ describe("ViewCount", () => {
     sessionStorage.setItem(`viewed:${POST_ID}`, "1");
     respond(42);
 
-    render(<ViewCount postId={POST_ID} />);
+    const { container } = render(<ViewCount postId={POST_ID} />);
 
-    expect(await screen.findByText("조회 42")).toBeTruthy();
+    await waitFor(() => expect(container.textContent).toBe("조회 42"));
     expect(methods()).toEqual(["GET"]);
     expect(fetchMock.mock.calls[0][0]).toBe(
       `/api/views?id=${encodeURIComponent(POST_ID)}`,
@@ -59,13 +60,13 @@ describe("ViewCount", () => {
   it("StrictMode 로 effect 가 두 번 돌아도 두 번 증가하지 않는다", async () => {
     respond(1);
 
-    render(
+    const { container } = render(
       <StrictMode>
         <ViewCount postId={POST_ID} />
       </StrictMode>,
     );
 
-    await screen.findByText("조회 1");
+    await waitFor(() => expect(container.textContent).toBe("조회 1"));
     // 첫 effect 가 증가시키고 sessionStorage 에 표시를 남기므로 두 번째는 조회만 한다.
     expect(methods()).toEqual(["POST", "GET"]);
   });
@@ -100,7 +101,7 @@ describe("ViewCount", () => {
     const { container } = render(<ViewCount postId={POST_ID} />);
 
     // 로딩 중에는 값이 비어 있고, 폭을 예약한 자리만 있다.
-    const slot = container.querySelector("span > span:last-child");
+    const slot = container.firstElementChild;
     expect(slot?.textContent).toBe("");
     expect(slot?.className).toMatch(/min-w-/);
   });

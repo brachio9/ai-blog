@@ -1,9 +1,10 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { ACCENT_RULE, ACCENT_TEXT } from "@/components/post/PostTable";
-import { categoryHref, type Category } from "@/lib/categories";
-import { formatDate } from "@/lib/format";
+import { type RatioInfo, splitSummary } from "@/components/post/PostLead";
+import { CAT_CLASS, categoryHref, type Category } from "@/lib/categories";
+import { compressionRatio, countBodyChars } from "@/lib/content/compression";
+import { formatDateShort } from "@/lib/format";
 import type { Post } from "@/types/content";
 
 export interface PostHeaderProps {
@@ -14,67 +15,80 @@ export interface PostHeaderProps {
    * 이 머리 자체는 서버에서 정적으로 그려진다.
    */
   views?: ReactNode;
+  /**
+   * 미리 구한 추린 비율. 넘기지 않으면 `post.body` 에서 직접 구한다.
+   * 확장형 막대를 그리는 출처 표기와 같은 값을 써야 하므로 지면이 한 번 구해 나눠 준다.
+   */
+  ratio?: RatioInfo | null;
 }
 
 /**
- * 글 머리 — 이 글이 무엇인지 첫 화면에서 밝힌다.
+ * 기사면의 머리 — 데이트라인 · 표제 · 부제 · 리드 (design/components/article.html).
+ * 긴장 축에서 가장 오른쪽이라 1면의 머리기사와 같은 재료를 쓰되 급이 반대다:
+ * 1면은 표제가 스케일 밖(clamp 54px)까지 커지고, 여기서는 척도 안(--text-h1)에 선다.
+ * 정독하는 자리이지 고르는 자리가 아니기 때문이다.
  *
- * 논문은 arXiv ID·저자가 첫 번째 식별 정보라 제목 바로 아래에 둔다 (docs/PRD.md 핵심 기능 3).
- * 태그·출처 도메인은 여기 적지 않는다 — 우측 레일의 글 정보가 맡는다 (같은 것을 두 번 적지 않는다).
+ * 저자·라이선스·원문 제목은 여기 적지 않는다 — 출처 표기(SourceNote)가 맡는다.
+ * 수정일도 여기 없다. 고쳐 실은 기록은 기사 끝의 정정(Correction)이 적는다.
  */
-export function PostHeader({ post, category, views }: PostHeaderProps) {
+export function PostHeader({ post, category, views, ratio }: PostHeaderProps) {
   const { frontmatter } = post;
   const { paper } = frontmatter;
+  const { deck, lede } = splitSummary(frontmatter.summary);
+
+  // 비율 계산은 compression.ts 에만 있다. 넘겨받은 값이 있으면 그것이 이긴다 (null 도 값이다).
+  const compression =
+    ratio !== undefined
+      ? ratio
+      : compressionRatio(frontmatter.source?.words, countBodyChars(post.body));
 
   return (
-    <header className="max-w-[68ch] border-b border-border pb-6">
-      {/* 색만으로 알리지 않는다 — 규칙선·색과 함께 카테고리 이름을 적는다. */}
-      <Link
-        href={categoryHref(category)}
-        className={`inline-block border-l-2 pl-2 text-xs font-medium underline-offset-[0.3em] transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-focus ${ACCENT_RULE[category.accent]} ${ACCENT_TEXT[category.accent]}`}
-      >
-        {category.name}
-      </Link>
+    // 안료는 클래스로만 들어온다 — --cat 이 .cat-label 과 .ratio 의 색이 된다.
+    <header className={`max-w-[var(--measure)] ${CAT_CLASS[category.accent]}`}>
+      {/* 데이트라인 — 날짜·식별자·수치가 기사 앞머리에 한 덩이로 붙는다.
+          한글은 산세리프, 남겨 둔 원문은 mono. 두 목소리를 섞지 않는다. */}
+      <div className="dateline">
+        {/* 색만으로 알리지 않는다 — 안료와 함께 카테고리 이름을 적는다. */}
+        <Link
+          href={categoryHref(category)}
+          className="cat-label underline-offset-[0.3em] transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-focus"
+        >
+          {category.name}
+        </Link>
 
-      {/* 본문과 같은 세리프. 한글이 어절 중간에서 끊기지 않는 것은 globals.css 의 keep-all 이 맡는다. */}
-      <h1 className="mt-3 font-serif text-2xl font-semibold text-heading md:text-3xl">
+        <time dateTime={frontmatter.publishedAt} className="voice-source">
+          {formatDateShort(frontmatter.publishedAt)}
+        </time>
+
+        {paper ? (
+          <span className="voice-source">arXiv:{paper.arxivId}</span>
+        ) : null}
+
+        <span className="voice-ui text-muted">
+          읽기 <span className="voice-source">{post.readingMinutes}</span>분
+        </span>
+
+        {/* 조회수는 없으면 이 줄에서 조용히 사라진다 — 실패해도 기사는 그대로 뜬다. */}
+        {views}
+
+        {/* 원문 단어 수가 없는 글은 비율이 없는 것이 정상이다 — 자리도 비우지 않는다. */}
+        {compression ? (
+          <span className="voice-ui text-[var(--cat)]">
+            추림 <span className="ratio">{compression.ratio}:1</span>
+          </span>
+        ) : null}
+      </div>
+
+      <h1 className="headline mt-[var(--space-3)] text-[length:var(--text-h1)]">
         {frontmatter.title}
       </h1>
 
-      <p className="mt-3 text-[1.0625rem] leading-[1.75] text-muted">
-        {frontmatter.summary}
-      </p>
+      <p className="deck mt-[var(--space-3)]">{deck}</p>
+      {lede ? <p className="lede mt-[var(--space-3)]">{lede}</p> : null}
 
-      {paper ? (
-        /* 출처 블록의 링크와 역할이 다르다 — 저기는 '어디서 왔는가', 여기는 '어느 논문인가' 다. */
-        <p className="mt-4 flex flex-wrap items-baseline gap-x-2">
-          <span className="font-mono text-xs text-heading tabular-nums">
-            arXiv:{paper.arxivId}
-          </span>
-          <span aria-hidden="true" className="text-faint">
-            ·
-          </span>
-          <span className="text-sm text-muted">{paper.authors.join(", ")}</span>
-        </p>
-      ) : null}
-
-      <p className="mt-3 flex flex-wrap items-center gap-x-2 text-xs text-muted tabular-nums">
-        <time dateTime={frontmatter.publishedAt}>
-          발행 {formatDate(frontmatter.publishedAt)}
-        </time>
-        {frontmatter.updatedAt ? (
-          <>
-            <span aria-hidden="true">·</span>
-            <time dateTime={frontmatter.updatedAt}>
-              수정 {formatDate(frontmatter.updatedAt)}
-            </time>
-          </>
-        ) : null}
-        <span aria-hidden="true">·</span>
-        <span>읽기 {post.readingMinutes}분</span>
-        {/* 조회수는 자기 앞에 구분 기호를 달고 온다. 없으면 이 줄에서 조용히 사라진다. */}
-        {views}
-      </p>
+      {/* 머리와 본문을 가르는 굵은선/얇은선 쌍. 기사면에서 이 장식은 여기 한 번뿐이다.
+          .rule-pair 의 margin 은 unlayered 라 유틸리티로 덮이지 않는다 — 인라인으로 얹는다. */}
+      <div className="rule-pair" style={{ marginTop: "var(--space-5)" }} />
     </header>
   );
 }

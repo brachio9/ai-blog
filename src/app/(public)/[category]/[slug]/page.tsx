@@ -6,12 +6,19 @@ import { Container } from "@/components/layout/Container";
 import { MdxBody } from "@/components/mdx";
 import { ExternalIcon } from "@/components/mdx/Anchor";
 import { Comments } from "@/components/post/Comments";
+import { Correction } from "@/components/post/Correction";
 import { PostHeader } from "@/components/post/PostHeader";
 import { PostNav } from "@/components/post/PostNav";
 import { SourceNote } from "@/components/post/SourceNote";
 import { TableOfContents } from "@/components/post/TableOfContents";
 import { ViewCount } from "@/components/post/ViewCount";
-import { categoryHref, getCategory, type Category } from "@/lib/categories";
+import {
+  CAT_CLASS,
+  categoryHref,
+  getCategory,
+  type Category,
+} from "@/lib/categories";
+import { compressionRatio, countBodyChars } from "@/lib/content/compression";
 import { getAllPosts, getPost, getPostsByCategory } from "@/lib/content/posts";
 import { getGiscusConfig } from "@/lib/giscus";
 import { renderMdx } from "@/lib/mdx";
@@ -84,14 +91,14 @@ function PostAside({ post, category }: { post: Post; category: Category }) {
     <dl className="space-y-4 border-t border-border pt-5">
       {tags.length > 0 ? (
         <div>
-          <dt className="text-xs text-muted">태그</dt>
-          <dd className="mt-1.5 flex flex-wrap gap-1.5">
+          <dt className="kicker">태그</dt>
+          <dd className="dateline mt-[var(--space-2)]">
             {tags.map((tag) => (
               // 목록의 태그 필터 규약을 그대로 쓴다 — 같은 카테고리 안에서 걸러 보여준다.
               <Link
                 key={tag}
                 href={`${categoryHref(category)}?tag=${encodeURIComponent(tag)}`}
-                className="inline-block rounded-sm border border-border px-2 py-0.5 text-xs text-muted transition-colors hover:border-muted hover:text-heading focus-visible:outline-2 focus-visible:outline-focus"
+                className="tag focus-visible:outline-2 focus-visible:outline-focus"
               >
                 {tag}
               </Link>
@@ -104,13 +111,14 @@ function PostAside({ post, category }: { post: Post; category: Category }) {
         /* 표기의 정본은 본문 위 출처 블록이다. 여기는 sticky 레일에 남는 이정표라
            레일이 접히는 좁은 화면에서는 뺀다 — 안 그러면 바로 아래 블록과 같은 말을 두 번 한다. */
         <div className="hidden lg:block">
-          <dt className="text-xs text-muted">출처</dt>
-          <dd className="mt-1 text-sm">
+          <dt className="kicker">출처</dt>
+          <dd className="mt-[var(--space-1)]">
+            {/* 도메인은 남겨 둔 원문이다 — mono. */}
             <a
               href={source.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={LINK_CLASS}
+              className={`voice-source ${LINK_CLASS}`}
             >
               {sourceDomain(source.url)}
               <ExternalIcon />
@@ -142,17 +150,25 @@ export default async function PostPage(props: PageProps<"/[category]/[slug]">) {
   const older = index < siblings.length - 1 ? siblings[index + 1] : undefined;
   const newer = index > 0 ? siblings[index - 1] : undefined;
 
+  // 한 번만 구해 머리(한 조각)와 출처 표기(확장형)에 나눠 준다 — 같은 글의 비율이 갈리면 안 된다.
+  const ratio = compressionRatio(
+    frontmatter.source?.words,
+    countBodyChars(post.body),
+  );
+
   return (
     <Container>
-      <article className="py-12 md:py-16">
+      {/* 안료는 여기서 한 번 정해지고 아래로 상속된다 (--cat) — 출처 표기의 막대까지 따라온다. */}
+      <article className={`py-12 md:py-16 ${CAT_CLASS[found.accent]}`}>
         <PostHeader
           post={post}
           category={found}
+          ratio={ratio}
           /* 조회수는 클라이언트가 API 로 가져온다 — 서버에서 읽으면 이 페이지가 동적이 된다. */
           views={<ViewCount postId={`${post.category}/${post.slug}`} />}
         />
 
-        <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+        <div className="mt-[var(--space-4)] flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
           {/* DOM 순서상 본문보다 앞이라 모바일에서는 본문 위, 데스크톱에서는 order 로 오른쪽. */}
           <aside
             aria-label="글 정보"
@@ -163,10 +179,20 @@ export default async function PostPage(props: PageProps<"/[category]/[slug]">) {
           </aside>
 
           <div className="min-w-0 lg:flex-1">
-            <SourceNote source={frontmatter.source} paper={frontmatter.paper} />
+            <SourceNote
+              source={frontmatter.source}
+              paper={frontmatter.paper}
+              ratio={ratio}
+            />
 
             {/* 본문 컴파일은 renderMdx 하나뿐이다 (ADR-003). 타이포그래피는 MdxBody 가 맡는다. */}
             <MdxBody>{renderMdx(post.body)}</MdxBody>
+
+            {/* 고쳐 실은 글은 고쳤다고 적는다. 경고가 아니라 기록이라 기사 끝에 선다. */}
+            <Correction
+              publishedAt={frontmatter.publishedAt}
+              updatedAt={frontmatter.updatedAt}
+            />
 
             {/* 이전/다음은 같은 카테고리 안에서만 이어진다 (siblings) — 그 이름을 화면에도 적는다. */}
             <PostNav previous={older} next={newer} categoryName={found.name} />
@@ -175,7 +201,7 @@ export default async function PostPage(props: PageProps<"/[category]/[slug]">) {
             {getGiscusConfig() ? (
               <section
                 aria-label="댓글"
-                className="mt-12 max-w-[68ch] border-t border-border pt-6"
+                className="mt-12 max-w-[var(--measure)] border-t border-border pt-6"
               >
                 <h2 className="text-xl font-semibold text-heading">댓글</h2>
                 {/* 댓글은 클라이언트가 iframe 으로 붙인다 — 서버에서 그리면 정적 생성이 무너진다. */}
