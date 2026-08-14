@@ -26,6 +26,7 @@ function makePost(
   const merged: PostFrontmatter = {
     title: "제목",
     category: "papers",
+    axis: "serving",
     summary: "요약",
     publishedAt: "2026-08-05T09:00:00+0900",
     tags: ["LLM"],

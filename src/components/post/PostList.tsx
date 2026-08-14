@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
+import { AXES } from "@/lib/axes";
 import type { CategorySlug } from "@/lib/categories";
 import { collectTags, filterByTag, listHref, paginate } from "@/lib/pagination";
 import type { PaperMeta, Post } from "@/types/content";
@@ -51,6 +52,8 @@ export function toPost(item: PostListItem): Post {
     frontmatter: {
       title: item.title,
       category: item.category,
+      // 목록 항목에는 축을 싣지 않는다 (docs/UI_GUIDE.md) — 표가 읽지 않으므로 자리만 채운다.
+      axis: AXES[0].slug,
       summary: item.summary,
       publishedAt: item.publishedAt,
       tags: item.tags,

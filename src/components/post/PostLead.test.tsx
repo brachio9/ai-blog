@@ -13,6 +13,7 @@ function makePost(overrides: Partial<Post["frontmatter"]> = {}): Post {
     frontmatter: {
       title: "MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인",
       category: "papers",
+      axis: "serving",
       summary:
         "전문가 라우터를 본 학습과 분리해 먼저 굳히고 시작하는 2단계 파이프라인. 초기 라우팅 붕괴를 막아 손실을 더 내렸다고 보고한다.",
       publishedAt: "2026-08-05T08:15:00+0900",

@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
+
 import matter from "gray-matter";
 import { describe, expect, it } from "vitest";
 
@@ -91,6 +94,7 @@ describe("KST 시각", () => {
         {
           title: "t",
           category: "notes",
+          axis: "serving",
           summary: "s",
           publishedAt: value,
         },
@@ -178,6 +182,44 @@ describe("frontmatter 직렬화", () => {
     expect(form.slug).toBe("quantization-notes");
     expect(form.title).toBe("42");
     expect(form.publishedAt).toBe("");
+  });
+});
+
+/**
+ * 픽스처가 아니라 실제 글로 잰다 — 폼이 모르는 필드는 저장할 때 조용히 사라지고,
+ * `lead`·`source.words` 는 기본값이 있어 스키마도 그 유실을 잡지 못한다.
+ */
+describe("에디터 왕복 — 무손실", () => {
+  const POST_PATH = "content/papers/2026-08-05-moe-routing-pipeline.mdx";
+  const file = matter(
+    readFileSync(path.join(process.cwd(), POST_PATH), "utf8"),
+  );
+
+  it("실제 글을 폼으로 옮겼다 되돌려도 frontmatter 가 그대로다", () => {
+    const form = toDraftForm(file.data, file.content, POST_PATH);
+
+    expect(form.axis).toBe("serving");
+    expect(form.format).toBe("explainer");
+    expect(form.lead).toBe(true);
+    expect(form.sourceWords).toBe("3240");
+
+    // draft 는 폼이 항상 적어 낸다 — 그것 말고는 한 글자도 달라지면 안 된다.
+    expect(toFrontmatterObject(form)).toEqual({ ...file.data, draft: false });
+  });
+
+  it("되돌린 frontmatter 가 스키마도 통과한다", () => {
+    const form = toDraftForm(file.data, file.content, POST_PATH);
+
+    const parsed = parseFrontmatter(toFrontmatterObject(form), POST_PATH);
+
+    expect(parsed.source?.words).toBe(3240);
+    expect(parsed.lead).toBe(true);
+  });
+
+  it("source.words 가 숫자가 아니면 버리지 않고 스키마에 걸리게 둔다", () => {
+    const issues = validateDraft(validForm({ sourceWords: "삼천이백사십" }));
+
+    expect(issues.map((issue) => issue.field)).toContain("source.words");
   });
 });
 

@@ -29,7 +29,21 @@
     {
       "step": 1,
       "name": "frontmatter",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-14T14:52:41+0900",
+      "completed_at": "2026-08-14T14:59:43+0900",
+      "summary": "axis(필수)·format(선택)을 frontmatter 스키마에 넣고, 글 9편을 마이그레이션하고, 관리자 에디터의 데이터 유실 결함을 고침. 화면(라우트·헤더·홈)은 무수정. [schema.ts] CATEGORY_SLUGS 와 같은 패턴으로 `AXIS_SLUGS = AXES.map(a => a.slug)` · `FORMAT_SLUGS = FORMATS.map(f => f.slug)` 파생 (축·포맷 문자열을 다시 적지 않음) → `axis: z.enum(AXIS_SLUGS)` 필수 · `format: z.enum(FORMAT_SLUGS).optional()`. superRefine 신규 규칙 1건: format 이 replication 또는 fieldnote 인데 category !== \"notes\" 면 path [\"format\"] 에 '재현 검증·실전 기록은 관측·기록(notes) 카테고리다 — 옮길 원문이 없는 글이다' (기존 papers↔paper 규칙 2건은 무수정). PostFrontmatter 에 `axis: AxisSlug` · `format?: FormatSlug` 추가. [draft.ts — 이 step 의 핵심] DraftForm 신규 필드 4개: `axis: AxisSlug` (newDraft 기본값 AXES[0].slug) · `format: FormatSlug | \"\"` (빈 문자열이면 키 미생성) · `lead: boolean` · `sourceWords: string` (→ source.words 정수; 숫자가 아니면 버리지 않고 문자열 그대로 넘겨 스키마가 잡게 둠). toDraftForm·toFrontmatterObject 양쪽 배선 — 이전에는 lead·source.words 를 읽지도 쓰지도 않아 /admin/editor 로 열어 저장하면 `lead: true` 와 `source.words` 가 조용히 사라졌다(둘 다 default/optional 이라 zod 도 못 잡음). frontmatter 키 순서: title·category·axis·format?·summary·publishedAt·updatedAt?·tags·cover?·draft·lead·source?·paper?. [Editor.tsx] 카테고리/slug 행 아래에 축 select(필수, '01 검색·RAG' 형식 — 번호가 축의 부호) + 포맷 select('지정하지 않음' 빈 옵션), 출처 절에 원문 단어 수 입력, 기본 절에 머리기사(lead) 체크박스. [PostList.tsx] toPost 어댑터에 axis 자리 채움 — 목록 항목에는 축을 싣지 않는다(UI_GUIDE). 축별 편수 9편: serving 6 · retrieval 2 · agent 1 · voice/domain/vibe-coding 0 (감출 것이 아니라 무엇을 더 수집해야 하는지의 정보). format: explainer 4편(papers 3 + hf-blog 1), 나머지 5편 없음. lead:true 1편·source.words 6편 마이그레이션 후에도 그대로 살아남음(AC 검사). 테스트: schema.test.ts 에 축·포맷 6건 추가(axis 없음/모르는 값/format 없음/모르는 format/replication·fieldnote 가 notes 아니면 실패/notes 면 통과), draft.test.ts 에 왕복 무손실 3건 추가 — 실제 content/papers/2026-08-05-moe-routing-pipeline.mdx 를 gray-matter 로 읽어 toDraftForm→toFrontmatterObject 가 `{...file.data, draft:false}` 와 정확히 같은지 검사(lead·source.words·axis·format 유실 재발 방지). axis 필수화로 기존 픽스처 11개 파일에 `axis: \"serving\"` 한 줄씩 추가. 394 tests pass.",
+      "notes": "axis 누락이 빌드를 깨뜨리는지 실측 확인: notes 글 1편에서 axis 행을 지우고 npm run build → 'frontmatter 검증 실패: content/notes/2026-07-11-eval-reading-list.mdx / axis 는 retrieval | ... 중 하나여야 한다' 로 Build error, 이후 원상복구(git diff 동일). toDraftForm 은 axis 가 없거나 모르는 값이면 AXES[0](retrieval)로 떨어진다 — 축은 카테고리·slug 와 달리 파일 경로에 대체 출처가 없기 때문이며, 값은 폼의 select 에 그대로 보이므로 숨겨지지 않는다.",
+      "events": [
+        {
+          "at": "2026-08-14T14:52:41+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-14T14:59:43+0900",
+          "status": "completed"
+        }
+      ]
     },
     {
       "step": 2,

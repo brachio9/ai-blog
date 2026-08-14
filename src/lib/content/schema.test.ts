@@ -9,6 +9,7 @@ function validFrontmatter(overrides: Record<string, unknown> = {}) {
   return {
     title: "예시 글",
     category: "hf-blog",
+    axis: "serving",
     summary: "예시 요약",
     publishedAt: "2026-08-12T15:46:52+0900",
     ...overrides,
@@ -159,6 +160,58 @@ describe("parseFrontmatter — 카테고리", () => {
         "content/notes/2026-08-12-example.mdx",
       ),
     ).toThrow(/paper/);
+  });
+});
+
+describe("parseFrontmatter — 주제 축과 발행 포맷", () => {
+  it("axis 가 없으면 거부한다 — 미분류를 허용하면 /topics 의 편수 합이 어긋난다", () => {
+    expect(() =>
+      parseFrontmatter(validFrontmatter({ axis: undefined }), FILE_PATH),
+    ).toThrow(/axis/);
+  });
+
+  it("알 수 없는 axis 를 거부한다", () => {
+    expect(() =>
+      parseFrontmatter(validFrontmatter({ axis: "multimodal" }), FILE_PATH),
+    ).toThrow(/axis/);
+  });
+
+  it("format 은 없어도 통과한다 (선택 필드)", () => {
+    expect(parseFrontmatter(validFrontmatter(), FILE_PATH).format).toBeUndefined();
+  });
+
+  it("알 수 없는 format 을 거부한다", () => {
+    expect(() =>
+      parseFrontmatter(validFrontmatter({ format: "interview" }), FILE_PATH),
+    ).toThrow(/format/);
+  });
+
+  it("replication·fieldnote 는 notes 가 아니면 거부한다", () => {
+    expect(() =>
+      parseFrontmatter(
+        validFrontmatter({
+          category: "papers",
+          format: "replication",
+          paper: { arxivId: "2501.00001", authors: ["Ada Lovelace"] },
+        }),
+        "content/papers/2026-08-12-example.mdx",
+      ),
+    ).toThrow(/notes/);
+
+    expect(() =>
+      parseFrontmatter(validFrontmatter({ format: "fieldnote" }), FILE_PATH),
+    ).toThrow(/notes/);
+  });
+
+  it("notes 의 replication·fieldnote 는 통과한다", () => {
+    for (const format of ["replication", "fieldnote"]) {
+      const parsed = parseFrontmatter(
+        validFrontmatter({ category: "notes", format }),
+        "content/notes/2026-08-12-example.mdx",
+      );
+
+      expect(parsed.format).toBe(format);
+    }
   });
 });
 

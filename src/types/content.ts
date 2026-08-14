@@ -1,4 +1,6 @@
+import type { AxisSlug } from "@/lib/axes";
 import type { CategorySlug } from "@/lib/categories";
+import type { FormatSlug } from "@/lib/formats";
 
 /** 요약·인용한 외부 원문. CLAUDE.md CRITICAL — 출처 없는 번역 게시 금지. */
 export interface PostSource {
@@ -22,6 +24,10 @@ export interface PaperMeta {
 export interface PostFrontmatter {
   title: string;
   category: CategorySlug;
+  /** 주제 축 — 필수·단일. 6축 편수의 합이 전체와 같아야 /topics 가 지도가 된다 */
+  axis: AxisSlug;
+  /** 발행 포맷 — 선택. 라우트가 없고 `?format=` 필터로만 쓰인다 */
+  format?: FormatSlug;
   summary: string;
   /** KST ISO-8601 (+0900) */
   publishedAt: string;

@@ -280,6 +280,7 @@ describe("listPosts", () => {
     "---",
     'title: "정상 글"',
     "category: notes",
+    "axis: serving",
     'summary: "요약"',
     'publishedAt: "2026-08-05T10:00:00+0900"',
     "---",

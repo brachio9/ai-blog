@@ -1,5 +1,7 @@
+import { AXES, getAxis, type AxisSlug } from "@/lib/axes";
 import { CATEGORIES, getCategory, type CategorySlug } from "@/lib/categories";
 import { checkFrontmatter, type FrontmatterIssue } from "@/lib/content/schema";
+import { getFormat, type FormatSlug } from "@/lib/formats";
 
 /**
  * 에디터 폼의 순수 로직 — slug·경로·KST 시각·frontmatter 조립.
@@ -9,6 +11,10 @@ import { checkFrontmatter, type FrontmatterIssue } from "@/lib/content/schema";
 export interface DraftForm {
   title: string;
   category: CategorySlug;
+  /** 주제 축 — 필수·단일 */
+  axis: AxisSlug;
+  /** 발행 포맷 — 선택. 빈 문자열이면 frontmatter 에 키를 만들지 않는다 */
+  format: FormatSlug | "";
   /** 파일명에 들어가는 URL 조각. 폼에서만 다루고 frontmatter 에는 없다. */
   slug: string;
   summary: string;
@@ -19,11 +25,15 @@ export interface DraftForm {
   tags: string;
   cover: string;
   draft: boolean;
+  /** 1면 머리기사 지정. 폼이 이 값을 안 들면 저장할 때마다 지워진다 */
+  lead: boolean;
   sourceUrl: string;
   sourceTitle: string;
   sourceAuthor: string;
   sourceLicense: string;
   sourcePublishedAt: string;
+  /** 원문 단어 수 — 「추린 비율」의 분모. 폼에서는 문자열, frontmatter 에서는 정수다 */
+  sourceWords: string;
   paperArxivId: string;
   /** 콤마 구분 */
   paperAuthors: string;
@@ -110,6 +120,8 @@ export function newDraft(publishedAt: string): DraftForm {
   return {
     title: "",
     category: CATEGORIES[0].slug,
+    axis: AXES[0].slug,
+    format: "",
     slug: "",
     summary: "",
     publishedAt,
@@ -117,11 +129,13 @@ export function newDraft(publishedAt: string): DraftForm {
     tags: "",
     cover: "",
     draft: true,
+    lead: false,
     sourceUrl: "",
     sourceTitle: "",
     sourceAuthor: "",
     sourceLicense: "",
     sourcePublishedAt: "",
+    sourceWords: "",
     paperArxivId: "",
     paperAuthors: "",
     body: "",
@@ -165,6 +179,9 @@ export function toDraftForm(
   return {
     title: text(field(raw, "title")),
     category: category ?? fromPath?.category ?? CATEGORIES[0].slug,
+    // 모르는 값이면 첫 축으로 떨어진다 — 축은 파일 경로에 없어 대체 출처가 없다.
+    axis: getAxis(text(field(raw, "axis")))?.slug ?? AXES[0].slug,
+    format: getFormat(text(field(raw, "format")))?.slug ?? "",
     slug: fromPath?.slug ?? "",
     summary: text(field(raw, "summary")),
     publishedAt: text(field(raw, "publishedAt")),
@@ -172,11 +189,13 @@ export function toDraftForm(
     tags: list(field(raw, "tags")),
     cover: text(field(raw, "cover")),
     draft: field(raw, "draft") === true,
+    lead: field(raw, "lead") === true,
     sourceUrl: text(field(source, "url")),
     sourceTitle: text(field(source, "title")),
     sourceAuthor: text(field(source, "author")),
     sourceLicense: text(field(source, "license")),
     sourcePublishedAt: text(field(source, "publishedAt")),
+    sourceWords: text(field(source, "words")),
     paperArxivId: text(field(paper, "arxivId")),
     paperAuthors: list(field(paper, "authors")),
     body,
@@ -186,6 +205,18 @@ export function toDraftForm(
 function optional(value: string): string | undefined {
   const trimmed = value.trim();
   return trimmed ? trimmed : undefined;
+}
+
+/**
+ * 폼의 문자열 → 정수. 숫자가 아니면 입력값을 그대로 넘긴다 —
+ * 조용히 버리면 오타 하나에 「추린 비율」이 사라진다. 스키마가 "정수여야 한다"로 잡게 둔다.
+ */
+function integer(value: string): number | string | undefined {
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+
+  const parsed = Number(trimmed);
+  return Number.isFinite(parsed) ? parsed : trimmed;
 }
 
 /** 빈 값을 지운 객체. 키가 하나도 안 남으면 undefined — 빈 source/paper 를 파일에 남기지 않는다. */
@@ -209,6 +240,7 @@ export function toFrontmatterObject(form: DraftForm): Record<string, unknown> {
     author: optional(form.sourceAuthor),
     license: optional(form.sourceLicense),
     publishedAt: optional(form.sourcePublishedAt),
+    words: integer(form.sourceWords),
   });
 
   const authors = parseList(form.paperAuthors);
@@ -220,12 +252,15 @@ export function toFrontmatterObject(form: DraftForm): Record<string, unknown> {
   return {
     title: form.title.trim(),
     category: form.category,
+    axis: form.axis,
+    ...(form.format ? { format: form.format } : {}),
     summary: form.summary.trim(),
     publishedAt: form.publishedAt.trim(),
     ...(optional(form.updatedAt) ? { updatedAt: form.updatedAt.trim() } : {}),
     tags: parseList(form.tags),
     ...(optional(form.cover) ? { cover: form.cover.trim() } : {}),
     draft: form.draft,
+    lead: form.lead,
     ...(source ? { source } : {}),
     ...(paper ? { paper } : {}),
   };

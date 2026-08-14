@@ -1,12 +1,22 @@
 import { z } from "zod";
 
+import { AXES, type AxisSlug } from "@/lib/axes";
 import { CATEGORIES, type CategorySlug } from "@/lib/categories";
+import { FORMATS, type FormatSlug } from "@/lib/formats";
 import type { PostFrontmatter } from "@/types/content";
 
 /** slug 는 categories.ts 가 단일 진실 공급원 — 여기서 문자열을 다시 적지 않는다. */
 const CATEGORY_SLUGS = CATEGORIES.map((category) => category.slug) as [
   CategorySlug,
   ...CategorySlug[],
+];
+
+/** 축·포맷도 같은 규칙이다 — axes.ts · formats.ts 가 정본이다. */
+const AXIS_SLUGS = AXES.map((axis) => axis.slug) as [AxisSlug, ...AxisSlug[]];
+
+const FORMAT_SLUGS = FORMATS.map((format) => format.slug) as [
+  FormatSlug,
+  ...FormatSlug[],
 ];
 
 /**
@@ -58,6 +68,21 @@ const frontmatterSchema = z
       CATEGORY_SLUGS,
       `category 는 ${CATEGORY_SLUGS.join(" | ")} 중 하나여야 한다`,
     ),
+    /**
+     * 주제 축 — 필수·단일이다. 「미분류」를 허용하면 /topics 에서 그 칸이 최대가 되고
+     * 6축 편수의 합이 전체와 어긋나 지도 노릇을 못 한다 (docs/PRD.md).
+     */
+    axis: z.enum(
+      AXIS_SLUGS,
+      `axis 는 ${AXIS_SLUGS.join(" | ")} 중 하나여야 한다`,
+    ),
+    /** 발행 포맷 — 선택. 라우트가 없고 목록의 `?format=` 필터로만 쓰인다. */
+    format: z
+      .enum(
+        FORMAT_SLUGS,
+        `format 은 ${FORMAT_SLUGS.join(" | ")} 중 하나여야 한다`,
+      )
+      .optional(),
     summary: z.string().min(1, "summary 는 비어 있을 수 없다"),
     publishedAt: kstDateTime("publishedAt"),
     updatedAt: kstDateTime("updatedAt").optional(),
@@ -82,6 +107,18 @@ const frontmatterSchema = z
         code: "custom",
         path: ["paper"],
         message: `paper 는 papers 카테고리 전용이다 (현재 category: ${value.category})`,
+      });
+    }
+    // 직접 재 보고 직접 만들어 본 글에는 옮길 원문이 없다 — 그 자리가 notes 다.
+    if (
+      (value.format === "replication" || value.format === "fieldnote") &&
+      value.category !== "notes"
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["format"],
+        message:
+          "재현 검증·실전 기록은 관측·기록(notes) 카테고리다 — 옮길 원문이 없는 글이다",
       });
     }
   });

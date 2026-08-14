@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import { MdxBody } from "@/components/mdx/MdxBody";
+import { AXES } from "@/lib/axes";
 import { CATEGORIES } from "@/lib/categories";
+import { FORMATS } from "@/lib/formats";
 
 import { previewMdx, serializeDraftFile } from "./actions";
 import {
@@ -430,6 +432,44 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
               {SLUG_RULE}
             </p>
 
+            <div className="grid gap-3 sm:grid-cols-2">
+              {/* 축은 필수·단일이다 — 「없음」 선택지를 만들지 마라 (docs/PRD.md). */}
+              <label className={LABEL}>
+                주제 축
+                <select
+                  className={`mt-1 ${INPUT}`}
+                  value={form.axis}
+                  onChange={(event) =>
+                    update({ axis: event.target.value as DraftForm["axis"] })
+                  }
+                >
+                  {AXES.map((axis) => (
+                    <option key={axis.slug} value={axis.slug}>
+                      {`${String(axis.order).padStart(2, "0")} ${axis.name}`}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className={LABEL}>
+                발행 포맷 (선택)
+                <select
+                  className={`mt-1 ${INPUT}`}
+                  value={form.format}
+                  onChange={(event) =>
+                    update({ format: event.target.value as DraftForm["format"] })
+                  }
+                >
+                  <option value="">지정하지 않음</option>
+                  {FORMATS.map((format) => (
+                    <option key={format.slug} value={format.slug}>
+                      {format.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
             <label className={LABEL}>
               요약
               <textarea
@@ -493,6 +533,16 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
               />
               초안 (draft — 프로덕션 빌드에서 공개되지 않습니다)
             </label>
+
+            {/* 지면당 머리기사는 하나다 — 새로 붙이면 이전 머리기사에서 떼어 내야 한다. */}
+            <label className="flex items-center gap-2 text-sm text-body">
+              <input
+                type="checkbox"
+                checked={form.lead}
+                onChange={(event) => update({ lead: event.target.checked })}
+              />
+              머리기사 (lead — 1면 맨 위에 크게 실립니다)
+            </label>
           </fieldset>
 
           <fieldset className="space-y-3 rounded-md border border-border p-5">
@@ -549,17 +599,33 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
               </label>
             </div>
 
-            <label className={LABEL}>
-              원문 발행일 (KST +0900, 선택)
-              <input
-                className={`mt-1 ${INPUT} font-mono`}
-                value={form.sourcePublishedAt}
-                onChange={(event) =>
-                  update({ sourcePublishedAt: event.target.value })
-                }
-                placeholder="2026-08-01T12:00:00+0900"
-              />
-            </label>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className={LABEL}>
+                원문 발행일 (KST +0900, 선택)
+                <input
+                  className={`mt-1 ${INPUT} font-mono`}
+                  value={form.sourcePublishedAt}
+                  onChange={(event) =>
+                    update({ sourcePublishedAt: event.target.value })
+                  }
+                  placeholder="2026-08-01T12:00:00+0900"
+                />
+              </label>
+
+              {/* 「추린 비율」의 분모다 — 비워 두면 그 글에는 비율을 그리지 않는다. */}
+              <label className={LABEL}>
+                원문 단어 수 (선택)
+                <input
+                  className={`mt-1 ${INPUT} font-mono`}
+                  value={form.sourceWords}
+                  inputMode="numeric"
+                  onChange={(event) =>
+                    update({ sourceWords: event.target.value })
+                  }
+                  placeholder="3240"
+                />
+              </label>
+            </div>
           </fieldset>
 
           {/* paper 는 papers 전용이다 — 다른 카테고리에 있으면 스키마가 거부한다. */}

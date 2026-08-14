@@ -19,6 +19,7 @@ function makePost(frontmatter: Partial<PostFrontmatter> = {}): Post {
     frontmatter: {
       title: "희소 어텐션은 어디까지 버티는가",
       category: "papers",
+      axis: "serving",
       summary:
         "희소성 예산 하나로 정리한 논문. 잘라내는 위치보다 남기는 총량이 성능을 결정한다고 주장한다.",
       publishedAt: "2026-07-18T09:30:00+0900",

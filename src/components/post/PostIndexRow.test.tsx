@@ -10,6 +10,7 @@ function makePost(): Post {
     frontmatter: {
       title: "양자화 손실을 반년 동안 기록해 봤다",
       category: "notes",
+      axis: "serving",
       summary: "같은 모델을 여섯 달 동안 여러 방식으로 양자화하며 남긴 기록.",
       publishedAt: "2026-08-02T09:00:00+0900",
       tags: ["양자화"],

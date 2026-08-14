@@ -15,6 +15,7 @@ const FRONTMATTER = [
   "---",
   "title: 테스트 글",
   "category: papers",
+  "axis: serving",
   "summary: 검증용 요약",
   "publishedAt: '2026-08-05T09:00:00+0900'",
   "tags:",

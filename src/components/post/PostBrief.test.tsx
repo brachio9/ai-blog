@@ -10,6 +10,7 @@ function makePost(): Post {
     frontmatter: {
       title: "추론 엔드포인트 CLI 가 정식으로 나왔다",
       category: "hf-blog",
+      axis: "serving",
       summary: "터미널에서 엔드포인트를 만들고 지우는 명령이 정식 배포됐다.",
       // UTC 로는 전날이다 — KST 표기가 유지되어야 한다.
       publishedAt: "2026-07-25T00:30:00+0900",

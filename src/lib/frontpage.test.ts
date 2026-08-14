@@ -17,6 +17,7 @@ function makePost(
     frontmatter: {
       title: slug,
       category: "papers",
+      axis: "serving",
       summary: "요약.",
       publishedAt,
       tags: [],

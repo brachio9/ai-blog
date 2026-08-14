@@ -10,6 +10,7 @@ function makePost(overrides: Partial<Post> = {}): Post {
     frontmatter: {
       title: "희소 어텐션 스케일링 법칙",
       category: "papers",
+      axis: "serving",
       summary: "긴 문맥에서 희소 어텐션이 밀집 어텐션을 따라잡는 조건을 정리했다.",
       // UTC 로는 전날(2026-08-08T15:30Z) — KST 표기가 유지되어야 한다.
       publishedAt: "2026-08-09T00:30:00+0900",
