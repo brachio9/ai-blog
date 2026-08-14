@@ -1,0 +1,102 @@
+<!-- @dsCard group="Components" name="제호와 지면 머리" subtitle="마스트헤드·내비·굵은선 얇은선 쌍·푸터. 가운데 정렬하지 않는다." viewport="880x1000" -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>초록 — 제호와 지면 머리</title>
+<link rel="stylesheet" href="../styles.css" />
+<style>
+.demo { max-width: 800px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-9); }
+.demo-head { margin: var(--space-8) 0 var(--space-4); }
+.demo-head:first-child { margin-top: 0; }
+.note { font-size: var(--text-small); color: var(--color-muted); max-width: 62ch; margin-top: var(--space-2); }
+.stage { border: var(--rule-hair) solid var(--color-line); padding: var(--space-5); margin-top: var(--space-3); }
+.vlabel { font-family: var(--font-mono); font-size: 10px; color: var(--color-muted); margin: var(--space-5) 0 var(--space-2); }
+.vlabel:first-child { margin-top: 0; }
+/* 데모용 내비 — 시스템 클래스가 아니다. 두 번 쓰이면 승격한다. */
+.nav { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-5); flex-wrap: wrap; }
+.nav-brand { font-size: var(--text-h4); font-weight: 700; letter-spacing: -0.02em; text-decoration: none; }
+.nav-links { display: flex; gap: var(--space-4); align-items: baseline; }
+.nav-links a { font-family: var(--font-ui); font-size: var(--text-small); text-decoration: none; }
+.nav-links a[aria-current] { color: var(--color-accent); }
+.foot { display: grid; grid-template-columns: 1fr auto; gap: var(--space-5); }
+.foot-links { display: grid; gap: var(--space-1); text-align: right; }
+.foot-links a { font-family: var(--font-ui); font-size: var(--text-small); }
+</style>
+</head>
+<body>
+<main class="demo">
+
+  <div class="demo-head"><span class="kicker">Furniture</span><h2>굵은선 / 얇은선 쌍</h2>
+    <p class="note">신문 1면의 머리 장식. <b>이 시스템이 쓰는 유일한 장식</b>이고, 아껴 쓸수록 세다.
+    한 화면에 두 번 이상 나오면 이미 흔해진 것이다.</p>
+  </div>
+  <div class="stage">
+    <div class="rule-pair"></div>
+    <p class="note" style="margin:0">위가 <code>.rule-pair</code> 하나다.</p>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Masthead</span><h2>제호</h2>
+    <p class="note">지면 왼쪽 위. 가운데 정렬하지 않는다. 히어로가 아니라 <b>제호</b>이므로 화면을 차지하지 않는다.</p>
+  </div>
+
+  <div class="stage">
+    <div class="vlabel">홈 — 제호 + 발행 정보</div>
+    <div class="masthead" style="padding-top:0">
+      <div class="masthead-title">초록</div>
+      <p class="masthead-line">HuggingFace 블로그와 arXiv 논문을 읽고 한글로 추려 적습니다.
+      논문 맨 앞의 초록(抄錄)이 그렇듯 전문 번역이 아니라 요점만 남긴 요약이고, 원문 링크는 모든 글에 답니다.</p>
+      <div class="masthead-meta voice-source"><span>2026.08.14</span><span>전체 8편</span><span>최근 갱신 08.09</span></div>
+    </div>
+    <div class="rule-pair"></div>
+
+    <div class="vlabel">카테고리 — 제호는 작아지고 이름이 커진다</div>
+    <div class="masthead cat-papers" style="padding-top:0">
+      <div class="cat-label voice-ui">초록 · 최신 논문</div>
+      <div class="masthead-title" style="font-size:34px;margin-top:var(--space-1)">최신 논문</div>
+      <p class="masthead-line">arXiv 논문을 읽고 문제 설정·방법·결과를 한글로 정리합니다.</p>
+      <div class="masthead-meta voice-source"><span>3편</span><span>2026.06 – 2026.08</span></div>
+    </div>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Nav</span><h2>내비</h2>
+    <p class="note">현재 위치는 밑줄이 아니라 <b>안료</b>로 가리킨다 — 링크의 밑줄과 겹치지 않게.</p>
+  </div>
+  <div class="stage">
+    <nav class="nav">
+      <a class="nav-brand" href="#">초록</a>
+      <div class="nav-links">
+        <a href="#">허깅페이스 소식</a>
+        <a href="#" aria-current="page">최신 논문</a>
+        <a href="#">수집 자료</a>
+        <a href="#">색인</a>
+        <a href="#">아카이브</a>
+      </div>
+    </nav>
+    <div class="rule-pair" style="margin-top:var(--space-3)"></div>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Footer</span><h2>지면 끝</h2>
+    <p class="note">푸터는 링크 창고가 아니라 <b>되찾기 장치</b>다 — 기록용 독자가 가장 자주 쓰는 곳이다.</p>
+  </div>
+  <div class="stage">
+    <div class="rule-pair"></div>
+    <div class="foot">
+      <div>
+        <div style="font-size:var(--text-h4);font-weight:600">초록</div>
+        <p class="note" style="margin-top:var(--space-1)">요약·인용한 글에는 원문 출처를 반드시 함께 적습니다.</p>
+        <div class="voice-source" style="margin-top:var(--space-3)">© 2026 초록 · 제 14 호</div>
+      </div>
+      <div class="foot-links">
+        <a href="#">태그 색인</a>
+        <a href="#">아카이브</a>
+        <a href="#">소개</a>
+        <a href="#">RSS</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>

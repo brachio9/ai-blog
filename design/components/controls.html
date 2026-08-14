@@ -1,0 +1,90 @@
+<!-- @dsCard group="Components" name="컨트롤과 빈 상태" subtitle="최소한만 만들어 뒀다. 없는 것이 필요하면 만들어 써라 — 토큰만 쓰면 시스템 안이다." viewport="880x900" -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>초록 — 컨트롤</title>
+<link rel="stylesheet" href="../styles.css" />
+<style>
+.demo { max-width: 800px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-9); }
+.demo-head { margin: var(--space-8) 0 var(--space-4); }
+.demo-head:first-child { margin-top: 0; }
+.note { font-size: var(--text-small); color: var(--color-muted); max-width: 62ch; margin-top: var(--space-2); }
+.stage { border: var(--rule-hair) solid var(--color-line); padding: var(--space-5); margin-top: var(--space-3); }
+.vlabel { font-family: var(--font-mono); font-size: 10px; color: var(--color-muted); margin: var(--space-5) 0 var(--space-2); }
+.vlabel:first-child { margin-top: 0; }
+.row { display: flex; gap: var(--space-2); flex-wrap: wrap; align-items: center; }
+code { font-family: var(--font-mono); font-size: 0.9em; }
+</style>
+</head>
+<body>
+<main class="demo">
+
+  <div class="demo-head"><span class="kicker">少</span><h2>컨트롤은 적게</h2>
+    <p class="note">정해 둔 컴포넌트가 많을수록 새 화면은 <b>조립</b>이 되고, 조립된 화면은 편집된 것처럼 보이지 않는다.
+    그래서 최소한만 만들어 뒀다. 두 번 이상 쓰인 것만 시스템으로 올린다.</p>
+  </div>
+
+  <div class="stage">
+    <div class="vlabel">.btn / .btn-quiet — 채우기 없음. 호버에서 먹과 종이가 뒤집힌다</div>
+    <div class="row">
+      <a class="btn" href="#">전체 보기</a>
+      <a class="btn-quiet btn" href="#">더 불러오기</a>
+      <button class="btn" type="button">구독</button>
+    </div>
+
+    <div class="vlabel">.tag — 이 시스템에서 유일하게 반경(2px)이 있는 것</div>
+    <div class="row">
+      <a class="tag" href="#">LLM</a><a class="tag" href="#">MoE</a><a class="tag" href="#">벤치마크</a>
+      <a class="tag" href="#">양자화</a><a class="tag" href="#">추론</a>
+    </div>
+
+    <div class="vlabel">.input — 상자가 아니라 밑줄 하나. 포커스에서 안료로 굵어진다</div>
+    <div style="max-width:420px">
+      <input class="input" type="search" placeholder="제목·태그·본문에서 찾기" />
+    </div>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Empty</span><h2>빈 상태</h2>
+    <p class="note">사과하지 않는다. 일러스트도 이모지도 없다. <b>다음에 갈 곳</b>을 준다 —
+    검색으로 들어왔다가 빈손이 된 사람이 여기서 나가면 실패다.</p>
+  </div>
+
+  <div class="stage">
+    <div class="empty" style="border-top:0;padding-top:0">
+      <div class="empty-line">「flash attention」으로 찾은 글이 없습니다.</div>
+      <p class="note">아직 안 다룬 주제입니다. 가까운 것은 아래에 있습니다.</p>
+      <div class="empty-next">
+        <div class="index-row"><span class="voice-source">2026.07.18</span><span class="t">희소 어텐션은 어디까지 버티는가</span><span class="voice-source">논문</span></div>
+        <div class="index-row"><span class="voice-source">2026.06.29</span><span class="t">긴 문맥 벤치마크 6종을 한 표에 놓고 보기</span><span class="voice-source">논문</span></div>
+      </div>
+      <div class="row" style="margin-top:var(--space-4)">
+        <a class="tag" href="#">어텐션</a><a class="tag" href="#">긴 컨텍스트</a><a class="tag" href="#">추론</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Open</span><h2>아직 안 정한 것</h2>
+    <p class="note"><b>"지난번 이후 새것" 표시.</b> 매일 훑는 단골이 주 독자인데 지금 아무 장치가 없다 —
+    브리프의 빈칸 중 가장 큰 구멍이다. 아래는 발상 재료일 뿐이고, 더 나은 형태를 발명하면 그걸 쓴다.</p>
+  </div>
+  <div class="stage">
+    <div class="vlabel">재료 — 아직 고르지 않았다</div>
+    <div>
+      <div class="index-row cat-papers">
+        <span class="voice-source" style="color:var(--cat)">08.09 ●</span>
+        <span class="t">공개 가중치 모델 벤치마크 정리</span><span class="voice-source">소식</span>
+      </div>
+      <div class="index-row">
+        <span class="voice-source">08.05</span>
+        <span class="t">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</span><span class="voice-source">논문</span>
+      </div>
+    </div>
+    <p class="note">점 하나 · 날짜를 안료로 · 「여기까지 읽었음」 괘선 · 안 읽은 것만 세어 제호 옆에 붙이기.
+    어느 쪽이든 <b>localStorage 의 마지막 방문 시각</b> 하나면 만들 수 있다.</p>
+  </div>
+
+</main>
+</body>
+</html>

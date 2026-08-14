@@ -1,0 +1,81 @@
+{
+  "name": "초록 Chorok",
+  "palette": {
+    "band": "dual",
+    "scheme": "pigment-3",
+    "sat": 0.35,
+    "pin": {
+      "accent": "oklch(0.580 0.075 140)",
+      "accent2": "oklch(0.580 0.100 40)",
+      "accent3": "oklch(0.580 0.075 250)"
+    },
+    "bg": "oklch(0.968 0.006 85)",
+    "bgDark": "oklch(0.175 0.008 80)",
+    "surface": "oklch(0.938 0.008 85)",
+    "text": "oklch(0.235 0.008 70)",
+    "textDark": "oklch(0.915 0.010 85)",
+    "accent": "oklch(0.500 0.075 140)",
+    "accent2": "oklch(0.500 0.100 40)",
+    "accent3": "oklch(0.500 0.075 250)",
+    "notes": "먹은 순회색이 아니라 따뜻한 중성. 안료 3색은 카테고리 부호로만 쓴다."
+  },
+  "fonts": {
+    "heading": {
+      "family": "Noto Serif KR",
+      "class": "serif-kr",
+      "weights": [400, 600, 700]
+    },
+    "body": {
+      "family": "Noto Serif KR",
+      "class": "serif-kr",
+      "weights": [300, 400, 600]
+    },
+    "ui": {
+      "family": "IBM Plex Sans KR",
+      "class": "sans-kr",
+      "weights": [400, 500, 600]
+    },
+    "mono": {
+      "family": "IBM Plex Mono",
+      "class": "mono",
+      "weights": [400, 500],
+      "notes": "한글 없음 — 날짜·식별자·수치·도메인 전용"
+    }
+  },
+  "density": 1.15,
+  "radius": 0,
+  "layoutStyle": "left-rail",
+  "imageTreatment": "none",
+  "iconSet": "hairline-1.25-butt",
+  "lineage": "신문 지면 — 급이 뚜렷하고, 굵은선/얇은선 쌍을 쓰고, 표제·부제·리드로 들어간다. 스큐어모프는 쓰지 않는다.",
+  "readers": ["매일 훑는 단골", "검색으로 한 번 오는 사람", "나 자신(기록용)"],
+  "deviationBudget": "bold",
+  "invariants": [
+    "두 목소리 — 한글 명조와 원문 mono 를 섞지 않는다.",
+    "안료 팔레트 — 낮은 채도, 공통 명도 척도. 형광·그라디언트·발광 없음.",
+    "손으로 정한 척도 — 간격이 8의 배수가 아니다.",
+    "떠 있지 않은 지면 — 그림자로 높이를 만들지 않는다."
+  ],
+  "knobs": {
+    "note": "불변 넷 바깥의 값은 전부 손잡이다. 기본값은 의견이 세지만 잠겨 있지 않다.",
+    "radius": "각진 것이 기본이나 취향의 문제",
+    "entryDensity": "--entry-pad 로 화면마다 덮어쓴다",
+    "measure": "68ch",
+    "rail": "136px"
+  },
+  "signatures": [
+    "두 목소리 — 한글 명조와 원문 mono 를 섞지 않는다 (불변이기도 하다)",
+    "추린 비율 — 원문을 몇 분의 일로 줄였는지 글마다 적는다. .ratio / .ratio-scale",
+    "1면 편집 — 머리기사 하나 + 단신 묶음. 지면당 머리기사는 하나"
+  ],
+  "signaturesDeferred": {
+    "시간축 눈금": "보류 — 규모가 커질수록 강해진다. 글 100편에서 재검토",
+    "호수(號數)": "탈락 — 시간축과 같은 문제를 더 비싸게 푼다",
+    "원문 워터마크": "탈락 — 독자 셋 중 아무도 돕지 않는 장식"
+  },
+  "contentContract": {
+    "원문 길이": "추린 비율에 필요. frontmatter 한 필드",
+    "lead": "1면 편집에 필요. 선택 — 없으면 가장 최근 글이 머리기사"
+  },
+  "brief": "brief.md — 계보·독자·재료 상자·긴장 축·시그니처·파격 예산·빈칸·실패 신호"
+}

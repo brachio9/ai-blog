@@ -1,0 +1,105 @@
+<!-- @dsCard group="Components" name="기사면 — 글 상세" subtitle="데이트라인 · 표제/부제/리드 3단 · 원문 출처 · 본문 재료. 긴장 축에서 가장 오른쪽." viewport="880x1300" -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>초록 — 기사면</title>
+<link rel="stylesheet" href="../styles.css" />
+<style>
+.demo { max-width: 800px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-9); }
+.demo-head { margin: var(--space-8) 0 var(--space-4); }
+.demo-head:first-child { margin-top: 0; }
+.note { font-size: var(--text-small); color: var(--color-muted); max-width: 62ch; margin-top: var(--space-2); }
+.stage { border: var(--rule-hair) solid var(--color-line); padding: var(--space-5); margin-top: var(--space-3); }
+.vlabel { font-family: var(--font-mono); font-size: 10px; color: var(--color-muted); margin: var(--space-5) 0 var(--space-2); }
+code { font-family: var(--font-mono); font-size: 0.9em; }
+/* 데모용 — 두 번 쓰이면 승격한다 */
+.source-note { border-left: 2px solid var(--cat, var(--color-accent)); padding-left: var(--space-3); }
+.pull { border-top: var(--rule-hair) solid var(--color-line); border-bottom: var(--rule-hair) solid var(--color-line); padding: var(--space-4) 0; margin: var(--space-5) 0; font-size: var(--text-h3); line-height: 1.5; max-width: 40ch; }
+.toc { display: grid; gap: var(--space-1); }
+.toc a { font-family: var(--font-ui); font-size: var(--text-small); text-decoration: none; color: var(--color-muted); }
+.toc a:hover { color: var(--color-text); }
+.figure { border-top: var(--rule-hair) solid var(--color-line); padding-top: var(--space-2); margin: var(--space-5) 0; }
+.figure-box { height: 128px; background: var(--color-surface); }
+.figure-cap { font-family: var(--font-ui); font-size: 12px; color: var(--color-muted); margin-top: var(--space-2); }
+</style>
+</head>
+<body>
+<main class="demo">
+
+  <div class="demo-head"><span class="kicker">Article</span><h2>기사면</h2>
+    <p class="note">긴장 축에서 <b>가장 오른쪽</b>(기사면·정독·여백)에 선다. 홈과 전혀 다른 물건처럼 보여도 좋다 —
+    그게 편집된 지면이다.</p>
+  </div>
+
+  <div class="stage cat-papers">
+    <div class="dateline voice-source" style="margin-bottom:var(--space-3)">
+      <span style="color:var(--cat)">최신 논문</span><span>2026.08.05</span><span>arXiv:2608.01337</span><span>2분</span><span>조회 12</span>
+      <span class="ratio">추림 6:1</span>
+    </div>
+    <h1 class="headline" style="font-size:var(--text-h1)">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</h1>
+    <p class="deck" style="margin-top:var(--space-3)">전문가 라우터를 본 학습과 분리해 먼저 굳히고 시작한다</p>
+    <p class="lede" style="margin-top:var(--space-3)">초기 라우팅 붕괴를 막아 같은 예산에서 손실을 더 내렸다고 보고한다.
+    보조 손실로 균형을 강제하는 표준 방법과 달리 계수를 잡을 필요가 없다.</p>
+
+    <div class="rule-pair" style="margin-top:var(--space-5)"></div>
+
+    <div class="source-note">
+      <div class="voice-ui" style="font-weight:600">원문 출처</div>
+      <p class="note" style="margin-top:2px">이 글은 아래 원문을 한글로 요약·정리한 것입니다. 원문을 그대로 옮긴 번역문이 아닙니다.</p>
+      <a href="#" style="display:inline-block;margin-top:var(--space-2)">Two-Stage Router Warmup for Sparse Mixture-of-Experts</a>
+      <div class="voice-source" style="margin-top:var(--space-1)">arXiv:2608.01337 · H. Vasquez, M. Adeyemi, K. Sato · 2026.07.31</div>
+
+      <div class="ratio-scale voice-source" style="margin-top:var(--space-3)">
+        <div class="ratio-row">
+          <span class="ratio-key">원문</span>
+          <div class="ratio-track"><div class="ratio-fill" style="width:100%"></div></div>
+          <span>2,410 words</span>
+        </div>
+        <div class="ratio-row">
+          <span class="ratio-key">초록</span>
+          <div class="ratio-track"><div class="ratio-fill" style="width:17%"></div></div>
+          <span>396 자 · 1/6</span>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:var(--space-5)">희소 MoE 학습에서 가장 자주 깨지는 곳은 라우터다. 초기 몇천 스텝 동안 일부
+    전문가에 토큰이 쏠리면, 쏠린 전문가만 빨리 학습되고 나머지는 영영 기회를 못 받는다.</p>
+
+    <div class="pull">라우터를 본 학습과 <b>시간적으로 분리</b>한다 — 이 논문의 전부다.</div>
+
+    <h2 style="margin-top:var(--space-5)">파이프라인</h2>
+    <p style="margin-top:var(--space-3)">1단계에서는 전문가를 고정한 채 라우터만 학습시켜 분포를 펴 놓고,
+    2단계에서 라우터를 얼려 본 학습에 들어간다.</p>
+
+    <div class="figure">
+      <div class="figure-box"></div>
+      <div class="figure-cap">도표 1 — 단계별 라우팅 엔트로피. 1단계에서 분포가 펴진 뒤 유지된다.</div>
+    </div>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Aside</span><h2>목차와 곁줄</h2>
+    <p class="note">목차는 장식이 아니라 <b>훑는 사람의 도구</b>다. 본문 오른쪽에 붙되 본문 폭(68ch)을 침범하지 않는다.</p>
+  </div>
+  <div class="stage">
+    <div class="toc">
+      <div class="kicker" style="margin-bottom:var(--space-2)">목차</div>
+      <a href="#">파이프라인</a>
+      <a href="#">결과</a>
+      <a href="#">남는 질문</a>
+    </div>
+    <div class="rule" style="margin:var(--space-4) 0"></div>
+    <div class="kicker" style="margin-bottom:var(--space-2)">태그</div>
+    <div class="dateline"><a class="tag" href="#">LLM</a><a class="tag" href="#">MoE</a><a class="tag" href="#">학습</a></div>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Open</span><h2>아직 안 정한 것</h2>
+    <p class="note">글이 <b>고쳐 실렸을 때</b> 어떻게 표시하는가. 신문은 정정을 적는다 — 이 사이트도 그래야 하는데
+    아직 형태가 없다. <code>updatedAt</code> 은 이미 frontmatter 에 있다.</p>
+  </div>
+
+</main>
+</body>
+</html>

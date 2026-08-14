@@ -1,0 +1,152 @@
+<!-- @dsCard group="Foundations" name="색 — 먹과 안료 3" subtitle="따뜻한 먹 위에 낮은 채도의 안료 셋. 낮과 밤은 반전이 아니라 같은 종이의 두 시간." viewport="820x900" -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>초록 — 색</title>
+<link rel="stylesheet" href="../styles.css" />
+<style>
+/* Demo scaffolding only — every color comes from ../styles.css tokens. */
+.demo { max-width: 760px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-8); }
+.demo-head { margin: var(--space-7) 0 var(--space-3); }
+.demo-head:first-child { margin-top: 0; }
+.note { font-size: var(--text-small); color: var(--color-muted); max-width: 62ch; margin-top: var(--space-2); }
+
+.grounds { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+.ground-demo { padding: var(--space-5); border: var(--rule-hair) solid var(--color-line); }
+.ground-demo .swatch-row { display: flex; gap: 0; margin-top: var(--space-4); }
+.ground-demo .sw { flex: 1; height: 34px; }
+.ground-name { font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-muted); }
+.ground-title { font-size: var(--text-h3); margin-top: var(--space-1); }
+.ground-line { font-size: var(--text-small); color: var(--color-muted); margin-top: var(--space-2); }
+
+.ramp { display: grid; grid-template-columns: 92px repeat(9, 1fr); align-items: center; gap: 0; margin-bottom: var(--space-2); }
+.ramp-name { font-family: var(--font-ui); font-size: 12px; padding-right: var(--space-3); }
+.ramp-name b { font-weight: 600; }
+.ramp-name span { color: var(--color-muted); }
+.step { height: 40px; position: relative; }
+.step em {
+  position: absolute; inset: auto 0 3px 0; text-align: center;
+  font-family: var(--font-mono); font-size: 9px; font-style: normal; letter-spacing: 0.02em;
+}
+.roles { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+.role { border-top: 2px solid var(--cat); padding-top: var(--space-2); }
+.role-k { font-family: var(--font-ui); font-size: 12px; color: var(--color-muted); }
+.role-n { font-size: var(--text-h4); color: var(--cat); }
+ul.rules { margin: var(--space-2) 0 0; padding-left: 1.1em; }
+ul.rules li { font-size: var(--text-small); color: var(--color-muted); margin-bottom: var(--space-1); max-width: 62ch; }
+</style>
+</head>
+<body>
+<main class="demo">
+
+  <div class="demo-head"><span class="kicker">Ground</span><h2>낮과 밤</h2>
+    <p class="note">순백도 순검정도 쓰지 않는다. 낮은 표백하지 않은 종이, 밤은 따뜻한 먹빛이다.
+    두 모드는 서로의 반전이 아니라 같은 종이를 다른 시간에 본 것이다.</p>
+  </div>
+
+  <div class="grounds">
+    <div class="ground-demo ground-light">
+      <div class="ground-name">낮 · light</div>
+      <div class="ground-title">초록</div>
+      <div class="ground-line">HuggingFace 블로그와 arXiv 논문을 한글로 추려 적습니다.</div>
+      <div class="swatch-row">
+        <div class="sw" style="background:var(--color-bg)"></div>
+        <div class="sw" style="background:var(--color-surface)"></div>
+        <div class="sw" style="background:var(--color-line)"></div>
+        <div class="sw" style="background:var(--color-muted)"></div>
+        <div class="sw" style="background:var(--color-text)"></div>
+      </div>
+    </div>
+    <div class="ground-demo ground-dark">
+      <div class="ground-name">밤 · dark</div>
+      <div class="ground-title">초록</div>
+      <div class="ground-line">HuggingFace 블로그와 arXiv 논문을 한글로 추려 적습니다.</div>
+      <div class="swatch-row">
+        <div class="sw" style="background:var(--color-bg)"></div>
+        <div class="sw" style="background:var(--color-surface)"></div>
+        <div class="sw" style="background:var(--color-line)"></div>
+        <div class="sw" style="background:var(--color-muted)"></div>
+        <div class="sw" style="background:var(--color-text)"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Pigments</span><h2>안료 3색과 먹</h2>
+    <p class="note">채도를 낮춰 안료처럼 쓴다. 형광은 없다. 같은 단계(step)의 세 안료는 시각적 무게가 같도록
+    OKLCH 의 공통 명도 척도 위에서 만들었다.</p>
+  </div>
+
+  <div class="ramp">
+    <div class="ramp-name"><b>草綠</b><br><span>accent</span></div>
+    <div class="step" style="background:var(--color-accent-100)"></div>
+    <div class="step" style="background:var(--color-accent-200)"></div>
+    <div class="step" style="background:var(--color-accent-300)"></div>
+    <div class="step" style="background:var(--color-accent-400)"></div>
+    <div class="step" style="background:var(--color-accent-500)"></div>
+    <div class="step" style="background:var(--color-accent-600)"></div>
+    <div class="step" style="background:var(--color-accent-700)"></div>
+    <div class="step" style="background:var(--color-accent-800)"></div>
+    <div class="step" style="background:var(--color-accent-900)"></div>
+  </div>
+  <div class="ramp">
+    <div class="ramp-name"><b>朱土</b><br><span>accent-2</span></div>
+    <div class="step" style="background:var(--color-accent-2-100)"></div>
+    <div class="step" style="background:var(--color-accent-2-200)"></div>
+    <div class="step" style="background:var(--color-accent-2-300)"></div>
+    <div class="step" style="background:var(--color-accent-2-400)"></div>
+    <div class="step" style="background:var(--color-accent-2-500)"></div>
+    <div class="step" style="background:var(--color-accent-2-600)"></div>
+    <div class="step" style="background:var(--color-accent-2-700)"></div>
+    <div class="step" style="background:var(--color-accent-2-800)"></div>
+    <div class="step" style="background:var(--color-accent-2-900)"></div>
+  </div>
+  <div class="ramp">
+    <div class="ramp-name"><b>藍</b><br><span>accent-3</span></div>
+    <div class="step" style="background:var(--color-accent-3-100)"></div>
+    <div class="step" style="background:var(--color-accent-3-200)"></div>
+    <div class="step" style="background:var(--color-accent-3-300)"></div>
+    <div class="step" style="background:var(--color-accent-3-400)"></div>
+    <div class="step" style="background:var(--color-accent-3-500)"></div>
+    <div class="step" style="background:var(--color-accent-3-600)"></div>
+    <div class="step" style="background:var(--color-accent-3-700)"></div>
+    <div class="step" style="background:var(--color-accent-3-800)"></div>
+    <div class="step" style="background:var(--color-accent-3-900)"></div>
+  </div>
+  <div class="ramp">
+    <div class="ramp-name"><b>먹</b><br><span>neutral</span></div>
+    <div class="step" style="background:var(--color-neutral-100)"><em style="color:var(--color-neutral-900)">100</em></div>
+    <div class="step" style="background:var(--color-neutral-200)"><em style="color:var(--color-neutral-900)">200</em></div>
+    <div class="step" style="background:var(--color-neutral-300)"><em style="color:var(--color-neutral-900)">300</em></div>
+    <div class="step" style="background:var(--color-neutral-400)"><em style="color:var(--color-neutral-900)">400</em></div>
+    <div class="step" style="background:var(--color-neutral-500)"><em style="color:var(--color-neutral-100)">500</em></div>
+    <div class="step" style="background:var(--color-neutral-600)"><em style="color:var(--color-neutral-100)">600</em></div>
+    <div class="step" style="background:var(--color-neutral-700)"><em style="color:var(--color-neutral-100)">700</em></div>
+    <div class="step" style="background:var(--color-neutral-800)"><em style="color:var(--color-neutral-100)">800</em></div>
+    <div class="step" style="background:var(--color-neutral-900)"><em style="color:var(--color-neutral-100)">900</em></div>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Roles</span><h2>안료는 카테고리에만 쓴다</h2>
+    <p class="note">세 안료는 장식이 아니라 <b>정보 부호</b>다. 카테고리를 가리키는 자리 — 구분 라벨과 얇은 머리선 —
+    바깥에서는 쓰지 않는다.</p>
+  </div>
+
+  <div class="roles">
+    <div class="role cat-papers"><div class="role-k">accent · 草綠</div><div class="role-n">최신 논문</div></div>
+    <div class="role cat-news"><div class="role-k">accent-2 · 朱土</div><div class="role-n">허깅페이스 소식</div></div>
+    <div class="role cat-notes"><div class="role-k">accent-3 · 藍</div><div class="role-n">수집 자료</div></div>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Rules</span><h2>지킬 것</h2></div>
+  <ul class="rules">
+    <li><b>링크는 색으로 표시하지 않는다.</b> 밑줄이 링크를 가리키고, 색은 카테고리에만 남겨 둔다.</li>
+    <li>草綠 은 카테고리 색이면서 동시에 포커스 링의 색이다 — 사이트 이름의 색이 "지금 여기"를 가리킨다.</li>
+    <li>한 컴포넌트 안에 안료 두 개를 같이 쓰지 않는다.</li>
+    <li>본문 크기 글자를 안료로 칠하지 않는다. 안료-바탕 대비는 아이콘·굵은 글자·인터페이스 요소 기준이다.</li>
+    <li>그라디언트·글로우·유리(blur) 없음. 안료는 균일하게 칠한 한 겹이다.</li>
+  </ul>
+
+</main>
+</body>
+</html>

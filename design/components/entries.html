@@ -1,0 +1,112 @@
+<!-- @dsCard group="Components" name="목록 항목 — 성격 셋" subtitle="같은 데이터를 머리기사·단신·색인 세 급으로. 한 지면에서 섞는 것이 신문이 하는 일이다." viewport="880x1200" -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>초록 — 목록 항목</title>
+<link rel="stylesheet" href="../styles.css" />
+<style>
+.demo { max-width: 800px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-9); }
+.demo-head { margin: var(--space-8) 0 var(--space-4); }
+.demo-head:first-child { margin-top: 0; }
+.note { font-size: var(--text-small); color: var(--color-muted); max-width: 62ch; margin-top: var(--space-2); }
+.stage { border: var(--rule-hair) solid var(--color-line); padding: var(--space-5); margin-top: var(--space-3); }
+.vlabel { font-family: var(--font-mono); font-size: 10px; color: var(--color-muted); margin: var(--space-4) 0 var(--space-1); }
+.vlabel:first-child { margin-top: 0; }
+code { font-family: var(--font-mono); font-size: 0.9em; }
+.thumb { width: 76px; height: 52px; background: var(--color-surface); border: var(--rule-hair) solid var(--color-line); flex: none; }
+</style>
+</head>
+<body>
+<main class="demo">
+
+  <div class="demo-head"><span class="kicker">Characters</span><h2>같은 글, 세 가지 급</h2>
+    <p class="note">항목 컴포넌트는 하나가 아니다. <b>무엇을 얼마나 크게 실을지가 편집</b>이고,
+    한 지면에서 세 급을 섞을 때 화면이 편집된 것처럼 읽힌다.</p>
+  </div>
+
+  <div class="stage">
+    <div class="vlabel">머리기사 — .entry-lead · 지면당 하나. 급을 스케일 밖으로 키워도 좋다</div>
+    <div class="entry-lead cat-papers">
+      <div class="dateline voice-source"><span style="color:var(--cat)">최신 논문</span><span>2026.08.05</span><span>arXiv:2608.01337</span></div>
+      <div class="headline">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</div>
+      <div class="deck">전문가 라우터를 본 학습과 분리해 먼저 굳히고 시작한다</div>
+      <p class="lede">초기 라우팅 붕괴를 막아 같은 예산에서 손실을 더 내렸다고 보고한다.</p>
+    </div>
+
+    <div class="vlabel">단신 — .brief-set / .brief-item · 짧은 것은 뭉쳐서</div>
+    <div class="brief-set">
+      <div class="brief-item cat-news">
+        <span class="voice-source">07.25</span>
+        <div><span class="cat-label" style="font-size:12px">소식</span> <span class="entry-title">추론 엔드포인트 CLI 가 정식으로 나왔다</span></div>
+      </div>
+      <div class="brief-item cat-notes">
+        <span class="voice-source">08.02</span>
+        <div><span class="cat-label" style="font-size:12px">메모</span> <span class="entry-title">양자화 손실을 반년 동안 기록해 봤다</span></div>
+      </div>
+    </div>
+
+    <div class="vlabel">색인 — .index-row · 되찾기용. 훑어서 찾는 것이 유일한 목적</div>
+    <div>
+      <div class="index-row"><span class="voice-source">2026.08.09</span><span class="t">공개 가중치 모델 벤치마크 정리 — 2026년 여름판</span><span class="voice-source">소식</span></div>
+      <div class="index-row"><span class="voice-source">2026.08.05</span><span class="t">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</span><span class="voice-source">논문</span></div>
+      <div class="index-row"><span class="voice-source">2026.08.02</span><span class="t">양자화 손실을 반년 동안 기록해 봤다</span><span class="voice-source">메모</span></div>
+      <div class="index-row"><span class="voice-source">2026.07.25</span><span class="t">추론 엔드포인트 CLI 가 정식으로 나왔다</span><span class="voice-source">소식</span></div>
+    </div>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Density</span><h2>밀도는 화면이 정한다</h2>
+    <p class="note">같은 <code>.entry</code> 를 <code>.list-tight</code> / 기본 / <code>.list-loose</code> 로 감싸면 밀도가 바뀐다.
+    색인면은 촘촘하게, 카테고리 첫 화면은 여유 있게 — 한 시스템 안에서 둘 다 맞다.</p>
+  </div>
+
+  <div class="stage">
+    <div class="vlabel">.list-tight — 색인·아카이브</div>
+    <div class="list-tight">
+      <div class="entry cat-papers"><div class="entry-rail voice-source">2026.08.05</div><div><span class="entry-title">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</span></div></div>
+      <div class="entry cat-news"><div class="entry-rail voice-source">2026.07.25</div><div><span class="entry-title">추론 엔드포인트 CLI 가 정식으로 나왔다</span></div></div>
+    </div>
+
+    <div class="vlabel">기본</div>
+    <div>
+      <div class="entry cat-papers"><div class="entry-rail voice-source">2026.08.05<br>arXiv:2608.01337</div>
+        <div><div class="cat-label">최신 논문</div><div class="entry-title">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</div></div></div>
+      <div class="entry cat-news"><div class="entry-rail voice-source">2026.07.25<br>huggingface.co</div>
+        <div><div class="cat-label">허깅페이스 소식</div><div class="entry-title">추론 엔드포인트 CLI 가 정식으로 나왔다</div></div></div>
+    </div>
+
+    <div class="vlabel">.list-loose — 카테고리 첫 화면</div>
+    <div class="list-loose">
+      <div class="entry cat-papers"><div class="entry-rail voice-source">2026.08.05<br>arXiv:2608.01337</div>
+        <div><div class="cat-label">최신 논문</div><div class="entry-title">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</div>
+        <p class="text-muted" style="font-size:var(--text-small);margin-top:var(--space-1)">전문가 라우터를 본 학습과 분리해 먼저 굳히고 시작한다.</p></div></div>
+    </div>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Open</span><h2>커버가 있는 글과 없는 글</h2>
+    <p class="note"><b>이건 아직 안 정했다.</b> 예전 설계에서 커버 있는 글 하나 때문에 같은 줄 카드가 전부 403px 로
+    늘어난 적이 있다. 아래는 시작점 하나일 뿐 — 더 나은 답을 찾으면 그걸 쓴다.</p>
+  </div>
+
+  <div class="stage">
+    <div class="vlabel">시작점 — 커버는 레일 안에 갇힌다. 없으면 자리도 안 생긴다</div>
+    <div>
+      <div class="entry cat-papers" style="align-items:start">
+        <div class="entry-rail" style="display:flex;flex-direction:column;gap:var(--space-2)">
+          <div class="thumb"></div>
+          <span class="voice-source">2026.08.05</span>
+        </div>
+        <div><div class="cat-label">최신 논문</div><div class="entry-title">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</div></div>
+      </div>
+      <div class="entry cat-news" style="align-items:start">
+        <div class="entry-rail voice-source">2026.07.25</div>
+        <div><div class="cat-label">허깅페이스 소식</div><div class="entry-title">추론 엔드포인트 CLI 가 정식으로 나왔다</div></div>
+      </div>
+    </div>
+    <p class="note">행 높이가 커버 때문에 달라지지만 <b>레일 폭은 안 변한다</b> — 제목의 왼쪽 끝이 흔들리지 않는 것이 핵심이다.</p>
+  </div>
+
+</main>
+</body>
+</html>

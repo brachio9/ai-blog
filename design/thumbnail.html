@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>초록 — 표지</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+body { margin: 0; }
+.cover {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: var(--space-7) var(--space-6) var(--space-6);
+}
+.mark { align-self: end; }
+.mark-name { font-size: 76px; line-height: 1; font-weight: 700; letter-spacing: -0.03em; }
+.mark-han { font-family: var(--font-heading); font-size: 20px; color: var(--color-muted); margin-top: var(--space-3); }
+.mark-line { font-size: var(--text-small); color: var(--color-muted); margin-top: var(--space-2); max-width: 56ch; }
+.foot { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-5); margin-top: var(--space-7); }
+.swatches { display: flex; gap: 0; }
+.swatches i { display: block; width: 44px; height: 44px; }
+.stamp { font-family: var(--font-mono); font-size: 11px; color: var(--color-muted); letter-spacing: 0.04em; text-align: right; }
+</style>
+</head>
+<body>
+<main class="cover">
+  <div class="mark">
+    <div class="mark-name">초록</div>
+    <div class="mark-han">抄錄 — 골라서 옮겨 적다</div>
+    <div class="mark-line">한글 명조와 원문 mono, 두 목소리. 따뜻한 먹빛 위에 안료 셋.</div>
+  </div>
+  <div class="foot">
+    <div class="swatches">
+      <i style="background:var(--color-accent-500)"></i>
+      <i style="background:var(--color-accent-2-500)"></i>
+      <i style="background:var(--color-accent-3-500)"></i>
+      <i style="background:var(--color-neutral-900)"></i>
+      <i style="background:var(--color-neutral-100); box-shadow: inset 0 0 0 1px var(--color-line)"></i>
+    </div>
+    <div class="stamp">Noto Serif KR / IBM Plex Sans KR / IBM Plex Mono<br>radius 0 · density 1.15 · no shadow</div>
+  </div>
+</main>
+</body>
+</html>

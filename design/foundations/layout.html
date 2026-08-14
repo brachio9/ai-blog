@@ -1,0 +1,99 @@
+<!-- @dsCard group="Foundations" name="레이아웃 — 레일과 지면" subtitle="좁은 메타 레일 + 넓은 본문. 박스 대신 얇은 선 하나. 둥근 모서리도 그림자도 없다." viewport="820x900" -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>초록 — 레이아웃</title>
+<link rel="stylesheet" href="../styles.css" />
+<style>
+/* Demo scaffolding only — every value comes from ../styles.css tokens. */
+.demo { max-width: 760px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-8); }
+.demo-head { margin: var(--space-7) 0 var(--space-4); }
+.demo-head:first-child { margin-top: 0; }
+.note { font-size: var(--text-small); color: var(--color-muted); max-width: 62ch; margin-top: var(--space-2); }
+.scale { display: grid; gap: var(--space-1); }
+.sp { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: var(--space-3); }
+.sp-k { font-family: var(--font-mono); font-size: 10px; color: var(--color-muted); }
+.sp-bar { height: 11px; background: var(--color-accent-500); }
+.diagram { border: var(--rule-hair) solid var(--color-line); padding: var(--space-5); }
+.rail-demo { display: grid; grid-template-columns: var(--rail) minmax(0,1fr); gap: var(--space-4); }
+.zone { border: 1px dashed var(--color-line); padding: var(--space-2); font-family: var(--font-mono); font-size: 10px; color: var(--color-muted); }
+.zone-b { min-height: 84px; }
+.measure-demo { position: relative; }
+.measure-demo::after {
+  content: 'var(--measure) — 68ch'; position: absolute; right: 0; top: -18px;
+  font-family: var(--font-mono); font-size: 10px; color: var(--color-muted);
+}
+ul.rules { margin: var(--space-2) 0 0; padding-left: 1.1em; }
+ul.rules li { font-size: var(--text-small); color: var(--color-muted); margin-bottom: var(--space-1); max-width: 62ch; }
+.dont { border-left: 2px solid var(--color-accent-2-500); padding-left: var(--space-3); margin-top: var(--space-3); }
+</style>
+</head>
+<body>
+<main class="demo">
+
+  <div class="demo-head"><span class="kicker">Asymmetry</span><h2>레일과 지면</h2>
+    <p class="note">화면은 가운데 정렬하지 않는다. 왼쪽에 좁은 <b>메타 레일</b>(날짜·식별자 — 원문의 목소리),
+    오른쪽에 넓은 <b>본문</b>. 균일한 격자의 무표정함을 이 비대칭이 깬다.</p>
+  </div>
+
+  <div class="diagram">
+    <div class="rail-demo">
+      <div class="zone">rail<br>136px</div>
+      <div class="zone zone-b">content — minmax(0, 1fr)</div>
+    </div>
+  </div>
+  <p class="note">640px 아래에서는 레일이 본문 위로 접힌다 (한 열).</p>
+
+  <div class="demo-head"><span class="kicker">Measure</span><h2>본문 폭</h2></div>
+  <div class="measure-demo">
+    <p>초록은 한글로 읽는 글이다. 한 줄이 너무 길면 다음 줄 첫 글자를 놓친다.
+    본문은 68ch 에서 멈춘다 — 화면이 아무리 넓어도 문단은 이 폭을 넘지 않는다.
+    남는 오른쪽 여백은 비워 둔다. 채우지 않는다.</p>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Spacing</span><h2>간격 척도 · density 1.15</h2></div>
+  <div class="scale">
+    <div class="sp"><span class="sp-k">space-1</span><div class="sp-bar" style="width:5px"></div></div>
+    <div class="sp"><span class="sp-k">space-2</span><div class="sp-bar" style="width:9px"></div></div>
+    <div class="sp"><span class="sp-k">space-3</span><div class="sp-bar" style="width:14px"></div></div>
+    <div class="sp"><span class="sp-k">space-4</span><div class="sp-bar" style="width:18px"></div></div>
+    <div class="sp"><span class="sp-k">space-5</span><div class="sp-bar" style="width:28px"></div></div>
+    <div class="sp"><span class="sp-k">space-6</span><div class="sp-bar" style="width:37px"></div></div>
+    <div class="sp"><span class="sp-k">space-7</span><div class="sp-bar" style="width:55px"></div></div>
+    <div class="sp"><span class="sp-k">space-8</span><div class="sp-bar" style="width:74px"></div></div>
+    <div class="sp"><span class="sp-k">space-9</span><div class="sp-bar" style="width:110px"></div></div>
+  </div>
+  <p class="note">8의 배수가 아니다. 의도한 것이다 — 모든 수치가 8pt 격자에 딱 떨어지면 화면이 기계가 짠 것처럼 읽힌다.</p>
+
+  <div class="demo-head"><span class="kicker">Edges</span><h2>가장자리</h2></div>
+  <div class="diagram">
+    <div class="entry cat-papers" style="border-top:var(--rule-hair) solid var(--color-line)">
+      <div class="entry-rail voice-source">2026.08.05<br>arXiv:2608.01337</div>
+      <div><div class="cat-label">최신 논문</div><div class="entry-title">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</div></div>
+    </div>
+    <div class="entry cat-notes">
+      <div class="entry-rail voice-source">2026.08.02</div>
+      <div><div class="cat-label">수집 자료</div><div class="entry-title">양자화 손실을 반년 동안 기록해 봤다</div></div>
+    </div>
+  </div>
+  <p class="note">항목을 나누는 것은 <b>1px 가로선 하나</b>다. 카드도, 테두리 상자도, 좌측 색 막대도 쓰지 않는다.
+  카테고리는 라벨의 색으로만 드러난다.</p>
+
+  <div class="demo-head"><span class="kicker">Rules</span><h2>지킬 것</h2></div>
+  <ul class="rules">
+    <li><b>radius 는 0 이다.</b> 태그 칩만 2px. 지면에는 둥근 모서리가 없다.</li>
+    <li><b>그림자는 없다.</b> <code>--shadow-lg</code> 는 다이얼로그 하나에만 쓴다. 지면은 떠 있지 않다.</li>
+    <li>섹션은 카드로 감싸지 않는다. 여백과 얇은 선이 나눈다.</li>
+    <li>가운데 정렬 히어로를 만들지 않는다. 첫 화면은 마스트헤드 한 덩이와 곧바로 목록이다.</li>
+  </ul>
+
+  <div class="dont">
+    <p class="note" style="margin:0"><b>피할 것 —</b> 둥근 사각형 카드 격자, 유리(backdrop blur), 네온 글로우, 보라·인디고 그라디언트,
+    가운데 정렬 히어로, 이모지 아이콘. 전부 "자동으로 만들어진 화면"의 표식이다.</p>
+  </div>
+
+</main>
+</body>
+</html>
