@@ -54,9 +54,11 @@ export function TagPosts({ items, basePath }: TagPostsProps) {
           <p className="font-mono text-xs text-muted tabular-nums">
             {posts.length}편
           </p>
+          {/* 태그로 좁혀 본 목록도 되찾기다 — 아카이브와 같은 밀도·같은 구성으로 싣는다. */}
           <PostTable
             posts={posts.map(toPost)}
             showCategory
+            showMeta={false}
             caption={`'${tag}' 태그의 글`}
           />
         </>

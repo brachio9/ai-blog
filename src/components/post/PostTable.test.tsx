@@ -36,58 +36,62 @@ describe("PostTable", () => {
 
     const link = screen.getByRole("link", { name: post.frontmatter.title });
     expect(link.getAttribute("href")).toBe("/papers/sparse-attention-scaling");
-    // 접힌 메타 줄에도 같은 날짜가 들어가므로 하나만 있다고 보지 않는다.
-    expect(screen.getAllByText("2026.08.09").length).toBeGreaterThan(0);
+    expect(screen.getByText("2026.08.09")).toBeTruthy();
   });
 
   it("카테고리를 색만이 아니라 짧은 이름 텍스트로도 알린다", () => {
-    render(<PostTable posts={[post]} showCategory />);
+    const { container } = render(<PostTable posts={[post]} showCategory />);
 
-    const labels = screen.getAllByText("논문");
-    expect(labels.length).toBeGreaterThan(0);
-    // 색은 globals.css 의 --cat-* 토큰에서 온다. accent 키가 그 짝이다.
-    expect(labels[0].className).toContain("text-cat-paper");
+    expect(screen.getByText("논문")).toBeTruthy();
+    // 색은 항목 바깥의 .cat-* 가 정하는 --cat 에서 온다. accent 키가 그 짝이다.
+    expect(container.querySelector(".entry")?.className).toContain("cat-papers");
+  });
+
+  it("제목의 왼쪽 끝이 흔들리지 않도록 레일이 폭을 잡는다", () => {
+    const { container } = render(<PostTable posts={[post]} showIdentifier />);
+
+    // 레일 폭은 --rail 고정이다. 날짜와 식별자가 같은 레일 안에 들어가야 한다.
+    const rail = container.querySelector(".entry-rail");
+    expect(rail?.textContent).toContain("2026.08.09");
+    expect(rail?.textContent).toContain("arXiv:2607.04512");
   });
 
   it("showIdentifier 일 때만 arXiv ID 를 보인다", () => {
     const { unmount } = render(<PostTable posts={[post]} showIdentifier />);
-    expect(screen.getAllByText("arXiv:2607.04512").length).toBeGreaterThan(0);
+    expect(screen.getByText("arXiv:2607.04512")).toBeTruthy();
     unmount();
 
     render(<PostTable posts={[post]} />);
     expect(screen.queryByText(/arXiv:/)).toBeNull();
   });
 
-  it("요약을 목록에 그리지 않는다", () => {
-    render(<PostTable posts={[post]} showCategory showIdentifier />);
-
-    // 요약이 들어가면 줄 수가 글마다 달라져 행 높이가 갈린다.
+  it("요약은 showSummary 를 켠 화면에서만 실린다", () => {
+    const { unmount } = render(<PostTable posts={[post]} />);
     expect(screen.queryByText(post.frontmatter.summary)).toBeNull();
+    unmount();
+
+    render(<PostTable posts={[post]} showSummary />);
+    expect(screen.getByText(post.frontmatter.summary)).toBeTruthy();
   });
 
-  it("reserveViews 면 값이 없어도 조회 열이 자리를 지킨다", () => {
-    render(<PostTable posts={[post]} showCategory reserveViews />);
+  it("조회수를 못 받으면 라벨째 사라진다 — 빈 자리를 남기지 않는다", () => {
+    const { container } = render(<PostTable posts={[post]} reserveViews />);
 
-    const headers = screen.getAllByRole("columnheader");
-    expect(headers.at(-1)?.textContent).toBe("조회");
-
-    // step 4 가 값을 채운다. 지금은 비어 있어도 열 수가 머리글과 맞아야 한다.
-    const bodyRow = screen.getAllByRole("row")[1];
-    expect(bodyRow.querySelectorAll("td")).toHaveLength(headers.length);
-    expect(bodyRow.querySelectorAll("td").item(headers.length - 1).textContent).toBe(
-      "",
-    );
+    // <ViewCounts> 밖이라 값이 없다. 메타 줄에는 읽기 시간만 남아야 한다.
+    expect(container.querySelector(".entry-meta")?.textContent).toBe("7분");
   });
 
-  it("reserveViews 가 꺼지면 조회 열 자체가 없다", () => {
-    render(<PostTable posts={[post]} showCategory />);
+  it("되찾기용 목록은 메타 줄을 떼어 낸다 — 밀도는 무엇을 싣는가로도 정해진다", () => {
+    const { container } = render(<PostTable posts={[post]} showMeta={false} />);
 
-    expect(screen.queryByRole("columnheader", { name: "조회" })).toBeNull();
+    expect(container.querySelector(".entry-meta")).toBeNull();
+    // 제목은 남는다 — 뺀 것은 고르는 근거가 아닌 값뿐이다.
+    expect(screen.getByRole("link", { name: post.frontmatter.title })).toBeTruthy();
   });
 
-  it("표에 접근 가능한 이름을 붙인다", () => {
+  it("목록에 접근 가능한 이름을 붙인다", () => {
     render(<PostTable posts={[post]} caption="최신 논문" />);
 
-    expect(screen.getByRole("table", { name: "최신 논문" })).toBeTruthy();
+    expect(screen.getByRole("list", { name: "최신 논문" })).toBeTruthy();
   });
 });

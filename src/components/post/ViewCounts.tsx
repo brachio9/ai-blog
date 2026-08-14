@@ -62,15 +62,34 @@ export function ViewCounts({ ids, children }: ViewCountsProps) {
 }
 
 /**
- * 표의 조회수 칸 내용. 자리(열 폭)는 PostTable 의 머리글이 잡아 두므로
- * 값이 늦게 들어와도 표가 흔들리지 않는다.
+ * 목록 항목의 조회수. 값이 없으면 **아무것도** 그리지 않는다 — 라벨도 함께 사라지므로
+ * 빈 자리가 남지 않는다. 항목 메타 줄의 끝에 붙으므로 늦게 들어와도 앞의 것이 밀리지 않는다.
  */
-export function ViewCell({ postId }: { postId: string }) {
+export function ViewCell({
+  postId,
+  label,
+}: {
+  postId: string;
+  /** 수치 앞에 붙일 한글 라벨. 없으면 수치만 돌려준다 */
+  label?: string;
+}) {
   const views = useContext(ViewsContext);
   const count = views?.[postId] ?? 0;
 
   // 0 은 그리지 않는다 — 기록이 없는 글과 실제로 0회인 글을 구분할 수 없다.
-  return count > 0 ? formatCount(count) : null;
+  if (count <= 0) {
+    return null;
+  }
+  if (label === undefined) {
+    return formatCount(count);
+  }
+
+  // 한글 라벨은 산세리프, 수치는 mono — 두 목소리를 섞지 않는다.
+  return (
+    <span className="voice-ui text-muted">
+      {label} <span className="voice-source">{formatCount(count)}</span>
+    </span>
+  );
 }
 
 export interface RankedPost {

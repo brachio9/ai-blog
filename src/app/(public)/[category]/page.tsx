@@ -114,15 +114,21 @@ export default async function CategoryPage(props: PageProps<"/[category]">) {
           </div>
         </header>
 
-        {/* 쿼리 파라미터를 읽는 클라이언트 목록은 Suspense 없이는 정적 생성이 실패한다. */}
-        <Suspense fallback={null}>
-          <PostList
-            items={items}
-            basePath={categoryHref(found)}
-            showIdentifier={showIdentifier}
-            reserveViews
-          />
-        </Suspense>
+        {/* 이 화면은 긴장 축의 여유 쪽에 선다 — 카테고리에 처음 들어온 사람이 훑는 자리라
+            항목마다 요약 한 줄을 붙이고 `.list-loose` 로 간격을 넓게 연다.
+            되찾기 전용인 아카이브·태그 색인이 반대쪽 끝(가장 좁은 밀도)이다.
+            쿼리 파라미터를 읽는 클라이언트 목록은 Suspense 없이는 정적 생성이 실패한다. */}
+        <div className="list-loose">
+          <Suspense fallback={null}>
+            <PostList
+              items={items}
+              basePath={categoryHref(found)}
+              showIdentifier={showIdentifier}
+              showSummary
+              reserveViews
+            />
+          </Suspense>
+        </div>
       </div>
     </Container>
   );

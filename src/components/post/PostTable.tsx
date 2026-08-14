@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getCategory, type CategoryAccent } from "@/lib/categories";
+import { CAT_CLASS, getCategory, type CategoryAccent } from "@/lib/categories";
 import { formatDateShort } from "@/lib/format";
 import type { Post } from "@/types/content";
 
@@ -8,19 +8,30 @@ import { ViewCell } from "./ViewCounts";
 
 export interface PostTableProps {
   posts: Post[];
-  /** 카테고리 페이지 안에서는 구분 열이 불필요하다 */
+  /** 카테고리 페이지 안에서는 구분 라벨이 불필요하다 */
   showCategory?: boolean;
-  /** 논문 목록에서 arXiv ID 를 식별자 열에 보인다 */
+  /** 논문 목록에서 arXiv ID 를 레일 둘째 줄에 보인다 */
   showIdentifier?: boolean;
-  /** 조회수 열을 둘지. 값은 감싸는 <ViewCounts> 가 런타임에 채운다 */
+  /** 요약 한 줄을 함께 싣는다. 여유 있게 여는 화면(.list-loose)에서만 켠다 */
+  showSummary?: boolean;
+  /**
+   * 읽기 시간·조회수 줄을 붙일지. 되찾기가 목적인 촘촘한 목록에서는 끈다 —
+   * 밀도는 간격만이 아니라 **무엇을 싣는가**로도 정해진다 (design/components/entries.html).
+   */
+  showMeta?: boolean;
+  /** 조회수를 실을지. 값은 감싸는 <ViewCounts> 가 런타임에 채운다 */
   reserveViews?: boolean;
-  /** 표의 접근 가능한 이름. 한 화면에 표가 둘 이상이면 서로 달라야 한다. */
+  /** 목록의 접근 가능한 이름. 한 화면에 목록이 둘 이상이면 서로 달라야 한다. */
   caption?: string;
 }
 
 /**
  * 카테고리 색 클래스 — globals.css 의 `--cat-*` 를 Tailwind 유틸리티로 받는다.
  * Tailwind 는 런타임에 조합한 클래스 문자열을 만들어 주지 않으므로 accent 키로 고른다.
+ *
+ * 항목 안에서는 이 맵이 아니라 `CAT_CLASS`(--cat 을 정하는 `.cat-*`)를 쓴다 —
+ * 여기 있는 안료는 아직 600 단계라 본문 크기 텍스트에는 대비가 모자란다.
+ * 남은 호출부(홈·소개·아카이브 머리글·글 상세)는 각자의 step 이 옮긴다.
  */
 export const ACCENT_TEXT: Record<CategoryAccent, string> = {
   hf: "text-cat-hf",
@@ -34,167 +45,92 @@ export const ACCENT_RULE: Record<CategoryAccent, string> = {
   note: "border-l-cat-note",
 };
 
-/** 식별자 열 폭이 고정이라 더 넣어도 잘린다. */
-const MAX_TAGS = 2;
-
-/**
- * align-middle 을 쓴다 — baseline 정렬은 제목 링크가 truncate(overflow:hidden) 라
- * 셀 아래 모서리를 기준선으로 잡아 행이 26px 씩 늘어난다 (실측).
- */
-const CELL = "py-2.5 pr-4 align-middle";
-const HEAD = "pb-2 pr-4 text-xs font-medium tracking-wide text-muted";
-/**
- * 날짜·수치·식별자는 자리가 흔들리면 스캔이 무너진다.
- * 줄바꿈을 막지 않으면 좁은 열에서 날짜가 두 줄로 접혀 행 높이가 갈린다 (실측).
- */
-const META = "font-mono text-xs tabular-nums whitespace-nowrap text-muted";
-
-/** 논문이면 arXiv ID, 아니면 태그. 열 하나를 두 용도로 쓴다. */
+/** 레일 둘째 줄에 남기는 원문 식별자. 논문 목록에서만 켠다. */
 function identifierOf(post: Post, showIdentifier: boolean): string {
-  const { frontmatter } = post;
+  const { paper } = post.frontmatter;
 
-  if (showIdentifier) {
-    return frontmatter.paper ? `arXiv:${frontmatter.paper.arxivId}` : "";
-  }
-  return frontmatter.tags.slice(0, MAX_TAGS).join(" · ");
+  return showIdentifier && paper ? `arXiv:${paper.arxivId}` : "";
 }
 
 /**
- * 목록의 기본 단위 — 카드가 아니라 밀집 표다 (docs/UI_GUIDE.md "목록").
- * 행 높이는 전부 같아야 하므로 제목은 한 줄로 자르고, 커버 이미지와 요약문은 싣지 않는다.
- * 좁은 화면에서는 열을 접어 2줄 블록이 된다 — 목록에서 가로 스크롤은 스캔을 방해한다.
+ * 목록의 기본 단위 — 좌측 레일(원문의 목소리) + 본문(초록의 목소리)로 된 항목이다.
+ * 레일 폭(`--rail`)이 고정이라 행 높이가 글마다 달라져도 **제목의 왼쪽 끝은 흔들리지 않는다.**
+ * 행 높이를 억지로 맞추지 않는 것이 요점이다 — 무엇을 얼마나 크게 싣는지가 편집이다.
+ *
+ * 밀도는 이 컴포넌트가 정하지 않는다. 감싸는 쪽이 `.list-tight` / `.list-loose` 로 덮는다
+ * (`--entry-pad` 는 상속되므로 목록 바깥 어디에 붙여도 된다).
+ * 좁은 화면에서는 레일이 제목 위로 접힌다 — 목록에서 가로 스크롤은 스캔을 방해한다.
  */
 export function PostTable({
   posts,
   showCategory = false,
   showIdentifier = false,
+  showSummary = false,
+  showMeta = true,
   reserveViews = false,
   caption = "글 목록",
 }: PostTableProps) {
   return (
-    <table className="w-full table-fixed border-collapse text-left">
-      <caption className="sr-only">{caption}</caption>
+    // 항목이 display:grid 라 브라우저가 목록 의미를 떨어뜨릴 수 있다 — role 로 되돌린다.
+    <ul role="list" aria-label={caption}>
+      {posts.map((post) => {
+        const { frontmatter } = post;
+        const category = getCategory(post.category);
+        const identifier = identifierOf(post, showIdentifier);
+        // 조회수 저장소의 post_id 는 글 상세 URL 과 같은 `{category}/{slug}` 다 (services/turso.ts).
+        const postId = `${post.category}/${post.slug}`;
 
-      {/* 열 폭은 여기서 정해진다 (table-fixed). 모바일에서는 머리글째 접는다. */}
-      <thead className="hidden md:table-header-group">
-        <tr className="border-b border-b-border">
-          <th scope="col" className={`${HEAD} w-[7rem] pl-3`}>
-            날짜
-          </th>
-          {showCategory ? (
-            <th scope="col" className={`${HEAD} w-[3.5rem]`}>
-              구분
-            </th>
-          ) : null}
-          <th scope="col" className={HEAD}>
-            제목
-          </th>
-          <th scope="col" className={`${HEAD} w-[9rem]`}>
-            {showIdentifier ? "식별자" : "태그"}
-          </th>
-          <th scope="col" className={`${HEAD} w-[4rem]`}>
-            읽힘
-          </th>
-          {reserveViews ? (
-            <th scope="col" className={`${HEAD} w-[4.5rem] pr-3 text-right`}>
-              조회
-            </th>
-          ) : null}
-        </tr>
-      </thead>
+        return (
+          <li
+            key={postId}
+            className={`entry ${category ? CAT_CLASS[category.accent] : ""}`}
+          >
+            <div className="entry-rail voice-source">
+              <time dateTime={frontmatter.publishedAt}>
+                {formatDateShort(frontmatter.publishedAt)}
+              </time>
+              {identifier ? <div>{identifier}</div> : null}
+            </div>
 
-      <tbody>
-        {posts.map((post) => {
-          const { frontmatter } = post;
-          const category = getCategory(post.category);
-          const identifier = identifierOf(post, showIdentifier);
-          // 조회수 저장소의 post_id 는 글 상세 URL 과 같은 `{category}/{slug}` 다 (services/turso.ts).
-          const postId = `${post.category}/${post.slug}`;
+            <div className="min-w-0">
+              {/* 구분은 제목 위에 한 줄로 올린다. 제목 앞에 달아 붙이면 줄은 아끼지만
+                  라벨 폭만큼 제목이 밀리고, 짧은 이름이 2자/3자로 갈리는 순간
+                  같은 목록 안에서 제목의 왼쪽 끝이 흔들린다 (docs/PRD.md 는 2~3자를 허용한다).
+                  색만으로 알리지 않으므로 짧은 이름이 텍스트로 함께 간다. */}
+              {showCategory && category ? (
+                <div className="cat-label">{category.shortName}</div>
+              ) : null}
 
-          return (
-            <tr
-              key={postId}
-              // 위·아래 모두 선을 준다. 아래만 주면 collapse 된 머리글 경계가
-              // 첫 행에만 0.5px 로 걸려 행 높이가 갈린다 (실측).
-              className={`border-y border-l-2 border-y-border transition-colors hover:bg-surface ${
-                category ? ACCENT_RULE[category.accent] : "border-l-border"
-              }`}
-            >
-              <td className={`hidden pl-3 md:table-cell ${CELL}`}>
-                <time dateTime={frontmatter.publishedAt} className={META}>
-                  {formatDateShort(frontmatter.publishedAt)}
-                </time>
-              </td>
+              <Link
+                href={`/${post.category}/${post.slug}`}
+                className="entry-title block underline-offset-[0.2em] hover:underline focus-visible:outline-2 focus-visible:outline-focus"
+              >
+                {frontmatter.title}
+              </Link>
 
-              {showCategory ? (
-                <td className={`hidden md:table-cell ${CELL}`}>
-                  {/* 색만으로 알리지 않는다 — 짧은 이름을 텍스트로 함께 둔다. */}
-                  <span
-                    className={`text-xs ${
-                      category ? ACCENT_TEXT[category.accent] : "text-muted"
-                    }`}
-                  >
-                    {category?.shortName}
+              {showSummary ? (
+                <p className="mt-[var(--space-1)] max-w-[54ch] text-[length:var(--text-small)] leading-[var(--leading-tight)] text-muted">
+                  {frontmatter.summary}
+                </p>
+              ) : null}
+
+              {showMeta ? (
+                <div className="entry-meta mt-[var(--space-1)]">
+                  <span className="voice-ui text-muted">
+                    <span className="voice-source">{post.readingMinutes}</span>분
                   </span>
-                </td>
-              ) : null}
 
-              <td className="py-3 pr-4 pl-3 align-middle md:py-2.5 md:pl-0">
-                <Link
-                  href={`/${post.category}/${post.slug}`}
-                  className="block truncate text-[0.9375rem] text-heading underline-offset-[0.2em] hover:underline focus-visible:outline-2 focus-visible:outline-focus"
-                >
-                  {frontmatter.title}
-                </Link>
-
-                {/* 접힌 열은 이 한 줄로 대신한다. 넘치면 가로로 미는 대신 잘라낸다. */}
-                <div
-                  className={`mt-1 flex items-center gap-x-2 overflow-hidden md:hidden ${META}`}
-                >
-                  <time dateTime={frontmatter.publishedAt}>
-                    {formatDateShort(frontmatter.publishedAt)}
-                  </time>
-                  {showCategory && category ? (
-                    <>
-                      <span aria-hidden="true">·</span>
-                      <span className={ACCENT_TEXT[category.accent]}>
-                        {category.shortName}
-                      </span>
-                    </>
+                  {/* 조회수는 런타임 값이라 서버에서 읽지 않는다 — 감싸는 <ViewCounts> 가 채운다.
+                      못 받으면 라벨째 사라진다. 줄 끝에 붙으므로 늦게 들어와도 앞이 밀리지 않는다. */}
+                  {reserveViews ? (
+                    <ViewCell postId={postId} label="조회" />
                   ) : null}
-                  {identifier ? (
-                    <>
-                      <span aria-hidden="true">·</span>
-                      <span className="truncate">{identifier}</span>
-                    </>
-                  ) : null}
-                  <span aria-hidden="true">·</span>
-                  <span>{post.readingMinutes}분</span>
                 </div>
-              </td>
-
-              <td className={`hidden md:table-cell ${CELL}`}>
-                <span className={`block truncate ${META}`}>{identifier}</span>
-              </td>
-
-              <td className={`hidden md:table-cell ${CELL} ${META}`}>
-                {post.readingMinutes}분
-              </td>
-
-              {reserveViews ? (
-                /* 조회수는 런타임 값이라 서버에서 읽지 않는다 — 감싸는 <ViewCounts> 가 채운다.
-                   열 폭은 머리글이 잡아 두므로(table-fixed) 값이 늦게 들어와도 표가 흔들리지 않고,
-                   못 받으면 이 칸만 빈 채로 남는다. */
-                <td
-                  className={`hidden py-2.5 pr-3 text-right align-middle md:table-cell ${META}`}
-                >
-                  <ViewCell postId={postId} />
-                </td>
               ) : null}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
   );
 }

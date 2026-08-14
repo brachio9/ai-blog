@@ -82,7 +82,8 @@ export default function TagsPage() {
           <p className="mt-6 text-sm text-muted">아직 붙은 태그가 없습니다.</p>
         )}
 
-        <section className="mt-12 border-t border-border pt-6">
+        {/* 태그로 골라 본 글도 되찾기다 — 아카이브와 같은 밀도로 좁게 싣는다. */}
+        <section className="list-tight mt-12 border-t border-border pt-6">
           <Suspense fallback={null}>
             <TagPosts items={items} basePath={TAGS_PATH} />
           </Suspense>

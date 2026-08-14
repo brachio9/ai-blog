@@ -99,7 +99,9 @@ export default function ArchivePage() {
 
         {years.length > 0 ? (
           years.map(({ year, months: yearMonths }) => (
-            <section key={year} className="mt-10">
+            /* 아카이브는 긴장 축의 밀도 쪽 끝이다 — 되찾기가 유일한 목적이라
+               `.list-tight` 로 항목 간격을 최소로 좁힌다 (--entry-pad 는 상속된다). */
+            <section key={year} className="list-tight mt-10">
               <div className="flex items-baseline justify-between gap-4 border-b border-border pb-2">
                 <h2 className="text-xl font-semibold text-heading">{year}년</h2>
                 <p className="font-mono text-xs text-muted tabular-nums">
@@ -122,9 +124,11 @@ export default function ArchivePage() {
                   </summary>
 
                   <div className="pb-6">
+                    {/* 되찾기에 필요한 것만 — 날짜·구분·제목. 읽기 시간은 여기서 고를 근거가 아니다. */}
                     <PostTable
                       posts={month.posts}
                       showCategory
+                      showMeta={false}
                       caption={`${year}년 ${monthLabel(month.ym)} 발행 글`}
                     />
                   </div>

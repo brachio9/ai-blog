@@ -7,6 +7,7 @@ import type { CategorySlug } from "@/lib/categories";
 import { collectTags, filterByTag, listHref, paginate } from "@/lib/pagination";
 import type { PaperMeta, Post } from "@/types/content";
 
+import { PostIndexRow } from "./PostIndexRow";
 import { PostTable } from "./PostTable";
 import { TagFilter } from "./TagFilter";
 import { ViewCounts } from "./ViewCounts";
@@ -32,7 +33,13 @@ export interface PostListProps {
   basePath: string;
   showCategory?: boolean;
   showIdentifier?: boolean;
+  showSummary?: boolean;
   reserveViews?: boolean;
+  /**
+   * 항목의 성격. `"index"` 는 되찾기용 3열 색인이고 기본은 레일이 붙은 항목이다.
+   * 밀도(`.list-tight` / `.list-loose`)는 여기가 아니라 감싸는 화면이 정한다.
+   */
+  variant?: "entry" | "index";
 }
 
 /**
@@ -75,7 +82,9 @@ export function PostList({
   basePath,
   showCategory,
   showIdentifier,
+  showSummary,
   reserveViews,
+  variant = "entry",
 }: PostListProps) {
   const searchParams = useSearchParams();
 
@@ -115,12 +124,21 @@ export function PostList({
         /* 조회수는 지금 보이는 페이지의 글만, 한 번에 물어본다.
            reserveViews 가 꺼져 있으면 채울 칸이 없으므로 호출도 하지 않는다. */
         <ViewCounts ids={reserveViews ? visible.map(viewId) : []}>
-          <PostTable
-            posts={visible.map(toPost)}
-            showCategory={showCategory}
-            showIdentifier={showIdentifier}
-            reserveViews={reserveViews}
-          />
+          {variant === "index" ? (
+            <ul role="list" aria-label="글 목록">
+              {visible.map((item) => (
+                <PostIndexRow key={viewId(item)} post={toPost(item)} />
+              ))}
+            </ul>
+          ) : (
+            <PostTable
+              posts={visible.map(toPost)}
+              showCategory={showCategory}
+              showIdentifier={showIdentifier}
+              showSummary={showSummary}
+              reserveViews={reserveViews}
+            />
+          )}
         </ViewCounts>
       )}
 

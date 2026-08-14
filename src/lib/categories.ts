@@ -47,6 +47,17 @@ export const CATEGORIES: readonly Category[] = [
   },
 ];
 
+/**
+ * 안료 클래스 — globals.css 의 `.cat-*` 가 그 항목의 `--cat` 을 정한다.
+ * 항목(.entry·.brief-item·.index-row·.entry-lead) 바깥쪽에 붙이면 안쪽의
+ * `.cat-label` · `.ratio` 가 그 색을 따라온다. 색 값을 컴포넌트에 적지 않기 위한 유일한 통로다.
+ */
+export const CAT_CLASS: Record<CategoryAccent, string> = {
+  hf: "cat-news",
+  paper: "cat-papers",
+  note: "cat-notes",
+};
+
 /** 카테고리 목록 URL. `content/{slug}/` 와 같은 이름을 경로로 쓴다. */
 export function categoryHref(category: Category): string {
   return `/${category.slug}`;

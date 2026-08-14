@@ -344,6 +344,111 @@ body {
 .lede { max-width: 54ch; }
 
 /* ------------------------------------------------------------------
+   카테고리 안료 · 목록 항목 (design/styles.css 의 "카테고리" · "Layout" ·
+   "목록 항목의 성격 셋" 절)
+
+   정의를 바꾸지 않고 그대로 옮겼다.
+   ------------------------------------------------------------------ */
+
+/* 안료 3색은 정보 부호로만 쓴다.
+   --color-accent* 는 .dark 에서 600→300 으로 이미 갈리므로 밤 재정의가 따로 필요 없다.
+   본문 크기 텍스트(.cat-label 13.5px · .ratio 12.5px)의 색이 되지만 대비는 넉넉하다 —
+   낮 600 은 5.27·5.73·5.45:1, 밤 300 은 9.75·9.23·9.55:1 (실브라우저 계산값, AA 4.5:1).
+   step 2 가 남긴 "600 은 4.14:1" 은 OKLCH L 을 CIE L* 로 본 추정치였고 실측은 그보다 높다. */
+.cat-papers { --cat: var(--color-accent); }     /* 최신 논문 — 草綠 */
+.cat-news   { --cat: var(--color-accent-2); }   /* 허깅페이스 소식 — 朱土 */
+.cat-notes  { --cat: var(--color-accent-3); }   /* 수집 자료 — 藍 */
+
+.cat-label {
+  font-family: var(--font-ui);
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--cat, var(--color-muted));
+}
+
+.tag {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 1px var(--space-2);
+  border: var(--rule-hair) solid var(--color-line);
+  border-radius: var(--radius-sm);
+  color: var(--color-muted);
+  text-decoration: none;
+}
+.tag:hover { border-color: var(--color-text); color: var(--color-text); }
+
+/* 항목 하나 = 좌측 레일(원문의 목소리) + 본문(초록의 목소리).
+   레일 폭이 고정이라 행 높이가 달라져도 제목의 왼쪽 끝은 흔들리지 않는다. */
+.entry {
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: baseline;
+  padding: var(--entry-pad) 0;
+  border-bottom: var(--rule-hair) solid var(--color-line);
+}
+.entry:first-of-type { border-top: var(--rule-hair) solid var(--color-line); }
+
+/* 밀도는 화면이 정한다 — 목록을 감싸서 덮어쓴다. */
+.list-tight { --entry-pad: var(--space-1); }
+.list-loose { --entry-pad: var(--space-5); }
+
+.entry-rail { text-align: left; }
+.entry-title { font-size: var(--text-h4); line-height: var(--leading-tight); }
+.entry-meta { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: baseline; }
+
+@media (max-width: 640px) {
+  .entry { grid-template-columns: 1fr; gap: var(--space-1); }
+}
+
+/* --- 목록 항목의 성격 셋 -------------------------------------------------
+   같은 데이터를 세 급으로 싣는다. 한 지면에서 셋을 섞는 것이 신문이 하는 일이다. */
+
+/* 머리기사 — 오늘 하나만. 급을 스케일 밖으로 키워도 좋다 (파격 예산). */
+.entry-lead { display: block; padding: var(--space-4) 0 var(--space-6); border-bottom: var(--rule-hair) solid var(--color-line); }
+.entry-lead .headline { font-size: clamp(30px, 4.6vw, 54px); }
+.entry-lead .deck { margin-top: var(--space-3); }
+.entry-lead .lede { margin-top: var(--space-3); }
+.entry-lead .dateline { margin-bottom: var(--space-3); }
+
+/* 단신 — 짧은 것들은 뭉쳐서 한 상자에. 늘어놓지 않는다. */
+.brief-set { display: grid; }
+.brief-item {
+  display: grid; grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-3); align-items: baseline;
+  padding: var(--space-2) 0;
+  border-bottom: var(--rule-hair) solid var(--color-line);
+}
+.brief-item .entry-title { font-size: var(--text-h5); }
+
+/* 색인 — 되찾기용. 가장 밀집하고, 훑어서 찾는 것이 유일한 목적이다. */
+.index-row {
+  display: grid; grid-template-columns: 88px minmax(0, 1fr) auto;
+  gap: var(--space-3); align-items: baseline;
+  padding: 2px 0;
+}
+.index-row + .index-row { border-top: var(--rule-hair) solid var(--color-line); }
+.index-row .t { font-size: var(--text-small); }
+
+@media (max-width: 640px) {
+  .index-row { grid-template-columns: 1fr; gap: 0; padding: var(--space-2) 0; }
+  .brief-item { grid-template-columns: 1fr; gap: 0; }
+}
+
+/* 시그니처 01 — 추린 비율.
+   원문을 몇 분의 일로 줄였는지 글마다 적는다. 목록에서는 데이트라인 안의 한 조각이다.
+   확장형(.ratio-scale)은 기사면 전용이라 여기 없다 — 한 화면에 한 번이라야 뜻이 산다. */
+.ratio {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-meta);
+  font-variant-numeric: tabular-nums;
+  color: var(--cat, var(--color-accent));
+}
+
+/* ------------------------------------------------------------------
    코드 하이라이팅 — rehype-pretty-code 이중 테마
    색은 인라인이 아니라 --shiki-light / --shiki-dark 변수로 심긴다.
    어느 쪽을 쓸지는 여기서만 정한다.

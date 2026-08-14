@@ -32,6 +32,12 @@ export function formatDateShort(iso: string): string {
   return `${year}.${month}.${day}`;
 }
 
+/** "08.09" — 단신 묶음처럼 연도가 문맥에서 이미 정해진 자리 */
+export function formatDateMonthDay(iso: string): string {
+  const { month, day } = kstParts(iso);
+  return `${month}.${day}`;
+}
+
 const COUNT_FORMAT = new Intl.NumberFormat("ko-KR");
 
 /** "1,234" — 조회수 같은 정수 표기 */
