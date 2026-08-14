@@ -68,7 +68,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="min-h-full flex flex-col bg-bg text-body font-sans">
+      {/* 글꼴은 globals.css 의 body 규칙이 정한다 — 본문은 명조(--font-body)다.
+          여기에 font-sans 를 붙이면 두 목소리 중 UI 쪽이 본문을 차지한다. */}
+      <body className="min-h-full flex flex-col bg-bg text-body">
         {children}
       </body>
     </html>

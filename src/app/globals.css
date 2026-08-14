@@ -4,81 +4,225 @@
    사용자 토글(.dark 클래스)로 제어하려면 이 선언이 반드시 필요하다. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ==========================================================================
+   토큰 — 정본은 design/styles.css 의 :root 블록이다.
+
+   여기 있는 값은 전부 거기서 옮겨 온 것이고 앱이 값을 새로 만들지 않는다.
+   고칠 일이 생기면 design/styles.css 를 먼저 고치고 이 블록을 다시 옮겨 온다.
+
+   이 블록은 어느 캐스케이드 레이어에도 속하지 않는다(unlayered).
+   Tailwind 의 @theme 는 @layer theme 안으로 들어가므로, 이름이 겹치는
+   --color-neutral-* · --radius-* · --shadow-lg · --font-mono 는 레이어 밖인
+   이 블록이 이긴다. 선언 순서가 아니라 레이어 규칙이라 뒤집히지 않는다.
+   ========================================================================== */
+
 :root {
   color-scheme: light;
 
-  /* 중성 (기반) */
-  --bg: #fafafa;
-  --surface: #ffffff;
-  --border: #e5e5e5;
-  --heading: #171717;
-  --body: #404040;
-  --muted: #737373;
-  /* 라이트에서 배경 대비 2.42:1 이라 텍스트 기준(3:1)에 못 미친다.
+  /* --- 안료 ramps — OKLCH 공통 명도 척도 --------------------------------
+     같은 단계의 세 안료는 시각적 무게가 같다. 낮은 600, 밤은 300 이 기본 배정. */
+
+  /* 草綠 chorok — 최신 논문 · 포커스.
+     셋 중 이 ramp 만 채도가 한 단계 높다 — 녹색은 같은 채도에서 지각적으로
+     가장 무채색에 가깝게 읽히기 때문이다 (실측하고 올린 값). */
+  --color-accent-100: oklch(0.940 0.029 140);
+  --color-accent-200: oklch(0.870 0.048 140);
+  --color-accent-300: oklch(0.780 0.068 140);
+  --color-accent-400: oklch(0.680 0.086 140);
+  --color-accent-500: oklch(0.580 0.095 140);
+  --color-accent-600: oklch(0.500 0.095 140);
+  --color-accent-700: oklch(0.420 0.087 140);
+  --color-accent-800: oklch(0.330 0.074 140);
+  --color-accent-900: oklch(0.240 0.057 140);
+
+  /* 朱土 jueto — 허깅페이스 소식 */
+  --color-accent-2-100: oklch(0.940 0.030 40);
+  --color-accent-2-200: oklch(0.870 0.050 40);
+  --color-accent-2-300: oklch(0.780 0.072 40);
+  --color-accent-2-400: oklch(0.680 0.090 40);
+  --color-accent-2-500: oklch(0.580 0.100 40);
+  --color-accent-2-600: oklch(0.500 0.100 40);
+  --color-accent-2-700: oklch(0.420 0.092 40);
+  --color-accent-2-800: oklch(0.330 0.078 40);
+  --color-accent-2-900: oklch(0.240 0.060 40);
+
+  /* 藍 nam — 수집 자료 */
+  --color-accent-3-100: oklch(0.940 0.023 250);
+  --color-accent-3-200: oklch(0.870 0.038 250);
+  --color-accent-3-300: oklch(0.780 0.054 250);
+  --color-accent-3-400: oklch(0.680 0.068 250);
+  --color-accent-3-500: oklch(0.580 0.075 250);
+  --color-accent-3-600: oklch(0.500 0.075 250);
+  --color-accent-3-700: oklch(0.420 0.069 250);
+  --color-accent-3-800: oklch(0.330 0.059 250);
+  --color-accent-3-900: oklch(0.240 0.045 250);
+
+  /* 먹 — 따뜻한 중성. 순회색도 순검정도 쓰지 않는다.
+     Tailwind 기본 팔레트의 같은 이름을 덮어쓴다 — 의도한 것이다.
+     neutral-* 유틸리티를 쓰면 이 따뜻한 척도가 나온다. */
+  --color-neutral-100: oklch(0.968 0.006 85);
+  --color-neutral-200: oklch(0.938 0.008 85);
+  --color-neutral-300: oklch(0.870 0.008 85);
+  --color-neutral-400: oklch(0.740 0.009 82);
+  --color-neutral-500: oklch(0.610 0.009 80);
+  --color-neutral-600: oklch(0.520 0.008 78);
+  --color-neutral-700: oklch(0.400 0.008 75);
+  --color-neutral-800: oklch(0.300 0.008 72);
+  --color-neutral-900: oklch(0.235 0.008 70);
+
+  /* --- 낮 (light ground) — 표백하지 않은 종이 ---------------------------- */
+  --color-bg: var(--color-neutral-100);
+  --color-surface: var(--color-neutral-200);
+  --color-text: var(--color-neutral-900);
+  --color-muted: var(--color-neutral-600);
+  --color-line: var(--color-neutral-300);
+  --color-accent: var(--color-accent-600);
+  --color-accent-2: var(--color-accent-2-600);
+  --color-accent-3: var(--color-accent-3-600);
+  --color-selection: var(--color-accent-200);
+
+  /* --- 활자 — 두 개의 목소리 --------------------------------------------
+     초록의 목소리는 한글 명조, 원문의 목소리는 영문·숫자 mono, UI 는 산세리프.
+     글꼴 이름을 직접 쓰지 않고 next/font 가 만든 변수를 경유한다.
+     한글 폴백을 지우지 마라 — 한글 범위는 preload 되지 않아 첫 페인트에 잠깐 보이고,
+     mono 에는 한글 글리프가 아예 없다. */
+  --font-heading: var(--font-noto-serif-kr), "Apple SD Gothic Neo",
+    "Malgun Gothic", serif;
+  --font-body: var(--font-noto-serif-kr), "Apple SD Gothic Neo", "Malgun Gothic",
+    serif;
+  --font-ui: var(--font-plex-sans-kr), "Apple SD Gothic Neo", "Malgun Gothic",
+    sans-serif;
+  --font-mono: var(--font-plex-mono), "Apple SD Gothic Neo", "Malgun Gothic",
+    ui-monospace, monospace;
+
+  --font-heading-weight: 600;
+  --font-body-weight: 400;
+
+  --text-h1: 40px;
+  --text-h2: 27px;
+  --text-h3: 21px;
+  --text-h4: 17px;
+  --text-h5: 15px;
+  --text-h6: 13px;
+  --text-body: 16.5px; /* 한글 명조 읽기 크기 — 산세리프보다 한 눈금 크게 */
+  --text-small: 13.5px;
+  --text-meta: 12.5px; /* mono 자리 */
+
+  --leading-heading: 1.3;
+  --leading-body: 1.85; /* 한글은 넉넉해야 읽힌다 */
+  --leading-tight: 1.5;
+  --tracking-meta: 0.04em;
+
+  /* --- 간격 — density 1.15 ----------------------------------------------
+     8의 배수가 아닌 것이 의도다. 눈으로 정한 값이니 "정리"하지 마라. */
+  --space-1: 5px;
+  --space-2: 9px;
+  --space-3: 14px;
+  --space-4: 18px;
+  --space-5: 28px;
+  --space-6: 37px;
+  --space-7: 55px;
+  --space-8: 74px;
+  --space-9: 110px;
+
+  /* --- 모서리 — 각진 것이 기본값. 취향이지 불변이 아니다. */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+
+  /* --- 그림자 — 지면은 떠 있지 않다.
+     겹칠 수밖에 없는 것(다이얼로그·팝오버)만 예외라서 lg 하나만 값이 있다. */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: 0 14px 40px oklch(0.235 0.008 70 / 0.28);
+
+  /* --- 지면의 치수 -------------------------------------------------------- */
+  --rule-hair: 1px; /* 이 시스템이 쓰는 유일한 구분자의 굵기 */
+  --measure: 68ch; /* 본문 최대 폭 */
+  --rail: 136px; /* 좌측 메타 열 — arXiv 식별자 한 줄이 들어가는 폭 */
+  --page-max: 1080px; /* 지면 최대 폭 */
+  --entry-pad: var(--space-3); /* 목록 밀도 — 화면마다 덮어쓴다 */
+
+  /* --- 차트 계열 색 (순서대로 사용) — 안료 3색 + 먹 두 단계.
+     이름을 바꾸지 마라 — src/components/mdx/Chart.tsx 가 이 이름으로 읽고,
+     없는 변수를 받은 Recharts 는 경고도 없이 검정으로 칠한다. */
+  --chart-1: var(--color-accent-600);
+  --chart-2: var(--color-accent-2-600);
+  --chart-3: var(--color-accent-3-600);
+  --chart-4: var(--color-neutral-700);
+  --chart-5: var(--color-neutral-500);
+
+  /* --- 구 토큰 별칭 -------------------------------------------------------
+     40여 개 컴포넌트가 아직 이 이름들을 쓴다 (@theme inline 이 유틸리티로 노출).
+     별칭만 새 토큰을 가리키게 해 두면 화면이 즉시 새 팔레트로 바뀌고,
+     이후 step 들이 자기 담당 화면만 새 이름으로 이관한다. 지우지 마라. */
+  --bg: var(--color-bg);
+  --surface: var(--color-surface);
+  --border: var(--color-line);
+  /* 새 시스템은 제목과 본문의 색을 나누지 않는다 — 둘 다 --color-text 다. */
+  --heading: var(--color-text);
+  --body: var(--color-text);
+  --muted: var(--color-muted);
+  /* 바탕 대비가 텍스트 기준(3:1)에 못 미친다.
      구분 기호·비활성 상태·연한 경계선처럼 정보를 담지 않는 곳에만 쓴다. */
-  --faint: #a3a3a3;
-  /* 포커스 링 전용. 링크·강조에 쓰지 마라 — 링크는 색을 쓰지 않는다. */
-  --focus: #1d4ed8;
+  --faint: var(--color-neutral-400);
+  /* 포커스 링은 사이트 이름의 색(草綠)이 "지금 여기"를 가리킨다. */
+  --focus: var(--color-accent);
 
-  /* 카테고리 (정보 부호) — src/lib/categories.ts 의 accent 키와 짝이다.
-     쓰이는 자리는 셋뿐: 1px 좌측 규칙선, 작은 라벨 텍스트, 카테고리 제목 옆 표식. */
-  --cat-hf: #8a5a00;
-  --cat-paper: #0f6b63;
-  --cat-note: #a8442a;
+  /* 카테고리 (정보 부호) — src/lib/categories.ts 의 accent 키와 짝이다. */
+  --cat-paper: var(--color-accent); /* 최신 논문 — 草綠 */
+  --cat-hf: var(--color-accent-2); /* 허깅페이스 소식 — 朱土 */
+  --cat-note: var(--color-accent-3); /* 수집 자료 — 藍 */
 
-  /* 시맨틱 (콜아웃·상태) */
+  --sans: var(--font-ui);
+  --serif: var(--font-body);
+  --mono: var(--font-mono);
+
+  /* 시맨틱 (콜아웃·상태) — 디자인 시스템이 아직 상태색을 정하지 않았다.
+     안료 3색은 카테고리 부호로 예약되어 있어 겹쳐 쓸 수 없으므로 기존 값을 둔다. */
   --success: #3f7d3a;
   --warning: #8a5a00;
   --danger: #b02020;
   --info: #0f6b63;
-
-  /* 차트 카테고리 색 (순서대로 사용).
-     이름을 바꾸지 마라 — src/components/mdx/Chart.tsx 가 이 이름으로 읽고,
-     없는 변수를 받은 Recharts 는 경고도 없이 검정으로 칠한다. */
-  --chart-1: #0f6b63;
-  --chart-2: #a8442a;
-  --chart-3: #8a5a00;
-  --chart-4: #3f6b8a;
-  --chart-5: #6b6b70;
-
-  /* 폰트 스택 — sans·serif 는 한글을 직접 그리지만 그 범위는 preload 되지 않아
-     첫 페인트에 잠깐 폴백이 보인다. mono 에는 한글이 아예 없다. 폴백을 지우지 마라. */
-  --sans: var(--font-plex-sans-kr), "Apple SD Gothic Neo", "Malgun Gothic",
-    sans-serif;
-  --serif: var(--font-noto-serif-kr), "Apple SD Gothic Neo", "Malgun Gothic",
-    serif;
-  --mono: var(--font-plex-mono), "Apple SD Gothic Neo", "Malgun Gothic",
-    ui-monospace, monospace;
 }
 
+/* 밤 (dark ground) — 순검정이 아니라 따뜻한 먹빛.
+   design/styles.css 의 밤 블록을 그대로 옮겼고, 셀렉터만 앱의 .dark 클래스로 바꿨다.
+   낮과 밤은 서로의 반전이 아니라 같은 종이의 두 시간이다. */
 .dark {
   color-scheme: dark;
 
-  --bg: #0c0c0d;
-  --surface: #161617;
-  --border: #2a2a2c;
-  --heading: #f5f5f5;
-  --body: #d4d4d4;
-  --muted: #8f8f93;
-  --faint: #6b6b70;
-  --focus: #60a5fa;
+  --color-bg: oklch(0.175 0.008 80);
+  --color-surface: oklch(0.215 0.009 80);
+  --color-text: oklch(0.915 0.010 85);
+  --color-muted: oklch(0.660 0.010 82);
+  --color-line: oklch(0.300 0.009 80);
+  --color-accent: var(--color-accent-300);
+  --color-accent-2: var(--color-accent-2-300);
+  --color-accent-3: var(--color-accent-3-300);
+  --color-selection: var(--color-accent-900);
 
-  --cat-hf: #d9a441;
-  --cat-paper: #4fb3a5;
-  --cat-note: #e07a55;
+  /* 별칭은 새 토큰을 따라 자동으로 뒤집힌다 — 방향이 갈리는 것만 다시 정한다.
+     --faint 는 --color-muted 보다 어두워야 하는데 밤에는 척도가 뒤집힌다. */
+  --faint: var(--color-neutral-600);
+
+  --chart-1: var(--color-accent-300);
+  --chart-2: var(--color-accent-2-300);
+  --chart-3: var(--color-accent-3-300);
+  --chart-4: var(--color-neutral-300);
+  --chart-5: var(--color-neutral-500);
 
   --success: #78ad70;
   --warning: #d9a441;
   --danger: #e08080;
   --info: #4fb3a5;
-
-  --chart-1: #4fb3a5;
-  --chart-2: #e07a55;
-  --chart-3: #d9a441;
-  --chart-4: #7aa8c4;
-  --chart-5: #a3a3a3;
 }
 
+/* Tailwind 유틸리티로 노출하는 이름.
+   구 토큰 별칭을 가리키므로 위 :root 를 고치면 유틸리티가 따라온다.
+   새 --color-* 토큰은 이미 Tailwind 와 같은 이름 공간이라 여기 다시 적을 수 없다
+   (자기 자신을 가리키게 된다) — 필요한 유틸리티는 별칭 쪽 이름으로 쓴다. */
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -119,26 +263,71 @@ html {
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--body);
-  font-family: var(--sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--font-body-weight);
+  line-height: var(--leading-body);
+}
+
+/* ------------------------------------------------------------------
+   두 목소리 (design/styles.css 의 활자 유틸)
+   ------------------------------------------------------------------ */
+
+/* 원문의 목소리 — 날짜·식별자·수치·도메인.
+   이 자리에는 한글이 오지 않는다 (IBM Plex Mono 에 한글 글리프가 없다). */
+.voice-source {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  font-weight: 400;
+  letter-spacing: var(--tracking-meta);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+  line-height: var(--leading-tight);
+  /* 식별자는 통째로 읽혀야 한다 — html 의 break-word 가
+     arXiv:2608.01337 을 arXiv:2608.01 / 337 로 쪼개지 못하게 되돌린다. */
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* 초록의 목소리 중 작은 것 — 한글 소형 라벨은 명조 대신 산세리프로 */
+.voice-ui {
+  font-family: var(--font-ui);
+  font-size: var(--text-small);
+  line-height: var(--leading-tight);
+}
+
+/* 절 머리글 — 지면의 작은 머리글 */
+.kicker {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }
 
 /* ------------------------------------------------------------------
    코드 하이라이팅 — rehype-pretty-code 이중 테마
    색은 인라인이 아니라 --shiki-light / --shiki-dark 변수로 심긴다.
    어느 쪽을 쓸지는 여기서만 정한다.
+
+   훅으로 data-language 를 쓴다 — rehype-pretty-code 는 data-theme 과 함께
+   항상 이 속성도 붙이므로(defaultLang 이 있어 인라인 코드도 예외가 없다) 범위가 같다.
+   앱에서 data-theme 속성 셀렉터를 아예 없애 두면, 테마 전환이 .dark 클래스
+   한 가지 방식뿐이라는 것이 파일만 봐도 드러난다.
    ------------------------------------------------------------------ */
-pre[data-theme],
-code[data-theme],
-code[data-theme] span {
+pre[data-language],
+code[data-language],
+code[data-language] span {
   color: var(--shiki-light);
   background-color: var(--shiki-light-bg);
 }
 
-.dark pre[data-theme],
-.dark code[data-theme],
-.dark code[data-theme] span {
+.dark pre[data-language],
+.dark code[data-language],
+.dark code[data-language] span {
   color: var(--shiki-dark);
   background-color: var(--shiki-dark-bg);
 }
@@ -191,7 +380,7 @@ code[data-theme] span {
 }
 
 /* 인라인 코드는 블록과 달리 본문 흐름 안에 있어야 한다 — 테마 배경 대신 표면 토큰을 쓴다. */
-.mdx-body :not(pre) > code[data-theme] {
+.mdx-body :not(pre) > code[data-language] {
   border: 1px solid var(--border);
   border-radius: 0.25rem;
   background-color: var(--surface);

@@ -2,6 +2,13 @@
   "name": "ai-trends-blog",
   "version": "0.1.0",
   "private": true,
+  "comment:browserslist": "디자인 시스템의 안료 팔레트가 OKLCH 리터럴이다. 기본 타깃(Safari 12 등)에서는 Lightning CSS 가 oklch() 를 hex + lab() 로 낮춰 버려 공통 명도 척도가 무너진다 — oklch 를 이해하는 브라우저만 타깃으로 잡는다.",
+  "browserslist": [
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 113",
+    "safari >= 15.4"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

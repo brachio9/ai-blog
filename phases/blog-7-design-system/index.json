@@ -2,11 +2,49 @@
   "project": "초록 (AI 동향 사이트)",
   "phase": "design-system",
   "steps": [
-    { "step": 0, "name": "tokens", "status": "pending" },
-    { "step": 1, "name": "frontmatter", "status": "pending" },
-    { "step": 2, "name": "masthead-and-nav", "status": "pending" },
-    { "step": 3, "name": "entries-and-ratio", "status": "pending" },
-    { "step": 4, "name": "frontpage", "status": "pending" },
-    { "step": 5, "name": "article", "status": "pending" }
-  ]
+    {
+      "step": 0,
+      "name": "tokens",
+      "status": "completed",
+      "started_at": "2026-08-14T11:48:53+0900",
+      "completed_at": "2026-08-14T12:02:43+0900",
+      "summary": "globals.css 의 :root(unlayered) 가 design/styles.css 토큰 정본을 그대로 받는다 — 안료 ramp 4종(--color-accent-100..900 草綠 / --color-accent-2-* 朱土 / --color-accent-3-* 藍 / --color-neutral-* 먹, 전부 OKLCH), 낮 ground 역할(--color-bg/-surface/-text/-muted/-line/-accent/-accent-2/-accent-3/-selection), 활자(--font-heading·--font-body=Noto Serif KR, --font-ui=IBM Plex Sans KR, --font-mono=IBM Plex Mono, --font-heading-weight 600·--font-body-weight 400, --text-h1..h6·--text-body 16.5px·--text-small·--text-meta, --leading-heading/body/tight, --tracking-meta), 간격 --space-1..9(5·9·14·18·28·37·55·74·110px), --radius-none/sm/md/lg(2px)·--shadow-sm/md(none)/--shadow-lg·--rule-hair·--measure 68ch·--rail 136px·--page-max 1080px·--entry-pad. 다크는 [data-theme] 대신 .dark 클래스 한 블록에 밤 ground 를 재정의하고 안료는 600→300 단계로 내린다(별칭은 자동으로 따라오며 --faint 만 척도가 뒤집혀 .dark 에서 --color-neutral-600 으로 재지정). 구 토큰은 전부 별칭으로 생존: --bg=--color-bg, --surface=--color-surface, --border=--color-line, --heading=--body=--color-text(새 시스템은 제목·본문 색을 나누지 않는다), --muted=--color-muted, --faint=--color-neutral-400, --focus=--color-accent, --cat-paper=--color-accent(草綠), --cat-hf=--color-accent-2(朱土), --cat-note=--color-accent-3(藍), --sans=--font-ui, --serif=--font-body, --mono=--font-mono. @theme inline 매핑은 이 별칭들을 그대로 가리키므로 컴포넌트 40여 개가 수정 없이 새 팔레트로 바뀐다 — 새 --color-* 토큰은 Tailwind 와 이름 공간이 같아 @theme 에 다시 적을 수 없고(자기 참조), 유틸리티가 필요하면 별칭 이름을 쓴다. --chart-1..5 는 이름 유지·값만 안료로(낮 accent/accent-2/accent-3-600 + neutral-700/500, 밤 300 단계 + neutral-300/500). .voice-source(mono·overflow-wrap normal 로 arXiv 식별자 보호)·.voice-ui·.kicker 이식. body 는 명조 16.5px/1.85 이고 layout.tsx 의 font-sans 를 뗐다. 부수 결정 둘: (1) package.json 에 browserslist(chrome111+/safari15.4+) 추가 — 기본 타깃에서는 Lightning CSS 가 oklch 를 hex+lab 으로 낮춰 공통 명도 척도가 무너진다. (2) 코드 하이라이팅 셀렉터를 pre/code[data-theme] → [data-language] 로 교체 — rehype-pretty-code 가 두 속성을 항상 함께 붙여(빌드 산출 8/8 확인) 범위가 같고, 앱에서 data-theme 속성 셀렉터가 사라져 테마 전환이 .dark 한 가지임이 분명해진다. 참고: --color-neutral-*·--radius-*·--shadow-lg 는 Tailwind 기본값과 이름이 겹치며 unlayered :root 가 @layer theme 를 이기므로 neutral-* 유틸리티는 따뜻한 척도, rounded-sm/md 는 2px 가 된다(실브라우저 계산값으로 검증). 시맨틱 --success/--warning/--danger/--info 는 디자인 시스템에 상태색이 아직 없어 기존 값 유지.",
+      "events": [
+        {
+          "at": "2026-08-14T11:48:53+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-14T12:02:43+0900",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "name": "frontmatter",
+      "status": "pending"
+    },
+    {
+      "step": 2,
+      "name": "masthead-and-nav",
+      "status": "pending"
+    },
+    {
+      "step": 3,
+      "name": "entries-and-ratio",
+      "status": "pending"
+    },
+    {
+      "step": 4,
+      "name": "frontpage",
+      "status": "pending"
+    },
+    {
+      "step": 5,
+      "name": "article",
+      "status": "pending"
+    }
+  ],
+  "created_at": "2026-08-14T11:48:53+0900"
 }
