@@ -3,10 +3,10 @@
 ## 디렉토리 구조
 
 ```
-content/                   # 글 원본 (git = 저장소)
+content/                   # 글 원본 (git = 저장소). 디렉토리는 카테고리(소스 축) 셋뿐이다.
 ├── hf-blog/               # YYYY-MM-DD-slug.mdx
-├── papers/
-└── notes/
+├── papers/                # 주제 축(axis)은 디렉토리가 아니라 frontmatter 다 —
+└── notes/                 # 여기 모르는 디렉토리를 만들면 getAllPosts() 가 빌드를 깨뜨린다.
 
 public/                    # 정적 자산 (샘플 이미지 포함)
 
@@ -24,12 +24,15 @@ src/
 ├── lib/                   # 유틸 + 콘텐츠 로더 + MDX 컴파일
 └── services/              # 외부 API 래퍼 — github.ts, turso.ts
 
+design/                    # 디자인 시스템 「초록 Chorok」 동기화 사본 (claude.ai/design 이 정본)
 scripts/                   # 하네스 (execute.py) — 앱 코드 아님
 phases/                    # 하네스 phase 정의
 docs/                      # 가드레일 문서
 ```
 
 **규칙**: 계약되지 않은 최상위 디렉토리를 새로 만들지 마라. 외부 API 호출은 반드시 `src/services/` 의 래퍼를 경유한다 — 컴포넌트에서 직접 `fetch` 로 외부 서비스를 부르지 마라.
+
+**수집기는 이 레포에 없다.** 자동 수집·LLM 요약은 별도 private 레포 `chorok-collect` 가 담당하고 산출물을 `bot/*` 브랜치 PR 로 올린다. 여기에 크롤러·스케줄러·LLM 호출을 만들면 "조회수만 런타임"(아래 패턴)과 ADR-002 가 그 자리에서 무너진다.
 
 ## 패턴
 
