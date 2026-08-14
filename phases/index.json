@@ -33,7 +33,8 @@
     },
     {
       "dir": "blog-7-design-system",
-      "status": "pending"
+      "status": "completed",
+      "completed_at": "2026-08-14T13:25:16+0900"
     }
   ]
 }
