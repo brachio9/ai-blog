@@ -30,6 +30,10 @@
       "dir": "blog-6-redesign",
       "status": "completed",
       "completed_at": "2026-08-13T21:39:11+0900"
+    },
+    {
+      "dir": "blog-7-design-system",
+      "status": "pending"
     }
   ]
 }

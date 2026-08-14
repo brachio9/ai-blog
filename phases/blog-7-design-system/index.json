@@ -1,0 +1,12 @@
+{
+  "project": "초록 (AI 동향 사이트)",
+  "phase": "design-system",
+  "steps": [
+    { "step": 0, "name": "tokens", "status": "pending" },
+    { "step": 1, "name": "frontmatter", "status": "pending" },
+    { "step": 2, "name": "masthead-and-nav", "status": "pending" },
+    { "step": 3, "name": "entries-and-ratio", "status": "pending" },
+    { "step": 4, "name": "frontpage", "status": "pending" },
+    { "step": 5, "name": "article", "status": "pending" }
+  ]
+}
