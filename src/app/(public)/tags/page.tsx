@@ -40,6 +40,7 @@ export default function TagsPage() {
     publishedAt: post.frontmatter.publishedAt,
     tags: post.frontmatter.tags,
     readingMinutes: post.readingMinutes,
+    format: post.frontmatter.format,
     paper: post.frontmatter.paper,
   }));
 

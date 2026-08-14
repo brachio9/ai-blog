@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   PAGE_SIZE,
   collectTags,
+  filterByFormat,
   filterByTag,
   listHref,
   paginate,
@@ -76,6 +77,41 @@ describe("filterByTag", () => {
   });
 });
 
+const formatted = [
+  { slug: "a", format: "explainer" },
+  { slug: "b", format: "digest" },
+  { slug: "c" },
+];
+
+describe("filterByFormat", () => {
+  it("포맷이 정확히 같은 글만 남긴다 — 포맷은 글마다 하나뿐이다", () => {
+    expect(filterByFormat(formatted, "explainer").map((p) => p.slug)).toEqual([
+      "a",
+    ]);
+    expect(filterByFormat(formatted, "digest").map((p) => p.slug)).toEqual([
+      "b",
+    ]);
+  });
+
+  it("포맷이 없으면 전체를 준다 — null 도 같다 (useSearchParams 가 null 을 준다)", () => {
+    expect(filterByFormat(formatted, undefined)).toEqual(formatted);
+    expect(filterByFormat(formatted, null)).toEqual(formatted);
+    expect(filterByFormat(formatted, "")).toEqual(formatted);
+  });
+
+  it("포맷이 없는 글은 어떤 포맷 필터에도 걸리지 않는다", () => {
+    for (const format of ["explainer", "digest", "fieldnote"]) {
+      expect(filterByFormat(formatted, format).map((p) => p.slug)).not.toContain(
+        "c",
+      );
+    }
+  });
+
+  it("모르는 포맷이면 빈 목록을 준다 — 조용히 전체로 되돌리지 않는다", () => {
+    expect(filterByFormat(formatted, "없는포맷")).toEqual([]);
+  });
+});
+
 describe("collectTags", () => {
   it("개수를 세고 개수 내림차순·이름 오름차순으로 정렬한다", () => {
     expect(
@@ -127,5 +163,21 @@ describe("listHref", () => {
       `/papers?tag=${encodeURIComponent("추론")}`,
     );
     expect(listHref("/papers?tag=LLM&page=5", {})).toBe("/papers");
+  });
+
+  it("format 을 태그와 같은 규약으로 싣는다", () => {
+    expect(listHref("/papers", { format: "explainer" })).toBe(
+      "/papers?format=explainer",
+    );
+    expect(listHref("/papers", { tag: "LLM", format: "digest", page: 2 })).toBe(
+      "/papers?tag=LLM&format=digest&page=2",
+    );
+  });
+
+  it("basePath 의 format 도 인자로 덮어쓴다 — 남겨 두면 필터가 안 풀린다", () => {
+    expect(listHref("/papers?format=digest", { format: "explainer" })).toBe(
+      "/papers?format=explainer",
+    );
+    expect(listHref("/papers?format=digest", {})).toBe("/papers");
   });
 });

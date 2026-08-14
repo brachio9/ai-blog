@@ -144,6 +144,14 @@ export function axisHref(axis: Axis): string {
   return `/topics/${axis.slug}`;
 }
 
+/**
+ * 화면에 그리는 축의 부호 — 두 자리 mono 번호(`01`~`06`).
+ * 자릿수가 갈리면 목차처럼 읽히지 않으므로 만드는 곳을 하나로 둔다.
+ */
+export function axisNumber(axis: Axis): string {
+  return String(axis.order).padStart(2, "0");
+}
+
 export function getAxis(slug: string): Axis | undefined {
   return AXES.find((axis) => axis.slug === slug);
 }

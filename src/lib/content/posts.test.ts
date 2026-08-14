@@ -1,6 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { getAllPosts, getAllTags, getPost, getPostsByCategory } from "./posts";
+import {
+  getAllPosts,
+  getAllTags,
+  getPost,
+  getPostsByAxis,
+  getPostsByCategory,
+} from "./posts";
 
 /**
  * 실제 `content/` 를 읽는 회귀 테스트다 — 픽스처를 따로 두지 않는다.
@@ -64,6 +70,38 @@ describe("getPostsByCategory", () => {
       expect(post.category).toBe("papers");
       expect(post.frontmatter.category).toBe("papers");
     }
+  });
+});
+
+describe("getPostsByAxis", () => {
+  it("카테고리를 가로질러 모은다 — 축은 디렉토리가 아니라 frontmatter 다", () => {
+    const categories = new Set(
+      inProduction(() => getPostsByAxis("serving")).map((post) => post.category),
+    );
+
+    expect(categories).toEqual(new Set(["hf-blog", "papers", "notes"]));
+  });
+
+  it("그 축의 글만 준다", () => {
+    for (const post of getPostsByAxis("retrieval")) {
+      expect(post.frontmatter.axis).toBe("retrieval");
+    }
+    expect(getPostsByAxis("retrieval")).toHaveLength(2);
+  });
+
+  it("글이 없는 축에는 빈 목록을 준다 — 없는 축과 구분되지 않아도 된다", () => {
+    expect(getPostsByAxis("voice")).toEqual([]);
+    expect(getPostsByAxis("vibe-coding")).toEqual([]);
+  });
+
+  it("최신순 정렬과 초안 제외를 getAllPosts() 와 똑같이 따른다", () => {
+    expect(getPostsByAxis("serving")).toHaveLength(6);
+    expect(inProduction(() => getPostsByAxis("serving"))).toHaveLength(5);
+
+    const published = getPostsByAxis("serving").map(
+      (post) => post.frontmatter.publishedAt,
+    );
+    expect(published).toEqual([...published].sort().reverse());
   });
 });
 

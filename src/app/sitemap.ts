@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { AXES, axisHref } from "@/lib/axes";
 import { CATEGORIES, categoryHref } from "@/lib/categories";
 import { getAllPosts } from "@/lib/content/posts";
 import { SITE_URL } from "@/lib/site";
@@ -22,6 +23,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...CATEGORIES.map((category) => ({
       url: `${SITE_URL}${categoryHref(category)}`,
+      lastModified: latest,
+      changeFrequency: "daily" as const,
+      priority: 0.8,
+    })),
+    // 주제 축은 카테고리와 같은 급의 목록이다 (docs/PRD.md — axis 는 1급).
+    // 축을 손으로 나열하지 않는다. 축이 늘거나 이름이 바뀌면 AXES 만 고친다.
+    ...["/topics", ...AXES.map(axisHref)].map((path) => ({
+      url: `${SITE_URL}${path}`,
       lastModified: latest,
       changeFrequency: "daily" as const,
       priority: 0.8,

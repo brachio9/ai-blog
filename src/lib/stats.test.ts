@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 
+import { AXES } from "./axes";
 import { getAllPosts, getAllTags } from "./content/posts";
-import { countByCategory, postsByMonth, tagIndex } from "./stats";
+import { countByAxis, countByCategory, postsByMonth, tagIndex } from "./stats";
 
 /**
  * posts.test.ts 와 같은 방식으로 실제 `content/` 를 읽는다 — 픽스처를 두지 않는다.
@@ -134,5 +135,42 @@ describe("countByCategory", () => {
 
     expect(notesCount(countByCategory())).toBe(3);
     expect(notesCount(inProduction(countByCategory))).toBe(2);
+  });
+});
+
+describe("countByAxis", () => {
+  it("합계가 전체 글 수와 같다 — 축은 필수·단일이라 한 편도 새지 않는다", () => {
+    const total = inProduction(countByAxis).reduce(
+      (sum, entry) => sum + entry.count,
+      0,
+    );
+
+    expect(total).toBe(inProduction(getAllPosts).length);
+  });
+
+  it("0편인 축도 빠뜨리지 않는다 — 빈 축이 사라지면 /topics 가 지도 노릇을 못 한다", () => {
+    const counted = inProduction(countByAxis);
+
+    // 6축 전부, order 순서 그대로.
+    expect(counted.map((entry) => entry.slug)).toEqual(
+      AXES.map((axis) => axis.slug),
+    );
+    expect(counted).toEqual([
+      { slug: "retrieval", count: 2 },
+      { slug: "serving", count: 5 },
+      { slug: "voice", count: 0 },
+      { slug: "agent", count: 1 },
+      { slug: "domain", count: 0 },
+      { slug: "vibe-coding", count: 0 },
+    ]);
+  });
+
+  it("초안은 축 집계에도 섞이지 않는다", () => {
+    const servingCount = (entries: { slug: string; count: number }[]) =>
+      entries.find((entry) => entry.slug === "serving")?.count;
+
+    // 초안 한 편이 serving 축이다. 개발에서만 보인다.
+    expect(servingCount(countByAxis())).toBe(6);
+    expect(servingCount(inProduction(countByAxis))).toBe(5);
   });
 });

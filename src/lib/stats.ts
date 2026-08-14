@@ -3,12 +3,18 @@
  * 전부 파일에서 계산되므로 빌드 타임에 끝난다. 네트워크도 DB 도 타지 않는다.
  * 초안 제외는 로더(getAllPosts)가 NODE_ENV 로 이미 처리한다 — 여기서 다시 거르지 마라.
  */
+import { AXES, type AxisSlug } from "@/lib/axes";
 import { CATEGORIES, type CategorySlug } from "@/lib/categories";
 import { getAllPosts, getAllTags } from "@/lib/content/posts";
 import type { Post } from "@/types/content";
 
 export interface CategoryCount {
   slug: CategorySlug;
+  count: number;
+}
+
+export interface AxisCount {
+  slug: AxisSlug;
   count: number;
 }
 
@@ -26,6 +32,20 @@ export function countByCategory(): CategoryCount[] {
   return CATEGORIES.map((category) => ({
     slug: category.slug,
     count: posts.filter((post) => post.category === category.slug).length,
+  }));
+}
+
+/**
+ * 축별 글 수. 6축을 order 순서 그대로, **0편인 축도 빼지 않고** 준다.
+ * axis 가 필수·단일이므로 이 합은 전체 글 수와 같다 — 그래야 /topics 가 지도 노릇을 한다.
+ * 빈 축은 감출 것이 아니라 무엇을 더 실어야 하는지 알려 주는 정보다.
+ */
+export function countByAxis(): AxisCount[] {
+  const posts = getAllPosts();
+
+  return AXES.map((axis) => ({
+    slug: axis.slug,
+    count: posts.filter((post) => post.frontmatter.axis === axis.slug).length,
   }));
 }
 

@@ -53,7 +53,21 @@
     {
       "step": 2,
       "name": "topic-routes",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-14T15:00:55+0900",
+      "completed_at": "2026-08-14T15:15:30+0900",
+      "summary": "주제 축 라우트 2종·집계 함수·포맷 필터. 헤더·홈·글 상세는 무수정. [새 라우트] `src/app/(public)/topics/page.tsx` (정적 색인 `/topics`) · `src/app/(public)/topics/[axis]/page.tsx` (`generateStaticParams` 로 6페이지 SSG). 프리렌더 경로 32→39. [시그니처] `getPostsByAxis(slug: AxisSlug): Post[]` (posts.ts — getAllPosts 를 걸러 전 카테고리를 훑는다; draft 제외·최신순은 getAllPosts 가 이미 처리) · `countByAxis(): AxisCount[]` (stats.ts — `interface AxisCount { slug: AxisSlug; count: number }`, AXES 순서로 6축 전부, **0편 축 포함**, 합 = 전체 글 수) · `filterByFormat<T extends { format?: string }>(items: T[], format?: string | null): T[]` (pagination.ts — 태그는 포함, 포맷은 일치. format 없는 글은 어떤 필터에도 안 걸린다. null 허용은 useSearchParams().get() 때문) · `listHref(basePath, { tag?, format?, page? })` — **format 이 추가된 새 시그니처**. 넘기지 않은 tag·format 은 basePath 에 있어도 지운다(그래야 필터가 풀린다). 쿼리 순서 `?tag=&format=&page=`. [신규 export] `axisNumber(axis: Axis): string` (axes.ts) → `01`~`06`. 두 화면(+step 3 헤더)이 같은 자릿수를 쓰도록 만드는 곳을 하나로 뒀다. [PostList] `PostListItem.format?: FormatSlug` 추가, `?format=` 을 **클라이언트에서** 읽는다(서버에서 searchParams 를 읽으면 SSG 가 사라진다). 포맷이 먼저 좁히고 그 pool 에서 태그를 집계 → 고른 태그가 즉시 빈 목록이 되지 않는다. 켜진 포맷은 이름 한 줄 + '포맷 해제' 링크로 알린다(포맷은 필터 칩이 없다 — 라우트도 없다). 빈 목록 문구는 좁힌 조건을 되읽어 준다. 페이지·1페이지 복귀 링크에 format 을 실었고, `TagFilter` 에 `format?: string` prop 을 더해 태그를 갈아 끼워도 포맷이 안 풀린다. [축 화면 규약] 축은 무채다 — `KICKER_ACCENT` 를 복제하지 않고 kicker 는 `text-muted` + mono 번호. `<PostList showCategory>` 로 갈래 라벨을 켠다(축은 카테고리를 가로지른다). /topics 는 `.masthead`+`.rule-pair`+`.list-tight`, 각 항목은 `.entry` 레일에 --text-h2 크기 번호 · 이름 · 편수 · 설명 · covers · 최근 3편(`PostIndexRow`). 0편 축은 `.empty` — `.empty`·`.empty-line`·`.empty-next` 를 design/styles.css 에서 정의 그대로 globals.css 로 옮겼다. 빈 축 페이지는 사과 없이 '글이 있는 다른 축'(0편 축은 뺀다 — 같은 막다른 길)과 태그 색인으로 보낸다. [sitemap] `[\"/topics\", ...AXES.map(axisHref)]` 순회 — daily·0.8 (카테고리와 같은 급). [테스트] 신규 `PostList.test.tsx` 8건(next/navigation 모킹으로 ?format= 실측: 필터·해제 링크·태그 칩 보존·태그 재집계·빈 목록 문구·모르는 포맷·페이지 링크), pagination.test.ts 6건, stats.test.ts 3건(0편 축 포함·합계·초안 제외), posts.test.ts 4건(카테고리 가로지르기·정렬), axes.test.ts 1건. 416 tests pass (394→416).",
+      "notes": "축별 편수(프로덕션 기준) retrieval 2 · serving 5 · voice 0 · agent 1 · domain 0 · vibe-coding 0 = 8편으로 전체와 일치. /topics/voice 빌드 산출물에서 `.empty`·`.empty-line`·`.empty-next` 와 '다음에 갈 곳' 3축 + /tags 링크를 실측 확인했고, 빌드된 CSS 에도 세 규칙이 그대로 남는다(플레인 CSS 라 Tailwind 가 지우지 않는다). 빈 축에서는 제호의 `border-b` 를 끈다 — `.empty` 가 자기 윗선을 갖고 있어 그대로 두면 32px 사이에 같은 선이 두 줄 생긴다. 목록 자체는 카테고리 페이지와 똑같이 Suspense fallback(null) 이라 정적 HTML 에 안 들어가고 클라이언트가 채운다 — 기존 동작과 동일하다. 검색 페이지의 SearchDoc 에는 format 이 없어 `/search?format=` 은 빈 결과가 된다(수동으로 URL 을 치지 않으면 도달하지 않는다). 검색 인덱스에 format 을 싣는 것은 이 step 범위 밖이다.",
+      "events": [
+        {
+          "at": "2026-08-14T15:00:55+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-14T15:15:30+0900",
+          "status": "completed"
+        }
+      ]
     },
     {
       "step": 3,

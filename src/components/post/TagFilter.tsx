@@ -6,6 +6,8 @@ import { listHref } from "@/lib/pagination";
 export interface TagFilterProps {
   tags: { tag: string; count: number }[];
   activeTag?: string;
+  /** 켜져 있는 `?format=`. 태그를 갈아 끼워도 포맷 필터는 풀리지 않아야 한다. */
+  format?: string;
   /** 태그 링크의 기준 경로 (예: "/papers"). 검색 페이지도 재사용한다. */
   basePath: string;
 }
@@ -16,11 +18,16 @@ const INACTIVE = "border-border text-muted hover:border-muted hover:text-heading
 const ACTIVE = "border-heading bg-surface font-medium text-heading";
 
 /** page 를 넘기지 않는다 — 태그를 바꾸면 1페이지로 돌아가야 3페이지에서 빈 목록을 보지 않는다. */
-function tagHref(basePath: string, tag?: string): string {
-  return listHref(basePath, { tag });
+function tagHref(basePath: string, format?: string, tag?: string): string {
+  return listHref(basePath, { tag, format });
 }
 
-export function TagFilter({ tags, activeTag, basePath }: TagFilterProps) {
+export function TagFilter({
+  tags,
+  activeTag,
+  format,
+  basePath,
+}: TagFilterProps) {
   if (tags.length === 0) {
     return null;
   }
@@ -31,7 +38,7 @@ export function TagFilter({ tags, activeTag, basePath }: TagFilterProps) {
         <li>
           {/* 선택 해제 수단. 아무 태그도 고르지 않은 상태가 곧 "전체" 다. */}
           <Link
-            href={tagHref(basePath)}
+            href={tagHref(basePath, format)}
             aria-current={activeTag ? undefined : "page"}
             className={`${CHIP} ${activeTag ? INACTIVE : ACTIVE}`}
           >
@@ -45,7 +52,11 @@ export function TagFilter({ tags, activeTag, basePath }: TagFilterProps) {
           return (
             <li key={tag}>
               <Link
-                href={isActive ? tagHref(basePath) : tagHref(basePath, tag)}
+                href={
+                  isActive
+                    ? tagHref(basePath, format)
+                    : tagHref(basePath, format, tag)
+                }
                 aria-current={isActive ? "page" : undefined}
                 className={`${CHIP} ${isActive ? ACTIVE : INACTIVE}`}
               >

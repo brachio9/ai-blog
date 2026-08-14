@@ -14,6 +14,22 @@ export function filterByTag<T extends { tags: string[] }>(
   return items.filter((item) => item.tags.includes(tag));
 }
 
+/**
+ * 포맷 필터. `?tag=` 과 같은 규약(`?format=`)을 쓰되 거르는 방식이 다르다 —
+ * 태그는 여럿이라 포함이지만 포맷은 글마다 하나뿐이라 일치다.
+ * 포맷은 선택 필드라 없는 글은 어떤 포맷 필터에도 걸리지 않는다.
+ * useSearchParams().get() 이 null 을 주므로 null 도 "필터 없음"으로 받는다.
+ */
+export function filterByFormat<T extends { format?: string }>(
+  items: T[],
+  format?: string | null,
+): T[] {
+  if (!format) {
+    return items;
+  }
+  return items.filter((item) => item.format === format);
+}
+
 export function paginate<T>(
   items: T[],
   page: number,
@@ -37,23 +53,28 @@ export function paginate<T>(
 }
 
 /**
- * 목록 링크. 쿼리 규약은 `?tag=<한글 URL 인코딩>&page=<1부터, 1은 생략>` 다.
+ * 목록 링크. 쿼리 규약은 `?tag=<한글 URL 인코딩>&format=<slug>&page=<1부터, 1은 생략>` 다.
  * basePath 에 이미 쿼리가 붙어 있으면(검색 페이지의 `?q=`) 그대로 보존한다 —
  * 페이지를 넘겼더니 검색어가 사라지는 일을 막는다.
- * tag 를 바꾸면 page 는 넘겨받은 값만 남는다 (호출부가 생략하면 1페이지로 리셋).
+ * 넘기지 않은 tag·format 은 basePath 에 있어도 지워진다 (그래야 필터가 풀린다).
+ * page 도 넘겨받은 값만 남는다 (호출부가 생략하면 1페이지로 리셋).
  */
 export function listHref(
   basePath: string,
-  { tag, page }: { tag?: string; page?: number },
+  { tag, format, page }: { tag?: string; format?: string; page?: number },
 ): string {
   const [path, existing] = basePath.split("?");
   const params = new URLSearchParams(existing);
 
   params.delete("tag");
+  params.delete("format");
   params.delete("page");
   if (tag) {
     // 한글 태그는 URL 인코딩이 필요하다. URLSearchParams 가 대신 해 준다.
     params.set("tag", tag);
+  }
+  if (format) {
+    params.set("format", format);
   }
   if (page && page > 1) {
     params.set("page", String(page));

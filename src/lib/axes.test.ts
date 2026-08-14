@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { AXES, axisHref, getAxis } from "./axes";
+import { AXES, axisHref, axisNumber, getAxis } from "./axes";
 
 describe("AXES", () => {
   it("PRD 의 주제 축 6종을 순서대로 갖는다", () => {
@@ -59,6 +59,19 @@ describe("axisHref", () => {
     for (const axis of AXES) {
       expect(axisHref(axis)).toBe(`/topics/${axis.slug}`);
     }
+  });
+});
+
+describe("axisNumber", () => {
+  it("두 자리로 자릿수를 맞춘다 — 축의 부호는 색이 아니라 이 번호다", () => {
+    expect(AXES.map(axisNumber)).toEqual([
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+    ]);
   });
 });
 

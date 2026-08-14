@@ -3,6 +3,7 @@ import path from "node:path";
 
 import matter from "gray-matter";
 
+import type { AxisSlug } from "@/lib/axes";
 import { CATEGORIES, getCategory, type CategorySlug } from "@/lib/categories";
 import type { Post } from "@/types/content";
 
@@ -108,6 +109,15 @@ export function getAllPosts(): Post[] {
 
 export function getPostsByCategory(slug: CategorySlug): Post[] {
   return readCategory(slug).filter(isVisible).sort(byPublishedAtDesc);
+}
+
+/**
+ * 축별 글. 축은 디렉토리가 아니라 frontmatter 라서 카테고리 하나가 아니라 전부를 훑는다 —
+ * 한 축이 세 카테고리에 걸쳐 있는 것이 정상이다.
+ * 초안 제외·최신순은 getAllPosts() 가 이미 끝냈다.
+ */
+export function getPostsByAxis(slug: AxisSlug): Post[] {
+  return getAllPosts().filter((post) => post.frontmatter.axis === slug);
 }
 
 export function getPost(

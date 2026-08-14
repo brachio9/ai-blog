@@ -5,7 +5,14 @@ import { useSearchParams } from "next/navigation";
 
 import { AXES } from "@/lib/axes";
 import type { CategorySlug } from "@/lib/categories";
-import { collectTags, filterByTag, listHref, paginate } from "@/lib/pagination";
+import { getFormat, type FormatSlug } from "@/lib/formats";
+import {
+  collectTags,
+  filterByFormat,
+  filterByTag,
+  listHref,
+  paginate,
+} from "@/lib/pagination";
 import type { PaperMeta, Post } from "@/types/content";
 
 import { PostIndexRow } from "./PostIndexRow";
@@ -21,6 +28,8 @@ export interface PostListItem {
   publishedAt: string;
   tags: string[];
   readingMinutes: number;
+  /** `?format=` 필터가 읽는다. 목록에 라벨로 실리지는 않는다 (포맷은 부호가 없다) */
+  format?: FormatSlug;
   /** 논문이면 식별자 열에 arXiv ID 가 나온다 */
   paper?: PaperMeta;
 }
@@ -93,17 +102,47 @@ export function PostList({
 
   // get() 은 인코딩된 한글 태그를 자동으로 디코딩해 준다.
   const activeTag = searchParams.get("tag") ?? undefined;
+  const activeFormat = searchParams.get("format") ?? undefined;
   const rawPage = searchParams.get("page");
   const page = rawPage === null ? 1 : Number(rawPage);
 
-  // 태그 목록은 넘겨받은 items 에서 집계한다 — 전역 태그를 쓰면 여기 없는 태그가 나온다.
-  const tags = collectTags(items);
-  const filtered = filterByTag(items, activeTag);
+  // 포맷이 먼저 좁힌다 — 태그 목록도 그 안에서 집계해야 고른 순간 빈 목록이 나오지 않는다.
+  // (전역 태그를 쓰면 여기 없는 태그가 나온다.)
+  const pool = filterByFormat(items, activeFormat);
+  const tags = collectTags(pool);
+  const filtered = filterByTag(pool, activeTag);
   const { items: visible, totalPages, isOutOfRange } = paginate(filtered, page);
+
+  // 모르는 포맷도 slug 그대로 되읽어 준다 — 조용히 무시하면 빈 목록의 이유가 사라진다.
+  const formatName = activeFormat
+    ? (getFormat(activeFormat)?.name ?? activeFormat)
+    : undefined;
+  // 좁힌 조건을 문장에 그대로 싣는다. "글이 없습니다"만으로는 왜 비었는지 알 수 없다.
+  const narrowed = [formatName, activeTag ? `'${activeTag}' 태그` : undefined]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <div className="space-y-6">
-      <TagFilter tags={tags} activeTag={activeTag} basePath={basePath} />
+      {/* 포맷은 필터 칩이 없다 (라우트도 없다) — 켜져 있다는 사실과 끄는 길만 한 줄로 남긴다. */}
+      {formatName ? (
+        <p className="voice-ui text-muted">
+          포맷 <span className="text-heading">{formatName}</span> 만 봅니다 ·{" "}
+          <Link
+            href={listHref(basePath, { tag: activeTag })}
+            className="underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus"
+          >
+            포맷 해제
+          </Link>
+        </p>
+      ) : null}
+
+      <TagFilter
+        tags={tags}
+        activeTag={activeTag}
+        format={activeFormat}
+        basePath={basePath}
+      />
 
       {isOutOfRange ? (
         <div className="rounded-md border border-border bg-surface p-5">
@@ -111,7 +150,11 @@ export function PostList({
             해당 페이지에 글이 없습니다. 전체 {totalPages}페이지입니다.
           </p>
           <Link
-            href={listHref(basePath, { tag: activeTag, page: 1 })}
+            href={listHref(basePath, {
+              tag: activeTag,
+              format: activeFormat,
+              page: 1,
+            })}
             className="mt-2 inline-block text-sm text-heading underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus"
           >
             1페이지로 이동
@@ -119,8 +162,8 @@ export function PostList({
         </div>
       ) : visible.length === 0 ? (
         <p className="text-sm text-muted">
-          {activeTag
-            ? `'${activeTag}' 태그의 글이 없습니다.`
+          {narrowed
+            ? `${narrowed}에 해당하는 글이 없습니다.`
             : "아직 올라온 글이 없습니다."}
         </p>
       ) : (
@@ -152,7 +195,11 @@ export function PostList({
         >
           {page > 1 ? (
             <Link
-              href={listHref(basePath, { tag: activeTag, page: page - 1 })}
+              href={listHref(basePath, {
+                tag: activeTag,
+                format: activeFormat,
+                page: page - 1,
+              })}
               rel="prev"
               className="rounded border border-border px-4 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus"
             >
@@ -168,7 +215,11 @@ export function PostList({
 
           {page < totalPages ? (
             <Link
-              href={listHref(basePath, { tag: activeTag, page: page + 1 })}
+              href={listHref(basePath, {
+                tag: activeTag,
+                format: activeFormat,
+                page: page + 1,
+              })}
               rel="next"
               className="rounded border border-border px-4 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus"
             >
