@@ -11,7 +11,7 @@ export type CategoryAccent = "hf" | "paper" | "note";
 export interface Category {
   /** URL·디렉토리 이름. 발행된 글 주소·RSS·sitemap 이 걸려 있어 바꿀 수 없다. */
   slug: CategorySlug;
-  /** 카테고리 페이지 제목용 (예: "최신 논문") */
+  /** 카테고리 페이지 제목용 (예: "릴리즈·발표") */
   name: string;
   /** 밀집 목록의 구분 열용. 2~3자 (예: "논문") */
   shortName: string;
@@ -22,29 +22,48 @@ export interface Category {
 
 export const CATEGORIES: readonly Category[] = [
   {
+    // 주소는 허깅페이스 블로그만 옮기던 시절의 흔적이다. 걸린 링크를 끊지 않으려고 이름만 바꿨다.
     slug: "hf-blog",
-    name: "허깅페이스 소식",
+    name: "릴리즈·발표",
     shortName: "소식",
     accent: "hf",
     description:
-      "HuggingFace 블로그의 모델·데이터셋·라이브러리 발표를 한글로 추려 적고 원문 링크를 답니다.",
+      "모델·라이브러리 릴리즈, 기업 연구 블로그, 툴 문서 변경을 한글로 추려 적고 원문 링크를 답니다.",
   },
   {
     slug: "papers",
-    name: "최신 논문",
+    name: "논문",
     shortName: "논문",
     accent: "paper",
     description:
-      "arXiv 논문을 읽고 문제 설정·방법·결과를 한글로 정리합니다. 수식과 도표 비중이 높습니다.",
+      "arXiv·OpenReview 논문을 읽고 문제 설정·방법·결과를 한글로 정리합니다. 수식과 도표 비중이 높습니다.",
   },
   {
     slug: "notes",
-    name: "수집 자료",
-    shortName: "메모",
+    name: "관측·기록",
+    shortName: "관측",
     accent: "note",
     description:
-      "글 한 편으로 묶기 전의 스크랩과 메모. 짧은 인용과 링크 위주입니다.",
+      "커뮤니티에서 관측한 것과 직접 해 본 것. 옮길 원문이 없는 글에는 원문 링크 대신 측정 조건과 실패한 시도를 답니다.",
   },
+];
+
+/**
+ * 정적 라우트가 점유한 최상위 세그먼트. 카테고리 slug 이 이 중 하나면 그 카테고리는 도달 불가능해진다.
+ * `/{category}` 는 최상위 동적 세그먼트라 정적 라우트가 항상 먼저 이긴다 — 충돌해도 404 가 아니라
+ * 엉뚱한 페이지가 조용히 뜬다. 카테고리를 늘리지 않는 지금은 잠재 위험이지만, 바꾸는 순간 실사고다.
+ */
+export const RESERVED_SEGMENTS: readonly string[] = [
+  "topics",
+  "tags",
+  "archive",
+  "about",
+  "search",
+  "admin",
+  "api",
+  "rss.xml",
+  "sitemap.xml",
+  "search-index.json",
 ];
 
 /**

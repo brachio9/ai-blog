@@ -84,6 +84,6 @@ describe("PostLead", () => {
     expect(container.querySelector(".entry-lead")?.className).toContain(
       "cat-papers",
     );
-    expect(screen.getByText("최신 논문")).toBeTruthy();
+    expect(screen.getByText("논문")).toBeTruthy();
   });
 });

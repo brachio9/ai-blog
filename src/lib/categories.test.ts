@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { CATEGORIES, categoryHref, getCategory } from "./categories";
+import {
+  CATEGORIES,
+  categoryHref,
+  getCategory,
+  RESERVED_SEGMENTS,
+} from "./categories";
 
 describe("CATEGORIES", () => {
   it("PRD 의 카테고리 3종을 모두 갖는다", () => {
@@ -38,6 +43,32 @@ describe("CATEGORIES", () => {
       expect(["hf", "paper", "note"]).toContain(accent);
     }
     expect(new Set(accents).size).toBe(accents.length);
+  });
+});
+
+describe("RESERVED_SEGMENTS", () => {
+  it("어떤 카테고리 slug 도 예약 세그먼트와 겹치지 않는다", () => {
+    // 겹치면 `/{category}` 동적 라우트가 정적 라우트에 먹혀 그 카테고리가 도달 불가능해진다.
+    for (const category of CATEGORIES) {
+      expect(RESERVED_SEGMENTS).not.toContain(category.slug);
+    }
+  });
+
+  it("실제로 점유된 최상위 세그먼트를 빠짐없이 담는다", () => {
+    for (const segment of [
+      "topics",
+      "tags",
+      "archive",
+      "about",
+      "search",
+      "admin",
+      "api",
+      "rss.xml",
+      "sitemap.xml",
+      "search-index.json",
+    ]) {
+      expect(RESERVED_SEGMENTS).toContain(segment);
+    }
   });
 });
 

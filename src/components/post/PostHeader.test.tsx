@@ -65,7 +65,7 @@ describe("PostHeader", () => {
       <PostHeader post={makePost()} category={categoryOf("papers")} />,
     );
 
-    const link = screen.getByRole("link", { name: "최신 논문" });
+    const link = screen.getByRole("link", { name: "논문" });
     expect(link.getAttribute("href")).toBe("/papers");
     // 색은 정보의 보강이지 정보 자체가 아니다 — 이름이 함께 있어야 한다.
     expect(link.className).toContain("cat-label");
