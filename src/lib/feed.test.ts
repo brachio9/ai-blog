@@ -113,6 +113,26 @@ describe("buildRssXml", () => {
     expect(pubDate).toBe("Wed, 05 Aug 2026 00:00:00 GMT");
   });
 
+  it("주제 축을 <category> 로 실어 리더가 갈래로 거를 수 있게 한다", () => {
+    const xml = buildRssXml([makePost({ axis: "vibe-coding" })], SITE);
+    const item = parseXml(xml).querySelector("item");
+
+    // slug 가 아니라 사람이 읽는 이름이다 — 리더 UI 에 그대로 뜬다.
+    expect(item?.querySelector("category")?.textContent).toBe("바이브코딩");
+  });
+
+  it("모든 항목이 축을 하나씩만 갖는다", () => {
+    const posts = inProduction(getAllPosts);
+    const items = [
+      ...parseXml(buildRssXml(posts, SITE)).querySelectorAll("item"),
+    ];
+
+    expect(items).toHaveLength(posts.length);
+    for (const item of items) {
+      expect(item.querySelectorAll("category")).toHaveLength(1);
+    }
+  });
+
   it("본문 전문을 넣지 않는다 — summary 까지만", () => {
     const xml = buildRssXml([makePost()], SITE);
 
@@ -157,6 +177,7 @@ describe("buildSearchIndex", () => {
     const [doc] = buildSearchIndex([makePost({ tags: ["LLM", "벤치마크"] })]);
 
     expect(Object.keys(doc).sort()).toEqual([
+      "axis",
       "category",
       "id",
       "publishedAt",
@@ -167,6 +188,19 @@ describe("buildSearchIndex", () => {
       "title",
     ]);
     expect(doc.tags).toEqual(["LLM", "벤치마크"]);
+  });
+
+  it("축은 모든 글에 있고 포맷은 지정한 글에만 있다", () => {
+    const [withFormat] = buildSearchIndex([
+      makePost({ axis: "retrieval", format: "explainer" }),
+    ]);
+    const [withoutFormat] = buildSearchIndex([makePost({ axis: "agent" })]);
+
+    expect(withFormat.axis).toBe("retrieval");
+    expect(withFormat.format).toBe("explainer");
+    // 없는 포맷을 undefined 로라도 실으면 인덱스에 빈 키가 글 수만큼 쌓인다.
+    expect(withoutFormat.axis).toBe("agent");
+    expect(withoutFormat).not.toHaveProperty("format");
   });
 
   it("cover 가 있는 글만 cover 를 갖는다", () => {

@@ -3,7 +3,9 @@
  * 두 산출물 모두 요약(summary)까지만 담는다 — 본문 전문을 실으면 인덱스가 커져
  * 클라이언트 검색(ADR-007)의 초기 로딩이 무너진다.
  */
+import { type AxisSlug, getAxis } from "@/lib/axes";
 import type { CategorySlug } from "@/lib/categories";
+import type { FormatSlug } from "@/lib/formats";
 import type { Post } from "@/types/content";
 
 import { SITE_DESCRIPTION, SITE_NAME } from "./site";
@@ -14,6 +16,10 @@ export interface SearchDoc {
   title: string;
   summary: string;
   category: CategorySlug;
+  /** 주제 축 — 필수·단일. 검색 결과에도 어느 갈래의 글인지가 남는다 */
+  axis: AxisSlug;
+  /** 선택. PostList 의 `?format=` 필터가 이 값을 읽는다 */
+  format?: FormatSlug;
   slug: string;
   tags: string[];
   publishedAt: string;
@@ -46,6 +52,8 @@ export function buildSearchIndex(posts: Post[]): SearchDoc[] {
       title: frontmatter.title,
       summary: frontmatter.summary,
       category: post.category,
+      axis: frontmatter.axis,
+      ...(frontmatter.format ? { format: frontmatter.format } : {}),
       slug: post.slug,
       tags: frontmatter.tags,
       publishedAt: frontmatter.publishedAt,
@@ -68,11 +76,18 @@ export function buildRssXml(posts: Post[], siteUrl: string): string {
       const { frontmatter } = post;
       const url = `${base}/${post.category}/${post.slug}`;
 
+      // 주제 축을 <category> 로 실어 리더가 갈래로 거를 수 있게 한다.
+      // 축은 필수라 항상 있지만, 모르는 slug 면 줄을 통째로 빼서 빈 태그를 만들지 않는다.
+      const axis = getAxis(frontmatter.axis);
+      const axisCategory = axis
+        ? `\n      <category>${escapeXml(axis.name)}</category>`
+        : "";
+
       return `    <item>
       <title>${escapeXml(frontmatter.title)}</title>
       <link>${escapeXml(url)}</link>
       <guid isPermaLink="true">${escapeXml(url)}</guid>
-      <description>${escapeXml(frontmatter.summary)}</description>
+      <description>${escapeXml(frontmatter.summary)}</description>${axisCategory}
       <pubDate>${toRfc822(frontmatter.publishedAt)}</pubDate>
     </item>`;
     })

@@ -127,7 +127,21 @@
     {
       "step": 5,
       "name": "og-and-feed",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-14T15:33:44+0900",
+      "events": [
+        {
+          "at": "2026-08-14T15:33:44+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-14T15:41:33+0900",
+          "status": "completed"
+        }
+      ],
+      "completed_at": "2026-08-14T15:41:33+0900",
+      "summary": "직렬화 산출물(OG·RSS·검색 인덱스)에 축을 싣고 OG 이미지의 안료 어긋남을 고쳤다. 화면·스키마·design/ 은 무수정 (git status = opengraph-image.tsx · feed.ts · feed.test.ts · index.json 넷). [OG 색 교정 — 이 step 의 결함 수정] ACCENT_COLOR 세 값이 blog-7 이전 시맨틱 색(--warning·--info 계열)에 멈춰 있어 note 가 藍(파랑)인데 적갈로, paper 가 草綠인데 청록으로 구워지고 있었다. design/styles.css 의 안료 ramp(정본)를 낮 값(600 단계, globals.css 의 --cat-* 매핑과 같은 짝)으로 다시 적었다: hf 朱土 --color-accent-2-600 oklch(0.500 0.100 40) → #924d35 (옛 #8a5a00) · paper 草綠 --color-accent-600 oklch(0.500 0.095 140) → #44703b (옛 #0f6b63) · note 藍 --color-accent-3-600 oklch(0.500 0.075 250) → #41668d (옛 #a8442a). hex 로 굳힌 근거: 번들된 satori(next/dist/compiled/@vercel/og)의 색 파서에 oklch 문자열이 아예 없다(hsl·rgba 만 있다) — grep 으로 확인했고, 못 읽는 색은 경고 없이 검정으로 떨어진다. 변환은 OKLab→선형 sRGB→감마(빨강·파랑·회색 기준값으로 변환기 자체를 먼저 검증), 셋 다 sRGB 색역 안이라 클리핑 없음, 카드 바탕 #fafafa 대비 6.03·5.55·5.73:1 로 4.5:1 초과. 주석에 '정본은 design/styles.css 의 안료 ramp 다 — 팔레트가 바뀌면 여기도 고쳐야 한다'와 oklch→hex 대응표·대비값을 남겼다. 구워진 PNG 픽셀을 sharp 로 직접 읽어 세 카드의 좌측 막대가 정확히 #44703b·#924d35·#41668d 임을 실측했다(note = 파랑). [OG 축 한 줄] 카테고리 이름 아래 축 **이름만** (fontSize 24, #737373 무채 — 안료 3색은 카테고리 전용, 번호는 넣지 않는다: 카드가 작다). 카테고리 줄을 flexDirection:column 래퍼로 감싸 두 줄로 만들었고 제목·푸터 위치는 그대로다. 축을 못 찾으면(post 없음 등) 줄 자체를 그리지 않는다. [SearchDoc 새 필드] `axis: AxisSlug` (필수 — 모든 글에 있다) · `format?: FormatSlug` (cover 와 같은 조건부 spread — 없는 글에 undefined 키를 만들지 않는다). SearchDoc 은 PostListItem 의 상위집합이라 /search 의 `?format=` 필터가 이제 실제로 걸린다. 산출물 실측: 8편 전부 axis 있음, format 4편. [RSS] item 에 `<category>{축 이름}</category>` 한 줄(slug 이 아니라 사람이 읽는 이름 — 리더 UI 에 그대로 뜬다). description 과 pubDate 사이. 8개 item 전부 정확히 하나씩. [URL 무손상] 기존 글 8편의 link·guid·sitemap loc 이 한 글자도 안 바뀌었다(/papers/·/hf-blog/·/notes/ 규약 유지). [테스트] feed.test.ts +3: RSS <category> 가 축 이름인지 · 모든 item 이 축을 하나씩만 갖는지 · axis 는 전부·format 은 지정한 글만. 기존 '검색·목록에 필요한 필드만 담는다' 키 목록에 axis 추가(+1줄). 421 tests pass (418→421, 38 files). AC 전부 통과: lint·build·test·typecheck · OG 색/축 소스 검사 · feed 검사 · 검색 인덱스 axis · RSS 기존 글 URL · 프리렌더 39경로(글 8편·OG 8장·/topics 유지) · pytest 71 passed.",
+      "notes": "OG 카드의 무채값(#fafafa 바탕·#171717 글자·#e5e5e5 괘선·#737373 메타)은 Tailwind 기본 회색이라 현재 팔레트의 '표백하지 않은 종이'(--color-neutral-100 #f6f4f0 · 900 #211d1a · 300 #d7d4ce · 600 #6b6864)와 어긋나 있다. 안료와 같은 종류의 드리프트지만 이 step 이 지정한 대상이 아니라 손대지 않았다 — 다음에 잡을 것."
     }
   ],
   "created_at": "2026-08-14T14:47:29+0900"

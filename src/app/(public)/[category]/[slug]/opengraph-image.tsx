@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 
+import { getAxis } from "@/lib/axes";
 import { type CategoryAccent, getCategory } from "@/lib/categories";
 import { getAllPosts, getPost } from "@/lib/content/posts";
 import { SITE_NAME } from "@/lib/site";
@@ -21,12 +22,22 @@ const MAX_TITLE_LENGTH = 48;
 
 /**
  * ImageResponse 는 앱 CSS 가 닿지 않는 별도 렌더러라 --cat-* 을 읽을 수 없다.
- * UI_GUIDE 의 라이트 값을 categories.ts 의 accent 키에 맞춰 그대로 적는다 (카드 배경이 라이트다).
+ * 게다가 번들된 satori 의 색 파서에 oklch 가 없어(hsl·rgb 만 있다) 안료를 hex 로 굳혀야 한다.
+ *
+ * **이 값의 정본은 `design/styles.css` 의 안료 ramp 다. 팔레트가 바뀌면 여기도 고쳐야 한다.**
+ * 카드 배경이 라이트이므로 낮 값(600 단계) — globals.css 의 --cat-* 매핑과 같은 짝이다.
+ *
+ *   hf    朱土  --color-accent-2-600  oklch(0.500 0.100  40) → #924d35
+ *   paper 草綠  --color-accent-600    oklch(0.500 0.095 140) → #44703b
+ *   note  藍    --color-accent-3-600  oklch(0.500 0.075 250) → #41668d
+ *
+ * 변환은 OKLab → 선형 sRGB → 감마 인코딩. 셋 다 sRGB 색역 안이라 클리핑이 없고,
+ * 카드 바탕(#fafafa) 대비 6.03·5.55·5.73:1 로 본문 기준 4.5:1 을 넘는다.
  */
 const ACCENT_COLOR: Record<CategoryAccent, string> = {
-  hf: "#8a5a00",
-  paper: "#0f6b63",
-  note: "#a8442a",
+  hf: "#924d35",
+  paper: "#44703b",
+  note: "#41668d",
 };
 
 export default async function OpengraphImage(props: {
@@ -39,6 +50,8 @@ export default async function OpengraphImage(props: {
   const title = post?.frontmatter.title ?? SITE_NAME;
   // 카테고리를 못 찾은 카드에는 부호를 붙일 수 없다 — 중성으로 떨어뜨린다.
   const accent = found ? ACCENT_COLOR[found.accent] : "#171717";
+  // 축은 이름만 — 카드가 작아 번호까지 넣으면 카테고리 줄과 다투기만 한다.
+  const axis = post ? getAxis(post.frontmatter.axis) : undefined;
 
   return new ImageResponse(
     (
@@ -60,8 +73,16 @@ export default async function OpengraphImage(props: {
             padding: "72px 80px",
           }}
         >
-          <div style={{ display: "flex", fontSize: 30, color: accent }}>
-            {found?.name ?? SITE_NAME}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ display: "flex", fontSize: 30, color: accent }}>
+              {found?.name ?? SITE_NAME}
+            </div>
+            {axis ? (
+              // 축에 안료를 주지 않는다 — 안료 3색은 카테고리 전용이다 (UI_GUIDE).
+              <div style={{ display: "flex", fontSize: 24, color: "#737373" }}>
+                {axis.name}
+              </div>
+            ) : null}
           </div>
 
           <div
