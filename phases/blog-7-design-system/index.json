@@ -111,9 +111,14 @@
           "at": "2026-08-14T13:04:46+0900",
           "status": "completed",
           "attempt": 1
+        },
+        {
+          "at": "2026-08-14T13:06:53+0900",
+          "status": "completed",
+          "attempt": 1
         }
       ],
-      "completed_at": "2026-08-14T13:04:46+0900",
+      "completed_at": "2026-08-14T13:06:53+0900",
       "summary": "시그니처 「1면 편집」을 홈에 붙였다. (1) 선정 — 새 파일 src/lib/frontpage.ts 에 `export function pickLead(posts: Post[]): Post | null`, 테스트는 src/lib/frontpage.test.ts (7건, 실제 content/ 를 읽지 않는 순수 함수 테스트). 규칙: frontmatter 의 lead 가 true 인 글이 있으면 그중 가장 최근 것, 하나도 없으면 전체에서 가장 최근 글, 0편이면 null. 넘겨받은 배열의 순서에 기대지 않고 publishedAt 문자열 비교로 직접 고르며(호출부가 정렬을 바꿔도 조용히 틀리지 않는다), 동시각은 slug 오름차순 — src/lib/content/posts.ts 의 byPublishedAtDesc 와 같은 기준이라 머리기사와 목록 첫 글이 어긋나지 않는다. 조회수는 보지 않고 초안 제외도 하지 않는다(로더의 몫). 실제 빌드로 양쪽을 확인했다: lead:true 인 papers/moe-routing-pipeline 이 최신 글을 이기고(cat-papers 草綠), 그 한 줄을 lead:false 로 바꿔 빌드하면 최신 글 hf-blog/open-weight-benchmark-roundup 이 자동으로 서며(cat-news 朱土) headline 은 여전히 정확히 1개다 — 손 안 대도 굴러간다. (2) 홈 구역 순서 — 마스트헤드(step 2, 손 안 댐) → **머리기사 하나** <PostLead post={lead}> → **단신 묶음** <ul role=list aria-label='최근 글' class='brief-set mt-[var(--space-4)]'> + PostBrief 5개(BRIEF_COUNT) → **카테고리별 최신**(3열 grid) → 많이 읽힌 글. 기존 '최근 글' 표(PostTable)는 머리기사+단신으로 대체돼 홈에서 사라졌다(PostTable 자체는 PostList 경유로 카테고리·아카이브·태그·검색이 계속 쓴다). 단신에 눈에 보이는 머리글을 두지 않은 것은 정본(signatures.html 후보 02)을 따른 것이고 이름은 aria-label 로만 붙였다. (3) 급 낮추기에서 되돌린 결정 하나 — 처음에는 논문 구역을 남긴 채 절 머리글만 14px 로 줄이고 .list-tight 를 씌웠는데, 실측·스크린샷에서 그 구역의 .entry-title(--text-h4 17px)이 바로 위 단신의 .entry-title(--text-h5 15px)보다 커서 **급이 거꾸로 섰다.** 그래서 논문 전용 구역을 없애고 소식·메모 다이제스트에 합쳐 CATEGORIES 전체를 도는 3열 '카테고리별 최신' 한 구역으로 만들었다(md:grid-cols-2 → md:grid-cols-3, PAPER_COUNT·PAPER_SLUG·paperPosts 삭제, DIGEST_COUNT 4 는 유지). 대가로 홈에서 arXiv 식별자 열이 사라졌다 — 머리기사 데이트라인과 카테고리 페이지가 계속 보인다. 3열이 되면서 제목 8개 중 6개가 잘려서 다이제스트 링크의 말줄임 유틸리티를 떼고 leading-tight 로 접게 했다(행 높이가 들쭉날쭉해지는 것이 잘린 제목보다 낫다).  (4) 안 건드린 것 — 홈 마스트헤드는 border-b 하이라인 그대로다. step 4 지시문은 '마스트헤드 + .rule-pair' 였지만 정본 design/components/masthead.html 이 '괘선 쌍이 한 화면에 두 번 이상이면 이미 흔해진 것'이라 못박고 헤더·푸터가 이미 둘을 쓰고 있어 셋째를 넣지 않았다(실측 rulePairs=2). 조회수는 reserveViews 없이 PopularPosts 만 쓰므로 실패해도 1면이 그대로 뜬다. (5) 실측(headless Chrome CDP, next start) — 1280x1000: 가로 오버플로 0 · .entry-lead 1개 · headline 54px vs 단신 제목 15px(3.6배) · 머리기사 top 325 → 단신 bottom **890 (첫 화면 1000px 안)** · .entry-title 왼쪽 끝 단일값 183px · 추림 14:1. 768: headline 35.3px · 단신 bottom 869. 360: 오버플로 0 · headline 30px(clamp 하한) · 단신 bottom 1086 — 640px 아래에서 brief-item 이 1열로 접혀 행이 69~99px 로 커지기 때문이고, 1000px 은 데스크톱 첫 화면 기준이라 그대로 뒀다. 다크에서 안료는 300 단계(oklch 0.78)로 내려가고 제목 순서는 h1→h2 로 건너뛰지 않는다. AC 는 마지막 하나(.next/server/app 에서 page.html 찾기)만 실패하는데 Next 16 이 프리렌더를 <route>.html(홈은 index.html)로 내기 때문이며, 같은 의도로 .html 전체를 훑으면 entry-lead 가 확인된다(프리렌더 18개 중 홈)."
     },
     {
