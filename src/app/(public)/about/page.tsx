@@ -4,9 +4,10 @@ import Link from "next/link";
 import { Container } from "@/components/layout/Container";
 import { ACCENT_TEXT } from "@/components/post/PostTable";
 import { ExternalLinkIcon } from "@/components/ui/icons";
+import { AXES, axisHref, axisNumber } from "@/lib/axes";
 import { CATEGORIES, categoryHref } from "@/lib/categories";
 import { SITE_NAME } from "@/lib/site";
-import { countByCategory } from "@/lib/stats";
+import { countByAxis, countByCategory } from "@/lib/stats";
 
 /**
  * 글도 이미지도 이 레포에 커밋된다 (ADR-001·ADR-005). 오류 제보를 여기로 받는 이유이기도 하다.
@@ -35,7 +36,7 @@ const PRINCIPLES = [
   },
   {
     title: "출처를 먼저 적습니다",
-    body: "외부 글을 요약하거나 인용한 글에는 원문 제목과 링크를, 확인되는 경우 저자와 라이선스까지 본문 안에 적습니다. 논문 글에는 arXiv 식별자를 함께 답니다. 출처를 적을 수 없는 글은 올리지 않습니다.",
+    body: "외부 글을 요약하거나 인용한 글에는 원문 제목과 링크를, 확인되는 경우 저자와 라이선스까지 본문 안에 적습니다. 논문 글에는 arXiv 식별자를 함께 답니다. 출처를 적을 수 없는 글은 올리지 않습니다. 커뮤니티에서 도는 성능 수치는 직접 재 보기 전까지 「주장」이라고 적고, 직접 잰 글에는 하드웨어·설정·측정 방법을 함께 적습니다 — 그 글에는 그것이 출처입니다.",
   },
   {
     title: "고른 사람의 오해가 남습니다",
@@ -46,11 +47,14 @@ const PRINCIPLES = [
 /**
  * 소개 — 이 사이트가 무엇을 하는 곳인지 한 화면에서 알 수 있어야 한다.
  * 구역마다 다루는 방식을 달리한다: 이름의 유래는 산문으로, 원칙은 번호를 붙여,
- * 다루는 출처는 카테고리 목록으로, 제보 경로는 링크 하나로.
+ * 무엇을 다루는지는 축 목록으로, 어디서 오는지는 카테고리 목록으로, 제보 경로는 링크 하나로.
  */
 export default function AboutPage() {
   const counts = new Map(
     countByCategory().map((entry) => [entry.slug, entry.count]),
+  );
+  const axisCounts = new Map(
+    countByAxis().map((entry) => [entry.slug, entry.count]),
   );
 
   return (
@@ -79,6 +83,15 @@ export default function AboutPage() {
               줄어듭니다. 세부가 필요해지는 지점은 결국 옵니다. 그때 갈 곳이
               있어야 하므로 원문 링크를 뺄 수 없습니다.
             </p>
+            <p>
+              다루는 범위는 그동안 넓어졌습니다. 허깅페이스 블로그와 arXiv
+              논문에서 시작해 지금은 아래 여섯 갈래를 봅니다. 그래도 하는 일은
+              같습니다 — 하루에 나오는 논문·릴리즈·논쟁은 수백 건이고 이 자리에
+              남는 것은 몇 건이니, 무엇을 뺐는지가 이 사이트가 하는 일의
+              절반입니다. 다만 요즘은 남의 글을 옮기기만 하지 않습니다. 직접 재
+              보고 직접 만들어 본 기록도 싣습니다. 그런 글에는 옮길 원문이
+              없으므로 대신 측정 조건과 실패한 시도를 적습니다.
+            </p>
           </div>
         </section>
 
@@ -105,7 +118,41 @@ export default function AboutPage() {
         </section>
 
         <section className="mt-12">
-          <h2 className={SECTION_TITLE}>무엇을 읽는가</h2>
+          <h2 className={SECTION_TITLE}>여섯 갈래</h2>
+          <p className={`mt-3 ${PROSE}`}>
+            글마다 갈래는 하나입니다. 두 갈래에 걸치는 글에서 하나를 고르지
+            못하면 그건 편집을 미룬 것이라, 아래 여섯 편수의 합은 늘 전체 글
+            수와 같습니다. 0편인 갈래는 아직 다루지 않았다는 뜻으로 그대로
+            둡니다.
+          </p>
+          <ul className="mt-4 max-w-[68ch]">
+            {AXES.map((axis) => (
+              <li key={axis.slug} className="border-b border-border py-3">
+                <div className="flex items-baseline gap-3">
+                  {/* 갈래의 부호는 번호다 — 안료 3색은 아래 카테고리 전용이다. */}
+                  <span className="w-8 shrink-0 font-mono text-xs text-muted tabular-nums">
+                    {axisNumber(axis)}
+                  </span>
+                  <Link
+                    href={axisHref(axis)}
+                    className={`min-w-0 flex-1 text-[0.9375rem] ${LINK}`}
+                  >
+                    {axis.name}
+                  </Link>
+                  <span className="shrink-0 font-mono text-xs text-muted tabular-nums">
+                    {axisCounts.get(axis.slug) ?? 0}편
+                  </span>
+                </div>
+                <p className="mt-1 pl-11 text-sm leading-[1.7] text-muted">
+                  {axis.description}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="mt-12">
+          <h2 className={SECTION_TITLE}>어디서 오는가</h2>
           <ul className="mt-4 max-w-[68ch]">
             {CATEGORIES.map((category) => (
               <li key={category.slug} className="border-b border-border py-3">
@@ -132,8 +179,14 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
+          {/* 주소와 이름이 어긋난 채로 두었으면 그 사실을 적는다 — 정정도 기록이다. */}
           <p className={`mt-4 ${PROSE}`}>
-            주제로 훑고 싶으면{" "}
+            주소에 남은 <code className="voice-source">hf-blog</code> 는 이
+            사이트가 허깅페이스 블로그만 옮기던 시절의 흔적입니다. 이미 걸린
+            링크를 끊지 않으려고 주소는 그대로 두고 이름만 바꿨습니다.
+          </p>
+          <p className={`mt-4 ${PROSE}`}>
+            모델이나 툴 이름으로 찾고 싶으면{" "}
             <Link href="/tags" className={LINK}>
               태그 색인
             </Link>
