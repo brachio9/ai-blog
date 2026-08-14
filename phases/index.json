@@ -38,7 +38,8 @@
     },
     {
       "dir": "blog-8-six-axes",
-      "status": "pending"
+      "status": "completed",
+      "completed_at": "2026-08-14T15:42:10+0900"
     }
   ]
 }
