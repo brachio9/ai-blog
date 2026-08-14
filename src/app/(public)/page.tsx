@@ -1,27 +1,26 @@
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
-import { ACCENT_TEXT, PostTable } from "@/components/post/PostTable";
+import { PostBrief } from "@/components/post/PostBrief";
+import { PostLead } from "@/components/post/PostLead";
+import { ACCENT_TEXT } from "@/components/post/PostTable";
 import { PopularPosts, ViewCounts } from "@/components/post/ViewCounts";
-import {
-  CATEGORIES,
-  categoryHref,
-  getCategory,
-  type CategorySlug,
-} from "@/lib/categories";
+import { CATEGORIES, categoryHref } from "@/lib/categories";
 import { getAllPosts, getPostsByCategory } from "@/lib/content/posts";
 import { formatDateShort } from "@/lib/format";
+import { pickLead } from "@/lib/frontpage";
 import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 import { countByCategory } from "@/lib/stats";
 import type { Post } from "@/types/content";
 
-/** 홈의 주력 구역. 화면을 넘기지 않을 만큼만 싣고 나머지는 카테고리 페이지가 받는다. */
-const LATEST_COUNT = 6;
-const PAPER_COUNT = 3;
-const DIGEST_COUNT = 4;
+/**
+ * 1면에 싣는 단신 수. 머리기사 하나와 이 다섯이 **첫 화면 안에서** 끝나야 한다 —
+ * 단골이 10초 안에 "오늘 새 글"을 못 고르면 시그니처가 무의미하다 (design/brief.md 실패 신호).
+ */
+const BRIEF_COUNT = 5;
 
-/** arXiv ID 는 논문 전용 메타라 이 카테고리만 열 구성이 다르다. */
-const PAPER_SLUG: CategorySlug = "papers";
+/** 1면 아래의 급 낮은 구역. 화면을 넘기지 않을 만큼만 싣고 나머지는 카테고리 페이지가 받는다. */
+const DIGEST_COUNT = 4;
 
 const NAV_LINK =
   "text-sm text-muted transition-colors hover:text-heading focus-visible:outline-2 focus-visible:outline-focus";
@@ -33,18 +32,18 @@ function postId(post: Post): string {
 
 export default function Home() {
   const allPosts = getAllPosts();
-  const latest = allPosts.slice(0, LATEST_COUNT);
   // 목록이 최신순이라 첫 항목이 곧 이 지면의 최근 발행일이다.
   const newest = allPosts.at(0);
-  const paperCategory = getCategory(PAPER_SLUG);
-  const paperPosts = paperCategory
-    ? getPostsByCategory(paperCategory.slug).slice(0, PAPER_COUNT)
-    : [];
 
-  // 논문 말고는 한 줄짜리 요약 목록으로 훑는다. 카테고리가 늘면 여기 자동으로 붙는다.
-  const digest = CATEGORIES.filter(
-    (category) => category.slug !== PAPER_SLUG,
-  ).map((category) => ({
+  // 오늘의 편집 — 머리기사 하나를 고르고 나머지 최근 글을 단신으로 뭉친다.
+  // 같은 글이 1면에 두 번 실리지 않도록 머리기사는 단신에서 뺀다.
+  const lead = pickLead(allPosts);
+  const briefs = allPosts
+    .filter((post) => post !== lead)
+    .slice(0, BRIEF_COUNT);
+
+  // 1면 아래는 카테고리별 최신 몇 줄. 카테고리가 늘면 여기 자동으로 붙는다.
+  const digest = CATEGORIES.map((category) => ({
     category,
     posts: getPostsByCategory(category.slug).slice(0, DIGEST_COUNT),
   }));
@@ -57,7 +56,11 @@ export default function Home() {
 
   // 홈에 실린 글 — 구역이 겹치므로 id 로 한 번 접는다. 조회수 조회와 순위가 같은 목록을 쓴다.
   const shown = new Map<string, string>();
-  for (const post of [...latest, ...paperPosts, ...digest.flatMap((g) => g.posts)]) {
+  for (const post of [
+    ...(lead ? [lead] : []),
+    ...briefs,
+    ...digest.flatMap((g) => g.posts),
+  ]) {
     shown.set(postId(post), post.frontmatter.title);
   }
   const shownPosts = [...shown].map(([id, title]) => ({ postId: id, title }));
@@ -89,51 +92,32 @@ export default function Home() {
             </div>
           </header>
 
-          {/* 1) 최신 — 카테고리를 섞은 한 표. 첫 화면이 이 표에서 시작한다.
-              전체 편수는 제호가 이미 알렸으므로 여기서 다시 세지 않는다. */}
-          <section className="pt-6">
-            <div className="flex items-baseline justify-between gap-4 pb-2">
-              <h2 className="text-sm font-semibold tracking-wide text-muted uppercase">
-                최근 글
-              </h2>
-            </div>
-            <PostTable
-              posts={latest}
-              showCategory
-              reserveViews
-              caption="최근 글"
-            />
-          </section>
+          {/* 1) 머리기사 — 지면당 하나. 표제가 스케일 밖(clamp 30~54px)으로 커지는 자리이고,
+              이 지면의 파격 예산은 여기에 전부 쓴다. 누구를 싣는지는 pickLead 가 정한다:
+              frontmatter 의 lead, 없으면 최신 글. 조회수로 고르지 않는다 — 편할 뿐 편집이 아니다. */}
+          {lead ? <PostLead post={lead} /> : null}
 
-          {/* 2) 논문 — 같은 표를 쓰되 구분 대신 arXiv 식별자를 보인다. */}
-          {paperCategory && paperPosts.length > 0 ? (
-            <section className="pt-14">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                <h2 className="text-xl font-semibold text-heading">
-                  {paperCategory.name}
-                </h2>
-                <span className="flex shrink-0 items-baseline gap-3">
-                  <span className="font-mono text-xs text-muted tabular-nums">
-                    {counts.get(paperCategory.slug) ?? 0}편
-                  </span>
-                  <Link href={categoryHref(paperCategory)} className={NAV_LINK}>
-                    전체 보기
-                  </Link>
-                </span>
-              </div>
-              <p className="mt-1 mb-3 max-w-[68ch] text-sm text-muted">
-                {paperCategory.description}
-              </p>
-              <PostTable
-                posts={paperPosts}
-                showIdentifier
-                caption={paperCategory.name}
-              />
-            </section>
+          {/* 2) 단신 묶음 — 머리기사를 뺀 최근 글. 짧은 것은 늘어놓지 않고 뭉친다.
+              머리기사와 급이 3배 가까이 벌어지는 것이 이 배치의 전부다.
+              눈에 보이는 머리글을 두지 않는다 (design/components/signatures.html 후보 02) —
+              이름은 목록 자체에 붙인다. 항목이 grid 라 목록 의미가 떨어질 수 있어 role 로 되돌린다. */}
+          {briefs.length > 0 ? (
+            <ul
+              role="list"
+              aria-label="최근 글"
+              className="brief-set mt-[var(--space-4)]"
+            >
+              {briefs.map((post) => (
+                <PostBrief key={post.filePath} post={post} />
+              ))}
+            </ul>
           ) : null}
 
-          {/* 3) 소식·메모 — 표가 아니라 날짜와 제목만 남긴 한 줄 목록. 둘을 나란히 둔다. */}
-          <section className="grid gap-x-10 gap-y-8 pt-14 md:grid-cols-2">
+          {/* 3) 카테고리별 최신 — 1면을 지나면 급이 한 단계 내려간다. 날짜와 제목만 남긴
+              한 줄 목록이고 제목도 단신보다 크지 않다. 논문만 따로 크게 싣던 구역을 여기 합쳤다 —
+              단신 바로 아래에서 제목이 다시 커지면 급이 거꾸로 서서 1면이 무너진다.
+              arXiv 식별자는 머리기사의 데이트라인과 카테고리 페이지가 계속 보인다. */}
+          <section className="grid gap-x-10 gap-y-8 pt-14 md:grid-cols-3">
             {digest.map(({ category, posts }) => (
               // min-w-0 이 없으면 그리드 칸이 제목 길이만큼 벌어져 페이지가 가로로 밀린다.
               <div key={category.slug} className="min-w-0">
@@ -167,7 +151,10 @@ export default function Home() {
                           >
                             {formatDateShort(post.frontmatter.publishedAt)}
                           </time>
-                          <span className="min-w-0 truncate text-[0.9375rem] text-heading">
+                          {/* 세 열이 되면서 제목이 잘리기 시작했다 — 자르는 대신 접는다.
+                              행 높이가 들쭉날쭉해지지만 그게 낫다. 잘린 제목은 되찾기를 막고,
+                              같은 높이로 맞춘 행은 무엇이 더 중요한지 안 정했다는 뜻이다. */}
+                          <span className="min-w-0 text-[0.9375rem] leading-[var(--leading-tight)] text-heading">
                             {post.frontmatter.title}
                           </span>
                         </Link>
