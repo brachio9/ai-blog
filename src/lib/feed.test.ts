@@ -30,6 +30,7 @@ function makePost(
     publishedAt: "2026-08-05T09:00:00+0900",
     tags: ["LLM"],
     draft: false,
+    lead: false,
     ...frontmatter,
   };
 

@@ -15,6 +15,7 @@ function makePost(overrides: Partial<Post> = {}): Post {
       publishedAt: "2026-08-09T00:30:00+0900",
       tags: ["어텐션", "스케일링"],
       draft: false,
+      lead: false,
       paper: { arxivId: "2607.04512", authors: ["김한나", "이도현"] },
       ...overrides.frontmatter,
     },

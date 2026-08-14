@@ -35,6 +35,15 @@ const sourceSchema = z.object({
   author: z.string().min(1).optional(),
   license: z.string().min(1).optional(),
   publishedAt: kstDateTime("source.publishedAt").optional(),
+  /**
+   * 원문의 단어 수 — 시그니처 「추린 비율」의 분모다 (design/brief.md).
+   * 초록(한글) 쪽 길이는 본문에서 세므로 적지 않는다.
+   * 선택 필드다 — source 가 없는 notes 글에는 비교 대상 자체가 없다.
+   */
+  words: z
+    .int("source.words 는 정수여야 한다 (원문 단어 수)")
+    .positive("source.words 는 1 이상이어야 한다")
+    .optional(),
 });
 
 const paperSchema = z.object({
@@ -55,6 +64,8 @@ const frontmatterSchema = z
     tags: z.array(z.string().min(1)).default([]),
     cover: z.string().min(1).optional(),
     draft: z.boolean().default(false),
+    /** 1면 머리기사 지정. 없으면 가장 최근 글이 자동으로 머리기사가 된다. */
+    lead: z.boolean().default(false),
     source: sourceSchema.optional(),
     paper: paperSchema.optional(),
   })

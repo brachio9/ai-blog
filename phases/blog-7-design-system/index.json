@@ -28,7 +28,21 @@
     {
       "step": 1,
       "name": "frontmatter",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-14T12:03:47+0900",
+      "events": [
+        {
+          "at": "2026-08-14T12:03:47+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-14T12:09:20+0900",
+          "status": "completed",
+          "attempt": 1
+        }
+      ],
+      "completed_at": "2026-08-14T12:09:20+0900",
+      "summary": "시그니처 둘의 콘텐츠 규약. (1) 스키마 — src/lib/content/schema.ts 의 sourceSchema 에 words: z.int().positive().optional() 추가(원문 단어 수, source 객체 안), 최상위에 lead: z.boolean().default(false) 추가. src/types/content.ts 는 PostSource.words?: number 와 PostFrontmatter.lead: boolean(필수 — draft 와 같은 급, 파서가 항상 채운다). lead 가 필수 필드가 되면서 PostFrontmatter 를 리터럴로 짓던 자리 4곳에 lead: false 를 채웠다 (src/lib/feed.test.ts · src/app/admin/posts.test.ts · src/components/post/PostHeader.test.tsx · PostTable.test.tsx, 그리고 목록→Post 어댑터인 src/components/post/PostList.tsx 의 toPost). (2) 헬퍼 — 새 파일 src/lib/content/compression.ts, 테스트는 src/lib/content/compression.test.ts. 정확한 시그니처: `export function countBodyChars(mdxBody: string): number` 와 `export function compressionRatio(sourceWords: number | undefined, bodyChars: number): { ratio: number; bodyChars: number; sourceWords: number } | null`. countBodyChars 는 순수 함수로 frontmatter·코드펜스·$$수식$$·인라인수식·인라인코드·JSX 태그·이미지·URL 을 걷어낸 뒤 /[^\\p{L}\\p{N}]/gu 로 글자와 숫자만 센다 (JSX 는 태그만 지우고 <Callout> 안의 한글은 센다 — 독자가 읽는 문장이므로). 마크다운 기호를 하나씩 지우는 blacklist 대신 화이트리스트로 세어 새 문법에 안 뚫린다. 환산 상수 CHARS_PER_SOURCE_WORD = 2.5 (영문 1 단어 ≈ 한글 2.5 자), 하한 MIN_RATIO = 2. 비율은 (sourceWords × 2.5) / bodyChars 를 **반올림하기 전에** 2 와 비교해 자르고(1.5 를 1/2 로 내보이면 없는 편집을 주장하게 된다) 통과한 것만 Math.round 한다. sourceWords 가 undefined·0 이하이거나 bodyChars 가 0 이면 null — 호출부는 이때 비율을 그리지 않는다. (3) 콘텐츠 — source 가 있는 6편(hf-blog 3 · papers 3)에 words 를 채웠고 source 가 없는 notes 3편은 그대로 비워 뒀다. 실측 결과: hf-blog 1/5·1/8·1/9, papers 1/14·1/16·1/18, notes 는 비율 없음. lead: true 는 **papers/2026-08-05-moe-routing-pipeline** 한 편뿐이다 — 최신 글(dev 는 notes/2026-08-11-context-caching-draft, production 은 draft 제외라 hf-blog/2026-08-09-open-weight-benchmark-roundup)이 아닌 것에 붙였으므로 이후 step 에서 '자동 최신'이 아니라 '수동 지정'이 동작하는지 구분된다. 화면은 건드리지 않았다."
     },
     {
       "step": 2,

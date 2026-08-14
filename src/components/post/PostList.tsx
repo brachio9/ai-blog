@@ -49,6 +49,7 @@ export function toPost(item: PostListItem): Post {
       tags: item.tags,
       paper: item.paper,
       draft: false,
+      lead: false,
     },
     slug: item.slug,
     category: item.category,

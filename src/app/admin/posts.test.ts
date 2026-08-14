@@ -21,6 +21,7 @@ function frontmatter(
     publishedAt: "2026-08-05T09:00:00+0900",
     tags: ["tag"],
     draft: false,
+    lead: false,
     ...overrides,
   };
 }

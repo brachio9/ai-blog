@@ -9,6 +9,8 @@ export interface PostSource {
   /** "cc-by-4.0" | "unknown" 등 자유 문자열 */
   license?: string;
   publishedAt?: string;
+  /** 원문 단어 수 — 「추린 비율」의 분모. 없으면 비율을 그리지 않는다 */
+  words?: number;
 }
 
 /** category === "papers" 전용 메타 */
@@ -27,6 +29,8 @@ export interface PostFrontmatter {
   tags: string[];
   cover?: string;
   draft: boolean;
+  /** 1면 머리기사 수동 지정. 기본값은 false — 그때는 가장 최근 글이 머리기사다 */
+  lead: boolean;
   source?: PostSource;
   paper?: PaperMeta;
 }

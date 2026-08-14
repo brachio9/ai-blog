@@ -23,6 +23,7 @@ function makePost(frontmatter: Partial<PostFrontmatter> = {}): Post {
       publishedAt: "2026-07-18T09:30:00+0900",
       tags: ["LLM", "어텐션"],
       draft: false,
+      lead: false,
       paper: {
         arxivId: "2607.04512",
         authors: ["L. Amari", "R. Okonkwo", "J. Park"],

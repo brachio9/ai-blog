@@ -25,6 +25,42 @@ describe("parseFrontmatter — 정상 케이스", () => {
     expect(parsed.draft).toBe(false);
   });
 
+  it("lead 를 적지 않으면 false 로 채워진다", () => {
+    expect(parseFrontmatter(validFrontmatter(), FILE_PATH).lead).toBe(false);
+    expect(
+      parseFrontmatter(validFrontmatter({ lead: true }), FILE_PATH).lead,
+    ).toBe(true);
+  });
+
+  it("source.words 가 있으면 그대로 보존한다", () => {
+    const parsed = parseFrontmatter(
+      validFrontmatter({
+        source: {
+          url: "https://huggingface.co/blog/example",
+          title: "Example",
+          words: 1180,
+        },
+      }),
+      FILE_PATH,
+    );
+
+    expect(parsed.source?.words).toBe(1180);
+  });
+
+  it("source.words 없이도 통과한다 (선택 필드)", () => {
+    const parsed = parseFrontmatter(
+      validFrontmatter({
+        source: {
+          url: "https://huggingface.co/blog/example",
+          title: "Example",
+        },
+      }),
+      FILE_PATH,
+    );
+
+    expect(parsed.source?.words).toBeUndefined();
+  });
+
   it("papers 는 paper 메타와 함께 통과한다", () => {
     const parsed = parseFrontmatter(
       validFrontmatter({
@@ -157,6 +193,23 @@ describe("parseFrontmatter — 필수 필드와 출처", () => {
         FILE_PATH,
       ),
     ).toThrow(/source\.title/);
+  });
+
+  it("source.words 가 0·음수·소수면 거부한다", () => {
+    for (const words of [0, -1, 12.5]) {
+      expect(() =>
+        parseFrontmatter(
+          validFrontmatter({
+            source: {
+              url: "https://huggingface.co/blog/example",
+              title: "Example",
+              words,
+            },
+          }),
+          FILE_PATH,
+        ),
+      ).toThrow(/source\.words/);
+    }
   });
 
   it("frontmatter 자체가 없으면 거부한다", () => {
