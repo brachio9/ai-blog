@@ -13,57 +13,55 @@ function currentYearKst(): string {
 }
 
 /**
- * 헤더가 놓친 길을 여기서 낸다 — 카테고리는 헤더가 이미 갖고 있으므로 다시 늘어놓지 않는다.
- * 이름만으로는 무엇인지 모를 곳이라 한 줄 설명을 붙인다 (헤더의 맨 링크 나열과 다른 형태다).
+ * 푸터는 링크 창고가 아니라 되찾기 장치다 — 기록용 독자가 가장 자주 쓰는 곳이다.
+ * 카테고리는 헤더가 이미 갖고 있으므로 다시 늘어놓지 않는다.
  */
 const DESTINATIONS = [
-  { href: "/tags", label: "태그 색인", hint: "주제로 훑기" },
-  { href: "/archive", label: "아카이브", hint: "연·월별 발행 이력" },
-  { href: "/about", label: "소개", hint: "무엇을 어떻게 추리는지" },
+  { href: "/tags", label: "태그 색인" },
+  { href: "/archive", label: "아카이브" },
+  { href: "/about", label: "소개" },
 ];
 
 const LINK =
-  "text-[0.9375rem] text-heading underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus";
+  "voice-ui text-heading underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-16 border-t border-border">
+    <footer className="mt-[var(--space-8)]">
       <Container>
-        <div className="flex flex-col gap-8 py-10 md:flex-row md:justify-between md:gap-16">
-          <div className="max-w-[46ch]">
-            <p className="text-sm font-semibold text-heading">{SITE_NAME}</p>
-            <p className="mt-2 text-sm leading-[1.7] text-muted">
+        {/* 지면을 닫는 괘선 쌍. 머리에서 한 번, 여기서 한 번 — 그 이상은 쓰지 않는다. */}
+        <div className="rule-pair" />
+
+        <div className="grid gap-[var(--space-5)] pb-[var(--space-7)] md:grid-cols-[1fr_auto] md:gap-[var(--space-6)]">
+          <div>
+            <p className="text-[length:var(--text-h4)] font-semibold text-heading">
+              {SITE_NAME}
+            </p>
+            <p className="mt-[var(--space-1)] max-w-[52ch] text-[length:var(--text-small)] text-muted">
               요약·인용한 글에는 원문 출처를 반드시 함께 적습니다.
+            </p>
+            {/* 두 목소리 — 연도는 mono, 이름은 한글 서체. mono 자리에 한글을 섞지 않는다. */}
+            <p className="mt-[var(--space-3)] flex items-baseline gap-[var(--space-2)]">
+              <span className="voice-source">© {currentYearKst()}</span>
+              <span className="voice-ui text-muted">{SITE_NAME}</span>
             </p>
           </div>
 
-          <nav aria-label="둘러보기" className="md:min-w-[18rem]">
-            <ul>
-              {DESTINATIONS.map(({ href, label, hint }) => (
-                <li
-                  key={href}
-                  className="flex items-baseline justify-between gap-4 border-b border-border py-2"
-                >
-                  <Link href={href} className={LINK}>
-                    {label}
-                  </Link>
-                  <span className="shrink-0 text-xs text-muted">{hint}</span>
-                </li>
-              ))}
-              <li className="flex items-baseline justify-between gap-4 border-b border-border py-2">
-                {/* 라우트가 아니라 파일이라 Link 를 쓰지 않는다. */}
-                <a href="/rss.xml" className={LINK}>
-                  RSS
-                </a>
-                <span className="shrink-0 text-xs text-muted">구독</span>
-              </li>
-            </ul>
+          <nav
+            aria-label="둘러보기"
+            className="grid justify-items-start gap-[var(--space-1)] md:justify-items-end"
+          >
+            {DESTINATIONS.map(({ href, label }) => (
+              <Link key={href} href={href} className={LINK}>
+                {label}
+              </Link>
+            ))}
+            {/* 라우트가 아니라 파일이라 Link 를 쓰지 않는다. */}
+            <a href="/rss.xml" className={LINK}>
+              RSS
+            </a>
           </nav>
         </div>
-
-        <p className="border-t border-border py-4 text-xs text-muted tabular-nums">
-          © {currentYearKst()} {SITE_NAME}
-        </p>
       </Container>
     </footer>
   );

@@ -11,7 +11,7 @@ import {
 } from "@/lib/categories";
 import { getAllPosts, getPostsByCategory } from "@/lib/content/posts";
 import { formatDateShort } from "@/lib/format";
-import { SITE_NAME } from "@/lib/site";
+import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 import { countByCategory } from "@/lib/stats";
 import type { Post } from "@/types/content";
 
@@ -34,6 +34,8 @@ function postId(post: Post): string {
 export default function Home() {
   const allPosts = getAllPosts();
   const latest = allPosts.slice(0, LATEST_COUNT);
+  // 목록이 최신순이라 첫 항목이 곧 이 지면의 최근 발행일이다.
+  const newest = allPosts.at(0);
   const paperCategory = getCategory(PAPER_SLUG);
   const paperPosts = paperCategory
     ? getPostsByCategory(paperCategory.slug).slice(0, PAPER_COUNT)
@@ -65,27 +67,35 @@ export default function Home() {
       {/* 최근 글 표와 순위가 배치 호출 하나를 나눠 쓴다 — 행마다 부르지 않는다. */}
       <ViewCounts ids={shownPosts.map((post) => post.postId)}>
         <div className="pb-16">
-          {/* 마스트헤드 — 좌측 정렬. 화면 높이의 1/4 을 넘기지 않아야 첫 글이 접힘선 위에 온다. */}
-          <header className="border-b border-border py-8 md:py-10">
-            <h1 className="text-3xl font-semibold tracking-tight text-heading md:text-4xl">
-              {SITE_NAME}
-            </h1>
-            <p className="mt-3 max-w-[58ch] text-[0.9375rem] leading-[1.7] text-body">
-              HuggingFace 블로그와 arXiv 논문을 읽고 한글로 추려 적습니다. 논문
-              맨 앞의 초록(抄錄)이 그렇듯 전문 번역이 아니라 요점만 남긴
-              요약이고, 원문 링크는 모든 글에 답니다.
-            </p>
+          {/* 제호 — 좌측 정렬. 히어로가 아니므로 화면을 차지하지 않고, 곧바로 목록이 온다.
+              이름과 설명은 src/lib/site.ts 가 유일한 출처다. */}
+          <header className="masthead border-b border-border">
+            <h1 className="masthead-title text-heading">{SITE_NAME}</h1>
+            <p className="masthead-line">{SITE_DESCRIPTION}</p>
+
+            {/* 발행 정보 — 수치는 mono, 한글은 산세리프. 두 목소리를 섞지 않는다. */}
+            <div className="masthead-meta">
+              <span className="voice-ui text-muted">
+                전체 <span className="voice-source">{allPosts.length}</span>편
+              </span>
+              {newest ? (
+                <span className="voice-ui text-muted">
+                  최근 발행{" "}
+                  <span className="voice-source">
+                    {formatDateShort(newest.frontmatter.publishedAt)}
+                  </span>
+                </span>
+              ) : null}
+            </div>
           </header>
 
-          {/* 1) 최신 — 카테고리를 섞은 한 표. 첫 화면이 이 표에서 시작한다. */}
+          {/* 1) 최신 — 카테고리를 섞은 한 표. 첫 화면이 이 표에서 시작한다.
+              전체 편수는 제호가 이미 알렸으므로 여기서 다시 세지 않는다. */}
           <section className="pt-6">
             <div className="flex items-baseline justify-between gap-4 pb-2">
               <h2 className="text-sm font-semibold tracking-wide text-muted uppercase">
                 최근 글
               </h2>
-              <p className="font-mono text-xs text-muted tabular-nums">
-                전체 {allPosts.length}편
-              </p>
             </div>
             <PostTable
               posts={latest}

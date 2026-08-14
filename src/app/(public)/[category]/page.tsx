@@ -4,10 +4,27 @@ import { Suspense } from "react";
 
 import { Container } from "@/components/layout/Container";
 import { PostList, type PostListItem } from "@/components/post/PostList";
-import { CATEGORIES, categoryHref, getCategory } from "@/lib/categories";
+import {
+  CATEGORIES,
+  categoryHref,
+  getCategory,
+  type CategoryAccent,
+} from "@/lib/categories";
 import { getPostsByCategory } from "@/lib/content/posts";
 import { formatDateShort } from "@/lib/format";
+import { SITE_NAME } from "@/lib/site";
 import type { Post } from "@/types/content";
+
+/**
+ * 제호 위의 카테고리 라벨은 13.5px 라 안료의 기본 단계(낮 600)로는 본문 대비 4.5:1 에 닿지 않는다.
+ * 낮에는 한 단계 깊은 700, 밤에는 300 을 쓴다 (docs/UI_GUIDE.md 접근성).
+ * 목록 안의 안료(components/post 의 ACCENT_TEXT)는 아직 600 이다 — 목록을 다루는 step 이 함께 정한다.
+ */
+const KICKER_ACCENT: Record<CategoryAccent, string> = {
+  hf: "text-[var(--color-accent-2-700)] dark:text-[var(--color-accent-2-300)]",
+  paper: "text-[var(--color-accent-700)] dark:text-[var(--color-accent-300)]",
+  note: "text-[var(--color-accent-3-700)] dark:text-[var(--color-accent-3-300)]",
+};
 
 /** 카테고리 3종을 빌드 타임에 정적 생성한다. */
 export function generateStaticParams() {
@@ -64,28 +81,37 @@ export default async function CategoryPage(props: PageProps<"/[category]">) {
 
   return (
     <Container>
-      <div className="space-y-8 py-12 md:py-16">
-        <header className="border-b border-border pb-4">
-          <h1 className="text-3xl font-semibold tracking-tight text-heading md:text-4xl">
+      {/* 위쪽 여백은 .masthead 가 이미 갖고 있다 — 여기서 또 주면 제호가 지면 한가운데로 내려간다. */}
+      <div className="space-y-8 pb-12 md:pb-16">
+        {/* 제호 — 홈과 달리 사이트 이름은 작아지고 카테고리 이름이 커진다.
+            디자인 정본(design/components/masthead.html)은 34px 를 쓰지만 척도에 없는 값이라
+            한 눈금 위의 --text-h1(40px)로 받는다. 46px 인 홈 제호보다는 여전히 작다.
+            globals.css 의 .masthead-title 은 레이어 밖이라 Tailwind 유틸리티로는 못 덮는다 —
+            디자인 정본이 이 자리에 인라인 style 을 쓰는 이유가 그것이다. */}
+        <header className="masthead border-b border-border">
+          <p className={`voice-ui ${KICKER_ACCENT[found.accent]}`}>
+            {SITE_NAME} · {found.name}
+          </p>
+          <h1
+            className="masthead-title mt-[var(--space-1)] text-heading"
+            style={{ fontSize: "var(--text-h1)" }}
+          >
             {found.name}
           </h1>
-          <p className="mt-2 max-w-[68ch] text-[1.0625rem] leading-[1.75] text-muted">
-            {found.description}
-          </p>
+          <p className="masthead-line">{found.description}</p>
 
           {/* 이 카테고리에 무엇이 얼마나 쌓였는지 — 문장이 아니라 수치로 알린다. */}
-          <p className="mt-3 flex flex-wrap items-baseline gap-x-3 font-mono text-xs text-muted tabular-nums">
-            <span>{items.length}편</span>
+          <div className="masthead-meta">
+            <span className="voice-ui text-muted">
+              <span className="voice-source">{items.length}</span>편
+            </span>
             {oldest && newest ? (
-              <>
-                <span aria-hidden="true">·</span>
-                <span>
-                  {formatDateShort(oldest.publishedAt)} ~{" "}
-                  {formatDateShort(newest.publishedAt)}
-                </span>
-              </>
+              <span className="voice-source">
+                {formatDateShort(oldest.publishedAt)} –{" "}
+                {formatDateShort(newest.publishedAt)}
+              </span>
             ) : null}
-          </p>
+          </div>
         </header>
 
         {/* 쿼리 파라미터를 읽는 클라이언트 목록은 Suspense 없이는 정적 생성이 실패한다. */}

@@ -309,6 +309,41 @@ body {
 }
 
 /* ------------------------------------------------------------------
+   신문 재료 (design/styles.css 의 "신문 재료" 절 + .page)
+
+   정의를 바꾸지 않고 그대로 옮겼다 — 줄바꿈까지 정본을 따라야 두 파일을 나란히
+   놓고 diff 할 수 있다. 값이 갈리면 design/styles.css 가 이긴다.
+   ------------------------------------------------------------------ */
+
+/* 지면 컨테이너 */
+.page { max-width: 1080px; margin: 0 auto; padding: var(--space-6) var(--space-5); }
+
+/* 굵은선/얇은선 쌍 — 1면 머리 장식. 이 시스템이 쓰는 유일한 장식이고, 아껴 쓸수록 세다.
+   한 화면에 한 번이 원칙이고, 머리(SiteHeader)와 끝(SiteFooter) 두 번이 상한이다. */
+.rule-pair { border-top: 3px solid currentColor; margin: 0 0 var(--space-3); }
+.rule-pair::after {
+  content: '';
+  display: block;
+  border-top: var(--rule-hair) solid currentColor;
+  margin-top: 2px;
+}
+
+/* 제호 — 지면 왼쪽 위. 가운데 정렬하지 않는다. */
+.masthead { padding: var(--space-6) 0 var(--space-4); }
+.masthead-title { font-size: 46px; font-weight: 700; letter-spacing: -0.035em; line-height: 1; }
+.masthead-line { margin-top: var(--space-3); max-width: 52ch; color: var(--color-muted); font-size: var(--text-small); }
+.masthead-meta { margin-top: var(--space-3); display: flex; gap: var(--space-4); flex-wrap: wrap; }
+
+/* 데이트라인 — 날짜·출처·식별자가 기사 앞머리에 한 덩이로 */
+.dateline { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: baseline; }
+
+/* 표제 / 부제 / 리드 — 세 단계로 들어간다. 리드까지 읽으면 본문을 안 읽어도 안다.
+   쓰는 곳은 목록(step 3)과 기사면(step 5)이다. */
+.headline { font-family: var(--font-heading); font-weight: var(--font-heading-weight); line-height: 1.15; letter-spacing: -0.03em; }
+.deck { font-size: var(--text-h4); color: var(--color-muted); line-height: var(--leading-tight); max-width: 46ch; }
+.lede { max-width: 54ch; }
+
+/* ------------------------------------------------------------------
    코드 하이라이팅 — rehype-pretty-code 이중 테마
    색은 인라인이 아니라 --shiki-light / --shiki-dark 변수로 심긴다.
    어느 쪽을 쓸지는 여기서만 정한다.

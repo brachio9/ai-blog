@@ -52,7 +52,21 @@
     {
       "step": 2,
       "name": "masthead-and-nav",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-14T12:09:42+0900",
+      "events": [
+        {
+          "at": "2026-08-14T12:09:42+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-14T12:24:07+0900",
+          "status": "completed",
+          "attempt": 1
+        }
+      ],
+      "completed_at": "2026-08-14T12:24:07+0900",
+      "summary": "지면의 머리와 끝을 신문 지면으로 바꿨다. (1) globals.css — design/styles.css 의 신문 재료를 정의·줄바꿈 그대로 옮겼다: .page(1080px·space-6/5 패딩) · .rule-pair + ::after(border-top 3px currentColor + --rule-hair 얇은선, margin 0 0 space-3) · .masthead(space-6 0 space-4) · .masthead-title(46px/700/-0.035em) · .masthead-line(52ch·muted·text-small) · .masthead-meta(flex gap space-4) · .dateline · .headline · .deck · .lede. 이 중 .dateline·.headline·.deck·.lede·.page 는 아직 호출부가 없다 — 목록(step 3)·1면(step 4)·기사면(step 5) 이 쓴다. 주의: 이 블록은 unlayered 라 Tailwind 유틸리티(@layer utilities)로 덮이지 않는다 — .rule-pair 의 margin 이나 .masthead-title 의 font-size 를 바꾸려면 인라인 style 을 써야 한다(카테고리 제호가 그렇게 한다). (2) SiteHeader — Container 안에 한 줄(flex, wrap 없음): 제호 Link(SITE_NAME, --text-h4/700) · nav[aria-label=카테고리] 3개 · nav[aria-label=찾아보기] 색인(/tags)·아카이브(/archive) · ml-auto 로 검색+ThemeToggle(self-center). 그 아래 .rule-pair 하나. 현재 위치는 밑줄이 아니라 안료 — accent-700(낮)/accent-300(밤) + font-medium + aria-current. 600 은 13.5px 에서 대비 4.14:1 이라 쓰지 않았다. 모바일 한 줄 유지법: 카테고리는 sm 미만에서 shortName(소식/논문/메모), 찾아보기 nav 는 sm 미만에서 hidden(푸터가 받는다). 표기가 둘이라 링크에 aria-label={category.name} 을 달아 접근가능한 이름과 기존 테스트를 지켰다. (3) SiteFooter — .rule-pair 로 열고 md:grid-cols-[1fr_auto]: 왼쪽 제호+원칙 한 줄+저작권(© 연도는 mono .voice-source, 이름은 .voice-ui — mono 자리에 한글을 섞지 않는다), 오른쪽 태그 색인·아카이브·소개·RSS(md 에서 우측 정렬). 기존의 hint 열과 행 구분선은 디자인 정본을 따라 뺐다. (4) 홈 마스트헤드 — 하드코딩 문단을 SITE_DESCRIPTION 으로 교체, .masthead/.masthead-title/.masthead-line/.masthead-meta 적용. meta 는 '전체 N편'·'최근 발행 YYYY.MM.DD' 이며 수치만 .voice-source 로 감쌌다. 제호가 전체 편수를 알리므로 '최근 글' 절 머리의 중복 '전체 N편'을 뺐다(그 외 목록은 손대지 않았다). (5) 카테고리 마스트헤드 — kicker '초록 · 최신 논문'(안료 700/300, 파일 안 KICKER_ACCENT 맵 — 목록의 ACCENT_TEXT 는 아직 600 이라 step 3 이 함께 정할 것) + 제호는 --text-h1(40px, 정본의 34px 는 척도 밖이라 한 눈금 위로) + 설명 + 'N편'·기간. 바깥 래퍼의 py-12/md:py-16 을 pb 로 바꿨다 — .masthead 가 위 여백을 이미 갖고 있어 제호가 120px 내려가 있었다. 괘선 쌍은 화면당 정확히 2개(머리·푸터)다. 실측(headless Chromium, next start): 320/360/768/1280 전부 가로 오버플로 0 · 헤더 한 줄(높이 80px) · 홈 첫 목록 행 top 377px(360px 폭) · 홈 제호 46px vs 카테고리 40px · 카테고리 kicker 낮 oklch(0.42 0.087 140)/밤 oklch(0.78 0.068 140)."
     },
     {
       "step": 3,
