@@ -20,6 +20,7 @@ import {
 } from "@/lib/categories";
 import { compressionRatio, countBodyChars } from "@/lib/content/compression";
 import { getAllPosts, getPost, getPostsByCategory } from "@/lib/content/posts";
+import { getFormat } from "@/lib/formats";
 import { getGiscusConfig } from "@/lib/giscus";
 import { renderMdx } from "@/lib/mdx";
 import { extractHeadings } from "@/lib/toc";
@@ -82,13 +83,24 @@ function sourceDomain(url: string): string {
  */
 function PostAside({ post, category }: { post: Post; category: Category }) {
   const { tags, source } = post.frontmatter;
+  // 포맷은 선택이다 — 없는 글에는 이 줄을 만들지 않는다. 라우트도 없어 링크로 걸지 않는다.
+  const format = getFormat(post.frontmatter.format ?? "");
 
-  if (tags.length === 0 && !source) {
+  if (!format && tags.length === 0 && !source) {
     return null;
   }
 
   return (
     <dl className="space-y-4 border-t border-border pt-5">
+      {format ? (
+        <div>
+          <dt className="kicker">포맷</dt>
+          <dd className="voice-ui mt-[var(--space-1)] text-heading">
+            {format.name}
+          </dd>
+        </div>
+      ) : null}
+
       {tags.length > 0 ? (
         <div>
           <dt className="kicker">태그</dt>

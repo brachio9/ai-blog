@@ -2,15 +2,16 @@ import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
 import { PostBrief } from "@/components/post/PostBrief";
-import { PostLead } from "@/components/post/PostLead";
+import { PostLead, splitSummary } from "@/components/post/PostLead";
 import { ACCENT_TEXT } from "@/components/post/PostTable";
 import { PopularPosts, ViewCounts } from "@/components/post/ViewCounts";
+import { AXES, axisHref, axisNumber } from "@/lib/axes";
 import { CATEGORIES, categoryHref } from "@/lib/categories";
 import { getAllPosts, getPostsByCategory } from "@/lib/content/posts";
 import { formatDateShort } from "@/lib/format";
 import { pickLead } from "@/lib/frontpage";
 import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
-import { countByCategory } from "@/lib/stats";
+import { countByAxis, countByCategory } from "@/lib/stats";
 import type { Post } from "@/types/content";
 
 /**
@@ -53,6 +54,18 @@ export default function Home() {
   const counts = new Map(
     countByCategory().map(({ slug, count }) => [slug, count]),
   );
+
+  // 여섯 갈래 안내판. 편수 0인 축도 자리를 지킨다 — 빈 축은 감출 것이 아니라
+  // 무엇을 더 실어야 하는지 알리는 정보다 (/topics 와 같은 규약).
+  // 축의 약속은 첫 문장이면 충분하다. 전문은 /topics 가 싣는다.
+  const axisCounts = new Map(
+    countByAxis().map(({ slug, count }) => [slug, count]),
+  );
+  const axes = AXES.map((axis) => ({
+    axis,
+    count: axisCounts.get(axis.slug) ?? 0,
+    blurb: splitSummary(axis.description).deck,
+  }));
 
   // 홈에 실린 글 — 구역이 겹치므로 id 로 한 번 접는다. 조회수 조회와 순위가 같은 목록을 쓴다.
   const shown = new Map<string, string>();
@@ -170,7 +183,56 @@ export default function Home() {
             ))}
           </section>
 
-          {/* 4) 많이 읽힌 글 — 런타임 값이라 조회수를 받은 뒤에야 나타난다.
+          {/* 4) 여섯 갈래 — 목록이 아니라 이 매체의 지도다. 그래서 글 제목을 싣지 않는다:
+              단신 아래에서 제목이 다시 커지면 급이 거꾸로 서서 1면이 무너진다.
+              바로 위 카테고리 구역과 그리드를 달리 잡는다 — 하는 일이 다른 두 구역이
+              같아 보이면 안 된다 (안내판 vs 목록).
+              축의 부호는 번호(mono)다. 안료 3색은 카테고리 전용이라 여기는 무채로 둔다. */}
+          <section aria-labelledby="axes-heading" className="pt-14">
+            <div className="flex items-baseline justify-between gap-4 border-b border-border pb-2">
+              <h2 id="axes-heading" className="kicker">
+                여섯 갈래
+              </h2>
+              <Link href="/topics" className={NAV_LINK}>
+                주제 색인
+              </Link>
+            </div>
+
+            {/* 항목이 grid 라 목록 의미가 떨어질 수 있어 role 로 되돌린다. */}
+            <ul
+              role="list"
+              className="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {axes.map(({ axis, count, blurb }) => (
+                <li key={axis.slug} className="border-b border-border">
+                  <Link
+                    href={axisHref(axis)}
+                    className="flex items-baseline gap-3 py-3 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus"
+                  >
+                    <span className="voice-source shrink-0">
+                      {axisNumber(axis)}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="flex items-baseline gap-2">
+                        <span className="text-[length:var(--text-h5)] leading-[var(--leading-tight)] text-heading">
+                          {axis.name}
+                        </span>
+                        {/* 수치는 mono, 단위는 한글 서체 — mono 자리에 한글을 섞지 않는다. */}
+                        <span className="voice-ui text-muted">
+                          <span className="voice-source">{count}</span>편
+                        </span>
+                      </span>
+                      <span className="mt-[var(--space-1)] block text-[length:var(--text-small)] leading-[var(--leading-tight)] text-muted">
+                        {blurb}
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* 5) 많이 읽힌 글 — 런타임 값이라 조회수를 받은 뒤에야 나타난다.
               페이지 맨 아래에 두어 나중에 붙어도 위의 글 목록이 밀리지 않는다.
               받지 못하면 이 구역은 아예 그려지지 않는다. */}
           <PopularPosts posts={shownPosts} />

@@ -19,6 +19,9 @@ const INDEXES = [
   { href: "/archive", label: "아카이브" },
 ];
 
+/** 주제 색인. 카테고리와 나란히 서지만 답하는 질문이 달라 내비를 따로 세운다. */
+const TOPICS = "/topics";
+
 /**
  * 현재 위치는 밑줄이 아니라 안료로 가리킨다 — 링크의 밑줄과 겹치면 구분이 안 된다.
  * 낮 바탕에서 --color-accent(600)는 작은 글자 대비가 4.5:1 에 못 미치므로
@@ -52,6 +55,22 @@ export function SiteHeader() {
           >
             {SITE_NAME}
           </Link>
+
+          {/* 주제는 카테고리보다 앞이다 — 무엇을 다루는가(매체의 약속)가 원문이 어디서 왔는가보다 앞선다.
+              가는 세로 괘선 하나로 갈래 묶음과 가른다: 같은 간격으로 늘어놓으면
+              「주제」가 네 번째 카테고리처럼 읽힌다. */}
+          <nav
+            aria-label="주제"
+            className="border-r border-border pr-[var(--space-3)]"
+          >
+            <Link
+              href={TOPICS}
+              aria-current={isCurrent(TOPICS) ? "page" : undefined}
+              className={`${NAV_LINK} ${isCurrent(TOPICS) ? CURRENT : RESTING}`}
+            >
+              주제
+            </Link>
+          </nav>
 
           <nav
             aria-label="카테고리"

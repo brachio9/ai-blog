@@ -77,7 +77,22 @@
     {
       "step": 3,
       "name": "nav-and-frontpage",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-08-14T15:15:31+0900",
+      "completed_at": "2026-08-14T15:29:00+0900",
+      "summary": "축을 화면에 세웠다. 라우트·집계 함수는 step 2 것을 그대로 쓰고 새로 만든 lib 은 없다. [헤더 nav 구조] `SiteHeader.tsx` 에 **별도 nav** `aria-label=\"주제\"` 를 제호와 `nav[aria-label=\"카테고리\"]` **사이**에 넣었다 — 매체의 약속(무엇을 다루는가)이 출처(원문이 어디서 왔는가)보다 앞선다. 링크는 `/topics` 하나(`const TOPICS = \"/topics\"`), 활성 표시는 기존 `isCurrent`·`CURRENT`/`RESTING`·`NAV_LINK` 를 그대로 재사용해 `/topics/{axis}` 에서도 켜진다. 카테고리 nav 는 **한 글자도 건드리지 않았고** `SiteHeader.test.tsx` 는 무수정으로 통과한다(git diff 0줄). 「주제」가 네 번째 카테고리처럼 읽히지 않도록 주제 nav 에만 `border-r border-border pr-[var(--space-3)]` 로 가는 세로 괘선 하나를 뒀다(rule-pair 아님 — 화면당 rule-pair 는 여전히 머리 1·푸터 1). `flex-wrap` 은 켜지 않았다. 최종 순서: 초록 │ 주제 │ 릴리즈·발표 논문 관측·기록 │ 색인 아카이브 │ 검색 테마. [홈 구역 순서] 머리기사(`PostLead` 1개) → 단신(`brief-set`) → 카테고리 3열(`md:grid-cols-3`, 무수정) → **여섯 갈래**(신규) → 많이 읽힌 글. 새 구역은 `<section aria-labelledby=\"axes-heading\">` + `.kicker` 머리글 '여섯 갈래' + 우측 '주제 색인'(→/topics), 목록은 `grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3` (카테고리 구역의 md:grid-cols-3 을 재사용하지 않는다 — 안내판과 목록은 달라 보여야 한다). 항목은 `번호(voice-source 01~06) · 축 이름(--text-h5) · 편수(voice-source + 한글 '편'은 voice-ui) · 설명 첫 문장`뿐이고 **글 제목을 싣지 않는다** — 단신 아래에서 제목이 커지면 급이 거꾸로 선다. 설명은 `splitSummary(axis.description).deck` 로 첫 문장만(전문은 /topics 가 싣는다) — 문장 길이가 달라 칸 높이가 저절로 갈린다. 0편 축(voice·domain·vibe-coding)도 '0편'으로 싣는다. 급: 축 구역의 최대 글자 15px = 바로 위 카테고리 구역 제목과 같고 그보다 크지 않다. [데이트라인의 축 표기] `PostHeader.tsx` 의 `.dateline` 에서 카테고리 라벨 **바로 뒤**에 `voice-ui text-muted` 링크로 축 **이름만** 넣었다(`/topics/{axis}`, 번호 없음 — 자리가 좁다). 축은 무채: `cat-label`·`--cat` 을 쓰지 않는다. 실제 렌더 `논문 · 서빙·학습 · 2026.08.05 · arXiv:2608.01337 · 읽기 2분 · 조회 · 추림 14:1`. format 은 데이트라인이 아니라 **곁줄**(글 상세 우측 레일 `PostAside`)에 `<dt class=\"kicker\">포맷</dt>` 한 줄로 — 목차·태그·출처와 같은 규약이고, format 이 없는 글에는 아무것도 그리지 않는다(레일 전체가 비면 기존대로 null). [목록 항목] `PostTable`·`PostBrief`·`PostIndexRow` 무수정 — 축을 싣지 않는다. [/tags] 색인 머리에 안내 한 줄: '태그는 모델·툴·기법 같은 고유명사에만 답니다. 무엇에 대한 글인지는 주제(→/topics) 여섯 갈래가 맡습니다.' [테스트] PostHeader.test.tsx 2건 추가(축을 이름으로 데이트라인에 적는가 / 축에 안료를 주지 않는가) — 418 tests pass (416→418). 프리렌더 39경로 유지.",
+      "notes": "AC 스크립트 2건은 무수정 HEAD 에서도 실패하는 오탐이라 검사식을 고쳐 통과를 확인했다. (1) `/flex-wrap/` 검사: SiteHeader.tsx 46행의 **기존 주석** 'flex-wrap 을 켜지 않는다' 에 걸린다(HEAD 에서도 동일). JSX 주석을 걷어낸 뒤 다시 검사해 className 에는 flex-wrap 이 없음을 확인했다. (2) 프리렌더 HTML 검사: Next 16 산출물은 `page.html` 이 아니라 `.next/server/app/<route>.html` 이라 walk 가 0개를 집는다. `.next/server/app/index.html` 을 직접 읽어 `entry-lead` 와 '여섯 갈래'를 확인했다. 헤더 한 줄은 추정이 아니라 실측했다 — 캐시된 크롬을 CDP 로 직접 몰아 320·375·414·768·1200px 에서 잰 결과 모든 폭에서 링크 높이 20~31px 단일 행, `scrollWidth === clientWidth`(가로 넘침 없음), 320px 에서도 아이콘 묶음 오른쪽 끝 274px < 296px 로 22px 여유. 화면도 같은 방식으로 찍어 확인했다(여섯 갈래 3열/1열, 데이트라인의 축, 곁줄의 '포맷 · 기술 해설'). 축 편수(프로덕션 기준) retrieval 2 · serving 6 · voice 0 · agent 1 · domain 0 · vibe-coding 0 — dev 서버 기준이라 초안 1편이 serving 에 더 잡힌다(빌드는 8편). `src/lib/*` 에 새 함수를 만들지 않았다 — 이 step 은 화면 배선만이다.",
+      "events": [
+        {
+          "at": "2026-08-14T15:15:31+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-14T15:29:00+0900",
+          "status": "completed",
+          "attempt": 1
+        }
+      ]
     },
     {
       "step": 4,

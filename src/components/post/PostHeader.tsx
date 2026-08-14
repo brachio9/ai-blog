@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { type RatioInfo, splitSummary } from "@/components/post/PostLead";
+import { axisHref, getAxis } from "@/lib/axes";
 import { CAT_CLASS, categoryHref, type Category } from "@/lib/categories";
 import { compressionRatio, countBodyChars } from "@/lib/content/compression";
 import { formatDateShort } from "@/lib/format";
@@ -35,6 +36,7 @@ export function PostHeader({ post, category, views, ratio }: PostHeaderProps) {
   const { frontmatter } = post;
   const { paper } = frontmatter;
   const { deck, lede } = splitSummary(frontmatter.summary);
+  const axis = getAxis(frontmatter.axis);
 
   // 비율 계산은 compression.ts 에만 있다. 넘겨받은 값이 있으면 그것이 이긴다 (null 도 값이다).
   const compression =
@@ -55,6 +57,18 @@ export function PostHeader({ post, category, views, ratio }: PostHeaderProps) {
         >
           {category.name}
         </Link>
+
+        {/* 주제 축 — 이 글이 무엇에 대한 글인가. 카테고리(원문이 어디서 왔는가) 바로 뒤에 선다.
+            축은 무채다: 안료 3색은 카테고리 전용이고 축의 부호는 번호인데,
+            데이트라인은 자리가 좁아 번호까지 넣지 않는다 — 이름만 적고 번호는 /topics 가 맡는다. */}
+        {axis ? (
+          <Link
+            href={axisHref(axis)}
+            className="voice-ui text-muted underline-offset-[0.3em] transition-colors hover:text-heading hover:underline focus-visible:outline-2 focus-visible:outline-focus"
+          >
+            {axis.name}
+          </Link>
+        ) : null}
 
         <time dateTime={frontmatter.publishedAt} className="voice-source">
           {formatDateShort(frontmatter.publishedAt)}

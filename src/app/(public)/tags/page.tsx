@@ -55,6 +55,17 @@ export default function TagsPage() {
             많이 쓰인 태그가 위에 옵니다. 하나를 고르면 카테고리를 가로질러 그
             태그가 붙은 글이 아래에 모입니다.
           </p>
+          {/* 태그의 역할은 좁다 — 무엇에 대한 글인지는 주제 축이 맡는다. */}
+          <p className="mt-3 max-w-[68ch] text-[length:var(--text-small)] leading-[var(--leading-tight)] text-muted">
+            태그는 모델·툴·기법 같은 고유명사에만 답니다. 무엇에 대한 글인지는{" "}
+            <Link
+              href="/topics"
+              className="text-heading underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus"
+            >
+              주제
+            </Link>{" "}
+            여섯 갈래가 맡습니다.
+          </p>
           <p className="mt-3 font-mono text-xs text-muted tabular-nums">
             태그 {tags.length}개 · 글 {posts.length}편
           </p>

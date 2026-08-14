@@ -74,6 +74,26 @@ describe("PostHeader", () => {
     expect(container.querySelector("header")?.className).toContain("cat-papers");
   });
 
+  it("주제 축을 데이트라인에 이름으로 적는다 — 번호는 넣지 않는다", () => {
+    const { container } = render(
+      <PostHeader post={makePost()} category={categoryOf("papers")} />,
+    );
+
+    const link = screen.getByRole("link", { name: "서빙·학습" });
+    expect(link.getAttribute("href")).toBe("/topics/serving");
+    expect(container.querySelector(".dateline")?.contains(link)).toBe(true);
+    // 데이트라인은 자리가 좁다 — 번호(02)는 /topics 와 축 페이지가 맡는다.
+    expect(link.textContent).toBe("서빙·학습");
+  });
+
+  it("축에는 안료를 주지 않는다 — 색을 쓰는 분류 축은 카테고리 하나뿐이다", () => {
+    render(<PostHeader post={makePost()} category={categoryOf("papers")} />);
+
+    const link = screen.getByRole("link", { name: "서빙·학습" });
+    expect(link.className).not.toContain("cat-label");
+    expect(link.className).toContain("text-muted");
+  });
+
   it("표제는 h1 이고 1면의 머리기사와 달리 척도 안(--text-h1)에 선다", () => {
     render(<PostHeader post={makePost()} category={categoryOf("papers")} />);
 
