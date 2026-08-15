@@ -170,10 +170,16 @@
   /* 포커스 링은 사이트 이름의 색(草綠)이 "지금 여기"를 가리킨다. */
   --focus: var(--color-accent);
 
-  /* 카테고리 (정보 부호) — src/lib/categories.ts 의 accent 키와 짝이다. */
-  --cat-paper: var(--color-accent); /* 최신 논문 — 草綠 */
-  --cat-hf: var(--color-accent-2); /* 허깅페이스 소식 — 朱土 */
-  --cat-note: var(--color-accent-3); /* 수집 자료 — 藍 */
+  /* 카테고리 (정보 부호) — src/lib/categories.ts 의 accent 키와 짝이다.
+     안료 3색 + 먹 2단계. 네 번째·다섯 번째 안료를 만들지 않은 것은 타협이 아니라 부호다 —
+     community 는 원문이 여럿이라 하나를 가리킬 수 없고, notes 는 옮길 원문이 아예 없다.
+     색을 안 쓰는 것이 그 사실을 말한다 (docs/UI_GUIDE.md).
+     낮 바탕(--color-neutral-100) 대비: 먹 600 은 5.02:1, 먹 800 은 12.44:1 로 본문 4.5:1 을 넘는다. */
+  --cat-paper: var(--color-accent); /* 논문 — 草綠 */
+  --cat-release: var(--color-accent-2); /* 릴리즈 — 朱土 */
+  --cat-news: var(--color-accent-3); /* 소식 — 藍 */
+  --cat-community: var(--color-neutral-600); /* 커뮤니티 — 먹 中 */
+  --cat-note: var(--color-neutral-800); /* 기록 — 먹 濃 */
 
   --sans: var(--font-ui);
   --serif: var(--font-body);
@@ -207,6 +213,14 @@
      --faint 는 --color-muted 보다 어두워야 하는데 밤에는 척도가 뒤집힌다. */
   --faint: var(--color-neutral-600);
 
+  /* 카테고리의 먹 2칸은 안료와 달리 자동으로 뒤집히지 않는다 —
+     --color-accent* 는 위에서 600→300 으로 갈리지만 --color-neutral-* 는 낮밤이 같은 척도다.
+     밤 바탕(oklch 0.175) 대비로 재면 600 은 3.44:1, 800 은 1.39:1 로 본문 기준(4.5:1) 미달이고
+     특히 800 은 바탕에 그대로 묻힌다. 그래서 밝은 쪽으로 뒤집는다: 400 은 8.22:1, 200 은 15.81:1.
+     낮의 명도 순서(中 < 濃)는 밤에서도 유지된다 — 기록이 커뮤니티보다 늘 진하게 보인다. */
+  --cat-community: var(--color-neutral-400); /* 커뮤니티 — 먹 中 (밤) */
+  --cat-note: var(--color-neutral-200); /* 기록 — 먹 濃 (밤) */
+
   --chart-1: var(--color-accent-300);
   --chart-2: var(--color-accent-2-300);
   --chart-3: var(--color-accent-3-300);
@@ -233,8 +247,10 @@
   --color-faint: var(--faint);
   --color-focus: var(--focus);
 
-  --color-cat-hf: var(--cat-hf);
   --color-cat-paper: var(--cat-paper);
+  --color-cat-release: var(--cat-release);
+  --color-cat-news: var(--cat-news);
+  --color-cat-community: var(--cat-community);
   --color-cat-note: var(--cat-note);
 
   --color-success: var(--success);
@@ -350,14 +366,19 @@ body {
    정의를 바꾸지 않고 그대로 옮겼다.
    ------------------------------------------------------------------ */
 
-/* 안료 3색은 정보 부호로만 쓴다.
+/* 안료 3색 + 먹 2단계는 정보 부호로만 쓴다.
    --color-accent* 는 .dark 에서 600→300 으로 이미 갈리므로 밤 재정의가 따로 필요 없다.
    본문 크기 텍스트(.cat-label 13.5px · .ratio 12.5px)의 색이 되지만 대비는 넉넉하다 —
    낮 600 은 5.27·5.73·5.45:1, 밤 300 은 9.75·9.23·9.55:1 (실브라우저 계산값, AA 4.5:1).
-   step 2 가 남긴 "600 은 4.14:1" 은 OKLCH L 을 CIE L* 로 본 추정치였고 실측은 그보다 높다. */
-.cat-papers { --cat: var(--color-accent); }     /* 최신 논문 — 草綠 */
-.cat-news   { --cat: var(--color-accent-2); }   /* 허깅페이스 소식 — 朱土 */
-.cat-notes  { --cat: var(--color-accent-3); }   /* 수집 자료 — 藍 */
+   step 2 가 남긴 "600 은 4.14:1" 은 OKLCH L 을 CIE L* 로 본 추정치였고 실측은 그보다 높다.
+
+   먹 2칸은 :root 가 아니라 .dark 에서 방향이 갈리므로 --color-neutral-* 를 직접 쓰지 않고
+   위에서 정의한 --cat-* 토큰을 경유한다. 다섯 칸 모두 같은 통로를 쓰게 두어 짝이 어긋나지 않게 한다. */
+.cat-papers   { --cat: var(--cat-paper); }     /* 논문 — 草綠 */
+.cat-releases { --cat: var(--cat-release); }   /* 릴리즈 — 朱土 */
+.cat-news     { --cat: var(--cat-news); }      /* 소식 — 藍 (개편 전 이 이름은 朱土였다) */
+.cat-community{ --cat: var(--cat-community); } /* 커뮤니티 — 먹 中 */
+.cat-notes    { --cat: var(--cat-note); }      /* 기록 — 먹 濃 */
 
 .cat-label {
   font-family: var(--font-ui);

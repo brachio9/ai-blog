@@ -68,11 +68,11 @@ describe("toAdminRows", () => {
         }),
       }),
       summary({
-        path: "content/hf-blog/2026-08-09-new.mdx",
-        category: "hf-blog",
+        path: "content/news/2026-08-09-new.mdx",
+        category: "news",
         slug: "new",
         frontmatter: frontmatter({
-          category: "hf-blog",
+          category: "news",
           publishedAt: "2026-08-09T09:00:00+0900",
         }),
       }),

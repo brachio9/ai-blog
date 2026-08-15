@@ -59,7 +59,7 @@ describe("getAllPosts", () => {
 describe("getPostsByCategory", () => {
   it("카테고리별로 3건씩 나뉜다", () => {
     expect(getPostsByCategory("papers")).toHaveLength(3);
-    expect(getPostsByCategory("hf-blog")).toHaveLength(3);
+    expect(getPostsByCategory("news")).toHaveLength(3);
     // notes 3건 중 1건이 draft 라 프로덕션에서는 2건이다.
     expect(getPostsByCategory("notes")).toHaveLength(3);
     expect(inProduction(() => getPostsByCategory("notes"))).toHaveLength(2);
@@ -79,7 +79,7 @@ describe("getPostsByAxis", () => {
       inProduction(() => getPostsByAxis("serving")).map((post) => post.category),
     );
 
-    expect(categories).toEqual(new Set(["hf-blog", "papers", "notes"]));
+    expect(categories).toEqual(new Set(["news", "papers", "notes"]));
   });
 
   it("그 축의 글만 준다", () => {
@@ -155,9 +155,9 @@ describe("getAllTags", () => {
 });
 
 describe("출처 표기 (CLAUDE.md CRITICAL)", () => {
-  it("hf-blog·papers 글에는 source.url 이 있다", () => {
+  it("news·papers 글에는 source.url 이 있다", () => {
     const cited = getAllPosts().filter(
-      (post) => post.category === "hf-blog" || post.category === "papers",
+      (post) => post.category === "news" || post.category === "papers",
     );
 
     expect(cited).toHaveLength(6);

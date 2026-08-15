@@ -35,7 +35,7 @@ const items: PostListItem[] = [
   },
   {
     slug: "plain",
-    category: "hf-blog",
+    category: "news",
     title: "포맷 없는 글",
     summary: "요약",
     publishedAt: "2026-08-02T10:00:00+0900",

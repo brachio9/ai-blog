@@ -27,7 +27,7 @@ afterEach(() => {
 
 describe("isValidPostId", () => {
   it("{category}/{slug} 형식이고 카테고리가 등록돼 있으면 통과한다", () => {
-    expect(isValidPostId("hf-blog/open-weight-benchmark-roundup")).toBe(true);
+    expect(isValidPostId("news/open-weight-benchmark-roundup")).toBe(true);
     expect(isValidPostId("papers/moe-routing-pipeline")).toBe(true);
     expect(isValidPostId("notes/quantization-notes")).toBe(true);
     expect(isValidPostId("notes/gpt5")).toBe(true);

@@ -21,12 +21,19 @@ import type { Post } from "@/types/content";
  * 목록 안의 안료(components/post 의 ACCENT_TEXT)는 아직 600 이다 — 목록을 다루는 step 이 함께 정한다.
  */
 const KICKER_ACCENT: Record<CategoryAccent, string> = {
-  hf: "text-[var(--color-accent-2-700)] dark:text-[var(--color-accent-2-300)]",
   paper: "text-[var(--color-accent-700)] dark:text-[var(--color-accent-300)]",
-  note: "text-[var(--color-accent-3-700)] dark:text-[var(--color-accent-3-300)]",
+  release:
+    "text-[var(--color-accent-2-700)] dark:text-[var(--color-accent-2-300)]",
+  news: "text-[var(--color-accent-3-700)] dark:text-[var(--color-accent-3-300)]",
+  // 먹 2칸: 안료와 달리 --color-neutral-* 는 낮밤이 같은 척도라 밤 값을 여기서 직접 뒤집는다.
+  // community 는 낮에 한 단계 깊은 700(8.40:1), note 는 기본 800 으로 이미 12.44:1 이라 그대로 둔다.
+  // 900 은 본문 색이라 제호 위 라벨이 본문과 구분되지 않는다.
+  community:
+    "text-[var(--color-neutral-700)] dark:text-[var(--color-neutral-400)]",
+  note: "text-[var(--color-neutral-800)] dark:text-[var(--color-neutral-200)]",
 };
 
-/** 카테고리 3종을 빌드 타임에 정적 생성한다. */
+/** 카테고리 5종을 빌드 타임에 정적 생성한다. */
 export function generateStaticParams() {
   return CATEGORIES.map((category) => ({ category: category.slug }));
 }

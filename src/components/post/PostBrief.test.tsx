@@ -9,7 +9,7 @@ function makePost(): Post {
   return {
     frontmatter: {
       title: "추론 엔드포인트 CLI 가 정식으로 나왔다",
-      category: "hf-blog",
+      category: "news",
       axis: "serving",
       summary: "터미널에서 엔드포인트를 만들고 지우는 명령이 정식 배포됐다.",
       // UTC 로는 전날이다 — KST 표기가 유지되어야 한다.
@@ -19,9 +19,9 @@ function makePost(): Post {
       lead: false,
     },
     slug: "inference-endpoints-cli",
-    category: "hf-blog",
+    category: "news",
     body: "",
-    filePath: "content/hf-blog/2026-07-25-inference-endpoints-cli.mdx",
+    filePath: "content/news/2026-07-25-inference-endpoints-cli.mdx",
     readingMinutes: 3,
   };
 }
@@ -41,7 +41,7 @@ describe("PostBrief", () => {
     const link = screen.getByRole("link", {
       name: "추론 엔드포인트 CLI 가 정식으로 나왔다",
     });
-    expect(link.getAttribute("href")).toBe("/hf-blog/inference-endpoints-cli");
+    expect(link.getAttribute("href")).toBe("/news/inference-endpoints-cli");
   });
 
   it("요약을 싣지 않는다 — 단신은 한 줄이다", () => {

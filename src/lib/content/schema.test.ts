@@ -2,13 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import { parseFrontmatter } from "./schema";
 
-const FILE_PATH = "content/hf-blog/2026-08-12-example.mdx";
+const FILE_PATH = "content/news/2026-08-12-example.mdx";
 
 /** 최소 필수 필드만 담은 정상 frontmatter. 케이스별로 덮어써서 쓴다. */
 function validFrontmatter(overrides: Record<string, unknown> = {}) {
   return {
     title: "예시 글",
-    category: "hf-blog",
+    category: "news",
     axis: "serving",
     summary: "예시 요약",
     publishedAt: "2026-08-12T15:46:52+0900",
@@ -21,7 +21,7 @@ describe("parseFrontmatter — 정상 케이스", () => {
     const parsed = parseFrontmatter(validFrontmatter(), FILE_PATH);
 
     expect(parsed.title).toBe("예시 글");
-    expect(parsed.category).toBe("hf-blog");
+    expect(parsed.category).toBe("news");
     expect(parsed.tags).toEqual([]);
     expect(parsed.draft).toBe(false);
   });

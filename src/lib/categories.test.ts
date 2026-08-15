@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  CAT_CLASS,
   CATEGORIES,
   categoryHref,
   getCategory,
@@ -8,10 +9,13 @@ import {
 } from "./categories";
 
 describe("CATEGORIES", () => {
-  it("PRD 의 카테고리 3종을 모두 갖는다", () => {
+  it("PRD 의 카테고리 5종을 그 순서대로 갖는다", () => {
+    // 순서가 곧 화면 순서다 (내비게이션·홈·푸터).
     expect(CATEGORIES.map((category) => category.slug)).toEqual([
-      "hf-blog",
       "papers",
+      "releases",
+      "news",
+      "community",
       "notes",
     ]);
   });
@@ -35,14 +39,23 @@ describe("CATEGORIES", () => {
     }
   });
 
-  it("색 토큰 키가 세 종류 안에 있고 서로 겹치지 않는다", () => {
+  it("색 토큰 키가 다섯 종류 안에 있고 서로 겹치지 않는다", () => {
     // 겹치면 목록에서 두 카테고리가 같은 색으로 보인다 — 색이 정보 부호 노릇을 못 한다.
     const accents = CATEGORIES.map((category) => category.accent);
 
     for (const accent of accents) {
-      expect(["hf", "paper", "note"]).toContain(accent);
+      expect(["paper", "release", "news", "community", "note"]).toContain(
+        accent,
+      );
     }
     expect(new Set(accents).size).toBe(accents.length);
+  });
+
+  it("CAT_CLASS 가 모든 카테고리의 accent 를 덮는다", () => {
+    // globals.css 의 `.cat-*` 는 컴파일이 못 잡는다 — 빠지면 조용히 무색이 된다.
+    for (const category of CATEGORIES) {
+      expect(CAT_CLASS[category.accent]).toBe(`cat-${category.slug}`);
+    }
   });
 });
 

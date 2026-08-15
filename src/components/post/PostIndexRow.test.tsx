@@ -39,7 +39,7 @@ describe("PostIndexRow", () => {
         .getByRole("link", { name: "양자화 손실을 반년 동안 기록해 봤다" })
         .getAttribute("href"),
     ).toBe("/notes/quantization-notes");
-    expect(screen.getByText("관측")).toBeTruthy();
+    expect(screen.getByText("기록")).toBeTruthy();
 
     const row = container.querySelector(".index-row");
     expect(row?.className).toContain("cat-notes");

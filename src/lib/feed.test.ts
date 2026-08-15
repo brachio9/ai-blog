@@ -167,10 +167,10 @@ describe("buildSearchIndex", () => {
 
   it("id 는 `${category}/${slug}` 다", () => {
     const [doc] = buildSearchIndex([
-      makePost({ category: "hf-blog" }, "dataset-viewer-refresh"),
+      makePost({ category: "news" }, "dataset-viewer-refresh"),
     ]);
 
-    expect(doc.id).toBe("hf-blog/dataset-viewer-refresh");
+    expect(doc.id).toBe("news/dataset-viewer-refresh");
   });
 
   it("검색·목록에 필요한 필드만 담는다", () => {

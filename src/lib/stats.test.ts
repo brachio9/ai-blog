@@ -120,10 +120,13 @@ describe("countByCategory", () => {
     expect(total).toBe(inProduction(getAllPosts).length);
   });
 
-  it("카테고리 3종을 순서 그대로 준다", () => {
+  it("카테고리 5종을 순서 그대로 준다", () => {
     expect(inProduction(countByCategory)).toEqual([
-      { slug: "hf-blog", count: 3 },
       { slug: "papers", count: 3 },
+      // releases·community 는 0편으로 시작한다 — 감추지 않는 것이 정보다.
+      { slug: "releases", count: 0 },
+      { slug: "news", count: 3 },
+      { slug: "community", count: 0 },
       // notes 3건 중 1건이 초안이라 프로덕션에서는 2건이다.
       { slug: "notes", count: 2 },
     ]);

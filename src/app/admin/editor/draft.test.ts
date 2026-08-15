@@ -25,7 +25,7 @@ function validForm(overrides: Partial<DraftForm> = {}): DraftForm {
   return {
     ...newDraft("2026-08-13T09:00:00+0900"),
     title: "예시 글",
-    category: "hf-blog",
+    category: "news",
     slug: "example-post",
     summary: "예시 요약",
     body: "본문입니다.",

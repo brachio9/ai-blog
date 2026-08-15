@@ -51,12 +51,12 @@ describe("PostHeader", () => {
 
   it("논문이 아니면 arXiv 식별자를 만들지 않는다", () => {
     const post = makePost({
-      category: "hf-blog",
+      category: "news",
       title: "데이터셋 뷰어 개편",
       paper: undefined,
     });
 
-    render(<PostHeader post={post} category={categoryOf("hf-blog")} />);
+    render(<PostHeader post={post} category={categoryOf("news")} />);
 
     expect(screen.queryByText(/arXiv:/)).toBeNull();
   });

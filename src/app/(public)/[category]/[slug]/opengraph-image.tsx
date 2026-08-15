@@ -24,20 +24,25 @@ const MAX_TITLE_LENGTH = 48;
  * ImageResponse 는 앱 CSS 가 닿지 않는 별도 렌더러라 --cat-* 을 읽을 수 없다.
  * 게다가 번들된 satori 의 색 파서에 oklch 가 없어(hsl·rgb 만 있다) 안료를 hex 로 굳혀야 한다.
  *
- * **이 값의 정본은 `design/styles.css` 의 안료 ramp 다. 팔레트가 바뀌면 여기도 고쳐야 한다.**
- * 카드 배경이 라이트이므로 낮 값(600 단계) — globals.css 의 --cat-* 매핑과 같은 짝이다.
+ * **이 값의 정본은 `design/styles.css` 의 안료 ramp 와 먹 계단이다. 팔레트가 바뀌면 여기도 고쳐야 한다.**
+ * 카드 배경이 라이트이므로 낮 값 — globals.css 의 --cat-* 매핑과 같은 짝이다.
  *
- *   hf    朱土  --color-accent-2-600  oklch(0.500 0.100  40) → #924d35
- *   paper 草綠  --color-accent-600    oklch(0.500 0.095 140) → #44703b
- *   note  藍    --color-accent-3-600  oklch(0.500 0.075 250) → #41668d
+ *   paper     草綠  --color-accent-600    oklch(0.500 0.095 140) → #44703b
+ *   release   朱土  --color-accent-2-600  oklch(0.500 0.100  40) → #924d35
+ *   news      藍    --color-accent-3-600  oklch(0.500 0.075 250) → #41668d
+ *   community 먹 中 --color-neutral-600   oklch(0.520 0.008  78) → #6b6864
+ *   note      먹 濃 --color-neutral-800   oklch(0.300 0.008  72) → #302d29
  *
- * 변환은 OKLab → 선형 sRGB → 감마 인코딩. 셋 다 sRGB 색역 안이라 클리핑이 없고,
- * 카드 바탕(#fafafa) 대비 6.03·5.55·5.73:1 로 본문 기준 4.5:1 을 넘는다.
+ * 변환은 OKLab → 선형 sRGB → 감마 인코딩. 다섯 다 sRGB 색역 안이라 클리핑이 없고,
+ * 카드 바탕(#fafafa) 대비 5.55·6.03·5.73·5.31·13.12:1 로 본문 기준 4.5:1 을 넘는다.
+ * 먹 2칸은 색이 아니라 **색을 안 쓰는 것**이 부호다 — 여기서도 안료를 새로 만들지 마라.
  */
 const ACCENT_COLOR: Record<CategoryAccent, string> = {
-  hf: "#924d35",
   paper: "#44703b",
-  note: "#41668d",
+  release: "#924d35",
+  news: "#41668d",
+  community: "#6b6864",
+  note: "#302d29",
 };
 
 export default async function OpengraphImage(props: {

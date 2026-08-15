@@ -61,7 +61,7 @@ describe("validatePostPath", () => {
 
   it("하이픈이 여러 개인 slug 와 다른 카테고리도 통과한다", () => {
     for (const path of [
-      "content/hf-blog/2026-01-05-a-b-c.mdx",
+      "content/releases/2026-01-05-a-b-c.mdx",
       "content/notes/2026-12-31-x1.mdx",
     ]) {
       expect(validatePostPath(path).ok).toBe(true);

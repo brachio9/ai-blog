@@ -34,14 +34,18 @@ export interface PostTableProps {
  * 남은 호출부(홈·소개·아카이브 머리글·글 상세)는 각자의 step 이 옮긴다.
  */
 export const ACCENT_TEXT: Record<CategoryAccent, string> = {
-  hf: "text-cat-hf",
   paper: "text-cat-paper",
+  release: "text-cat-release",
+  news: "text-cat-news",
+  community: "text-cat-community",
   note: "text-cat-note",
 };
 
 export const ACCENT_RULE: Record<CategoryAccent, string> = {
-  hf: "border-l-cat-hf",
   paper: "border-l-cat-paper",
+  release: "border-l-cat-release",
+  news: "border-l-cat-news",
+  community: "border-l-cat-community",
   note: "border-l-cat-note",
 };
 

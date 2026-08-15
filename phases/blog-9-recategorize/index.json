@@ -2,9 +2,41 @@
   "project": "초록 (AI 동향 사이트)",
   "phase": "recategorize",
   "steps": [
-    { "step": 0, "name": "categories", "status": "pending" },
-    { "step": 1, "name": "content-migration", "status": "pending" },
-    { "step": 2, "name": "ui", "status": "pending" },
-    { "step": 3, "name": "serialization", "status": "pending" }
-  ]
+    {
+      "step": 0,
+      "name": "categories",
+      "status": "completed",
+      "started_at": "2026-08-15T17:59:39+0900",
+      "completed_at": "2026-08-15T18:09:20+0900",
+      "summary": "카테고리 3칸→5칸. CategorySlug=papers|releases|news|community|notes, CategoryAccent=paper|release|news|community|note (배열 순서가 화면 순서: 논문·릴리즈·소식·커뮤니티·기록). CAT_CLASS 는 cat-{slug} 규칙(cat-papers·cat-releases·cat-news·cat-community·cat-notes) — `.cat-news` 는 개편 전 朱土였고 이제 藍이다. 색: --cat-paper=accent(草綠) · --cat-release=accent-2(朱土) · --cat-news=accent-3(藍) · --cat-community=neutral-600(먹 中) · --cat-note=neutral-800(먹 濃); .dark 에서 먹 2칸만 400·200 으로 뒤집는다(밤 바탕 대비 600=3.44:1·800=1.39:1 미달 → 400=8.22:1·200=15.81:1). OG hex(satori 는 oklch 불가): paper #44703b · release #924d35 · news #41668d · community #6b6864 · note #302d29 (#fafafa 대비 5.55·6.03·5.73·5.31·13.12:1). Record<CategoryAccent,…> 4곳(ACCENT_TEXT·ACCENT_RULE·KICKER_ACCENT·ACCENT_COLOR) 값만 채웠고 로직·레이아웃은 무수정. 안료는 여전히 3색(design/ 미수정).",
+      "known_gap": "npm run test(31 실패) 와 npm run build 는 아직 빨갛다. 원인은 하나 — content/hf-blog/ 가 남아 있어 getAllPosts() 의 미지 디렉토리 가드가 던진다(설계된 동작). step 0 의 금지사항이 콘텐츠 이동을 step 1 로 미뤘으므로 이 두 게이트는 step 1(content-migration) 이 끝나야 초록이 된다. typecheck·lint·step 전용 AC 3종(categories.ts/globals.css/OG hex)은 통과. 유니온 변경으로 깨진 테스트 픽스처의 hf-blog 리터럴은 step 1 이 정한 목적지 news 로 갱신해 두었다(stats.test 는 5칸 0편 포함 기대값으로, PostIndexRow.test 는 notes 짧은 이름 관측→기록으로).",
+      "events": [
+        {
+          "at": "2026-08-15T17:59:39+0900",
+          "status": "started"
+        },
+        {
+          "at": "2026-08-15T18:09:20+0900",
+          "status": "completed",
+          "note": "데이터·색만 변경. test/build 는 step 1 의 콘텐츠 이동 전까지 red — known_gap 참조"
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "name": "content-migration",
+      "status": "pending"
+    },
+    {
+      "step": 2,
+      "name": "ui",
+      "status": "pending"
+    },
+    {
+      "step": 3,
+      "name": "serialization",
+      "status": "pending"
+    }
+  ],
+  "created_at": "2026-08-15T17:59:39+0900"
 }
