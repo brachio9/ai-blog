@@ -129,8 +129,11 @@ export default function Home() {
           {/* 3) 카테고리별 최신 — 1면을 지나면 급이 한 단계 내려간다. 날짜와 제목만 남긴
               한 줄 목록이고 제목도 단신보다 크지 않다. 논문만 따로 크게 싣던 구역을 여기 합쳤다 —
               단신 바로 아래에서 제목이 다시 커지면 급이 거꾸로 서서 1면이 무너진다.
-              arXiv 식별자는 머리기사의 데이트라인과 카테고리 페이지가 계속 보인다. */}
-          <section className="grid gap-x-10 gap-y-8 pt-14 md:grid-cols-3">
+              arXiv 식별자는 머리기사의 데이트라인과 카테고리 페이지가 계속 보인다.
+              칸이 다섯이라 한 열로 세우면 여기서만 화면이 한 번 더 넘어간다 — 640px 부터 둘,
+              768px 부터 셋으로 흘린다. 마지막 줄이 3+2 로 남는 것은 메우지 않는다:
+              오른쪽 여백을 채우지 않는 것이 이 지면의 규약이다. */}
+          <section className="grid gap-x-10 gap-y-8 pt-14 sm:grid-cols-2 md:grid-cols-3">
             {digest.map(({ category, posts }) => (
               // min-w-0 이 없으면 그리드 칸이 제목 길이만큼 벌어져 페이지가 가로로 밀린다.
               <div key={category.slug} className="min-w-0">

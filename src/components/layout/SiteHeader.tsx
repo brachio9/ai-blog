@@ -47,70 +47,79 @@ export function SiteHeader() {
     <header>
       <Container>
         {/* flex-wrap 을 켜지 않는다 — 좁은 화면에서 토글이 다음 줄로 떨어져 머리가 두 줄이 된다.
-            대신 카테고리는 짧은 이름으로, 색인은 접어서 한 줄 안에 들어오게 한다. */}
-        <div className="flex items-baseline gap-[var(--space-4)] pt-[var(--space-5)] pb-[var(--space-4)]">
+            대신 카테고리는 짧은 이름으로, 색인은 접어서 한 줄 안에 들어오게 한다.
+            좁은 폭에서는 간격도 한 눈금 좁힌다 — 5칸이 되면서 항목 사이가 두 번 더 들어간다. */}
+        <div className="flex items-baseline gap-[var(--space-2)] pt-[var(--space-5)] pb-[var(--space-4)] sm:gap-[var(--space-4)]">
           <Link
             href="/"
-            className="text-[length:var(--text-h4)] font-bold tracking-[-0.02em] text-heading focus-visible:outline-2 focus-visible:outline-focus"
+            className="shrink-0 text-[length:var(--text-h4)] font-bold tracking-[-0.02em] text-heading focus-visible:outline-2 focus-visible:outline-focus"
           >
             {SITE_NAME}
           </Link>
 
-          {/* 주제는 카테고리보다 앞이다 — 무엇을 다루는가(매체의 약속)가 원문이 어디서 왔는가보다 앞선다.
-              가는 세로 괘선 하나로 갈래 묶음과 가른다: 같은 간격으로 늘어놓으면
-              「주제」가 네 번째 카테고리처럼 읽힌다. */}
-          <nav
-            aria-label="주제"
-            className="border-r border-border pr-[var(--space-3)]"
-          >
-            <Link
-              href={TOPICS}
-              aria-current={isCurrent(TOPICS) ? "page" : undefined}
-              className={`${NAV_LINK} ${isCurrent(TOPICS) ? CURRENT : RESTING}`}
+          {/* 갈래 띠 — 내비 둘(주제·카테고리)과 접히는 색인을 한 띠에 담는다.
+              카테고리 라벨 다섯은 13.5px 한글로 157px 라, 320~400px 대에서는 간격을 아무리
+              좁혀도 제호·검색·토글까지 다 세울 폭이 안 나온다 (실측). 그렇다고 줄을 늘리면
+              제호 한 줄이 깨지므로, **띠만 스스로 밀리게 하고 지면은 넘치지 않게** 한다 —
+              신문의 섹션 띠가 좁은 지면에서 하는 것과 같다. 414px 부터는 밀리지 않는다.
+              스크롤바는 감춘다: 잘린 라벨의 끝이 이미 「더 있다」를 말한다. */}
+          <div className="flex min-w-0 items-baseline gap-[var(--space-2)] overflow-x-auto sm:gap-[var(--space-4)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {/* 주제는 카테고리보다 앞이다 — 무엇을 다루는가(매체의 약속)가 원문이 어디서 왔는가보다 앞선다.
+                가는 세로 괘선 하나로 갈래 묶음과 가른다: 같은 간격으로 늘어놓으면
+                「주제」가 네 번째 카테고리처럼 읽힌다. */}
+            <nav
+              aria-label="주제"
+              className="shrink-0 border-r border-border pr-[var(--space-2)] sm:pr-[var(--space-3)]"
             >
-              주제
-            </Link>
-          </nav>
-
-          <nav
-            aria-label="카테고리"
-            className="flex items-baseline gap-[var(--space-4)]"
-          >
-            {CATEGORIES.map((category) => {
-              const href = categoryHref(category);
-              const active = isCurrent(href);
-
-              return (
-                <Link
-                  key={category.slug}
-                  href={href}
-                  // 화면 폭에 따라 표기가 바뀌어도 읽히는 이름은 하나여야 한다.
-                  aria-label={category.name}
-                  aria-current={active ? "page" : undefined}
-                  className={`${NAV_LINK} ${active ? CURRENT : RESTING}`}
-                >
-                  <span className="sm:hidden">{category.shortName}</span>
-                  <span className="hidden sm:inline">{category.name}</span>
-                </Link>
-              );
-            })}
-          </nav>
-
-          <nav
-            aria-label="찾아보기"
-            className="hidden items-baseline gap-[var(--space-4)] sm:flex"
-          >
-            {INDEXES.map(({ href, label }) => (
               <Link
-                key={href}
-                href={href}
-                aria-current={isCurrent(href) ? "page" : undefined}
-                className={`${NAV_LINK} ${isCurrent(href) ? CURRENT : RESTING}`}
+                href={TOPICS}
+                aria-current={isCurrent(TOPICS) ? "page" : undefined}
+                className={`${NAV_LINK} ${isCurrent(TOPICS) ? CURRENT : RESTING}`}
               >
-                {label}
+                주제
               </Link>
-            ))}
-          </nav>
+            </nav>
+
+            <nav
+              aria-label="카테고리"
+              className="flex shrink-0 items-baseline gap-[var(--space-2)] sm:gap-[var(--space-4)]"
+            >
+              {CATEGORIES.map((category) => {
+                const href = categoryHref(category);
+                const active = isCurrent(href);
+
+                return (
+                  <Link
+                    key={category.slug}
+                    href={href}
+                    // 화면 폭에 따라 표기가 바뀌어도 읽히는 이름은 하나여야 한다.
+                    aria-label={category.name}
+                    aria-current={active ? "page" : undefined}
+                    className={`${NAV_LINK} ${active ? CURRENT : RESTING}`}
+                  >
+                    <span className="sm:hidden">{category.shortName}</span>
+                    <span className="hidden sm:inline">{category.name}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <nav
+              aria-label="찾아보기"
+              className="hidden shrink-0 items-baseline gap-[var(--space-4)] sm:flex"
+            >
+              {INDEXES.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  aria-current={isCurrent(href) ? "page" : undefined}
+                  className={`${NAV_LINK} ${isCurrent(href) ? CURRENT : RESTING}`}
+                >
+                  {label}
+                </Link>
+              ))}
+            </nav>
+          </div>
 
           {/* 아이콘과 버튼은 글자 베이스라인에 걸리지 않는다 — 이 묶음만 가운데로 맞춘다. */}
           <div className="ml-auto flex shrink-0 items-center gap-[var(--space-2)] self-center">

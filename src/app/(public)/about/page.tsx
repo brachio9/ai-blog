@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
-import { ACCENT_TEXT } from "@/components/post/PostTable";
 import { ExternalLinkIcon } from "@/components/ui/icons";
 import { AXES, axisHref, axisNumber } from "@/lib/axes";
-import { CATEGORIES, categoryHref } from "@/lib/categories";
+import { CAT_CLASS, CATEGORIES, categoryHref } from "@/lib/categories";
 import { SITE_NAME } from "@/lib/site";
 import { countByAxis, countByCategory } from "@/lib/stats";
 
@@ -155,17 +154,18 @@ export default function AboutPage() {
           <h2 className={SECTION_TITLE}>어디서 오는가</h2>
           <ul className="mt-4 max-w-[68ch]">
             {CATEGORIES.map((category) => (
-              <li key={category.slug} className="border-b border-border py-3">
+              // 5칸 개편으로 다섯 칸 모두 name 과 shortName 이 같아졌다 — 색 라벨과 이름 링크를
+              // 나란히 두면 같은 낱말이 두 번 선다. 이 지면이 쓰는 카테고리 라벨(.cat-label)
+              // 하나로 합치고, 색은 CAT_CLASS 가 정하는 --cat 을 그대로 받는다
+              // (먹 2칸은 밤에 방향이 갈려서 이 통로를 거쳐야 짝이 어긋나지 않는다).
+              <li
+                key={category.slug}
+                className={`border-b border-border py-3 ${CAT_CLASS[category.accent]}`}
+              >
                 <div className="flex items-baseline gap-3">
-                  {/* 카테고리 색은 작은 라벨에만 쓴다 — 링크를 이 색으로 칠하지 않는다. */}
-                  <span
-                    className={`w-8 shrink-0 text-xs ${ACCENT_TEXT[category.accent]}`}
-                  >
-                    {category.shortName}
-                  </span>
                   <Link
                     href={categoryHref(category)}
-                    className={`min-w-0 flex-1 text-[0.9375rem] ${LINK}`}
+                    className={`cat-label min-w-0 flex-1 ${LINK}`}
                   >
                     {category.name}
                   </Link>
@@ -173,17 +173,20 @@ export default function AboutPage() {
                     {counts.get(category.slug) ?? 0}편
                   </span>
                 </div>
-                <p className="mt-1 pl-11 text-sm leading-[1.7] text-muted">
+                <p className="mt-1 text-sm leading-[1.7] text-muted">
                   {category.description}
                 </p>
               </li>
             ))}
           </ul>
-          {/* 주소와 이름이 어긋난 채로 두었으면 그 사실을 적는다 — 정정도 기록이다. */}
+          {/* 왜 이렇게 나눴는지는 목록이 대신 말해 주지 않는다 — 기준을 한 문단으로 적는다. */}
           <p className={`mt-4 ${PROSE}`}>
-            주소에 남은 <code className="voice-source">hf-blog</code> 는 이
-            사이트가 허깅페이스 블로그만 옮기던 시절의 흔적입니다. 이미 걸린
-            링크를 끊지 않으려고 주소는 그대로 두고 이름만 바꿨습니다.
+            나누는 기준은 원문의 성격입니다. 얼마 전까지 릴리즈 노트와 기업 연구
+            블로그가 한 칸을 함께 썼는데, 「버전이 나왔다」와 「이런 걸
+            만들었다」는 읽는 이유가 달라 릴리즈와 소식으로 갈랐습니다. 커뮤니티는
+            원문이 하나가 아니라 여럿이라 따로 둡니다. 기록만은 성격이 다릅니다 —
+            직접 재 보고 직접 만들어 본 글이라 옮길 원문이 아예 없고, 그래서 원문
+            링크 대신 측정 조건과 실패한 시도가 그 자리에 들어갑니다.
           </p>
           <p className={`mt-4 ${PROSE}`}>
             모델이나 툴 이름으로 찾고 싶으면{" "}
