@@ -40,16 +40,16 @@ describe("isValidPostId", () => {
 
   it("형식이 어긋나면 거절한다", () => {
     expect(isValidPostId("")).toBe(false);
-    expect(isValidPostId("hf-blog")).toBe(false);
-    expect(isValidPostId("hf-blog/")).toBe(false);
+    expect(isValidPostId("news")).toBe(false);
+    expect(isValidPostId("news/")).toBe(false);
     expect(isValidPostId("/some-post")).toBe(false);
-    expect(isValidPostId("hf-blog/nested/post")).toBe(false);
-    expect(isValidPostId("hf-blog/Upper-Case")).toBe(false);
-    expect(isValidPostId("hf-blog/-leading")).toBe(false);
-    expect(isValidPostId("hf-blog/trailing-")).toBe(false);
-    expect(isValidPostId("hf-blog/double--dash")).toBe(false);
-    expect(isValidPostId("hf-blog/공백 없음")).toBe(false);
-    expect(isValidPostId("hf-blog/../../etc/passwd")).toBe(false);
+    expect(isValidPostId("news/nested/post")).toBe(false);
+    expect(isValidPostId("news/Upper-Case")).toBe(false);
+    expect(isValidPostId("news/-leading")).toBe(false);
+    expect(isValidPostId("news/trailing-")).toBe(false);
+    expect(isValidPostId("news/double--dash")).toBe(false);
+    expect(isValidPostId("news/공백 없음")).toBe(false);
+    expect(isValidPostId("news/../../etc/passwd")).toBe(false);
   });
 
   it("지나치게 긴 slug 는 거절한다", () => {

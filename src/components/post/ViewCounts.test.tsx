@@ -10,7 +10,7 @@ import {
 
 const A = "papers/moe-routing";
 const B = "notes/quantization";
-const C = "hf-blog/open-weights";
+const C = "news/open-weights";
 
 const fetchMock = vi.fn();
 

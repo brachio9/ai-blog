@@ -3,10 +3,12 @@
 ## 디렉토리 구조
 
 ```
-content/                   # 글 원본 (git = 저장소). 디렉토리는 카테고리(소스 축) 셋뿐이다.
-├── hf-blog/               # YYYY-MM-DD-slug.mdx
-├── papers/                # 주제 축(axis)은 디렉토리가 아니라 frontmatter 다 —
-└── notes/                 # 여기 모르는 디렉토리를 만들면 getAllPosts() 가 빌드를 깨뜨린다.
+content/                   # 글 원본 (git = 저장소). 디렉토리는 카테고리(소스 축) 다섯뿐이다.
+├── papers/                # YYYY-MM-DD-slug.mdx
+├── releases/              # 주제 축(axis)은 디렉토리가 아니라 frontmatter 다 —
+├── news/                  # 여기 모르는 디렉토리를 만들면 getAllPosts() 가 빌드를 깨뜨린다.
+├── community/             # 0편인 칸도 .gitkeep 으로 남긴다 (감추지 않는 것이 정보다).
+└── notes/
 
 public/                    # 정적 자산 (샘플 이미지 포함)
 

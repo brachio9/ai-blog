@@ -135,7 +135,7 @@ npx vercel --prod
 BASE=https://blog.krunkit.me
 
 # 공개 페이지
-for p in / /hf-blog /papers /notes /search /rss.xml /sitemap.xml /robots.txt; do
+for p in / /papers /releases /news /community /notes /search /rss.xml /sitemap.xml /robots.txt; do
   printf "%-16s %s\n" "$p" "$(curl -s -o /dev/null -w '%{http_code}' $BASE$p)"
 done
 
