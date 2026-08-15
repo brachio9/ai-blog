@@ -40,6 +40,10 @@
       "dir": "blog-8-six-axes",
       "status": "completed",
       "completed_at": "2026-08-14T15:42:10+0900"
+    },
+    {
+      "dir": "blog-9-recategorize",
+      "status": "pending"
     }
   ]
 }

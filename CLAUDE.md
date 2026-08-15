@@ -99,12 +99,26 @@ phase 는 서로 다른 세션에서 실행되므로 이름이 갈리면 마지�
 ## 분류 축 (CRITICAL — 셋을 섞지 마라)
 
 - **주제 `axis`** (1급, 필수·단일) — 6축. `/topics/{axis}`. **색을 쓰지 않는다 — 번호(mono `01`~`06`)가 부호다.**
-- **소스 `category`** (3개 고정) — `/{category}/{slug}`. 안료 3색은 **여기 전용**이다.
+- **소스 `category`** (**5개**) — `/{category}/{slug}`. 안료 3색 + **먹 2단계**는 **여기 전용**이다.
 - **포맷 `format`** (선택) — 라우트 없음. `?format=` 필터만.
 - 태그 `tags` — **고유명사 전용**(모델·툴·기법). 축·포맷을 태그로 표현하지 마라.
 
-**카테고리를 늘리지 마라.** `CategorySlug`·`CategoryAccent` 유니온과 `Record<CategoryAccent,…>` 5곳,
-안료 팔레트가 전부 딸려 온다. 4번째 안료는 사실상 없다 (남은 hue 는 종이에 묻히거나 금지된 보라뿐).
+**카테고리 5개 (2026-08-15 개편 — 수집 파이프라인의 데이터 분포에 맞췄다)**
+
+| slug | 이름 | 부호 | 채우는 주체 |
+|---|---|---|---|
+| `papers` | 논문 | 草綠 (accent) | 봇 + 사람 |
+| `releases` | 릴리즈 | 朱土 (accent-2) | 봇 |
+| `news` | 소식 | 藍 (accent-3) | 봇 |
+| `community` | 커뮤니티 | **먹 中** (neutral-600) | 봇 |
+| `notes` | 기록 | **먹 濃** (neutral-800) | **사람만** |
+
+옛 `hf-blog` 한 칸이 `releases`(GitHub 릴리즈 28곳)와 `news`(기업 블로그·뉴스레터 17곳)로 갈라졌다.
+**색을 안 쓰는 것 자체가 부호다** — `community` 는 원문이 여럿이고 `notes` 는 옮길 원문이 아예 없다.
+
+**더 늘릴 때는 값을 치러야 한다.** `CategorySlug`·`CategoryAccent` 유니온 + `Record<CategoryAccent,…>` **5곳**
+(`KICKER_ACCENT`·`ACCENT_COLOR`·`ACCENT_TEXT`·`ACCENT_RULE`·`CAT_CLASS`) + `globals.css` 의
+`--cat-*`·`--color-cat-*`·`.cat-*`. TS 5곳은 컴파일이 잡지만 **CSS 는 못 잡아 조용히 무색이 된다.**
 
 ## 비-목표 (명시적 제외)
 

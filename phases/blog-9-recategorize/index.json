@@ -1,0 +1,10 @@
+{
+  "project": "초록 (AI 동향 사이트)",
+  "phase": "recategorize",
+  "steps": [
+    { "step": 0, "name": "categories", "status": "pending" },
+    { "step": 1, "name": "content-migration", "status": "pending" },
+    { "step": 2, "name": "ui", "status": "pending" },
+    { "step": 3, "name": "serialization", "status": "pending" }
+  ]
+}
