@@ -8,9 +8,11 @@ HuggingFace 블로그·arXiv 논문 등 영문 AI 최신 동향을 한글 요약
 
 | slug | 이름 | 성격 |
 |---|---|---|
-| `hf-blog` | 허깅페이스 소식 | HuggingFace 블로그 글 요약 + 원문 링크 |
-| `papers` | 최신 논문 | arXiv 논문 리뷰. 수식·도표 비중이 높다 |
-| `notes` | 수집 자료 | 개인 스크랩·메모 |
+| `papers` | 논문 | arXiv·HF Daily Papers 요약. 수식·도표 비중이 높다 |
+| `releases` | 릴리즈 | 모델·라이브러리·툴의 버전 발표 |
+| `news` | 소식 | 기업 연구 블로그·뉴스레터·문서 변경 |
+| `community` | 커뮤니티 | HN·포럼·긱뉴스에서 관측한 논쟁을 묶은 글 |
+| `notes` | 기록 | 직접 재 보고 만들어 본 것. 옮길 원문이 없다 |
 
 카테고리는 [`src/lib/categories.ts`](src/lib/categories.ts) 한 곳에 정의되어 있고, 내비게이션·목록·푸터는 전부 그것을 순회해 그린다. 추가하려면 그 파일만 고치면 된다.
 
@@ -37,7 +39,7 @@ MDX 로 쓰며 아래가 전부 라이트/다크 양쪽에서 동작한다.
 ```yaml
 ---
 title: "글 제목"
-category: papers                       # hf-blog | papers | notes
+category: papers                       # papers | releases | news | community | notes
 summary: "목록과 검색에 쓰이는 한두 문장 요약"
 publishedAt: "2026-08-05T10:00:00+0900"   # KST(+0900) 고정
 tags: [LLM, MoE]

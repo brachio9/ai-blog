@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { CATEGORIES } from "@/lib/categories";
+
 import {
   defaultCommitMessage,
   parseDeleteRequest,
@@ -68,6 +70,18 @@ describe("validatePostPath", () => {
     }
   });
 
+  /**
+   * 화이트리스트는 CATEGORIES 파생이라 칸이 늘면 자동으로 따라온다.
+   * 카테고리를 손으로 적지 않는 것이 요점이라 여기서도 적지 않는다 —
+   * 목록을 베껴 두면 정본이 둘이 되어 다음 개편 때 갈린다.
+   */
+  it.each(CATEGORIES.map((category) => [category.slug] as const))(
+    "%s 로 발행할 수 있다",
+    (slug) => {
+      expect(validatePostPath(`content/${slug}/2026-08-15-x.mdx`).ok).toBe(true);
+    },
+  );
+
   // 경로 순회 — 이 목록이 이 step 의 안전장치다.
   it.each([
     ["상위 경로 순회", "../../.github/workflows/deploy.yml"],
@@ -80,6 +94,9 @@ describe("validatePostPath", () => {
     ["소스 파일", "src/lib/auth.ts"],
     ["가드레일 문서", "CLAUDE.md"],
     ["모르는 카테고리", "content/secrets/2026-08-05-x.mdx"],
+    // 5칸 개편으로 사라진 옛 slug. 화이트리스트에 남아 있으면 로더가 모르는
+    // 디렉토리에 글이 커밋되어 다음 빌드가 통째로 깨진다.
+    ["옛 카테고리", "content/hf-blog/2026-08-05-x.mdx"],
     ["카테고리 없음", "content/2026-08-05-x.mdx"],
     ["한글 slug", "content/papers/2026-08-05-한글.mdx"],
     ["대문자 slug", "content/papers/2026-08-05-Foo.mdx"],

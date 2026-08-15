@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 import matter from "gray-matter";
@@ -220,6 +220,40 @@ describe("에디터 왕복 — 무손실", () => {
     const issues = validateDraft(validForm({ sourceWords: "삼천이백사십" }));
 
     expect(issues.map((issue) => issue.field)).toContain("source.words");
+  });
+
+  /**
+   * 위 케이스는 글 하나만 잰다. 카테고리 개편처럼 slug 이 바뀌는 변경은 그 한 글을 비껴갈 수 있어
+   * 레포의 **모든** 글을 훑는다 — 초안도 포함한다 (관리자는 초안을 열어 고치러 들어온다).
+   *
+   * 특히 `category` 는 유실이 조용하다. `toDraftForm` 은 모르는 slug 을 만나면 frontmatter 도
+   * 경로도 못 읽고 `CATEGORIES[0]`(papers) 으로 떨어뜨리므로, 옛 slug 이 남은 글을 열었다 저장하면
+   * 카테고리가 말없이 바뀐다. 스키마는 값이 유효하기만 하면 통과시켜 이걸 잡지 못한다.
+   */
+  it.each(
+    readdirSync(path.join(process.cwd(), "content"))
+      .flatMap((category) =>
+        readdirSync(path.join(process.cwd(), "content", category))
+          .filter((file) => file.endsWith(".mdx"))
+          .map((file) => `content/${category}/${file}`),
+      )
+      .map((postPath) => [postPath] as const),
+  )("%s 를 폼으로 옮겼다 되돌려도 그대로다", (postPath) => {
+    const post = matter(
+      readFileSync(path.join(process.cwd(), postPath), "utf8"),
+    );
+    const form = toDraftForm(post.data, post.content, postPath);
+
+    // 경로의 디렉토리 = frontmatter 의 category. 둘이 갈리면 목록·링크가 어긋난다.
+    expect(form.category).toBe(postPath.split("/")[1]);
+
+    // `draft`·`lead` 는 폼이 늘 적어 낸다 — 파일이 생략했으면 false 가 붙는다.
+    // 스키마 기본값과 같은 값이라 뜻이 달라지지 않는다. 그 둘 말고 한 글자라도 달라지면 유실이다.
+    expect(toFrontmatterObject(form)).toEqual({
+      draft: false,
+      lead: false,
+      ...post.data,
+    });
   });
 });
 
