@@ -25,5 +25,5 @@ __pycache__
 .playwright-mcp/
 
 # 작업 메모와 검증 도구 — 레포 산출물이 아니다. 세션 간에만 쓴다.
-handoff.md
+handoff*.md
 .review-tools/
