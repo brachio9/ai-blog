@@ -32,7 +32,7 @@
       "name": "content-migration",
       "status": "completed",
       "started_at": "2026-08-15T18:10:53+0900",
-      "completed_at": "2026-08-15T18:15:19+0900",
+      "completed_at": "2026-08-15T18:16:28+0900",
       "summary": "content/hf-blog/ 3편을 git mv 로 content/news/ 로 옮기고 frontmatter category 한 줄만 hf-blog→news 로 바꿨다 (원문이 셋 다 huggingface.co/blog — 기업 블로그라 news 다). 파일명·axis·format·source.words·lead 는 무수정 — 실제 diff 는 파일당 1줄. 편수: papers 3 · releases 0 · news 3 · community 0 · notes 3 = 9편(그중 notes/context-caching-draft 는 draft 라 프로덕션 제외 → 상세 8). releases·community 는 .gitkeep 만 두어 빈 칸으로 남겼다(감추지 않는 것이 정보다 — readCategory 의 dotfile 필터가 거른다). 프리렌더 경로 39→41 (+2, 빈 카테고리 목록 페이지 /releases·/community. 글 상세는 8→8 이고 /hf-blog/* 3개가 /news/* 로 이동). 두 수치 모두 .next/prerender-manifest.json 의 routes 로 셌고, before 39 는 개편 직전 커밋 465fbd1 을 임시 worktree 에서 빌드해 실측했다. step 0 이 red 로 남긴 게이트가 전부 초록: test 422 통과(38 파일) · build 성공 · typecheck · lint. 음성 테스트로 news 글 하나의 category 를 hf-blog 로 되돌려 빌드가 'frontmatter 검증 실패' 로 깨지는 것을 확인하고 원상복구했다. 테스트 픽스처의 hf-blog 리터럴 2곳(turso.test.ts 의 isValidPostId 형식 케이스 10줄 · ViewCounts.test.tsx 의 C) 을 news 로 갱신. draft.ts·publish.ts 는 CATEGORIES 파생이라 하드코딩 slug 이 없어 무수정(기본 카테고리는 CATEGORIES[0] = papers). 이 이동으로 거짓이 된 문서 두 곳만 고쳤다: ARCHITECTURE.md 디렉토리 트리(셋→다섯), DEPLOY.md 스모크 체크 URL 목록(/hf-blog → 5칸).",
       "known_gap": "src/app/(public)/about/page.tsx:184 의 문단이 아직 「주소에 남은 hf-blog … 주소는 그대로 두고 이름만 바꿨습니다」라고 적혀 있다. 이제 사실이 아니다 — 주소를 실제로 바꿨다. step 1 의 금지사항이 about 문구를 step 2(ui) 범위로 못박아 손대지 않았다. **step 2 가 반드시 이 문단을 지우거나 새 사실로 다시 써야 한다.** docs/PRD.md 의 hf-blog 두 줄은 개편 경위를 적은 이력이라 그대로 두는 것이 맞다(그래서 AC 의 grep 은 빌 수 없고, `|| echo` 로 쓰여 게이트가 아니다). README.md 의 3칸 표(11행)와 frontmatter 예시(40행)도 옛 slug 인데 README 는 이 step 의 범위 밖이라 남겼다.",
       "events": [
@@ -45,6 +45,11 @@
           "status": "completed",
           "attempt": 1,
           "note": "AC 4종 + 디렉토리·frontmatter·필드보존 검증 통과. about 문구는 step 2 로 이월 — known_gap 참조"
+        },
+        {
+          "at": "2026-08-15T18:16:28+0900",
+          "status": "completed",
+          "attempt": 1
         }
       ]
     },
