@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 
 import { AXES } from "./axes";
+import { CATEGORIES } from "./categories";
 import { getAllPosts, getAllTags } from "./content/posts";
 import { countByAxis, countByCategory, postsByMonth, tagIndex } from "./stats";
 
@@ -23,7 +24,10 @@ describe("postsByMonth", () => {
   it("최신 월이 앞에 온다", () => {
     const months = inProduction(postsByMonth).map((month) => month.ym);
 
-    expect(months).toEqual(["2026-08", "2026-07", "2026-06"]);
+    // 달 이름을 박지 않는다 — 봇이 매일 밤 글을 올리므로 달이 바뀌면 그 자리에서 깨진다.
+    expect(months.length).toBeGreaterThan(0);
+    expect(months).toEqual([...months].sort().reverse());
+    expect(new Set(months).size).toBe(months.length); // 같은 달이 두 번 나오지 않는다
   });
 
   it("같은 달의 글이 한 묶음으로 들어간다", () => {
@@ -35,10 +39,11 @@ describe("postsByMonth", () => {
       }
     }
 
-    // 8월 3건 · 7월 3건 · 6월 2건. 어느 달도 쪼개지지 않는다.
-    expect(inProduction(postsByMonth).map((month) => month.count)).toEqual([
-      3, 3, 2,
-    ]);
+    // 어느 달도 쪼개지지 않는다 — 달별 합이 전체와 같으면 빠뜨린 글도 겹친 글도 없다.
+    const months = inProduction(postsByMonth);
+    const summed = months.reduce((sum, month) => sum + month.count, 0);
+
+    expect(summed).toBe(inProduction(getAllPosts).length);
   });
 
   it("월 안에서도 최신 글이 먼저다", () => {
@@ -128,15 +133,14 @@ describe("countByCategory", () => {
   });
 
   it("카테고리 5종을 순서 그대로 준다", () => {
-    expect(inProduction(countByCategory)).toEqual([
-      { slug: "papers", count: 3 },
-      // releases·community 는 0편으로 시작한다 — 감추지 않는 것이 정보다.
-      { slug: "releases", count: 0 },
-      { slug: "news", count: 3 },
-      { slug: "community", count: 0 },
-      // notes 3건 중 1건이 초안이라 프로덕션에서는 2건이다.
-      { slug: "notes", count: 2 },
-    ]);
+    const counted = inProduction(countByCategory);
+
+    // **0편인 카테고리도 빠지지 않는다** — 감추지 않는 것이 정보다.
+    // 개수는 박지 않는다. 봇이 채우는 칸이라 매일 달라진다.
+    // 0편이라 빠졌다면 이 목록이 짧아진다 — 그것이 곧 이 단언의 값어치다.
+    expect(counted.map((entry) => entry.slug)).toEqual(
+      CATEGORIES.map((category) => category.slug),
+    );
   });
 
   it("초안은 카테고리 집계에도 섞이지 않는다", () => {
@@ -161,26 +165,27 @@ describe("countByAxis", () => {
   it("0편인 축도 빠뜨리지 않는다 — 빈 축이 사라지면 /topics 가 지도 노릇을 못 한다", () => {
     const counted = inProduction(countByAxis);
 
-    // 6축 전부, order 순서 그대로.
+    // 6축 전부, order 순서 그대로. 0편인 축이 빠지면 이 목록이 짧아진다.
+    // 개수는 박지 않는다 — 봇이 매일 밤 축을 채우므로 그 숫자는 매일 달라진다.
     expect(counted.map((entry) => entry.slug)).toEqual(
       AXES.map((axis) => axis.slug),
     );
-    expect(counted).toEqual([
-      { slug: "retrieval", count: 2 },
-      { slug: "serving", count: 5 },
-      { slug: "voice", count: 0 },
-      { slug: "agent", count: 1 },
-      { slug: "domain", count: 0 },
-      { slug: "vibe-coding", count: 0 },
-    ]);
   });
 
   it("초안은 축 집계에도 섞이지 않는다", () => {
-    const servingCount = (entries: { slug: string; count: number }[]) =>
-      entries.find((entry) => entry.slug === "serving")?.count;
+    // 어느 축이 초안을 갖는지도 박지 않는다 — 축마다 「개발에서 센 것 − 프로덕션에서
+    // 센 것」이 곧 그 축의 초안 수여야 한다. 이것이 성립하면 초안은 한 축에서도 새지 않는다.
+    const dev = countByAxis();
+    const production = inProduction(countByAxis);
+    const drafts = getAllPosts().filter((post) => post.frontmatter.draft);
 
-    // 초안 한 편이 serving 축이다. 개발에서만 보인다.
-    expect(servingCount(countByAxis())).toBe(6);
-    expect(servingCount(inProduction(countByAxis))).toBe(5);
+    expect(drafts.length).toBeGreaterThan(0);
+    for (const [index, entry] of dev.entries()) {
+      const draftsHere = drafts.filter(
+        (post) => post.frontmatter.axis === entry.slug,
+      ).length;
+
+      expect(entry.count - production[index].count).toBe(draftsHere);
+    }
   });
 });

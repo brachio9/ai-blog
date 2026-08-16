@@ -5,7 +5,7 @@ axis: agent
 format: explainer
 summary: 기존 설치 방식의 시스템 프롬프트 공간 경쟁 문제를 해결하기 위해, 스킬의 내용과 지속성, 자동 트리거 기능을 분리한 @skills 프로토콜이 제안되었다. 이 프로토콜은 파일 경로 기반 접근 방식을 통해 별도의 등록이나 매니페스트 없이 에이전트가 스킬을 즉시 사용하도록 한다.
 publishedAt: 2026-08-16T03:00:15+0900
-draft: true
+draft: false
 lead: false
 source:
   url: https://arxiv.org/abs/2608.12610
@@ -15,7 +15,13 @@ source:
 paper:
   arxivId: '2608.12610'
   authors:
-  - Li Yin (Atlas), Zhi Li (Atlas), Zhan Shi (Atlas), Haoran Zhang (Atlas), Haebin Seong (Atlas),  Zhangyang (Atlas),  Wang
+  - Li Yin (Atlas)
+  - Zhi Li (Atlas)
+  - Zhan Shi (Atlas)
+  - Haoran Zhang (Atlas)
+  - Haebin Seong (Atlas)
+  - Zhangyang (Atlas)
+  - Wang
 ---
 
 현재 공개된 에이전트 스킬의 수는 수만 개에 달하며, 기업 내부에서는 더 많은 스킬이 비공개로 작성되고 있다. 그러나 기존 주류 배포 모델인 '설치' 방식은 한계점을 드러낸다. 스킬을 설치하면 그 설명이 시스템 프롬프트에 상주하게 되는데, 신뢰할 수 있는 트리거 슬롯은 100개 미만으로 제한되어 있다. 이로 인해 긴 꼬리(long tail)에 해당하는 수많은 스킬은 실제로 사용될 경로가 없으며, 팀 내부의 플레이북조차 이 희소한 공간을 두고 경쟁해야 하는 구조적 문제가 발생한다.

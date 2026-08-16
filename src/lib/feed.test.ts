@@ -144,8 +144,10 @@ describe("buildRssXml", () => {
     const posts = inProduction(getAllPosts);
     const document = parseXml(buildRssXml(posts, SITE));
 
-    expect(posts).toHaveLength(8);
-    expect(document.querySelectorAll("item")).toHaveLength(8);
+    // 개수를 박지 않는다 — 봇이 매일 밤 글을 올리므로 그 숫자는 매일 달라진다.
+    // 물어야 할 것은 「몇 편인가」가 아니라 「빠뜨린 글이 있는가」다.
+    expect(posts.length).toBeGreaterThan(0);
+    expect(document.querySelectorAll("item")).toHaveLength(posts.length);
 
     // 초안 제목이 새어 나가면 발행 전 글이 공개된다.
     const titles = [...document.querySelectorAll("item > title")].map(
@@ -212,6 +214,9 @@ describe("buildSearchIndex", () => {
   });
 
   it("초안을 제외한 글 수와 맞는다", () => {
-    expect(buildSearchIndex(inProduction(getAllPosts))).toHaveLength(8);
+    const posts = inProduction(getAllPosts);
+
+    expect(posts.length).toBeGreaterThan(0);
+    expect(buildSearchIndex(posts)).toHaveLength(posts.length);
   });
 });

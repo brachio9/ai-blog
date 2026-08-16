@@ -5,7 +5,7 @@ axis: agent
 format: explainer
 summary: MARC는 단일 LLM 프롬프트를 결정론적 다중 에이전트 오케스트레이션으로 대체하여 임상 추론의 투명성과 오류 추적성을 높이는 오픈소스 프레임워크다. 이 도구는 프로그래밍 지식 없이도 YAML 설정만으로 모델 독립적인 AI 시스템을 구축하고, 복잡한 임무를 자동 분해하는 기능을 제공한다.
 publishedAt: 2026-08-16T08:58:38+0900
-draft: true
+draft: false
 lead: false
 source:
   url: https://arxiv.org/abs/2608.13476
@@ -15,7 +15,15 @@ source:
 paper:
   arxivId: '2608.13476'
   authors:
-  - Saisha Shetty, Satvik Tripathi, Austin Lin, Colin Zhao, Theodore Kim, Don Enwerem, Jacinta Arnold, Shahriar Faghani, Tessa S Cook
+  - Saisha Shetty
+  - Satvik Tripathi
+  - Austin Lin
+  - Colin Zhao
+  - Theodore Kim
+  - Don Enwerem
+  - Jacinta Arnold
+  - Shahriar Faghani
+  - Tessa S Cook
 ---
 
 기존의 단일 대형 언어모델(LLM) 기반 접근법은 임상 추론 과정에서 오류 발생 원인을 명확히 파악하기 어렵다는 한계를 지닌다. MARC는 이러한 문제를 해결하기 위해 추출, 추론, 답변 생성, 평가 등 각 단계에 특화된 에이전트들을 조율하는 오픈소스 프레임워크를 제시한다. 이 구조는 명시적인 컨텍스트 전달과 추적 가능한 중간 출력물을 통해 단계별 실패 원인을 정확히 귀속할 수 있게 한다.

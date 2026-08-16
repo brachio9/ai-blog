@@ -46,9 +46,11 @@ describe("getAllPosts", () => {
       (post) => post.frontmatter.publishedAt,
     );
 
+    // 최신 글이 맨 앞이어야 목록 페이지가 그대로 쓸 수 있다. 그 날짜를 박지 않는 이유는
+    // 하나 — 봇이 매일 밤 더 최신인 글을 올리므로 박아 두면 내일 아침 깨진다.
+    expect(published.length).toBeGreaterThan(0);
     expect(published).toEqual([...published].sort().reverse());
-    // 최신 글이 맨 앞이어야 목록 페이지가 그대로 쓸 수 있다.
-    expect(published[0]).toBe("2026-08-09T10:00:00+0900");
+    expect(published[0]).toBe([...published].sort().at(-1));
   });
 
   it("파일명 날짜와 publishedAt 날짜가 어긋나지 않는다", () => {
