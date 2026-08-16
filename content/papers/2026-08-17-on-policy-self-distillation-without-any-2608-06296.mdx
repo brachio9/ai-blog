@@ -1,0 +1,38 @@
+---
+title: 외부 지도 없이 LLM이 스스로를 교정하는 무감독 자기 증류법
+category: papers
+axis: serving
+format: explainer
+summary: 외부 지도 없이 모델 생성 결과의 내부 일관성만으로 LLM을 자기 증류하는 무감독 온-폴리시 자기 증류법을 제안한다. 저자들은 이 방법이 기존 감독 기반 방법과 맞먹거나 더 나은 성능을 보이며, 특히 수학적 추론 과제에서 베이스 모델 대비 유의미한 향상을 거둔다고 주장한다.
+publishedAt: 2026-08-17T01:05:55+0900
+tags:
+- 추론최적화·파인튜닝
+draft: false
+lead: false
+source:
+  url: https://huggingface.co/papers/2608.06296
+  title: On-Policy Self-Distillation without Any Supervision
+  author: Yijiang Li
+  publishedAt: 2026-08-09T09:00:00+0900
+paper:
+  arxivId: '2608.06296'
+  authors:
+  - Yijiang Li
+  - Bingyang Wang
+  - Yijun Liang
+  - Yunjie Tian
+  - Di Fu
+  - Nuno Vasconcelos
+---
+
+대규모 언어 모델의 사후 학습에서 온-폴리시(self-)증류는 큰 잠재력을 보였으나, 기존 방법들은 정답 신호나 외부 피드백 등 감독 데이터에 의존해 진정한 의미의 '자기' 증류라 보기 어렵다. 본 연구는 이러한 한계를 극복하기 위해 모델이 생성한 결과물의 내부 일관성만으로도 온-폴리시 자기 증류를 달성할 수 있음을 보인다.
+
+제안된 무감독 온-폴리시 자기 증류법은 먼저 여러 번의 롤아웃을 샘플링하여 자기 일관성 임계값 하에서 다수결로 가상의 해를 구성한다. 이후 모델의 분포를 이 가상 해에 조건화하고, 모델이 확신하면서도 틀린 부분만 선별해 증류함으로써 스스로를 정밀하게 교정하는 구조다.
+
+저자들의 주장에 따르면 다양한 벤치마크와 학습 설정에서 이 방법은 베이스 모델을 일관되게 개선하며, 정답을 이용한 기존 감독 기반 방법들과 맞먹거나 이를 상회한다. 특히 수학적 추론 능력 평가에서 Qwen3 모델의 비사고 모드 기준 4B 및 8B 규모에서 각각 8.5%, 10.7% 향상된 것으로 보고되며, 이는 기존 OPSD 방법보다 평균적으로 우월한 성능을 나타낸다.
+
+사고 모드에서도 저자들은 이 방법이 OPSD와 동등하거나 약간 앞서는 성과를 거두며 GRPO를 상회한다고 주장한다. 구체적인 수치로는 4B 규모에서 0.9%, 8B 규모에서는 동수이며, GRPO 대비 각각 0.7%와 1.1% 우월한 것으로 제시된다. 관련 코드는 공개된 저장소에서 확인할 수 있다.
+
+---
+
+원문: [On-Policy Self-Distillation without Any Supervision](https://huggingface.co/papers/2608.06296)
