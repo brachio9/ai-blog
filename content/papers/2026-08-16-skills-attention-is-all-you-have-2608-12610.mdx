@@ -1,0 +1,31 @@
+---
+title: 설치하지 않고 파일 읽기만으로 에이전트 스킬을 실행하는 @skills 프로토콜
+category: papers
+axis: agent
+format: explainer
+summary: 기존 설치 방식의 시스템 프롬프트 공간 경쟁 문제를 해결하기 위해, 스킬의 내용과 지속성, 자동 트리거 기능을 분리한 @skills 프로토콜이 제안되었다. 이 프로토콜은 파일 경로 기반 접근 방식을 통해 별도의 등록이나 매니페스트 없이 에이전트가 스킬을 즉시 사용하도록 한다.
+publishedAt: 2026-08-16T03:00:15+0900
+draft: true
+lead: false
+source:
+  url: https://arxiv.org/abs/2608.12610
+  title: '@skills: Attention is all you have'
+  author: Li Yin (Atlas), Zhi Li (Atlas), Zhan Shi (Atlas), Haoran Zhang (Atlas), Haebin Seong (Atlas),  Zhangyang (Atlas),  Wang
+  publishedAt: 2026-08-15T13:00:00+0900
+paper:
+  arxivId: '2608.12610'
+  authors:
+  - Li Yin (Atlas), Zhi Li (Atlas), Zhan Shi (Atlas), Haoran Zhang (Atlas), Haebin Seong (Atlas),  Zhangyang (Atlas),  Wang
+---
+
+현재 공개된 에이전트 스킬의 수는 수만 개에 달하며, 기업 내부에서는 더 많은 스킬이 비공개로 작성되고 있다. 그러나 기존 주류 배포 모델인 '설치' 방식은 한계점을 드러낸다. 스킬을 설치하면 그 설명이 시스템 프롬프트에 상주하게 되는데, 신뢰할 수 있는 트리거 슬롯은 100개 미만으로 제한되어 있다. 이로 인해 긴 꼬리(long tail)에 해당하는 수많은 스킬은 실제로 사용될 경로가 없으며, 팀 내부의 플레이북조차 이 희소한 공간을 두고 경쟁해야 하는 구조적 문제가 발생한다.
+
+저자들은 이러한 설치 과정이 내용(content), 지속성(persistence), 자동 트리거(automatic triggering)라는 세 가지 독립된 기능을 묶어 처리한다고 분석한다. 이 중 시스템 프롬프트에 상주해야 하는 것은 오직 자동 트리거 기능뿐이다. 이에 따라 @skills는 이 세 기능을 분리하는 개방형 프로토콜을 제안한다. 스킬의 내용을 읽는 것만으로도 사용이 가능하므로, 아무것도 설치하거나 상주시키지 않는다. 대신 프로젝트의 Git 트리에 해당 경로의 사본을 복사하여 적응과 소유권을 보장하며, .gitignore 스타일의 단일 줄 추가만이 프롬프트 공간 비용을 발생시킨다.
+
+이 프로토콜은 디렉토리를 메뉴처럼 활용하여 번들을 전체 또는 무(all-or-nothing) 단위가 아닌 일반 디렉토리 구조로 만든다. 별도의 매니페스트, 락파일, 등록 절차가 필요 없으며 기존 SKILL.md 형식도 변경하지 않는다. 파일 읽기와 명령어 실행만 가능한 에이전트라면 단일 지시 파일을 통해 클라이언트로 전환될 수 있어 추가적 호환성 문제가 없다. 또한 경로 기반 주소 지정의 한계를 보완하기 위해 검색 및 랭킹, 프라이빗 컬렉션 관리 등을 지원하는 허브(atskills.one)가 선택적으로 제공되지만, GitHub나 로컬 경로를 통한 직접 해결이 가능하므로 허브 의존도가 낮다.
+
+@skills는 기존 시스템에 부가적으로 적용되며 설치 가능한 패키지로 제공된다. 저자들은 이 방식이 '적게 설치하고 많이 사용한다'는 철학을 실현하여 에이전트 생태계의 확장성과 효율성을 높일 수 있다고 주장한다. 개방형 사양과 구현체는 각각 GitHub와 AdaL CLI를 통해 공개되어 있으며, 개발자들이 복잡한 등록 절차 없이 스킬을 자유롭게 구성하고 활용할 수 있는 환경을 제공한다.
+
+---
+
+원문: [@skills: Attention is all you have](https://arxiv.org/abs/2608.12610)
