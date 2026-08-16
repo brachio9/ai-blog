@@ -1,0 +1,37 @@
+---
+title: 도구 사용의 한 턴을 정확히 보게 하는 TurnSight
+category: papers
+axis: agent
+format: explainer
+summary: 기존 강화학습이 긴 도구 사용 과정에서의 책임 소재를 명확히 하지 못하는 문제를 해결한다. 실행 결과에 기반한 사후 분석으로 신뢰할 수 있는 지도 신호를 추출해 학습 효율을 높인다.
+publishedAt: 2026-08-16T08:58:38+0900
+draft: true
+lead: false
+source:
+  url: https://huggingface.co/papers/2608.04007
+  title: 'TurnSight: Turn-Level Hindsight Self-Distillation for Tool-Integrated Reasoning'
+  author: Changle Qu
+  publishedAt: 2026-08-05T02:59:21+0900
+paper:
+  arxivId: '2608.04007'
+  authors:
+  - Changle Qu
+  - Sunhao Dai
+  - Hengyi Cai
+  - Yuqi Zhou
+  - Xinran Chen
+  - Simon
+  - Jun Xu
+---
+
+대규모 언어 모델이 도구를 반복적으로 활용해 복잡한 작업을 수행하는 도구 통합 추론은 중요한 기술이다. 하지만 기존 강화학습 방법은 전체 실행 경로 단위로만 지도 신호를 제공하기 때문에, 긴 과정 속에서 어떤 단계가 성공에 기여했는지 세밀하게 구분하지 못한다. 온-폴리시 자기 증류 방식이 더 밀도 있는 신호를 제공하지만, 실제 에이전트가 방문한 상태와 맞지 않는 정답이나 검색된 기술을 기준으로 삼아 한계가 있다.
+
+이 연구는 실행 조건에 기반한 사후 분석을 통해 직접적인 지도 신호를 도출하는 TurnSight 프레임워크를 제안한다. 다양한 시야 범위를 가진 여러 사후 관점을 구성하고, 서로 다른 시야 간 방향적 일치도를 통해 신뢰할 수 있는 신호를 선별한다. 이렇게 선택된 신호는 형제 롤아웃 전반에 걸쳐 정규화되어 강화학습의 이득을 적응적으로 조절하며, 원래의 최적화 방향은 유지한다.
+
+저자들의 주장에 따르면, 이 방법은 도구 상호작용의 턴 단위 구조를 효과적으로 포착한다. 실행 결과에서 도출한 사후 분석이 실제 에이전트의 상태와 더 잘 부합하므로, 기존 방식보다 더 정확한 학습 신호를 제공할 수 있다. 여러 시야의 관점을 교차 검증함으로써 노이즈가 섞인 신호를 걸러내고 신뢰도 높은 부분만 학습에 반영한다.
+
+세 가지 벤치마크에서의 광범위한 실험을 통해 TurnSight의 유효성을 입증했다고 저자들은 주장한다. 이 프레임워크는 도구 통합 추론에서 세밀한 책임 할당 문제를 해결하고, 장기적인 상호작용 시나리오에서도 안정적인 학습을 가능하게 한다. 관련 코드는 공개된 저장소에서 확인할 수 있다.
+
+---
+
+원문: [TurnSight: Turn-Level Hindsight Self-Distillation for Tool-Integrated Reasoning](https://huggingface.co/papers/2608.04007)
