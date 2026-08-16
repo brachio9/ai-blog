@@ -1,0 +1,50 @@
+---
+title: 동영상도 깊이 있게 분석하는 AI 에이전트, Video-DeepResearch
+category: papers
+axis: agent
+format: explainer
+summary: 이 연구는 정적 이미지를 넘어 연속적인 동영상 스트림을 대상으로 한 다중모달 에이전트인 Video-DeepResearch를 소개한다. 기존 모델의 시각적 도구 회피 및 내부 지식 의존 문제를 해결하기 위해 단계별 도구 활성화와 새로운 학습 방식을 적용했다.
+publishedAt: 2026-08-16T08:58:38+0900
+draft: true
+lead: false
+source:
+  url: https://huggingface.co/papers/2608.03979
+  title: 'Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent'
+  author: Zhen Fang
+  publishedAt: 2026-08-04T09:00:00+0900
+paper:
+  arxivId: '2608.03979'
+  authors:
+  - Zhen Fang
+  - Yu Zeng
+  - Wenxuan Huang
+  - Yiming Zhao
+  - Shiting Huang
+  - Tianfei Ren
+  - Qi Lu
+  - Qingnan Ren
+  - Qisheng Su
+  - Lionel Z. Wang
+  - Qingyu Yin
+  - Shuang Chen
+  - Zehui Chen
+  - Lin Chen
+  - Zhenfei Yin
+  - Yao Hu
+  - Shaohui Lin
+  - Wanli Ouyang
+  - Shaosheng Cao
+  - Feng Zhao
+---
+
+현재의 다중모달 에이전트는 정적 이미지 처리에는 어느 정도 성공했지만, 연속적인 동영상 스트림을 분석하고 이를 웹 탐색과 결합하는 작업에서는 한계가 있다. 동영상 기반 연구는 시간과 공간에 걸쳐 밀도 있게 정보를 접목해야 하므로 기존 방식으로는 부족하다. 특히 기존 모델들은 시각적 도구를 무시하고 텍스트 검색만 선호하거나, 실제 도구 사용 없이 내부 기억에 의존하는 두 가지 심각한 병목 현상을 보인다.
+
+이러한 문제를 해결하기 위해 저자들은 Video-DeepResearch를 제안한다. 이 프레임워크는 지각과 탐색을 분리한 파이프라인을 갖추고 있으며, 웹 검색 전에 반드시 교차 프레임 시각적 접목을 완료하도록 강제하는 단계별 도구 잠금 해제 기능을 포함한다. 또한 지도 미세 조정을 거친 후 그룹 상대 정책 최적화(GRPO)를 적용하는 두 단계 학습 레시피를 채택해 모방 학습의 한계를 넘어 자율적인 탐색이 가능하도록 했다.
+
+평가 기준으로는 인간과 AI가 협력하여 구축한 Video-DR-Bench를 사용한다. 이 벤치마크는 200개의 복잡한 다중 홉(VQA) 인스턴스로 구성된다. 저자들의 주장에 따르면, 제안된 Video-DeepResearch-35B-A3B 모델은 평균 정확도 64.0%로 새로운 최첨단 성능을 기록했다. 이는 Claude-4.5-Sonnet(59.0%)보다 5.0점 높으며, GPT-5(52.5%)와 Gemini 2.5 Pro(57.5%)를 크게 앞선다.
+
+더 작은 규모의 30B-A3B 변종 모델도 59.3%의 정확도를 달성해 Claude-4.5-Sonnet과 경쟁할 수 있는 수준을 보였다. 이는 제안된 학습 패러다인이 컴팩트한 규모에서도 효과적임을 시사한다. 관련 코드는 GitHub에서 확인할 수 있다.
+
+---
+
+원문: [Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent](https://huggingface.co/papers/2608.03979)
