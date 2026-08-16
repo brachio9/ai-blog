@@ -186,13 +186,21 @@ describe("frontmatter 직렬화", () => {
 });
 
 /**
- * 픽스처가 아니라 실제 글로 잰다 — 폼이 모르는 필드는 저장할 때 조용히 사라지고,
- * `lead`·`source.words` 는 기본값이 있어 스키마도 그 유실을 잡지 못한다.
+ * 폼이 모르는 필드는 저장할 때 조용히 사라지고, `lead`·`source.words` 는 기본값이 있어
+ * 스키마도 그 유실을 잡지 못한다. **그 둘을 가진 글이 픽스처인 이유**가 여기 있다 —
+ * 실제 `content/` 는 이제 봇이 채우는데 봇은 `lead` 도 `source.words` 도 쓰지 않는다.
+ * (실제 글 전부를 훑는 왕복 검사는 아래 `it.each` 가 따로 한다.)
  */
 describe("에디터 왕복 — 무손실", () => {
   const POST_PATH = "content/papers/2026-08-05-moe-routing-pipeline.mdx";
   const file = matter(
-    readFileSync(path.join(process.cwd(), POST_PATH), "utf8"),
+    readFileSync(
+      path.join(
+        process.cwd(),
+        "src/lib/content/__fixtures__/roundtrip-lead-words.mdx",
+      ),
+      "utf8",
+    ),
   );
 
   it("실제 글을 폼으로 옮겼다 되돌려도 frontmatter 가 그대로다", () => {

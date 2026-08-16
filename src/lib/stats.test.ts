@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { AXES } from "./axes";
 import { CATEGORIES } from "./categories";
+import { loadStats, loadStatsAndPosts } from "./content/__fixtures__/load";
 import { getAllPosts, getAllTags } from "./content/posts";
 import { countByAxis, countByCategory, postsByMonth, tagIndex } from "./stats";
 
@@ -62,43 +63,35 @@ describe("postsByMonth", () => {
     expect(total).toBe(inProduction(getAllPosts).length);
   });
 
-  it("초안은 프로덕션 집계에 섞이지 않는다", () => {
+  it("초안은 프로덕션 집계에 섞이지 않는다", async () => {
+    const stats = await loadStats();
     const countOfAugust = (months: { ym: string; count: number }[]) =>
       months.find((month) => month.ym === "2026-08")?.count;
 
-    // 건수를 박아 두지 않는다 — 봇이 매일 밤 2026-08 에 초안을 더한다.
-    // 확인할 것은 **그 차이가 곧 초안 수**라는 것이다.
-    const augustDrafts = getAllPosts().filter(
-      (post) => post.frontmatter.publishedAt.startsWith("2026-08") && post.frontmatter.draft,
-    ).length;
-
-    expect(augustDrafts).toBeGreaterThan(0);
-    expect(countOfAugust(postsByMonth())).toBe(
-      (countOfAugust(inProduction(postsByMonth)) ?? 0) + augustDrafts,
-    );
+    // 픽스처의 2026-08 은 3편이고 그중 하나가 초안이다.
+    expect(countOfAugust(stats.postsByMonth())).toBe(3);
+    expect(countOfAugust(inProduction(stats.postsByMonth))).toBe(2);
   });
 });
 
 describe("tagIndex", () => {
-  it("빈도 내림차순으로 준다", () => {
-    const counts = inProduction(tagIndex).map((entry) => entry.count);
+  it("빈도 내림차순으로 준다", async () => {
+    const stats = await loadStats();
+    const counts = inProduction(stats.tagIndex).map((entry) => entry.count);
 
     expect(counts).toEqual([...counts].sort((a, b) => b - a));
-    expect(inProduction(tagIndex)[0]).toEqual({ tag: "LLM", count: 5 });
+    expect(inProduction(stats.tagIndex)[0]).toEqual({ tag: "LLM", count: 4 });
   });
 
-  it("동률은 태그 이름순으로 고정한다", () => {
-    const index = inProduction(tagIndex);
+  it("동률은 태그 이름순으로 고정한다", async () => {
+    const stats = await loadStats();
+    const index = inProduction(stats.tagIndex);
     const at = (tag: string) => index.findIndex((entry) => entry.tag === tag);
 
-    // 둘 다 3편이다. 순서가 실행마다 흔들리면 안 된다.
-    expect(index[at("벤치마크")].count).toBe(3);
-    expect(index[at("추론")].count).toBe(3);
+    // 둘 다 2편이다. 순서가 실행마다 흔들리면 안 된다.
+    expect(index[at("벤치마크")].count).toBe(2);
+    expect(index[at("추론")].count).toBe(2);
     expect(at("벤치마크")).toBeLessThan(at("추론"));
-
-    // 빈도 1인 태그는 뒤로 밀리되 사라지지 않는다.
-    expect(at("MoE")).toBeGreaterThan(at("추론"));
-    expect(index.at(-1)?.count).toBe(1);
   });
 
   it("집계 자체는 getAllTags() 의 것을 그대로 쓴다", () => {
@@ -113,12 +106,13 @@ describe("tagIndex", () => {
     }
   });
 
-  it("초안에만 붙은 태그는 프로덕션 색인에서 빠진다", () => {
+  it("초안에만 붙은 태그는 프로덕션 색인에서 빠진다", async () => {
+    const stats = await loadStats();
     const tagsOf = (index: { tag: string }[]) =>
       index.map((entry) => entry.tag);
 
-    expect(tagsOf(tagIndex())).toContain("비용");
-    expect(tagsOf(inProduction(tagIndex))).not.toContain("비용");
+    expect(tagsOf(stats.tagIndex())).toContain("비용");
+    expect(tagsOf(inProduction(stats.tagIndex))).not.toContain("비용");
   });
 });
 
@@ -143,12 +137,14 @@ describe("countByCategory", () => {
     );
   });
 
-  it("초안은 카테고리 집계에도 섞이지 않는다", () => {
+  it("초안은 카테고리 집계에도 섞이지 않는다", async () => {
+    const stats = await loadStats();
     const notesCount = (entries: { slug: string; count: number }[]) =>
       entries.find((entry) => entry.slug === "notes")?.count;
 
-    expect(notesCount(countByCategory())).toBe(3);
-    expect(notesCount(inProduction(countByCategory))).toBe(2);
+    // 픽스처의 notes 는 2편이고 그중 하나가 초안이다.
+    expect(notesCount(stats.countByCategory())).toBe(2);
+    expect(notesCount(inProduction(stats.countByCategory))).toBe(1);
   });
 });
 
@@ -172,14 +168,15 @@ describe("countByAxis", () => {
     );
   });
 
-  it("초안은 축 집계에도 섞이지 않는다", () => {
-    // 어느 축이 초안을 갖는지도 박지 않는다 — 축마다 「개발에서 센 것 − 프로덕션에서
+  it("초안은 축 집계에도 섞이지 않는다", async () => {
+    // 어느 축이 초안을 갖는지는 박지 않는다 — 축마다 「개발에서 센 것 − 프로덕션에서
     // 센 것」이 곧 그 축의 초안 수여야 한다. 이것이 성립하면 초안은 한 축에서도 새지 않는다.
+    const { countByAxis, getAllPosts } = await loadStatsAndPosts();
     const dev = countByAxis();
     const production = inProduction(countByAxis);
     const drafts = getAllPosts().filter((post) => post.frontmatter.draft);
 
-    expect(drafts.length).toBeGreaterThan(0);
+    expect(drafts.length).toBe(1);
     for (const [index, entry] of dev.entries()) {
       const draftsHere = drafts.filter(
         (post) => post.frontmatter.axis === entry.slug,

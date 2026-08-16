@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
+import { loadPosts } from "./__fixtures__/load";
 import {
   getAllPosts,
   getAllTags,
@@ -9,8 +10,12 @@ import {
 } from "./posts";
 
 /**
- * 실제 `content/` 를 읽는 회귀 테스트다 — 픽스처를 따로 두지 않는다.
- * 샘플 글이 스키마를 어기면 여기서 먼저 터지고, 그게 이 글들의 역할이다.
+ * 두 가지를 나눠 잰다.
+ *
+ * - **불변식**은 실제 `content/` 를 읽는다. 글 하나가 스키마를 어기면 여기서 먼저 터진다
+ * - **콘텐츠의 모양에 기대는 것**(초안 제외·태그 집계·축별 묶기)은 `__fixtures__` 를 읽는다.
+ *   `content/` 는 이제 봇이 매일 밤 채우므로, 거기에 개수를 걸면 재는 것이 로더가 아니라
+ *   그날의 수집 결과가 된다
  */
 
 /** draft 제외는 NODE_ENV 로만 갈린다. 프로덕션 빌드와 같은 조건으로 재 본다. */
@@ -31,14 +36,16 @@ describe("getAllPosts", () => {
     expect(posts.length).toBeGreaterThan(0);
   });
 
-  // 건수를 박아 두지 않는다 — 봇이 매일 밤 초안을 머지하므로 개수를 적으면
-  // 그날부터 이 파일이 빨개진다. 확인할 것은 **초안이 프로덕션에서 빠지는가**다.
-  it("개발에서는 draft 까지 보이고 프로덕션에서는 빠진다", () => {
-    const all = getAllPosts();
+  // 픽스처로 잰다 — 실제 `content/` 에는 초안이 한 편도 없을 수 있다 (지금이 그렇다).
+  it("개발에서는 draft 까지 보이고 프로덕션에서는 빠진다", async () => {
+    const posts = await loadPosts();
+    const all = posts.getAllPosts();
     const drafts = all.filter((post) => post.frontmatter.draft);
 
-    expect(drafts.length).toBeGreaterThan(0);
-    expect(inProduction(getAllPosts)).toHaveLength(all.length - drafts.length);
+    expect(drafts.length).toBe(1);
+    expect(inProduction(posts.getAllPosts)).toHaveLength(
+      all.length - drafts.length,
+    );
   });
 
   it("publishedAt 내림차순으로 정렬한다", () => {
@@ -85,19 +92,24 @@ describe("getPostsByCategory", () => {
 });
 
 describe("getPostsByAxis", () => {
-  it("카테고리를 가로질러 모은다 — 축은 디렉토리가 아니라 frontmatter 다", () => {
+  it("카테고리를 가로질러 모은다 — 축은 디렉토리가 아니라 frontmatter 다", async () => {
+    const posts = await loadPosts();
     const categories = new Set(
-      inProduction(() => getPostsByAxis("serving")).map((post) => post.category),
+      inProduction(() => posts.getPostsByAxis("serving")).map(
+        (post) => post.category,
+      ),
     );
 
-    expect(categories).toEqual(new Set(["news", "papers", "notes"]));
+    expect(categories).toEqual(new Set(["papers", "news"]));
   });
 
-  it("그 축의 글만 준다", () => {
-    for (const post of getPostsByAxis("retrieval")) {
+  it("그 축의 글만 준다", async () => {
+    const posts = await loadPosts();
+
+    for (const post of posts.getPostsByAxis("retrieval")) {
       expect(post.frontmatter.axis).toBe("retrieval");
     }
-    expect(getPostsByAxis("retrieval")).toHaveLength(2);
+    expect(posts.getPostsByAxis("retrieval")).toHaveLength(2);
   });
 
   it("글이 없는 축에는 빈 목록을 준다 — 없는 축과 구분되지 않아도 된다", () => {
@@ -127,45 +139,47 @@ describe("getPostsByAxis", () => {
 });
 
 describe("getPost", () => {
-  it("category 와 slug 로 정확히 찾는다", () => {
-    const post = getPost("papers", "moe-routing-pipeline");
+  it("category 와 slug 로 정확히 찾는다", async () => {
+    const posts = await loadPosts();
+    const post = posts.getPost("papers", "moe-routing");
 
     expect(post?.frontmatter.title).toBe(
       "MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인",
     );
-    expect(post?.filePath).toBe(
-      "content/papers/2026-08-05-moe-routing-pipeline.mdx",
-    );
+    expect(post?.filePath).toBe("content/papers/2026-08-05-moe-routing.mdx");
   });
 
   it("없는 slug 에는 undefined 를 준다", () => {
     expect(getPost("papers", "존재하지-않는-글")).toBeUndefined();
   });
 
-  it("다른 카테고리의 slug 로는 찾지 못한다", () => {
-    expect(getPost("notes", "moe-routing-pipeline")).toBeUndefined();
+  it("다른 카테고리의 slug 로는 찾지 못한다", async () => {
+    const posts = await loadPosts();
+    expect(posts.getPost("notes", "moe-routing")).toBeUndefined();
   });
 });
 
 describe("getAllTags", () => {
-  it("태그별 글 수를 센다", () => {
-    const tags = inProduction(getAllTags);
+  it("태그별 글 수를 센다", async () => {
+    const posts = await loadPosts();
+    const tags = inProduction(posts.getAllTags);
     const countOf = (tag: string) =>
       tags.find((entry) => entry.tag === tag)?.count;
 
     // 겹치는 태그가 다음 phase 의 태그 필터가 쓸 데이터다.
-    expect(countOf("LLM")).toBe(5);
-    expect(countOf("벤치마크")).toBe(3);
-    expect(countOf("추론")).toBe(3);
-    expect(countOf("어텐션")).toBe(1);
+    expect(countOf("LLM")).toBe(4);
+    expect(countOf("벤치마크")).toBe(2);
+    expect(countOf("추론")).toBe(2);
   });
 
-  it("draft 의 태그는 프로덕션 집계에서 빠진다", () => {
+  it("draft 의 태그는 프로덕션 집계에서 빠진다", async () => {
+    const posts = await loadPosts();
+
     // 초안에만 붙은 태그다.
-    expect(getAllTags().map((entry) => entry.tag)).toContain("비용");
-    expect(inProduction(getAllTags).map((entry) => entry.tag)).not.toContain(
-      "비용",
-    );
+    expect(posts.getAllTags().map((entry) => entry.tag)).toContain("비용");
+    expect(
+      inProduction(posts.getAllTags).map((entry) => entry.tag),
+    ).not.toContain("비용");
   });
 
   it("글 수 내림차순으로 정렬한다", () => {
