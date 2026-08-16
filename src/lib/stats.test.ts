@@ -61,9 +61,16 @@ describe("postsByMonth", () => {
     const countOfAugust = (months: { ym: string; count: number }[]) =>
       months.find((month) => month.ym === "2026-08")?.count;
 
-    // 초안 한 편이 2026-08 에 있다. 개발에서만 보인다.
-    expect(countOfAugust(postsByMonth())).toBe(4);
-    expect(countOfAugust(inProduction(postsByMonth))).toBe(3);
+    // 건수를 박아 두지 않는다 — 봇이 매일 밤 2026-08 에 초안을 더한다.
+    // 확인할 것은 **그 차이가 곧 초안 수**라는 것이다.
+    const augustDrafts = getAllPosts().filter(
+      (post) => post.frontmatter.publishedAt.startsWith("2026-08") && post.frontmatter.draft,
+    ).length;
+
+    expect(augustDrafts).toBeGreaterThan(0);
+    expect(countOfAugust(postsByMonth())).toBe(
+      (countOfAugust(inProduction(postsByMonth)) ?? 0) + augustDrafts,
+    );
   });
 });
 

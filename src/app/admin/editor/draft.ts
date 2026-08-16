@@ -257,7 +257,11 @@ export function toFrontmatterObject(form: DraftForm): Record<string, unknown> {
     summary: form.summary.trim(),
     publishedAt: form.publishedAt.trim(),
     ...(optional(form.updatedAt) ? { updatedAt: form.updatedAt.trim() } : {}),
-    tags: parseList(form.tags),
+    // 비어 있으면 아예 내보내지 않는다 — 다른 선택 필드와 같은 규칙이다.
+    // `tags` 는 스키마가 `default([])` 라 생략과 빈 배열이 같은 뜻이지만, 늘 적어 내면
+    // **`tags` 를 생략한 파일을 열었다 저장하기만 해도 `tags: []` 가 붙는다.**
+    // 봇 초안이 그 형태다(태그 정규화 층이 없어 비워 둔다) — 왕복이 무손실이 아니게 된다.
+    ...(parseList(form.tags).length ? { tags: parseList(form.tags) } : {}),
     ...(optional(form.cover) ? { cover: form.cover.trim() } : {}),
     draft: form.draft,
     lead: form.lead,

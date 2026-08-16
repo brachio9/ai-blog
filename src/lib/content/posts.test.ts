@@ -27,15 +27,18 @@ describe("getAllPosts", () => {
   it("프로덕션에서는 draft 를 뺀 8건을 준다", () => {
     const posts = inProduction(getAllPosts);
 
-    expect(posts).toHaveLength(8);
     expect(posts.every((post) => !post.frontmatter.draft)).toBe(true);
+    expect(posts.length).toBeGreaterThan(0);
   });
 
-  it("개발에서는 draft 까지 9건이 보인다", () => {
-    const posts = getAllPosts();
+  // 건수를 박아 두지 않는다 — 봇이 매일 밤 초안을 머지하므로 개수를 적으면
+  // 그날부터 이 파일이 빨개진다. 확인할 것은 **초안이 프로덕션에서 빠지는가**다.
+  it("개발에서는 draft 까지 보이고 프로덕션에서는 빠진다", () => {
+    const all = getAllPosts();
+    const drafts = all.filter((post) => post.frontmatter.draft);
 
-    expect(posts).toHaveLength(9);
-    expect(posts.filter((post) => post.frontmatter.draft)).toHaveLength(1);
+    expect(drafts.length).toBeGreaterThan(0);
+    expect(inProduction(getAllPosts)).toHaveLength(all.length - drafts.length);
   });
 
   it("publishedAt 내림차순으로 정렬한다", () => {
@@ -57,12 +60,18 @@ describe("getAllPosts", () => {
 });
 
 describe("getPostsByCategory", () => {
-  it("카테고리별로 3건씩 나뉜다", () => {
-    expect(getPostsByCategory("papers")).toHaveLength(3);
-    expect(getPostsByCategory("news")).toHaveLength(3);
-    // notes 3건 중 1건이 draft 라 프로덕션에서는 2건이다.
-    expect(getPostsByCategory("notes")).toHaveLength(3);
-    expect(inProduction(() => getPostsByCategory("notes"))).toHaveLength(2);
+  it("카테고리를 나눠도 합이 전체와 같고 초안 규칙이 같다", () => {
+    const categories = ["papers", "releases", "news", "community", "notes"] as const;
+    const split = categories.flatMap((category) => getPostsByCategory(category));
+
+    expect(split).toHaveLength(getAllPosts().length);
+    for (const category of categories) {
+      const posts = getPostsByCategory(category);
+      const drafts = posts.filter((post) => post.frontmatter.draft);
+      expect(inProduction(() => getPostsByCategory(category))).toHaveLength(
+        posts.length - drafts.length,
+      );
+    }
   });
 
   it("다른 카테고리 글을 섞어 주지 않는다", () => {
@@ -90,13 +99,23 @@ describe("getPostsByAxis", () => {
   });
 
   it("글이 없는 축에는 빈 목록을 준다 — 없는 축과 구분되지 않아도 된다", () => {
-    expect(getPostsByAxis("voice")).toEqual([]);
-    expect(getPostsByAxis("vibe-coding")).toEqual([]);
+    // 어느 축이 비어 있는지는 콘텐츠에 달렸다. **없는 축**은 늘 비어 있다.
+    expect(getPostsByAxis("존재하지-않는-축" as never)).toEqual([]);
+
+    const used = new Set(getAllPosts().map((post) => post.frontmatter.axis));
+    for (const axis of ["retrieval", "serving", "voice", "agent", "domain", "vibe-coding"] as const) {
+      if (!used.has(axis)) expect(getPostsByAxis(axis)).toEqual([]);
+    }
   });
 
   it("최신순 정렬과 초안 제외를 getAllPosts() 와 똑같이 따른다", () => {
-    expect(getPostsByAxis("serving")).toHaveLength(6);
-    expect(inProduction(() => getPostsByAxis("serving"))).toHaveLength(5);
+    const serving = getPostsByAxis("serving");
+    const drafts = serving.filter((post) => post.frontmatter.draft);
+
+    expect(serving.length).toBeGreaterThan(0);
+    expect(inProduction(() => getPostsByAxis("serving"))).toHaveLength(
+      serving.length - drafts.length,
+    );
 
     const published = getPostsByAxis("serving").map(
       (post) => post.frontmatter.publishedAt,
@@ -160,7 +179,7 @@ describe("출처 표기 (CLAUDE.md CRITICAL)", () => {
       (post) => post.category === "news" || post.category === "papers",
     );
 
-    expect(cited).toHaveLength(6);
+    expect(cited.length).toBeGreaterThan(0);
     for (const post of cited) {
       expect(post.frontmatter.source?.url, post.filePath).toMatch(/^https?:\/\//);
       expect(post.frontmatter.source?.title, post.filePath).toBeTruthy();
