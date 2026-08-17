@@ -1,0 +1,39 @@
+---
+title: YOLO에 PEFT를 적용할 때, 어댑터 위치 선정의 자동화 계획 프레임워크
+category: papers
+axis: serving
+format: explainer
+summary: 대형 언어모델에서 유래한 파라미터 효율적 미세 조정(PEFT) 기법은 실시간 객체 탐지기의 이질적인 연산자 구조로 인해 실패할 수 있다. YOLO-PEFT는 어댑터 배치 문제를 검증 가능한 제약 조건 계획 문제로 정식화하여, 리소스 예산 내에서 타당한 모듈을 자동으로 선정하거나 훈련 전 거부하는 프레임워크를 제안한다.
+publishedAt: 2026-08-17T22:00:05+0900
+tags:
+- 추론최적화·파인튜닝
+draft: false
+lead: false
+source:
+  url: https://huggingface.co/papers/2608.07051
+  title: 'YOLO-PEFT: Parameter-Efficient Fine-Tuning on YOLO Family'
+  author: Xu Lin
+  publishedAt: 2026-08-07T09:00:00+0900
+paper:
+  arxivId: '2608.07051'
+  authors:
+  - Xu Lin
+  - WenJie Nie
+  - Jinlong Peng
+  - Weifu Fu
+  - YueXiao Ma
+  - Xiawu Zheng
+  - Yong Liu
+---
+
+대형 언어모델에서 성공적으로 사용되던 일반적인 PEFT 기법은 실시간 객체 탐지기에 적용될 때 침묵한 실패(fail silently)를 일으킬 수 있다. 이는 탐지기 특유의 이질적인 연산자와 구성 요소가 기존 트랜스포머 스택에는 존재하지 않는 배치 제약 조건을 부과하기 때문이다. 이러한 구조적 불일치로 인해 단순히 어댑터를 임의의 레이어에 삽입하는 방식은 성능 저하나 훈련 붕괴를 초래할 수 있다.
+
+YOLO-PEFT는 탐지기 그래프, PEFT 요청, 그리고 리소스 예산을 입력으로 받아 어댑터 배치를 검증 가능한 제약 조건 계획 문제로 처리한다. 이 프레임워크는 연산자 유효성, 탐지기의 의미론적 역할, 그래프 인터페이스, 배포 가능성 등 명시적인 술어를 평가하여 각 제외 모듈에 대한 이유 코드를 기록한다. 예산 내에서 타겟 모듈 계획을 생성하거나, 훈련 시작 전에 '거부(Refuse)' 결정을 내림으로써 불필요한 자원 낭비를 방지한다.
+
+저자들의 주장에 따르면, 공식 VOC07+12 프로토콜에서 YOLO-PEFT가 선정한 RS-LoRA는 YOLO11s와 YOLO12s에서 각각 0.7138과 0.7307의 mAP50-95를 달성하여, 전체 미세 조정(Full-SFT)의 0.6428 및 0.6662보다 높은 성능을 보였다. 반면 RT-DETR-L에서는 평가된 모든 LoRA 구성이 재앙적 성능 저하 임계값을 넘었으며, 이는 해당 범위 내에서 전체 미세 조정을 수행해야 한다는 '거부' 결정의 타당성을 지지한다.
+
+제어된 YOLO11 감사 결과에 따르면 LoRA는 훈련 시 피크 메모리 사용량을 43.9% 감소시키지만, 훈련 시간은 1.72배 길어지는 것으로 나타났다. YOLO-PEFT는 평가된 탐지기 패밀리 내에서 수동적인 모듈 선정 시행착오를 명시적이고 검사 가능한 계획으로 대체하며, 검증된 훈련-저장-병합-내보내기 경로를 유지한다. 다만 아직 알려지지 않은 탐지기 아키텍처에 대한 거부 결정의 유효성은 향후 검증이 필요한 문제로 남아 있다.
+
+---
+
+원문: [YOLO-PEFT: Parameter-Efficient Fine-Tuning on YOLO Family](https://huggingface.co/papers/2608.07051)

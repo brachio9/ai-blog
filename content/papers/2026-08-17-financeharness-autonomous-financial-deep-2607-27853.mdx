@@ -1,0 +1,44 @@
+---
+title: 금융 심층 연구 자동화 프레임워크 FinanceHarness와 검증 벤치마크 FinanceGym 소개
+category: papers
+axis: vibe-coding
+format: explainer
+summary: LLM 기반 자율 에이전트의 금융 심층 연구 자동화를 위해 전문 도구와 워크플로우를 결합한 FinanceHarness를 제안한다. 이를 검증하기 위해 정보 누수를 방지하는 시점별 평가 기준을 갖춘 FinanceGym 벤치마크를 도입하여 전문가 검증 및 성능 개선을 확인했다.
+publishedAt: 2026-08-17T22:00:05+0900
+tags:
+- Agentic Engineering
+- 평가·벤치마크
+draft: false
+lead: false
+source:
+  url: https://huggingface.co/papers/2607.27853
+  title: 'FinanceHarness: Autonomous Financial Deep Research Framework'
+  author: Yijia Xiao
+  publishedAt: 2026-08-07T09:00:00+0900
+paper:
+  arxivId: '2607.27853'
+  authors:
+  - Yijia Xiao
+  - Rujun Han
+  - Yanfei Chen
+  - Zifeng Wang
+  - Ke Jiang
+  - Zhongying CuiZhu
+  - Vishy Tirumalashetty
+  - Wei Wang
+  - Burak Gokturk
+  - Tomas Pfister
+  - Chen-Yu Lee
+---
+
+대형 언어모델과 자율 에이전트 기술의 발전으로 심층 연구는 가장 널리 채택된 에이전트 기반 제품 중 하나가 되었다. 그러나 기존 대부분의 심층 연구 시스템은 범용 보고서 작성에 치우쳐 있어, 과거 패턴 분석과 미래 사건 예측이 필수적인 금융 분야에는 부적합하다. 금융 심층 연구를 자동화하려면 연구 에이전트를 구동하는 계층적 하네스와 미래 정보 누수를 방지할 수 있는 검증 가능한 시점별 벤치마크가 모두 필요하다.
+
+저자들은 금융 도구와 실무자 가이드 워크플로우를 실행하여 환경 및 데이터 구축, 에이전트 실행 루프, 보상 모델링까지 종단간 자동화를 가능하게 하는 FinanceHarness를 제안한다. 또한 이 프레임워크의 성능을 평가하기 위해 논문 중심의 연구 질문과 컷오프 전후 기준을 결합한 채점 기준을 포함한 FinanceGym 벤치마크를 도입했다. 전문가 검증 결과 82%의 통과율을 기록했으며, 이는 해당 벤치마크의 타당성을 시사한다.
+
+저자들의 주장에 따르면 동일한 오픈웨이트 백본 모델을 사용했을 때 FinanceHarness 적용으로 전체 채점 기준 점수가 25.3%에서 32.4%로 향상되었다. 이는 금융 연구에 특화된 하네스 설계의 효과를 입증하는 수치다. 다만 최첨단 LLM인 Opus-5와 결합해도 FinanceGym 점수가 45% 미만으로 나오는 것으로 나타나, 금융 심층 연구 자동화가 여전히 해결해야 할 과제가 많은 분야임을 보여준다.
+
+금융 심층 연구의 자동화와 평가에 관심 있는 독자는 제공된 리더보드와 코드 저장소를 통해 해당 프레임워크와 벤치마크를 직접 확인할 수 있다. 이 자료는 금융 도메인 특화 에이전트 개발과 평가 지표 설정을 위한 기초적인 참고 자료로 활용될 수 있으며, 향후 더 정교한 모델과 도구 연동을 통한 성능 향상이 기대된다.
+
+---
+
+원문: [FinanceHarness: Autonomous Financial Deep Research Framework](https://huggingface.co/papers/2607.27853)
