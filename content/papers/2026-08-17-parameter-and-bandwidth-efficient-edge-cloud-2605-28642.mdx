@@ -1,0 +1,33 @@
+---
+title: '음성 데이터는 기기에서, 번역은 클라우드에서: 효율적인 엣지-클라우드 협업 모델 ESRT'
+category: papers
+axis: voice
+format: explainer
+summary: 기존 음성 번역 시스템의 자원 부족과 대역폭 병목 문제를 해결하기 위해 저자들은 엣지-클라우드 협업 프레임워크 ESRT를 제안한다. 이 방식은 원본 음성을 기기 내에 유지한 채 압축된 텐서만 전송하여 대역폭을 절감하고 프라이버시를 보호하며, 다국어 번역 성능을 높인다고 주장한다.
+publishedAt: 2026-08-17T23:32:58+0900
+tags:
+- 음성
+draft: false
+lead: false
+source:
+  url: https://arxiv.org/abs/2605.28642
+  title: Parameter- and Bandwidth-Efficient Edge--cloud Many-to-Many Speech-to-Text Translation
+  author: Yexing Du, Kaiyuan Liu, Youcheng Pan, Bo Yang, Lei Chen, Ming Liu, Bing Qin, Yang Xiang
+  publishedAt: 2026-08-17T13:00:00+0900
+paper:
+  arxivId: '2605.28642'
+  authors:
+  - Yexing Du, Kaiyuan Liu, Youcheng Pan, Bo Yang, Lei Chen, Ming Liu, Bing Qin, Yang Xiang
+---
+
+다중 모달 대형 언어 모델이 음성에서 텍스트로 번역하는 데 큰 잠재력을 보이지만, 실제 적용에는 여전히 난관이 존재한다. 기종만 의존하면 하드웨어 자원이 부족하고, 클라우드 중심 방식은 원본 음성 데이터를 서버로 보내야 하므로 대역폭 부담과 개인정보 유출 위험을 안게 된다. 이러한 단점을 보완하기 위해 저자들은 파라미터와 대역폭 모두를 효율적으로 사용하는 협업형 프레임워크 ESRT를 개발했다.
+
+ESRT는 기기에는 가벼운 음성 인코더와 어댑터만 두어 원본 음성을 외부로 노출하지 않고, 클라우드에는 압축된 텐서만 전송하는 구조다. 저자들의 주장에 따르면 이 방식은 기존 원본 오디오 전송 대비 대역폭을 최대 10배 이상 줄일 수 있으며, ESRT-1B부터 12B까지 다양한 규모의 모델을 통해 자원 제약과 성능 요구 사이의 균형을 맞춘다고 한다.
+
+모델 학습 과정에서는 다중 작업 가중치 커리큘럼 학습 전략을 적용해 재앙적 망각 현상을 완화하고 다국어 간 균형을 잡았다고 설명한다. 이를 통해 45개 언어에 걸친 번역 방향에서 기존 기술 대비 우수한 성능을 달성했으며, 특히 FLEURS 벤치마크에서의 평가 결과를 근거로 삼고 있다.
+
+이 연구는 음성 데이터의 프라이버시 보호와 효율적인 네트워크 사용을 동시에 해결하려는 시도로 의미가 크다. 저자들은 코드와 모델을 공개함으로써 재현 가능한 연구를 장려하며, 향후 엣지-클라우드 환경에서의 음성 번역 기술 발전에 기여할 것으로 기대한다.
+
+---
+
+원문: [Parameter- and Bandwidth-Efficient Edge--cloud Many-to-Many Speech-to-Text Translation](https://arxiv.org/abs/2605.28642)

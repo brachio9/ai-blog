@@ -1,0 +1,31 @@
+---
+title: 확산형 LLM의 병렬 생성 속도를 높이는 '일관성 강제' 기술
+category: papers
+axis: serving
+format: explainer
+summary: 초기 노이즈 제거 단계의 불안정한 예측이 후속 단계로 전파되는 확산형 대규모 언어 모델(dLLM)의 결점을 해결하는 방법이다. 초기와 후기 단계의 마스크 예측을 일치시키는 지식 증류 기법인 CForce를 제안하여, 높은 병렬 처리 환경에서 속도와 품질의 균형을 개선한다.
+publishedAt: 2026-08-17T23:16:03+0900
+tags:
+- 추론최적화·파인튜닝
+draft: false
+lead: false
+source:
+  url: https://arxiv.org/abs/2608.13925
+  title: 'CForce: Boosting Parallel Decoding for dLLMs via Consistency Forcing'
+  author: Yuji Ren, Chenkai Xu, Zhuocheng Gong, Jianguo Li, Zhijie Deng
+  publishedAt: 2026-08-17T13:00:00+0900
+paper:
+  arxivId: '2608.13925'
+  authors:
+  - Yuji Ren, Chenkai Xu, Zhuocheng Gong, Jianguo Li, Zhijie Deng
+---
+
+확산형 대규모 언어 모델은 단일 순전파로 여러 마스크를 동시에 예측함으로써 텍스트 생성 속도를 높인다. 그러나 공격적인 병렬 전략을 적용할 경우 초기 노이즈 제거 단계에서 예측이 불안정해지며, 이 오류가 후속 단계로 전파되는 문제가 발생한다. 저자들은 이러한 일관성 부재 문제를 해결하기 위해 초기 단계의 예측이 후기 단계와 일치하도록 강제하는 지식 증류 방법인 CForce를 제안한다.
+
+CForce는 사전 수집된 자체 롤아웃 궤적을 학습 데이터로 사용하여 훈련과 추론 과정의 불일치를 줄인다. 기존 전방 및 후방 KL 발산의 장점을 결합한 자신감 적응형 KL 발산을 증류 목적함수로 도입했으며, 이를 통해 초기 단계의 예측 오류를 최소화할 수 있음을 이론적으로 분석했다. 이 접근법은 마스크에서 토큰으로의 해독뿐만 아니라 편집 가능한 해독에도 동일하게 적용된다.
+
+특히 편집 가능한 해독의 경우, 후기 단계의 토큰 간 정교화 과정이 초기 마스크 상태 예측에 대한 추가적인 감독 신호를 제공한다. 저자들의 주장에 따르면 LLaDA 모델을 대상으로 한 실험 결과, CForce는 높은 병렬 처리 예산 하에서 속도-품질 트레이드오프가 개선된 것으로 나타났다. 관련 코드는 공개되어 있어 연구자들이 직접 검증할 수 있도록 제공된다.
+
+---
+
+원문: [CForce: Boosting Parallel Decoding for dLLMs via Consistency Forcing](https://arxiv.org/abs/2608.13925)

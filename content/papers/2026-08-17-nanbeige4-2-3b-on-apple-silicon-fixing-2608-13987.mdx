@@ -1,0 +1,34 @@
+---
+title: Apple Silicon에서 Nanbeige4.2-3B를 구동하기 위해 고친 버그와 메모리 최적화 전략
+category: papers
+axis: agent
+format: explainer
+summary: Nanbeige4.2-3B 모델의 Apple Silicon(MPS) 환경 실행을 막는 다섯 가지 버그를 수정하고, Looped Transformer 구조로 인한 메모리 과부하를 해결하는 방안을 제시한다. 패치된 체크포인트와 평가 도구를 공개하여 에이전트 작업에서의 실제 성능을 검증했다.
+publishedAt: 2026-08-17T23:16:03+0900
+tags:
+- Agentic Engineering
+- MCP
+draft: false
+lead: false
+source:
+  url: https://arxiv.org/abs/2608.13987
+  title: 'Nanbeige4.2-3B on Apple Silicon: Fixing Deployment Bugs and Decreasing Looped Transformer Memory Overhead'
+  author: John T. Halloran
+  publishedAt: 2026-08-17T13:00:00+0900
+paper:
+  arxivId: '2608.13987'
+  authors:
+  - John T. Halloran
+---
+
+Nanbeige4.2-3B는 파라미터 추가 없이 레이어 재사용을 통해 효과적 깊이를 더하는 Looped Transformer 기반의 3B 파라미터 에이전트 모델이다. 저자들은 Apple Silicon 환경에서 이 모델을 Hugging Face transformers 라이브러리로 바로 실행할 수 없게 만드는 다섯 가지 독립적인 버그를 발견했다. 여기에는 RoPE 버퍼가 침묵하게 영으로 초기화되는 문제와 제거된 캐시 API 호출 오류 등이 포함된다.
+
+이러한 버그 수정만으로는 에이전트 작업 수행에 충분하지 않다는 점이 드러났다. 파라미터 효율성을 위해 레이어를 재사용하는 Looped Transformer의 특성상 피크 어텐션 메모리가 사실상 두 배로 증가하기 때문이다. 이를 해결하기 위해 저자들은 청크 기반 프리필(chunked-prefill) 전략을 도입하여 32GiB 공유 메모리 환경에서 허용 가능한 컨텍스트 길이를 약 2.7배까지 늘렸다.
+
+시스템 프롬프트와 MPS 고유 메모리 버그를 최종적으로 해결한 패치된 모델은 표준 MCP 및 툴 호출 벤치마크에서 신뢰할 수 있는 평가를 가능하게 했다. 저자들의 주장에 따르면, 디버깅된 모델은 MCPMark의 일부 테스트에서 기존 0%였던 실제 에이전트 작업 완료율을 최대 30%까지 끌어올렸다.
+
+또한 BFCL 벤치마크에서는 단일 툴 호출에서 거의 완벽한 성능을 보였으나, 다중 툴 테스트에서는 대부분 실패하는 것으로 나타났다. 저자들은 이러한 결과를 바탕으로 패치된 체크포인트, 시스템 프롬프트 최적화 도구, 그리고 평가 하네스를 GitHub를 통해 공개했다.
+
+---
+
+원문: [Nanbeige4.2-3B on Apple Silicon: Fixing Deployment Bugs and Decreasing Looped Transformer Memory Overhead](https://arxiv.org/abs/2608.13987)

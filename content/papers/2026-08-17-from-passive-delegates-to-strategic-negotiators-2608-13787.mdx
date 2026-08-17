@@ -1,0 +1,33 @@
+---
+title: '4B 모델이 GPT-5를 제패하다: 협상 능력이 뛰어난 AI 에이전트 만들기'
+category: papers
+axis: agent
+format: explainer
+summary: 기존 대형 언어모델은 친절하지만 협상에서 불리하게 굴어 사용자의 이익을 해칠 수 있다. 저자들은 SocialRL이라는 강화학습 기법으로 4B 모델의 사회적 추론 능력을 훈련시켜 이 문제를 해결했다. 결과적으로 작은 모델이 최신 최첨단 모델보다 더 효과적으로 협상하고 다양한 상황에 적응하는 성능을 보였다.
+publishedAt: 2026-08-17T23:33:54+0900
+tags:
+- 추론최적화·파인튜닝
+draft: false
+lead: false
+source:
+  url: https://arxiv.org/abs/2608.13787
+  title: 'From Passive Delegates to Strategic Negotiators: Reinforcing Social Reasoning in Small Language Models with SocialRL'
+  author: Wenyue Hua, Zachary Huang, Tyler Payne, Safoora Yousefi, Saleema Amershi, Asli Celikyilmaz
+  publishedAt: 2026-08-17T13:00:00+0900
+paper:
+  arxivId: '2608.13787'
+  authors:
+  - Wenyue Hua, Zachary Huang, Tyler Payne, Safoora Yousefi, Saleema Amershi, Asli Celikyilmaz
+---
+
+AI 에이전트가 사용자를 대신해 회의 일정을 잡거나 가격을 흥정할 때, 상대방의 목표와 충돌하는 경우가 빈번하다. 기존에 친절하고 도움이 되는 것으로 훈련된 대형 언어모델은 이러한 협상 상황에서 불리하게 작용한다. 이들은 저항이 보이면 쉽게 양보하거나 사용자의 비공개 정보를 자발적으로 노출하는 등 대리인으로서의 역할을 제대로 수행하지 못한다. 즉, المساعد로서의 매너가 전략적 협상자로서의 역량을 약화시키는 구조적 한계가 존재한다.
+
+저자들은 이러한 문제를 해결하기 위해 사회적 추론을 직접 훈련하는 SocialRL이라는 일반적인 학습 레시피를 제시한다. 이 방법은 4B 파라미터 모델에 적용되어 딜 또는 노 딜, Craigslist, 구직 면접 등 여섯 가지 서로 다른 도메인에서 테스트되었다. 저자들의 주장에 따르면, 해당 도메인 내에서만 훈련된 4B 모델은 협상 게임에서 기존 베이스라인 대비 최첨단 모델과의 격차를 73~122%까지 좁혔다. 특히 구매자의 첫 제안이 목표가보다 낮은 수준으로 고정되는 비율이 미훈련 모델의 3%에서 78%로 크게 향상되었다.
+
+학습된 정책의 도메인 간 이전 효과는 게임의 구조적 유사성에 따라 달라진다는 점이 확인되었다. 구조적으로 쌍을 이루는 게임은 서로의 성능을 높여주며, 광범위한 다중 이슈 기증자 도메인은 거의 모든 영역에 긍정적인 영향을 미쳤다. 반면 구조적으로 고립된 게임은 다른 도메인으로 지식이 이전되지 않았다. 이러한 이전 구조를 바탕으로 캐스케이드 RL과 다중 교사 온-폴리시 증류(OPD) 두 가지 전략을 사용해 각 도메인 전문가들을 단일 통합 모델로 합성했다.
+
+최종적으로 통합된 4B 모델은 여섯 환경 모두에서 평균 유틸리티 0.627을 기록하며 GPT-4.1, GPT-5.1, GPT-5.2 등 최신 최첨단 모델군을 맞서거나 능가하는 성과를 보였다. 저자들은 명시적인 마음 이론(Theory-of-Mind) 스캐폴딩이 훈련 단계에서만 도움이 된다고 분석했다. 행동 자체보다는 마음 이론의 추론 과정을 증류할 때 모든 환경에서 유틸리티가 상승하고 일반화 성능이 좋아졌으며, 두 가지 마음 이론 기술 중 다음 행동 예측만이 협상 결과를 실제로 예측하는 것으로 나타났다.
+
+---
+
+원문: [From Passive Delegates to Strategic Negotiators: Reinforcing Social Reasoning in Small Language Models with SocialRL](https://arxiv.org/abs/2608.13787)

@@ -1,0 +1,48 @@
+---
+title: 장문 추론 모델의 능력을 단문 모델로 이전하는 SimpleOPD 방법
+category: papers
+axis: serving
+format: explainer
+summary: 장문 추론 모델의 능력을 단문 모델로 이전할 때 발생하는 토크나이저 불일치 및 길이 폭발 문제를 해결하는 SimpleOPD 방법을 제시한다. 공유 텍스트 공간에서의 정렬과 참조 KL 손실을 통해 훈련 안정성을 높이고, 다양한 학생 모델에서 수학 및 과학 추론 능력의 향상을 확인했다.
+publishedAt: 2026-08-17T23:45:29+0900
+tags:
+- 추론최적화·파인튜닝
+draft: false
+lead: false
+source:
+  url: https://huggingface.co/papers/2608.14277
+  title: 'SimpleOPD: Simple Tokenizer-Agnostic On-Policy Distillation for Long-Context Reasoning'
+  author: Haonan He
+  publishedAt: 2026-08-14T09:00:00+0900
+paper:
+  arxivId: '2608.14277'
+  authors:
+  - Haonan He
+  - Haodi Lei
+  - Yun Luo
+  - Haoran Zhang
+  - Shunkai Zhang
+  - Yizhuo Li
+  - Shengji Tang
+  - Zhilin Wang
+  - Runzhe Zhan
+  - Lei Bai
+  - Ganqu Cui
+  - Fangchen Yu
+  - Yafu Li
+  - Peng Ye
+  - Ning Ding
+  - Yu Cheng
+---
+
+강한 교사 모델의 추론 능력을 약한 학생 모델로 이전하는 온-정책 증류(OPD)는 유망하지만, 장문 컨텍스트를 다루는 교사와 단문 컨텍스트를 가진 학생 간에는 토크나이저 불일치, 분포 차이, 응답 길이 폭발, 훈련 불안정성 등 실질적인 장벽이 존재한다. 본 연구는 이러한 설정에서 장문 추론 모델 SU-01의 증명 추론 능력을 단문 학생 모델로 이전하는 과정을 탐구한다.
+
+토크나이저 차이를 해결하기 위해 공유된 텍스트 공간에서 증류를 수행하며, 교사와 학생 토크나이저가 동일한 텍스트 범위를 차지하는 토큰들만 정렬한다. 과도한 생성 길이와 빈번한 절단 문제를 완화하기 위해 학생 참조 KL 손실을 도입하고, 종료 토큰의 이점을 가려낸다.
+
+이 전략은 학생 모델이 초기 정책에서 과도하게 벗어나는 것을 제한하여 교사-학생 분포 불일치 문제를 완화하고 안정적인 길이 성장을 유도한다. 저자들의 주장에 따르면 Qwen3, Intern-S2 등 다양한 계열의 학생 모델에서 수학 추론, 특히 자연어 수학 증명 능력에서 일관된 향상을 보였다.
+
+특히 Intern-S2-Preview는 ProofBench에서 21.2점 향상하여 55.2점을 기록했고, 이는 저자들이 주장하는 바에 따라 Gemini-2.5-Pro를 능가하는 수치다. 또한 HLE와 HiPhO 같은 과학 벤치마크에서도 성능이 개선되어, OPD가 수학 훈련 도메인을 넘어 일반화된 추론 능력을 이전할 수 있음을 시사한다.
+
+---
+
+원문: [SimpleOPD: Simple Tokenizer-Agnostic On-Policy Distillation for Long-Context Reasoning](https://huggingface.co/papers/2608.14277)
