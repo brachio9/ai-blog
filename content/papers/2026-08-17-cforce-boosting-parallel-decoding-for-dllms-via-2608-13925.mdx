@@ -12,12 +12,16 @@ lead: false
 source:
   url: https://arxiv.org/abs/2608.13925
   title: 'CForce: Boosting Parallel Decoding for dLLMs via Consistency Forcing'
-  author: Yuji Ren, Chenkai Xu, Zhuocheng Gong, Jianguo Li, Zhijie Deng
+  author: Yuji Ren
   publishedAt: 2026-08-17T13:00:00+0900
 paper:
   arxivId: '2608.13925'
   authors:
-  - Yuji Ren, Chenkai Xu, Zhuocheng Gong, Jianguo Li, Zhijie Deng
+  - Yuji Ren
+  - Chenkai Xu
+  - Zhuocheng Gong
+  - Jianguo Li
+  - Zhijie Deng
 ---
 
 확산형 대규모 언어 모델은 단일 순전파로 여러 마스크를 동시에 예측함으로써 텍스트 생성 속도를 높인다. 그러나 공격적인 병렬 전략을 적용할 경우 초기 노이즈 제거 단계에서 예측이 불안정해지며, 이 오류가 후속 단계로 전파되는 문제가 발생한다. 저자들은 이러한 일관성 부재 문제를 해결하기 위해 초기 단계의 예측이 후기 단계와 일치하도록 강제하는 지식 증류 방법인 CForce를 제안한다.

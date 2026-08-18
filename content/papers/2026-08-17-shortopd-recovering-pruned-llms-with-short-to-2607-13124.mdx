@@ -12,12 +12,19 @@ lead: false
 source:
   url: https://arxiv.org/abs/2607.13124
   title: 'ShortOPD: Recovering Pruned LLMs with Short-to-Long On-Policy Distillation'
-  author: Qingyu Zhang, Qianhao Yuan, Hongyu Lin, Yaojie Lu, Xianpei Han, Le Sun, Ming Xu, Jiarui Li
+  author: Qingyu Zhang
   publishedAt: 2026-08-17T13:00:00+0900
 paper:
   arxivId: '2607.13124'
   authors:
-  - Qingyu Zhang, Qianhao Yuan, Hongyu Lin, Yaojie Lu, Xianpei Han, Le Sun, Ming Xu, Jiarui Li
+  - Qingyu Zhang
+  - Qianhao Yuan
+  - Hongyu Lin
+  - Yaojie Lu
+  - Xianpei Han
+  - Le Sun
+  - Ming Xu
+  - Jiarui Li
 ---
 
 구조적 프루닝은 하드웨어 친화적인 대형 언어 모델(LLM) 압축 기술로 주목받고 있으나, 현재까지 주로 객관식 인식 작업에서 그 유효성이 검증되어 왔다. 실제 배포 환경에서 요구되는 자유형 텍스트 생성에서는 동일한 압축된 체크포인트가 성능을 급격히 저하시키는 문제가 발생한다. 이러한 격차는 두 가지 관찰을 통해 설명된다. 첫째, 압축 후 탐욕적 샘플링(pass@1) 성능은 거의 사라지지만, 반복 샘플링(pass@k) 시에는 유용한 생성물이 복원되는 것으로 나타나 사용 가능한 출력이 삭제된 것이 아닌 순위가 낮아진 상태임을 시사한다. 둘째, 복원 가능한 영역에서 실패하는 주요 원인은 접미사의 반복적 생성이다.
