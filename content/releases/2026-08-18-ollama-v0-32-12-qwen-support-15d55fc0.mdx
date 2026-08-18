@@ -1,0 +1,29 @@
+---
+title: Ollama v0.32.12, Qwen 3.8 27B 지원과 Apple Silicon 최적화
+category: releases
+axis: serving
+format: explainer
+summary: Ollama v0.32.12는 Qwen 3.8 27B 모델의 실행을 공식적으로 지원한다. 이 업데이트는 코딩 및 전문 작업 성능을 강화했으며, Apple Silicon 기기에서는 MLX 가속을 통해 최적화된 성능을 제공한다.
+publishedAt: 2026-08-18T09:04:10+0900
+tags:
+- Agentic Engineering
+draft: false
+lead: false
+source:
+  url: https://github.com/ollama/ollama/releases/tag/v0.32.12
+  title: v0.32.12
+  author: dhiltgen
+  publishedAt: 2026-08-15T01:37:00+0900
+---
+
+Ollama v0.32.12 릴리즈는 Qwen 3.8 27B 모델의 실행 기능을 추가한다. Ollama 측은 이 모델이 코딩, 전문 업무, 연구, 그리고 장기적인 에이전트 작업에서 상당한 성능 향상을 보인다고 설명한다. 사용자는 `ollama run qwen3.8:27b` 명령어를 통해 해당 모델을 바로 실행할 수 있다.
+
+특히 Apple Silicon 기반의 Mac 기기에서는 별도의 최적화 버전이 제공된다. Ollama는 반복 작업과 코딩 에이전트 사용 시 최대 성능과 출력 품질을 보장하기 위해 MLX 가속을 적용한 `qwen3.8:27b-mlx` 모델을 지원한다. 이는 애플 칩셋의 하드웨어 특성을 활용하여 로컬 환경에서의 실행 효율을 높인 것이다.
+
+이번 업데이트는 특정 모델에 대한 지원을 확대하는 데 주력했다. 릴리즈 노트에는 커밋 목록이나 기여자 명단이 상세히 나열되어 있지 않으며, 주요 변경 사항 중 Qwen 3.8 27B 지원과 Apple Silicon 최적화 두 가지만을 핵심으로 꼽았다. 이는 사용자가 새로운 대형 언어 모델을 로컬에서 더 효과적으로 활용할 수 있도록 하는 방향성을 보여준다.
+
+사용자는 기존 Ollama 설치를 업데이트한 후 위 명령어를 통해 새 모델을 테스트해 볼 수 있다. Apple Silicon 사용자는 `-mlx` 버전을 선택하는 것이 성능상 유리할 것이다. 이번 버전은 특정 모델의 로컬 실행 경험을 개선하는 데 초점을 맞춘 점진적인 업데이트로 평가된다.
+
+---
+
+원문: [v0.32.12](https://github.com/ollama/ollama/releases/tag/v0.32.12)

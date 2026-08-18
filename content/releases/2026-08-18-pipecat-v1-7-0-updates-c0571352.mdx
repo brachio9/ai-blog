@@ -1,0 +1,31 @@
+---
+title: Pipecat v1.7.0, 음성 인식과 LLM 사용량 측정의 정밀화가 달라졌다
+category: releases
+axis: voice
+format: explainer
+summary: Pipecat 1.7.0 버전은 STT와 LLM 서비스의 사용량 메트릭 수집 기능을 강화했다. 노이즈 필터링과 커스텀 HTTP 클라이언트 지원 등 실제 운영 환경에서의 안정성을 높이는 개선이 포함되었다.
+publishedAt: 2026-08-18T09:18:56+0900
+tags:
+- Agentic Engineering
+- 추론최적화·파인튜닝
+- 음성
+draft: false
+lead: false
+source:
+  url: https://github.com/pipecat-ai/pipecat/releases/tag/v1.7.0
+  title: v1.7.0
+  author: markbackman
+  publishedAt: 2026-08-02T01:15:18+0900
+---
+
+이번 업데이트는 개발자가 AI 서비스의 리소스 소비를 정확히 파악할 수 있도록 하는 데 중점을 두었다. AWS Nova Sonic LLM 서비스와 모든 STT 서비스에 사용량 메트릭 기능이 추가되어, 세션 전체의 토큰 사용량과 오디오 처리 시간을 실시간으로 추적할 수 있게 되었다. 이는 비용 관리와 성능 모니터링에 필수적인 데이터로, RTVI 클라이언트나 OpenTelemetry를 통해 쉽게 접근 가능하다.
+
+음성 인식의 정확도와 안정성을 높이는 기능도 도입되었다. ElevenLabs STT 서비스에는 배경 소음 및 원격 오디오를 필터링하는 설정이 추가되어, 잡음이 많은 전화 통화 환경에서 불필요한 부분적 전사 결과를 줄일 수 있다. 또한 Deepgram Flux STT에서는 발화된 숫자를 문자열이 아닌 numeral 형태로 변환하는 옵션을 제공하여 전사 결과의 가독성을 높였다.
+
+네트워크 및 전송 계층의 유연성도 개선되었다. OpenAI TTS와 Whisper 기반 STT 서비스에서 커스텀 httpx AsyncClient를 인자로 받을 수 있게 되어, 고지연성 엔드포인트에 대한 요청 타임아웃 등을 자유롭게 조정할 수 있다. LiveKit 트랜스포트에서는 SIP/PSTN 호출 시 DTMF 신호를 처리하는 기능이 추가되어 기존 DTMFAggregator와의 호환성이 확보되었다.
+
+기타 개선 사항으로는 LemonSlice 트랜스포트에서 로컬 이미지를 아바타로 사용할 수 있는 기능과, Google LLM 서비스의 안전성 설정을 공식 파라미터로 노출하여 이전보다 직관적으로 구성할 수 있게 된 점이 있다. 이번 릴리스는 전체 변경 사항 중 주요한 부분만 선별한 것이므로, 더 세부적인 커밋 목록이나 기여자 명단은 원본 릴리즈 노트를 참고해야 한다.
+
+---
+
+원문: [v1.7.0](https://github.com/pipecat-ai/pipecat/releases/tag/v1.7.0)

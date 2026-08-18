@@ -1,0 +1,29 @@
+---
+title: 'LiveKit Agents 1.6.9: 음성 인식과 합성의 정교함을 더하다'
+category: releases
+axis: voice
+format: explainer
+summary: LiveKit Agents 1.6.9는 Deepgram Flux와 Bland AI 등 새로운 TTS 통합을 지원하며 음성 처리의 유연성을 높였다. 다중 화자 환경에서의 STT 훅 전달과 도구 실행 중 세션 유지 개선으로 안정성이 강화되었다.
+publishedAt: 2026-08-18T09:18:56+0900
+tags:
+- 음성
+draft: false
+lead: false
+source:
+  url: https://github.com/livekit/agents/releases/tag/livekit-agents%401.6.9
+  title: '@livekit/agents@1.6.9'
+  author: tinalenguyen
+  publishedAt: 2026-08-08T08:16:07+0900
+---
+
+이번 업데이트는 다양한 음성 합성(TTS) 서비스와의 연계를 확대하는 데 주력했다. Deepgram의 최신 Flux TTS API와 Bland AI 플러그인 지원이 추가되어 개발자들이 더 넓은 범위의 음성을 선택할 수 있게 되었다. 또한 Phonic과 Google 서비스에서 실시간 설정 옵션이나 자격 증명 객체 처리가 개선되며, 기존 인프라와의 통합 편의성이 높아졌다.
+
+음성 인식(STT) 및 세션 관리의 안정성도 크게 향상되었다. 다중 화자 환경에서 STT 훅이 제대로 전달되지 않던 문제가 해결되었고, 도구가 발언권을 잡고 있는 동안 세션이 비정상적으로 종료되는 현상이 수정되었다. 특히 OpenAI STT에 컨텍스트 힌트 지원이 추가되어 특정 주제나 용어에 대한 인식 정확도를 높일 수 있는 기반이 마련되었다.
+
+성능 모니터링 및 오류 처리 측면에서도 세부적인 개선이 이루어졌다. LLM의 토큰 초당 처리량(TPS)과 첫 토큰까지의 시간(TTFS)을 메트릭으로 브로드캐스트할 수 있게 되어 시스템 성능 파악이 용이해졌다. 연결 실패 시 근본 원인을 명확히 보고하는 기능과 AWS Nova Sonic에서의 검증 예외 방지 조치로 디버깅 과정이 간소화되었다.
+
+이 외에도 Deepgram의 단어 수준 전사 정확도 개선, Soniox의 사용량 리포팅 수정, 그리고 클라우드 턴 감지기의 로컬 폴백 옵트아웃 기능 등 음성 처리 파이프라인 전반에 걸친 세밀한 수정들이 포함되었다. 이러한 변경사항들은 실시간 음성 에이전트의 자연스러움과 신뢰성을 한층 높이는 데 기여할 것으로 보인다.
+
+---
+
+원문: [@livekit/agents@1.6.9](https://github.com/livekit/agents/releases/tag/livekit-agents%401.6.9)

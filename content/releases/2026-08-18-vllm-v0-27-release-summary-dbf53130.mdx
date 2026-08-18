@@ -1,0 +1,30 @@
+---
+title: vLLM v0.27.0, Kimi K3와 PyTorch 2.13 업그레이드
+category: releases
+axis: serving
+format: explainer
+summary: vLLM v0.27.0은 Kimi K3 모델의 전 스택 지원과 PyTorch 2.13 업그레이드를 주요 특징으로 한다. DeepSeek-V4 성능 최적화와 비생성형 워크로드 확장이 포함되었다.
+publishedAt: 2026-08-18T09:18:56+0900
+tags:
+- 추론최적화·파인튜닝
+- 음성
+draft: false
+lead: false
+source:
+  url: https://github.com/vllm-project/vllm/releases/tag/v0.27.0
+  title: v0.27.0
+  author: khluu
+  publishedAt: 2026-08-11T06:18:11+0900
+---
+
+이번 릴리스는 Kimi K3 모델에 대한 포괄적인 지원을 제공한다. 코어 모델 파일과 커널부터 Python 및 Rust 프론트엔드, 양자화 체크포인트까지 한 번에 적용되었다. 또한 Qwen3.5 텍스트 전용 밀집형 및 MoE 모델, K-EXAONE-2.0 등 새로운 모델들이 추가되었으며, VaultGemma와 jina-embeddings-v5-text-nano도 지원한다.
+
+환경 측면에서 PyTorch 2.13.0으로의 업그레이드가 이루어졌으며, 이는 torchvision과 Triton 버전 상승을 동반하는 파괴적 변경 사항이다. XPU와 CPU 환경도 이에 맞춰 업데이트되었다. NVIDIA SM100 아키텍처에서는 FlashAttention 4 통합이 심화되어 FP8 KV 캐시와 headdim-256 지원이 강화되었으며, 새로운 JIT 워밍업 인프라를 통해 첫 요청 시 컴파일 지연을 제거했다.
+
+DeepSeek-V4의 성능 향상을 위한 여러 최적화가 적용되었다. 시퀀스 병렬화 처리와 빈 c128 실행 건너뛰기를 통한 커널 속도 향상, 불필요한 topk/라우터 생략 및 작업 공간 재사용으로 인한 TTFT 개선 등이 포함된다. 또한 MXFP4 인덱서 KV 캐시 도입과 PP 버퍼 메모리 절감 등 효율성 개선도 이루어졌다.
+
+Model Runner V2가 비생성형 워크로드로 확장되어 인코더 전용 어텐션, 임베딩 및 분류용 시퀀스 풀링, 토큰 분류 등이 지원된다. 대규모 서빙의 회복탄력성을 위한 결함 허용 프레임워크와 탄력적 EP 스케일링 준비도 진행되었다. Rust 프론트엔드에는 gRPC 제어 평면이 추가되어 엔진 인식 건강 상태 보고 및 서버 발견 기능이 강화되었으며, 차세대 하드웨어를 위한 NVIDIA Rubin과 ROCm 아키텍처 지원도 초기 단계로 시작되었다.
+
+---
+
+원문: [v0.27.0](https://github.com/vllm-project/vllm/releases/tag/v0.27.0)

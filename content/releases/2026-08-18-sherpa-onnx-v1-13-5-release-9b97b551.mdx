@@ -1,0 +1,30 @@
+---
+title: sherpa-onnx v1.13.5, 퀄컴 NPU와 자바 API가 강화됐다
+category: releases
+axis: voice
+format: explainer
+summary: sherpa-onnx v1.13.5는 퀄컴 NPU를 위한 QNN 지원과 자바 API의 안정성을 크게 개선했다. Nemotron 및 Moonshine 모델의 하드웨어 가속화와 함께 TTS 및 ASR 관련 버그 수정이 포함됐다.
+publishedAt: 2026-08-18T09:14:55+0900
+tags:
+- 추론최적화·파인튜닝
+- 음성
+draft: false
+lead: false
+source:
+  url: https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.13.5
+  title: v1.13.5
+  author: github-actions[bot]
+  publishedAt: 2026-08-11T16:04:00+0900
+---
+
+이번 릴리즈의 가장 큰 변화는 퀄컴 스냅드래곤 프로세서의 NPU를 활용하는 QNN 환경 지원이 확대된 점이다. Nemotron 스트리밍 ASR 모델과 Moonshine ASR 모델을 QNN 형식으로 내보내고 실행할 수 있게 되면서, 모바일 및 임베디드 기기에서의 음성 인식 성능 최적화가 한층 쉬워졌다. 또한 Android KWS 데모 빌드 오류를 수정하고 QNN SDK 설정을 위한 도커 이미지를 제공해 개발 환경 구축의 진입 장벽을 낮췄다.
+
+자바 개발자를 위한 지원도 눈에 띄게 강화됐다. Maven과 Gradle 기반의 예제 프로젝트가 추가되면서 자바 애플리케이션에 sherpa-onnx를 통합하는 과정이 단순해졌다. 기존 Java API의 빌드 및 테스트 프로세스가 재구성되어 안정성이 높아졌으며, Android 환경에서의 공유 링크링 지원도 포함되어 모바일 앱 개발자가 라이브러리를 더 유연하게 사용할 수 있게 됐다.
+
+음성 합성(TTS)과 음성 인식(ASR)의 정확도와 안정성을 높이는 버그 수정 작업이 광범위하게 진행됐다. Supertonic TTS 프론트엔드의 diakritik 누락 문제와 espeak-ng의 비효율적인 보이스 처리로 인한 프로세스 중단 오류를 해결했다. 또한 ScaleSilence 기능에서 발생할 수 있는 메모리 접근 오류와 유효하지 않은 침묵 스케일 값을 방지하는 검증 로직을 강화하여 시스템의 신뢰성을 높였다.
+
+기타 Rust API에 FunASR Nano 오프라인 ASR 예제와 ten-vad를 이용한 파일 내 침묵 제거 예제가 추가되어 다양한 언어 생태계에서의 활용도가 넓어졌다. FireRedASR 디코더의 KV 캐시 할당 방식이 최대값 대신 추정 필요량으로 변경되어 메모리 효율성이 개선됐으며, Nemo 스트리밍 트랜스듀어의 그리디 서치 디코딩 오류도 수정되었다. 전체적으로 하드웨어 가속 지원과 언어별 API 안정성에 중점을 둔 업데이트다.
+
+---
+
+원문: [v1.13.5](https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.13.5)
