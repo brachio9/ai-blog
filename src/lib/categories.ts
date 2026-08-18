@@ -75,7 +75,7 @@ export const CATEGORIES: readonly Category[] = [
     shortName: "기록",
     accent: "note",
     description:
-      "직접 재 보고 직접 만들어 본 것. 옮길 원문이 아예 없으므로 원문 링크 대신 측정 조건과 실패한 시도를 답니다.",
+      "직접 재 보고 직접 만들어 본 것, 그리고 직접 골라 추린 것. 잰 글에는 측정 조건을, 옮긴 글에는 원문 링크를 답니다.",
   },
 ];
 

@@ -114,7 +114,7 @@ phase 는 서로 다른 세션에서 실행되므로 이름이 갈리면 마지�
 | `notes` | 기록 | **먹 濃** (neutral-800) | **사람만** |
 
 옛 `hf-blog` 한 칸이 `releases`(GitHub 릴리즈 28곳)와 `news`(기업 블로그·뉴스레터 17곳)로 갈라졌다.
-**색을 안 쓰는 것 자체가 부호다** — `community` 는 원문이 여럿이고 `notes` 는 옮길 원문이 아예 없다.
+**색을 안 쓰는 것 자체가 부호다** — `community` 는 원문이 여럿이고, `notes` 는 원문이 아니라 **사람이 골랐다는 것**이 기준이다 (직접 잰 글에는 원문이 아예 없다).
 
 **더 늘릴 때는 값을 치러야 한다.** `CategorySlug`·`CategoryAccent` 유니온 + `Record<CategoryAccent,…>` **5곳**
 (`KICKER_ACCENT`·`ACCENT_COLOR`·`ACCENT_TEXT`·`ACCENT_RULE`·`CAT_CLASS`) + `globals.css` 의
