@@ -1,0 +1,39 @@
+---
+title: 금융 QA에서 환각을 잡는 9개 에이전트 프레임워크 CLAIR-Fin
+category: papers
+axis: agent
+format: explainer
+summary: CLAIR-Fin은 금융 질문 답변 과정에서 발생하는 환각 현상을 줄이기 위해 설계된 다중 에이전트 프레임워크다. 개별 주장 단위로 증거를 검증하고 모달리티 간 불일치를 해결하며, 최종 결과물뿐만 아니라 중간 과정에서도 사실성을 확인한다.
+publishedAt: 2026-08-18T23:15:25+0900
+tags:
+- RAG
+- GraphRAG
+- Agentic Engineering
+draft: false
+lead: false
+source:
+  url: https://arxiv.org/abs/2608.13706
+  title: 'CLAIR-Fin: An Adversarial Multi-Agent Framework for Claim-Level Verification and Adaptive Debate in Cross-Modal Financial QA'
+  author: Fatema Tuj Johora Faria
+  publishedAt: 2026-08-17T13:00:00+0900
+paper:
+  arxivId: '2608.13706'
+  authors:
+  - Fatema Tuj Johora Faria
+  - Mukaffi Bin Moin
+  - Jubayer Al Mahmud
+  - M. F. Mridha
+  - Md. Alam Hossain
+---
+
+기존의 검색 증강 생성 및 다중 에이전트 파이프라인은 환각 방지에 한계가 있다. 서로 다른 정보 출처 간에 의견이 달라도 무조건 신뢰하거나, 개별 주장이 아닌 전체 보고서 단위로만 검증하며, 초안 작성 이후에만 확인을 진행해 중간 과정의 오류를 놓치는 경우가 많다. CLAIR-Fin은 이러한 공백을 메우기 위해 질문을 원자적 주장으로 분해하고 타입이 명시된 금융 주장 장부에 기록하는 9개 에이전트 구조를 도입한다.
+
+이 프레임워크는 증거 신뢰도를 모든 모달리티가 동일하다고 보지 않고 주장의 유형에 따라 차등 적용하는 비대칭 증거 권한 체계를 사용한다. 또한 초안 작성과 적대적 검토 사이에서 근거를 확인하는 소급 책임 검증과, 논쟁의 깊이를 상황에 맞게 조절하는 적응형 반박 사이클을 통해 개별 주장의 타당성을 심층적으로 점검한다. 최종 단계에서는 함락된 주장과 검증되지 않은 주장을 구분하는 환각 위험 지수와 함께 추론 감사 과정을 거친다.
+
+저자들은 방글라데시 은행 연감 자료를 기반으로 구축한 교차 모달리티 금융 평가 세트인 BB-FinQA-X를 사용해 성능을 테스트했다. 단일 패스 검색 증강 생성 베이스라인과 비교했을 때 충실도가 0.780에서 0.889로 상승했으며, 증거가 부족할 경우 무리하게 답변을 생성하지 않고 5.4%의 질문에서 응답을 포기하는 행동을 보였다.
+
+또한 HyDE나 Graph-RAG와 같은 강력한 검색 전략 베이스라인들과 비교해도 충실도 측면에서 우위를 점했다고 저자들은 주장한다. 기존 방법론이 최대 0.874 수준의 충실도를 보인 반면 CLAIR-Fin은 더 높은 성능을 기록했으며, 이는 개별 주장에 대한 세밀한 검증과 적응형 논쟁 구조가 금융 도메인의 정확한 정보 제공에 기여했음을 시사한다.
+
+---
+
+원문: [CLAIR-Fin: An Adversarial Multi-Agent Framework for Claim-Level Verification and Adaptive Debate in Cross-Modal Financial QA](https://arxiv.org/abs/2608.13706)

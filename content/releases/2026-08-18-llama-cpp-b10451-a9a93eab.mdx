@@ -1,0 +1,29 @@
+---
+title: llama.cpp b10451, LoRA 파일 경계 검사로 안정성 강화
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp 빌드 10451이 출시되었다. 이번 업데이트는 LoRA 어댑터 텐서 데이터가 파일 경계를 벗어나는지 확인하는 검사를 추가하여 안정성을 높였다. 주요 플랫폼별 바이너리도 함께 제공된다.
+publishedAt: 2026-08-18T23:15:25+0900
+tags:
+- 추론최적화·파인튜닝
+draft: false
+lead: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b10451
+  title: b10451
+  author: github-actions[bot]
+  publishedAt: 2026-08-16T16:24:37+0900
+---
+
+llama.cpp의 최신 빌드인 b10451이 릴리즈되었다. 이번 업데이트의 핵심 변경사항은 LoRA 어댑터 파일 처리 방식에 대한 보안 및 안정성 개선이다. 개발팀은 LoRA 텐서 데이터가 파일 경계 내에 있는지 확인하는 검사를 추가했다. 이는 잘못된 형식의 어댑터 파일을 로드할 때 발생할 수 있는 메모리 오류나 예기치 않은 동작을 방지하기 위한 조치다.
+
+이러한 변경은 로컬에서 대형 언어 모델을 실행하는 사용자에게 직접적인 성능 향상보다는 시스템의 견고함을 제공한다. 특히 제3자에서 제공하는 LoRA 파일을 다룰 때 잠재적인 파일 읽기 오류를 사전에 차단함으로써 프로그램의 크래시를 줄이는 데 기여한다. 복잡한 커밋 목록이나 PR 번호 대신, 이 업데이트가 사용자의 실행 환경 안정성에 초점을 맞추고 있음을 알 수 있다.
+
+이번 릴리즈는 macOS, Linux, Windows, Android 등 주요 플랫폼을 위한 바이너리를 포함한다. macOS와 iOS는 Apple Silicon과 Intel 아키텍처를 지원하며, Linux는 CPU와 Vulkan, OpenVINO, SYCL 가속기를 위한 빌드가 제공된다. Windows에서는 CPU와 CUDA 12 및 13 버전을 포함한 다양한 GPU 가속 옵션을 사용할 수 있다.
+
+사용자는 공식 릴리즈 페이지에서 자신의 운영체제와 하드웨어 환경에 맞는 바이너리를 다운로드할 수 있다. 새로운 LoRA 파일 검증 로직이 적용되었으므로, 기존에 사용하던 어댑터 파일과 호환성에 문제가 없는지 확인하는 것이 좋다. 전체 변경 내역은 원본 릴리즈 노트를 참고하되, 이번 빌드에서는 안정성 강화가 가장 중요한 포인트다.
+
+---
+
+원문: [b10451](https://github.com/ggml-org/llama.cpp/releases/tag/b10451)

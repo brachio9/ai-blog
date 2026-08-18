@@ -1,0 +1,36 @@
+---
+title: 에이전트 시스템의 숨은 비용, 토큰 인플레이션 해결법
+category: papers
+axis: agent
+format: explainer
+summary: LLM 에이전트 시스템에서 재시도 과정에서 발생하는 토큰 과소비 문제를 토큰 인플레이션이라 정의한다. 실행 전 난이도를 예측해 실제 비용을 고려한 라우팅 전략을 제안하며, 기존 방식보다 정확도와 효율성을 모두 높인다고 주장한다.
+publishedAt: 2026-08-18T23:15:25+0900
+tags:
+- Agentic Engineering
+draft: false
+lead: false
+source:
+  url: https://arxiv.org/abs/2608.13571
+  title: 'Not All Tokens Are Equal: Inflation-Aware Routing for Agentic LLM Systems'
+  author: Heming Fu
+  publishedAt: 2026-08-17T13:00:00+0900
+paper:
+  arxivId: '2608.13571'
+  authors:
+  - Heming Fu
+  - Shan Lin
+  - Qianqian Xie
+  - Guojun Xiong
+---
+
+대형 언어 모델이 첫 시도에서 질문에 답하지 못하면 에이전트 시스템은 재시도를 통해 추가 토큰을 소모한다. 이 과정에서 단일 호출 가격과 실제 워크플로우 비용 사이에 격차가 생기는데, 이를 저자들은 토큰 인플레이션이라 부른다. FrugalGPT와 같은 기존 시스템은 단일 호출 비용만 고려해 라우팅하기 때문에, 어려운 작업에서는 실제 비용을 2배 이상 과소평가할 수 있다는 지적이다.
+
+저자들은 이러한 문제를 해결하기 위해 InflationAgent라는 네 단계 라우터를 제안한다. 이 시스템은 모델 계층과 작업 유형에 따른 토큰 인플레이션을 체계적으로 측정하며, 7B 모델의 다중 홉 질문 답변에서는 최대 4.25배의 인플레이션이 발생함을 확인했다. 또한 로컬 추론만으로 계산되는 CoT Branching Entropy(CBE)를 도입해 실행 전 난이도를 신호로 활용하고, 이를 통해 높은 인플레이션을 예측하는 성능(AUROC 0.887)을 보인다고 주장한다.
+
+라우팅 전략은 예상 정확도를 예측된 실제 비용으로 나눈 의미 교환율(SER)을 최대화하는 모델을 선택한다. 여기서 핵심은 실패한 추론 체인을 버리고 더 강력한 모델로 새로 시작하는 fresh-escalation 정책이다. 저자들은 실패한 추론 과정을 GPT-4o와 같은 상위 모델로 전달하면 정확도가 최대 34.8%p까지 떨어질 수 있음을 보여주며, 이 설계의 타당성을 검증했다고 밝힌다.
+
+GSM8K 데이터셋에서 고정 예산 하에 수행된 평가 결과, InflationAgent는 FrugalGPT 대비 91.0%에서 94.7%로 정확도를 높이는 동시에 토큰 사용량을 31% 절감하는 성과를 거뒀다고 저자들은 주장한다. 이는 단순한 비용 절감을 넘어, 재시도 과정의 숨은 비용을 고려한 라우팅이 에이전트 시스템의 전반적인 효율성과 성능에 중요한 영향을 미친다는 점을 시사한다.
+
+---
+
+원문: [Not All Tokens Are Equal: Inflation-Aware Routing for Agentic LLM Systems](https://arxiv.org/abs/2608.13571)

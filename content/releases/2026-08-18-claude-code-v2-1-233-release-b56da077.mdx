@@ -1,0 +1,30 @@
+---
+title: 'Claude Code v2.1.233: 안정성 강화와 새로운 통합 기능'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Claude Code의 최신 버전은 GitLab MR 지원과 Linux 메모리 제한 기능을 추가했다. 동시에 클라우드 세션 손실, MCP 연결 끊김 등 주요 버그를 수정하여 개발 경험의 안정성을 높였다.
+publishedAt: 2026-08-18T23:15:25+0900
+tags:
+- 바이브코딩
+- MCP
+draft: false
+lead: false
+source:
+  url: https://github.com/anthropics/claude-code/releases/tag/v2.1.233
+  title: v2.1.233
+  author: ashwin-ant
+  publishedAt: 2026-08-15T07:20:57+0900
+---
+
+이번 업데이트는 다양한 코드 호스팅 서비스와의 통합을 강화했다. 이제 --worktree 플래그와 claude agents 뷰에서 GitLab 머지 리퀘스트 URL을 지원하며, MR은 !N 형식으로 표시된다. 또한 GitHub 앱 설정 팁이 GitLab이나 Bitbucket 원격 저장소에서는 더 이상 표시되지 않도록 개선되어, 사용자의 환경에 맞는 안내가 제공된다.
+
+안정성과 리소스 관리 측면에서도 중요한 변화가 있었다. Linux 환경에서 Bash 도구 명령어에 대한 옵트인 메모리 cgroup 지원을 추가해 runaway 빌드가 세션을 멈추는 것을 방지한다. 또한 클라우드 세션이 권한 프롬프트 대기 중 환경 종료로 인해 손실된 것으로 잘못 표시되던 문제와, MCP v2 연결이 서버 타임아웃으로 인해 무한히 재연결되는 버그를 수정했다.
+
+사용성 개선과 디버깅 기능도 강화되었다. 스크린 리더 모드에서 /effort 선택자가 번호 목록으로 렌더링되어 접근성이 향상되었고, print 모드에서 인식하지 못하는 모델 ID에 대한 진단 정보가 stderr로 출력되도록 했다. 또한 Windows 환경에서 NTLM 자격 증명 누수 취약점을 차단하고, 자동 모드에서 특정 Bash 명령어 실행 시 반복적으로 수동 승인을 요청하던 문제를 해결했다.
+
+마지막으로 Opus 4.8, Sonnet 5 등 최신 모델에서는 Todo/Task 추적 도구가 기본 제공되지 않으며, 이를 사용하려면 CLAUDE_CODE_ENABLE_TODO_TOOLS 환경 변수를 설정해야 한다. 이 외에도 앱 게이트웨이 오류 전달 개선과 자체 호스팅 러너 세션 시작 시간 단축 등 여러 내부 최적화가 적용되었다.
+
+---
+
+원문: [v2.1.233](https://github.com/anthropics/claude-code/releases/tag/v2.1.233)

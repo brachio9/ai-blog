@@ -1,0 +1,32 @@
+---
+title: 복잡한 추론을 위한 프롬프트 압축, IterCOMP가 제시하는 반복적 접근법
+category: papers
+axis: retrieval
+format: explainer
+summary: 다중 홉 질문 답변에서 긴 문맥이 초래하는 비효율과 정확도 저하 문제를 해결하기 위해 IterCOMP를 제안한다. 이 방법은 훈련 없이 반복적인 압축 루프를 통해 핵심 증거를 선별하고 추론에 필요한 프롬프트를 생성한다.
+publishedAt: 2026-08-18T23:15:25+0900
+tags:
+- RAG
+draft: false
+lead: false
+source:
+  url: https://arxiv.org/abs/2608.13588
+  title: 'IterCOMP: Reasoning-aware Adaptive Prompt Compression for Multi-hop Question Answering'
+  author: JungMin Yun
+  publishedAt: 2026-08-17T13:00:00+0900
+paper:
+  arxivId: '2608.13588'
+  authors:
+  - JungMin Yun
+  - YoungBin Kim
+---
+
+다중 홉 질문 답변은 여러 증거 단락에 걸친 복잡한 추론이 필요하지만, 종종 길고 노이즈가 많은 문맥으로 인해 검색 증강 생성 시스템의 효율성과 정확도를 떨어뜨린다. 기존 프롬프트 압축 방법들은 단일 턴 쿼리에 맞춰져 있어 상호 의존적인 추론 단계를 포착하지 못하는 한계가 있다.
+
+저자들은 이러한 문제를 해결하기 위해 IterCOMP라는 훈련이 필요 없는 통합 프롬프트 압축 프레임워크를 제안한다. 이 방법은 문서를 증거 단락으로 분해하고 질문의 답변 가능성을 평가한 후, 필수 증거를 반복적으로 통합하기 위한 대상별 후속 질문을 생성한다. 이를 통해 추론에 초점을 맞춘 간결한 프롬프트를 산출한다.
+
+저자들의 주장에 따르면 MusiQue, 2WikiMultiHopQA, HotpotQA 데이터셋에서의 실험 결과 IterCOMP는 기존 베이스라인을 상회하는 성능을 보인다. 특히 토큰 예산을 줄이는 동시에 Exact Match와 F1 점수에서 상당한 개선을 이루었으며, 추론의 복잡도가 증가함에 따라 견고함을 유지한다고 한다.
+
+---
+
+원문: [IterCOMP: Reasoning-aware Adaptive Prompt Compression for Multi-hop Question Answering](https://arxiv.org/abs/2608.13588)
