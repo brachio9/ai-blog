@@ -14,8 +14,15 @@ const INDEX_URL = "/search-index.json";
 /** 타이핑마다 URL 을 갈아치우지 않는다. */
 const DEBOUNCE_MS = 200;
 
-/** 본문은 인덱스에 없다 — 제목·요약·태그까지가 검색 범위다. */
-const SEARCH_FIELDS = ["title", "summary", "tags"];
+/**
+ * 검색 범위. **본문은 인덱스에 없다** (ADR-007) — 넣으면 1년치가 25MB 가 되어
+ * 「서버 없이 즉시 응답」이라는 전제가 무너진다. 대신 **짧으면서 사람이 실제로 기억하는 것**을
+ * 넣는다: 원문 제목과 arXiv 식별자다.
+ *
+ * `sourceTitle` 이 가장 큰 이득이다. 지금까지 한글 제목만 색인돼서
+ * `"MobileMem: Learning from a Year of Mobile Experiences"` 를 통째로 쳐도 안 나왔다.
+ */
+const SEARCH_FIELDS = ["title", "summary", "tags", "sourceTitle", "arxivId"];
 
 /**
  * 한글은 조사가 붙어 한 토큰이 된다("벤치마크를"). 기본 토크나이저는 공백·문장부호로만

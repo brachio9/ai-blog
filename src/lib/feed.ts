@@ -12,10 +12,21 @@ import { SITE_DESCRIPTION, SITE_NAME } from "./site";
 import { postHref } from "@/lib/pagination";
 
 export interface SearchDoc {
-  /** `${category}/${slug}` — 카테고리가 달라도 slug 가 겹칠 수 있다. */
+  /** 글 상세 URL 과 같다 — slug 하나다 (`/posts/{slug}`). */
   id: string;
   title: string;
   summary: string;
+  /**
+   * **원문 제목 — 검색 대상이다.** 지금까지 색인에 없어서
+   * `"MobileMem: Learning from a Year of Mobile Experiences"` 를 통째로 쳐도 안 나왔다.
+   * 6개월 뒤에 기억나는 것은 한글 제목이 아니라 이 영어 문장이다.
+   *
+   * 릴리즈는 이 값이 `v2.1.232` 뿐이라 도움이 안 되지만(실측 12편 중 9편),
+   * 그때는 한글 제목에 도구 이름이 들어 있어 그쪽이 받는다.
+   */
+  sourceTitle?: string;
+  /** 논문 식별자. `2608.13706` 을 그대로 치는 것이 가장 빠른 되찾기다 */
+  arxivId?: string;
   category: CategorySlug;
   /** 주제 축 — 필수·단일. 검색 결과에도 어느 갈래의 글인지가 남는다 */
   axis: AxisSlug;
@@ -52,6 +63,8 @@ export function buildSearchIndex(posts: Post[]): SearchDoc[] {
       id: post.slug,
       title: frontmatter.title,
       summary: frontmatter.summary,
+      ...(frontmatter.source ? { sourceTitle: frontmatter.source.title } : {}),
+      ...(frontmatter.paper ? { arxivId: frontmatter.paper.arxivId } : {}),
       category: post.category,
       axis: frontmatter.axis,
       ...(frontmatter.format ? { format: frontmatter.format } : {}),

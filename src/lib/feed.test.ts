@@ -219,4 +219,36 @@ describe("buildSearchIndex", () => {
     expect(posts.length).toBeGreaterThan(0);
     expect(buildSearchIndex(posts)).toHaveLength(posts.length);
   });
+
+  it("원문 제목과 arXiv 식별자를 싣는다 — 6개월 뒤 기억나는 것은 그쪽이다", () => {
+    const [doc] = buildSearchIndex([
+      makePost({
+        title: "긴 문맥 메모리",
+        source: {
+          url: "https://arxiv.org/abs/2608.13606",
+          title: "MobileMem: Learning from a Year of Mobile Experiences",
+        },
+        paper: { arxivId: "2608.13606", authors: ["A"] },
+      }),
+    ]);
+
+    expect(doc.sourceTitle).toBe(
+      "MobileMem: Learning from a Year of Mobile Experiences",
+    );
+    expect(doc.arxivId).toBe("2608.13606");
+  });
+
+  it("본문은 넣지 않는다 — 색인 크기가 ADR-007 의 전제다", () => {
+    // 편당 600바이트를 넘기면 1년치(7,200편)가 4MB 를 넘는다. 본문을 넣으면 25MB 다.
+    // 이 단언이 깨지면 「서버 없이 즉시 응답」을 다시 계산해야 한다는 뜻이지,
+    // 숫자를 올리라는 뜻이 아니다 — 연도별 샤딩이 다음 수다.
+    const posts = Array.from({ length: 20 }, (_, index) =>
+      makePost({}, `post-${index}`),
+    );
+
+    const bytes = JSON.stringify(buildSearchIndex(posts)).length;
+
+    expect(bytes / posts.length).toBeLessThan(900);
+    expect(JSON.stringify(buildSearchIndex(posts))).not.toContain("본문");
+  });
 });

@@ -36,6 +36,16 @@ const items: PostListItem[] = [
     format: "explainer",
   },
   {
+    slug: "quantized",
+    category: "papers",
+    axis: "serving",
+    title: "양자화 논문",
+    summary: "요약",
+    publishedAt: "2026-08-04T10:00:00+0900",
+    tags: ["LoRA"],
+    readingMinutes: 5,
+  },
+  {
     slug: "plain",
     category: "news",
     axis: "agent",
@@ -53,87 +63,78 @@ function queryOf(name: string | RegExp): URLSearchParams {
   return new URL(href, "https://example.test").searchParams;
 }
 
-describe("PostList 의 ?format= 필터", () => {
+describe("PostList 의 조합 필터", () => {
   beforeEach(() => {
     query.current = "";
   });
 
-  it("포맷이 없으면 전부 그린다", () => {
+  it("축·출처·태그를 함께 건다 — 지금까지는 한 번에 하나씩만 걸렸다", () => {
+    query.current = "axis=serving&source=papers";
+
     render(<PostList items={items} basePath={BASE_PATH} />);
 
-    for (const item of items) {
-      expect(screen.getByRole("link", { name: item.title })).toBeTruthy();
-    }
+    expect(screen.getByRole("link", { name: /논문 해설/ })).toBeTruthy();
+    expect(screen.queryByRole("link", { name: /직접 재 본 기록/ })).toBeNull();
+    expect(screen.queryByRole("link", { name: /포맷 없는 글/ })).toBeNull();
   });
 
-  it("고른 포맷의 글만 남긴다 — 포맷이 없는 글도 함께 빠진다", () => {
-    query.current = "format=replication";
+  it("한 조건을 갈아 끼워도 나머지는 지킨다", () => {
+    query.current = "axis=serving&source=papers";
+
     render(<PostList items={items} basePath={BASE_PATH} />);
 
-    expect(screen.getByRole("link", { name: "직접 재 본 기록" })).toBeTruthy();
-    expect(screen.queryByRole("link", { name: "논문 해설" })).toBeNull();
-    expect(screen.queryByRole("link", { name: "포맷 없는 글" })).toBeNull();
+    // 출처 칩을 눌러도 축 조건은 그대로 남아야 한다.
+    const params = queryOf("소식1");
+    expect(params.get("axis")).toBe("serving");
+    expect(params.get("source")).toBe("news");
   });
 
-  it("켜진 포맷을 이름으로 알리고 끄는 길을 준다 — 태그는 유지한다", () => {
-    query.current = "tag=vLLM&format=replication";
-    render(<PostList items={items} basePath={BASE_PATH} />);
+  it("고를 것이 하나뿐인 줄은 그리지 않는다 — 필터가 아니라 제목의 반복이다", () => {
+    render(<PostList items={[items[0]]} basePath={BASE_PATH} />);
 
-    // slug 가 아니라 사람이 읽는 이름으로 보인다 (src/lib/formats.ts).
-    expect(screen.getByText("재현 검증")).toBeTruthy();
-
-    const cleared = queryOf("포맷 해제");
-    expect(cleared.get("format")).toBeNull();
-    expect(cleared.get("tag")).toBe("vLLM");
+    expect(screen.queryByRole("navigation", { name: "주제 필터" })).toBeNull();
+    expect(screen.queryByRole("navigation", { name: "출처 필터" })).toBeNull();
   });
 
-  it("태그를 갈아 끼워도 포맷 필터가 풀리지 않는다", () => {
-    query.current = "format=explainer";
+  it("태그 칩은 축·출처로 좁힌 뒤에 센다 — 고른 순간 빈 목록이 나오면 안 된다", () => {
+    // 전역 태그를 쓰면 지금 조건에 하나도 없는 태그가 칩으로 나오고, 누르면 빈 목록이 뜬다.
+    query.current = "axis=serving";
+
     render(<PostList items={items} basePath={BASE_PATH} />);
 
-    const chip = queryOf(/^vLLM/);
-    expect(chip.get("tag")).toBe("vLLM");
-    expect(chip.get("format")).toBe("explainer");
-  });
-
-  it("태그 칩은 포맷으로 좁힌 뒤에 센다 — 고른 순간 빈 목록이 나오면 안 된다", () => {
-    query.current = "format=explainer";
-    render(<PostList items={items} basePath={BASE_PATH} />);
-
-    // 'MCP' 는 포맷이 없는 글에만 붙어 있다.
-    expect(screen.queryByRole("link", { name: /^MCP/ })).toBeNull();
+    const tagNav = screen.getByRole("navigation", { name: "태그 필터" });
+    expect(tagNav.textContent).toContain("vLLM");
+    expect(tagNav.textContent).toContain("LoRA");
+    expect(tagNav.textContent).not.toContain("MCP");
   });
 
   it("비었으면 무엇으로 좁혀서 비었는지 말한다", () => {
-    query.current = "tag=MCP&format=explainer";
+    query.current = "axis=agent&tag=vLLM";
+
     render(<PostList items={items} basePath={BASE_PATH} />);
 
-    expect(
-      screen.getByText("기술 해설 · 'MCP' 태그에 해당하는 글이 없습니다."),
-    ).toBeTruthy();
+    expect(screen.getByText(/에이전트·자동화 · 'vLLM' 태그.*없습니다/)).toBeTruthy();
   });
 
-  it("모르는 포맷도 slug 그대로 되읽어 준다 — 빈 목록의 이유가 사라지면 안 된다", () => {
-    query.current = "format=없는포맷";
-    render(<PostList items={items} basePath={BASE_PATH} />);
-
-    expect(
-      screen.getByText("없는포맷에 해당하는 글이 없습니다."),
-    ).toBeTruthy();
-  });
-
-  it("페이지 링크가 포맷을 떨어뜨리지 않는다", () => {
-    const many: PostListItem[] = Array.from({ length: 12 }, (_, index) => ({
+  it("페이지 링크가 필터를 떨어뜨리지 않는다", () => {
+    query.current = "axis=serving";
+    const many: PostListItem[] = Array.from({ length: 30 }, (_, index) => ({
       ...items[1],
-      slug: `explained-${index}`,
-      title: `논문 해설 ${index}`,
+      slug: `post-${index}`,
+      title: `글 ${index}`,
     }));
 
-    query.current = "format=explainer";
     render(<PostList items={many} basePath={BASE_PATH} />);
 
-    const next = queryOf("다음");
-    expect(next.get("page")).toBe("2");
-    expect(next.get("format")).toBe("explainer");
+    expect(queryOf("다음").get("axis")).toBe("serving");
+    expect(queryOf("다음").get("page")).toBe("2");
+  });
+
+  it("모르는 축도 slug 그대로 되읽어 준다 — 빈 목록의 이유가 사라지면 안 된다", () => {
+    query.current = "axis=없는축";
+
+    render(<PostList items={items} basePath={BASE_PATH} />);
+
+    expect(screen.getByText(/없는축.*없습니다/)).toBeTruthy();
   });
 });
