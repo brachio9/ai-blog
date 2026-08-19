@@ -1,0 +1,51 @@
+---
+title: 에이전트 하네스, RL 학습의 핵심 변수로 부상하다
+category: papers
+axis: vibe-coding
+format: explainer
+summary: Agent Lightning v1.0은 에이전트 실행 환경인 하네스를 강화학습 훈련 과정에 직접 참여시키는 프레임워크다. 기존 방식과 달리 훈련 엔진이 아닌 하네스가 환경 상호작용을 주도하며, 이를 통해 발생하는 기술적 난제를 해결하는 경량화된 도구로 소개된다.
+publishedAt: 2026-08-19T22:00:05+0900
+tags:
+- SWE-bench
+draft: false
+lead: false
+source:
+  url: https://huggingface.co/papers/2608.17528
+  title: 'Agent Lightning v1.0: Towards Harnessed Agentic RL'
+  author: Zhiyuan He
+  publishedAt: 2026-08-18T09:00:00+0900
+  words: 10176
+paper:
+  arxivId: '2608.17528'
+  authors:
+  - Zhiyuan He
+  - Siwei Zhang
+  - Zhiwen Zhou
+  - Yuqing Yang
+  - Yu Kang
+  - Yuge Zhang
+  - Luna K. Qiu
+  - Tin Yan Tsui
+  - Jiahang Xu
+  - Chong Luo
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 2
+  popularity:
+    kind: hf-upvotes
+    count: 12
+---
+
+최근 에이전트 시스템에서 하네스(harness)는 단순한 실행 환경을 넘어 도구 관리와 제어 흐름을 담당하는 핵심 요소가 되었다. Agent Lightning v1.0은 이러한 하네스를 강화학습의 사후 훈련(post-training) 과정에 직접 참여시키는 '하네스 기반 에이전틱 RL' 패러다임을 구현한다. 이 접근법은 verl Uni-Agent나 AReaL 2.0 등 여러 프레임워크에서 이미 채택된 방식으로, 배포 시점의 하네스가 모델 학습에 관여하는 구조를 의미한다.
+
+이 방식은 전통적인 에이전틱 RL과 근본적으로 다르다. 기존에는 훈련 엔진이 환경과의 상호작용 루프를 소유했지만, 하네스 기반 방식에서는 하네스가 그 역할을 맡고 훈련기는 LLM의 요청-응답 쌍 시퀀스만 관찰하게 된다. 이러한 구조적 변화는 재토큰화, 샘플 병합, 이득 계산, 손실 정규화 및 백엔드 스케줄링 등에서 새로운 기술적 과제를 안겨주며, 이는 학습의 안정성과 효과에 지대한 영향을 미친다.
+
+저자들은 약 3,500줄의 코드로 구성된 경량 프레임워크 Agent Lightning v1.0을 통해 이러한 도전과제를 연구할 수 있는 실용적인 테스트베드를 제공한다. 이 도구는 임의의 에이전트 하네스를 지원하며, 지시 따르기, 검색, 코딩 에이전트 등 다양한 영역에서 평가되었다. 특히 코딩 에이전트의 RL 학습을 위한 완전한 재현 가능한 파이프라인을 제공한다는 점이 특징이다.
+
+저자들의 주장에 따르면, 이 프레임워크를 사용하여 Qwen3-9B 모델을 훈련했을 때 SWE-bench Verified 벤치마크 점수가 41.8%에서 56.4%로 상승했다고 한다. 이는 단 6천 개의 학습 예제와 modest한 컴퓨팅 리소스만으로 14.6%p의 절대적 향상을 기록한 결과다. 연구자들은 재현 가능한 연구를 촉진하기 위해 전체 워크플로우와 훈련 스크립트를 공개했다.
+
+---
+
+원문: [Agent Lightning v1.0: Towards Harnessed Agentic RL](https://huggingface.co/papers/2608.17528)

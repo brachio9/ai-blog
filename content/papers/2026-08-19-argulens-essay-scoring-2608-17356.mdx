@@ -1,0 +1,43 @@
+---
+title: 개인정보 보호가 가능한 오픈소스 에세이 채점 시스템, ArguLens
+category: papers
+axis: serving
+format: explainer
+summary: ArguLens는 데이터 프라이버시와 비용 문제를 해결하기 위해 로컬에서 실행 가능한 오픈소스 자동 에세이 채점 시스템이다. 담화 분석, 점수 산정, 피드백 생성이라는 세 가지 모듈로 구성되어 있으며 Gradio 인터페이스를 통해 사용된다.
+publishedAt: 2026-08-19T22:00:05+0900
+tags:
+- vLLM
+- LoRA
+draft: false
+lead: false
+source:
+  url: https://arxiv.org/abs/2608.17356
+  title: 'ArguLens: An Open-Source System for Automated Essay Scoring and Label-Aware Feedback Generation'
+  author: Weiran Wang
+  publishedAt: 2026-08-19T13:00:00+0900
+  words: 5738
+paper:
+  arxivId: '2608.17356'
+  authors:
+  - Weiran Wang
+  - Hongxiang Shi
+  - Huitao Tang
+  - Wenjuan Qin
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+기존의 자동 에세이 채점(AES) 시스템은 종합 점수만 출력하거나 해석 가능한 근거를 제공하지 못하는 경우가 많다. 또한 폐쇄형 API에 의존하다 보니 데이터 프라이버시 우려와 비용 장벽이 존재한다. ArguLens는 이러한 문제를 해결하기 위해 로컬 환경에서 배포 가능한 오픈소스 시스템으로 개발되었다. 이 시스템은 에세이 채점 과정을 담화 이동 분류기, 점수 산정기, 라벨 인식 피드백 생성기라는 세 가지 독립된 구성 요소로 분리하여 처리한다.
+
+담화 이동 분류기는 PERSUADE 2.0 데이터셋을 사용하여 LoRA로 파인튜닝한 Qwen2.5-7B-Instruct 모델을 사용한다. 점수 산정기는 문법 및 담화 특징 31개를 기반으로 LightGBM 알고리즘을 적용하며, 특정 등급에 종속되지 않도록 설계되었다. 피드백 생성기는 vLLM을 통해 서비스되며 Qwen2.5-14B-Instruct를 백본으로 사용하여 구조화된 평가 프로토콜에 따른 피드백을 생성한다. Gradio 웹 UI를 통해 단일 에세이 또는 배치 채점이 가능하며, 각 에세이에 대한 상세 분석 결과를 다운로드할 수 있다.
+
+저자들의 주장에 따르면, 에세이가 분리된 PERSUADE 2.0 테스트 세트에서 담화 이동 분류기는 정확도 82.6%와 매크로 F1 점수 0.727을 기록했다. 또한 프롬프트 그룹 기반 5-폴드 교차 검증에서 오라클 담화 특징 프로토콜 하에 점수 산정기의 평균 QWK는 0.813에 달했다. 어휘 및 문법 구성 대비 실제 담화 주석을 추가했을 때 QWK가 0.055 증가했다는 아블레이션 연구 결과도 제시되었다(p=0.010). 이는 종단간 분류기에서 점수 산정기로의 직접적인 결과가 아닌 구성 요소 수준의 진단적 성과임을 명시한다.
+
+피드백 생성기는 구조화된 평가 프로토콜을 포함하고 있으나, 인간 채점자를 대상으로 한 연구는 향후 작업으로 남겨져 있다. ArguLens 시스템은 Apache 2.0 라이선스에 따라 오픈소스로 제공되며, 관련 코드는 GitHub 저장소에서 확인할 수 있다.
+
+---
+
+원문: [ArguLens: An Open-Source System for Automated Essay Scoring and Label-Aware Feedback Generation](https://arxiv.org/abs/2608.17356)

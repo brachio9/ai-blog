@@ -1,0 +1,35 @@
+---
+title: llama.cpp v0.1.2, 멀티모달 처리와 CUDA 최적화 개선
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp v0.1.2는 멀티모달 데이터 처리의 안정성과 CUDA 환경에서의 성능을 개선했다. 특히 DGX Spark 하드웨어를 위한 메모리 관리 최적화와 서버 기능의 정리가 주된 변경 사항이다.
+publishedAt: 2026-08-19T22:00:05+0900
+tags:
+- MCP
+draft: false
+lead: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/v0.1.2
+  title: v0.1.2
+  author: github-actions[bot]
+  publishedAt: 2026-08-18T19:23:10+0900
+  words: 176
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 릴리즈는 의미 있는 버전 관리를 아직 완전히 정착시키지 않았음을 명시하며, nightly 빌드 b10485를 통해 주요 변경 사항을 제공한다. 개발진은 ggml 라이브러리의 동기화와 버전 업데이트를 진행했으며, macOS 환경에서의 빌드 도구인 xcframework와 cmake의 정리 과정을 수정하여 개발 환경의 안정성을 높였다.
+
+성능 측면에서는 NVIDIA DGX Spark 하드웨어에서 밀집형 모델을 실행할 때 CUDA 메모리 관리 전략을 최적화했다. 배치 크기가 1일 경우 nwarps 값을 8로 설정하도록 조정했으며, AMD HIP 빌드 환경에서는 UMA 오버라이드를 건너뛰도록 처리하여 호환성을 개선했다.
+
+멀티모달 기능의 신뢰성도 강화되었다. mtmd 모듈에서 입력 해싱에 sha256을 사용하도록 변경하고, 타일이 아닌 LFM2 이미지의 썸네일 생성을 생략하는 등 불필요한 처리를 줄였다. 또한 서버가 처리한 멀티모달 청크를 플레이스홀더로 저장하는 기능을 추가하여 데이터 흐름의 일관성을 유지한다.
+
+사용자 인터페이스와 문서화 측면에서도 개선이 있었다. 내장 도구의 명칭을 서버와 브라우저 기준으로 재구성하고, 열거형 멤버의 알파벳 순서 정리를 강제하여 코드 가독성을 높였다. 토크나이저에서 정수 점수를 지원하도록 확장했으며, MCP stdio 서버와 CORS 기본 설정에 대한 문서화를 보강했다. 이 요약은 전체 변경 로그 중 주요 사항만 추려낸 것이므로 상세한 커밋 목록은 원문을 참고해야 한다.
+
+---
+
+원문: [v0.1.2](https://github.com/ggml-org/llama.cpp/releases/tag/v0.1.2)

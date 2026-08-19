@@ -1,0 +1,36 @@
+---
+title: Claude Code로 리서치 기록을 영구 보관하는 법
+category: community
+axis: vibe-coding
+format: explainer
+summary: hyperresearch는 Claude Code를 심층 조사 에이전트로 전환하는 도구다. 16단계 파이프라인을 통해 수집한 자료를 검증하고 보관해 다음 연구에 재사용할 수 있게 한다.
+publishedAt: 2026-08-19T22:00:05+0900
+tags:
+- Claude Code
+- Cursor
+- MCP
+draft: false
+lead: false
+source:
+  url: https://discuss.pytorch.kr/t/hyperresearch-claude-code-16/11646
+  title: 'hyperresearch: 읽은 자료를 보관해 다음 리서치에 재사용하는 Claude Code용 16단계 조사 파이프라인'
+  author: 9bow
+  publishedAt: 2026-08-18T15:30:03+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+심층 조사 도구를 사용해 보면 보고서의 근거가 불분명하다는 불안감이 남는다. 저자 조던 깁스는 이러한 문제점을 해결하기 위해 hyperresearch를 개발했다. 이 프로젝트는 Claude Code를 기반으로 하며, 단순한 요약이 아닌 검증 가능한 인용과 자료 보관을 핵심으로 한다.
+
+hyperresearch는 하나의 질문을 16단계로 분해하여 처리한다. 각 단계는 독립적인 스킬로 작동하며, 컨텍스트 오염을 방지하기 위해 필요한 정보만 그때그때 로드한다. 이를 통해 긴 조사 과정에서도 일관성을 유지하고 단계를 누락하지 않도록 설계되었다.
+
+이 파이프라인의 특징은 검증을 사람의 성실성에 맡기지 않고 시스템 구조로 강제한다는 점이다. 인용된 문장이 원본 자료에 실제로 존재하는지 확인하는 게이트를 두어, 허위 인용을 차단한다. 또한 조사 과정에서 읽은 자료를 버리지 않고 보관하므로, 동일한 주제를 다시 다룰 때 처음부터 시작하지 않아도 된다.
+
+현재 이 도구는 Python 3.11부터 3.13까지 지원하며 PyPI에서 설치할 수 있다. 저자는 Claude Code의 Skill 도구를 통해 하위 에이전트를 실행하는 방식을 사용하고 있으며, 다른 모델로 확장하려는 개발자들의 기여를 기다리고 있다.
+
+---
+
+원문: [hyperresearch: 읽은 자료를 보관해 다음 리서치에 재사용하는 Claude Code용 16단계 조사 파이프라인](https://discuss.pytorch.kr/t/hyperresearch-claude-code-16/11646)

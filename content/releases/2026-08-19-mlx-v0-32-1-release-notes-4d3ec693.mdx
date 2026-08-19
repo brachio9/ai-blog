@@ -1,0 +1,35 @@
+---
+title: MLX v0.32.1, CUDA와 Metal 성능 개선 및 버그 수정
+category: releases
+axis: serving
+format: explainer
+summary: MLX v0.32.1 릴리즈는 CUDA 환경의 RMSNorm 속도 향상과 NVFP4 양자화 처리 개선에 중점을 뒀다. Metal 가속에서도 메모리 효율성을 높이고 커널 생성 로직을 최적화했다. 또한 GGUF 메타데이터 로드 오류와 컴파일 시 랜덤 상태 캡처 문제 등 주요 버그를 수정하여 안정성을 강화했다.
+publishedAt: 2026-08-19T22:00:05+0900
+tags:
+- quantization
+draft: false
+lead: false
+source:
+  url: https://github.com/ml-explore/mlx/releases/tag/v0.32.1
+  title: v0.32.1
+  author: zcbenz
+  publishedAt: 2026-08-18T12:45:01+0900
+  words: 4922
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이 릴리즈는 CUDA 환경에서의 연산 성능을 크게 개선한다. RMSNorm의 순전파 속도를 높여 학습 및 추론 효율을 올렸고, 대규모 출력 위치에서 발생할 수 있는 그리드 오버플로우 문제를 해결했다. 또한 TMA를 활용한 열별 양자화 처리와 NVFP4 양자화된 행렬 곱셈의 split-K 경로 오류를 수정하여 정밀도와 안정성을 동시에 확보했다.
+
+Apple Silicon을 위한 Metal 가속도 다각도로 최적화되었다. fp16 및 bf16 데이터 타입에 대한 소규모 행렬 곱셈 연산을 처리하는 gemv_wide 커널을 추가했고, NVFP4 스케일링을 16-레인 그룹 단위로 줄여 메모리 사용량을 절감했다. 또한 커스텀 커널 이름 생성 시 정규식 사용을 피하고 Metal WAR 추적 해시 테이블을 재사용함으로써 초기화 오버헤드를 낮췄다.
+
+안정성 측면에서는 GGUF 메타데이터 배열 로드 시 발생할 수 있는 int64 타입 캐스팅 오류를 수정했다. 컴파일 과정에서 랜덤 상태가 제대로 캡처되지 않는 문제와 JIT 전처리 헤더 필터링 로직의 결함도 해결하여 개발 환경에서의 예측 가능성을 높였다. 또한 인덱스 자동 미분 오류 발생 시 stop_gradient 사용법을 명시적으로 안내하는 등 디버깅 경험을 개선했다.
+
+문서화와 기타 기능 개선도 이루어졌다. 정규화 레이어와 드롭아웃 레이어의 기본값을 문서에 명확히 기재했고, Linear 및 RNN 레이어의 문서 렌더링 오류를 수정했다. JACCL 조정자를 선택 사항으로 변경하여 배포 유연성을 높였으며, CPU 호스트 버퍼에서 MLX 배열로의 제로-복사 가져오기 기능을 지원해 메모리 효율성을 한층 더 개선했다.
+
+---
+
+원문: [v0.32.1](https://github.com/ml-explore/mlx/releases/tag/v0.32.1)

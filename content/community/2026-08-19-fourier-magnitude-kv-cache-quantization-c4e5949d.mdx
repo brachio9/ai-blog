@@ -1,0 +1,35 @@
+---
+title: KV 캐시 양자화에서 푸리에 진폭의 위상 보존 효과
+category: community
+axis: serving
+format: explainer
+summary: ntrillard는 KV 캐시 양자화 테스트 결과, 푸리에 변환 후 진폭만 4비트로 양자화하고 위상은 정밀도를 유지하면 성능 손실이 거의 없음을 주장했다. 이 방법은 기존 최소-최대 양자화 대비 토큰 일치율을 크게 높일 수 있다는 것이다.
+publishedAt: 2026-08-19T22:00:05+0900
+tags:
+- quantization
+- KV cache
+draft: false
+lead: false
+source:
+  url: https://discuss.huggingface.co/t/fourier-magnitude-kv-cache-quantization/178815
+  title: Fourier Magnitude KV Cache Quantization
+  author: ntrillard
+  publishedAt: 2026-08-18T22:16:10+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+ntrillard는 Hugging Face 포럼에서 KV 캐시 양자화에 대한 실험 결과를 공유했다. 그는 K와 V 캐시 값에 푸리에 변환을 적용한 후 진폭 스펙트럼만 4비트로 양자화하고 위상 정보는 bfloat16 정밀도로 그대로 유지하는 방식을 제안했다. 이 접근법은 표준 최소-최대 양자화와 비교했을 때 동일한 비트 폭에서 토큰 일치율이 약 5~10배 향상된다는 주장을 담고 있다.
+
+실험 결과에 따르면 Gemma-3-1B 모델에서 40개의 프롬프트를 테스트했을 때 이 방법(Fmag4)은 fp16 기준과 96.9%의 토큰 일치율을 보였다. 반면 기존 표준 양자화(Std4)는 54.9%에 그쳤다. 진폭만 4비트로 처리해도 메모리 사용량은 약 62% 절감되는 것으로 나타났다. 위상 정보를 함께 저정밀도로 양자화하면(Fmag4+phase8b 등) 일치율이 약간 하락하지만 여전히 높은 성능을 유지하는 것으로 확인되었다.
+
+이 방법이 작동하는 이유는 푸리에 변환이 K 벡터 신호를 구조적 정보인 위상과 에너지 분포인 진폭으로 분리하기 때문이다. ntrillard는 어텐션 출력의 softmax 정규화 특성상 진폭 스케일링에 대한 내성이 높으며, 정밀도를 유지한 위상이 위치 구조를 보존하므로 양자화 오류가 최소화된다고 설명했다.
+
+다만 이 방법은 모든 모델에서 동일하게 적용되지는 않는다. Gemma, Qwen, SmolLM2 계열에서는 좋은 결과가 나왔으나 Pythia 모델에서는 실패했다. ntrillard는 Pythia의 경우 재구성 오류 자체보다는 LayerNorm 사용과 절대적 위치 임베딩 구조가 K 양자화 오류에 더 민감하게 반응하기 때문이라고 분석했다.
+
+---
+
+원문: [Fourier Magnitude KV Cache Quantization](https://discuss.huggingface.co/t/fourier-magnitude-kv-cache-quantization/178815)
