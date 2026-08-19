@@ -59,6 +59,7 @@ function toListItem(post: Post): PostListItem {
   return {
     slug: post.slug,
     category: post.category,
+    axis: post.frontmatter.axis,
     title: post.frontmatter.title,
     summary: post.frontmatter.summary,
     publishedAt: post.frontmatter.publishedAt,

@@ -16,6 +16,7 @@ const items: PostListItem[] = [
   {
     slug: "measured",
     category: "notes",
+    axis: "vibe-coding",
     title: "직접 재 본 기록",
     summary: "요약",
     publishedAt: "2026-08-09T10:00:00+0900",
@@ -26,6 +27,7 @@ const items: PostListItem[] = [
   {
     slug: "explained",
     category: "papers",
+    axis: "serving",
     title: "논문 해설",
     summary: "요약",
     publishedAt: "2026-08-05T10:00:00+0900",
@@ -36,6 +38,7 @@ const items: PostListItem[] = [
   {
     slug: "plain",
     category: "news",
+    axis: "agent",
     title: "포맷 없는 글",
     summary: "요약",
     publishedAt: "2026-08-02T10:00:00+0900",

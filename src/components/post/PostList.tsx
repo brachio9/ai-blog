@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-import { AXES } from "@/lib/axes";
+import type { AxisSlug } from "@/lib/axes";
 import type { CategorySlug } from "@/lib/categories";
 import { getFormat, type FormatSlug } from "@/lib/formats";
 import {
@@ -23,6 +23,8 @@ import { ViewCounts } from "./ViewCounts";
 export interface PostListItem {
   slug: string;
   category: CategorySlug;
+  /** 주제 축 — 목록 레일의 두 자리 번호가 된다 */
+  axis: AxisSlug;
   title: string;
   summary: string;
   publishedAt: string;
@@ -61,8 +63,7 @@ export function toPost(item: PostListItem): Post {
     frontmatter: {
       title: item.title,
       category: item.category,
-      // 목록 항목에는 축을 싣지 않는다 (docs/UI_GUIDE.md) — 표가 읽지 않으므로 자리만 채운다.
-      axis: AXES[0].slug,
+      axis: item.axis,
       summary: item.summary,
       publishedAt: item.publishedAt,
       tags: item.tags,
