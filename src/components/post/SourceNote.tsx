@@ -140,6 +140,19 @@ export function SourceNote({
               {` · 1/${ratio.ratio}`}
             </span>
           </div>
+
+          {/* **분모가 무엇인지 밝힌다.** 논문의 단어 수는 본문 전체를 받아 센 값인데,
+              이 요약이 실제로 읽고 줄인 것은 그 앞머리의 abstract 다. 밝히지 않으면
+              「우리가 8천 단어를 편집했다」는, 하지 않은 주장을 하게 된다.
+              (독자가 아낀 분량으로는 여전히 참이라 비율 자체는 그대로 둔다.)
+              여기서 abstract 를 한글로 「초록」이라 적지 않는 것은 그것이 이 사이트의
+              이름이라 같은 블록 안에서 두 가지를 뜻하게 되기 때문이다. */}
+          {paper ? (
+            <p className="voice-ui mt-[var(--space-2)] text-muted">
+              원문 분량은 논문 전체 기준입니다. 이 글이 바탕으로 삼은 것은 그중{" "}
+              <span className="voice-source">abstract</span> 입니다.
+            </p>
+          ) : null}
         </div>
       ) : null}
     </aside>
