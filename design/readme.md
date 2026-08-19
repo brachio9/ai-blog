@@ -104,7 +104,8 @@
 | `.headline` · `.deck` · `.lede` | 표제 / 부제 / 리드 — 세 단계로 들어간다 |
 | `.entry-lead` | 머리기사 — 지면당 하나, 급을 스케일 밖으로 키워도 된다 |
 | `.brief-set` · `.brief-item` | 단신 — 짧은 것은 뭉쳐서 |
-| `.index-row` | 색인 — 되찾기용, 가장 밀집 |
+| `.index-row` + `.index-no` | 색인 — 되찾기용, 가장 밀집. 맨 앞이 축 번호 |
+| `.count-bar` | 분포 막대 — 편수의 기울기를 길이로. **먹만 쓴다** |
 | `.list-tight` · `.list-loose` | 목록 밀도 스코프 |
 | `.btn` · `.btn-quiet` · `.input` | 컨트롤. 채우기 없음, 상자 대신 밑줄 |
 | `.empty` + `-line` · `-next` | 빈 상태 — 사과하지 않고 다음 갈 곳을 준다 |
