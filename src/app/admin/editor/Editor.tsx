@@ -515,16 +515,6 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
               />
             </label>
 
-            <label className={LABEL}>
-              커버 이미지 경로 (선택)
-              <input
-                className={`mt-1 ${INPUT} font-mono`}
-                value={form.cover}
-                onChange={(event) => update({ cover: event.target.value })}
-                placeholder="/sample/cover.svg"
-              />
-            </label>
-
             <label className="flex items-center gap-2 text-sm text-body">
               <input
                 type="checkbox"

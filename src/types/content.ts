@@ -66,7 +66,6 @@ export interface PostFrontmatter {
   publishedAt: string;
   updatedAt?: string;
   tags: string[];
-  cover?: string;
   draft: boolean;
   /** 1면 머리기사 수동 지정. 기본값은 false — 그때는 가장 최근 글이 머리기사다 */
   lead: boolean;

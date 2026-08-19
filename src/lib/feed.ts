@@ -35,9 +35,8 @@ export interface SearchDoc {
   slug: string;
   tags: string[];
   publishedAt: string;
-  /** 아래 둘은 검색 대상이 아니라 결과를 PostList 로 그리기 위한 값이다. */
+  /** 검색 대상이 아니라 결과를 PostList 로 그리기 위한 값이다. */
   readingMinutes: number;
-  cover?: string;
 }
 
 /** `&` 를 먼저 바꿔야 뒤에 만든 엔티티를 두 번 이스케이프하지 않는다. */
@@ -72,7 +71,6 @@ export function buildSearchIndex(posts: Post[]): SearchDoc[] {
       tags: frontmatter.tags,
       publishedAt: frontmatter.publishedAt,
       readingMinutes: post.readingMinutes,
-      ...(frontmatter.cover ? { cover: frontmatter.cover } : {}),
     };
   });
 }

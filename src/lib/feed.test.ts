@@ -205,13 +205,6 @@ describe("buildSearchIndex", () => {
     expect(withoutFormat).not.toHaveProperty("format");
   });
 
-  it("cover 가 있는 글만 cover 를 갖는다", () => {
-    const [withCover] = buildSearchIndex([
-      makePost({ cover: "/sample/cover.svg" }),
-    ]);
-
-    expect(withCover.cover).toBe("/sample/cover.svg");
-  });
 
   it("초안을 제외한 글 수와 맞는다", () => {
     const posts = inProduction(getAllPosts);

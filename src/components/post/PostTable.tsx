@@ -33,7 +33,7 @@ export interface PostTableProps {
  *
  * 항목 안에서는 이 맵이 아니라 `CAT_CLASS`(--cat 을 정하는 `.cat-*`)를 쓴다 —
  * 여기 있는 안료는 아직 600 단계라 본문 크기 텍스트에는 대비가 모자란다.
- * 남은 호출부(홈·소개·아카이브 머리글·글 상세)는 각자의 step 이 옮긴다.
+ * 머리글처럼 큰 글자에만 쓴다 (아카이브 머리·소개).
  */
 export const ACCENT_TEXT: Record<CategoryAccent, string> = {
   paper: "text-cat-paper",
@@ -41,14 +41,6 @@ export const ACCENT_TEXT: Record<CategoryAccent, string> = {
   news: "text-cat-news",
   community: "text-cat-community",
   note: "text-cat-note",
-};
-
-export const ACCENT_RULE: Record<CategoryAccent, string> = {
-  paper: "border-l-cat-paper",
-  release: "border-l-cat-release",
-  news: "border-l-cat-news",
-  community: "border-l-cat-community",
-  note: "border-l-cat-note",
 };
 
 /** 레일 둘째 줄에 남기는 원문 식별자. 논문 목록에서만 켠다. */

@@ -23,7 +23,6 @@ export interface DraftForm {
   updatedAt: string;
   /** 콤마 구분 — 화면에서 한 줄로 다룬다 */
   tags: string;
-  cover: string;
   draft: boolean;
   /** 1면 머리기사 지정. 폼이 이 값을 안 들면 저장할 때마다 지워진다 */
   lead: boolean;
@@ -136,7 +135,6 @@ export function newDraft(publishedAt: string): DraftForm {
     publishedAt,
     updatedAt: "",
     tags: "",
-    cover: "",
     draft: true,
     lead: false,
     sourceUrl: "",
@@ -196,7 +194,6 @@ export function toDraftForm(
     publishedAt: text(field(raw, "publishedAt")),
     updatedAt: text(field(raw, "updatedAt")),
     tags: list(field(raw, "tags")),
-    cover: text(field(raw, "cover")),
     draft: field(raw, "draft") === true,
     lead: field(raw, "lead") === true,
     // 그대로 지고 간다 — 모양을 여기서 다시 판정하지 않는다 (규칙은 스키마 하나뿐이다).
@@ -273,7 +270,6 @@ export function toFrontmatterObject(form: DraftForm): Record<string, unknown> {
     // **`tags` 를 생략한 파일을 열었다 저장하기만 해도 `tags: []` 가 붙는다.**
     // 봇 초안이 그 형태다(태그 정규화 층이 없어 비워 둔다) — 왕복이 무손실이 아니게 된다.
     ...(parseList(form.tags).length ? { tags: parseList(form.tags) } : {}),
-    ...(optional(form.cover) ? { cover: form.cover.trim() } : {}),
     draft: form.draft,
     lead: form.lead,
     ...(source ? { source } : {}),
