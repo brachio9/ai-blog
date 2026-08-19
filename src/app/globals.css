@@ -446,15 +446,20 @@ body {
 
 /* 색인 — 되찾기용. 가장 밀집하고, 훑어서 찾는 것이 유일한 목적이다. */
 .index-row {
-  display: grid; grid-template-columns: 88px minmax(0, 1fr) auto;
+  display: grid; grid-template-columns: 26px 88px minmax(0, 1fr) auto;
   gap: var(--space-3); align-items: baseline;
   padding: 2px 0;
 }
+/* 두 자리 고정폭 mono 한 열 — 폭이 내용에 안 달렸으므로 제목의 왼쪽 끝이 흔들리지 않는다. */
+.index-no { font-variant-numeric: tabular-nums; }
 .index-row + .index-row { border-top: var(--rule-hair) solid var(--color-line); }
 .index-row .t { font-size: var(--text-small); }
 
 @media (max-width: 640px) {
-  .index-row { grid-template-columns: 1fr; gap: 0; padding: var(--space-2) 0; }
+  /* 번호만 왼쪽에 세우고 나머지를 그 오른쪽에 쌓는다. 번호가 제 줄을 차지하면
+     한 항목이 네 줄이 되어 색인이 아니라 목록이 된다. */
+  .index-row { grid-template-columns: 26px minmax(0, 1fr); gap: 0; padding: var(--space-2) 0; }
+  .index-row > :not(.index-no) { grid-column: 2; }
   .brief-item { grid-template-columns: 1fr; gap: 0; }
 }
 
