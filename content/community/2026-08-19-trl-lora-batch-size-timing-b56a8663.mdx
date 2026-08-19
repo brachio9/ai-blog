@@ -1,0 +1,34 @@
+---
+title: '같은 유효 배치 크기, 다른 학습 시간: TRL과 LoRA의 그라디언트 누적 효과'
+category: community
+axis: serving
+format: explainer
+summary: TraceML 개발자가 T4 GPU에서 Qwen3-1.7B 모델을 사용해 실험한 결과, 유효 배치 크기가 동일하더라도 디바이스당 배치 크기를 늘리면 학습 시간이 단축된다. 물리적 배치를 최대화하고 그라디언트 누적을 최소화하는 것이 성능에 유리함을 확인했다.
+publishedAt: 2026-08-19T17:23:10+0900
+tags:
+- LoRA
+draft: false
+lead: false
+source:
+  url: https://discuss.huggingface.co/t/same-effective-batch-different-lora-training-time-a-small-trl-diagnostic/178803
+  title: 'Same effective batch, different LoRA training time: a small TRL diagnostic'
+  author: abhinavsriva
+  publishedAt: 2026-08-18T21:02:02+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+TraceML을 유지 관리하는 작성자는 Hugging Face 포럼에서 TRL과 LoRA를 사용한 학습 시 유효 배치 크기가 동일해도 디바이스당 배치 크기에 따라 학습 시간이 달라질 수 있음을 검증하기 위해 실험을 진행했다. 이 연구는 일반적으로 당연시되는 사항을 확인하기 위한 개인적인 진단이며, Qwen3-1.7B 모델을 단일 T4 GPU에서 FP16 정밀도로 100개의 옵티마이저 스텝을 수행하는 조건으로 설정되었다.
+
+실험 결과 유효 배치 크기가 4로 고정된 상태에서 디바이스당 배치 크기를 1로 하고 그라디언트 누적 단계를 4로 설정한 경우 총 실행 시간은 287.6초가 걸렸다. 반면 디바이스당 배치 크기를 4로 늘리고 그라디언트 누적 단계를 1로 줄인 경우 실행 시간은 238.2초로 약 17% 빠르게 완료되었다. 이는 순전파와 역전파 단계에서의 처리 속도 차이에서 기인한 것으로 분석되었으며, 메모리 사용량은 약 0.36 GiB 더 소모되는 대신 속도가 개선된 것이다.
+
+이러한 결과는 Hugging Face 공식 문서가 물리적 배치가 수용 가능한 한 크게 설정하고 그라디언트 누적은 부족할 때만 사용하는 것을 권장하는 기존 가이드라인과 일치한다. 작성자는 TraceML 도구를 사용하여 스텝 시간의 분포를 분석했고, 해당 실험을 재현할 수 있도록 Colab 노트북과 소스 코드를 공개했다.
+
+작성자는 이 결과가 T4 GPU에 국한된 것이 아니므로 L4, A10, A100 등 다른 GPU 환경에서의 비교 데이터를 공유해 줄 것을 요청하며, 커뮤니티의 추가적인 검증과 데이터 수집을 기대하고 있다. 이는 특정 하드웨어 환경에서의 관찰 결과이므로 일반적인 법칙으로 단정하기보다는 재현 가능한 실험 사례로 참고하는 것이 적절하다.
+
+---
+
+원문: [Same effective batch, different LoRA training time: a small TRL diagnostic](https://discuss.huggingface.co/t/same-effective-batch-different-lora-training-time-a-small-trl-diagnostic/178803)

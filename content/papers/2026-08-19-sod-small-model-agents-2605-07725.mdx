@@ -1,0 +1,46 @@
+---
+title: 작은 언어모델 에이전트, 도구 사용 실수를 줄이는 SOD 방법
+category: papers
+axis: agent
+format: explainer
+summary: 도구 통합 추론이 작은 언어모델에서 불안정한 문제를 해결하기 위해 단계별 온-폴리시 증류(SOD)를 제안한다. 이 방법은 학생 모델의 오류가 누적되는 것을 방지하며, 저자들은 이를 통해 경량 모델의 에이전트 추론 능력을 크게 향상시킬 수 있다고 주장한다.
+publishedAt: 2026-08-19T17:23:10+0900
+tags:
+- distillation
+draft: false
+lead: false
+source:
+  url: https://arxiv.org/abs/2605.07725
+  title: 'SOD: Step-wise On-policy Distillation for Small Language Model Agents'
+  author: Qiyong Zhong
+  publishedAt: 2026-08-19T13:00:00+0900
+  words: 19381
+paper:
+  arxivId: '2605.07725'
+  authors:
+  - Qiyong Zhong
+  - Mao Zheng
+  - Mingyang Song
+  - Xin Lin
+  - Jie Sun
+  - Houcheng Jiang
+  - Xiang Wang
+  - Junfeng Fang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+도구를 활용한 장기적인 추론 작업은 작은 언어모델에 적용하기 어렵다. 모델의 용량이 제한되어 있고, 여러 단계에 걸친 도구 상호작용에서 불안정성이 발생하기 때문이다. 기존 강화학습 방법은 결과 수준에서만 희소한 보상을 제공하며, 최근 주목받는 온-폴리시 증류(OPD)는 교사의 토큰 수준 지도를 통해 밀도 있는 학습을 시도한다. 그러나 연구진은 OPD를 도구 통합 추론에 적용하면 치명적인 실패 모드가 발생한다고 지적한다. 즉, 초기 단계의 잘못된 도구 호출이 이후 추론 단계로 연쇄적으로 전파되어 학생과 교사 모델 간의 괴리가 커지고, 교사의 지도 신호가 신뢰할 수 없게 된다는 것이다.
+
+이 문제를 해결하기 위해 저자들은 SOD(Step-wise On-policy Distillation)라는 프레임워크를 제안한다. 이 방법은 각 단계마다 학생과 교사 모델 간의 괴리 정도를 측정하여 증류의 강도를 적응적으로 재조정한다. 고도로 발산된 영역에서는 오해의 소지가 있는 교사의 신호를 약화시키고, 잘 정렬된 상태에서는 밀도 있는 지도를 유지함으로써 학습의 안정성을 높인다. 이를 통해 작은 언어모델 에이전트가 도구 사용 과정에서 발생하는 오류의 누적 효과를 줄일 수 있도록 설계되었다.
+
+저자들의 주장에 따르면, SOD는 수학, 과학, 코딩 등 어려운 벤치마크 테스트에서 두 번째로 좋은 베이스라인 대비 최대 20.86%의 성능 향상을 보였다. 특히 0.6B 파라미터 규모의 학생 모델이 AIME 2025 시험에서 26.13%의 점수를 기록하며, 경량 모델로도 에이전트 추론 능력이 효과적으로 이전될 수 있음을 입증했다고 한다. 이 연구는 작은 언어모델이 복잡한 도구 사용 작업을 안정적으로 수행할 수 있는 새로운 학습 패러다임을 제시한다.
+
+이 논문은 arXiv에 공개되었으며, 관련 코드는 GitHub에서 확인할 수 있다. SOD 방법은 기존 증류 기법의 한계를 극복하고, 제한된 리소스를 가진 모델도 강력한 추론 능력을 갖추도록 돕는 기술로 평가된다. 작은 언어모델의 에이전트 활용도를 높이고자 하는 개발자들에게 이 접근법은 유의미한 참고 자료가 될 것이다.
+
+---
+
+원문: [SOD: Step-wise On-policy Distillation for Small Language Model Agents](https://arxiv.org/abs/2605.07725)

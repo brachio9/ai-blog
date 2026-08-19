@@ -1,0 +1,35 @@
+---
+title: 중국어 유머 데이터셋 Humor_Vote 공개, LLM 평가와 게임 콘텐츠에 활용 가능
+category: community
+axis: serving
+format: explainer
+summary: Young25가 Hugging Face에 중국어 유머 질문과 인간 투표 라벨이 포함된 Humor_Vote 데이터셋을 공개했다. 이 자료는 대형 언어모델의 유머 이해도 평가와 선호도 학습, 그리고 엔터테인먼트 앱의 콘텐츠 라이브러리로 활용될 수 있다.
+publishedAt: 2026-08-19T17:23:10+0900
+tags:
+- DPO
+- SFT
+draft: false
+lead: false
+source:
+  url: https://discuss.huggingface.co/t/a-chinese-humor-dataset-with-human-vote-labels/178847
+  title: A Chinese humor dataset with human vote labels
+  author: Young25
+  publishedAt: 2026-08-19T04:24:34+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Young25가 Hugging Face 포럼을 통해 Humor_Vote라는 소규모 중국어 유머 데이터셋을 공개했다. 작성자는 이 자료가 유머 평가나 선호도 데이터를 다루는 연구자 및 개발자에게 유용할 것이라 판단하고 공유한 것이다. 각 행은 하나의 중국어 유머 질문과 네 가지 후보 답변, 그리고 인간이 선택한 정답과 투표 수를 포함한다. 모든 질문과 답변은 번역문이 아닌 원어민이 작성한 자연스러운 표현으로 구성되어 있어 문맥과 농담의 뉘앙스를 정확히 반영한다.
+
+Young25는 이 데이터셋이 대형 언어모델(LLM)의 사후 학습과 평가에 적합하다고 주장한다. 질문, 답변, 인간 선호도 구조를 통해 SFT(감소 미세 조정)나 DPO(직접 선호도 최적화) 스타일의 선호도 쌍 생성, 보상 모델링 등에 직접 활용할 수 있다. 또한 모델이 가장 재미있는 답변을 고를 수 있는지 확인하는 탐색 도구로도 사용 가능하다고 설명한다.
+
+엔터테인먼트 애플리케이션과 게임 개발에도 유용하게 쓰일 수 있다고 작성자는 제안한다. 파티 아이스브레이커나 퀴즈 형식의 미니게임, '가장 웃긴 답변 투표' 같은 메커니즘에 즉석에서 콘텐츠 라이브러리로 활용 가능하다. 유머 콘텐츠 생성 작업에도 이 질문-답변 쌍을 그대로 사용할 수 있다.
+
+사용자는 datasets 라이브러리의 load_dataset 함수로 Young25/Humor_Vote를 쉽게 불러올 수 있다. Young25는 이번이 첫 릴리스이므로 포맷이나 라벨 품질에 대한 피드백을 환영한다고 밝혔다. 흥미로운 실험이나 벤치마크 결과를 공유해 주기를 바라며, 더 많은 데이터가 필요하면 직접 연락할 것을 제안했다.
+
+---
+
+원문: [A Chinese humor dataset with human vote labels](https://discuss.huggingface.co/t/a-chinese-humor-dataset-with-human-vote-labels/178847)
