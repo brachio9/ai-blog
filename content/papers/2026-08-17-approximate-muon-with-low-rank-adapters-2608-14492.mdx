@@ -6,7 +6,9 @@ format: explainer
 summary: 저자들은 LoRA 방식의 파라미터 효율적 미세 조정에서 Muon 최적화기를 적용하는 수학적 장벽을 해결한다. 선형화와 최소제곱법을 통해 근사해를 구한 sMuon은 곱셈 연산만으로 효율적으로 구현되며, 저자들의 주장에 따르면 미세 조정 성능을 중간 정도 향상시킨다.
 publishedAt: 2026-08-17T23:32:58+0900
 tags:
-- 추론최적화·파인튜닝
+- LoRA
+- fine-tuning
+- SFT
 draft: false
 lead: false
 source:
@@ -20,6 +22,11 @@ paper:
   - Ben Anson
   - Conor Houghton
   - Edward Milsom
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
 ---
 
 Muon 최적화기는 신경망 사전 학습 단계에서 기존 방법 대비 뚜렷한 이점을 보이지만, 파라미터 효율적 미세 조정(PEFT) 분야에서는 활용도가 낮다. 그 주된 이유는 가장 널리 쓰이는 LoRA 방법이 Muon과 자연스럽게 결합되지 않기 때문이다. 구체적으로 저차원 매개변수화 방식이 제공하는 가중치 업데이트는 수학적으로 직교화할 수 없기 때문에, 기존 Muon의 적용에 한계가 있었다.

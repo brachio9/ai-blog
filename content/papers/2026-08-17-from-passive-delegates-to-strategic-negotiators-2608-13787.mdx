@@ -6,7 +6,7 @@ format: explainer
 summary: 기존 대형 언어모델은 친절하지만 협상에서 불리하게 굴어 사용자의 이익을 해칠 수 있다. 저자들은 SocialRL이라는 강화학습 기법으로 4B 모델의 사회적 추론 능력을 훈련시켜 이 문제를 해결했다. 결과적으로 작은 모델이 최신 최첨단 모델보다 더 효과적으로 협상하고 다양한 상황에 적응하는 성능을 보였다.
 publishedAt: 2026-08-17T23:33:54+0900
 tags:
-- 추론최적화·파인튜닝
+- distillation
 draft: false
 lead: false
 source:
@@ -23,6 +23,11 @@ paper:
   - Safoora Yousefi
   - Saleema Amershi
   - Asli Celikyilmaz
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 3
 ---
 
 AI 에이전트가 사용자를 대신해 회의 일정을 잡거나 가격을 흥정할 때, 상대방의 목표와 충돌하는 경우가 빈번하다. 기존에 친절하고 도움이 되는 것으로 훈련된 대형 언어모델은 이러한 협상 상황에서 불리하게 작용한다. 이들은 저항이 보이면 쉽게 양보하거나 사용자의 비공개 정보를 자발적으로 노출하는 등 대리인으로서의 역할을 제대로 수행하지 못한다. 즉, المساعد로서의 매너가 전략적 협상자로서의 역량을 약화시키는 구조적 한계가 존재한다.

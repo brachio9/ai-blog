@@ -1,10 +1,12 @@
 ---
 title: 80억 파라미터 모델의 성능을 5.24억으로 압축한 문서 검색 기술, DistilVDR
 category: papers
-axis: serving
+axis: retrieval
 format: explainer
 summary: 대규모 시각적 문서 검색 모델의 높은 연산 비용과 느린 인덱싱 문제를 해결하기 위해 개발된 경량화 시스템이다. 단일 대형 교사의 지식만 활용해 레이블 없이 학습하며, 기존 다중 벡터 방식보다 훨씬 작은 인덱스 크기와 빠른 속도를 제공한다.
 publishedAt: 2026-08-16T03:39:17+0900
+tags:
+- distillation
 draft: false
 lead: false
 source:
@@ -19,6 +21,14 @@ paper:
   - Ziyi Wang
   - Yao Zhang
   - Yu Xiao
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 11
 ---
 
 시각적 문서 검색(VDR) 분야는 수십억 개 파라미터를 가진 거대 모델이 주류를 이루고 있다. 이러한 모델은 전체 코퍼스 규모에서 인덱싱하는 데 시간이 많이 걸리고 서비스 운영 비용도 막대하다. 기존 압축 방법들은 작은 다중 벡터 인코더를 처음부터 훈련하거나 쿼리 쪽만 증류하는 방식이었기 때문에, 컴팩트한 단일 벡터 검색기를 종단간(end-to-end)으로 구축하는 데 한계가 있었다.

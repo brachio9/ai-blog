@@ -1,10 +1,12 @@
 ---
 title: 장문 문서 이해를 위한 에이전트 시각 인식 프레임워크 InSight-doc
 category: papers
-axis: serving
+axis: agent
 format: explainer
 summary: InSight-doc은 외부 검색기 없이 저해상도에서 시작해 필요한 부분만 고해상도로 확대하는 적응형 시각 인식 프레임워크다. 저자들은 이 방식이 장문 문서의 환각 현상을 크게 줄이고 추론 속도를 높인다고 주장한다.
 publishedAt: 2026-08-16T03:39:17+0900
+tags:
+- SFT
 draft: false
 lead: false
 source:
@@ -22,6 +24,14 @@ paper:
   - Lanqing Hong
   - Yongxiang Huang
   - Nevin L. Zhang
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 11
 ---
 
 장문 문서를 이해하려면 시각 정보가 풍부한 여러 페이지에 걸쳐 추론해야 하는데, 이는 계산 비용이 크고 컨텍스트 손실 문제가 발생하기 쉽다. 이러한 문제를 해결하기 위해 연구진은 InSight-doc이라는 에이전트 기반 시각 인식 프레임워크를 제안했다. 이 시스템은 시각 해상도를 추론 시점의 적응형 자원으로 취급하여 외부 검색기에 의존하지 않고도 효율적으로 작동한다.

@@ -1,12 +1,10 @@
 ---
 title: 단편적 답변을 넘어, 사용자의 일년을 기억하는 AI 에이전트
 category: papers
-axis: retrieval
+axis: agent
 format: explainer
 summary: 이 연구는 모바일 환경에서 사용자의 이질적이고 다중 모달인 경험을 장기적으로 학습할 수 있는 프레임워크와 벤치마크를 제시한다. 단순한 정보 검색을 넘어 경험 기반의 지능을 통해 지속적인 개인 학습이 가능하도록 하는 MobileMem의 구조와 평가 방식을 설명한다.
 publishedAt: 2026-08-17T23:33:54+0900
-tags:
-- Agentic Engineering
 draft: false
 lead: false
 source:
@@ -34,6 +32,14 @@ paper:
   - Guilin Qi
   - Huajun Chen
   - Ningyu Zhang
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: mid
+  crossSources: 4
+  popularity:
+    kind: hf-upvotes
+    count: 19
 ---
 
 차세대 AI 에이전트는 단편적인 질문에 답하는 시스템을 벗어나 사용자의 경험을 이해하고 기억하며 지속적으로 학습하는 지속형 개인 비서로 진화하고 있다. 이러한 비서가 시간 경과에 따라 사용자 특화 경험을 축적하고 활용하려면 장기 기억이 필수적이지만, 기존 벤치마크는 이질적이고 다중 모달이며 끊임없이 변화하는 실제 모바일 환경을 충분히 반영하지 못하고 있다.

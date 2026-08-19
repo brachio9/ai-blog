@@ -6,7 +6,7 @@ format: explainer
 summary: 소형 언어 모델의 배포를 위해 필수적인 지식 증류 과정의 비용과 속도를 개선하는 방안을 제시한다. 교사의 토큰 확률 분포를 미리 저장하는 오프라인 방식과 메모리 효율을 극대화한 청크 KL 손실 함수를 통해 훈련 효율성을 크게 높일 수 있음을 보여준다.
 publishedAt: 2026-08-17T22:00:05+0900
 tags:
-- 추론최적화·파인튜닝
+- distillation
 draft: false
 lead: false
 source:
@@ -25,6 +25,14 @@ paper:
   - Jezabel R. Garcia
   - Antonio Tiene
   - Román Orús
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 14
 ---
 
 지연 시간, 비용, 온프레미스 제약이 엄격한 환경에서는 소형 언어 모델이 유일한 배포 옵션인 경우가 많다. 그러나 이러한 모델은 처음부터 학습하기보다는 지식 증류를 통해 압축된 형태로 회복되는 것이 일반적이다. 이 회복 단계가 최종 품질을 결정짓는 핵심 요소임에도 불구하고, 기존 방식은 계산 비용이 매우 크다. 따라서 실무자가 직면한 이러한 비효율성을 해결하기 위한 체계적인 연구가 필요하다.

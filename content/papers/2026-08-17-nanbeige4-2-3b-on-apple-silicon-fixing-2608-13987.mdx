@@ -6,7 +6,6 @@ format: explainer
 summary: Nanbeige4.2-3B 모델의 Apple Silicon(MPS) 환경 실행을 막는 다섯 가지 버그를 수정하고, Looped Transformer 구조로 인한 메모리 과부하를 해결하는 방안을 제시한다. 패치된 체크포인트와 평가 도구를 공개하여 에이전트 작업에서의 실제 성능을 검증했다.
 publishedAt: 2026-08-17T23:16:03+0900
 tags:
-- Agentic Engineering
 - MCP
 draft: false
 lead: false
@@ -19,6 +18,11 @@ paper:
   arxivId: '2608.13987'
   authors:
   - John T. Halloran
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 2
 ---
 
 Nanbeige4.2-3B는 파라미터 추가 없이 레이어 재사용을 통해 효과적 깊이를 더하는 Looped Transformer 기반의 3B 파라미터 에이전트 모델이다. 저자들은 Apple Silicon 환경에서 이 모델을 Hugging Face transformers 라이브러리로 바로 실행할 수 없게 만드는 다섯 가지 독립적인 버그를 발견했다. 여기에는 RoPE 버퍼가 침묵하게 영으로 초기화되는 문제와 제거된 캐시 API 호출 오류 등이 포함된다.

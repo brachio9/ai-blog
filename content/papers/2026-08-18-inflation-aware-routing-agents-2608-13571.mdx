@@ -5,8 +5,6 @@ axis: agent
 format: explainer
 summary: LLM 에이전트 시스템에서 재시도 과정에서 발생하는 토큰 과소비 문제를 토큰 인플레이션이라 정의한다. 실행 전 난이도를 예측해 실제 비용을 고려한 라우팅 전략을 제안하며, 기존 방식보다 정확도와 효율성을 모두 높인다고 주장한다.
 publishedAt: 2026-08-18T23:15:25+0900
-tags:
-- Agentic Engineering
 draft: false
 lead: false
 source:
@@ -21,6 +19,11 @@ paper:
   - Shan Lin
   - Qianqian Xie
   - Guojun Xiong
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 2
 ---
 
 대형 언어 모델이 첫 시도에서 질문에 답하지 못하면 에이전트 시스템은 재시도를 통해 추가 토큰을 소모한다. 이 과정에서 단일 호출 가격과 실제 워크플로우 비용 사이에 격차가 생기는데, 이를 저자들은 토큰 인플레이션이라 부른다. FrugalGPT와 같은 기존 시스템은 단일 호출 비용만 고려해 라우팅하기 때문에, 어려운 작업에서는 실제 비용을 2배 이상 과소평가할 수 있다는 지적이다.

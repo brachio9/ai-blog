@@ -6,9 +6,10 @@ format: explainer
 summary: Pipecat 1.7.0 버전은 STT와 LLM 서비스의 사용량 메트릭 수집 기능을 강화했다. 노이즈 필터링과 커스텀 HTTP 클라이언트 지원 등 실제 운영 환경에서의 안정성을 높이는 개선이 포함되었다.
 publishedAt: 2026-08-18T09:18:56+0900
 tags:
-- Agentic Engineering
-- 추론최적화·파인튜닝
-- 음성
+- vLLM
+- TTS
+- ASR
+- Whisper
 draft: false
 lead: false
 source:
@@ -16,6 +17,11 @@ source:
   title: v1.7.0
   author: markbackman
   publishedAt: 2026-08-02T01:15:18+0900
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
 ---
 
 이번 업데이트는 개발자가 AI 서비스의 리소스 소비를 정확히 파악할 수 있도록 하는 데 중점을 두었다. AWS Nova Sonic LLM 서비스와 모든 STT 서비스에 사용량 메트릭 기능이 추가되어, 세션 전체의 토큰 사용량과 오디오 처리 시간을 실시간으로 추적할 수 있게 되었다. 이는 비용 관리와 성능 모니터링에 필수적인 데이터로, RTVI 클라이언트나 OpenTelemetry를 통해 쉽게 접근 가능하다.

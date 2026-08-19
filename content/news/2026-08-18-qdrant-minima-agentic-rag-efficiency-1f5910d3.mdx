@@ -7,8 +7,9 @@ summary: Qdrant는 Minima와의 연동 벤치마크 결과를 공개했다. 이 
 publishedAt: 2026-08-18T22:00:05+0900
 tags:
 - RAG
-- Agentic Engineering
-- 추론최적화·파인튜닝
+- reranking
+- hybrid search
+- KV cache
 draft: false
 lead: false
 source:
@@ -16,6 +17,11 @@ source:
   title: Qdrant and Minima Deliver 2.92x More Agentic RAG Tasks per GPU-Hour
   author: Andrey Vasnetsov
   publishedAt: 2026-08-13T09:00:00+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: low
+  crossSources: 1
 ---
 
 에이전트 기반 검색 증강 생성(RAG) 시스템은 실행 중 검색 계획을 세우고, 반환된 증거를 검토하며, 부족할 경우 다시 시도하는 과정을 반복한다. 이러한 비효율성은 누적되어 추가적인 검색과 모델 호출마다 지연 시간, 컨텍스트 부하, 그리고 추론 비용을 증가시킨다.

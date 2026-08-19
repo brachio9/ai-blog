@@ -5,8 +5,6 @@ axis: agent
 format: explainer
 summary: Agentao는 도구를 사용하는 LLM 에이전트의 실행 위험을 관리하기 위한 로컬 중심 런타임이다. 모델의 행동 제안과 호스트의 승인된 실행을 분리하여 에이전트의 거버넌스와 검사를 강화한다.
 publishedAt: 2026-08-17T23:16:03+0900
-tags:
-- 규제·정책
 draft: false
 lead: false
 source:
@@ -20,6 +18,11 @@ paper:
   - Bo Jin
   - Qiang Jiao
   - Xin Tong
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
 ---
 
 최근 LLM 에이전트는 단순한 대화 상대를 넘어 도구를 호출하고 로컬 상태를 수정하며 외부 프로토콜과 상호작용하는 실행 시스템으로 진화하고 있다. 이러한 기능은 유용하지만 과도한 권한 행사, 약한 감사 가능성, 프롬프트 인젝션 및 도구 오염 등의 새로운 위험을 초래한다. 에이전트들이 더 안전하게 운영되려면 모델이 생성한 행동 제안과 실제 호스트가 승인하는 실행 과정을 명확히 분리할 필요가 있다.

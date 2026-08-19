@@ -6,7 +6,8 @@ format: explainer
 summary: 외부 지도 없이 모델 생성 결과의 내부 일관성만으로 LLM을 자기 증류하는 무감독 온-폴리시 자기 증류법을 제안한다. 저자들은 이 방법이 기존 감독 기반 방법과 맞먹거나 더 나은 성능을 보이며, 특히 수학적 추론 과제에서 베이스 모델 대비 유의미한 향상을 거둔다고 주장한다.
 publishedAt: 2026-08-17T01:05:55+0900
 tags:
-- 추론최적화·파인튜닝
+- distillation
+- GRPO
 draft: false
 lead: false
 source:
@@ -23,6 +24,14 @@ paper:
   - Yunjie Tian
   - Di Fu
   - Nuno Vasconcelos
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 202
 ---
 
 대규모 언어 모델의 사후 학습에서 온-폴리시(self-)증류는 큰 잠재력을 보였으나, 기존 방법들은 정답 신호나 외부 피드백 등 감독 데이터에 의존해 진정한 의미의 '자기' 증류라 보기 어렵다. 본 연구는 이러한 한계를 극복하기 위해 모델이 생성한 결과물의 내부 일관성만으로도 온-폴리시 자기 증류를 달성할 수 있음을 보인다.

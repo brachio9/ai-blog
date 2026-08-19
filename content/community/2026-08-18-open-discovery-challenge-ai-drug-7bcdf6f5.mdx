@@ -1,13 +1,10 @@
 ---
 title: AI로 신약 후보를 찾는 공개 실험, 문턱이 낮아졌다
 category: community
-axis: agent
+axis: domain
 format: explainer
 summary: 파이토치 한국모임의 글에 따르면 Open Discovery Challenge는 AI가 설계한 신약 후보물질을 동일한 기준으로 평가하는 공개 플랫폼이다. 전문 연구실뿐만 아니라 누구나 참여할 수 있도록 문턱을 낮춘 이 실험은 계산 검증 결과를 공유하며 학습하는 구조를 갖췄다.
 publishedAt: 2026-08-18T23:15:25+0900
-tags:
-- 평가·벤치마크
-- 음성
 draft: false
 lead: false
 source:
@@ -15,6 +12,11 @@ source:
   title: '''모두의 AI신약'' : AI와 사람이 함께 여는 공개 신약 발견 챌린지'
   author: AI_OpenFree
   publishedAt: 2026-08-16T15:56:09+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
 ---
 
 신약 개발의 초기 단계인 가설 수립과 후보 탐색에 AI가 개입하면서 진입 장벽이 크게 낮아졌다는 주장이 나온다. 파이토치 한국모임의 글에서는 Open Discovery Challenge를 통해 말라리아와 결핵 치료제 후보를 찾는 공개 챌린지가 진행되고 있다고 소개한다. 이 프로젝트는 소수의 연구실 독점이 아닌, Hugging Face 계정을 가진 누구나 AI 에이전트나 오픈웨이트 모델을 활용해 분자 구조를 제안할 수 있는 장을 마련했다.

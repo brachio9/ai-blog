@@ -6,15 +6,20 @@ format: explainer
 summary: Hugging Face 모델을 vLLM으로 옮기는 복잡한 과정을 Claude Code Skill을 통해 자동화했다. 모델 개발자와 MLOps 엔지니어 사이의 지식 격차를 AI가 메우며 변환부터 배포까지의 파이프라인을 구축한 사례다.
 publishedAt: 2026-08-18T09:04:10+0900
 tags:
-- RAG
-- 바이브코딩
-- 추론최적화·파인튜닝
+- reranking
+- Claude Code
+- vLLM
 draft: false
 lead: false
 source:
   url: https://d2.naver.com/helloworld/7337586
   title: 우리 팀만의 vLLM 플러그인 만들기 2편 - 모델 변환부터 배포까지 AI-native로 자동화하기
   publishedAt: 2026-08-11T01:39:52+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
 ---
 
 vLLM 사용자 정의 플러그인 제작 이후 남은 과제는 반복적이고 복잡한 모델 변환 작업이었다. Hugging Face 모델을 vLLM에 올리는 과정은 단순한 코드 마이그레이션이 아니라, 가중치는 유지하되 실행 방식을 완전히 재작성해야 하는 까다로운 작업이다. 모델 내부 구조를 아는 개발자와 vLLM 인프라를 아는 엔지니어 사이에 존재하는 지식 공백과, 빠르게 변화하는 프레임워크 버전 추적이 주요 장애물이었다.

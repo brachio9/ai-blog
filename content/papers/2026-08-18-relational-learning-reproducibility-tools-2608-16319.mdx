@@ -1,7 +1,7 @@
 ---
 title: 관계형 데이터 학습의 재현성을 높이는 RelArena-α와 TabPFN-Rel
 category: papers
-axis: vibe-coding
+axis: serving
 format: explainer
 summary: Prior Labs가 관계형 학습 분야의 재현성과 개방성을 위해 RelArena-α, TabPFN-Rel, RPI 세 가지 소프트웨어를 알파 버전으로 공개했다. 이 도구들은 연구자와 초기 채택자가 데이터베이스 기반 문제를 표준화된 방식으로 비교하고 해결할 수 있도록 설계되었다.
 publishedAt: 2026-08-18T22:00:05+0900
@@ -62,6 +62,14 @@ paper:
   - Sauraj Gambhir
   - Frank Hutter
   - Noah Hollmann
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 14
 ---
 
 관계형 학습 분야에는 다양한 데이터셋과 작업이 등장했지만, 서로 다른 방법을 신뢰성 있게 비교할 수 있는 재현 가능한 방법이 정립되지 않았다. Prior Labs는 이러한 문제점을 해결하기 위해 RelBench v1을 기반으로 한 통합 프레임워크인 RelArena-α를 공개했다. 이 프레임워크는 데이터 로딩, 평가 프로토콜, 튜닝 방식을 표준화하여 TabArena와 같은 기존 테이블 벤치마크의 장점을 관계형 학습에 적용한다. 개발 초기 단계이므로 연구자와 실무자를 대상으로 하며, 커뮤니티의 피드백을 통해 지속적으로 발전시킬 계획이다.

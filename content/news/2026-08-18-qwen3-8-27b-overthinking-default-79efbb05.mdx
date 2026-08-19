@@ -6,14 +6,20 @@ format: explainer
 summary: 알리바바의 Qwen 연구실이 공개한 Qwen3.8-27B는 소비자용 노트북에서 실행하기에 적합한 크기와 뛰어난 벤치마크 점수를 보인다. 하지만 기본 설정이 '최고 수준의 추론 노력'으로 되어 있어 사소한 질문에도 과도하게 많은 토큰과 시간을 소모하는 문제가 발생한다.
 publishedAt: 2026-08-18T09:18:56+0900
 tags:
-- 바이브코딩
-- 추론최적화·파인튜닝
+- Codex
+- Cursor
+- quantization
 draft: false
 lead: false
 source:
   url: https://simonwillison.net/2026/Aug/16/qwen-38-27b/
   title: Qwen 3.8 27B is excellent, but it defaults to wildly overthinking things
   publishedAt: 2026-08-17T07:00:39+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
 ---
 
 최근 알리바바 Qwen 연구실이 공개한 Qwen3.8-27B는 아파치 2 라이선스를 적용한 270억 파라미터 비전 지원 대규모 언어 모델이다. 시몬 윌리슨은 이전 버전인 Qwen 3.6 27B가 인상적이었기에 이번 릴리스를 주목했으며, 특히 합리적인 사양의 노트북에서 구동하기 좋은 크기라고 평가했다. 공식 벤치마크 결과에서는 전작인 Qwen 3.6 27B는 물론, 올해 5월 기준 강력한 모델로 꼽히던 폐쇄형 가중치 모델인 Qwen 3.7-Plus보다도 성능이 향상된 것으로 나타나 눈길을 끌고 있다.

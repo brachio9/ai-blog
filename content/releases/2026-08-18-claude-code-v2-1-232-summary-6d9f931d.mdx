@@ -6,9 +6,8 @@ format: explainer
 summary: Claude Code의 최신 버전에서는 서브에이전트 포킹이 기본 설정으로 바뀌고 세션 간 통신이 개선되었다. GitLab 지원 확대와 다양한 보안 패치가 적용되어 개발 환경의 안정성과 편의성이 높아졌다.
 publishedAt: 2026-08-18T09:10:54+0900
 tags:
-- 바이브코딩
+- Claude Code
 - MCP
-- 음성
 draft: false
 lead: false
 source:
@@ -16,6 +15,11 @@ source:
   title: v2.1.232
   author: ashwin-ant
   publishedAt: 2026-08-14T08:29:59+0900
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
 ---
 
 이번 업데이트의 가장 큰 변화는 서브에이전트 포킹(subagent forking)이 기본 활성화된 점이다. 이제 'fork' 타입의 서브에이전트는 대화 이력과 프롬프트 캐시를 그대로 상속받으며, 인터랙티브 세션에서 생성된 비팀메이트 에이전트는 백그라운드에서 실행된다. 또한 프롬프트 입력창에서 '@'를 치면 다른 Claude 세션을 이름으로 호출해 직접 메시지를 보낼 수 있게 되어 작업 흐름이 더 매끄러워졌다. 같은 기기에서 여러 세션을 운영할 때 이름 충돌을 자동으로 처리해 주며, 설정 메뉴에 대화 만료 시간과 타 세션 메시지 수신 정책 관련 옵션이 추가되었다.

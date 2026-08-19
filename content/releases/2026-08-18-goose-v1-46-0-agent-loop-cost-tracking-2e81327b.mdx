@@ -6,9 +6,11 @@ format: explainer
 summary: Goose v1.46.0은 에이전트 루프 구조를 개선하고 토큰 사용량 및 비용을 메시지 단위로 정확히 추적하는 기능을 도입했다. 셸 출력 스트리밍과 세션 내비게이션 편의성도 함께 강화되었다.
 publishedAt: 2026-08-18T09:14:55+0900
 tags:
-- 바이브코딩
+- Claude Code
+- Codex
+- Cursor
+- Copilot
 - MCP
-- 음성
 draft: false
 lead: false
 source:
@@ -16,6 +18,11 @@ source:
   title: v1.46.0
   author: github-actions[bot]
   publishedAt: 2026-08-13T01:05:13+0900
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
 ---
 
 이번 릴리즈의 핵심은 에이전트 실행 루프의 구조적 개선이다. 기존 방식에서 벗어난 새로운 에이전트 루프 구현으로 시스템의 안정성과 예측 가능성이 높아졌다. 특히 캐시 사용 시에도 컨텍스트가 안전하게 유지되도록 요청 조립 방식을 변경해, 반복 작업 시 불필요한 토큰 소모를 줄이고 비용 정산의 정확도를 높였다.

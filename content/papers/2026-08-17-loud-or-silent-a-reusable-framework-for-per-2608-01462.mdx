@@ -32,6 +32,14 @@ paper:
   - Rahul Gorijavolu
   - Jacques Kpodonu
   - Leo Anthony Celi
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 4
 ---
 
 현재 다중모달 임상 AI 모델은 모든 검사 데이터가 완비된 환경에서의 정확도만으로 평가되는 경향이 있다. 그러나 실제 임상 현장에서는 초음파와 같은 고비용 검사가 불가능한 반면 심전도(ECG)는 일상적으로 수행되는 등 특정 모달리티가 누락되는 경우가 빈번하다. 따라서 단순한 정확도 하락 폭을 넘어, 어떤 모달리티의 결손이 오류를 유발했는지 그리고 그 실패가 감지 가능한 형태인지 아닌지를 구분하는 것이 중요하다. 이는 사후 특성 귀속 분석과는 별개로, 예제 단위와 모달리티 수준에서의 실패 특성을 파악해야 한다.

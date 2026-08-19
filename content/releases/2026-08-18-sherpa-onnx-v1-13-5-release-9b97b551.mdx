@@ -6,8 +6,9 @@ format: explainer
 summary: sherpa-onnx v1.13.5는 퀄컴 NPU를 위한 QNN 지원과 자바 API의 안정성을 크게 개선했다. Nemotron 및 Moonshine 모델의 하드웨어 가속화와 함께 TTS 및 ASR 관련 버그 수정이 포함됐다.
 publishedAt: 2026-08-18T09:14:55+0900
 tags:
-- 추론최적화·파인튜닝
-- 음성
+- KV cache
+- TTS
+- ASR
 draft: false
 lead: false
 source:
@@ -15,6 +16,11 @@ source:
   title: v1.13.5
   author: github-actions[bot]
   publishedAt: 2026-08-11T16:04:00+0900
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
 ---
 
 이번 릴리즈의 가장 큰 변화는 퀄컴 스냅드래곤 프로세서의 NPU를 활용하는 QNN 환경 지원이 확대된 점이다. Nemotron 스트리밍 ASR 모델과 Moonshine ASR 모델을 QNN 형식으로 내보내고 실행할 수 있게 되면서, 모바일 및 임베디드 기기에서의 음성 인식 성능 최적화가 한층 쉬워졌다. 또한 Android KWS 데모 빌드 오류를 수정하고 QNN SDK 설정을 위한 도커 이미지를 제공해 개발 환경 구축의 진입 장벽을 낮췄다.

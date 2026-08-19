@@ -6,7 +6,7 @@ format: explainer
 summary: llama.cpp 빌드 10451이 출시되었다. 이번 업데이트는 LoRA 어댑터 텐서 데이터가 파일 경계를 벗어나는지 확인하는 검사를 추가하여 안정성을 높였다. 주요 플랫폼별 바이너리도 함께 제공된다.
 publishedAt: 2026-08-18T23:15:25+0900
 tags:
-- 추론최적화·파인튜닝
+- LoRA
 draft: false
 lead: false
 source:
@@ -14,6 +14,11 @@ source:
   title: b10451
   author: github-actions[bot]
   publishedAt: 2026-08-16T16:24:37+0900
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
 ---
 
 llama.cpp의 최신 빌드인 b10451이 릴리즈되었다. 이번 업데이트의 핵심 변경사항은 LoRA 어댑터 파일 처리 방식에 대한 보안 및 안정성 개선이다. 개발팀은 LoRA 텐서 데이터가 파일 경계 내에 있는지 확인하는 검사를 추가했다. 이는 잘못된 형식의 어댑터 파일을 로드할 때 발생할 수 있는 메모리 오류나 예기치 않은 동작을 방지하기 위한 조치다.
