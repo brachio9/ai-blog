@@ -78,6 +78,72 @@ export function postsByMonth(): MonthGroup[] {
   );
 }
 
+export interface DayGroup {
+  /** `YYYY-MM-DD` */
+  day: string;
+  count: number;
+  posts: Post[];
+  /** 그날 축별 편수 — 구획머리의 집계이자 내비게이션이다. 0편인 축은 넣지 않는다 */
+  axes: { slug: AxisSlug; count: number }[];
+}
+
+/**
+ * 일자별 글. **홈이 이걸로 지면을 나눈다.**
+ *
+ * 신문의 1면은 원래 **한 호(號)당 하나**이고 이 사이트에서 한 호는 하루다.
+ * 하루 20편이 들어오는데 지면 전체에 머리기사가 하나뿐이면 그건 편집이 아니라 정렬이다.
+ *
+ * 날짜는 `publishedAt` 의 앞 10자를 그대로 자른다 — `postsByMonth` 와 같은 방법이다.
+ * **`Date` 로 다시 파싱하지 않는다**: 값이 이미 KST(`+0900`)로 고정돼 있어서
+ * 파싱하는 순간 실행 환경의 시간대가 끼어들 자리가 생긴다.
+ *
+ * 축 집계를 함께 내는 이유: 상단 메뉴에서 분류 나열을 걷어냈으므로(`SiteHeader`)
+ * **길찾기가 여기서 일어난다.** 「서빙 11 · 에이전트 8」은 고정 목록이 못 하는 말을 한다 —
+ * 지금 보고 있는 날에 실제로 몇 편인지를 같이 말한다.
+ */
+export function postsByDay(): DayGroup[] {
+  const days = new Map<string, Post[]>();
+
+  for (const post of getAllPosts()) {
+    const day = post.frontmatter.publishedAt.slice(0, 10);
+    const bucket = days.get(day);
+
+    if (bucket) {
+      bucket.push(post);
+    } else {
+      days.set(day, [post]);
+    }
+  }
+
+  return [...days.entries()]
+    // `postsByMonth` 와 같은 이유로 문자열 비교다 — 자릿수가 고정이라 그것으로 충분하다.
+    .sort(([a], [b]) => (a < b ? 1 : a > b ? -1 : 0))
+    .map(([day, posts]) => ({
+      day,
+      count: posts.length,
+      posts,
+      axes: axesOf(posts),
+    }));
+}
+
+/** 그날의 축 집계. **많은 축부터** — 구획머리 한 줄이라 눈에 먼저 걸릴 것이 앞이다. */
+function axesOf(posts: Post[]): { slug: AxisSlug; count: number }[] {
+  const counts = new Map<AxisSlug, number>();
+  for (const post of posts) {
+    const slug = post.frontmatter.axis;
+    counts.set(slug, (counts.get(slug) ?? 0) + 1);
+  }
+
+  return [...counts.entries()]
+    .map(([slug, count]) => ({ slug, count }))
+    // 동률은 축 번호순으로 갈린다 — 환경마다 순서가 달라지면 안 된다.
+    .sort((a, b) => b.count - a.count || order(a.slug) - order(b.slug));
+}
+
+function order(slug: AxisSlug): number {
+  return AXES.findIndex((axis) => axis.slug === slug);
+}
+
 /**
  * 태그 색인. 집계는 getAllTags() 가 하고 여기서는 순서만 확정한다 —
  * 태그를 세는 곳이 둘이 되면 색인과 필터의 숫자가 갈린다.
