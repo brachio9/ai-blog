@@ -99,9 +99,10 @@ phase 는 서로 다른 세션에서 실행되므로 이름이 갈리면 마지�
 ## 분류 축 (CRITICAL — 셋을 섞지 마라)
 
 - **주제 `axis`** (1급, 필수·단일) — 6축. `/topics/{axis}`. **색을 쓰지 않는다 — 번호(mono `01`~`06`)가 부호다.**
-- **소스 `category`** (**5개**) — `/{category}/{slug}`. 안료 3색 + **먹 2단계**는 **여기 전용**이다.
-- **포맷 `format`** (선택) — 라우트 없음. `?format=` 필터만.
-- 태그 `tags` — **고유명사 전용**(모델·툴·기법). 축·포맷을 태그로 표현하지 마라.
+- **소스 `category`** (**5개**) — `/sources/{category}`. 안료 3색 + **먹 2단계**는 **여기 전용**이다.
+  **글 주소에는 들어가지 않는다** (`/posts/{slug}`) — 분류를 고칠 때마다 링크가 죽지 않게.
+- **포맷 `format`** (선택) — 라우트도 필터도 없다. 60/60 이 `explainer` 하나라 필터가 아무것도 거르지 못했다. 필드와 enum 은 남긴다 — 「재현 검증·실전 기록은 `notes` 강제」 규칙이 거기 있다.
+- 태그 `tags` — 고유명사(모델·툴·기법) + 부차 주제(걸친 **다른** 축). **이 글의 `axis` 를 되풀이하는 태그만 금지**(`isOwnAxisEcho`). 포맷은 태그로 표현하지 마라.
 
 **카테고리 5개 (2026-08-15 개편 — 수집 파이프라인의 데이터 분포에 맞췄다)**
 
@@ -116,9 +117,9 @@ phase 는 서로 다른 세션에서 실행되므로 이름이 갈리면 마지�
 옛 `hf-blog` 한 칸이 `releases`(GitHub 릴리즈 28곳)와 `news`(기업 블로그·뉴스레터 17곳)로 갈라졌다.
 **색을 안 쓰는 것 자체가 부호다** — `community` 는 원문이 여럿이고, `notes` 는 원문이 아니라 **사람이 골랐다는 것**이 기준이다 (직접 잰 글에는 원문이 아예 없다).
 
-**더 늘릴 때는 값을 치러야 한다.** `CategorySlug`·`CategoryAccent` 유니온 + `Record<CategoryAccent,…>` **5곳**
-(`KICKER_ACCENT`·`ACCENT_COLOR`·`ACCENT_TEXT`·`ACCENT_RULE`·`CAT_CLASS`) + `globals.css` 의
-`--cat-*`·`--color-cat-*`·`.cat-*`. TS 5곳은 컴파일이 잡지만 **CSS 는 못 잡아 조용히 무색이 된다.**
+**더 늘릴 때는 값을 치러야 한다.** `CategorySlug`·`CategoryAccent` 유니온 + `Record<CategoryAccent,…>` **4곳**
+(`KICKER_ACCENT`·`ACCENT_COLOR`·`ACCENT_TEXT`·`CAT_CLASS`) + `globals.css` 의
+`--cat-*`·`--color-cat-*`·`.cat-*`. TS 4곳은 컴파일이 잡지만 **CSS 는 못 잡아 조용히 무색이 된다.**
 
 ## 비-목표 (명시적 제외)
 
