@@ -18,8 +18,9 @@ import {
   getCategory,
   type Category,
 } from "@/lib/categories";
+import { postHref } from "@/lib/pagination";
 import { compressionRatio, countBodyChars } from "@/lib/content/compression";
-import { getAllPosts, getPost, getPostsByCategory } from "@/lib/content/posts";
+import { getAllPosts, getPostBySlug, getPostsByCategory } from "@/lib/content/posts";
 import { getFormat } from "@/lib/formats";
 import { getGiscusConfig } from "@/lib/giscus";
 import { renderMdx } from "@/lib/mdx";
@@ -28,29 +29,20 @@ import type { Post } from "@/types/content";
 
 /** 모든 글을 빌드 타임에 정적 생성한다. */
 export function generateStaticParams() {
-  return getAllPosts().map((post) => ({
-    category: post.category,
-    slug: post.slug,
-  }));
-}
-
-/** 경로에서 글을 찾는다. 카테고리가 CATEGORIES 에 없으면 글도 없다. */
-function findPost(category: string, slug: string): Post | undefined {
-  const found = getCategory(category);
-  return found ? getPost(found.slug, slug) : undefined;
+  return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata(
-  props: PageProps<"/[category]/[slug]">,
+  props: PageProps<"/posts/[slug]">,
 ): Promise<Metadata> {
-  const { category, slug } = await props.params;
-  const post = findPost(category, slug);
+  const { slug } = await props.params;
+  const post = getPostBySlug(slug);
   if (!post) {
     return {};
   }
 
   const { frontmatter } = post;
-  const url = `/${post.category}/${post.slug}`;
+  const url = postHref(post.slug);
 
   // 루트 레이아웃의 title.template 이 " | {SITE_NAME}" 을 붙인다.
   return {
@@ -146,11 +138,16 @@ function PostAside({ post, category }: { post: Post; category: Category }) {
  * 글 상세 — `/{category}/{slug}`.
  * 쿼리 파라미터는 읽지 않는다. 서버에서 읽는 순간 페이지가 동적이 되어 정적 생성이 사라진다.
  */
-export default async function PostPage(props: PageProps<"/[category]/[slug]">) {
-  const { category, slug } = await props.params;
-  const found = getCategory(category);
-  const post = findPost(category, slug);
-  if (!found || !post) {
+export default async function PostPage(props: PageProps<"/posts/[slug]">) {
+  const { slug } = await props.params;
+  const post = getPostBySlug(slug);
+  if (!post) {
+    notFound();
+  }
+
+  // 카테고리는 이제 주소가 아니라 글이 말한다 — 그래도 안료·라벨은 그대로 쓴다.
+  const found = getCategory(post.category);
+  if (!found) {
     notFound();
   }
 
@@ -177,7 +174,7 @@ export default async function PostPage(props: PageProps<"/[category]/[slug]">) {
           category={found}
           ratio={ratio}
           /* 조회수는 클라이언트가 API 로 가져온다 — 서버에서 읽으면 이 페이지가 동적이 된다. */
-          views={<ViewCount postId={`${post.category}/${post.slug}`} />}
+          views={<ViewCount postId={post.slug} />}
         />
 
         <div className="mt-[var(--space-4)] flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">

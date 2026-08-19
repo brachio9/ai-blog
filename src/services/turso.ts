@@ -1,6 +1,5 @@
 import { createClient, type Client } from "@libsql/client";
 
-import { getCategory } from "@/lib/categories";
 
 /**
  * 조회수 저장소 — ADR-002: Turso 에는 휘발성 수치만 넣는다.
@@ -24,18 +23,15 @@ const MAX_SLUG_LENGTH = 100;
  * 글의 실재 여부는 확인하지 않는다: 런타임에 content/ 를 fs 로 읽으면
  * 서버리스 번들에 콘텐츠가 없을 때 배포 후에만 깨진다.
  */
+/**
+ * `post_id` 는 **글 상세 URL 과 같다** — 이제 slug 하나다 (`/posts/{slug}`).
+ *
+ * 옛 키는 `{category}/{slug}` 였다. 주소에서 분류를 뺀 이유와 같은 이유로 여기서도 뺀다:
+ * 분류를 다시 짜면(2026-08-15 에 한 번 했다) 조회수가 통째로 고아가 된다.
+ * 옛 행은 지우지 않는다 — 아무도 읽지 않으므로 그냥 남는다.
+ */
 export function isValidPostId(id: string): boolean {
-  const parts = id.split("/");
-  if (parts.length !== 2) {
-    return false;
-  }
-
-  const [category, slug] = parts;
-  return (
-    getCategory(category) !== undefined &&
-    slug.length <= MAX_SLUG_LENGTH &&
-    SLUG_PATTERN.test(slug)
-  );
+  return id.length <= MAX_SLUG_LENGTH && SLUG_PATTERN.test(id);
 }
 
 function credentials(): { url: string; authToken: string } | null {

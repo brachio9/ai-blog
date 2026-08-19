@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CAT_CLASS, getCategory } from "@/lib/categories";
 import { formatDateShort } from "@/lib/format";
 import type { Post } from "@/types/content";
+import { postHref } from "@/lib/pagination";
 
 /**
  * 색인 — 날짜 · 제목 · 구분 3열. 훑어서 되찾는 것이 유일한 목적이라 그 밖의 것은 싣지 않는다.
@@ -21,7 +22,7 @@ export function PostIndexRow({ post }: { post: Post }) {
       </time>
 
       <Link
-        href={`/${post.category}/${post.slug}`}
+        href={postHref(post.slug)}
         className="t underline-offset-[0.2em] hover:underline focus-visible:outline-2 focus-visible:outline-focus"
       >
         {frontmatter.title}

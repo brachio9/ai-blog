@@ -114,7 +114,7 @@ export default function TopicsPage() {
                   >
                     {recent.map((post) => (
                       <PostIndexRow
-                        key={`${post.category}/${post.slug}`}
+                        key={post.slug}
                         post={post}
                       />
                     ))}

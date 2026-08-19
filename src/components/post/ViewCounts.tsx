@@ -10,6 +10,7 @@ import {
 } from "react";
 
 import { formatCount } from "@/lib/format";
+import { postHref } from "@/lib/pagination";
 
 /**
  * 목록의 조회수 — 목록은 SSG 이고 조회수는 런타임 값이다.
@@ -162,7 +163,7 @@ export function PopularPosts({
               {index + 1}
             </span>
             <Link
-              href={`/${post.postId}`}
+              href={postHref(post.postId)}
               className="min-w-0 flex-1 truncate text-[0.9375rem] text-heading underline-offset-[0.2em] transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-focus"
             >
               {post.title}

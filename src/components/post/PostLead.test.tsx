@@ -43,7 +43,7 @@ describe("PostLead", () => {
     const link = screen.getByRole("link", {
       name: "MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인",
     });
-    expect(link.getAttribute("href")).toBe("/papers/moe-routing-pipeline");
+    expect(link.getAttribute("href")).toBe("/posts/moe-routing-pipeline");
 
     expect(container.querySelector(".deck")?.textContent).toBe(
       "전문가 라우터를 본 학습과 분리해 먼저 굳히고 시작하는 2단계 파이프라인.",

@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 import { getAxis } from "@/lib/axes";
 import { type CategoryAccent, getCategory } from "@/lib/categories";
-import { getAllPosts, getPost } from "@/lib/content/posts";
+import { getAllPosts, getPostBySlug } from "@/lib/content/posts";
 import { SITE_NAME } from "@/lib/site";
 
 export const alt = SITE_NAME;
@@ -11,10 +11,7 @@ export const contentType = "image/png";
 
 /** 글별 OG 도 빌드 타임에 굽는다. 페이지의 generateStaticParams 는 여기까지 오지 않는다. */
 export function generateStaticParams() {
-  return getAllPosts().map((post) => ({
-    category: post.category,
-    slug: post.slug,
-  }));
+  return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
 /** 1200×630 에 두 줄 남짓 들어간다. 넘치면 잘라야 카테고리·사이트 이름이 밀려나지 않는다. */
@@ -46,11 +43,11 @@ const ACCENT_COLOR: Record<CategoryAccent, string> = {
 };
 
 export default async function OpengraphImage(props: {
-  params: Promise<{ category: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { category, slug } = await props.params;
-  const found = getCategory(category);
-  const post = found ? getPost(found.slug, slug) : undefined;
+  const { slug } = await props.params;
+  const post = getPostBySlug(slug);
+  const found = post ? getCategory(post.category) : undefined;
 
   const title = post?.frontmatter.title ?? SITE_NAME;
   // 카테고리를 못 찾은 카드에는 부호를 붙일 수 없다 — 중성으로 떨어뜨린다.

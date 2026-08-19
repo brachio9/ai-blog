@@ -4,23 +4,37 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { SearchIcon } from "@/components/ui/icons";
-import { CATEGORIES, categoryHref } from "@/lib/categories";
 import { SITE_NAME } from "@/lib/site";
 
 import { Container } from "./Container";
 import { ThemeToggle } from "./ThemeToggle";
 
 /**
- * 되찾기용 색인 — 카테고리(무엇을 싣는가)와 성격이 달라 내비를 둘로 나눈다.
- * 좁은 화면에서는 접고 푸터가 받는다. 헤더 한 줄을 지키는 쪽이 낫다.
+ * 들어가는 문 셋. **분류를 늘어놓지 않는다** (2026-08-19 개편).
+ *
+ * 옛 머리는 `주제 │ 논문 릴리즈 소식 커뮤니티 기록 │ 색인 아카이브` 여덟 칸이었고,
+ * 이 파일의 옛 주석이 그 실패를 이미 적어 뒀다 — 「카테고리 라벨 다섯은 157px 라
+ * 320~400px 대에서는 간격을 아무리 좁혀도 폭이 안 나온다(실측)」. 그래서 가로로 밀렸다.
+ *
+ * 그런데 문제는 **카테고리냐 축이냐가 아니라 분류를 나열한다는 것**이었다. 실측(글 60편):
+ *
+ *     카테고리   논문 37 · 릴리즈 12 · 소식 6 · 커뮤니티 4 · 기록 1   → 5칸 중 2칸이 합쳐 5편
+ *     6축        서빙 21 · 에이전트 19 · 코딩 9 · 검색 4 · 음성 4 · 도메인 3
+ *
+ * 어느 쪽을 늘어놓아도 절반이 거의 빈 곳을 가리키고, 머리에는 편수를 적을 자리가 없어
+ * 「커뮤니티」라는 낱말만으로는 4편인지 400편인지 알 수 없다.
+ *
+ * 그래서 문 셋만 남기고 **편수는 그 안에서** 보여 준다 — `/topics` 와 `/sources` 는
+ * 막대와 숫자로 분포를 그리고, 홈의 일자 구획머리는 그날의 축 집계를 링크로 단다.
+ * 지금 보고 있는 날에 실제로 몇 편인지가 같이 나오는 것은 고정 목록이 못 하는 일이다.
+ *
+ * `/tags` 를 뺀 것은 `/search` 가 주제×출처×태그를 함께 거는 면이 되면서 입구가 겹쳐서다.
  */
-const INDEXES = [
-  { href: "/tags", label: "색인" },
+const NAV = [
+  { href: "/topics", label: "주제" },
+  { href: "/sources", label: "출처" },
   { href: "/archive", label: "아카이브" },
 ];
-
-/** 주제 색인. 카테고리와 나란히 서지만 답하는 질문이 달라 내비를 따로 세운다. */
-const TOPICS = "/topics";
 
 /**
  * 현재 위치는 밑줄이 아니라 안료로 가리킨다 — 링크의 밑줄과 겹치면 구분이 안 된다.
@@ -57,69 +71,23 @@ export function SiteHeader() {
             {SITE_NAME}
           </Link>
 
-          {/* 갈래 띠 — 내비 둘(주제·카테고리)과 접히는 색인을 한 띠에 담는다.
-              카테고리 라벨 다섯은 13.5px 한글로 157px 라, 320~400px 대에서는 간격을 아무리
-              좁혀도 제호·검색·토글까지 다 세울 폭이 안 나온다 (실측). 그렇다고 줄을 늘리면
-              제호 한 줄이 깨지므로, **띠만 스스로 밀리게 하고 지면은 넘치지 않게** 한다 —
-              신문의 섹션 띠가 좁은 지면에서 하는 것과 같다. 414px 부터는 밀리지 않는다.
-              스크롤바는 감춘다: 잘린 라벨의 끝이 이미 「더 있다」를 말한다. */}
-          <div className="flex min-w-0 items-baseline gap-[var(--space-2)] overflow-x-auto sm:gap-[var(--space-4)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {/* 주제는 카테고리보다 앞이다 — 무엇을 다루는가(매체의 약속)가 원문이 어디서 왔는가보다 앞선다.
-                가는 세로 괘선 하나로 갈래 묶음과 가른다: 같은 간격으로 늘어놓으면
-                「주제」가 네 번째 카테고리처럼 읽힌다. */}
-            <nav
-              aria-label="주제"
-              className="shrink-0 border-r border-border pr-[var(--space-2)] sm:pr-[var(--space-3)]"
-            >
+          {/* 문 셋. 여덟 칸이던 시절에는 좁은 화면에서 띠가 가로로 밀렸는데,
+              한글 21자가 8자로 줄면서 320px 에서도 밀리지 않는다. */}
+          <nav
+            aria-label="둘러보기"
+            className="flex min-w-0 items-baseline gap-[var(--space-3)] sm:gap-[var(--space-4)]"
+          >
+            {NAV.map(({ href, label }) => (
               <Link
-                href={TOPICS}
-                aria-current={isCurrent(TOPICS) ? "page" : undefined}
-                className={`${NAV_LINK} ${isCurrent(TOPICS) ? CURRENT : RESTING}`}
+                key={href}
+                href={href}
+                aria-current={isCurrent(href) ? "page" : undefined}
+                className={`${NAV_LINK} shrink-0 ${isCurrent(href) ? CURRENT : RESTING}`}
               >
-                주제
+                {label}
               </Link>
-            </nav>
-
-            <nav
-              aria-label="카테고리"
-              className="flex shrink-0 items-baseline gap-[var(--space-2)] sm:gap-[var(--space-4)]"
-            >
-              {CATEGORIES.map((category) => {
-                const href = categoryHref(category);
-                const active = isCurrent(href);
-
-                return (
-                  <Link
-                    key={category.slug}
-                    href={href}
-                    // 화면 폭에 따라 표기가 바뀌어도 읽히는 이름은 하나여야 한다.
-                    aria-label={category.name}
-                    aria-current={active ? "page" : undefined}
-                    className={`${NAV_LINK} ${active ? CURRENT : RESTING}`}
-                  >
-                    <span className="sm:hidden">{category.shortName}</span>
-                    <span className="hidden sm:inline">{category.name}</span>
-                  </Link>
-                );
-              })}
-            </nav>
-
-            <nav
-              aria-label="찾아보기"
-              className="hidden shrink-0 items-baseline gap-[var(--space-4)] sm:flex"
-            >
-              {INDEXES.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  aria-current={isCurrent(href) ? "page" : undefined}
-                  className={`${NAV_LINK} ${isCurrent(href) ? CURRENT : RESTING}`}
-                >
-                  {label}
-                </Link>
-              ))}
-            </nav>
-          </div>
+            ))}
+          </nav>
 
           {/* 아이콘과 버튼은 글자 베이스라인에 걸리지 않는다 — 이 묶음만 가운데로 맞춘다. */}
           <div className="ml-auto flex shrink-0 items-center gap-[var(--space-2)] self-center">

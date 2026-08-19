@@ -9,6 +9,7 @@ import type { FormatSlug } from "@/lib/formats";
 import type { Post } from "@/types/content";
 
 import { SITE_DESCRIPTION, SITE_NAME } from "./site";
+import { postHref } from "@/lib/pagination";
 
 export interface SearchDoc {
   /** `${category}/${slug}` — 카테고리가 달라도 slug 가 겹칠 수 있다. */
@@ -48,7 +49,7 @@ export function buildSearchIndex(posts: Post[]): SearchDoc[] {
     const { frontmatter } = post;
 
     return {
-      id: `${post.category}/${post.slug}`,
+      id: post.slug,
       title: frontmatter.title,
       summary: frontmatter.summary,
       category: post.category,
@@ -74,7 +75,7 @@ export function buildRssXml(posts: Post[], siteUrl: string): string {
   const items = posts
     .map((post) => {
       const { frontmatter } = post;
-      const url = `${base}/${post.category}/${post.slug}`;
+      const url = `${base}${postHref(post.slug)}`;
 
       // 주제 축을 <category> 로 실어 리더가 갈래로 거를 수 있게 한다.
       // 축은 필수라 항상 있지만, 모르는 slug 면 줄을 통째로 빼서 빈 태그를 만들지 않는다.

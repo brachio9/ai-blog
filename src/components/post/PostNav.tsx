@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/ui/icons";
+import { postHref } from "@/lib/pagination";
 import type { Post } from "@/types/content";
 
 export interface PostNavProps {
@@ -68,7 +69,7 @@ function PostNavLink({
 
   return (
     <Link
-      href={`/${post.category}/${post.slug}`}
+      href={postHref(post.slug)}
       rel={isNext ? "next" : "prev"}
       className={classes.join(" ")}
     >

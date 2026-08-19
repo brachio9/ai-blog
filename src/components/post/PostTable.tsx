@@ -5,6 +5,7 @@ import { formatDateShort } from "@/lib/format";
 import type { Post } from "@/types/content";
 
 import { ViewCell } from "./ViewCounts";
+import { postHref } from "@/lib/pagination";
 
 export interface PostTableProps {
   posts: Post[];
@@ -82,7 +83,7 @@ export function PostTable({
         const category = getCategory(post.category);
         const identifier = identifierOf(post, showIdentifier);
         // 조회수 저장소의 post_id 는 글 상세 URL 과 같은 `{category}/{slug}` 다 (services/turso.ts).
-        const postId = `${post.category}/${post.slug}`;
+        const postId = post.slug;
 
         return (
           <li
@@ -106,7 +107,7 @@ export function PostTable({
               ) : null}
 
               <Link
-                href={`/${post.category}/${post.slug}`}
+                href={postHref(post.slug)}
                 className="entry-title block underline-offset-[0.2em] hover:underline focus-visible:outline-2 focus-visible:outline-focus"
               >
                 {frontmatter.title}

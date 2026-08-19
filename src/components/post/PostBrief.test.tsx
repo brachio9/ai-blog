@@ -41,7 +41,7 @@ describe("PostBrief", () => {
     const link = screen.getByRole("link", {
       name: "추론 엔드포인트 CLI 가 정식으로 나왔다",
     });
-    expect(link.getAttribute("href")).toBe("/news/inference-endpoints-cli");
+    expect(link.getAttribute("href")).toBe("/posts/inference-endpoints-cli");
   });
 
   it("요약을 싣지 않는다 — 단신은 한 줄이다", () => {

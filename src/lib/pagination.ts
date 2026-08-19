@@ -1,7 +1,28 @@
 /**
- * 목록의 태그 필터·페이지네이션 로직. UI 에서 떼어내 테스트 가능하게 둔다.
+ * 목록 URL·필터·페이지네이션 로직. UI 에서 떼어내 테스트 가능하게 둔다.
  * 카테고리 목록과 검색 결과가 같은 규칙을 쓴다.
+ *
+ * 글 주소를 만드는 곳도 여기다. `content/posts.ts` 에 두지 않는 이유는 그쪽이
+ * `node:fs` 를 import 해서 클라이언트 컴포넌트로 못 끌어오기 때문이다.
  */
+
+/**
+ * 글 하나의 주소. **분류를 담지 않는다.**
+ *
+ * 옛 주소는 `/{category}/{slug}` 였다. 분류를 주소에 넣으면 분류를 고칠 때마다 링크가 죽는데,
+ * 이 사이트는 그 개편을 이미 한 번 겪었다 — 2026-08-15 에 `hf-blog` 한 칸이
+ * `releases` 와 `news` 로 갈렸다. 게다가 62%가 `papers` 라 주소의 대부분이
+ * 「이 글이 무엇인가」가 아니라 「어느 피드에서 왔나」를 말하고 있었다.
+ *
+ * 덤으로 결함 하나가 사라졌다 — 최상위 동적 세그먼트(`/{category}`)가 없어지면서
+ * 정적 라우트와 충돌할 자리 자체가 없어졌다 (옛 `RESERVED_SEGMENTS`).
+ *
+ * **slug 은 이제 바꿀 수 없다.** 대신 카테고리도 축도 언제든 고칠 수 있다.
+ */
+export function postHref(slug: string): string {
+  return `/posts/${slug}`;
+}
+
 export const PAGE_SIZE = 10;
 
 export function filterByTag<T extends { tags: string[] }>(

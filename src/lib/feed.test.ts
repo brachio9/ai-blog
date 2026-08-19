@@ -88,7 +88,7 @@ describe("buildRssXml", () => {
       SITE,
     );
     const item = parseXml(xml).querySelector("item");
-    const url = `${SITE}/notes/quantization-notes`;
+    const url = `${SITE}/posts/quantization-notes`;
 
     expect(item?.querySelector("link")?.textContent).toBe(url);
     expect(item?.querySelector("guid")?.textContent).toBe(url);
@@ -100,7 +100,7 @@ describe("buildRssXml", () => {
   it("siteUrl 끝의 슬래시로 // 를 만들지 않는다", () => {
     const xml = buildRssXml([makePost()], `${SITE}/`);
 
-    expect(xml).toContain(`${SITE}/papers/sample-post`);
+    expect(xml).toContain(`${SITE}/posts/sample-post`);
     expect(xml).not.toContain(`${SITE}//`);
   });
 
@@ -167,12 +167,12 @@ describe("buildSearchIndex", () => {
     expect(JSON.stringify(doc)).not.toContain(BODY);
   });
 
-  it("id 는 `${category}/${slug}` 다", () => {
+  it("id 는 slug 하나다 — 주소가 분류를 담지 않는다", () => {
     const [doc] = buildSearchIndex([
       makePost({ category: "news" }, "dataset-viewer-refresh"),
     ]);
 
-    expect(doc.id).toBe("news/dataset-viewer-refresh");
+    expect(doc.id).toBe("dataset-viewer-refresh");
   });
 
   it("검색·목록에 필요한 필드만 담는다", () => {

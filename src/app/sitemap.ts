@@ -4,6 +4,7 @@ import { AXES, axisHref } from "@/lib/axes";
 import { CATEGORIES, categoryHref } from "@/lib/categories";
 import { getAllPosts } from "@/lib/content/posts";
 import { SITE_URL } from "@/lib/site";
+import { postHref } from "@/lib/pagination";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // 초안은 getAllPosts() 가 프로덕션 빌드에서 이미 걸러낸다.
@@ -21,8 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 1,
     },
-    ...CATEGORIES.map((category) => ({
-      url: `${SITE_URL}${categoryHref(category)}`,
+    // 출처 색인과 그 다섯 칸. 색인 한 장이 늘어난 것은 머리에서 다섯 칸을 걷어낸 대가다.
+    ...["/sources", ...CATEGORIES.map(categoryHref)].map((path) => ({
+      url: `${SITE_URL}${path}`,
       lastModified: latest,
       changeFrequency: "daily" as const,
       priority: 0.8,
@@ -36,7 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     })),
     ...posts.map((post) => ({
-      url: `${SITE_URL}/${post.category}/${post.slug}`,
+      url: `${SITE_URL}${postHref(post.slug)}`,
       lastModified: new Date(
         post.frontmatter.updatedAt ?? post.frontmatter.publishedAt,
       ),

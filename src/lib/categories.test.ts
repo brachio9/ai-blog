@@ -1,11 +1,12 @@
 import { describe, expect, it } from "vitest";
 
+import { postHref } from "@/lib/pagination";
+
 import {
   CAT_CLASS,
   CATEGORIES,
   categoryHref,
   getCategory,
-  RESERVED_SEGMENTS,
 } from "./categories";
 
 describe("CATEGORIES", () => {
@@ -59,37 +60,17 @@ describe("CATEGORIES", () => {
   });
 });
 
-describe("RESERVED_SEGMENTS", () => {
-  it("어떤 카테고리 slug 도 예약 세그먼트와 겹치지 않는다", () => {
-    // 겹치면 `/{category}` 동적 라우트가 정적 라우트에 먹혀 그 카테고리가 도달 불가능해진다.
-    for (const category of CATEGORIES) {
-      expect(RESERVED_SEGMENTS).not.toContain(category.slug);
-    }
-  });
-
-  it("실제로 점유된 최상위 세그먼트를 빠짐없이 담는다", () => {
-    for (const segment of [
-      "topics",
-      "tags",
-      "archive",
-      "about",
-      "search",
-      "admin",
-      "api",
-      "rss.xml",
-      "sitemap.xml",
-      "search-index.json",
-    ]) {
-      expect(RESERVED_SEGMENTS).toContain(segment);
-    }
-  });
-});
-
 describe("categoryHref", () => {
-  it("slug 를 그대로 경로로 쓴다", () => {
+  it("`/sources/` 아래에 둔다 — 최상위 세그먼트를 먹지 않는다", () => {
     for (const category of CATEGORIES) {
-      expect(categoryHref(category)).toBe(`/${category.slug}`);
+      expect(categoryHref(category)).toBe(`/sources/${category.slug}`);
     }
+  });
+
+  it("글 주소가 아니다 — 글은 분류를 담지 않는다", () => {
+    // 분류를 주소에 넣으면 분류를 고칠 때마다 링크가 죽는다. 이 사이트는 그 개편을
+    // 이미 한 번 겪었다 (2026-08-15, hf-blog → releases + news).
+    expect(postHref("moe-routing-pipeline")).toBe("/posts/moe-routing-pipeline");
   });
 });
 

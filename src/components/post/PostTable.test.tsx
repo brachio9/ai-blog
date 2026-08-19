@@ -32,11 +32,11 @@ function makePost(overrides: Partial<Post> = {}): Post {
 const post = makePost();
 
 describe("PostTable", () => {
-  it("제목이 /{category}/{slug} 링크이고 KST 날짜를 보인다", () => {
+  it("제목이 /posts/{slug} 링크이고 KST 날짜를 보인다", () => {
     render(<PostTable posts={[post]} />);
 
     const link = screen.getByRole("link", { name: post.frontmatter.title });
-    expect(link.getAttribute("href")).toBe("/papers/sparse-attention-scaling");
+    expect(link.getAttribute("href")).toBe("/posts/sparse-attention-scaling");
     expect(screen.getByText("2026.08.09")).toBeTruthy();
   });
 

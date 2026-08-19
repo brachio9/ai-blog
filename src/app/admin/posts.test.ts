@@ -41,12 +41,12 @@ function summary(
 }
 
 describe("toAdminRows", () => {
-  it("frontmatter 를 행으로 옮기고 조회수 키를 {category}/{slug} 로 만든다", () => {
+  it("frontmatter 를 행으로 옮기고 조회수 키를 slug 로 만든다", () => {
     const [row] = toAdminRows([summary()]);
 
     expect(row).toMatchObject({
       path: "content/papers/2026-08-05-moe.mdx",
-      postId: "papers/moe",
+      postId: "moe",
       title: "제목",
       publishedAt: "2026-08-05T09:00:00+0900",
       fileDate: "2026-08-05",
@@ -168,7 +168,7 @@ describe("filterByCategory", () => {
 
 describe("withViews", () => {
   it("postId 로 조회수를 붙이고 없는 글은 0 으로 둔다", () => {
-    const rows = withViews(toAdminRows([summary()]), { "papers/moe": 42 });
+    const rows = withViews(toAdminRows([summary()]), { moe: 42 });
     expect(rows[0].views).toBe(42);
 
     const missing = withViews(toAdminRows([summary()]), {});

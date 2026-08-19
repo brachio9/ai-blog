@@ -12,6 +12,7 @@ import { formatDateShort } from "@/lib/format";
 import { pickLead } from "@/lib/frontpage";
 import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 import { countByAxis, countByCategory } from "@/lib/stats";
+import { postHref } from "@/lib/pagination";
 import type { Post } from "@/types/content";
 
 /**
@@ -28,7 +29,7 @@ const NAV_LINK =
 
 /** 조회수 저장소의 post_id — 글 상세 URL 과 같다 (services/turso.ts). */
 function postId(post: Post): string {
-  return `${post.category}/${post.slug}`;
+  return post.slug;
 }
 
 export default function Home() {
@@ -158,7 +159,7 @@ export default function Home() {
                     {posts.map((post) => (
                       <li key={post.filePath}>
                         <Link
-                          href={`/${post.category}/${post.slug}`}
+                          href={postHref(post.slug)}
                           className="flex items-baseline gap-3 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus"
                         >
                           <time

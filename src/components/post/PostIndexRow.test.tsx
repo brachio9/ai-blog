@@ -38,7 +38,7 @@ describe("PostIndexRow", () => {
       screen
         .getByRole("link", { name: "양자화 손실을 반년 동안 기록해 봤다" })
         .getAttribute("href"),
-    ).toBe("/notes/quantization-notes");
+    ).toBe("/posts/quantization-notes");
     expect(screen.getByText("기록")).toBeTruthy();
 
     const row = container.querySelector(".index-row");

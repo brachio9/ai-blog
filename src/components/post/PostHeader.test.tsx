@@ -67,7 +67,7 @@ describe("PostHeader", () => {
     );
 
     const link = screen.getByRole("link", { name: "논문" });
-    expect(link.getAttribute("href")).toBe("/papers");
+    expect(link.getAttribute("href")).toBe("/sources/papers");
     // 색은 정보의 보강이지 정보 자체가 아니다 — 이름이 함께 있어야 한다.
     expect(link.className).toContain("cat-label");
     // 안료는 클래스로만 들어온다. 값은 globals.css 의 --cat 이 정한다.

@@ -80,25 +80,6 @@ export const CATEGORIES: readonly Category[] = [
 ];
 
 /**
- * 정적 라우트가 점유한 최상위 세그먼트. 카테고리 slug 이 이 중 하나면 그 카테고리는 도달 불가능해진다.
- * `/{category}` 는 최상위 동적 세그먼트라 정적 라우트가 항상 먼저 이긴다 — 충돌해도 404 가 아니라
- * 엉뚱한 페이지가 조용히 뜬다. 5칸 개편 때 새 slug 셋(releases·news·community)이 이 목록과
- * 겹치지 않는 것을 확인했다 — 카테고리를 더 늘릴 때도 먼저 여기부터 대조하라.
- */
-export const RESERVED_SEGMENTS: readonly string[] = [
-  "topics",
-  "tags",
-  "archive",
-  "about",
-  "search",
-  "admin",
-  "api",
-  "rss.xml",
-  "sitemap.xml",
-  "search-index.json",
-];
-
-/**
  * 안료 클래스 — globals.css 의 `.cat-*` 가 그 항목의 `--cat` 을 정한다.
  * 항목(.entry·.brief-item·.index-row·.entry-lead) 바깥쪽에 붙이면 안쪽의
  * `.cat-label` · `.ratio` 가 그 색을 따라온다. 색 값을 컴포넌트에 적지 않기 위한 유일한 통로다.
@@ -115,8 +96,15 @@ export const CAT_CLASS: Record<CategoryAccent, string> = {
 };
 
 /** 카테고리 목록 URL. `content/{slug}/` 와 같은 이름을 경로로 쓴다. */
+/**
+ * 출처별 목록의 주소. **글 주소가 아니다** — 글은 `/posts/{slug}` 다 (`lib/pagination.ts`).
+ *
+ * 옛 주소는 최상위 `/{category}` 였다. 그것을 `/sources/` 아래로 내리면서 최상위 동적
+ * 세그먼트가 사라졌고, 그와 함께 「정적 라우트와 겹치면 404 가 아니라 엉뚱한 페이지가
+ * 조용히 뜬다」는 함정도 사라졌다 (옛 `RESERVED_SEGMENTS`).
+ */
 export function categoryHref(category: Category): string {
-  return `/${category.slug}`;
+  return `/sources/${category.slug}`;
 }
 
 export function getCategory(slug: string): Category | undefined {

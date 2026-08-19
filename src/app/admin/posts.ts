@@ -34,7 +34,7 @@ function toRow(summary: RemotePostSummary): AdminPostRow {
     path: summary.path,
     category: summary.category,
     slug: summary.slug,
-    postId: `${summary.category}/${summary.slug}`,
+    postId: summary.slug,
     fileDate: FILE_DATE_PATTERN.exec(summary.path)?.[1] ?? "",
   };
 

@@ -102,9 +102,37 @@ export function getAllPosts(): Post[] {
     }
   }
 
-  return CATEGORIES.flatMap((category) => readCategory(category.slug))
+  const posts = CATEGORIES.flatMap((category) => readCategory(category.slug))
     .filter(isVisible)
     .sort(byPublishedAtDesc);
+  assertUniqueSlugs(posts);
+  return posts;
+}
+
+/**
+ * slug 은 이제 **전역으로** 유일해야 한다 — 글 주소가 `/posts/{slug}` 라 카테고리가 없다.
+ * 옛 주소(`/{category}/{slug}`)에서는 카테고리별 유일성으로 충분했고 `readCategory` 가 그것을 본다.
+ *
+ * 실제로 겹칠 일은 없다 — 수집기가 slug 뒤에 arXiv ID 나 해시 8자를 붙인다. 그래도 조용히
+ * 404 가 되게 두지 않는다. **한쪽 글이 영영 안 보이는 것보다 빌드가 깨지는 것이 낫다.**
+ */
+function assertUniqueSlugs(posts: Post[]): void {
+  const seen = new Map<string, string>();
+  for (const post of posts) {
+    const previous = seen.get(post.slug);
+    if (previous !== undefined) {
+      throw new Error(
+        `slug 이 겹친다: '${post.slug}' — ${previous} 와 ${post.filePath}. ` +
+          "글 주소가 /posts/{slug} 라 카테고리가 달라도 같은 주소가 된다.",
+      );
+    }
+    seen.set(post.slug, post.filePath);
+  }
+}
+
+/** slug 하나로 글을 찾는다. 주소에 카테고리가 없으므로 이것이 상세 페이지의 창구다. */
+export function getPostBySlug(slug: string): Post | undefined {
+  return getAllPosts().find((post) => post.slug === slug);
 }
 
 export function getPostsByCategory(slug: CategorySlug): Post[] {

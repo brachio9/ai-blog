@@ -4,6 +4,7 @@ import { CAT_CLASS, getCategory } from "@/lib/categories";
 import { compressionRatio, countBodyChars } from "@/lib/content/compression";
 import { formatDateShort } from "@/lib/format";
 import type { Post } from "@/types/content";
+import { postHref } from "@/lib/pagination";
 
 /** 시그니처 「추린 비율」의 계산 결과. 규칙은 src/lib/content/compression.ts 한 곳에만 있다. */
 export type RatioInfo = NonNullable<ReturnType<typeof compressionRatio>>;
@@ -79,7 +80,7 @@ export function PostLead({ post, ratio }: PostLeadProps) {
 
       <h2 className="headline">
         <Link
-          href={`/${post.category}/${post.slug}`}
+          href={postHref(post.slug)}
           className="underline-offset-[0.12em] hover:underline focus-visible:outline-2 focus-visible:outline-focus"
         >
           {frontmatter.title}
