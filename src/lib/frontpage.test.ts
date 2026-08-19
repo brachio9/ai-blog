@@ -12,6 +12,7 @@ function makePost(
   slug: string,
   publishedAt: string,
   lead = false,
+  crossSources?: number,
 ): Post {
   return {
     frontmatter: {
@@ -23,6 +24,17 @@ function makePost(
       tags: [],
       draft: false,
       lead,
+      // 경위가 없는 글도 있다 — 사람이 손으로 쓴 글(notes)이 그렇다.
+      ...(crossSources
+        ? {
+            selection: {
+              axisBy: "llm" as const,
+              axisConfidence: "high" as const,
+              band: "high" as const,
+              crossSources,
+            },
+          }
+        : {}),
     },
     slug,
     category: "papers",
@@ -80,5 +92,39 @@ describe("pickLead", () => {
     // 목록 정렬(content/posts.ts)과 같은 기준이라 머리기사가 목록 첫 글과 어긋나지 않는다.
     expect(pickLead([b, a])).toBe(a);
     expect(pickLead([a, b])).toBe(a);
+  });
+
+  it("lead 가 없으면 여러 곳에서 같이 나온 글을 고른다", () => {
+    // 하루치 안에서 「가장 최근」만 보면 목록 첫 글을 크게 그린 것일 뿐 아무것도 고르지 않은 것이다.
+    const aloneNewest = makePost("alone-newest", "2026-08-18T23:00:00+0900", false, 1);
+    const crossedOlder = makePost("crossed-older", "2026-08-18T09:00:00+0900", false, 3);
+
+    expect(pickLead([aloneNewest, crossedOlder])?.slug).toBe("crossed-older");
+  });
+
+  it("교차등장이 여럿이면 다시 시간이 정한다 — 후보를 좁힐 뿐 순위가 아니다", () => {
+    const older = makePost("a-older", "2026-08-18T09:00:00+0900", false, 4);
+    const newer = makePost("b-newer", "2026-08-18T22:00:00+0900", false, 2);
+
+    expect(pickLead([older, newer])?.slug).toBe("b-newer");
+  });
+
+  it("선별 등급으로는 고르지 않는다 — 발행분의 59%가 high 라 후보를 못 좁힌다", () => {
+    const older = makePost("a-older", "2026-08-18T09:00:00+0900", false, 1);
+    const newer = makePost("b-newer", "2026-08-18T22:00:00+0900", false, 1);
+
+    expect(pickLead([older, newer])?.slug).toBe("b-newer");
+  });
+
+  it("사람이 정한 lead 는 교차등장을 이긴다", () => {
+    const marked = makePost("hand-picked", "2026-08-18T01:00:00+0900", true, 1);
+    const crossed = makePost("crossed", "2026-08-18T23:00:00+0900", false, 4);
+
+    expect(pickLead([marked, crossed])?.slug).toBe("hand-picked");
+  });
+
+  it("경위가 없는 글만 있으면 예전처럼 가장 최근 글이다", () => {
+    // 사람이 손으로 쓴 글(notes)에는 selection 이 없다.
+    expect(pickLead([OLD, NEWEST, MIDDLE])?.slug).toBe("newest");
   });
 });

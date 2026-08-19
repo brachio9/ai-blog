@@ -8,9 +8,9 @@ import {
   ViewCounts,
 } from "./ViewCounts";
 
-const A = "papers/moe-routing";
-const B = "notes/quantization";
-const C = "news/open-weights";
+const A = "moe-routing";
+const B = "quantization";
+const C = "open-weights";
 
 const fetchMock = vi.fn();
 
@@ -63,7 +63,7 @@ describe("rankByViews", () => {
   it("동률은 postId 코드포인트순으로 갈린다 (환경마다 순서가 달라지면 안 된다)", () => {
     const ranked = rankByViews(posts, { [A]: 5, [B]: 5, [C]: 5 }, 3);
 
-    expect(ranked.map((post) => post.postId)).toEqual([C, B, A]);
+    expect(ranked.map((post) => post.postId)).toEqual([A, C, B]);
   });
 
   it("조회수를 못 받았으면 빈 목록이다", () => {
@@ -168,7 +168,7 @@ describe("PopularPosts", () => {
     expect(titles).toEqual(["양자화 메모", "MoE 라우팅"]);
     expect(screen.getByRole("link", { name: "양자화 메모" })).toHaveProperty(
       "href",
-      `http://localhost:3000/${B}`,
+      `http://localhost:3000/posts/${B}`,
     );
     expect(screen.getByText("조회 300")).toBeTruthy();
   });

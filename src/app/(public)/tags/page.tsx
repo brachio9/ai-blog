@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
 
 import { Container } from "@/components/layout/Container";
-import type { PostListItem } from "@/components/post/PostList";
-import { TagPosts } from "@/components/post/TagPosts";
 import { getAllPosts } from "@/lib/content/posts";
 import { listHref } from "@/lib/pagination";
 import { tagIndex } from "@/lib/stats";
@@ -20,9 +17,12 @@ export const metadata: Metadata = {
 };
 
 /**
- * 태그 색인. 태그 목록은 서버가 그리고(색인이 이 페이지의 본체다),
- * 고른 태그의 글만 <Suspense> 안의 클라이언트 컴포넌트가 URL 을 읽어 채운다 —
- * 서버에서 searchParams 를 읽으면 페이지가 통째로 동적이 되어 정적 생성이 사라진다.
+ * 태그 **색인**. 목록은 여기서 그리지 않는다 — 고른 태그는 `/search?tag=` 로 넘긴다.
+ *
+ * 옛 판은 이 페이지 아래에 글 목록을 직접 붙였는데 **페이지네이션이 없었다.**
+ * 태그 하나에 수백 편이 걸리면 그 목록은 못 쓴다. 검색 화면은 페이지네이션도 있고
+ * 주제·출처를 함께 걸 수도 있으니 되찾기는 그쪽이 맡는 것이 맞다.
+ * 그 결과 컴포넌트가 하나 늘지 않고 오히려 하나(`TagPosts`) 줄었다.
  *
  * 태그 크기를 빈도에 따라 키우는 태그 클라우드는 만들지 않는다 (docs/UI_GUIDE.md):
  * 크기 차이는 읽기 어렵고 접근성이 나쁘다. 숫자로 보인다.
@@ -30,19 +30,6 @@ export const metadata: Metadata = {
 export default function TagsPage() {
   const tags = tagIndex();
   const posts = getAllPosts();
-
-  // 본문(body)은 목록에 쓰이지 않는다 — 클라이언트로 넘기면 HTML 만 커진다.
-  const items: PostListItem[] = posts.map((post) => ({
-    slug: post.slug,
-    category: post.category,
-    title: post.frontmatter.title,
-    summary: post.frontmatter.summary,
-    publishedAt: post.frontmatter.publishedAt,
-    tags: post.frontmatter.tags,
-    readingMinutes: post.readingMinutes,
-    format: post.frontmatter.format,
-    paper: post.frontmatter.paper,
-  }));
 
   return (
     <Container>
@@ -52,8 +39,8 @@ export default function TagsPage() {
             태그 색인
           </h1>
           <p className="mt-2 max-w-[68ch] text-[1.0625rem] leading-[1.75] text-muted">
-            많이 쓰인 태그가 위에 옵니다. 하나를 고르면 카테고리를 가로질러 그
-            태그가 붙은 글이 아래에 모입니다.
+            많이 쓰인 태그가 위에 옵니다. 하나를 고르면 그 태그가 붙은 글이
+            검색 화면에 모입니다 — 거기서 주제·출처를 함께 걸 수 있습니다.
           </p>
           {/* 태그의 역할은 좁다 — 무엇에 대한 글인지는 주제 축이 맡는다. */}
           <p className="mt-3 max-w-[68ch] text-[length:var(--text-small)] leading-[var(--leading-tight)] text-muted">
@@ -76,7 +63,7 @@ export default function TagsPage() {
             {tags.map(({ tag, count }) => (
               <li key={tag} className="border-b border-border">
                 <Link
-                  href={listHref(TAGS_PATH, { tag })}
+                  href={listHref("/search", { tag })}
                   className="flex items-baseline justify-between gap-3 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus"
                 >
                   <span className="min-w-0 truncate text-[0.9375rem] text-heading">
@@ -94,12 +81,6 @@ export default function TagsPage() {
           <p className="mt-6 text-sm text-muted">아직 붙은 태그가 없습니다.</p>
         )}
 
-        {/* 태그로 골라 본 글도 되찾기다 — 아카이브와 같은 밀도로 좁게 싣는다. */}
-        <section className="list-tight mt-12 border-t border-border pt-6">
-          <Suspense fallback={null}>
-            <TagPosts items={items} basePath={TAGS_PATH} />
-          </Suspense>
-        </section>
       </div>
     </Container>
   );

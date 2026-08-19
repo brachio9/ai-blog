@@ -26,35 +26,32 @@ afterEach(() => {
 });
 
 describe("isValidPostId", () => {
-  it("{category}/{slug} 형식이고 카테고리가 등록돼 있으면 통과한다", () => {
-    expect(isValidPostId("news/open-weight-benchmark-roundup")).toBe(true);
-    expect(isValidPostId("papers/moe-routing-pipeline")).toBe(true);
-    expect(isValidPostId("notes/quantization-notes")).toBe(true);
-    expect(isValidPostId("notes/gpt5")).toBe(true);
-  });
-
-  it("등록되지 않은 카테고리는 거절한다", () => {
-    expect(isValidPostId("does-not-exist/some-post")).toBe(false);
-    expect(isValidPostId("admin/some-post")).toBe(false);
+  // 키는 글 상세 URL 과 같다 — 이제 slug 하나다 (`/posts/{slug}`). 분류를 다시 짜도
+  // 조회수가 고아가 되지 않는 것이 이 형태를 고른 이유다.
+  it("slug 하나면 통과한다", () => {
+    expect(isValidPostId("open-weight-benchmark-roundup")).toBe(true);
+    expect(isValidPostId("moe-routing-pipeline")).toBe(true);
+    expect(isValidPostId("gpt5")).toBe(true);
   });
 
   it("형식이 어긋나면 거절한다", () => {
     expect(isValidPostId("")).toBe(false);
-    expect(isValidPostId("news")).toBe(false);
     expect(isValidPostId("news/")).toBe(false);
     expect(isValidPostId("/some-post")).toBe(false);
-    expect(isValidPostId("news/nested/post")).toBe(false);
-    expect(isValidPostId("news/Upper-Case")).toBe(false);
-    expect(isValidPostId("news/-leading")).toBe(false);
-    expect(isValidPostId("news/trailing-")).toBe(false);
-    expect(isValidPostId("news/double--dash")).toBe(false);
-    expect(isValidPostId("news/공백 없음")).toBe(false);
-    expect(isValidPostId("news/../../etc/passwd")).toBe(false);
+    // 카테고리를 앞에 붙인 옛 키도 이제 어긋난 형식이다 — 조용히 받아 주지 않는다.
+    expect(isValidPostId("news/open-weight-benchmark-roundup")).toBe(false);
+    expect(isValidPostId("nested/post")).toBe(false);
+    expect(isValidPostId("Upper-Case")).toBe(false);
+    expect(isValidPostId("-leading")).toBe(false);
+    expect(isValidPostId("trailing-")).toBe(false);
+    expect(isValidPostId("double--dash")).toBe(false);
+    expect(isValidPostId("공백 없음")).toBe(false);
+    expect(isValidPostId("../../etc/passwd")).toBe(false);
   });
 
   it("지나치게 긴 slug 는 거절한다", () => {
-    expect(isValidPostId(`notes/${"a".repeat(100)}`)).toBe(true);
-    expect(isValidPostId(`notes/${"a".repeat(101)}`)).toBe(false);
+    expect(isValidPostId("a".repeat(100))).toBe(true);
+    expect(isValidPostId("a".repeat(101))).toBe(false);
   });
 });
 

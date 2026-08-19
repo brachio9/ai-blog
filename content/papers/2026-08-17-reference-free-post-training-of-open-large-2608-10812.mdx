@@ -6,7 +6,10 @@ format: explainer
 summary: 이 연구는 참조 문장 없이도 다국어 기계 번역 모델의 성능을 향상시키는 방법을 제시한다. 강화학습과 지도 학습을 결합해 기존 오픈 소스 모델보다 우수한 결과를 얻었으며, 주요 상용 번역 서비스와 견줄 만한 수준에 도달했다고 주장한다.
 publishedAt: 2026-08-17T22:00:05+0900
 tags:
-- 추론최적화·파인튜닝
+- distillation
+- fine-tuning
+- GRPO
+- SFT
 draft: false
 lead: false
 source:
@@ -14,6 +17,7 @@ source:
   title: Reference-Free Post-Training of Open Large Language Models for Multilingual Machine Translation
   author: Chris Han
   publishedAt: 2026-08-11T09:00:00+0900
+  words: 47012
 paper:
   arxivId: '2608.10812'
   authors:
@@ -21,6 +25,14 @@ paper:
   - Pengzhi Gao
   - Pei Fu
   - Jian Luan
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 12
 ---
 
 기존의 다국어 번역 모델은 정확한 참조 문장(ground truth)이 있어야 학습할 수 있다는 한계가 있었다. 이 연구는 MiLMMT-46-v0.1이라는 기존 모델을 출발점으로 삼아, 참조 문장 없이 품질을 평가하는 두 가지 모델을 평균낸 보상을 기반으로 그룹 상대 정책 최적화(GRPO) 기법을 적용했다. 또한 언어 식별 기술을 통해 학습 과정을 제어하여 특정 언어에 맞춘 효율적인 훈련이 가능하도록 했다.

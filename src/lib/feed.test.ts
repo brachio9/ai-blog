@@ -88,7 +88,7 @@ describe("buildRssXml", () => {
       SITE,
     );
     const item = parseXml(xml).querySelector("item");
-    const url = `${SITE}/notes/quantization-notes`;
+    const url = `${SITE}/posts/quantization-notes`;
 
     expect(item?.querySelector("link")?.textContent).toBe(url);
     expect(item?.querySelector("guid")?.textContent).toBe(url);
@@ -100,7 +100,7 @@ describe("buildRssXml", () => {
   it("siteUrl 끝의 슬래시로 // 를 만들지 않는다", () => {
     const xml = buildRssXml([makePost()], `${SITE}/`);
 
-    expect(xml).toContain(`${SITE}/papers/sample-post`);
+    expect(xml).toContain(`${SITE}/posts/sample-post`);
     expect(xml).not.toContain(`${SITE}//`);
   });
 
@@ -167,12 +167,12 @@ describe("buildSearchIndex", () => {
     expect(JSON.stringify(doc)).not.toContain(BODY);
   });
 
-  it("id 는 `${category}/${slug}` 다", () => {
+  it("id 는 slug 하나다 — 주소가 분류를 담지 않는다", () => {
     const [doc] = buildSearchIndex([
       makePost({ category: "news" }, "dataset-viewer-refresh"),
     ]);
 
-    expect(doc.id).toBe("news/dataset-viewer-refresh");
+    expect(doc.id).toBe("dataset-viewer-refresh");
   });
 
   it("검색·목록에 필요한 필드만 담는다", () => {
@@ -205,18 +205,43 @@ describe("buildSearchIndex", () => {
     expect(withoutFormat).not.toHaveProperty("format");
   });
 
-  it("cover 가 있는 글만 cover 를 갖는다", () => {
-    const [withCover] = buildSearchIndex([
-      makePost({ cover: "/sample/cover.svg" }),
-    ]);
-
-    expect(withCover.cover).toBe("/sample/cover.svg");
-  });
 
   it("초안을 제외한 글 수와 맞는다", () => {
     const posts = inProduction(getAllPosts);
 
     expect(posts.length).toBeGreaterThan(0);
     expect(buildSearchIndex(posts)).toHaveLength(posts.length);
+  });
+
+  it("원문 제목과 arXiv 식별자를 싣는다 — 6개월 뒤 기억나는 것은 그쪽이다", () => {
+    const [doc] = buildSearchIndex([
+      makePost({
+        title: "긴 문맥 메모리",
+        source: {
+          url: "https://arxiv.org/abs/2608.13606",
+          title: "MobileMem: Learning from a Year of Mobile Experiences",
+        },
+        paper: { arxivId: "2608.13606", authors: ["A"] },
+      }),
+    ]);
+
+    expect(doc.sourceTitle).toBe(
+      "MobileMem: Learning from a Year of Mobile Experiences",
+    );
+    expect(doc.arxivId).toBe("2608.13606");
+  });
+
+  it("본문은 넣지 않는다 — 색인 크기가 ADR-007 의 전제다", () => {
+    // 편당 600바이트를 넘기면 1년치(7,200편)가 4MB 를 넘는다. 본문을 넣으면 25MB 다.
+    // 이 단언이 깨지면 「서버 없이 즉시 응답」을 다시 계산해야 한다는 뜻이지,
+    // 숫자를 올리라는 뜻이 아니다 — 연도별 샤딩이 다음 수다.
+    const posts = Array.from({ length: 20 }, (_, index) =>
+      makePost({}, `post-${index}`),
+    );
+
+    const bytes = JSON.stringify(buildSearchIndex(posts)).length;
+
+    expect(bytes / posts.length).toBeLessThan(900);
+    expect(JSON.stringify(buildSearchIndex(posts))).not.toContain("본문");
   });
 });

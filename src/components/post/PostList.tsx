@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-import { AXES } from "@/lib/axes";
-import type { CategorySlug } from "@/lib/categories";
-import { getFormat, type FormatSlug } from "@/lib/formats";
+import { getAxis, type AxisSlug } from "@/lib/axes";
+import { getCategory, type CategorySlug } from "@/lib/categories";
+import type { FormatSlug } from "@/lib/formats";
 import {
+  applyFilters,
   collectTags,
-  filterByFormat,
-  filterByTag,
+  filterByAxis,
+  filterBySource,
   listHref,
   paginate,
 } from "@/lib/pagination";
@@ -17,12 +18,14 @@ import type { PaperMeta, Post } from "@/types/content";
 
 import { PostIndexRow } from "./PostIndexRow";
 import { PostTable } from "./PostTable";
-import { TagFilter } from "./TagFilter";
+import { FilterChips, type ChipGroup } from "./FilterChips";
 import { ViewCounts } from "./ViewCounts";
 
 export interface PostListItem {
   slug: string;
   category: CategorySlug;
+  /** 주제 축 — 목록 레일의 두 자리 번호가 된다 */
+  axis: AxisSlug;
   title: string;
   summary: string;
   publishedAt: string;
@@ -61,8 +64,7 @@ export function toPost(item: PostListItem): Post {
     frontmatter: {
       title: item.title,
       category: item.category,
-      // 목록 항목에는 축을 싣지 않는다 (docs/UI_GUIDE.md) — 표가 읽지 않으므로 자리만 채운다.
-      axis: AXES[0].slug,
+      axis: item.axis,
       summary: item.summary,
       publishedAt: item.publishedAt,
       tags: item.tags,
@@ -101,48 +103,69 @@ export function PostList({
   const searchParams = useSearchParams();
 
   // get() 은 인코딩된 한글 태그를 자동으로 디코딩해 준다.
+  const activeAxis = searchParams.get("axis") ?? undefined;
+  const activeSource = searchParams.get("source") ?? undefined;
   const activeTag = searchParams.get("tag") ?? undefined;
-  const activeFormat = searchParams.get("format") ?? undefined;
   const rawPage = searchParams.get("page");
   const page = rawPage === null ? 1 : Number(rawPage);
 
-  // 포맷이 먼저 좁힌다 — 태그 목록도 그 안에서 집계해야 고른 순간 빈 목록이 나오지 않는다.
-  // (전역 태그를 쓰면 여기 없는 태그가 나온다.)
-  const pool = filterByFormat(items, activeFormat);
+  const filters = { axis: activeAxis, source: activeSource, tag: activeTag };
+
+  // **축·출처가 먼저 좁히고 태그 목록은 그 안에서 집계한다** — 전역 태그를 쓰면
+  // 지금 조건에 하나도 없는 태그가 칩으로 나오고, 누르면 빈 목록이 뜬다.
+  const pool = filterBySource(filterByAxis(items, activeAxis), activeSource);
   const tags = collectTags(pool);
-  const filtered = filterByTag(pool, activeTag);
+  const filtered = applyFilters(items, filters);
+
+  // 고를 것이 하나뿐인 줄은 필터가 아니라 제목의 반복이다 — 그리지 않는다.
+  const groups: ChipGroup[] = ([
+    {
+      key: "axis",
+      label: "주제",
+      options: countBy(items, (item) => item.axis).map(({ value, count }) => ({
+        value,
+        label: getAxis(value)?.shortName ?? value,
+        count,
+      })),
+    },
+    {
+      key: "source",
+      label: "출처",
+      options: countBy(items, (item) => item.category).map(
+        ({ value, count }) => ({
+          value,
+          label: getCategory(value)?.shortName ?? value,
+          count,
+        }),
+      ),
+    },
+    {
+      key: "tag",
+      label: "태그",
+      options: tags.map(({ tag, count }) => ({ value: tag, label: tag, count })),
+    },
+  ] as ChipGroup[]).filter((group) => group.options.length > 1);
   const { items: visible, totalPages, isOutOfRange } = paginate(filtered, page);
 
-  // 모르는 포맷도 slug 그대로 되읽어 준다 — 조용히 무시하면 빈 목록의 이유가 사라진다.
-  const formatName = activeFormat
-    ? (getFormat(activeFormat)?.name ?? activeFormat)
+  // 모르는 slug 도 그대로 되읽어 준다 — 조용히 무시하면 빈 목록의 이유가 사라진다.
+  const axisName = activeAxis
+    ? (getAxis(activeAxis)?.name ?? activeAxis)
+    : undefined;
+  const sourceName = activeSource
+    ? (getCategory(activeSource)?.name ?? activeSource)
     : undefined;
   // 좁힌 조건을 문장에 그대로 싣는다. "글이 없습니다"만으로는 왜 비었는지 알 수 없다.
-  const narrowed = [formatName, activeTag ? `'${activeTag}' 태그` : undefined]
+  const narrowed = [
+    axisName,
+    sourceName,
+    activeTag ? `'${activeTag}' 태그` : undefined,
+  ]
     .filter(Boolean)
     .join(" · ");
 
   return (
     <div className="space-y-6">
-      {/* 포맷은 필터 칩이 없다 (라우트도 없다) — 켜져 있다는 사실과 끄는 길만 한 줄로 남긴다. */}
-      {formatName ? (
-        <p className="voice-ui text-muted">
-          포맷 <span className="text-heading">{formatName}</span> 만 봅니다 ·{" "}
-          <Link
-            href={listHref(basePath, { tag: activeTag })}
-            className="underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus"
-          >
-            포맷 해제
-          </Link>
-        </p>
-      ) : null}
-
-      <TagFilter
-        tags={tags}
-        activeTag={activeTag}
-        format={activeFormat}
-        basePath={basePath}
-      />
+      <FilterChips groups={groups} filters={filters} basePath={basePath} />
 
       {isOutOfRange ? (
         <div className="rounded-md border border-border bg-surface p-5">
@@ -150,11 +173,7 @@ export function PostList({
             해당 페이지에 글이 없습니다. 전체 {totalPages}페이지입니다.
           </p>
           <Link
-            href={listHref(basePath, {
-              tag: activeTag,
-              format: activeFormat,
-              page: 1,
-            })}
+            href={listHref(basePath, { ...filters, page: 1 })}
             className="mt-2 inline-block text-sm text-heading underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus"
           >
             1페이지로 이동
@@ -195,11 +214,7 @@ export function PostList({
         >
           {page > 1 ? (
             <Link
-              href={listHref(basePath, {
-                tag: activeTag,
-                format: activeFormat,
-                page: page - 1,
-              })}
+              href={listHref(basePath, { ...filters, page: page - 1 })}
               rel="prev"
               className="rounded border border-border px-4 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus"
             >
@@ -215,11 +230,7 @@ export function PostList({
 
           {page < totalPages ? (
             <Link
-              href={listHref(basePath, {
-                tag: activeTag,
-                format: activeFormat,
-                page: page + 1,
-              })}
+              href={listHref(basePath, { ...filters, page: page + 1 })}
               rel="next"
               className="rounded border border-border px-4 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus"
             >
@@ -232,4 +243,23 @@ export function PostList({
       ) : null}
     </div>
   );
+}
+
+/**
+ * 값별 편수. **하나뿐이면 빈 배열이다** — 그때는 그 줄이 아무것도 좁히지 못한다.
+ * 순서는 편수 내림차순, 같으면 값 오름차순 (환경마다 달라지면 안 된다).
+ */
+function countBy<T>(
+  items: T[],
+  pick: (item: T) => string,
+): { value: string; count: number }[] {
+  const counts = new Map<string, number>();
+  for (const item of items) {
+    const value = pick(item);
+    counts.set(value, (counts.get(value) ?? 0) + 1);
+  }
+
+  return [...counts.entries()]
+    .map(([value, count]) => ({ value, count }))
+    .sort((a, b) => b.count - a.count || (a.value < b.value ? -1 : 1));
 }

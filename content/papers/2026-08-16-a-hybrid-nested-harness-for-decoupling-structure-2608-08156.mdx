@@ -1,7 +1,7 @@
 ---
 title: 'LLM은 구조만 그리고, 숫자는 수치 최적화가 채운다: 하이브리드 중첩 탐색 프레임워크'
 category: papers
-axis: vibe-coding
+axis: agent
 format: explainer
 summary: LLM이 코드 구조와 연속 파라미터를 동시에 수정하는 비효율성을 해결하기 위해 구조 설계와 수치 튜닝을 분리한 하이브리드 중첩 탐색 방식을 제안한다. 외부 루프에서 LLM이 구조적 스케치를 생성하고 내부 루프에서 수치 최적화가 파라미터를 정교하게 조정함으로써 기존 방식보다 우수한 성능을 달성한다.
 publishedAt: 2026-08-16T03:39:17+0900
@@ -12,10 +12,19 @@ source:
   title: A Hybrid Nested Harness for Decoupling Structure and Parameters in LLM-Driven Optimization
   author: Víctor Gallego
   publishedAt: 2026-08-08T09:00:00+0900
+  words: 13231
 paper:
   arxivId: '2608.08156'
   authors:
   - Víctor Gallego
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 9
 ---
 
 LLM 기반 진화 알고리즘에서는 언어 모델이 제어 흐름 같은 구조적 요소와 연속적인 파라미터를 동시에 업데이트하는 단일 연산자로 작동한다. LLM은 구조 설계에는 강점이 있지만, 시행착오 루프 내에서 이산적인 점프를 통해 연속 파라미터를 조정하는 과정은 토큰 낭비가 심하고 비효율적이다.

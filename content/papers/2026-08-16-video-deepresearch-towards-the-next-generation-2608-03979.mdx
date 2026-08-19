@@ -5,6 +5,9 @@ axis: agent
 format: explainer
 summary: 이 연구는 정적 이미지를 넘어 연속적인 동영상 스트림을 대상으로 한 다중모달 에이전트인 Video-DeepResearch를 소개한다. 기존 모델의 시각적 도구 회피 및 내부 지식 의존 문제를 해결하기 위해 단계별 도구 활성화와 새로운 학습 방식을 적용했다.
 publishedAt: 2026-08-16T08:58:38+0900
+tags:
+- fine-tuning
+- GRPO
 draft: false
 lead: false
 source:
@@ -12,6 +15,7 @@ source:
   title: 'Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent'
   author: Zhen Fang
   publishedAt: 2026-08-04T09:00:00+0900
+  words: 10390
 paper:
   arxivId: '2608.03979'
   authors:
@@ -35,6 +39,14 @@ paper:
   - Wanli Ouyang
   - Shaosheng Cao
   - Feng Zhao
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 50
 ---
 
 현재의 다중모달 에이전트는 정적 이미지 처리에는 어느 정도 성공했지만, 연속적인 동영상 스트림을 분석하고 이를 웹 탐색과 결합하는 작업에서는 한계가 있다. 동영상 기반 연구는 시간과 공간에 걸쳐 밀도 있게 정보를 접목해야 하므로 기존 방식으로는 부족하다. 특히 기존 모델들은 시각적 도구를 무시하고 텍스트 검색만 선호하거나, 실제 도구 사용 없이 내부 기억에 의존하는 두 가지 심각한 병목 현상을 보인다.

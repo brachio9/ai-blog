@@ -5,6 +5,8 @@ axis: serving
 format: explainer
 summary: latent SDS가 생성하는 구조적 색상 아티팩트와 고주파 텍스처 노이즈의 근본 원인은 VAE 인코더의 제약이 약한 방향에서 픽셀이 드리프트하기 때문이다. 저자들은 이를 해결하기 위해 확산 모델 재학습 없이 잠재 공간 예측을 통해 깨끗한 픽셀 최적화 방향을 제시하는 PixSDS를 제안한다.
 publishedAt: 2026-08-16T22:00:06+0900
+tags:
+- distillation
 draft: false
 lead: false
 source:
@@ -12,10 +14,19 @@ source:
   title: 'PixSDS: Why Latent SDS Makes Noisy Pixels'
   author: Vsevolod Skorokhodov
   publishedAt: 2026-08-13T09:00:00+0900
+  words: 8938
 paper:
   arxivId: '2608.12997'
   authors:
   - Vsevolod Skorokhodov
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 0
 ---
 
 Score Distillation Sampling(SDS)은 사전 학습된 확산 모델을 렌더링된 이미지의 우선순위로 삼아 텍스트 기반 3D 생성을 가능하게 하지만, 잠재 공간에서 SDS를 적용할 때 구조적인 색상 결함과 고주파 텍스처 노이즈가 발생하는 문제가 있다. 저자들은 이러한 현상이 VAE(Variational Autoencoder)로 인한 픽셀 드리프트(pixcel drift)에서 기인한다고 진단한다. 즉, 최적화되는 이미지가 VAE 인코더의 제약을 거의 받지 않는 픽셀 공간 방향으로 이동하면서 잠재 표현은 깨끗하고 의미 있게 유지된 채 이미지 자체에는 가시적인 아티팩트가 누적된다는 것이다.

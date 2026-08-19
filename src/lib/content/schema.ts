@@ -3,6 +3,16 @@ import { z } from "zod";
 import { AXES, type AxisSlug } from "@/lib/axes";
 import { CATEGORIES, type CategorySlug } from "@/lib/categories";
 import { FORMATS, type FormatSlug } from "@/lib/formats";
+import {
+  AXIS_BY_SLUGS,
+  AXIS_CONFIDENCES,
+  POPULARITY_KINDS,
+  SELECTION_BANDS,
+  type AxisBySlug,
+  type AxisConfidence,
+  type PopularityKind,
+  type SelectionBand,
+} from "@/lib/selection";
 import type { PostFrontmatter } from "@/types/content";
 
 /** slug 는 categories.ts 가 단일 진실 공급원 — 여기서 문자열을 다시 적지 않는다. */
@@ -17,6 +27,15 @@ const AXIS_SLUGS = AXES.map((axis) => axis.slug) as [AxisSlug, ...AxisSlug[]];
 const FORMAT_SLUGS = FORMATS.map((format) => format.slug) as [
   FormatSlug,
   ...FormatSlug[],
+];
+
+/** 선별 경위의 값들도 같은 규칙이다 — `selection.ts` 가 정본이고 여기서 다시 적지 않는다. */
+const AXIS_BY = AXIS_BY_SLUGS as [AxisBySlug, ...AxisBySlug[]];
+const CONFIDENCES = AXIS_CONFIDENCES as unknown as [AxisConfidence, ...AxisConfidence[]];
+const BANDS = SELECTION_BANDS as unknown as [SelectionBand, ...SelectionBand[]];
+const POPULARITIES = POPULARITY_KINDS as unknown as [
+  PopularityKind,
+  ...PopularityKind[],
 ];
 
 /**
@@ -56,6 +75,33 @@ const sourceSchema = z.object({
     .optional(),
 });
 
+const popularitySchema = z.object({
+  kind: z.enum(
+    POPULARITIES,
+    `popularity.kind 는 ${POPULARITIES.join(" | ")} 중 하나여야 한다`,
+  ),
+  count: z
+    .int("popularity.count 는 정수여야 한다")
+    .nonnegative("popularity.count 는 0 이상이어야 한다"),
+});
+
+/**
+ * 봇이 이 글을 고른 경위. **있으면 다 있어야 한다** — 반쯤 채운 경위는 경위가 아니다.
+ * 사람이 고른 글(`notes`)에는 이 칸이 아예 없다 (아래 superRefine).
+ */
+const selectionSchema = z.object({
+  axisBy: z.enum(AXIS_BY, `selection.axisBy 는 ${AXIS_BY.join(" | ")} 중 하나여야 한다`),
+  axisConfidence: z.enum(
+    CONFIDENCES,
+    `selection.axisConfidence 는 ${CONFIDENCES.join(" | ")} 여야 한다`,
+  ),
+  band: z.enum(BANDS, `selection.band 는 ${BANDS.join(" | ")} 여야 한다`),
+  crossSources: z
+    .int("selection.crossSources 는 정수여야 한다")
+    .min(1, "selection.crossSources 는 1 이상이다 — 자기 자신이 한 곳이다"),
+  popularity: popularitySchema.optional(),
+});
+
 const paperSchema = z.object({
   arxivId: z.string().min(1, "paper.arxivId 는 비어 있을 수 없다"),
   authors: z.array(z.string().min(1)).min(1, "paper.authors 는 최소 1명"),
@@ -87,12 +133,16 @@ const frontmatterSchema = z
     publishedAt: kstDateTime("publishedAt"),
     updatedAt: kstDateTime("updatedAt").optional(),
     tags: z.array(z.string().min(1)).default([]),
-    cover: z.string().min(1).optional(),
     draft: z.boolean().default(false),
     /** 1면 머리기사 지정. 없으면 가장 최근 글이 자동으로 머리기사가 된다. */
     lead: z.boolean().default(false),
     source: sourceSchema.optional(),
     paper: paperSchema.optional(),
+    /**
+     * **선택 필드다.** 사람이 `/admin` 에서 쓰는 글에는 없다 — 여기서 필수로 하면 그 경로가
+     * 아예 막힌다. 「봇은 경위 없이 글을 내지 않는다」는 수집기 쪽 타입이 강제한다.
+     */
+    selection: selectionSchema.optional(),
   })
   .superRefine((value, ctx) => {
     if (value.category === "papers" && !value.paper) {
@@ -107,6 +157,15 @@ const frontmatterSchema = z
         code: "custom",
         path: ["paper"],
         message: `paper 는 papers 카테고리 전용이다 (현재 category: ${value.category})`,
+      });
+    }
+    // 사람이 골랐다는 것이 notes 의 기준이다 — 기계의 선별 경위를 적을 자리가 없다.
+    if (value.category === "notes" && value.selection) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["selection"],
+        message:
+          "notes 는 사람이 고른 글이다 — selection (봇의 선별 경위) 을 넣을 수 없다",
       });
     }
     // 직접 재 보고 직접 만들어 본 글에는 옮길 원문이 없다 — 그 자리가 notes 다.

@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
-import { ACCENT_TEXT, PostTable } from "@/components/post/PostTable";
+import { ACCENT_TEXT } from "@/components/post/PostTable";
 import { getCategory } from "@/lib/categories";
 import { countByCategory, postsByMonth, type MonthGroup } from "@/lib/stats";
-
-/** 최근 몇 달만 펼쳐 둔다. 나머지는 접어야 달이 쌓여도 페이지가 훑을 만하다. */
-const OPEN_MONTHS = 3;
 
 // 루트 레이아웃의 title.template 이 " | {SITE_NAME}" 을 붙인다.
 export const metadata: Metadata = {
@@ -48,8 +46,8 @@ export default function ArchivePage() {
   const perCategory = countByCategory();
   const total = perCategory.reduce((sum, entry) => sum + entry.count, 0);
 
-  // 최근 OPEN_MONTHS 개월만 펼친다. 연도가 아니라 전체 기준이다.
-  const opened = new Set(months.slice(0, OPEN_MONTHS).map((month) => month.ym));
+  // 막대의 기준. 0 으로 나누지 않는다 — 글이 없으면 전부 비어 있는 것이 맞다.
+  const widest = Math.max(0, ...months.map((month) => month.count));
 
   const newest = months.at(0);
   const oldest = months.at(-1);
@@ -100,7 +98,7 @@ export default function ArchivePage() {
         {years.length > 0 ? (
           years.map(({ year, months: yearMonths }) => (
             /* 아카이브는 긴장 축의 밀도 쪽 끝이다 — 되찾기가 유일한 목적이라
-               `.list-tight` 로 항목 간격을 최소로 좁힌다 (--entry-pad 는 상속된다). */
+               `.list-tight` 로 항목 간격을 최소로 좁힌다. */
             <section key={year} className="list-tight mt-10">
               <div className="flex items-baseline justify-between gap-4 border-b border-border pb-2">
                 <h2 className="text-xl font-semibold text-heading">{year}년</h2>
@@ -109,36 +107,41 @@ export default function ArchivePage() {
                 </p>
               </div>
 
-              {yearMonths.map((month) => (
-                <details
-                  key={month.ym}
-                  open={opened.has(month.ym)}
-                  className="border-b border-border"
-                >
-                  {/* 여는 표식은 브라우저 기본 marker 를 그대로 쓴다 — 아이콘을 새로 그리지 않는다. */}
-                  <summary className="cursor-pointer py-3 pl-4 text-[0.9375rem] text-heading transition-colors marker:text-muted hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus">
-                    {monthLabel(month.ym)}
-                    <span className="ml-2 font-mono text-xs text-muted tabular-nums">
-                      {month.count}편
+              {/* **달마다 글을 다 펼치지 않는다.** 하루 20편이면 한 달이 600편이고,
+                  그것을 접었다 폈다 하는 아코디언은 되찾기 도구가 아니다.
+                  여기는 어느 달에 얼마나 있었는지만 말하고, 그 달의 목록은 제 페이지가 받는다.
+                  막대는 안료를 쓰지 않는다 — 달에는 부호가 없다. */}
+              <ul role="list" aria-label={`${year}년 월별`}>
+                {yearMonths.map((month) => (
+                  <li
+                    key={month.ym}
+                    className="grid grid-cols-[5.5em_1fr_5em] items-baseline gap-x-[var(--space-3)] border-b border-border py-[6px]"
+                  >
+                    <Link
+                      href={`/archive/${month.ym}`}
+                      className="voice-source text-heading underline-offset-[0.2em] hover:underline focus-visible:outline-2 focus-visible:outline-focus"
+                    >
+                      {monthLabel(month.ym)}
+                    </Link>
+                    <span className="count-bar mt-[3px]" aria-hidden>
+                      <i
+                        style={{
+                          width: `${widest > 0 ? (month.count / widest) * 100 : 0}%`,
+                        }}
+                      />
                     </span>
-                  </summary>
-
-                  <div className="pb-6">
-                    {/* 되찾기에 필요한 것만 — 날짜·구분·제목. 읽기 시간은 여기서 고를 근거가 아니다. */}
-                    <PostTable
-                      posts={month.posts}
-                      showCategory
-                      showMeta={false}
-                      caption={`${year}년 ${monthLabel(month.ym)} 발행 글`}
-                    />
-                  </div>
-                </details>
-              ))}
+                    <span className="voice-ui text-right text-muted">
+                      <span className="voice-source">{month.count}</span>편
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </section>
           ))
         ) : (
-          <p className="mt-6 text-sm text-muted">아직 발행한 글이 없습니다.</p>
+          <p className="mt-10 text-sm text-muted">아직 발행된 글이 없습니다.</p>
         )}
+
       </div>
     </Container>
   );

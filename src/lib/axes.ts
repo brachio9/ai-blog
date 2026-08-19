@@ -26,6 +26,16 @@ export interface Axis {
   description: string;
   /** 화면에 보여 줄 대표 키워드 6~10개. 필터용이 아니다 */
   covers: readonly string[];
+  /**
+   * 이 축을 **되풀이하는** 개념 라벨. `tags` 금지 판정에만 쓴다 (`isOwnAxisEcho`).
+   * `slug`·`name`·`shortName` 은 자동으로 포함되므로 여기 다시 적지 않는다.
+   *
+   * **`covers` 를 쓰지 마라.** 거기엔 `MCP`·`vLLM`·`Whisper` 같은 고유명사가 들어 있고,
+   * 그것들은 축을 되풀이하는 것이 아니라 **축 안의 한 물건**을 가리킨다.
+   * `covers` 로 막으면 태그의 존재 이유가 사라진다 — 6개월 뒤 `vLLM` 로 되찾는 것이
+   * 이 필드가 하는 일이다.
+   */
+  aliases: readonly string[];
 }
 
 export const AXES: readonly Axis[] = [
@@ -46,6 +56,7 @@ export const AXES: readonly Axis[] = [
       "벡터 DB",
       "긴 문맥 대 RAG",
     ],
+    aliases: [],
   },
   {
     slug: "serving",
@@ -64,6 +75,7 @@ export const AXES: readonly Axis[] = [
       "배치 스케줄링",
       "MoE 서빙",
     ],
+    aliases: ["추론최적화·파인튜닝"],
   },
   {
     slug: "voice",
@@ -82,6 +94,7 @@ export const AXES: readonly Axis[] = [
       "종단 지연",
       "운율·감정",
     ],
+    aliases: [],
   },
   {
     slug: "agent",
@@ -100,6 +113,7 @@ export const AXES: readonly Axis[] = [
       "샌드박스 실행",
       "에이전트 평가",
     ],
+    aliases: ["Agentic Engineering"],
   },
   {
     slug: "domain",
@@ -118,6 +132,7 @@ export const AXES: readonly Axis[] = [
       "프라이버시",
       "한국어 평가",
     ],
+    aliases: ["평가·벤치마크", "규제·정책"],
   },
   {
     slug: "vibe-coding",
@@ -136,6 +151,7 @@ export const AXES: readonly Axis[] = [
       "프롬프트 설계",
       "생성 코드 품질",
     ],
+    aliases: ["바이브코딩"],
   },
 ];
 
@@ -155,3 +171,39 @@ export function axisNumber(axis: Axis): string {
 export function getAxis(slug: string): Axis | undefined {
   return AXES.find((axis) => axis.slug === slug);
 }
+
+/**
+ * 태그 비교용 정규화. NFKC → 소문자 → 공백·`·`·`-`·`.` 제거.
+ * `Agentic Engineering` 과 `agenticengineering`, `바이브코딩` 과 `바이브 코딩`을 같게 본다.
+ */
+export function normalizeTagKey(value: string): string {
+  return value
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/[\s·\-.]/g, "");
+}
+
+/**
+ * 이 태그가 **이 글의 축을 되풀이하는가.**
+ *
+ * `docs/PRD.md` 는 태그를 두고 스스로 모순이었다 — 26행은 「고유명사 전용, 축을 태그로
+ * 표현하지 마라」이고 30행은 「두 축에 걸치는 글의 **부차 주제는 태그가 받는다**」다.
+ * 부차 주제는 곧 축 성격의 주제라, 26행이 금지한 것을 30행이 요구했다.
+ *
+ * 실측(2026-08-19, 부착 79회)이 답을 줬다 — 41회는 그 글의 **자기 축**을 되풀이했고
+ * 38회는 **다른 축**을 가리켰다. 앞의 것은 정보량이 0 이고 뒤의 것이 바로 30행이 말한 부차 주제다.
+ * 그래서 금지는 「축 이름을 쓰지 마라」가 아니라 **「이 글의 축을 되풀이하지 마라」** 여야 한다.
+ * 그러면 41회는 사라지고 38회는 살아남으며 26행·30행이 둘 다 성립한다.
+ */
+export function isOwnAxisEcho(tag: string, axisSlug: string): boolean {
+  const axis = getAxis(axisSlug);
+  if (!axis) {
+    return false;
+  }
+
+  const key = normalizeTagKey(tag);
+  return [axis.slug, axis.name, axis.shortName, ...axis.aliases].some(
+    (candidate) => normalizeTagKey(candidate) === key,
+  );
+}
+

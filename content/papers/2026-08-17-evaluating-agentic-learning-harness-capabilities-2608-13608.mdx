@@ -6,9 +6,8 @@ format: explainer
 summary: 기존 라벨 기반 평가의 한계를 극복하기 위해 스칼링 가설에 기반한 무라벨 평가 프레임워크를 제안한다. 강사 모델과의 수렴 정도를 통해 실제 성능 향상을 추정하며, 이는 운영 환경에서의 에이전트 학습 도구 선택에 유용한 지표가 된다.
 publishedAt: 2026-08-17T23:48:52+0900
 tags:
-- Agentic Engineering
-- 추론최적화·파인튜닝
-- 평가·벤치마크
+- distillation
+- LLM-as-a-judge
 draft: false
 lead: false
 source:
@@ -16,6 +15,7 @@ source:
   title: Evaluating Agentic Learning Harness Capabilities Without Labels via the Scaling Hypothesis
   author: Aryan Luthra
   publishedAt: 2026-08-17T13:00:00+0900
+  words: 7115
 paper:
   arxivId: '2608.13608'
   authors:
@@ -24,6 +24,11 @@ paper:
   - Siddharth Arya
   - Bobby Filar
   - Anna Bertiger
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 2
 ---
 
 사이버보안 분야에서 피드백을 통해 재학습 없이 성능을 개선하는 에이전트 시스템의 가치는 커지고 있지만, 기존 평가 방식은 현실과 동떨어져 있다. 실제 운영 환경에서는 라벨이 부족하고陳舊하며 대표성이 떨어져 특정 도구가 실제로 도움이 되는지 판단하기 어렵다. 또한 평가 대상과 유사한 수준의 LLM을 심사관으로 사용하는 방식은 유의미한 신호를 제공하지 못하며, 희소하고 편향된 라벨을 통한 증류 역시 신뢰할 수 없다.

@@ -40,40 +40,40 @@ afterEach(() => {
 
 describe("GET /api/views?ids=", () => {
   it("여러 건을 한 번에 돌려준다", async () => {
-    const response = await GET(get("ids=papers/moe-routing,notes/quantization"));
+    const response = await GET(get("ids=moe-routing,quantization"));
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({
-      views: { "papers/moe-routing": 1, "notes/quantization": 2 },
+      views: { "moe-routing": 1, "quantization": 2 },
     });
     // 새 쿼리를 짜지 않고 services/turso 의 배치 함수를 그대로 쓴다.
     expect(batch).toHaveBeenCalledTimes(1);
     expect(batch).toHaveBeenCalledWith([
-      "papers/moe-routing",
-      "notes/quantization",
+      "moe-routing",
+      "quantization",
     ]);
   });
 
   it("잘못된 id 가 섞여도 400 으로 전체를 버리지 않고 나머지를 돌려준다", async () => {
     const response = await GET(
-      get("ids=papers/ok,없는카테고리/x,깨진값,papers/Bad_Slug,notes/ok"),
+      get("ids=ok-a,nested/path,Bad_Slug,ok-b"),
     );
 
     expect(response.status).toBe(200);
-    expect(batch).toHaveBeenCalledWith(["papers/ok", "notes/ok"]);
+    expect(batch).toHaveBeenCalledWith(["ok-a", "ok-b"]);
     expect(await response.json()).toEqual({
-      views: { "papers/ok": 1, "notes/ok": 2 },
+      views: { "ok-a": 1, "ok-b": 2 },
     });
   });
 
   it("같은 id 를 여러 번 보내도 한 번만 조회한다", async () => {
-    await GET(get("ids=papers/a,papers/a,papers/b"));
+    await GET(get("ids=a-post,a-post,b-post"));
 
-    expect(batch).toHaveBeenCalledWith(["papers/a", "papers/b"]);
+    expect(batch).toHaveBeenCalledWith(["a-post", "b-post"]);
   });
 
   it("개수 상한을 넘으면 앞의 100개만 조회한다", async () => {
-    const ids = Array.from({ length: 150 }, (_, index) => `papers/p-${index}`);
+    const ids = Array.from({ length: 150 }, (_, index) => `p-${index}`);
 
     await GET(get(`ids=${ids.join(",")}`));
 
@@ -105,7 +105,7 @@ describe("GET /api/views?ids=", () => {
     const { getView } = await import("@/services/turso");
     vi.mocked(getView).mockResolvedValue(7);
 
-    const response = await GET(get("id=papers/moe-routing"));
+    const response = await GET(get("id=moe-routing"));
 
     expect(await response.json()).toEqual({ count: 7 });
     expect(batch).not.toHaveBeenCalled();

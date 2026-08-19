@@ -4,6 +4,7 @@
 
 ```
 content/                   # 글 원본 (git = 저장소). 디렉토리는 카테고리(소스 축) 다섯뿐이다.
+                           # ⚠ **디렉토리는 주소가 아니다** — 글 주소는 /posts/{slug} 다 (ADR-009).
 ├── papers/                # YYYY-MM-DD-slug.mdx
 ├── releases/              # 주제 축(axis)은 디렉토리가 아니라 frontmatter 다 —
 ├── news/                  # 여기 모르는 디렉토리를 만들면 getAllPosts() 가 빌드를 깨뜨린다.
@@ -15,7 +16,8 @@ public/                    # 정적 자산 (샘플 이미지 포함)
 src/
 ├── proxy.ts               # Next 16 의 구 middleware. /admin/* 보호
 ├── app/
-│   ├── (public)/          # 공개 페이지 — 홈·카테고리·글 상세·검색·태그·아카이브·소개
+│   ├── (public)/          # 공개 페이지 — 홈(일자 구획)·글 상세(/posts/{slug})
+│   │                      # ·주제·출처(/sources/…)·검색·태그·아카이브·소개
 │   ├── admin/             # 관리자 — proxy + 페이지 레벨 세션 확인 이중 보호
 │   └── api/               # API 라우트 (조회수, 발행, 업로드)
 ├── components/

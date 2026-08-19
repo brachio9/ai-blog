@@ -6,7 +6,7 @@ format: explainer
 summary: 장문 추론 모델의 능력을 단문 모델로 이전할 때 발생하는 토크나이저 불일치 및 길이 폭발 문제를 해결하는 SimpleOPD 방법을 제시한다. 공유 텍스트 공간에서의 정렬과 참조 KL 손실을 통해 훈련 안정성을 높이고, 다양한 학생 모델에서 수학 및 과학 추론 능력의 향상을 확인했다.
 publishedAt: 2026-08-17T23:45:29+0900
 tags:
-- 추론최적화·파인튜닝
+- distillation
 draft: false
 lead: false
 source:
@@ -14,6 +14,7 @@ source:
   title: 'SimpleOPD: Simple Tokenizer-Agnostic On-Policy Distillation for Long-Context Reasoning'
   author: Haonan He
   publishedAt: 2026-08-14T09:00:00+0900
+  words: 11942
 paper:
   arxivId: '2608.14277'
   authors:
@@ -33,6 +34,14 @@ paper:
   - Peng Ye
   - Ning Ding
   - Yu Cheng
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 3
+  popularity:
+    kind: hf-upvotes
+    count: 17
 ---
 
 강한 교사 모델의 추론 능력을 약한 학생 모델로 이전하는 온-정책 증류(OPD)는 유망하지만, 장문 컨텍스트를 다루는 교사와 단문 컨텍스트를 가진 학생 간에는 토크나이저 불일치, 분포 차이, 응답 길이 폭발, 훈련 불안정성 등 실질적인 장벽이 존재한다. 본 연구는 이러한 설정에서 장문 추론 모델 SU-01의 증명 추론 능력을 단문 학생 모델로 이전하는 과정을 탐구한다.

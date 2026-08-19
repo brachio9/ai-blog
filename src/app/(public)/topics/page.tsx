@@ -37,6 +37,8 @@ export default function TopicsPage() {
     recent: getPostsByAxis(axis.slug).slice(0, RECENT_COUNT),
   }));
   const total = entries.reduce((sum, entry) => sum + entry.count, 0);
+  // 0 으로 나누지 않는다. 글이 없으면 막대가 전부 비어 있는 것이 맞다.
+  const widest = Math.max(0, ...entries.map((entry) => entry.count));
 
   return (
     <Container>
@@ -69,6 +71,41 @@ export default function TopicsPage() {
         </header>
 
         <div className="rule-pair" />
+
+        {/* 분포 표 — **여섯 칸을 균등하게 그리는 것은 거짓말이다.** 실측으로 서빙 21 · 도메인 3 이라
+            같은 크기로 늘어놓으면 「고르게 다룬다」는 인상만 남는다. 번호 순서는 지키고
+            (번호는 순위가 아니라 신원이라 레일의 부호로 쓰려면 고정이어야 한다)
+            **길이로** 차이를 말한다. 막대에는 안료를 쓰지 않는다 — 축에 색을 주지 않는 규칙이다. */}
+        <ul
+          role="list"
+          aria-label="갈래별 분량"
+          className="list-tight mb-[var(--space-5)]"
+        >
+          {entries.map(({ axis, count }) => (
+            <li
+              key={axis.slug}
+              className="grid grid-cols-[2.4em_1fr] items-baseline gap-x-[var(--space-3)] py-[2px] sm:grid-cols-[2.4em_9em_1fr_5em]"
+            >
+              <span className="voice-source text-muted">{axisNumber(axis)}</span>
+              <Link
+                href={axisHref(axis)}
+                className="text-[length:var(--text-small)] text-heading underline-offset-[0.2em] hover:underline focus-visible:outline-2 focus-visible:outline-focus"
+              >
+                {axis.name}
+              </Link>
+              <span className="count-bar col-span-2 mt-[3px] sm:col-span-1 sm:mt-0" aria-hidden>
+                <i style={{ width: `${widest > 0 ? (count / widest) * 100 : 0}%` }} />
+              </span>
+              <span className="voice-ui col-span-2 text-muted sm:col-span-1 sm:text-right">
+                <span className="voice-source">{count}</span>편{" "}
+                <span className="voice-source">
+                  {total > 0 ? Math.round((count / total) * 100) : 0}
+                </span>
+                %
+              </span>
+            </li>
+          ))}
+        </ul>
 
         {/* 색인면이므로 항목 간격은 좁게 연다 — 여섯을 한눈에 훑는 것이 이 화면의 일이다. */}
         <ul role="list" aria-label="주제 축" className="list-tight">
@@ -114,7 +151,7 @@ export default function TopicsPage() {
                   >
                     {recent.map((post) => (
                       <PostIndexRow
-                        key={`${post.category}/${post.slug}`}
+                        key={post.slug}
                         post={post}
                       />
                     ))}

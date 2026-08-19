@@ -42,7 +42,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  props: PageProps<"/[category]">,
+  props: PageProps<"/sources/[category]">,
 ): Promise<Metadata> {
   const { category } = await props.params;
   const found = getCategory(category);
@@ -59,6 +59,7 @@ function toListItem(post: Post): PostListItem {
   return {
     slug: post.slug,
     category: post.category,
+    axis: post.frontmatter.axis,
     title: post.frontmatter.title,
     summary: post.frontmatter.summary,
     publishedAt: post.frontmatter.publishedAt,
@@ -75,7 +76,7 @@ function toListItem(post: Post): PostListItem {
  * 정적 생성이 사라진다 (실측). 필터·페이지네이션은 PostList 가 클라이언트에서 처리하고,
  * 목록 자체는 PostList 안의 PostTable(밀집 표)이 그린다.
  */
-export default async function CategoryPage(props: PageProps<"/[category]">) {
+export default async function CategoryPage(props: PageProps<"/sources/[category]">) {
   const { category } = await props.params;
   const found = getCategory(category);
   if (!found) {

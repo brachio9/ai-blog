@@ -22,6 +22,11 @@ paper:
   - Haebin Seong (Atlas)
   - Zhangyang (Atlas)
   - Wang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
 ---
 
 현재 공개된 에이전트 스킬의 수는 수만 개에 달하며, 기업 내부에서는 더 많은 스킬이 비공개로 작성되고 있다. 그러나 기존 주류 배포 모델인 '설치' 방식은 한계점을 드러낸다. 스킬을 설치하면 그 설명이 시스템 프롬프트에 상주하게 되는데, 신뢰할 수 있는 트리거 슬롯은 100개 미만으로 제한되어 있다. 이로 인해 긴 꼬리(long tail)에 해당하는 수많은 스킬은 실제로 사용될 경로가 없으며, 팀 내부의 플레이북조차 이 희소한 공간을 두고 경쟁해야 하는 구조적 문제가 발생한다.

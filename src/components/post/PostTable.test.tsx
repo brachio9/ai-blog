@@ -32,11 +32,11 @@ function makePost(overrides: Partial<Post> = {}): Post {
 const post = makePost();
 
 describe("PostTable", () => {
-  it("제목이 /{category}/{slug} 링크이고 KST 날짜를 보인다", () => {
+  it("제목이 /posts/{slug} 링크이고 KST 날짜를 보인다", () => {
     render(<PostTable posts={[post]} />);
 
     const link = screen.getByRole("link", { name: post.frontmatter.title });
-    expect(link.getAttribute("href")).toBe("/papers/sparse-attention-scaling");
+    expect(link.getAttribute("href")).toBe("/posts/sparse-attention-scaling");
     expect(screen.getByText("2026.08.09")).toBeTruthy();
   });
 
@@ -78,8 +78,8 @@ describe("PostTable", () => {
   it("조회수를 못 받으면 라벨째 사라진다 — 빈 자리를 남기지 않는다", () => {
     const { container } = render(<PostTable posts={[post]} reserveViews />);
 
-    // <ViewCounts> 밖이라 값이 없다. 메타 줄에는 읽기 시간만 남아야 한다.
-    expect(container.querySelector(".entry-meta")?.textContent).toBe("7분");
+    // <ViewCounts> 밖이라 값이 없다. 메타 줄에는 축 이름과 읽기 시간만 남아야 한다.
+    expect(container.querySelector(".entry-meta")?.textContent).toBe("서빙7분");
   });
 
   it("되찾기용 목록은 메타 줄을 떼어 낸다 — 밀도는 무엇을 싣는가로도 정해진다", () => {
@@ -94,5 +94,40 @@ describe("PostTable", () => {
     render(<PostTable posts={[post]} caption="최신 논문" />);
 
     expect(screen.getByRole("list", { name: "최신 논문" })).toBeTruthy();
+  });
+
+  it("축의 부호를 레일 첫 줄에 두 자리 번호로 싣는다", () => {
+    // 옛 규칙은 「목록에 축을 싣지 마라」였고 근거는 「제목의 왼쪽 끝이 흔들린다」였다.
+    // 실제로 흔들린 것은 **폭이 변하는 라벨이 제목과 같은 줄에 선 것**이지 라벨의 개수가
+    // 아니었다. 번호는 언제나 두 자리라 흔들릴 수 없다 — 그것이 이 단언이 지키는 것이다.
+    const { container } = render(
+      <PostTable
+        posts={[
+          post,
+          makePost({
+            frontmatter: { ...post.frontmatter, axis: "agent" },
+            slug: "agent-post",
+          }),
+        ]}
+      />,
+    );
+
+    const numbers = Array.from(container.querySelectorAll(".entry-rail")).map(
+      (rail) => rail.firstElementChild?.textContent ?? "",
+    );
+
+    expect(numbers).toEqual(["02", "04"]);
+    for (const number of numbers) {
+      expect(number).toHaveLength(2);
+    }
+  });
+
+  it("카테고리 라벨은 제목 위가 아니라 메타 줄에 있다", () => {
+    // 강등은 삭제가 아니라 배치로 표현한다 — 안료도 텍스트 라벨도 그대로 남는다.
+    const { container } = render(<PostTable posts={[post]} showCategory />);
+
+    const label = container.querySelector(".cat-label");
+    expect(label?.textContent).toBe("논문");
+    expect(label?.closest(".entry-meta")).not.toBeNull();
   });
 });

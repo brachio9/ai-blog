@@ -86,6 +86,29 @@ describe("SourceNote", () => {
     expect(scale?.textContent).toContain("1/8");
   });
 
+  it("논문의 비율에는 분모가 논문 전체임을 밝힌다", () => {
+    render(
+      <SourceNote
+        source={source}
+        paper={paper}
+        ratio={{ ratio: 22, bodyChars: 380, sourceWords: 8412 }}
+      />,
+    );
+
+    expect(screen.getByText(/논문 전체 기준/)).toBeTruthy();
+  });
+
+  it("논문이 아니면 분모 각주를 달지 않는다 — 릴리즈 본문은 그 자체가 원문 전체다", () => {
+    render(
+      <SourceNote
+        source={source}
+        ratio={{ ratio: 8, bodyChars: 742, sourceWords: 2410 }}
+      />,
+    );
+
+    expect(screen.queryByText(/논문 전체 기준/)).toBeNull();
+  });
+
   it("비율이 없으면 막대를 그리지 않는다 — 출처 표기는 그대로 남는다", () => {
     const { container } = render(<SourceNote source={source} ratio={null} />);
 

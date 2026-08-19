@@ -1,95 +1,77 @@
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
-import { PostBrief } from "@/components/post/PostBrief";
-import { PostLead, splitSummary } from "@/components/post/PostLead";
-import { ACCENT_TEXT } from "@/components/post/PostTable";
-import { PopularPosts, ViewCounts } from "@/components/post/ViewCounts";
-import { AXES, axisHref, axisNumber } from "@/lib/axes";
-import { CATEGORIES, categoryHref } from "@/lib/categories";
-import { getAllPosts, getPostsByCategory } from "@/lib/content/posts";
+import { DayHead } from "@/components/post/DayHead";
+import { PostIndexRow } from "@/components/post/PostIndexRow";
+import { PostLead } from "@/components/post/PostLead";
+import { PostTable } from "@/components/post/PostTable";
+import { ReleaseDigest } from "@/components/post/ReleaseDigest";
+import { SinceLastVisit } from "@/components/post/SinceLastVisit";
+import { ViewCounts } from "@/components/post/ViewCounts";
+import { getAllPosts } from "@/lib/content/posts";
 import { formatDateShort } from "@/lib/format";
 import { pickLead } from "@/lib/frontpage";
+import { partitionReleases } from "@/lib/releases";
+import { showsCrossSources } from "@/lib/selection";
 import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
-import { countByAxis, countByCategory } from "@/lib/stats";
+import { postsByDay } from "@/lib/stats";
 import type { Post } from "@/types/content";
 
 /**
- * 1면에 싣는 단신 수. 머리기사 하나와 이 다섯이 **첫 화면 안에서** 끝나야 한다 —
- * 단골이 10초 안에 "오늘 새 글"을 못 고르면 시그니처가 무의미하다 (design/brief.md 실패 신호).
+ * 가장 새 날에 한 행씩 세울 상한. **접은 뒤의 행 수를 센다.**
+ * 접기가 일을 하므로 평상시에는 걸리지 않는다 (2026-08-18 은 접고 나면 19행이었다) —
+ * 40편이 들어오는 날의 안전장치로만 둔다. 잘라 낸 뒤에는 그 사실을 적는다.
  */
-const BRIEF_COUNT = 5;
+const TODAY_FULL_MAX = 24;
 
-/** 1면 아래의 급 낮은 구역. 화면을 넘기지 않을 만큼만 싣고 나머지는 카테고리 페이지가 받는다. */
-const DIGEST_COUNT = 4;
+/** 지면 전체가 실을 항목 수. 접힌 묶음은 **1행으로 센다** (8행이 아니라). */
+const HOME_ITEM_BUDGET = 60;
 
-const NAV_LINK =
-  "text-sm text-muted transition-colors hover:text-heading focus-visible:outline-2 focus-visible:outline-focus";
+/** 예산이 남아도 이만큼의 날은 싣는다 — 글이 뜸한 주에도 지면이 비지 않게 한다. */
+const MIN_DAYS = 3;
 
-/** 조회수 저장소의 post_id — 글 상세 URL 과 같다 (services/turso.ts). */
-function postId(post: Post): string {
-  return `${post.category}/${post.slug}`;
-}
-
+/**
+ * 1면 — **일자 구획**이다.
+ *
+ * 옛 지면은 머리기사 하나 + 단신 다섯 + 카테고리별 넷이었다. 사람이 하루 한두 편 고르던
+ * 시절의 배치인데 지금은 봇이 하루 스무 편을 밀어 넣는다. 단신 다섯 칸은 **여섯 시간치**였고,
+ * 지면 전체를 다 세어도 그날 글의 절반이 안 보였다.
+ *
+ * 「1면 편집」 시그니처를 죽이지 않고 **주기를 바꾼다.** 신문의 1면은 원래 한 호(號)당
+ * 하나이고 여기서 한 호는 **하루**다 — 그래서 머리기사는 가장 새 날에만 선다.
+ * 「지면당 머리기사는 하나」가 그대로 지켜진다.
+ *
+ * 급이 무너지는 자리가 곧 편집이다: **오늘은 편집면, 어제부터는 색인.**
+ * 그 차이가 「두 화면을 나란히 놨는데 구분이 안 되면 실패」에 대한 답이고,
+ * 보류돼 있던 「시간축 눈금」 후보를 별도 장치 없이 흡수한 자리다 (`DayHead`).
+ */
 export default function Home() {
   const allPosts = getAllPosts();
-  // 목록이 최신순이라 첫 항목이 곧 이 지면의 최근 발행일이다.
   const newest = allPosts.at(0);
+  const days = pickDays(postsByDay());
 
-  // 오늘의 편집 — 머리기사 하나를 고르고 나머지 최근 글을 단신으로 뭉친다.
-  // 같은 글이 1면에 두 번 실리지 않도록 머리기사는 단신에서 뺀다.
-  const lead = pickLead(allPosts);
-  const briefs = allPosts
-    .filter((post) => post !== lead)
-    .slice(0, BRIEF_COUNT);
+  // 가장 새 날만 편집면이다 — 머리기사는 거기서만 선다.
+  const latest = days.at(0);
+  const lead = latest ? pickLead(latest.group.posts) : null;
 
-  // 1면 아래는 카테고리별 최신 몇 줄. 카테고리가 늘면 여기 자동으로 붙는다.
-  const digest = CATEGORIES.map((category) => ({
-    category,
-    posts: getPostsByCategory(category.slug).slice(0, DIGEST_COUNT),
-  }));
-
-  // 구역마다 몇 편을 잘라 실었는지가 아니라 카테고리에 몇 편이 있는지를 보인다.
-  // 홈은 잘린 목록만 들고 있으므로 전체 수는 stats 에서 받는다.
-  const counts = new Map(
-    countByCategory().map(({ slug, count }) => [slug, count]),
-  );
-
-  // 여섯 갈래 안내판. 편수 0인 축도 자리를 지킨다 — 빈 축은 감출 것이 아니라
-  // 무엇을 더 실어야 하는지 알리는 정보다 (/topics 와 같은 규약).
-  // 축의 약속은 첫 문장이면 충분하다. 전문은 /topics 가 싣는다.
-  const axisCounts = new Map(
-    countByAxis().map(({ slug, count }) => [slug, count]),
-  );
-  const axes = AXES.map((axis) => ({
-    axis,
-    count: axisCounts.get(axis.slug) ?? 0,
-    blurb: splitSummary(axis.description).deck,
-  }));
-
-  // 홈에 실린 글 — 구역이 겹치므로 id 로 한 번 접는다. 조회수 조회와 순위가 같은 목록을 쓴다.
-  const shown = new Map<string, string>();
-  for (const post of [
-    ...(lead ? [lead] : []),
-    ...briefs,
-    ...digest.flatMap((g) => g.posts),
-  ]) {
-    shown.set(postId(post), post.frontmatter.title);
-  }
-  const shownPosts = [...shown].map(([id, title]) => ({ postId: id, title }));
+  // 조회수는 한 번에 모아 받는다 — 행마다 부르지 않는다. 지면에 실린 글만 센다.
+  const shownIds = [
+    ...new Set(
+      days.flatMap((day) =>
+        day.isLatest ? day.partition.promoted.map((post) => post.slug) : [],
+      ),
+    ),
+  ];
 
   return (
     <Container>
-      {/* 최근 글 표와 순위가 배치 호출 하나를 나눠 쓴다 — 행마다 부르지 않는다. */}
-      <ViewCounts ids={shownPosts.map((post) => post.postId)}>
+      <ViewCounts ids={shownIds}>
         <div className="pb-16">
-          {/* 제호 — 좌측 정렬. 히어로가 아니므로 화면을 차지하지 않고, 곧바로 목록이 온다.
-              이름과 설명은 src/lib/site.ts 가 유일한 출처다. */}
+          {/* 제호 — 좌측 정렬. 히어로가 아니므로 화면을 차지하지 않고 곧바로 지면이 온다. */}
           <header className="masthead border-b border-border">
             <h1 className="masthead-title text-heading">{SITE_NAME}</h1>
             <p className="masthead-line">{SITE_DESCRIPTION}</p>
 
-            {/* 발행 정보 — 수치는 mono, 한글은 산세리프. 두 목소리를 섞지 않는다. */}
             <div className="masthead-meta">
               <span className="voice-ui text-muted">
                 전체 <span className="voice-source">{allPosts.length}</span>편
@@ -102,145 +84,133 @@ export default function Home() {
                   </span>
                 </span>
               ) : null}
+              {/* 「지난번 이후 새것」 — 단골에게 가장 중요한데 지금까지 아무 장치가 없었다.
+                  클라이언트 전용이라 SSG 를 건드리지 않는다. */}
+              <SinceLastVisit posts={allPosts} />
             </div>
           </header>
 
-          {/* 1) 머리기사 — 지면당 하나. 표제가 스케일 밖(clamp 30~54px)으로 커지는 자리이고,
-              이 지면의 파격 예산은 여기에 전부 쓴다. 누구를 싣는지는 pickLead 가 정한다:
-              frontmatter 의 lead, 없으면 최신 글. 조회수로 고르지 않는다 — 편할 뿐 편집이 아니다. */}
-          {lead ? <PostLead post={lead} /> : null}
-
-          {/* 2) 단신 묶음 — 머리기사를 뺀 최근 글. 짧은 것은 늘어놓지 않고 뭉친다.
-              머리기사와 급이 3배 가까이 벌어지는 것이 이 배치의 전부다.
-              눈에 보이는 머리글을 두지 않는다 (design/components/signatures.html 후보 02) —
-              이름은 목록 자체에 붙인다. 항목이 grid 라 목록 의미가 떨어질 수 있어 role 로 되돌린다. */}
-          {briefs.length > 0 ? (
-            <ul
-              role="list"
-              aria-label="최근 글"
-              className="brief-set mt-[var(--space-4)]"
+          {days.map(({ group, partition, isLatest, truncated }) => (
+            <section
+              key={group.day}
+              aria-label={`${group.day} 발행분`}
+              className="mt-[var(--space-6)]"
             >
-              {briefs.map((post) => (
-                <PostBrief key={post.filePath} post={post} />
-              ))}
-            </ul>
-          ) : null}
+              <DayHead group={group} isLatest={isLatest} />
 
-          {/* 3) 카테고리별 최신 — 1면을 지나면 급이 한 단계 내려간다. 날짜와 제목만 남긴
-              한 줄 목록이고 제목도 단신보다 크지 않다. 논문만 따로 크게 싣던 구역을 여기 합쳤다 —
-              단신 바로 아래에서 제목이 다시 커지면 급이 거꾸로 서서 1면이 무너진다.
-              arXiv 식별자는 머리기사의 데이트라인과 카테고리 페이지가 계속 보인다.
-              칸이 다섯이라 한 열로 세우면 여기서만 화면이 한 번 더 넘어간다 — 640px 부터 둘,
-              768px 부터 셋으로 흘린다. 마지막 줄이 3+2 로 남는 것은 메우지 않는다:
-              오른쪽 여백을 채우지 않는 것이 이 지면의 규약이다. */}
-          <section className="grid gap-x-10 gap-y-8 pt-14 sm:grid-cols-2 md:grid-cols-3">
-            {digest.map(({ category, posts }) => (
-              // min-w-0 이 없으면 그리드 칸이 제목 길이만큼 벌어져 페이지가 가로로 밀린다.
-              <div key={category.slug} className="min-w-0">
-                <div className="flex items-baseline justify-between gap-4 border-b border-border pb-2">
-                  <h2
-                    className={`text-sm font-semibold tracking-wide uppercase ${ACCENT_TEXT[category.accent]}`}
-                  >
-                    {category.name}
-                  </h2>
-                  <span className="flex shrink-0 items-baseline gap-3">
-                    <span className="font-mono text-xs text-muted tabular-nums">
-                      {counts.get(category.slug) ?? 0}편
-                    </span>
-                    <Link href={categoryHref(category)} className={NAV_LINK}>
-                      전체 보기
-                    </Link>
-                  </span>
-                </div>
+              {isLatest ? (
+                <>
+                  {/* 머리기사 — 표제가 스케일 밖으로 커지는 자리이고 이 지면의 파격 예산을
+                      여기 전부 쓴다. 「추린 비율」도 지면당 한 번, 여기서만 그린다. */}
+                  {lead ? <PostLead post={lead} /> : null}
 
-                {posts.length > 0 ? (
-                  <ul>
-                    {posts.map((post) => (
-                      <li key={post.filePath}>
-                        <Link
-                          href={`/${post.category}/${post.slug}`}
-                          className="flex items-baseline gap-3 py-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus"
-                        >
-                          <time
-                            dateTime={post.frontmatter.publishedAt}
-                            className="shrink-0 font-mono text-xs text-muted tabular-nums"
-                          >
-                            {formatDateShort(post.frontmatter.publishedAt)}
-                          </time>
-                          {/* 세 열이 되면서 제목이 잘리기 시작했다 — 자르는 대신 접는다.
-                              행 높이가 들쭉날쭉해지지만 그게 낫다. 잘린 제목은 되찾기를 막고,
-                              같은 높이로 맞춘 행은 무엇이 더 중요한지 안 정했다는 뜻이다. */}
-                          <span className="min-w-0 text-[0.9375rem] leading-[var(--leading-tight)] text-heading">
-                            {post.frontmatter.title}
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
+                  <ul role="list" className="list-loose mt-[var(--space-4)]">
+                    {partition.promoted
+                      .filter((post) => post !== lead)
+                      .map((post) => (
+                        <PostTableRow key={post.slug} post={post} />
+                      ))}
+
+                    {/* 그날의 침전물은 맨 아래 한 줄로 접힌다. */}
+                    <ReleaseDigest groups={partition.routine} />
                   </ul>
-                ) : (
-                  <p className="pt-3 text-sm text-muted">
-                    아직 올라온 글이 없습니다.
-                  </p>
-                )}
-              </div>
-            ))}
-          </section>
 
-          {/* 4) 여섯 갈래 — 목록이 아니라 이 매체의 지도다. 그래서 글 제목을 싣지 않는다:
-              단신 아래에서 제목이 다시 커지면 급이 거꾸로 서서 1면이 무너진다.
-              바로 위 카테고리 구역과 그리드를 달리 잡는다 — 하는 일이 다른 두 구역이
-              같아 보이면 안 된다 (안내판 vs 목록).
-              축의 부호는 번호(mono)다. 안료 3색은 카테고리 전용이라 여기는 무채로 둔다. */}
-          <section aria-labelledby="axes-heading" className="pt-14">
-            <div className="flex items-baseline justify-between gap-4 border-b border-border pb-2">
-              <h2 id="axes-heading" className="kicker">
-                여섯 갈래
-              </h2>
-              <Link href="/topics" className={NAV_LINK}>
-                주제 색인
-              </Link>
-            </div>
+                  {truncated > 0 ? (
+                    <p className="voice-ui mt-[var(--space-3)] text-muted">
+                      이 날 <span className="voice-source">{truncated}</span>편을
+                      더 실었습니다 —{" "}
+                      <Link href="/archive" className="underline underline-offset-4">
+                        아카이브
+                      </Link>
+                    </p>
+                  ) : null}
+                </>
+              ) : (
+                /* 어제부터는 색인 밀도다. 요약도 메타도 없이 날짜·제목·구분 3열. */
+                <ul role="list" className="list-tight mt-[var(--space-3)]">
+                  {partition.promoted.map((post) => (
+                    <PostIndexRow key={post.slug} post={post} />
+                  ))}
+                  <ReleaseDigest groups={partition.routine} />
+                </ul>
+              )}
+            </section>
+          ))}
 
-            {/* 항목이 grid 라 목록 의미가 떨어질 수 있어 role 로 되돌린다. */}
-            <ul
-              role="list"
-              className="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {axes.map(({ axis, count, blurb }) => (
-                <li key={axis.slug} className="border-b border-border">
-                  <Link
-                    href={axisHref(axis)}
-                    className="flex items-baseline gap-3 py-3 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-focus"
-                  >
-                    <span className="voice-source shrink-0">
-                      {axisNumber(axis)}
-                    </span>
-                    <span className="min-w-0">
-                      <span className="flex items-baseline gap-2">
-                        <span className="text-[length:var(--text-h5)] leading-[var(--leading-tight)] text-heading">
-                          {axis.name}
-                        </span>
-                        {/* 수치는 mono, 단위는 한글 서체 — mono 자리에 한글을 섞지 않는다. */}
-                        <span className="voice-ui text-muted">
-                          <span className="voice-source">{count}</span>편
-                        </span>
-                      </span>
-                      <span className="mt-[var(--space-1)] block text-[length:var(--text-small)] leading-[var(--leading-tight)] text-muted">
-                        {blurb}
-                      </span>
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
+          <div className="rule-pair mt-[var(--space-6)]" />
 
-          {/* 5) 많이 읽힌 글 — 런타임 값이라 조회수를 받은 뒤에야 나타난다.
-              페이지 맨 아래에 두어 나중에 붙어도 위의 글 목록이 밀리지 않는다.
-              받지 못하면 이 구역은 아예 그려지지 않는다. */}
-          <PopularPosts posts={shownPosts} />
+          <nav
+            aria-label="더 보기"
+            className="mt-[var(--space-4)] flex flex-wrap gap-x-[var(--space-5)] gap-y-[var(--space-2)]"
+          >
+            <Link href="/archive" className="voice-ui text-muted hover:text-heading">
+              그 전 → 아카이브
+            </Link>
+            <Link href="/topics" className="voice-ui text-muted hover:text-heading">
+              여섯 갈래 → 주제
+            </Link>
+            <Link href="/sources" className="voice-ui text-muted hover:text-heading">
+              어디서 왔나 → 출처
+            </Link>
+          </nav>
         </div>
       </ViewCounts>
     </Container>
   );
+}
+
+/** 한 행. `PostTable` 은 목록 단위라 여기서는 항목 하나만 빌려 쓴다. */
+function PostTableRow({ post }: { post: Post }) {
+  return (
+    <PostTable
+      posts={[post]}
+      showCategory
+      showIdentifier
+      /* 요약을 펴는 기준도 교차등장이다 — 등급은 59%가 high 라 아무것도 가르지 못한다.
+         전부 펴면 하루치 훑는 데 3,460자가 되고, 전부 접으면 700자지만 판단할 거리가 없다. */
+      showSummary={showsCrossSources(post.frontmatter.selection)}
+      reserveViews
+      caption={post.frontmatter.title}
+    />
+  );
+}
+
+interface HomeDay {
+  group: ReturnType<typeof postsByDay>[number];
+  partition: ReturnType<typeof partitionReleases>;
+  isLatest: boolean;
+  /** 상한에 걸려 이 지면에서 뺀 편수 */
+  truncated: number;
+}
+
+/**
+ * 지면에 실을 날들을 고른다. **접은 뒤에 예산을 센다** — 그 순서가 뒤집히면
+ * 정기 릴리즈 여덟 건이 예산을 여덟 칸 먹고 볼 만한 글이 밀려난다.
+ */
+function pickDays(all: ReturnType<typeof postsByDay>): HomeDay[] {
+  const days: HomeDay[] = [];
+  let budget = HOME_ITEM_BUDGET;
+
+  for (const [index, group] of all.entries()) {
+    if (days.length >= MIN_DAYS && budget <= 0) {
+      break;
+    }
+
+    const isLatest = index === 0;
+    const partition = partitionReleases(group.posts);
+    const promoted = isLatest
+      ? partition.promoted.slice(0, TODAY_FULL_MAX)
+      : partition.promoted;
+
+    days.push({
+      group,
+      partition: { ...partition, promoted },
+      isLatest,
+      truncated: partition.promoted.length - promoted.length,
+    });
+    // 접힌 묶음은 몇 건이 들었든 한 줄이다.
+    budget -= promoted.length + (partition.routine.length > 0 ? 1 : 0);
+  }
+
+  return days;
 }

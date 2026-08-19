@@ -6,7 +6,8 @@ format: explainer
 summary: SpiralCoreAttention 개발자는 장문 처리 시 전체 시퀀스 대신 일부 토큰 블록만 선택해 학습하는 실험적 방법을 제안한다. 이 방식이 학습 속도를 높이고 VRAM 사용량을 줄일 수 있다는 초기 결과를 공개하며 기술적 피드백을 요청한다.
 publishedAt: 2026-08-18T23:15:25+0900
 tags:
-- 추론최적화·파인튜닝
+- QLoRA
+- fine-tuning
 draft: false
 lead: false
 source:
@@ -14,6 +15,11 @@ source:
   title: Seeking feedback on token-block context selection for long-sequence QLoRA fine-tuning
   author: corechek
   publishedAt: 2026-08-17T17:05:46+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
 ---
 
 SpiralCoreAttention의 개발자는 오픈웨이트 LLM 파인튜닝 시 전체 긴 시퀀스를 매번 전달하는 대신, 학습 단계에서 특정 토큰 블록만 선택해 처리하는 프로토타입을 구축했다. 이 방법은 선택된 컨텍스트로 학습한 어댑터의 성능을 홀드아웃된 전체 컨텍스트 시퀀스로 평가한다. 개발자는 Qwen2.5-7B-Instruct 모델에 4비트 NF4 양자화 QLoRA를 적용해 RTX PRO 6000 Blackwell GPU 한 대로 실험을 진행했으며, 8,192 토큰 길이의 시퀀스에서 60%의 컨텍스트만 선택하는 구성으로 테스트했다.

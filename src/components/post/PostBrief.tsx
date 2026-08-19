@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CAT_CLASS, getCategory } from "@/lib/categories";
 import { formatDateMonthDay } from "@/lib/format";
 import type { Post } from "@/types/content";
+import { postHref } from "@/lib/pagination";
 
 /**
  * 단신 — 날짜 + 구분 + 제목 한 줄. 짧은 것들을 뭉쳐 한 상자에 넣을 때 쓴다.
@@ -29,7 +30,7 @@ export function PostBrief({ post }: { post: Post }) {
           </span>
         ) : null}
         <Link
-          href={`/${post.category}/${post.slug}`}
+          href={postHref(post.slug)}
           className="entry-title underline-offset-[0.2em] hover:underline focus-visible:outline-2 focus-visible:outline-focus"
         >
           {frontmatter.title}

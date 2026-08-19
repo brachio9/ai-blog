@@ -6,7 +6,7 @@ format: explainer
 summary: 기존 음성 번역 시스템의 자원 부족과 대역폭 병목 문제를 해결하기 위해 저자들은 엣지-클라우드 협업 프레임워크 ESRT를 제안한다. 이 방식은 원본 음성을 기기 내에 유지한 채 압축된 텐서만 전송하여 대역폭을 절감하고 프라이버시를 보호하며, 다국어 번역 성능을 높인다고 주장한다.
 publishedAt: 2026-08-17T23:32:58+0900
 tags:
-- 음성
+- ASR
 draft: false
 lead: false
 source:
@@ -14,6 +14,7 @@ source:
   title: Parameter- and Bandwidth-Efficient Edge--cloud Many-to-Many Speech-to-Text Translation
   author: Yexing Du
   publishedAt: 2026-08-17T13:00:00+0900
+  words: 9580
 paper:
   arxivId: '2605.28642'
   authors:
@@ -25,6 +26,11 @@ paper:
   - Ming Liu
   - Bing Qin
   - Yang Xiang
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
 ---
 
 다중 모달 대형 언어 모델이 음성에서 텍스트로 번역하는 데 큰 잠재력을 보이지만, 실제 적용에는 여전히 난관이 존재한다. 기종만 의존하면 하드웨어 자원이 부족하고, 클라우드 중심 방식은 원본 음성 데이터를 서버로 보내야 하므로 대역폭 부담과 개인정보 유출 위험을 안게 된다. 이러한 단점을 보완하기 위해 저자들은 파라미터와 대역폭 모두를 효율적으로 사용하는 협업형 프레임워크 ESRT를 개발했다.

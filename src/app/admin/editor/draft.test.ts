@@ -186,9 +186,13 @@ describe("frontmatter 직렬화", () => {
 });
 
 /**
- * 폼이 모르는 필드는 저장할 때 조용히 사라지고, `lead`·`source.words` 는 기본값이 있어
- * 스키마도 그 유실을 잡지 못한다. **그 둘을 가진 글이 픽스처인 이유**가 여기 있다 —
- * 실제 `content/` 는 이제 봇이 채우는데 봇은 `lead` 도 `source.words` 도 쓰지 않는다.
+ * 폼이 모르는 필드는 저장할 때 조용히 사라지고, `lead`·`source.words`·`selection` 은 전부
+ * 그 유실을 스키마가 못 잡는다 (앞의 둘은 기본값이 있고, `selection` 은 선택 필드다).
+ * **그 셋을 가진 글이 픽스처인 이유**가 여기 있다.
+ *
+ * `selection` 이 특히 위험하다 — **봇 글 전부가 그 칸을 갖는데 폼에는 입력란이 없다.**
+ * 사람이 봇 글을 열어 오타 하나 고치고 저장하면 선별 경위가 통째로 사라지고, 빌드도
+ * 테스트도 아무 말을 하지 않는다. 그래서 폼이 모양을 보지 않고 그대로 지고 간다.
  * (실제 글 전부를 훑는 왕복 검사는 아래 `it.each` 가 따로 한다.)
  */
 describe("에디터 왕복 — 무손실", () => {
@@ -210,6 +214,13 @@ describe("에디터 왕복 — 무손실", () => {
     expect(form.format).toBe("explainer");
     expect(form.lead).toBe(true);
     expect(form.sourceWords).toBe("3240");
+    expect(form.selection).toEqual({
+      axisBy: "llm",
+      axisConfidence: "high",
+      band: "mid",
+      crossSources: 3,
+      popularity: { kind: "hf-upvotes", count: 147 },
+    });
 
     // draft 는 폼이 항상 적어 낸다 — 그것 말고는 한 글자도 달라지면 안 된다.
     expect(toFrontmatterObject(form)).toEqual({ ...file.data, draft: false });

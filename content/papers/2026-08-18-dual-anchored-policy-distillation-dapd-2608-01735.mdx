@@ -6,7 +6,7 @@ format: explainer
 summary: 온-폴리시 자기 증류 과정에서 발생하는 특권 환각 문제를 정보 비대칭 관점에서 분석한다. 제안된 DAPD는 두 가지 수준의 앵커링을 통해 훈련 시의 특권 정보가 추론 시로 잘못 전달되는 것을 막는다.
 publishedAt: 2026-08-18T09:06:36+0900
 tags:
-- 추론최적화·파인튜닝
+- distillation
 draft: false
 lead: false
 source:
@@ -14,6 +14,7 @@ source:
   title: 'DAPD: Dual-Anchored Policy Distillation'
   author: Jianyu Wu
   publishedAt: 2026-08-03T09:00:00+0900
+  words: 12342
 paper:
   arxivId: '2608.01735'
   authors:
@@ -22,6 +23,14 @@ paper:
   - Encheng Su
   - Chen Tang
   - Shixiang Tang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 2
+  popularity:
+    kind: hf-upvotes
+    count: 147
 ---
 
 언어 모델 후훈련에 온-폴리시 자기 증류가 널리 쓰이지만 특권 환각이라는 한계가 있다. 교사는 추가 정보를 바탕으로 학습하지만 학생은 추론 시 그 정보를 사용할 수 없다. 그럼에도 학생은 마치 정보가 있는 것처럼 행동해 성능이 떨어진다. 저자들은 이를 훈련과 추론 간 정보 비대칭의 결과로 진단한다.
