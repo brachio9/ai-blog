@@ -5,6 +5,7 @@ import { CATEGORIES, categoryHref } from "@/lib/categories";
 import { getAllPosts } from "@/lib/content/posts";
 import { SITE_URL } from "@/lib/site";
 import { postHref } from "@/lib/pagination";
+import { postsByMonth } from "@/lib/stats";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // 초안은 getAllPosts() 가 프로덕션 빌드에서 이미 걸러낸다.
@@ -46,7 +47,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     })),
     // 색인·아카이브는 글이 늘 때마다 내용이 바뀐다. 소개·검색은 그렇지 않다.
-    ...["/tags", "/archive"].map((path) => ({
+    // 달 페이지는 목록의 본체다 — 색인만 싣고 달을 빼면 되찾기 경로가 검색에 안 잡힌다.
+    ...["/tags", "/archive", ...postsByMonth().map((m) => `/archive/${m.ym}`)].map(
+      (path) => ({
       url: `${SITE_URL}${path}`,
       lastModified: latest,
       changeFrequency: "weekly" as const,
