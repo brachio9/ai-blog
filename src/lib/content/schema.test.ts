@@ -270,6 +270,72 @@ describe("parseFrontmatter — 필수 필드와 출처", () => {
   });
 });
 
+describe("parseFrontmatter — 봇이 고른 경위", () => {
+  const selection = {
+    axisBy: "llm",
+    axisConfidence: "high",
+    band: "mid",
+    crossSources: 2,
+  };
+
+  it("selection 이 없어도 통과한다 — 사람이 손으로 쓰는 글에는 없다", () => {
+    expect(parseFrontmatter(validFrontmatter(), FILE_PATH).selection).toBeUndefined();
+  });
+
+  it("정상 selection 을 그대로 보존한다", () => {
+    const parsed = parseFrontmatter(validFrontmatter({ selection }), FILE_PATH);
+
+    expect(parsed.selection).toEqual(selection);
+  });
+
+  it("popularity 는 종류와 수를 함께 든다 — 매체마다 세는 것이 다르다", () => {
+    const parsed = parseFrontmatter(
+      validFrontmatter({
+        selection: { ...selection, popularity: { kind: "hf-upvotes", count: 147 } },
+      }),
+      FILE_PATH,
+    );
+
+    expect(parsed.selection?.popularity).toEqual({ kind: "hf-upvotes", count: 147 });
+  });
+
+  it("notes 에 selection 이 있으면 거부한다 — 사람이 골랐다는 것이 그 칸의 기준이다", () => {
+    expect(() =>
+      parseFrontmatter(
+        validFrontmatter({ category: "notes", selection }),
+        "content/notes/2026-08-12-example.mdx",
+      ),
+    ).toThrow(/selection/);
+  });
+
+  it("crossSources 가 0 이면 거부한다 — 자기 자신이 한 곳이다", () => {
+    expect(() =>
+      parseFrontmatter(
+        validFrontmatter({ selection: { ...selection, crossSources: 0 } }),
+        FILE_PATH,
+      ),
+    ).toThrow(/crossSources/);
+  });
+
+  it("모르는 axisBy 를 거부한다", () => {
+    expect(() =>
+      parseFrontmatter(
+        validFrontmatter({ selection: { ...selection, axisBy: "vibes" } }),
+        FILE_PATH,
+      ),
+    ).toThrow(/axisBy/);
+  });
+
+  it("반쯤 채운 경위를 거부한다 — 있으면 다 있어야 한다", () => {
+    expect(() =>
+      parseFrontmatter(
+        validFrontmatter({ selection: { axisBy: "llm", band: "mid" } }),
+        FILE_PATH,
+      ),
+    ).toThrow(/selection/);
+  });
+});
+
 describe("parseFrontmatter — 에러 메시지", () => {
   it("에러 메시지에 파일 경로가 들어 있다", () => {
     expect(() =>

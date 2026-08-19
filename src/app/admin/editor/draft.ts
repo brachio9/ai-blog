@@ -27,6 +27,15 @@ export interface DraftForm {
   draft: boolean;
   /** 1면 머리기사 지정. 폼이 이 값을 안 들면 저장할 때마다 지워진다 */
   lead: boolean;
+  /**
+   * 봇이 고른 경위 — **입력란이 없는 통과 화물이다.**
+   *
+   * 사람이 쓰거나 고칠 값이 아니지만, 폼이 들고 있지 않으면 **봇 글을 열었다 저장하기만 해도
+   * 통째로 사라진다** (`toFrontmatterObject` 가 키를 열거식으로 다시 짓기 때문이다).
+   * `lead` 주석이 말하는 것과 같은 함정이고, 스키마에서 선택 필드라 아무도 못 잡는다.
+   * 그래서 모양을 보지 않고 그대로 지고 간다 — 검증은 `checkFrontmatter` 가 한다.
+   */
+  selection?: unknown;
   sourceUrl: string;
   sourceTitle: string;
   sourceAuthor: string;
@@ -190,6 +199,8 @@ export function toDraftForm(
     cover: text(field(raw, "cover")),
     draft: field(raw, "draft") === true,
     lead: field(raw, "lead") === true,
+    // 그대로 지고 간다 — 모양을 여기서 다시 판정하지 않는다 (규칙은 스키마 하나뿐이다).
+    selection: field(raw, "selection"),
     sourceUrl: text(field(source, "url")),
     sourceTitle: text(field(source, "title")),
     sourceAuthor: text(field(source, "author")),
@@ -267,6 +278,7 @@ export function toFrontmatterObject(form: DraftForm): Record<string, unknown> {
     lead: form.lead,
     ...(source ? { source } : {}),
     ...(paper ? { paper } : {}),
+    ...(form.selection !== undefined ? { selection: form.selection } : {}),
   };
 }
 
