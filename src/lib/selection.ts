@@ -60,6 +60,23 @@ export const AXIS_CONFIDENCES: readonly AxisConfidence[] = ["high", "low"];
 export const SELECTION_BANDS: readonly SelectionBand[] = ["high", "mid", "low"];
 export const POPULARITY_KINDS: readonly PopularityKind[] = ["hf-upvotes"];
 
+/** 축을 누가 정했나 — 글 상세의 「어떻게 골랐나」가 쓴다. */
+export const AXIS_BY_LABEL: Record<AxisBySlug, string> = {
+  source: "원문이 실린 곳을 보고 정했습니다",
+  keyword: "본문의 용어를 보고 정했습니다",
+  llm: "본문을 읽고 정했습니다",
+};
+
+/**
+ * 선별 등급의 표기. **숫자로 찍지 않는다** — 1~10 을 행에 적으면 남의 논문에 매긴
+ * 품질 점수처럼 읽히는데, 실제로는 「왜 골랐나」의 거친 3단이다.
+ */
+export const SELECTION_BAND_LABEL: Record<SelectionBand, string> = {
+  high: "셀 만한 글로 봤습니다",
+  mid: "볼 만한 글로 봤습니다",
+  low: "약하지만 실었습니다",
+};
+
 /** 인기 수치 옆에 붙는 단위 — **이것이 출처를 말한다.** 그래서 정렬 키로 쓰지 않는다. */
 export const POPULARITY_LABEL: Record<PopularityKind, string> = {
   "hf-upvotes": "HF 추천",

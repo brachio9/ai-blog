@@ -12,13 +12,13 @@ import { PostNav } from "@/components/post/PostNav";
 import { SourceNote } from "@/components/post/SourceNote";
 import { TableOfContents } from "@/components/post/TableOfContents";
 import { ViewCount } from "@/components/post/ViewCount";
+import { CAT_CLASS, getCategory } from "@/lib/categories";
+import { listHref, postHref } from "@/lib/pagination";
 import {
-  CAT_CLASS,
-  categoryHref,
-  getCategory,
-  type Category,
-} from "@/lib/categories";
-import { postHref } from "@/lib/pagination";
+  AXIS_BY_LABEL,
+  axisTrust,
+  SELECTION_BAND_LABEL,
+} from "@/lib/selection";
 import { compressionRatio, countBodyChars } from "@/lib/content/compression";
 import { getAllPosts, getPostBySlug, getPostsByCategory } from "@/lib/content/posts";
 import { getFormat } from "@/lib/formats";
@@ -73,12 +73,12 @@ function sourceDomain(url: string): string {
  * 태그·출처는 글 머리에 다시 적지 않는다 (같은 것을 두 번 적지 않는다).
  * 데스크톱에서는 레일이 sticky 라 본문을 한참 내려가도 이 글이 어디에 걸려 있는지가 남는다.
  */
-function PostAside({ post, category }: { post: Post; category: Category }) {
-  const { tags, source } = post.frontmatter;
+function PostAside({ post }: { post: Post }) {
+  const { selection, tags, source } = post.frontmatter;
   // 포맷은 선택이다 — 없는 글에는 이 줄을 만들지 않는다. 라우트도 없어 링크로 걸지 않는다.
   const format = getFormat(post.frontmatter.format ?? "");
 
-  if (!format && tags.length === 0 && !source) {
+  if (!format && tags.length === 0 && !source && !selection) {
     return null;
   }
 
@@ -101,12 +101,27 @@ function PostAside({ post, category }: { post: Post; category: Category }) {
               // 목록의 태그 필터 규약을 그대로 쓴다 — 같은 카테고리 안에서 걸러 보여준다.
               <Link
                 key={tag}
-                href={`${categoryHref(category)}?tag=${encodeURIComponent(tag)}`}
+                href={listHref("/search", { tag })}
                 className="tag focus-visible:outline-2 focus-visible:outline-focus"
               >
                 {tag}
               </Link>
             ))}
+          </dd>
+        </div>
+      ) : null}
+
+      {/* **어떻게 골랐나** — 선별 등급이 갈 수 있는 유일한 자리다.
+          목록 뱃지로는 못 쓴다: 발행분의 59%가 `high` 라 열에 여섯이 가진 표시가 된다.
+          여기서는 「이 글 하나가 어떤 경위로 실렸나」를 말하는 것이라 그래도 뜻이 있다.
+          사람이 고른 글(notes)에는 이 칸이 아예 없다 — 고른 주체가 사람이다. */}
+      {selection ? (
+        <div>
+          <dt className="kicker">어떻게 골랐나</dt>
+          <dd className="voice-ui mt-[var(--space-1)] text-muted">
+            {SELECTION_BAND_LABEL[selection.band]} · 갈래는{" "}
+            {AXIS_BY_LABEL[selection.axisBy]}
+            {selection.axisConfidence === "low" ? " (확실하지 않음)" : ""}
           </dd>
         </div>
       ) : null}
@@ -184,7 +199,7 @@ export default async function PostPage(props: PageProps<"/posts/[slug]">) {
             className="space-y-6 lg:sticky lg:top-8 lg:order-2 lg:w-56 lg:shrink-0"
           >
             <TableOfContents headings={extractHeadings(post.body)} />
-            <PostAside post={post} category={found} />
+            <PostAside post={post} />
           </aside>
 
           <div className="min-w-0 lg:flex-1">
@@ -192,6 +207,7 @@ export default async function PostPage(props: PageProps<"/posts/[slug]">) {
               source={frontmatter.source}
               paper={frontmatter.paper}
               ratio={ratio}
+              axisTrust={axisTrust(post.category, frontmatter.selection)}
             />
 
             {/* 본문 컴파일은 renderMdx 하나뿐이다 (ADR-003). 타이포그래피는 MdxBody 가 맡는다. */}

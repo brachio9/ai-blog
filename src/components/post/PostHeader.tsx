@@ -5,7 +5,12 @@ import { type RatioInfo, splitSummary } from "@/components/post/PostLead";
 import { axisHref, getAxis } from "@/lib/axes";
 import { CAT_CLASS, categoryHref, type Category } from "@/lib/categories";
 import { compressionRatio, countBodyChars } from "@/lib/content/compression";
-import { formatDateShort } from "@/lib/format";
+import { formatCount, formatDateShort } from "@/lib/format";
+import {
+  axisTrust,
+  POPULARITY_LABEL,
+  showsCrossSources,
+} from "@/lib/selection";
 import type { Post } from "@/types/content";
 
 export interface PostHeaderProps {
@@ -34,7 +39,8 @@ export interface PostHeaderProps {
  */
 export function PostHeader({ post, category, views, ratio }: PostHeaderProps) {
   const { frontmatter } = post;
-  const { paper } = frontmatter;
+  const { paper, selection } = frontmatter;
+  const trust = axisTrust(post.category, selection);
   const { deck, lede } = splitSummary(frontmatter.summary);
   const axis = getAxis(frontmatter.axis);
 
@@ -67,7 +73,37 @@ export function PostHeader({ post, category, views, ratio }: PostHeaderProps) {
             className="voice-ui text-muted underline-offset-[0.3em] transition-colors hover:text-heading hover:underline focus-visible:outline-2 focus-visible:outline-focus"
           >
             {axis.name}
+            {/* 약한 축에는 단검을 단다 — 각주는 출처 상자가 받는다.
+                축이 이 사이트의 1급 차원이 된 이상, 그 축을 본문이 아니라 피드를 보고
+                정했다는 사실을 숨기면 지도가 거짓말을 한다. 발행분의 3분의 1이 그렇다. */}
+            {trust === "weak" ? (
+              <>
+                <span className="voice-source" aria-hidden>
+                  †
+                </span>
+                <span className="sr-only"> (자동 분류)</span>
+              </>
+            ) : null}
           </Link>
+        ) : null}
+
+        {/* 여러 곳에서 같이 나온 소식. **1곳은 적지 않는다** — 27%만 2곳 이상이라
+            드물다는 것이 이 표시의 값어치다. */}
+        {selection && showsCrossSources(selection) ? (
+          <span className="voice-ui text-muted">
+            <span className="voice-source">{selection.crossSources}</span>곳
+          </span>
+        ) : null}
+
+        {/* 원문 매체의 반응. **단위 라벨이 출처를 말한다** — 그래서 정렬 키로 쓰지 않는다.
+            별과 업보트를 한 줄에 세우면 그 순위는 아무 뜻이 없다. */}
+        {selection?.popularity ? (
+          <span className="voice-ui text-muted">
+            {POPULARITY_LABEL[selection.popularity.kind]}{" "}
+            <span className="voice-source">
+              {formatCount(selection.popularity.count)}
+            </span>
+          </span>
         ) : null}
 
         <time dateTime={frontmatter.publishedAt} className="voice-source">

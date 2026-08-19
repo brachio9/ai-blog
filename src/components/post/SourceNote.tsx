@@ -1,6 +1,7 @@
 import { ExternalIcon } from "@/components/mdx/Anchor";
 import type { RatioInfo } from "@/components/post/PostLead";
 import { formatCount, formatDate } from "@/lib/format";
+import type { AxisTrust } from "@/lib/selection";
 import type { PaperMeta, PostSource } from "@/types/content";
 
 export interface SourceNoteProps {
@@ -12,6 +13,11 @@ export interface SourceNoteProps {
    * `null` 이면 막대를 그리지 않는다. 출처 표기 자체는 그대로 남는다.
    */
   ratio?: RatioInfo | null;
+  /**
+   * 축을 얼마나 믿을 수 있나. `"weak"` 이면 데이트라인의 단검(†)에 대한 각주를 여기 단다 —
+   * 표시는 눈에 걸리는 자리에, 설명은 출처를 밝히는 자리에 둔다.
+   */
+  axisTrust?: AxisTrust;
 }
 
 const LINK_CLASS =
@@ -29,7 +35,12 @@ const LINK_CLASS =
  * 시그니처 「추린 비율」의 확장형도 여기 산다. 이 글이 원문의 몇 분의 일인지는
  * 원문 링크 바로 옆에서 말해야 뜻이 산다 — 무엇을 얼마나 추렸는지가 한 덩이다.
  */
-export function SourceNote({ source, paper, ratio }: SourceNoteProps) {
+export function SourceNote({
+  source,
+  paper,
+  ratio,
+  axisTrust,
+}: SourceNoteProps) {
   if (!source) {
     return null;
   }
@@ -52,6 +63,18 @@ export function SourceNote({ source, paper, ratio }: SourceNoteProps) {
         이 글은 아래 원문을 한글로 요약·정리한 것입니다. 원문을 그대로 옮긴
         번역문이 아니며, 정확한 내용은 원문을 확인해 주세요.
       </p>
+
+      {/* 데이트라인의 † 각주. **감추지 않고 적는다** — 축이 이 사이트의 1급 차원이 된 이상,
+          그 축을 자동으로 정했다는 사실을 숨기면 지도가 거짓말을 한다. 발행분의 3분의 1이 그렇다.
+          **어떻게 정했는지까지는 여기서 말하지 않는다** — 경우가 둘이라(피드를 보고 찍은 것과
+          판단이 엇갈린 것) 한 문장으로 적으면 반은 틀린 말이 된다. 그 답은 「어떻게 골랐나」가 한다. */}
+      {axisTrust === "weak" ? (
+        <p className="voice-ui mt-[var(--space-1)] text-muted">
+          <span className="voice-source">†</span> 이 글의 주제 갈래는 사람이
+          아니라 수집 과정이 정한 것이라 확실하지 않습니다 — 어떻게 정했는지는 옆의
+          「어떻게 골랐나」에 적었습니다.
+        </p>
+      ) : null}
 
       <p className="mt-[var(--space-2)] text-[length:var(--text-h4)] leading-tight">
         <a
