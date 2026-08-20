@@ -14,7 +14,8 @@
 .stage { border: var(--rule-hair) solid var(--border); padding: var(--space-5); margin-top: var(--space-3); }
 .vlabel { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin: var(--space-5) 0 var(--space-2); }
 .vlabel:first-child { margin-top: 0; }
-.row { display: flex; gap: var(--space-2); flex-wrap: wrap; align-items: center; }
+/* 데모용 가로 묶음. `.row` 는 정본에서 균일 피드의 행(그리드)이라 이름을 비켜 썼다. */
+.demo-row { display: flex; gap: var(--space-2); flex-wrap: wrap; align-items: center; }
 code { font-family: var(--font-mono); font-size: 0.9em; }
 </style>
 </head>
@@ -28,14 +29,14 @@ code { font-family: var(--font-mono); font-size: 0.9em; }
 
   <div class="stage">
     <div class="vlabel">.btn / .btn-quiet — 채우기 없음. 호버에서 먹과 종이가 뒤집힌다</div>
-    <div class="row">
+    <div class="demo-row">
       <a class="btn" href="#">전체 보기</a>
       <a class="btn-quiet btn" href="#">더 불러오기</a>
       <button class="btn" type="button">구독</button>
     </div>
 
-    <div class="vlabel">.tag — 이 시스템에서 유일하게 반경(2px)이 있는 것</div>
-    <div class="row">
+    <div class="vlabel">.tag — 반경 2px. 지면의 기본은 4px 이고, 알약은 토글에만 쓴다</div>
+    <div class="demo-row">
       <a class="tag" href="#">LLM</a><a class="tag" href="#">MoE</a><a class="tag" href="#">벤치마크</a>
       <a class="tag" href="#">양자화</a><a class="tag" href="#">추론</a>
     </div>
@@ -56,33 +57,32 @@ code { font-family: var(--font-mono); font-size: 0.9em; }
       <div class="empty-line">「flash attention」으로 찾은 글이 없습니다.</div>
       <p class="note">아직 안 다룬 주제입니다. 가까운 것은 아래에 있습니다.</p>
       <div class="empty-next">
-        <div class="index-row"><span class="voice-source">2026.07.18</span><span class="t">희소 어텐션은 어디까지 버티는가</span><span class="voice-source">논문</span></div>
-        <div class="index-row"><span class="voice-source">2026.06.29</span><span class="t">긴 문맥 벤치마크 6종을 한 표에 놓고 보기</span><span class="voice-source">논문</span></div>
+        <div class="index-row cat-papers"><span class="voice-source">2026.07.18</span><span class="t">희소 어텐션은 어디까지 버티는가</span><span class="cat-label">논문</span></div>
+        <div class="index-row cat-papers"><span class="voice-source">2026.06.29</span><span class="t">긴 문맥 벤치마크 6종을 한 표에 놓고 보기</span><span class="cat-label">논문</span></div>
       </div>
-      <div class="row" style="margin-top:var(--space-4)">
+      <div class="demo-row" style="margin-top:var(--space-4)">
         <a class="tag" href="#">어텐션</a><a class="tag" href="#">긴 컨텍스트</a><a class="tag" href="#">추론</a>
       </div>
     </div>
   </div>
 
-  <div class="demo-head"><span class="kicker">Open</span><h2>아직 안 정한 것</h2>
-    <p class="note"><b>"지난번 이후 새것" 표시.</b> 매일 훑는 단골이 주 독자인데 지금 아무 장치가 없다 —
-    브리프의 빈칸 중 가장 큰 구멍이다. 아래는 발상 재료일 뿐이고, 더 나은 형태를 발명하면 그걸 쓴다.</p>
+  <div class="demo-head"><span class="kicker">Since</span><h2>지난번 이후 새것</h2>
+    <p class="note"><b>2026-08-19 에 정했다.</b> 브리프의 빈칸 중 가장 컸던 자리다 — 매일 훑는 단골이 주 독자인데
+    「어디까지 봤더라」를 날짜로 세게 두면 그 사람은 곧 안 온다. 답은 <code>localStorage</code> 의
+    마지막 방문 시각 하나이고, 화면에는 <b>제호 아래 한 줄</b>로만 나온다.</p>
   </div>
   <div class="stage">
-    <div class="vlabel">재료 — 아직 고르지 않았다</div>
-    <div>
-      <div class="index-row cat-papers">
-        <span class="voice-source" style="color:var(--cat)">08.09 ●</span>
-        <span class="t">공개 가중치 모델 벤치마크 정리</span><span class="voice-source">소식</span>
-      </div>
-      <div class="index-row">
-        <span class="voice-source">08.05</span>
-        <span class="t">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</span><span class="voice-source">논문</span>
-      </div>
+    <div class="vlabel">제호 메타 줄 안에 — 값은 예시다</div>
+    <div class="masthead-meta">
+      <span class="voice-ui text-muted">전체 <span class="voice-source">80</span>편</span>
+      <span class="voice-ui text-muted">최근 발행 <span class="voice-source">08.19</span></span>
+      <span class="voice-ui">지난 방문 이후 <span class="voice-source">6</span>편</span>
     </div>
-    <p class="note">점 하나 · 날짜를 안료로 · 「여기까지 읽었음」 괘선 · 안 읽은 것만 세어 제호 옆에 붙이기.
-    어느 쪽이든 <b>localStorage 의 마지막 방문 시각</b> 하나면 만들 수 있다.</p>
+    <p class="note">방문 시각은 그릴 때가 아니라 <b>떠날 때</b> 적는다 — 새로고침마다 0으로 떨어지면
+    「내가 못 본 것」이 아니라 「방금 눌렀나」를 세게 된다. 서버는 모르는 값이라 첫 렌더에는 이 자리가 아예 없다.</p>
+    <p class="note">재료로 적어 뒀던 셋(행마다 점 하나 · 날짜를 안료로 · 「여기까지 읽었음」 괘선)은 고르지 않았다.
+    <b>넷째였던 「안 읽은 것만 세어 제호 옆에 붙이기」가 채택됐다</b> — 균일 피드에서는 스무 행에 부호를
+    하나 더 얹는 것보다 한 줄로 세어 주는 쪽이 싸다.</p>
   </div>
 
 </main>

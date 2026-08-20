@@ -1,4 +1,4 @@
-<!-- @dsCard group="Foundations" name="레이아웃 — 레일과 지면" subtitle="좁은 메타 레일 + 넓은 본문. 박스 대신 얇은 선 하나. 둥근 모서리도 그림자도 없다." viewport="820x900" -->
+<!-- @dsCard group="Foundations" name="레이아웃 — 레일과 지면" subtitle="좁은 메타 레일 + 넓은 본문. 박스 대신 얇은 선 하나. 모서리는 4px 하나, 그림자는 없다." viewport="820x900" -->
 <!doctype html>
 <html lang="ko">
 <head>
@@ -22,7 +22,7 @@
 .zone-b { min-height: 84px; }
 .measure-demo { position: relative; }
 .measure-demo::after {
-  content: 'var(--measure) — 68ch'; position: absolute; right: 0; top: -18px;
+  content: 'var(--measure) — 66ch'; position: absolute; right: 0; top: -18px;
   font-family: var(--font-mono); font-size: 10px; color: var(--muted);
 }
 ul.rules { margin: var(--space-2) 0 0; padding-left: 1.1em; }
@@ -40,7 +40,7 @@ ul.rules li { font-size: var(--text-small); color: var(--muted); margin-bottom: 
 
   <div class="diagram">
     <div class="rail-demo">
-      <div class="zone">rail<br>136px</div>
+      <div class="zone">rail<br>104px</div>
       <div class="zone zone-b">content — minmax(0, 1fr)</div>
     </div>
   </div>
@@ -49,33 +49,39 @@ ul.rules li { font-size: var(--text-small); color: var(--muted); margin-bottom: 
   <div class="demo-head"><span class="kicker">Measure</span><h2>본문 폭</h2></div>
   <div class="measure-demo">
     <p>초록은 한글로 읽는 글이다. 한 줄이 너무 길면 다음 줄 첫 글자를 놓친다.
-    본문은 68ch 에서 멈춘다 — 화면이 아무리 넓어도 문단은 이 폭을 넘지 않는다.
+    본문은 66ch(≈605px ≈ 한글 39자)에서 멈춘다 — 화면이 아무리 넓어도 문단은 이 폭을 넘지 않는다.
     남는 오른쪽 여백은 비워 둔다. 채우지 않는다.</p>
   </div>
 
-  <div class="demo-head"><span class="kicker">Spacing</span><h2>간격 척도 · density 1.15</h2></div>
+  <div class="demo-head"><span class="kicker">Spacing</span><h2>간격 척도 · 4px</h2></div>
   <div class="scale">
-    <div class="sp"><span class="sp-k">space-1</span><div class="sp-bar" style="width:5px"></div></div>
-    <div class="sp"><span class="sp-k">space-2</span><div class="sp-bar" style="width:9px"></div></div>
-    <div class="sp"><span class="sp-k">space-3</span><div class="sp-bar" style="width:14px"></div></div>
-    <div class="sp"><span class="sp-k">space-4</span><div class="sp-bar" style="width:18px"></div></div>
-    <div class="sp"><span class="sp-k">space-5</span><div class="sp-bar" style="width:28px"></div></div>
-    <div class="sp"><span class="sp-k">space-6</span><div class="sp-bar" style="width:37px"></div></div>
-    <div class="sp"><span class="sp-k">space-7</span><div class="sp-bar" style="width:55px"></div></div>
-    <div class="sp"><span class="sp-k">space-8</span><div class="sp-bar" style="width:74px"></div></div>
-    <div class="sp"><span class="sp-k">space-9</span><div class="sp-bar" style="width:110px"></div></div>
+    <div class="sp"><span class="sp-k">space-1</span><div class="sp-bar" style="width:4px"></div></div>
+    <div class="sp"><span class="sp-k">space-2</span><div class="sp-bar" style="width:8px"></div></div>
+    <div class="sp"><span class="sp-k">space-3</span><div class="sp-bar" style="width:12px"></div></div>
+    <div class="sp"><span class="sp-k">space-4</span><div class="sp-bar" style="width:16px"></div></div>
+    <div class="sp"><span class="sp-k">space-5</span><div class="sp-bar" style="width:24px"></div></div>
+    <div class="sp"><span class="sp-k">space-6</span><div class="sp-bar" style="width:32px"></div></div>
+    <div class="sp"><span class="sp-k">space-7</span><div class="sp-bar" style="width:48px"></div></div>
+    <div class="sp"><span class="sp-k">space-8</span><div class="sp-bar" style="width:64px"></div></div>
+    <div class="sp"><span class="sp-k">space-9</span><div class="sp-bar" style="width:96px"></div></div>
   </div>
-  <p class="note">8의 배수가 아니다. 의도한 것이다 — 모든 수치가 8pt 격자에 딱 떨어지면 화면이 기계가 짠 것처럼 읽힌다.</p>
+  <p class="note"><b>4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96.</b> 1~4 는 Tailwind 기본 간격과 값이 같아
+  (<code>gap-3</code> == <code>--space-3</code>) 유틸리티를 그대로 쓰고, 5부터는 눈으로 정한 뜀이라 인덱스가 어긋난다 —
+  <b>값만 4의 배수다.</b></p>
+  <p class="note">2026-08-20 철회: <b>「손으로 정한 척도」(5 · 9 · 14 · 18 … density 1.15)</b>.
+  「모든 여백이 8의 배수면 눈으로 안 봤다는 뜻」이라는 진단이 잡는 것은 배수 자체가 아니라 <b>결정 회피</b>였고,
+  그 자리는 눈으로 정한 값 넷(액센트 · radius 4px · 행 높이 96px · 썸네일)이 이미 채우고 있다
+  (<code>docs/ADR.md</code> ADR-013 · <code>design/stitch/NOTES.md</code>).</p>
 
   <div class="demo-head"><span class="kicker">Edges</span><h2>가장자리</h2></div>
   <div class="diagram">
     <div class="entry cat-papers" style="border-top:var(--rule-hair) solid var(--border)">
       <div class="entry-rail voice-source">2026.08.05<br>arXiv:2608.01337</div>
-      <div><div class="cat-label">최신 논문</div><div class="entry-title">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</div></div>
+      <div><div class="cat-label">논문</div><div class="entry-title">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</div></div>
     </div>
     <div class="entry cat-notes">
       <div class="entry-rail voice-source">2026.08.02</div>
-      <div><div class="cat-label">수집 자료</div><div class="entry-title">양자화 손실을 반년 동안 기록해 봤다</div></div>
+      <div><div class="cat-label">기록</div><div class="entry-title">양자화 손실을 반년 동안 기록해 봤다</div></div>
     </div>
   </div>
   <p class="note">항목을 나누는 것은 <b>1px 가로선 하나</b>다. 카드도, 테두리 상자도, 좌측 색 막대도 쓰지 않는다.
@@ -83,8 +89,11 @@ ul.rules li { font-size: var(--text-small); color: var(--muted); margin-bottom: 
 
   <div class="demo-head"><span class="kicker">Rules</span><h2>지킬 것</h2></div>
   <ul class="rules">
-    <li><b>radius 는 0 이다.</b> 태그 칩만 2px. 지면에는 둥근 모서리가 없다.</li>
-    <li><b>그림자는 없다.</b> <code>--shadow-lg</code> 는 다이얼로그 하나에만 쓴다. 지면은 떠 있지 않다.</li>
+    <li><b>모서리는 작고 일정하다.</b> 기본 4px(<code>--radius-md</code>) · 태그 2px · 표면 6px · 겹치는 것 10px.
+    실질적으로 <b>4px 하나가 전부다</b> (stitch 실측: 6 · 10 은 한 번도 안 쓰였다). 알약(<code>--radius-full</code>)은
+    토글에만 — 태그에 쓰면 이 지면에서 유일하게 「AI 제품」처럼 보이는 형태가 된다.</li>
+    <li><b>그림자는 없다.</b> <code>--shadow-lg</code> 는 다이얼로그 하나에만 쓴다. 지면은 떠 있지 않다.
+    입체는 위 모서리 1px(<code>--edge-top</code>)이 만들고, 그것도 밤에서만 일한다.</li>
     <li>섹션은 카드로 감싸지 않는다. 여백과 얇은 선이 나눈다.</li>
     <li>가운데 정렬 히어로를 만들지 않는다. 첫 화면은 마스트헤드 한 덩이와 곧바로 목록이다.</li>
   </ul>

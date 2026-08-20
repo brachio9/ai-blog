@@ -19,7 +19,7 @@
 .nav-brand { font-size: var(--text-h4); font-weight: 700; letter-spacing: -0.02em; text-decoration: none; }
 .nav-links { display: flex; gap: var(--space-4); align-items: baseline; }
 .nav-links a { font-family: var(--font-ui); font-size: var(--text-small); text-decoration: none; }
-.nav-links a[aria-current] { color: var(--accent); }
+.nav-links a[aria-current] { color: var(--accent); font-weight: 500; }
 .foot { display: grid; grid-template-columns: 1fr auto; gap: var(--space-5); }
 .foot-links { display: grid; gap: var(--space-1); text-align: right; }
 .foot-links a { font-family: var(--font-ui); font-size: var(--text-small); }
@@ -45,32 +45,41 @@
     <div class="vlabel">홈 — 제호 + 발행 정보</div>
     <div class="masthead" style="padding-top:0">
       <div class="masthead-title">초록</div>
-      <p class="masthead-line">HuggingFace 블로그와 arXiv 논문을 읽고 한글로 추려 적습니다.
-      논문 맨 앞의 초록(抄錄)이 그렇듯 전문 번역이 아니라 요점만 남긴 요약이고, 원문 링크는 모든 글에 답니다.</p>
-      <div class="masthead-meta voice-source"><span>2026.08.14</span><span>전체 8편</span><span>최근 갱신 08.09</span></div>
+      <p class="masthead-line">영문 AI 원문을 여섯 갈래로 좁혀 한글로 추려 적습니다.
+      옮긴 글에는 원문 링크를, 직접 잰 글에는 측정 조건을 함께 답니다.</p>
+      <div class="masthead-meta">
+        <span class="voice-ui text-muted">전체 <span class="voice-source">80</span>편</span>
+        <span class="voice-ui text-muted">최근 발행 <span class="voice-source">08.19</span></span>
+      </div>
     </div>
     <div class="rule-pair"></div>
 
     <div class="vlabel">카테고리 — 제호는 작아지고 이름이 커진다</div>
     <div class="masthead cat-papers" style="padding-top:0">
-      <div class="cat-label voice-ui">초록 · 최신 논문</div>
-      <div class="masthead-title" style="font-size:34px;margin-top:var(--space-1)">최신 논문</div>
-      <p class="masthead-line">arXiv 논문을 읽고 문제 설정·방법·결과를 한글로 정리합니다.</p>
-      <div class="masthead-meta voice-source"><span>3편</span><span>2026.06 – 2026.08</span></div>
+      <div class="cat-label voice-ui">초록 · 논문</div>
+      <div class="masthead-title" style="font-size:34px;margin-top:var(--space-1)">논문</div>
+      <p class="masthead-line">arXiv·HF Daily Papers 논문을 읽고 문제 설정·방법·결과를 한글로 추려 적습니다.
+      수식과 도표 비중이 높습니다.</p>
+      <div class="masthead-meta">
+        <span class="voice-ui text-muted"><span class="voice-source">43</span>편</span>
+        <span class="voice-source">2026.08.16 – 08.19</span>
+      </div>
     </div>
   </div>
 
   <div class="demo-head"><span class="kicker">Nav</span><h2>내비</h2>
-    <p class="note">현재 위치는 밑줄이 아니라 <b>안료</b>로 가리킨다 — 링크의 밑줄과 겹치지 않게.</p>
+    <p class="note">현재 위치는 밑줄이 아니라 <b>액센트</b>로 가리킨다 — 링크의 밑줄과 겹치면 구분이 안 된다.
+    색만으로 전달하지 않도록 <code>aria-current</code> 와 굵기를 함께 얹는다.</p>
+    <p class="note"><b>분류를 늘어놓지 않는다</b> (2026-08-19). 카테고리 다섯을 머리에 걸었더니 좁은 화면에서
+    띠가 가로로 밀렸고, 무엇보다 「커뮤니티」라는 낱말만으로는 4편인지 400편인지 알 수 없었다.
+    문 셋만 남기고 <b>편수는 그 안에서</b> 막대와 숫자로 보여 준다.</p>
   </div>
   <div class="stage">
     <nav class="nav">
       <a class="nav-brand" href="#">초록</a>
       <div class="nav-links">
-        <a href="#">허깅페이스 소식</a>
-        <a href="#" aria-current="page">최신 논문</a>
-        <a href="#">수집 자료</a>
-        <a href="#">색인</a>
+        <a href="#">주제</a>
+        <a href="#" aria-current="page">출처</a>
         <a href="#">아카이브</a>
       </div>
     </nav>
@@ -86,7 +95,8 @@
       <div>
         <div style="font-size:var(--text-h4);font-weight:600">초록</div>
         <p class="note" style="margin-top:var(--space-1)">요약·인용한 글에는 원문 출처를 반드시 함께 적습니다.</p>
-        <div class="voice-source" style="margin-top:var(--space-3)">© 2026 초록 · 제 14 호</div>
+        <div style="margin-top:var(--space-3)"><span class="voice-source">© 2026</span>
+        <span class="voice-ui text-muted">초록</span></div>
       </div>
       <div class="foot-links">
         <a href="#">태그 색인</a>
@@ -96,6 +106,9 @@
       </div>
     </div>
   </div>
+  <p class="note">발행 정보에 <b>호수(號數)는 넣지 않는다 — 탈락한 후보다.</b> 시간축과 같은 문제를 더 비싸게 풀고,
+  글이 뜸한 달에 호가 얇아 보이는 것도 1인 운영에 부담이다 (<code>brief.md</code> 탈락 기록).
+  그 자리는 홈의 <b>일자 구획</b>이 이미 하고 있다.</p>
 
 </main>
 </body>
