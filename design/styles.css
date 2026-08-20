@@ -396,6 +396,89 @@ hr, .rule {
    「1면 편집」이 죽고 목록이 균일 피드가 되면서 자리를 잃었다 (brief.md 사망 기록 · ADR-011).
    판단은 그쪽에 기록으로 남기고 규칙은 지운다 — 죽은 클래스를 남기면 다음 사람이 그것을 쓴다. */
 
+/* --- 균일 피드의 행 -----------------------------------------------------
+   **모든 행이 같은 크기다.** 머리기사도 요약을 펴는 행도 없다.
+   행이 다른 것은 크기가 아니라 어떤 부호를 달고 있는가뿐이다.
+
+   제목 왼쪽에 오는 것은 전부 폭이 고정된 열이다 (그림 80 · 번호 26).
+   그래서 스무 행의 제목 왼쪽 끝이 한 줄로 선다 — 훑을 수 있게 만드는 유일한 장치다. */
+.row {
+  display: grid;
+  grid-template-columns: 80px 26px minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+  padding: var(--space-3) 0;
+  border-bottom: var(--rule-hair) solid var(--border);
+}
+.row:first-of-type { border-top: var(--rule-hair) solid var(--border); }
+
+/* 두 자리 고정폭 mono. 훑어 내려갈 때 숫자 한 열이 다섯 색 스무 칩보다 빨리 읽힌다. */
+.row-no { font-variant-numeric: tabular-nums; padding-top: 2px; }
+
+.row-text { display: grid; gap: var(--space-1); min-width: 0; }
+.row-title {
+  font-size: var(--text-h4);
+  font-weight: 500;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--heading);
+}
+/* **한 줄에서 자른다.** 두 줄이 되는 순간 그 행만 커지고 균일 피드가 무너진다. */
+.row-summary {
+  color: var(--muted);
+  font-size: var(--text-small);
+  line-height: var(--leading-tight);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 메타는 두 무리다. 왼쪽은 「무엇인가」, 오른쪽은 「왜 골랐나」.
+   오른쪽을 끝으로 밀어 두면 왼쪽이 들쭉날쭉해도 오른쪽 열이 선다 —
+   덕분에 「추린 비율」이 없는 행(80편 중 39편)에 자리를 예약할 필요가 사라진다. */
+.row-meta { display: flex; justify-content: space-between; gap: var(--space-3); }
+.row-meta-left,
+.row-meta-right { display: flex; gap: var(--space-3); align-items: baseline; min-width: 0; }
+.row-meta-right { flex: none; }
+.row-meta .cat-label { font-size: var(--text-meta); }
+.row-weak { text-decoration: none; cursor: help; }
+
+/* 그림 자리 — 16:9 고정. **그림이 있든 없든 상자 크기가 같다.**
+   달라지면 스무 행에서 열이 떨린다. 96px 행에서 45px 이라 세로 가운데에 앉힌다.
+
+   표지는 안료를 지면에 **아주 옅게** 섞는다. 안료를 그대로 칠하면 큰 색판 스무 개가 서서
+   부호가 아니라 벽지가 된다 — `--cat-*` 의 명도는 원래 작은 글자용이다. */
+.thumb {
+  width: 80px;
+  height: 45px;
+  align-self: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: color-mix(in oklch, var(--cat, var(--muted)) 16%, var(--surface));
+  box-shadow: var(--edge-top);
+  /* **테두리가 없으면 낮 지면에서 상자가 사라진다.** arXiv 그림은 대부분 흰 바탕
+     선화라 흰 종이 위에 얹으면 경계가 없어 얼룩처럼 번진다 (실측). 밤에서는
+     --edge-top 이 그 일을 하지만 낮에서는 아무것도 안 한다. */
+  border: var(--rule-hair) solid var(--border);
+}
+/* 그림은 표지 **위에** 덮인다. 주소가 죽으면 브라우저가 이 자리를 안 그리고
+   표지가 뒤에서 그대로 비친다 — onError 도 자바스크립트도 필요 없다. */
+.thumb-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  /* 그림을 버리고 번호만 남긴다 — 80px 을 떼면 제목이 두 줄로 접히는 것을 막을 수 있다. */
+  .row { grid-template-columns: 26px minmax(0, 1fr); gap: var(--space-3); }
+  .row .thumb { display: none; }
+  .row-meta { flex-wrap: wrap; }
+}
+
 /* 색인 — 되찾기용. 가장 밀집하고, 훑어서 찾는 것이 유일한 목적이다. */
 .index-row {
   display: grid; grid-template-columns: 26px 88px minmax(0, 1fr) auto;

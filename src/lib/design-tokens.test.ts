@@ -200,6 +200,35 @@ describe("정본 ↔ 앱 동기화", () => {
 
     expect(missing).toEqual([]);
   });
+
+  it("⑨ 앱이 정의한 디자인 시스템 클래스가 정본에도 있다", () => {
+    // **이번 드리프트가 새어 나간 구멍이다.** ①~② 는 토큰만 본다 — 그래서 목록 행 전부를
+    // 그리는 `.row`·`.thumb` 가족이 정본에 없는 채로 발행됐고, 「정본이 정본이다」가 그 자리에서 거짓이 됐다.
+    //
+    // **대상은 「디자인 시스템의 부품」으로 좁힌다.** 앱 CSS 를 전부 강제하면 본문 규칙이 바뀔 때마다
+    // 빨개지는 시끄러운 테스트가 되고, 시끄러운 테스트는 아무도 안 본다. 정본에 없어도 되는 것은
+    // 세 갈래뿐이고 셋 다 「정본이 다루는 범위가 아니다」라는 같은 이유다:
+    //   `.mdx-*`  — 글 본문 렌더 규칙. 정본에는 글 본문이 없다
+    //   `.katex*` — KaTeX 가 만드는 클래스. 우리가 이름을 정하지 않았다
+    //   `.light`  — 지면 전환 방식이 앱 전용이다 (Tailwind `@custom-variant`).
+    //               정본은 대신 `.ground-light` · `.ground-dark` 로 두 지면을 나란히 놓는다
+    // 이보다 넓히면 시끄러워지고, 좁히면 이번 것을 또 놓친다.
+    const APP_ONLY = /^(mdx-|katex($|-)|light$)/;
+
+    const classNames = (css: string) =>
+      new Set(
+        [...stripComments(css).matchAll(/\.([A-Za-z][\w-]*)/g)].map(
+          ([, name]) => name,
+        ),
+      );
+
+    const canon = classNames(CANON);
+    const missing = [...classNames(APP)]
+      .filter((name) => !APP_ONLY.test(name) && !canon.has(name))
+      .sort();
+
+    expect(missing).toEqual([]);
+  });
 });
 
 describe("색 — 색역과 대비", () => {

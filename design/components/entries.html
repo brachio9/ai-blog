@@ -1,4 +1,4 @@
-<!-- @dsCard group="Components" name="목록 항목 — 성격 셋" subtitle="같은 데이터를 머리기사·단신·색인 세 급으로. 한 지면에서 섞는 것이 신문이 하는 일이다." viewport="880x1200" -->
+<!-- @dsCard group="Components" name="목록 항목 — 균일 피드의 행" subtitle="모든 행이 같은 크기다. 행을 가르는 것은 크기가 아니라 어떤 부호를 달고 있는가다." viewport="880x1200" -->
 <!doctype html>
 <html lang="ko">
 <head>
@@ -10,101 +10,238 @@
 .demo { max-width: 800px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-9); }
 .demo-head { margin: var(--space-8) 0 var(--space-4); }
 .demo-head:first-child { margin-top: 0; }
-.note { font-size: var(--text-small); color: var(--color-muted); max-width: 62ch; margin-top: var(--space-2); }
-.stage { border: var(--rule-hair) solid var(--color-line); padding: var(--space-5); margin-top: var(--space-3); }
-.vlabel { font-family: var(--font-mono); font-size: 10px; color: var(--color-muted); margin: var(--space-4) 0 var(--space-1); }
+.note { font-size: var(--text-small); color: var(--muted); max-width: 62ch; margin-top: var(--space-2); }
+.stage { border: var(--rule-hair) solid var(--border); padding: var(--space-5); margin-top: var(--space-3); }
+.vlabel { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin: var(--space-4) 0 var(--space-1); }
 .vlabel:first-child { margin-top: 0; }
 code { font-family: var(--font-mono); font-size: 0.9em; }
-.thumb { width: 76px; height: 52px; background: var(--color-surface); border: var(--rule-hair) solid var(--color-line); flex: none; }
+/* 정본에는 목록 리셋이 없다 — 앱은 Tailwind 프리플라이트가 대신 한다. 여기서만 벗긴다. */
+ul.feed { list-style: none; margin: 0; padding: 0; }
 </style>
 </head>
 <body>
 <main class="demo">
 
-  <div class="demo-head"><span class="kicker">Characters</span><h2>같은 글, 세 가지 급</h2>
-    <p class="note">항목 컴포넌트는 하나가 아니다. <b>무엇을 얼마나 크게 실을지가 편집</b>이고,
-    한 지면에서 세 급을 섞을 때 화면이 편집된 것처럼 읽힌다.</p>
+  <div class="demo-head"><span class="kicker">Feed</span><h2>균일 피드 — <code>.row</code></h2>
+    <p class="note"><b>모든 행이 같은 크기다.</b> 머리기사도, 요약을 펴는 행도 없다.
+    제목 왼쪽에 오는 것은 전부 폭이 고정된 두 열(그림 80 · 번호 26)이라
+    <b>일곱 행의 제목 왼쪽 끝이 한 줄로 선다</b> — 훑을 수 있게 만드는 유일한 장치다.
+    아래 글은 전부 <code>content/</code> 에 실제로 실린 것이다.</p>
   </div>
 
   <div class="stage">
-    <div class="vlabel">머리기사 — .entry-lead · 지면당 하나. 급을 스케일 밖으로 키워도 좋다</div>
-    <div class="entry-lead cat-papers">
-      <div class="dateline voice-source"><span style="color:var(--cat)">최신 논문</span><span>2026.08.05</span><span>arXiv:2608.01337</span></div>
-      <div class="headline">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</div>
-      <div class="deck">전문가 라우터를 본 학습과 분리해 먼저 굳히고 시작한다</div>
-      <p class="lede">초기 라우팅 붕괴를 막아 같은 예산에서 손실을 더 내렸다고 보고한다.</p>
-    </div>
+    <ul class="feed">
+      <li class="row cat-papers">
+        <div class="thumb"><img class="thumb-img" src="https://arxiv.org/html/2608.17528v1/agl-lite-teaser-0814.png" alt="" width="80" height="45" /></div>
+        <span class="row-no voice-source">06</span>
+        <div class="row-text">
+          <h3 class="row-title">에이전트 하네스, RL 학습의 핵심 변수로 부상하다</h3>
+          <p class="row-summary">Agent Lightning v1.0은 에이전트 실행 환경인 하네스를 강화학습 훈련 과정에 직접 참여시키는 프레임워크다.</p>
+          <div class="row-meta voice-source">
+            <span class="row-meta-left">
+              <time datetime="2026-08-19">2026.08.19</time>
+              <span class="cat-label">논문</span>
+              <span>2분</span>
+              <span class="ratio">추림 35:1</span>
+            </span>
+            <span class="row-meta-right">
+              <span>교차 2곳</span>
+              <span>▲12</span>
+            </span>
+          </div>
+        </div>
+      </li>
 
-    <div class="vlabel">단신 — .brief-set / .brief-item · 짧은 것은 뭉쳐서</div>
-    <div class="brief-set">
-      <div class="brief-item cat-news">
-        <span class="voice-source">07.25</span>
-        <div><span class="cat-label" style="font-size:12px">소식</span> <span class="entry-title">추론 엔드포인트 CLI 가 정식으로 나왔다</span></div>
-      </div>
-      <div class="brief-item cat-notes">
-        <span class="voice-source">08.02</span>
-        <div><span class="cat-label" style="font-size:12px">메모</span> <span class="entry-title">양자화 손실을 반년 동안 기록해 봤다</span></div>
-      </div>
-    </div>
+      <li class="row cat-papers">
+        <div class="thumb"></div>
+        <span class="row-no voice-source">02</span>
+        <div class="row-text">
+          <h3 class="row-title">내 컴퓨터로 최첨단 AI 돌리기: FreeToken의 에지 네이티브 MoE 서빙</h3>
+          <p class="row-summary">FreeToken은 개인 장치를 작은 GPU가 아닌 탄력적 추론 플랫폼으로 재정의하는 시스템이다.</p>
+          <div class="row-meta voice-source">
+            <span class="row-meta-left">
+              <time datetime="2026-08-19">2026.08.19</time>
+              <span class="cat-label">논문</span>
+              <span>2분</span>
+              <span class="ratio">추림 35:1</span>
+            </span>
+            <span class="row-meta-right">
+              <span>▲37</span>
+            </span>
+          </div>
+        </div>
+      </li>
 
-    <div class="vlabel">색인 — .index-row · 되찾기용. 훑어서 찾는 것이 유일한 목적</div>
-    <div>
-      <div class="index-row"><span class="voice-source">2026.08.09</span><span class="t">공개 가중치 모델 벤치마크 정리 — 2026년 여름판</span><span class="voice-source">소식</span></div>
-      <div class="index-row"><span class="voice-source">2026.08.05</span><span class="t">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</span><span class="voice-source">논문</span></div>
-      <div class="index-row"><span class="voice-source">2026.08.02</span><span class="t">양자화 손실을 반년 동안 기록해 봤다</span><span class="voice-source">메모</span></div>
-      <div class="index-row"><span class="voice-source">2026.07.25</span><span class="t">추론 엔드포인트 CLI 가 정식으로 나왔다</span><span class="voice-source">소식</span></div>
-    </div>
+      <li class="row cat-releases">
+        <div class="thumb"></div>
+        <span class="row-no voice-source">06</span>
+        <div class="row-text">
+          <h3 class="row-title">Codex CLI 0.148: 대화 내보내기, 포크, 그리고 Bedrock 지원</h3>
+          <p class="row-summary">TUI 대화 기록을 마크다운으로 내보내고 세션을 포킹할 수 있게 되었으며 Amazon Bedrock 런타임을 기본 제공자로 추가했다.</p>
+          <div class="row-meta voice-source">
+            <span class="row-meta-left">
+              <time datetime="2026-08-19">2026.08.19</time>
+              <span class="cat-label">릴리즈</span>
+              <span>2분</span>
+              <span class="ratio">추림 16:1</span>
+            </span>
+            <span class="row-meta-right"></span>
+          </div>
+        </div>
+      </li>
+
+      <li class="row cat-news">
+        <div class="thumb"></div>
+        <span class="row-no voice-source">06</span>
+        <div class="row-text">
+          <h3 class="row-title">OpenAI Codex 하네스 설계의 핵심 원리</h3>
+          <p class="row-summary">OpenAI 엔지니어가 공개한 Codex 에이전트 아키텍처의 주요 설계 철학을 살펴본다.</p>
+          <div class="row-meta voice-source">
+            <span class="row-meta-left">
+              <time datetime="2026-08-19">2026.08.19</time>
+              <span class="cat-label">소식</span>
+              <span>2분</span>
+            </span>
+            <span class="row-meta-right"></span>
+          </div>
+        </div>
+      </li>
+
+      <li class="row cat-community">
+        <div class="thumb"></div>
+        <span class="row-no voice-source">02</span>
+        <div class="row-text">
+          <h3 class="row-title">같은 유효 배치 크기, 다른 학습 시간: TRL과 LoRA의 그라디언트 누적 효과</h3>
+          <p class="row-summary">유효 배치 크기가 같아도 디바이스당 배치 크기를 늘리면 학습 시간이 짧아진다는 T4 실측 보고다.</p>
+          <div class="row-meta voice-source">
+            <span class="row-meta-left">
+              <time datetime="2026-08-19">2026.08.19</time>
+              <span class="cat-label">커뮤니티</span>
+              <span>2분</span>
+            </span>
+            <span class="row-meta-right"></span>
+          </div>
+        </div>
+      </li>
+
+      <li class="row cat-papers">
+        <div class="thumb"></div>
+        <span class="row-no voice-source">05</span>
+        <div class="row-text">
+          <h3 class="row-title">LLM의 권위 복종심, 밀그램 실험으로 재현하다</h3>
+          <p class="row-summary">기관 내 계층 구조에서 명령을 따를 때 해로운 행동을 어디까지 수행하는지 42개 모델로 측정했다.</p>
+          <div class="row-meta voice-source">
+            <span class="row-meta-left">
+              <time datetime="2026-08-19">2026.08.19</time>
+              <span class="cat-label">논문</span>
+              <span>2분</span>
+              <span class="ratio">추림 29:1</span>
+            </span>
+            <span class="row-meta-right">
+              <abbr title="주제를 기계가 한 경로만 보고 정했다" class="row-weak">†</abbr>
+            </span>
+          </div>
+        </div>
+      </li>
+
+      <li class="row cat-notes">
+        <div class="thumb"></div>
+        <span class="row-no voice-source">06</span>
+        <div class="row-text">
+          <h3 class="row-title">에이전트 눈높이에 맞춘 문서화: OpenWiki의 구조와 철학</h3>
+          <p class="row-summary">코딩 에이전트 전용 오픈소스 문서화 도구를 영상 설명란만 보고 추렸다.</p>
+          <div class="row-meta voice-source">
+            <span class="row-meta-left">
+              <time datetime="2026-08-17">2026.08.17</time>
+              <span class="cat-label">기록</span>
+              <span>2분</span>
+            </span>
+            <span class="row-meta-right"></span>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <p class="note"><b>메타는 두 무리다.</b> 왼쪽(<code>.row-meta-left</code>)은 「무엇인가」,
+    오른쪽(<code>.row-meta-right</code>)은 「왜 골랐나」다. 오른쪽을 끝으로 밀어 두었으므로
+    <b>「추린 비율」이 없는 행에 자리를 예약할 필요가 없다</b> — 위 일곱 행 중 셋이 비어 있는데도 열이 흔들리지 않는다.</p>
+    <p class="note"><b>선별 부호는 셋뿐이다.</b> <code>교차 N곳</code>(원문이 여러 곳에 걸렸다 · 2곳부터 적는다) ·
+    <code>▲N</code>(원문 매체의 추천 수) · <code>†</code>(<code>.row-weak</code> — 주제를 기계가 한 경로만 보고 정했다).
+    약한 축이라고 목록에서 빼지 않는다. 감추는 대신 표시한다.</p>
   </div>
 
-  <div class="demo-head"><span class="kicker">Density</span><h2>밀도는 화면이 정한다</h2>
-    <p class="note">같은 <code>.entry</code> 를 <code>.list-tight</code> / 기본 / <code>.list-loose</code> 로 감싸면 밀도가 바뀐다.
-    색인면은 촘촘하게, 카테고리 첫 화면은 여유 있게 — 한 시스템 안에서 둘 다 맞다.</p>
+  <div class="demo-head"><span class="kicker">Thumb</span><h2>그림 자리 — <code>.thumb</code></h2>
+    <p class="note">16:9 <b>80×45 고정</b>이다. 그림이 있든 없든 상자 크기가 같다 — 달라지면 일곱 행에서 열이 떨린다.
+    표지는 카테고리 안료를 지면에 <b>아주 옅게</b> 섞은 판이고, 그림은 그 <b>위에</b> 덮인다.</p>
+  </div>
+
+  <div class="stage">
+    <div style="display:flex; gap:var(--space-6); flex-wrap:wrap">
+      <div>
+        <div class="vlabel">그림이 있다 — .thumb-img 가 표지를 덮는다</div>
+        <div class="cat-papers"><div class="thumb"><img class="thumb-img" src="https://arxiv.org/html/2608.16177v2/heatmap.png" alt="" width="80" height="45" /></div></div>
+      </div>
+      <div>
+        <div class="vlabel">그림이 없다 — 안료 표지</div>
+        <div class="cat-releases"><div class="thumb"></div></div>
+      </div>
+      <div>
+        <div class="vlabel">주소가 죽었다 — 표지가 뒤에서 비친다</div>
+        <div class="cat-news"><div class="thumb"><img class="thumb-img" src="https://arxiv.org/html/0000.00000v1/gone.png" alt="" width="80" height="45" /></div></div>
+      </div>
+      <div>
+        <div class="vlabel">먹 2단계도 같다</div>
+        <div class="cat-notes"><div class="thumb"></div></div>
+      </div>
+    </div>
+    <p class="note">셋째 칸이 요점이다. 주소가 죽으면 브라우저가 그 자리를 안 그리고 <b>표지가 그대로 비친다</b> —
+    <code>onError</code> 도 자바스크립트도 필요 없다. 빈 <code>alt</code> 가 깨진 아이콘까지 막는다.</p>
+    <p class="note">창을 <b>640px 아래로 좁히면</b> 그림 열이 통째로 사라지고 번호만 남는다.
+    80px 을 떼야 제목이 두 줄로 접히는 것을 막을 수 있기 때문이다.</p>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Index</span><h2>색인 — <code>.index-row</code></h2>
+    <p class="note">되찾는 면(<code>/archive</code> · <code>/topics</code> · <code>/search</code> · <code>/sources</code>)의 행이다.
+    번호·날짜·제목·구분 넷뿐이고 그림이 없다 — <b>「균일한 피드」는 홈의 결정이지 사이트 전체의 결정이 아니다.</b></p>
+  </div>
+
+  <div class="stage">
+    <div>
+      <div class="index-row cat-papers"><span class="index-no voice-source">06</span><span class="voice-source">2026.08.19</span><span class="t">에이전트 하네스, RL 학습의 핵심 변수로 부상하다</span><span class="cat-label">논문</span></div>
+      <div class="index-row cat-releases"><span class="index-no voice-source">06</span><span class="voice-source">2026.08.19</span><span class="t">Codex CLI 0.148: 대화 내보내기, 포크, 그리고 Bedrock 지원</span><span class="cat-label">릴리즈</span></div>
+      <div class="index-row cat-news"><span class="index-no voice-source">06</span><span class="voice-source">2026.08.19</span><span class="t">OpenAI Codex 하네스 설계의 핵심 원리</span><span class="cat-label">소식</span></div>
+      <div class="index-row cat-community"><span class="index-no voice-source">02</span><span class="voice-source">2026.08.19</span><span class="t">같은 유효 배치 크기, 다른 학습 시간: TRL과 LoRA의 그라디언트 누적 효과</span><span class="cat-label">커뮤니티</span></div>
+      <div class="index-row cat-notes"><span class="index-no voice-source">06</span><span class="voice-source">2026.08.17</span><span class="t">에이전트 눈높이에 맞춘 문서화: OpenWiki의 구조와 철학</span><span class="cat-label">기록</span></div>
+    </div>
+    <p class="note">맨 앞이 축 번호다. 두 자리 고정폭 mono 라 <b>폭이 내용에 안 달렸고</b>, 그래서 제목의 왼쪽 끝이 흔들리지 않는다.</p>
+  </div>
+
+  <div class="demo-head"><span class="kicker">Entry</span><h2>레일 항목 — <code>.entry</code></h2>
+    <p class="note">글 목록이 아니라 <b>분류를 세는 자리</b>가 쓴다 (<code>/topics</code> · <code>/sources</code> · 릴리즈 묶음).
+    좌측 레일 폭이 고정이라 행 높이가 달라져도 제목의 왼쪽 끝은 흔들리지 않는다.
+    밀도는 화면이 정한다 — <code>.list-tight</code> / 기본 / <code>.list-loose</code> 로 감싸면 <code>--entry-pad</code> 가 바뀐다.</p>
   </div>
 
   <div class="stage">
     <div class="vlabel">.list-tight — 색인·아카이브</div>
     <div class="list-tight">
-      <div class="entry cat-papers"><div class="entry-rail voice-source">2026.08.05</div><div><span class="entry-title">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</span></div></div>
-      <div class="entry cat-news"><div class="entry-rail voice-source">2026.07.25</div><div><span class="entry-title">추론 엔드포인트 CLI 가 정식으로 나왔다</span></div></div>
+      <div class="entry cat-papers"><div class="entry-rail voice-source">01 검색</div><div><span class="entry-title">검색·RAG</span></div></div>
+      <div class="entry cat-papers"><div class="entry-rail voice-source">02 서빙</div><div><span class="entry-title">서빙·학습</span></div></div>
     </div>
 
     <div class="vlabel">기본</div>
     <div>
-      <div class="entry cat-papers"><div class="entry-rail voice-source">2026.08.05<br>arXiv:2608.01337</div>
-        <div><div class="cat-label">최신 논문</div><div class="entry-title">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</div></div></div>
-      <div class="entry cat-news"><div class="entry-rail voice-source">2026.07.25<br>huggingface.co</div>
-        <div><div class="cat-label">허깅페이스 소식</div><div class="entry-title">추론 엔드포인트 CLI 가 정식으로 나왔다</div></div></div>
+      <div class="entry cat-papers"><div class="entry-rail voice-source">43편</div>
+        <div><div class="cat-label">논문</div><div class="entry-title">arXiv·HF Daily Papers 를 읽고 추려 적는다</div></div></div>
+      <div class="entry cat-notes"><div class="entry-rail voice-source">1편</div>
+        <div><div class="cat-label">기록</div><div class="entry-title">직접 재 보고 직접 골라 추린 것</div></div></div>
     </div>
 
     <div class="vlabel">.list-loose — 카테고리 첫 화면</div>
     <div class="list-loose">
-      <div class="entry cat-papers"><div class="entry-rail voice-source">2026.08.05<br>arXiv:2608.01337</div>
-        <div><div class="cat-label">최신 논문</div><div class="entry-title">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</div>
-        <p class="text-muted" style="font-size:var(--text-small);margin-top:var(--space-1)">전문가 라우터를 본 학습과 분리해 먼저 굳히고 시작한다.</p></div></div>
+      <div class="entry cat-community"><div class="entry-rail voice-source">9편</div>
+        <div><div class="cat-label">커뮤니티</div><div class="entry-title">커뮤니티</div>
+        <p class="text-muted" style="font-size:var(--text-small);margin-top:var(--space-1)">HN·포럼·긱뉴스에서 관측한 논쟁을 묶어 적습니다. 원문이 하나가 아니라 여럿이라 링크도 여럿입니다.</p></div></div>
     </div>
-  </div>
-
-  <div class="demo-head"><span class="kicker">Open</span><h2>커버가 있는 글과 없는 글</h2>
-    <p class="note"><b>이건 아직 안 정했다.</b> 예전 설계에서 커버 있는 글 하나 때문에 같은 줄 카드가 전부 403px 로
-    늘어난 적이 있다. 아래는 시작점 하나일 뿐 — 더 나은 답을 찾으면 그걸 쓴다.</p>
-  </div>
-
-  <div class="stage">
-    <div class="vlabel">시작점 — 커버는 레일 안에 갇힌다. 없으면 자리도 안 생긴다</div>
-    <div>
-      <div class="entry cat-papers" style="align-items:start">
-        <div class="entry-rail" style="display:flex;flex-direction:column;gap:var(--space-2)">
-          <div class="thumb"></div>
-          <span class="voice-source">2026.08.05</span>
-        </div>
-        <div><div class="cat-label">최신 논문</div><div class="entry-title">MoE 라우팅을 두 단계로 쪼갠 학습 파이프라인</div></div>
-      </div>
-      <div class="entry cat-news" style="align-items:start">
-        <div class="entry-rail voice-source">2026.07.25</div>
-        <div><div class="cat-label">허깅페이스 소식</div><div class="entry-title">추론 엔드포인트 CLI 가 정식으로 나왔다</div></div>
-      </div>
-    </div>
-    <p class="note">행 높이가 커버 때문에 달라지지만 <b>레일 폭은 안 변한다</b> — 제목의 왼쪽 끝이 흔들리지 않는 것이 핵심이다.</p>
   </div>
 
 </main>

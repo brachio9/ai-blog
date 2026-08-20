@@ -100,7 +100,7 @@ export const ACCENT_TEXT: Record<CategoryAccent, string> = {
 
 /**
  * 안료 클래스 — globals.css 의 `.cat-*` 가 그 항목의 `--cat` 을 정한다.
- * 항목(.entry·.brief-item·.index-row·.entry-lead) 바깥쪽에 붙이면 안쪽의
+ * 항목(.row·.index-row·.entry) 바깥쪽에 붙이면 안쪽의
  * `.cat-label` · `.ratio` 가 그 색을 따라온다. 색 값을 컴포넌트에 적지 않기 위한 유일한 통로다.
  *
  * 클래스 이름은 `cat-{slug}` 규칙이다. 5칸 개편 전에는 `.cat-news` 가 朱土(옛 릴리즈·발표)였고
