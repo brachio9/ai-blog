@@ -1,0 +1,42 @@
+---
+title: 다양한 가치 기준에 맞춰 VLM을 평가하는 MAVEN 프레임워크
+category: papers
+axis: domain
+format: explainer
+summary: MAVEN은 평화와 정의 같은 거시적 사회 가치를 기준으로 다중모드 콘텐츠의 적합성을 평가하는 계층적 프레임워크다. 국제 인권 문헌과 문화 가치 이론을 바탕으로 6개 주요 차원과 72개 하위 지표로 구성되며, VLM의 가치 판단 능력을 정량적으로 측정한다.
+publishedAt: 2026-08-20T22:00:05+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.18096
+  title: 'MAVEN: A Macro-Societal Value Evaluation Framework of Multimodal Content with Compact Aligned Evaluators'
+  author: Zijuan Zhao
+  publishedAt: 2026-08-20T13:00:00+0900
+  words: 10235
+  image: https://arxiv.org/html/2608.18096v1/x1.png
+paper:
+  arxivId: '2608.18096'
+  authors:
+  - Zijuan Zhao
+  - Zheren Fu
+  - Hou Xia
+  - Licheng Zhang
+  - Yi Liu
+  - Zhendong Mao
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+기존의 다중모드 콘텐츠 평가 방식은 안전성 중심의 분류 체계나 텍스트 전용 심리 측정 도구, 단일 라벨 분류에 그치는 한계가 있었다. 이에 연구진은 국제 인권 문헌과 문화 가치 이론을 토대로 거시적 사회 가치를 평가할 수 있는 계층적 프레임워크인 MAVEN을 제안했다. 이 프레임워크는 가치를 6개의 주요 차원과 72개의 하위 지표로 조직화하여 다단계 정량 점수 부여를 지원한다.
+
+MAVEN을 기반으로 인간 검증이 완료된 다중모드 벤치마크와 소프트 매칭 메트릭을 구축해 시각-언어 모델(VLM)의 가치 평가 능력을 측정했다. 평가자 최적화를 위해 스팬 적응형 다단계 선호도 최적화 변종을 통해 평가자를 증류하고, 추론 시점에서는 학습 없이 다중 역할 합의를 도출하는 전략을 적용했다. 이를 통해 기존 오픈소스 및 폐쇄형 VLM들의 거시적 사회 가치 판단에서 공통된 경향성과 명확한 차이를 규명했다.
+
+저자들의 주장에 따르면, 제안된 컴팩트한 2B 파라미터 평가자는 같은 계열의 8B 모델과 성능이 맞먹으며 최첨단 폐쇄형 VLM에 근접하는 결과를 보였다. 이는 확장 가능한 거시적 사회 가치 평가를 위한 실용적인 경로를 제시한다는 의미다. 관련 코드와 벤치마크는 GitHub를 통해 공개되어 있다.
+
+---
+
+원문: [MAVEN: A Macro-Societal Value Evaluation Framework of Multimodal Content with Compact Aligned Evaluators](https://arxiv.org/abs/2608.18096)

@@ -1,0 +1,39 @@
+---
+title: Flama로 API와 LLM 서비스를 한 번에 구축하는 법
+category: papers
+axis: serving
+format: explainer
+summary: Flama는 Python 기반의 오픈소스 프레임워크로, REST API부터 머신러닝 모델 서빙 및 LLM 애플리케이션까지 단일 아키텍처에서 처리한다. ASGI를 기반으로 하며 타입 주석을 통한 의존성 주입과 자동 CRUD 생성 등 개발 편의성을 제공한다.
+publishedAt: 2026-08-20T22:00:05+0900
+tags:
+- MCP
+- vLLM
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.18733
+  title: 'Flama: a Python framework for development and deployment of production-ready APIs, machine learning, and LLM services'
+  author: Jos\'e A. Perdiguero L\'opez
+  publishedAt: 2026-08-20T13:00:00+0900
+paper:
+  arxivId: '2608.18733'
+  authors:
+  - Jos\'e A. Perdiguero L\'opez
+  - Miguel A. Dur\'an-Olivencia
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Flama는 프로덕션 수준의 웹 API, 머신러닝 서비스, 대규모 언어 모델(LLM) 애플리케이션을 개발하고 배포하기 위한 오픈소스 Python 프레임워크다. ASGI(Asynchronous Server Gateway Interface) 위에서 동작하며 타입 기반의 비동기 프로그래밍 모델을 채택해 REST API 개발과 예측 모델 서빙, 생성형 AI 추론을 하나의 아키텍처로 통합한다.
+
+이 프레임워크는 일곱 가지 하위 시스템으로 구성된다. 시작 시 타입 주석을 분석해 핸들러 파라미터를 해결하는 컴포넌트 기반 의존성 주입 시스템과 Pydantic, Marshmallow, Typesystem을 단일 어댑터로 지원하는 스키마 레이어가 포함된다. 또한 SQLAlchemy 테이블과 스키마 클래스로부터 Repository 및 Unit of Work 패턴을 기반으로 한 REST 엔드포인트를 자동 생성하는 CRUD 생성기, scikit-learn이나 TensorFlow 등 다양한 라이브러리의 모델을 메타데이터와 함께 .flm 포맷으로 패키징해 코드 없이 배포할 수 있는 기능도 제공한다.
+
+LLM 서버는 vLLM(Linux/CUDA) 또는 MLX(Apple Silicon) 백엔드를 지원하며 OpenAI, Anthropic, Ollama 프로토콜과 네이티브 스트리밍을 공유 코덱을 통해 노출한다. 라우팅과 JSON 인코딩, 압축 및 파싱 등 핵심 부분은 Maturin을 통해 컴파일된 Rust로 가속화되어 있으며, Model Context Protocol(MCP) 모듈을 통해 JSON-RPC 2.0 기반의 MCP 서버로도 동작할 수 있다.
+
+내장 기능으로는 JWT 인증, 두 가지 페이지네이션 전략, 스레드 또는 프로세스 기반 백그라운드 작업, WebSocket 엔드포인트, Server-Sent Event 및 NDJSON 스트리밍, 핸들러 시그니처로부터 OpenAPI 3.2.0 스펙 자동 생성, 그리고 애플리케이션 실행과 모델 서빙·패키징·검사를 위한 명령줄 인터페이스가 있다. 저자들은 이 아키텍처와 프로그래밍 모델을 예시와 함께 설명하고 기존 프레임워크 및 모델 서빙 플랫폼, LLM 추론 엔진과의 비교를 제시한다.
+
+---
+
+원문: [Flama: a Python framework for development and deployment of production-ready APIs, machine learning, and LLM services](https://arxiv.org/abs/2608.18733)

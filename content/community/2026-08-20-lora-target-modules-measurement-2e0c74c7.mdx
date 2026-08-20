@@ -1,0 +1,35 @@
+---
+title: LoRA 기본값 q_proj/v_proj, 정말 괜찮은가?
+category: community
+axis: serving
+format: explainer
+summary: 기존 LoRA 튜토리얼이 권장하는 q_proj와 v_proj를 타겟 모듈로 사용하는 방식의 한계를 지적한다. 저자는 새로운 작업 학습 시 기존 능력 유지도를 높이기 위해 모듈별 그라디언트 중복도를 분석한 결과를 공개했다.
+publishedAt: 2026-08-20T22:00:05+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/is-the-q-proj-v-proj-default-worth-revisiting-measurements-across-four-models/178990
+  title: Is the q_proj/v_proj default worth revisiting? Measurements across four models
+  author: Acedo
+  publishedAt: 2026-08-20T19:18:18+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/original/3X/d/5/d594f59ed4ce0b6e8776b94e10138b7c8a6d0493.png
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대부분의 LoRA 튜토리얼과 설정 파일은 원본 논문의 권고를 따라 query와 value 프로젝션(q_proj, v_proj)을 기본 타겟 모듈로 사용한다. 그러나 저자는 새로운 작업의 정확도보다는 기존 모델의 능력을 유지하는 것이 목표일 때 이 기본값이 여전히 유효한지 검증하기 위해 측정을 진행했다. 그라디언트 서브스페이스의 중복도가 가장 낮은 모듈을 선정하는 방식으로 실험한 결과, Llama-3-8B 모델을 코드를 산문으로 변환하는 작업에 파인튜닝할 때 기존 능력 유지도(HumanEval)가 크게 향상되는 것으로 나타났다.
+
+저자의 측정 결과에 따르면 q_proj와 v_proj를 기본값으로 사용할 때 HumanEval 점수가 54.1%였던 반면, 저자가 제안한 모듈 선정 방식을 적용하면 75.6%로 상승한다. 이는 10개의 시드 중 9개에서 확인된 결과이며, 흥미롭게도 최적의 모듈 세트에는 v_proj가 전혀 포함되지 않았다. 이는 기존 기본값의 절반에 해당하는 모듈이 오히려 성능 유지에 불리할 수 있음을 시사한다.
+
+이러한 모듈 유형별 순서 패턴은 Llama-3-8B, Mistral-7B, Qwen2.5-7B, TinyLlama-1.1B 등 네 가지 모델에서 일관되게 재현되었다. 구체적으로 o_proj가 가장 우선순위가 높고 v_proj는 최하위이거나 아예 제외되는 경향을 보였다. 다만 레이어 깊이에 따른 패턴은 모델마다 달라서 두 모델은 깊은 레이어에 집중하는 반면 다른 두 모델은 그렇지 않아, 고정된 규칙 하나로 모든 경우를 설명하기는 어렵다고 저자는 지적했다.
+
+저자는 모듈 유형과 레이어 깊이를 기반으로 한 간단한 규칙이 높은 예측 성능(AUROC 0.83~0.92)을 보이지만, 선택되는 모듈 세트가 기존 방식과 약 3분의 1 정도 차이가 난다고 밝혔다. 이 차이가 실제 유지도 개선으로 이어지는지 여부는 현재 진행 중인 실험이며 결과는 공개될 예정이다. 해당 측정 도구는 AGPL 라이선스이므로 Apache-2.0 프로젝트에 바로 통합하기는 어렵지만, 누구나 Google Colab을 통해 자신의 모델에 대해 재현하고 LoraConfig에 붙여넣기 가능한 target_modules 목록을 얻을 수 있다.
+
+---
+
+원문: [Is the q_proj/v_proj default worth revisiting? Measurements across four models](https://discuss.huggingface.co/t/is-the-q-proj-v-proj-default-worth-revisiting-measurements-across-four-models/178990)
