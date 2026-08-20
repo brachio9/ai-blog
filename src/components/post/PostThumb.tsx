@@ -3,23 +3,48 @@ import type { Post } from "@/types/content";
 /**
  * 목록 행의 왼쪽 고정폭 그림 자리 — 16:9, 80×45.
  *
- * **지금은 표지만 그린다.** 원문 그림 주소(`source.image`)를 채우는 것은 수집기 쪽 일이라
- * 뒤 step 에서 `<img>` 가 이 상자 안에 얹힌다. 그때 열 폭이 바뀌지 않도록 상자를 먼저 세운다.
+ * **`next/image` 를 쓰지 않는다. `next.config.ts` 의 `remotePatterns` 도 열지 않는다.**
+ * 이게 이 파일에서 가장 중요한 한 줄이다. 최적화기를 태우면 Vercel 이 원본을 받아 변환해
+ * **우리 인프라에 파생 사본을 캐시하고 우리 도메인에서 재배포**한다 — 「복제가 아니라
+ * 임베드」라는 근거가 그 자리에서 사라진다. 게다가 `remotePatterns: "**"` 는
+ * `/_next/image?url=` 을 공개 이미지 프록시로 만들고, 열거 방식은 목록에 없는 호스트가
+ * 발행되는 순간 프로덕션 500 이다. 안 열면 이 질문 자체가 사라진다.
  *
- * 표지는 **카테고리 안료를 지면에 아주 옅게 섞은 판**이다 (globals.css `.thumb`).
- * 안료를 그대로 칠하면 스무 행에 큰 색판 스무 개가 서서 부호가 아니라 벽지가 된다 —
- * 안료의 명도는 원래 작은 글자용이다.
+ * 대가(srcset·AVIF 없음)는 80×45 에서 무의미하다. 수집기가 애초에 작은 원본을 고른다
+ * (유튜브 `hqdefault` 480×360 ≈ 20KB — `maxres` 를 쓰지 마라).
  *
- * **축 번호를 여기 적지 않는다.** 바로 오른쪽 열이 이미 그 번호다. 굽지 않으므로 요청도
- * 빌드도 0 이고, `opengraph-image.tsx` 가 경고한 satori 의 oklch 수동 동기화를
- * 한 곳 더 만들지도 않는다 — 1200×630 카드를 80×45 로 줄여 봐야 제목은 안 읽힌다.
+ * **`referrerPolicy` 를 덮어쓰지 마라.** 호스트가 누가 임베드하는지 보고 원치 않으면
+ * 막을 수 있어야 한다 — 그 통제권이 상대에게 남는 것이 「임베드」의 실질이다.
  *
- * `aria-hidden` 인 것은 순수 장식이기 때문이다 — 같은 행의 제목 링크가 이미 그 글을 말한다.
- * 안료는 행(`.row`)의 `.cat-*` 가 정한 `--cat` 을 물려받는다.
+ * 실패는 두 층으로 받는다. `onError` 도 자바스크립트도 쓰지 않는다:
+ *
+ *   주소가 없다  → `<img>` 를 아예 안 그린다     → 표지가 그대로 보인다
+ *   주소가 죽었다 → 브라우저가 그 자리를 안 그린다 → **표지가 뒤에서 비친다**
+ *
+ * `alt=""` 가 정답이다 — 옆에 제목 링크가 있으므로 순수 장식이고, 빈 alt 는 대부분의
+ * 브라우저에서 깨진 이미지 아이콘도 억제한다.
+ *
+ * 표지는 카테고리 안료를 지면에 아주 옅게 섞은 판이다 (globals.css `.thumb`).
+ * 안료를 그대로 칠하면 스무 행에 큰 색판이 서서 부호가 아니라 벽지가 된다.
+ * 축 번호도 적지 않는다 — 바로 오른쪽 열이 이미 그 번호다.
  */
 export function PostThumb({ post }: { post: Post }) {
-  // 지금은 상자만 그리지만 곧 이 글의 그림 주소를 읽는다 — 계약을 미리 세워 둔다.
-  void post;
+  const image = post.frontmatter.source?.image;
 
-  return <div aria-hidden className="thumb" />;
+  return (
+    <div aria-hidden className="thumb">
+      {image ? (
+        // eslint-disable-next-line @next/next/no-img-element -- 위 주석이 근거다
+        <img
+          className="thumb-img"
+          src={image}
+          alt=""
+          width={80}
+          height={45}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : null}
+    </div>
+  );
 }

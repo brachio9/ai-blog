@@ -73,6 +73,24 @@ const sourceSchema = z.object({
     .int("source.words 는 정수여야 한다 (원문 단어 수)")
     .positive("source.words 는 1 이상이어야 한다")
     .optional(),
+  /**
+   * 원문 페이지가 쓰던 그림의 **주소**. 목록 썸네일이 이걸 그대로 임베드한다.
+   *
+   * **`source` 안에 두는 것이 핵심이다.** 「이 그림은 `source.url` 페이지에서 왔다」가
+   * 관례가 아니라 구조가 되고, 출처가 어긋날 방법이 없어진다. `notes`(사람이 쓴 글)에는
+   * `source` 가 없으니 자동으로 표지로 떨어진다.
+   *
+   * **호스트 화이트리스트를 여기 두지 마라.** 스키마 실패는 `next build` 를 깨뜨린다 —
+   * 처음 보는 호스트 하나가 사이트 전체를 못 세우게 만든다. 어느 그림을 버릴지는
+   * 수집기가 정한다 (`chorok/draft/figures.py`).
+   */
+  image: z
+    .url("source.image 는 유효한 URL 이어야 한다")
+    .refine(
+      (value) => value.startsWith("https://"),
+      "source.image 는 https 여야 한다 — http 그림은 브라우저가 막아 빈칸이 된다",
+    )
+    .optional(),
 });
 
 const popularitySchema = z.object({
