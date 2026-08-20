@@ -176,7 +176,7 @@ export function SearchClient() {
       ) : (
         /* 검색 결과는 색인 성격이다 — 찾던 것을 골라내는 자리라 날짜·제목·구분 3열이면 된다.
            밀도는 기본값 그대로 둔다 (아카이브만큼 촘촘할 이유도, 카테고리만큼 벌릴 이유도 없다). */
-        <PostList items={results} basePath={basePath} variant="index" />
+        <PostList items={results} basePath={basePath} density="index" />
       )}
     </div>
   );

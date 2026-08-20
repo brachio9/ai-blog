@@ -14,10 +14,9 @@ import {
   listHref,
   paginate,
 } from "@/lib/pagination";
-import type { PaperMeta, Post } from "@/types/content";
+import type { PaperMeta, Post, PostSelection } from "@/types/content";
 
-import { PostIndexRow } from "./PostIndexRow";
-import { PostTable } from "./PostTable";
+import { PostRow } from "./PostRow";
 import { FilterChips, type ChipGroup } from "./FilterChips";
 import { ViewCounts } from "./ViewCounts";
 
@@ -35,6 +34,10 @@ export interface PostListItem {
   format?: FormatSlug;
   /** 논문이면 식별자 열에 arXiv ID 가 나온다 */
   paper?: PaperMeta;
+  /** 「추린 비율」. 서버가 미리 잰 값이라 목록이 본문을 들고 다니지 않아도 된다 */
+  ratio?: number | null;
+  /** 선별 경위 — 목록의 부호(교차 · ▲ · †)가 읽는다 */
+  selection?: PostSelection;
 }
 
 export interface PostListProps {
@@ -44,20 +47,21 @@ export interface PostListProps {
    * 검색 페이지처럼 유지해야 할 쿼리가 있으면 `"/search?q=추론"` 처럼 붙여서 넘긴다.
    */
   basePath: string;
-  showCategory?: boolean;
-  showIdentifier?: boolean;
-  showSummary?: boolean;
   reserveViews?: boolean;
   /**
-   * 항목의 성격. `"index"` 는 되찾기용 3열 색인이고 기본은 레일이 붙은 항목이다.
-   * 밀도(`.list-tight` / `.list-loose`)는 여기가 아니라 감싸는 화면이 정한다.
+   * 행의 성격. **되찾는 면은 `"index"` 가 기본이다** — `/archive` · `/topics` · `/search` 는
+   * 찾으러 오는 자리라 썸네일 스무 개가 목적을 방해한다.
+   * 「균일한 피드」는 홈의 결정이지 사이트 전체의 결정이 아니다.
    */
-  variant?: "entry" | "index";
+  density?: "feed" | "index";
 }
 
 /**
- * PostTable 의 계약은 Post 다. 목록은 본문(body)을 클라이언트로 넘기지 않으므로
- * 표가 읽는 필드만 채워 되돌린다 — 표를 새로 만들지 않기 위한 어댑터다.
+ * `PostRow` 의 계약은 Post 다. 목록은 본문(body)을 클라이언트로 넘기지 않으므로
+ * 행이 읽는 필드만 채워 되돌린다 — 행을 두 벌로 만들지 않기 위한 어댑터다.
+ *
+ * `ratio` 가 여기 실려 오는 것이 요점이다. 예전에는 본문에서 그 자리에서 셌기 때문에
+ * body 가 없는 목록에서는 비율을 그릴 수 없었다.
  */
 export function toPost(item: PostListItem): Post {
   return {
@@ -69,15 +73,16 @@ export function toPost(item: PostListItem): Post {
       publishedAt: item.publishedAt,
       tags: item.tags,
       paper: item.paper,
+      selection: item.selection,
       draft: false,
-      lead: false,
     },
     slug: item.slug,
     category: item.category,
     body: "",
-    // 원본 경로는 에러 메시지용이라 목록에는 넘어오지 않는다. PostTable 도 읽지 않는다.
+    // 원본 경로는 에러 메시지용이라 목록에는 넘어오지 않는다. PostRow 도 읽지 않는다.
     filePath: "",
     readingMinutes: item.readingMinutes,
+    ratio: item.ratio ?? null,
   };
 }
 
@@ -94,11 +99,8 @@ function viewId(item: PostListItem): string {
 export function PostList({
   items,
   basePath,
-  showCategory,
-  showIdentifier,
-  showSummary,
   reserveViews,
-  variant = "entry",
+  density = "index",
 }: PostListProps) {
   const searchParams = useSearchParams();
 
@@ -189,21 +191,16 @@ export function PostList({
         /* 조회수는 지금 보이는 페이지의 글만, 한 번에 물어본다.
            reserveViews 가 꺼져 있으면 채울 칸이 없으므로 호출도 하지 않는다. */
         <ViewCounts ids={reserveViews ? visible.map(viewId) : []}>
-          {variant === "index" ? (
-            <ul role="list" aria-label="글 목록">
-              {visible.map((item) => (
-                <PostIndexRow key={viewId(item)} post={toPost(item)} />
-              ))}
-            </ul>
-          ) : (
-            <PostTable
-              posts={visible.map(toPost)}
-              showCategory={showCategory}
-              showIdentifier={showIdentifier}
-              showSummary={showSummary}
-              reserveViews={reserveViews}
-            />
-          )}
+          <ul role="list" aria-label="글 목록">
+            {visible.map((item) => (
+              <PostRow
+                key={viewId(item)}
+                post={toPost(item)}
+                density={density}
+                reserveViews={reserveViews}
+              />
+            ))}
+          </ul>
         </ViewCounts>
       )}
 

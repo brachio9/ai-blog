@@ -1,95 +1,121 @@
 @import "tailwindcss";
 
-/* Tailwind v4 의 dark: 는 기본이 prefers-color-scheme 이다.
-   사용자 토글(.dark 클래스)로 제어하려면 이 선언이 반드시 필요하다. */
-@custom-variant dark (&:where(.dark, .dark *));
+/* **밤이 기본이라 변형은 light 쪽이다.** Tailwind v4 의 dark: 는 기본이
+   prefers-color-scheme 인데 우리는 그것을 보지 않는다 (src/lib/theme.ts). */
+@custom-variant light (&:where(.light, .light *));
 
 /* ==========================================================================
    토큰 — 정본은 design/styles.css 의 :root 블록이다.
+   값을 새로 만들지 마라. 고칠 일이 생기면 정본을 먼저 고치고 여기로 옮긴다.
+   **두 파일이 갈라지면 src/lib/design-tokens.test.ts 가 잡는다.**
 
-   여기 있는 값은 전부 거기서 옮겨 온 것이고 앱이 값을 새로 만들지 않는다.
-   고칠 일이 생기면 design/styles.css 를 먼저 고치고 이 블록을 다시 옮겨 온다.
+   이름 규칙 (이번 개편에서 세운 것):
+     `--color-*` · `--text-*` · `--radius-*`  = Tailwind 이름 공간. @theme 가 소유한다.
+     접두사 없는 이름 (--bg · --muted · --cat-*) = 우리 역할 층. :root 가 소유한다.
 
-   이 블록은 어느 캐스케이드 레이어에도 속하지 않는다(unlayered).
-   Tailwind 의 @theme 는 @layer theme 안으로 들어가므로, 이름이 겹치는
-   --color-neutral-* · --radius-* · --shadow-lg · --font-mono 는 레이어 밖인
-   이 블록이 이긴다. 선언 순서가 아니라 레이어 규칙이라 뒤집히지 않는다.
+   그래서 `@theme inline { --color-bg: var(--bg) }` 가 자기참조가 아니게 된다.
+   이 한 줄이 개편 전에는 불가능했다 — 원료와 역할이 같은 이름 공간에 있었다.
    ========================================================================== */
 
+/* --- ① 원료 — 지면이 바뀌어도 안 변한다. -------------------------------
+   `static` 은 「쓰이지 않는 변수를 빌드에서 제거」를 끈다.
+   **--color-chart-2..5 가 조용히 사라졌던 사건이 여기서 구조적으로 막힌다.** */
+@theme static {
+  /* 먹 — hue 255 고정. 이전 척도는 85 → 70 으로 흘러서 미색(신문 용지)으로 읽혔다.
+     채도가 0 이 아닌 것은 의도다 — 순회색은 「설정하지 않은 관리자 화면」이다. */
+  --color-ink-50: oklch(0.985 0.002 255);
+  --color-ink-100: oklch(0.960 0.003 255);
+  --color-ink-200: oklch(0.905 0.005 255);
+  --color-ink-300: oklch(0.820 0.007 255);
+  --color-ink-400: oklch(0.690 0.009 255);
+  --color-ink-500: oklch(0.575 0.011 255);
+  --color-ink-600: oklch(0.480 0.012 255);
+  --color-ink-700: oklch(0.385 0.013 255);
+  --color-ink-800: oklch(0.285 0.014 255);
+  --color-ink-900: oklch(0.215 0.014 255);
+  --color-ink-950: oklch(0.165 0.013 255);
+  --color-ink-975: oklch(0.128 0.011 255);
+
+  /* 草綠 — 이름과 같은 색이고 지면에서 유일한 고채도 색이다.
+     hue 140 이 아니라 148: 140 은 채도를 올릴수록 형광 연두로 간다. */
+  --color-green-100: oklch(0.925 0.060 148);
+  --color-green-300: oklch(0.815 0.140 148);
+  --color-green-500: oklch(0.715 0.190 148);
+  --color-green-600: oklch(0.640 0.180 148);
+  --color-green-700: oklch(0.545 0.155 148);
+  --color-green-800: oklch(0.430 0.115 148);
+
+  /* 활자 크기 — `text-[length:var(--text-small)]` 대신 `text-small` 을 쓰게 한다. */
+  --text-h1: 30px;
+  --text-h2: 23px;
+  --text-h3: 19px;
+  --text-h4: 17px;
+  --text-h5: 15px;
+  --text-h6: 13px;
+  --text-body: 15.5px;
+  --text-small: 13.5px;
+  --text-meta: 12.5px;
+
+  /* 모서리 — 접미사 없는 `rounded` 까지 여기서 정해야 리터럴 .25rem 이 사라진다. */
+  --radius: 4px;
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 10px;
+  --radius-full: 9999px;
+}
+
+/* --- ② 역할 — 지면(낮/밤)마다 갈린다. -----------------------------------
+   이 블록은 어느 캐스케이드 레이어에도 속하지 않는다(unlayered).
+   Tailwind 의 @theme 는 @layer theme 안이라, 이름이 겹치면 레이어 밖인 여기가 이긴다. */
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
-  /* --- 안료 ramps — OKLCH 공통 명도 척도 --------------------------------
-     같은 단계의 세 안료는 시각적 무게가 같다. 낮은 600, 밤은 300 이 기본 배정. */
+  /* --- 밤 (dark ground) — **기본 지면이다** */
+  --bg: var(--color-ink-950);
+  --surface: var(--color-ink-900);
+  --border: var(--color-ink-800);
+  --heading: var(--color-ink-100);
+  --body: var(--color-ink-100);
+  --muted: var(--color-ink-400);
+  /* 바탕 대비가 본문 기준(4.5:1)에 못 미친다. 정보를 담지 않는 곳에만 쓴다. */
+  --faint: var(--color-ink-600);
+  --accent: var(--color-green-500);
+  --focus: var(--accent);
+  --selection: var(--color-green-800);
+  /* 입체 — 밤에서만 쓰는 장치다. 낮 지면에서 흰 inset 은 아무 일도 하지 않는다. */
+  --edge-top: inset 0 1px 0 oklch(1 0 0 / 0.05);
 
-  /* 草綠 chorok — 최신 논문 · 포커스.
-     셋 중 이 ramp 만 채도가 한 단계 높다 — 녹색은 같은 채도에서 지각적으로
-     가장 무채색에 가깝게 읽히기 때문이다 (실측하고 올린 값). */
-  --color-accent-100: oklch(0.940 0.029 140);
-  --color-accent-200: oklch(0.870 0.048 140);
-  --color-accent-300: oklch(0.780 0.068 140);
-  --color-accent-400: oklch(0.680 0.086 140);
-  --color-accent-500: oklch(0.580 0.095 140);
-  --color-accent-600: oklch(0.500 0.095 140);
-  --color-accent-700: oklch(0.420 0.087 140);
-  --color-accent-800: oklch(0.330 0.074 140);
-  --color-accent-900: oklch(0.240 0.057 140);
+  /* 카테고리 (정보 부호) — src/lib/categories.ts 의 accent 키와 짝이다.
+     **채도가 액센트의 1/3 이하다** (C 0.07 대 0.19). 부호가 액센트를 이기면
+     한 화면에 고채도 색이 여섯이 되고 「액센트 1색」이 무너진다.
+     안료 3색 + 먹 2단계인 것은 타협이 아니라 부호다 — community 는 원문이 여럿이라
+     하나를 가리킬 수 없고, notes 는 사람이 골랐다는 것 자체가 기준이다 (CLAUDE.md). */
+  --cat-paper: oklch(0.780 0.050 148); /* 논문 — 草綠 저채도 · 밤 바탕 9.81:1 */
+  --cat-release: oklch(0.780 0.050 40); /* 릴리즈 — 朱土 · 9.47:1 */
+  --cat-news: oklch(0.780 0.050 250); /* 소식 — 藍 · 9.67:1 */
+  /* 먹 2칸은 안료와 달리 자동으로 뒤집히지 않는다 — 낮의 명도 순서(中 < 濃)를
+     밤에서도 지키려면 밝은 쪽으로 옮겨야 한다. */
+  --cat-community: var(--color-ink-400); /* 커뮤니티 — 먹 中 */
+  --cat-note: var(--color-ink-200); /* 기록 — 먹 濃 */
 
-  /* 朱土 jueto — 허깅페이스 소식 */
-  --color-accent-2-100: oklch(0.940 0.030 40);
-  --color-accent-2-200: oklch(0.870 0.050 40);
-  --color-accent-2-300: oklch(0.780 0.072 40);
-  --color-accent-2-400: oklch(0.680 0.090 40);
-  --color-accent-2-500: oklch(0.580 0.100 40);
-  --color-accent-2-600: oklch(0.500 0.100 40);
-  --color-accent-2-700: oklch(0.420 0.092 40);
-  --color-accent-2-800: oklch(0.330 0.078 40);
-  --color-accent-2-900: oklch(0.240 0.060 40);
+  /* 차트 계열 색 (순서대로 사용). **이름을 바꾸지 마라** — src/components/mdx/Chart.tsx 가
+     이 이름으로 읽고, 없는 변수를 받은 Recharts 는 경고도 없이 검정으로 칠한다. */
+  --chart-1: var(--cat-paper);
+  --chart-2: var(--cat-release);
+  --chart-3: var(--cat-news);
+  --chart-4: var(--color-ink-300);
+  --chart-5: var(--color-ink-500);
 
-  /* 藍 nam — 수집 자료 */
-  --color-accent-3-100: oklch(0.940 0.023 250);
-  --color-accent-3-200: oklch(0.870 0.038 250);
-  --color-accent-3-300: oklch(0.780 0.054 250);
-  --color-accent-3-400: oklch(0.680 0.068 250);
-  --color-accent-3-500: oklch(0.580 0.075 250);
-  --color-accent-3-600: oklch(0.500 0.075 250);
-  --color-accent-3-700: oklch(0.420 0.069 250);
-  --color-accent-3-800: oklch(0.330 0.059 250);
-  --color-accent-3-900: oklch(0.240 0.045 250);
-
-  /* 먹 — 따뜻한 중성. 순회색도 순검정도 쓰지 않는다.
-     Tailwind 기본 팔레트의 같은 이름을 덮어쓴다 — 의도한 것이다.
-     neutral-* 유틸리티를 쓰면 이 따뜻한 척도가 나온다. */
-  --color-neutral-100: oklch(0.968 0.006 85);
-  --color-neutral-200: oklch(0.938 0.008 85);
-  --color-neutral-300: oklch(0.870 0.008 85);
-  --color-neutral-400: oklch(0.740 0.009 82);
-  --color-neutral-500: oklch(0.610 0.009 80);
-  --color-neutral-600: oklch(0.520 0.008 78);
-  --color-neutral-700: oklch(0.400 0.008 75);
-  --color-neutral-800: oklch(0.300 0.008 72);
-  --color-neutral-900: oklch(0.235 0.008 70);
-
-  /* --- 낮 (light ground) — 표백하지 않은 종이 ---------------------------- */
-  --color-bg: var(--color-neutral-100);
-  --color-surface: var(--color-neutral-200);
-  --color-text: var(--color-neutral-900);
-  --color-muted: var(--color-neutral-600);
-  --color-line: var(--color-neutral-300);
-  --color-accent: var(--color-accent-600);
-  --color-accent-2: var(--color-accent-2-600);
-  --color-accent-3: var(--color-accent-3-600);
-  --color-selection: var(--color-accent-200);
-
-  /* --- 활자 — 두 개의 목소리 --------------------------------------------
-     초록의 목소리는 한글 명조, 원문의 목소리는 영문·숫자 mono, UI 는 산세리프.
-     글꼴 이름을 직접 쓰지 않고 next/font 가 만든 변수를 경유한다.
+  /* --- 활자 — **한 목소리 + mono**. 한글 산문은 산세리프 한 벌이고 mono 는
+     손대지 않은 원문 재료에만 쓴다. 글꼴 이름을 직접 쓰지 않고 next/font 변수를 경유한다.
      한글 폴백을 지우지 마라 — 한글 범위는 preload 되지 않아 첫 페인트에 잠깐 보이고,
      mono 에는 한글 글리프가 아예 없다. */
-  --font-heading: var(--font-noto-serif-kr), "Apple SD Gothic Neo",
-    "Malgun Gothic", serif;
-  --font-body: var(--font-noto-serif-kr), "Apple SD Gothic Neo", "Malgun Gothic",
-    serif;
+  --font-heading: var(--font-plex-sans-kr), "Apple SD Gothic Neo",
+    "Malgun Gothic", sans-serif;
+  --font-body: var(--font-plex-sans-kr), "Apple SD Gothic Neo", "Malgun Gothic",
+    sans-serif;
   --font-ui: var(--font-plex-sans-kr), "Apple SD Gothic Neo", "Malgun Gothic",
     sans-serif;
   --font-mono: var(--font-plex-mono), "Apple SD Gothic Neo", "Malgun Gothic",
@@ -98,145 +124,78 @@
   --font-heading-weight: 600;
   --font-body-weight: 400;
 
-  --text-h1: 40px;
-  --text-h2: 27px;
-  --text-h3: 21px;
-  --text-h4: 17px;
-  --text-h5: 15px;
-  --text-h6: 13px;
-  --text-body: 16.5px; /* 한글 명조 읽기 크기 — 산세리프보다 한 눈금 크게 */
-  --text-small: 13.5px;
-  --text-meta: 12.5px; /* mono 자리 */
-
-  --leading-heading: 1.3;
-  --leading-body: 1.85; /* 한글은 넉넉해야 읽힌다 */
+  --leading-heading: 1.25;
+  --leading-body: 1.7;
   --leading-tight: 1.5;
+  --tracking-heading: -0.012em;
   --tracking-meta: 0.04em;
 
-  /* --- 간격 — density 1.15 ----------------------------------------------
-     8의 배수가 아닌 것이 의도다. 눈으로 정한 값이니 "정리"하지 마라. */
-  --space-1: 5px;
-  --space-2: 9px;
-  --space-3: 14px;
-  --space-4: 18px;
-  --space-5: 28px;
-  --space-6: 37px;
-  --space-7: 55px;
-  --space-8: 74px;
-  --space-9: 110px;
+  /* --- 간격 — 4px 척도. 1~4 는 Tailwind 기본 간격과 값이 같다 (`gap-3` == `--space-3`).
+     5 부터는 눈으로 정한 뜀이라 인덱스가 어긋난다 — 값만 4의 배수다. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
 
-  /* --- 모서리 — 각진 것이 기본값. 취향이지 불변이 아니다. */
-  --radius-none: 0;
-  --radius-sm: 2px;
-  --radius-md: 2px;
-  --radius-lg: 2px;
-
-  /* --- 그림자 — 지면은 떠 있지 않다.
-     겹칠 수밖에 없는 것(다이얼로그·팝오버)만 예외라서 lg 하나만 값이 있다. */
+  /* --- 그림자 — 지면은 떠 있지 않다. 겹칠 수밖에 없는 것만 예외라 lg 하나만 값이 있다. */
   --shadow-sm: none;
   --shadow-md: none;
-  --shadow-lg: 0 14px 40px oklch(0.235 0.008 70 / 0.28);
+  --shadow-lg: 0 14px 40px oklch(0.128 0.011 255 / 0.45);
 
-  /* --- 지면의 치수 -------------------------------------------------------- */
+  /* --- 지면의 치수 */
   --rule-hair: 1px; /* 이 시스템이 쓰는 유일한 구분자의 굵기 */
-  --measure: 68ch; /* 본문 최대 폭 */
-  --rail: 136px; /* 좌측 메타 열 — arXiv 식별자 한 줄이 들어가는 폭 */
-  --page-max: 1080px; /* 지면 최대 폭 */
+  --measure: 66ch; /* 본문 최대 폭 */
+  --rail: 104px; /* 좌측 메타 열 */
+  --page-max: 960px; /* 지면 최대 폭 */
   --entry-pad: var(--space-3); /* 목록 밀도 — 화면마다 덮어쓴다 */
 
-  /* --- 차트 계열 색 (순서대로 사용) — 안료 3색 + 먹 두 단계.
-     이름을 바꾸지 마라 — src/components/mdx/Chart.tsx 가 이 이름으로 읽고,
-     없는 변수를 받은 Recharts 는 경고도 없이 검정으로 칠한다. */
-  --chart-1: var(--color-accent-600);
-  --chart-2: var(--color-accent-2-600);
-  --chart-3: var(--color-accent-3-600);
-  --chart-4: var(--color-neutral-700);
-  --chart-5: var(--color-neutral-500);
-
-  /* --- 구 토큰 별칭 -------------------------------------------------------
-     40여 개 컴포넌트가 아직 이 이름들을 쓴다 (@theme inline 이 유틸리티로 노출).
-     별칭만 새 토큰을 가리키게 해 두면 화면이 즉시 새 팔레트로 바뀌고,
-     이후 step 들이 자기 담당 화면만 새 이름으로 이관한다. 지우지 마라. */
-  --bg: var(--color-bg);
-  --surface: var(--color-surface);
-  --border: var(--color-line);
-  /* 새 시스템은 제목과 본문의 색을 나누지 않는다 — 둘 다 --color-text 다. */
-  --heading: var(--color-text);
-  --body: var(--color-text);
-  --muted: var(--color-muted);
-  /* 바탕 대비가 텍스트 기준(3:1)에 못 미친다.
-     구분 기호·비활성 상태·연한 경계선처럼 정보를 담지 않는 곳에만 쓴다. */
-  --faint: var(--color-neutral-400);
-  /* 포커스 링은 사이트 이름의 색(草綠)이 "지금 여기"를 가리킨다. */
-  --focus: var(--color-accent);
-
-  /* 카테고리 (정보 부호) — src/lib/categories.ts 의 accent 키와 짝이다.
-     안료 3색 + 먹 2단계. 네 번째·다섯 번째 안료를 만들지 않은 것은 타협이 아니라 부호다 —
-     community 는 원문이 여럿이라 하나를 가리킬 수 없고, notes 는 옮길 원문이 아예 없다.
-     색을 안 쓰는 것이 그 사실을 말한다 (docs/UI_GUIDE.md).
-     낮 바탕(--color-neutral-100) 대비: 먹 600 은 5.02:1, 먹 800 은 12.44:1 로 본문 4.5:1 을 넘는다. */
-  --cat-paper: var(--color-accent); /* 논문 — 草綠 */
-  --cat-release: var(--color-accent-2); /* 릴리즈 — 朱土 */
-  --cat-news: var(--color-accent-3); /* 소식 — 藍 */
-  --cat-community: var(--color-neutral-600); /* 커뮤니티 — 먹 中 */
-  --cat-note: var(--color-neutral-800); /* 기록 — 먹 濃 */
-
-  --sans: var(--font-ui);
-  --serif: var(--font-body);
-  --mono: var(--font-mono);
-
-  /* 시맨틱 (콜아웃·상태) — 디자인 시스템이 아직 상태색을 정하지 않았다.
-     안료 3색은 카테고리 부호로 예약되어 있어 겹쳐 쓸 수 없으므로 기존 값을 둔다. */
-  --success: #3f7d3a;
-  --warning: #8a5a00;
-  --danger: #b02020;
-  --info: #0f6b63;
-}
-
-/* 밤 (dark ground) — 순검정이 아니라 따뜻한 먹빛.
-   design/styles.css 의 밤 블록을 그대로 옮겼고, 셀렉터만 앱의 .dark 클래스로 바꿨다.
-   낮과 밤은 서로의 반전이 아니라 같은 종이의 두 시간이다. */
-.dark {
-  color-scheme: dark;
-
-  --color-bg: oklch(0.175 0.008 80);
-  --color-surface: oklch(0.215 0.009 80);
-  --color-text: oklch(0.915 0.010 85);
-  --color-muted: oklch(0.660 0.010 82);
-  --color-line: oklch(0.300 0.009 80);
-  --color-accent: var(--color-accent-300);
-  --color-accent-2: var(--color-accent-2-300);
-  --color-accent-3: var(--color-accent-3-300);
-  --color-selection: var(--color-accent-900);
-
-  /* 별칭은 새 토큰을 따라 자동으로 뒤집힌다 — 방향이 갈리는 것만 다시 정한다.
-     --faint 는 --color-muted 보다 어두워야 하는데 밤에는 척도가 뒤집힌다. */
-  --faint: var(--color-neutral-600);
-
-  /* 카테고리의 먹 2칸은 안료와 달리 자동으로 뒤집히지 않는다 —
-     --color-accent* 는 위에서 600→300 으로 갈리지만 --color-neutral-* 는 낮밤이 같은 척도다.
-     밤 바탕(oklch 0.175) 대비로 재면 600 은 3.44:1, 800 은 1.39:1 로 본문 기준(4.5:1) 미달이고
-     특히 800 은 바탕에 그대로 묻힌다. 그래서 밝은 쪽으로 뒤집는다: 400 은 8.22:1, 200 은 15.81:1.
-     낮의 명도 순서(中 < 濃)는 밤에서도 유지된다 — 기록이 커뮤니티보다 늘 진하게 보인다. */
-  --cat-community: var(--color-neutral-400); /* 커뮤니티 — 먹 中 (밤) */
-  --cat-note: var(--color-neutral-200); /* 기록 — 먹 濃 (밤) */
-
-  --chart-1: var(--color-accent-300);
-  --chart-2: var(--color-accent-2-300);
-  --chart-3: var(--color-accent-3-300);
-  --chart-4: var(--color-neutral-300);
-  --chart-5: var(--color-neutral-500);
-
+  /* 시맨틱 (콜아웃·상태) — 안료 3색은 카테고리 부호로 예약되어 겹쳐 쓸 수 없다.
+     OKLCH 척도 밖의 값이라 여기 남는다 (src/lib/og-colors.ts 와 같은 사정). */
   --success: #78ad70;
   --warning: #d9a441;
   --danger: #e08080;
   --info: #4fb3a5;
 }
 
-/* Tailwind 유틸리티로 노출하는 이름.
-   구 토큰 별칭을 가리키므로 위 :root 를 고치면 유틸리티가 따라온다.
-   새 --color-* 토큰은 이미 Tailwind 와 같은 이름 공간이라 여기 다시 적을 수 없다
-   (자기 자신을 가리키게 된다) — 필요한 유틸리티는 별칭 쪽 이름으로 쓴다. */
+/* 낮 (light ground) — 사람이 명시적으로 고를 때만 온다.
+   정본 design/styles.css 의 .ground-light 블록을 그대로 옮겼고 셀렉터만 바꿨다. */
+.light {
+  color-scheme: light;
+
+  --bg: #ffffff;
+  --surface: var(--color-ink-50);
+  --border: var(--color-ink-200);
+  --heading: var(--color-ink-900);
+  --body: var(--color-ink-900);
+  --muted: var(--color-ink-600);
+  --faint: var(--color-ink-400);
+  --accent: var(--color-green-700);
+  --focus: var(--accent);
+  --selection: var(--color-green-100);
+  --edge-top: none;
+
+  --cat-paper: oklch(0.500 0.070 148);
+  --cat-release: oklch(0.500 0.070 40);
+  --cat-news: oklch(0.500 0.070 250);
+  --cat-community: var(--color-ink-600);
+  --cat-note: var(--color-ink-800);
+
+  --chart-4: var(--color-ink-700);
+
+  --success: #3f7d3a;
+  --warning: #8a5a00;
+  --danger: #b02020;
+  --info: #0f6b63;
+}
+
+/* --- ③ 역할 → 유틸리티. -------------------------------------------------
+   `inline` 이라야 .dark 에서 값이 따라 뒤집힌다 (inline 이 아니면 한 번 굳는다).
+   여기 이름은 전부 실제로 유틸리티로 쓰인다 — 안 쓰이면 지우거나 ① 로 옮겨라. */
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -245,6 +204,7 @@
   --color-body: var(--body);
   --color-muted: var(--muted);
   --color-faint: var(--faint);
+  --color-accent: var(--accent);
   --color-focus: var(--focus);
 
   --color-cat-paper: var(--cat-paper);
@@ -258,15 +218,8 @@
   --color-danger: var(--danger);
   --color-info: var(--info);
 
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-
-  --font-sans: var(--sans);
-  --font-serif: var(--serif);
-  --font-mono: var(--mono);
+  --font-sans: var(--font-ui);
+  --font-mono: var(--font-mono);
 }
 
 /* 한글 조판 — 전역이어야 한다.
@@ -279,8 +232,8 @@ html {
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background-color: var(--bg);
+  color: var(--body);
   font-family: var(--font-body);
   font-size: var(--text-body);
   font-weight: var(--font-body-weight);
@@ -299,7 +252,7 @@ body {
   font-weight: 400;
   letter-spacing: var(--tracking-meta);
   font-variant-numeric: tabular-nums;
-  color: var(--color-muted);
+  color: var(--muted);
   line-height: var(--leading-tight);
   /* 식별자는 통째로 읽혀야 한다 — html 의 break-word 가
      arXiv:2608.01337 을 arXiv:2608.01 / 337 로 쪼개지 못하게 되돌린다. */
@@ -321,7 +274,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-muted);
+  color: var(--muted);
 }
 
 /* ------------------------------------------------------------------
@@ -332,7 +285,7 @@ body {
    ------------------------------------------------------------------ */
 
 /* 지면 컨테이너 */
-.page { max-width: 1080px; margin: 0 auto; padding: var(--space-6) var(--space-5); }
+.page { max-width: var(--page-max); margin: 0 auto; padding: var(--space-6) var(--space-5); }
 
 /* 굵은선/얇은선 쌍 — 1면 머리 장식. 이 시스템이 쓰는 유일한 장식이고, 아껴 쓸수록 세다.
    한 화면에 한 번이 원칙이고, 머리(SiteHeader)와 끝(SiteFooter) 두 번이 상한이다. */
@@ -347,7 +300,7 @@ body {
 /* 제호 — 지면 왼쪽 위. 가운데 정렬하지 않는다. */
 .masthead { padding: var(--space-6) 0 var(--space-4); }
 .masthead-title { font-size: 46px; font-weight: 700; letter-spacing: -0.035em; line-height: 1; }
-.masthead-line { margin-top: var(--space-3); max-width: 52ch; color: var(--color-muted); font-size: var(--text-small); }
+.masthead-line { margin-top: var(--space-3); max-width: 52ch; color: var(--muted); font-size: var(--text-small); }
 .masthead-meta { margin-top: var(--space-3); display: flex; gap: var(--space-4); flex-wrap: wrap; }
 
 /* 데이트라인 — 날짜·출처·식별자가 기사 앞머리에 한 덩이로 */
@@ -356,7 +309,7 @@ body {
 /* 표제 / 부제 / 리드 — 세 단계로 들어간다. 리드까지 읽으면 본문을 안 읽어도 안다.
    쓰는 곳은 목록(step 3)과 기사면(step 5)이다. */
 .headline { font-family: var(--font-heading); font-weight: var(--font-heading-weight); line-height: 1.15; letter-spacing: -0.03em; }
-.deck { font-size: var(--text-h4); color: var(--color-muted); line-height: var(--leading-tight); max-width: 46ch; }
+.deck { font-size: var(--text-h4); color: var(--muted); line-height: var(--leading-tight); max-width: 46ch; }
 .lede { max-width: 54ch; }
 
 /* ------------------------------------------------------------------
@@ -366,14 +319,12 @@ body {
    정의를 바꾸지 않고 그대로 옮겼다.
    ------------------------------------------------------------------ */
 
-/* 안료 3색 + 먹 2단계는 정보 부호로만 쓴다.
-   --color-accent* 는 .dark 에서 600→300 으로 이미 갈리므로 밤 재정의가 따로 필요 없다.
-   본문 크기 텍스트(.cat-label 13.5px · .ratio 12.5px)의 색이 되지만 대비는 넉넉하다 —
-   낮 600 은 5.27·5.73·5.45:1, 밤 300 은 9.75·9.23·9.55:1 (실브라우저 계산값, AA 4.5:1).
-   step 2 가 남긴 "600 은 4.14:1" 은 OKLCH L 을 CIE L* 로 본 추정치였고 실측은 그보다 높다.
+/* 안료 3색 + 먹 2단계는 정보 부호로만 쓴다. 다섯 칸이 전부다.
+   본문 크기 텍스트(.cat-label 13.5px · .ratio 12.5px)의 색이 되므로 AA 4.5:1 을 넘어야 한다 —
+   낮 5.81·6.18·5.97:1, 밤 9.81·9.47·9.67:1 (src/lib/color.ts 로 계산, design-tokens.test.ts 가 지킨다).
 
-   먹 2칸은 :root 가 아니라 .dark 에서 방향이 갈리므로 --color-neutral-* 를 직접 쓰지 않고
-   위에서 정의한 --cat-* 토큰을 경유한다. 다섯 칸 모두 같은 통로를 쓰게 두어 짝이 어긋나지 않게 한다. */
+   다섯 칸이 전부 --cat-* 를 경유한다. 안료 3색은 지면에 따라 명도가 갈리고 먹 2칸은
+   방향까지 갈리는데, 통로를 하나로 두어야 짝이 어긋나지 않는다. */
 .cat-papers   { --cat: var(--cat-paper); }     /* 논문 — 草綠 */
 .cat-releases { --cat: var(--cat-release); }   /* 릴리즈 — 朱土 */
 .cat-news     { --cat: var(--cat-news); }      /* 소식 — 藍 (개편 전 이 이름은 朱土였다) */
@@ -384,7 +335,7 @@ body {
   font-family: var(--font-ui);
   font-size: var(--text-small);
   font-weight: 500;
-  color: var(--cat, var(--color-muted));
+  color: var(--cat, var(--muted));
 }
 
 .tag {
@@ -393,12 +344,12 @@ body {
   font-size: 12px;
   line-height: 1.6;
   padding: 1px var(--space-2);
-  border: var(--rule-hair) solid var(--color-line);
+  border: var(--rule-hair) solid var(--border);
   border-radius: var(--radius-sm);
-  color: var(--color-muted);
+  color: var(--muted);
   text-decoration: none;
 }
-.tag:hover { border-color: var(--color-text); color: var(--color-text); }
+.tag:hover { border-color: var(--body); color: var(--body); }
 
 /* 항목 하나 = 좌측 레일(원문의 목소리) + 본문(초록의 목소리).
    레일 폭이 고정이라 행 높이가 달라져도 제목의 왼쪽 끝은 흔들리지 않는다. */
@@ -408,9 +359,9 @@ body {
   gap: var(--space-4);
   align-items: baseline;
   padding: var(--entry-pad) 0;
-  border-bottom: var(--rule-hair) solid var(--color-line);
+  border-bottom: var(--rule-hair) solid var(--border);
 }
-.entry:first-of-type { border-top: var(--rule-hair) solid var(--color-line); }
+.entry:first-of-type { border-top: var(--rule-hair) solid var(--border); }
 
 /* 밀도는 화면이 정한다 — 목록을 감싸서 덮어쓴다. */
 .list-tight { --entry-pad: var(--space-1); }
@@ -424,25 +375,84 @@ body {
   .entry { grid-template-columns: 1fr; gap: var(--space-1); }
 }
 
-/* --- 목록 항목의 성격 셋 -------------------------------------------------
-   같은 데이터를 세 급으로 싣는다. 한 지면에서 셋을 섞는 것이 신문이 하는 일이다. */
+/* --- 균일 피드의 행 -----------------------------------------------------
+   **모든 행이 같은 크기다.** 머리기사도 요약을 펴는 행도 없다.
+   행이 다른 것은 크기가 아니라 어떤 부호를 달고 있는가뿐이다.
 
-/* 머리기사 — 오늘 하나만. 급을 스케일 밖으로 키워도 좋다 (파격 예산). */
-.entry-lead { display: block; padding: var(--space-4) 0 var(--space-6); border-bottom: var(--rule-hair) solid var(--color-line); }
-.entry-lead .headline { font-size: clamp(30px, 4.6vw, 54px); }
-.entry-lead .deck { margin-top: var(--space-3); }
-.entry-lead .lede { margin-top: var(--space-3); }
-.entry-lead .dateline { margin-bottom: var(--space-3); }
-
-/* 단신 — 짧은 것들은 뭉쳐서 한 상자에. 늘어놓지 않는다. */
-.brief-set { display: grid; }
-.brief-item {
-  display: grid; grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--space-3); align-items: baseline;
-  padding: var(--space-2) 0;
-  border-bottom: var(--rule-hair) solid var(--color-line);
+   제목 왼쪽에 오는 것은 전부 폭이 고정된 열이다 (그림 80 · 번호 26).
+   그래서 스무 행의 제목 왼쪽 끝이 한 줄로 선다 — 훑을 수 있게 만드는 유일한 장치다. */
+.row {
+  display: grid;
+  grid-template-columns: 80px 26px minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+  padding: var(--space-3) 0;
+  border-bottom: var(--rule-hair) solid var(--border);
 }
-.brief-item .entry-title { font-size: var(--text-h5); }
+.row:first-of-type { border-top: var(--rule-hair) solid var(--border); }
+
+/* 두 자리 고정폭 mono. 훑어 내려갈 때 숫자 한 열이 다섯 색 스무 칩보다 빨리 읽힌다. */
+.row-no { font-variant-numeric: tabular-nums; padding-top: 2px; }
+
+.row-text { display: grid; gap: var(--space-1); min-width: 0; }
+.row-title {
+  font-size: var(--text-h4);
+  font-weight: 500;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--heading);
+}
+/* **한 줄에서 자른다.** 두 줄이 되는 순간 그 행만 커지고 균일 피드가 무너진다. */
+.row-summary {
+  color: var(--muted);
+  font-size: var(--text-small);
+  line-height: var(--leading-tight);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 메타는 두 무리다. 왼쪽은 「무엇인가」, 오른쪽은 「왜 골랐나」.
+   오른쪽을 끝으로 밀어 두면 왼쪽이 들쭉날쭉해도 오른쪽 열이 선다 —
+   덕분에 「추린 비율」이 없는 행(80편 중 39편)에 자리를 예약할 필요가 사라진다. */
+.row-meta { display: flex; justify-content: space-between; gap: var(--space-3); }
+.row-meta-left,
+.row-meta-right { display: flex; gap: var(--space-3); align-items: baseline; min-width: 0; }
+.row-meta-right { flex: none; }
+.row-meta .cat-label { font-size: var(--text-meta); }
+.row-weak { text-decoration: none; cursor: help; }
+
+/* 그림 자리 — 16:9 고정. **그림이 있든 없든 상자 크기가 같다.**
+   달라지면 스무 행에서 열이 떨린다. 96px 행에서 45px 이라 세로 가운데에 앉힌다.
+
+   표지는 안료를 지면에 **아주 옅게** 섞는다. 안료를 그대로 칠하면 큰 색판 스무 개가 서서
+   부호가 아니라 벽지가 된다 — `--cat-*` 의 명도는 원래 작은 글자용이다. */
+.thumb {
+  width: 80px;
+  height: 45px;
+  align-self: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: color-mix(in oklch, var(--cat, var(--muted)) 16%, var(--surface));
+  box-shadow: var(--edge-top);
+}
+/* 그림은 표지 **위에** 덮인다. 주소가 죽으면 브라우저가 이 자리를 안 그리고
+   표지가 뒤에서 그대로 비친다 — onError 도 자바스크립트도 필요 없다. */
+.thumb-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  /* 그림을 버리고 번호만 남긴다 — 80px 을 떼면 제목이 두 줄로 접히는 것을 막을 수 있다. */
+  .row { grid-template-columns: 26px minmax(0, 1fr); gap: var(--space-3); }
+  .row .thumb { display: none; }
+  .row-meta { flex-wrap: wrap; }
+}
 
 /* 색인 — 되찾기용. 가장 밀집하고, 훑어서 찾는 것이 유일한 목적이다. */
 .index-row {
@@ -452,7 +462,7 @@ body {
 }
 /* 두 자리 고정폭 mono 한 열 — 폭이 내용에 안 달렸으므로 제목의 왼쪽 끝이 흔들리지 않는다. */
 .index-no { font-variant-numeric: tabular-nums; }
-.index-row + .index-row { border-top: var(--rule-hair) solid var(--color-line); }
+.index-row + .index-row { border-top: var(--rule-hair) solid var(--border); }
 .index-row .t { font-size: var(--text-small); }
 
 @media (max-width: 640px) {
@@ -460,11 +470,10 @@ body {
      한 항목이 네 줄이 되어 색인이 아니라 목록이 된다. */
   .index-row { grid-template-columns: 26px minmax(0, 1fr); gap: 0; padding: var(--space-2) 0; }
   .index-row > :not(.index-no) { grid-column: 2; }
-  .brief-item { grid-template-columns: 1fr; gap: 0; }
 }
 
 /* 빈 상태 — 사과하지 않는다. 다음에 갈 곳을 준다. (design/styles.css 그대로) */
-.empty { padding: var(--space-7) 0; border-top: var(--rule-hair) solid var(--color-line); }
+.empty { padding: var(--space-7) 0; border-top: var(--rule-hair) solid var(--border); }
 .empty-line { font-size: var(--text-h4); }
 .empty-next { margin-top: var(--space-3); }
 
@@ -476,7 +485,7 @@ body {
   font-size: var(--text-meta);
   letter-spacing: var(--tracking-meta);
   font-variant-numeric: tabular-nums;
-  color: var(--cat, var(--color-accent));
+  color: var(--accent);
 }
 
 /* 기사면에서만 쓰는 확장형 — 원문과 초록의 길이를 나란히 놓는다.
@@ -485,16 +494,16 @@ body {
 .ratio-scale { display: grid; gap: 4px; }
 .ratio-row { display: flex; align-items: center; gap: var(--space-2); }
 .ratio-key { width: 52px; flex: none; }
-.ratio-track { width: 132px; height: 7px; background: var(--color-line); position: relative; flex: none; }
-.ratio-fill { position: absolute; inset: 0 auto 0 0; background: var(--cat, var(--color-accent)); }
+.ratio-track { width: 132px; height: 7px; background: var(--border); position: relative; flex: none; }
+.ratio-fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); }
 
 /* 분포 막대 — 「몇 편인가」를 길이로 말한다 (/topics · /sources).
    **`.ratio-*` 와 일부러 다르다.** 저쪽은 `var(--cat)` 을 쓰는 「추린 비율」 시그니처이고,
    이쪽은 안료를 쓰지 않는다 — 축에는 안료를 주지 않는다는 규칙 때문이고, 카테고리 쪽에서도
    막대까지 물들이면 라벨의 안료와 다투기 때문이다. 먹 두 값(--color-line·--color-muted)만 쓴다.
    새 `@theme` 항목도 새 `--cat-*` 도 만들지 않는다 — Tailwind v4 가 조용히 버릴 자리를 안 만든다. */
-.count-bar { height: 7px; background: var(--color-line); position: relative; }
-.count-bar > i { position: absolute; inset: 0 auto 0 0; background: var(--color-muted); display: block; }
+.count-bar { height: 7px; background: var(--border); position: relative; }
+.count-bar > i { position: absolute; inset: 0 auto 0 0; background: var(--muted); display: block; }
 
 /* 좁은 화면 접힘 — 정본에 없는 앱 쪽 추가다. 320px 에서 값 라벨('3,240 words')이
    두 줄로 접혀 막대와 수치가 어긋났다. 레일과 막대를 줄여 한 줄로 되돌린다 (실측). */
@@ -510,21 +519,23 @@ body {
 
    훅으로 data-language 를 쓴다 — rehype-pretty-code 는 data-theme 과 함께
    항상 이 속성도 붙이므로(defaultLang 이 있어 인라인 코드도 예외가 없다) 범위가 같다.
-   앱에서 data-theme 속성 셀렉터를 아예 없애 두면, 테마 전환이 .dark 클래스
+   앱에서 data-theme 속성 셀렉터를 아예 없애 두면, 테마 전환이 .light 클래스
    한 가지 방식뿐이라는 것이 파일만 봐도 드러난다.
-   ------------------------------------------------------------------ */
+
+   **기본이 --shiki-dark 인 것이 지면 역전의 전부다.** 이 짝을 안 뒤집으면
+   코드블록만 낮으로 남아 밤 지면 한가운데서 흰 상자가 된다. */
 pre[data-language],
 code[data-language],
 code[data-language] span {
-  color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
-}
-
-.dark pre[data-language],
-.dark code[data-language],
-.dark code[data-language] span {
   color: var(--shiki-dark);
   background-color: var(--shiki-dark-bg);
+}
+
+.light pre[data-language],
+.light code[data-language],
+.light code[data-language] span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
 }
 
 /* ------------------------------------------------------------------
@@ -576,11 +587,11 @@ code[data-language] span {
 
 /* 인라인 코드는 블록과 달리 본문 흐름 안에 있어야 한다 — 테마 배경 대신 표면 토큰을 쓴다. */
 .mdx-body :not(pre) > code[data-language] {
-  border: 1px solid var(--border);
-  border-radius: 0.25rem;
+  border: var(--rule-hair) solid var(--border);
+  border-radius: var(--radius-sm);
   background-color: var(--surface);
   padding: 0.1em 0.35em;
-  font-family: var(--mono);
+  font-family: var(--font-mono);
   font-size: 0.875em;
 }
 

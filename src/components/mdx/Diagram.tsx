@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useState, useSyncExternalStore } from "react";
 
-import { DARK_CLASS } from "@/lib/theme";
+import { currentTheme } from "@/lib/theme";
 
 /**
  * 런타임 색 조회는 **원시 변수**(`--surface` 등)로만 한다.
@@ -37,7 +37,7 @@ function subscribeToTheme(onChange: () => void) {
 }
 
 function isDark() {
-  return document.documentElement.classList.contains(DARK_CLASS);
+  return currentTheme() === "dark";
 }
 
 /**

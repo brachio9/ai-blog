@@ -1,8 +1,9 @@
 import { ImageResponse } from "next/og";
 
 import { getAxis } from "@/lib/axes";
-import { type CategoryAccent, getCategory } from "@/lib/categories";
+import { getCategory } from "@/lib/categories";
 import { getAllPosts, getPostBySlug } from "@/lib/content/posts";
+import { OG_ACCENT, OG_GROUND } from "@/lib/og-colors";
 import { SITE_NAME } from "@/lib/site";
 
 export const alt = SITE_NAME;
@@ -18,29 +19,13 @@ export function generateStaticParams() {
 const MAX_TITLE_LENGTH = 48;
 
 /**
- * ImageResponse 는 앱 CSS 가 닿지 않는 별도 렌더러라 --cat-* 을 읽을 수 없다.
- * 게다가 번들된 satori 의 색 파서에 oklch 가 없어(hsl·rgb 만 있다) 안료를 hex 로 굳혀야 한다.
+ * ImageResponse 는 앱 CSS 가 닿지 않는 별도 렌더러라 --cat-* 을 읽을 수 없고,
+ * 번들된 satori 의 색 파서에 oklch 가 없다 (hsl·rgb 만 있다).
  *
- * **이 값의 정본은 `design/styles.css` 의 안료 ramp 와 먹 계단이다. 팔레트가 바뀌면 여기도 고쳐야 한다.**
- * 카드 배경이 라이트이므로 낮 값 — globals.css 의 --cat-* 매핑과 같은 짝이다.
- *
- *   paper     草綠  --color-accent-600    oklch(0.500 0.095 140) → #44703b
- *   release   朱土  --color-accent-2-600  oklch(0.500 0.100  40) → #924d35
- *   news      藍    --color-accent-3-600  oklch(0.500 0.075 250) → #41668d
- *   community 먹 中 --color-neutral-600   oklch(0.520 0.008  78) → #6b6864
- *   note      먹 濃 --color-neutral-800   oklch(0.300 0.008  72) → #302d29
- *
- * 변환은 OKLab → 선형 sRGB → 감마 인코딩. 다섯 다 sRGB 색역 안이라 클리핑이 없고,
- * 카드 바탕(#fafafa) 대비 5.55·6.03·5.73·5.31·13.12:1 로 본문 기준 4.5:1 을 넘는다.
- * 먹 2칸은 색이 아니라 **색을 안 쓰는 것**이 부호다 — 여기서도 안료를 새로 만들지 마라.
+ * **그래서 색은 `src/lib/og-colors.ts` 가 정본과 같은 OKLCH 값에서 빌드 시점에 굽는다.**
+ * 예전에는 이 자리에 hex 다섯 개를 손으로 계산해 적어 뒀는데, 팔레트가 바뀌면
+ * 아무도 모르게 옛 색으로 남았다. 이 파일에 hex 를 다시 적지 마라.
  */
-const ACCENT_COLOR: Record<CategoryAccent, string> = {
-  paper: "#44703b",
-  release: "#924d35",
-  news: "#41668d",
-  community: "#6b6864",
-  note: "#302d29",
-};
 
 export default async function OpengraphImage(props: {
   params: Promise<{ slug: string }>;
@@ -51,7 +36,7 @@ export default async function OpengraphImage(props: {
 
   const title = post?.frontmatter.title ?? SITE_NAME;
   // 카테고리를 못 찾은 카드에는 부호를 붙일 수 없다 — 중성으로 떨어뜨린다.
-  const accent = found ? ACCENT_COLOR[found.accent] : "#171717";
+  const accent = found ? OG_ACCENT[found.accent] : OG_GROUND.heading;
   // 축은 이름만 — 카드가 작아 번호까지 넣으면 카테고리 줄과 다투기만 한다.
   const axis = post ? getAxis(post.frontmatter.axis) : undefined;
 
@@ -62,7 +47,7 @@ export default async function OpengraphImage(props: {
           width: "100%",
           height: "100%",
           display: "flex",
-          backgroundColor: "#fafafa",
+          backgroundColor: OG_GROUND.bg,
         }}
       >
         <div style={{ width: 16, height: "100%", backgroundColor: accent }} />
@@ -81,7 +66,7 @@ export default async function OpengraphImage(props: {
             </div>
             {axis ? (
               // 축에 안료를 주지 않는다 — 안료 3색은 카테고리 전용이다 (UI_GUIDE).
-              <div style={{ display: "flex", fontSize: 24, color: "#737373" }}>
+              <div style={{ display: "flex", fontSize: 24, color: OG_GROUND.muted }}>
                 {axis.name}
               </div>
             ) : null}
@@ -93,7 +78,7 @@ export default async function OpengraphImage(props: {
               fontSize: 64,
               fontWeight: 600,
               lineHeight: 1.3,
-              color: "#171717",
+              color: OG_GROUND.heading,
             }}
           >
             {title.length > MAX_TITLE_LENGTH
@@ -106,10 +91,10 @@ export default async function OpengraphImage(props: {
               display: "flex",
               alignItems: "center",
               gap: 16,
-              borderTop: "1px solid #e5e5e5",
+              borderTop: `1px solid ${OG_GROUND.border}`,
               paddingTop: 28,
               fontSize: 28,
-              color: "#737373",
+              color: OG_GROUND.muted,
             }}
           >
             {SITE_NAME}

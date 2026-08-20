@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 /* ==========================================================================
    초록 (Chorok) — design system
@@ -13,176 +13,190 @@
    ========================================================================== */
 
 :root {
-  /* --- 안료 ramps — shared perceptual lightness scale (OKLCH) ------------ */
-  /* 草綠 chorok — 최신 논문 · 포커스 */
-  /* 녹색은 같은 채도에서 지각적으로 가장 무채색에 가깝게 읽힌다 — 셋 중 이 ramp 만 채도를 올려 둔다. */
-  --color-accent-100: oklch(0.940 0.029 140);
-  --color-accent-200: oklch(0.870 0.048 140);
-  --color-accent-300: oklch(0.780 0.068 140);
-  --color-accent-400: oklch(0.680 0.086 140);
-  --color-accent-500: oklch(0.580 0.095 140);
-  --color-accent-600: oklch(0.500 0.095 140);
-  --color-accent-700: oklch(0.420 0.087 140);
-  --color-accent-800: oklch(0.330 0.074 140);
-  --color-accent-900: oklch(0.240 0.057 140);
+  /* --- 안료 ramps — OKLCH ------------------------------------------------
+     이름 규칙: `--color-*` 는 원료(ramp)이고, 접두사 없는 이름은 역할이다.
+     앱(Tailwind v4)에서 원료는 `@theme static` 이, 역할은 `@theme inline` 이 받는다.
+     그 둘을 갈라 놓아야 역할이 지면(낮/밤)에 따라 실시간으로 뒤집힌다. */
 
-  /* 朱土 jueto — 허깅페이스 소식 */
-  --color-accent-2-100: oklch(0.940 0.030 40);
-  --color-accent-2-200: oklch(0.870 0.050 40);
-  --color-accent-2-300: oklch(0.780 0.072 40);
-  --color-accent-2-400: oklch(0.680 0.090 40);
-  --color-accent-2-500: oklch(0.580 0.100 40);
-  --color-accent-2-600: oklch(0.500 0.100 40);
-  --color-accent-2-700: oklch(0.420 0.092 40);
-  --color-accent-2-800: oklch(0.330 0.078 40);
-  --color-accent-2-900: oklch(0.240 0.060 40);
+  /* 먹 — hue 255 고정. **색상이 흐르지 않는다.**
+     이전 척도는 85 → 70 으로 흘러서 밝은 쪽이 미색으로 읽혔다 (신문 용지).
+     채도는 작지만 0 이 아니다 — 순회색은 「설정하지 않은 관리자 화면」으로 읽힌다. */
+  --color-ink-50: oklch(0.985 0.002 255);
+  --color-ink-100: oklch(0.960 0.003 255);
+  --color-ink-200: oklch(0.905 0.005 255);
+  --color-ink-300: oklch(0.820 0.007 255);
+  --color-ink-400: oklch(0.690 0.009 255);
+  --color-ink-500: oklch(0.575 0.011 255);
+  --color-ink-600: oklch(0.480 0.012 255);
+  --color-ink-700: oklch(0.385 0.013 255);
+  --color-ink-800: oklch(0.285 0.014 255);
+  --color-ink-900: oklch(0.215 0.014 255);
+  --color-ink-950: oklch(0.165 0.013 255);
+  --color-ink-975: oklch(0.128 0.011 255);
 
-  /* 藍 nam — 수집 자료 */
-  --color-accent-3-100: oklch(0.940 0.023 250);
-  --color-accent-3-200: oklch(0.870 0.038 250);
-  --color-accent-3-300: oklch(0.780 0.054 250);
-  --color-accent-3-400: oklch(0.680 0.068 250);
-  --color-accent-3-500: oklch(0.580 0.075 250);
-  --color-accent-3-600: oklch(0.500 0.075 250);
-  --color-accent-3-700: oklch(0.420 0.069 250);
-  --color-accent-3-800: oklch(0.330 0.059 250);
-  --color-accent-3-900: oklch(0.240 0.045 250);
+  /* 草綠 — 이름과 같은 색이고, **지면에서 유일한 고채도 색이다.**
+     hue 는 140 이 아니라 148 이다: 140 은 채도를 올릴수록 형광 연두로 간다. */
+  --color-green-100: oklch(0.925 0.060 148);
+  --color-green-300: oklch(0.815 0.140 148);
+  --color-green-500: oklch(0.715 0.190 148);
+  --color-green-600: oklch(0.640 0.180 148);
+  --color-green-700: oklch(0.545 0.155 148);
+  --color-green-800: oklch(0.430 0.115 148);
 
-  /* 먹 — warm neutral, never pure grey and never pure black */
-  --color-neutral-100: oklch(0.968 0.006 85);
-  --color-neutral-200: oklch(0.938 0.008 85);
-  --color-neutral-300: oklch(0.870 0.008 85);
-  --color-neutral-400: oklch(0.740 0.009 82);
-  --color-neutral-500: oklch(0.610 0.009 80);
-  --color-neutral-600: oklch(0.520 0.008 78);
-  --color-neutral-700: oklch(0.400 0.008 75);
-  --color-neutral-800: oklch(0.300 0.008 72);
-  --color-neutral-900: oklch(0.235 0.008 70);
+  /* --- 밤 (dark ground) — **기본 지면이다** ------------------------------
+     검정이 아니라 아주 어두운 먹. 밤에서 검정 그림자는 보이지 않으므로 떠 있는 느낌은
+     위 모서리 1px 의 밝은 inset(--edge-top)이 만든다 — 그것이 입체 장치 전부다.
+     낮은 .ground-light 로만 온다. prefers-color-scheme 을 보지 않는다 (src/lib/theme.ts). */
+  --bg: var(--color-ink-950);
+  --surface: var(--color-ink-900);
+  --border: var(--color-ink-800);
+  --heading: var(--color-ink-100);
+  --body: var(--color-ink-100);
+  --muted: var(--color-ink-400);
+  /* 바탕 대비가 본문 기준(4.5:1)에 못 미친다. 구분 기호·비활성처럼 정보를 담지 않는 곳에만. */
+  --faint: var(--color-ink-600);
+  --accent: var(--color-green-500);
+  --focus: var(--accent);
+  --selection: var(--color-green-800);
+  --edge-top: inset 0 1px 0 oklch(1 0 0 / 0.05);
 
-  /* --- 낮 (light ground) — 표백하지 않은 종이 --------------------------- */
-  --color-bg: var(--color-neutral-100);
-  --color-surface: var(--color-neutral-200);
-  --color-text: var(--color-neutral-900);
-  --color-muted: var(--color-neutral-600);
-  --color-line: var(--color-neutral-300);
-  --color-accent: var(--color-accent-600);
-  --color-accent-2: var(--color-accent-2-600);
-  --color-accent-3: var(--color-accent-3-600);
-  --color-selection: var(--color-accent-200);
+  /* 카테고리 (정보 부호) — src/lib/categories.ts 의 accent 키와 짝이다.
+     **채도가 액센트의 1/3 이하다** (C 0.07 대 0.19). 부호가 액센트를 이기면
+     한 화면에 고채도 색이 여섯 개가 되고 「액센트 1색」이 무너진다.
+     안료 3색 + 먹 2단계인 것은 타협이 아니라 부호다 — community 는 원문이 여럿이라
+     하나를 가리킬 수 없고, notes 는 사람이 골랐다는 것 자체가 기준이다 (CLAUDE.md). */
+  --cat-paper: oklch(0.780 0.050 148);   /* 논문 — 草綠 저채도 · 밤 바탕 9.81:1 */
+  --cat-release: oklch(0.780 0.050 40);  /* 릴리즈 — 朱土 · 9.47:1 */
+  --cat-news: oklch(0.780 0.050 250);    /* 소식 — 藍 · 9.67:1 */
+  /* 먹 2칸은 안료와 달리 자동으로 뒤집히지 않는다 — 낮의 명도 순서(中 < 濃)를
+     밤에서도 지키려면 밝은 쪽으로 옮겨야 한다. */
+  --cat-community: var(--color-ink-400); /* 커뮤니티 — 먹 中 */
+  --cat-note: var(--color-ink-200);      /* 기록 — 먹 濃 */
 
-  /* --- 활자 — 두 개의 목소리 -------------------------------------------- */
-  /* 초록의 목소리: 한글 명조. 원문의 목소리: 영문·숫자 mono. UI 는 산세리프. */
-  --font-heading: 'Noto Serif KR', 'Apple SD Gothic Neo', 'Malgun Gothic', serif;
-  --font-body: 'Noto Serif KR', 'Apple SD Gothic Neo', 'Malgun Gothic', serif;
+  /* 차트 계열 색 (순서대로 사용). **이름을 바꾸지 마라** — Chart.tsx 가 이 이름으로 읽고,
+     없는 변수를 받은 Recharts 는 경고도 없이 검정으로 칠한다. */
+  --chart-1: var(--cat-paper);
+  --chart-2: var(--cat-release);
+  --chart-3: var(--cat-news);
+  --chart-4: var(--color-ink-300);
+  --chart-5: var(--color-ink-500);
+
+  /* --- 활자 — **한 목소리 + mono** ---------------------------------------
+     한글 산문은 산세리프 한 벌이다. mono 는 손대지 않은 원문 재료
+     (날짜·식별자·판수·도메인·수치)에만 쓴다 — 한글을 mono 로 짜지 마라.
+     명조를 뺀 것이 이번 개편이다: 한글 패밀리가 둘에서 하나로 줄어 FOUT 이 절반이고,
+     Plex Sans KR 과 Plex Mono 는 같은 슈퍼패밀리라 두 목소리의 관계가 자의적이지 않다. */
+  --font-heading: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   --font-ui: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --font-heading-weight: 600;
   --font-body-weight: 400;
 
-  --text-h1: 40px;
-  --text-h2: 27px;
-  --text-h3: 21px;
+  /* 머리기사가 죽어서 40px 이 설 자리가 없다 — 목록에서 가장 큰 활자가 곧 글 제목이다. */
+  --text-h1: 30px;
+  --text-h2: 23px;
+  --text-h3: 19px;
   --text-h4: 17px;
   --text-h5: 15px;
   --text-h6: 13px;
-  --text-body: 16.5px;   /* 한글 명조 읽기 크기 — 산세리프보다 한 눈금 크게 */
+  --text-body: 15.5px;
   --text-small: 13.5px;
   --text-meta: 12.5px;   /* mono 자리 */
 
-  --leading-heading: 1.3;
-  --leading-body: 1.85;  /* 한글은 넉넉해야 읽힌다 */
+  --leading-heading: 1.25;
+  --leading-body: 1.7;
   --leading-tight: 1.5;
+  --tracking-heading: -0.012em;
   --tracking-meta: 0.04em;
 
-  /* --- 간격 — density 1.15 ---------------------------------------------- */
-  --space-1: 5px;
-  --space-2: 9px;
-  --space-3: 14px;
-  --space-4: 18px;
-  --space-5: 28px;
-  --space-6: 37px;
-  --space-7: 55px;
-  --space-8: 74px;
-  --space-9: 110px;
+  /* --- 간격 — 4px 척도 ---------------------------------------------------
+     1~4 는 Tailwind 기본 간격과 값이 같다 (`gap-3` == `--space-3`).
+     5 부터는 눈으로 정한 뜀이라 인덱스가 어긋난다 — 값만 4의 배수다. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
 
-  /* --- 손잡이: 모서리 ----------------------------------------------------
-     각진 것이 기본값이다. 취향의 문제이지 불변이 아니다 —
-     세 값을 올리면 시스템 전체가 따라온다. (불변은 "떠 있지 않다"이지 "각지다"가 아니다) */
+  /* --- 모서리 — 작고 일정하게. 알약은 토글에만. */
   --radius-none: 0;
-  --radius-sm: 2px;
-  --radius-md: 2px;
-  --radius-lg: 2px;
+  --radius-sm: 2px;    /* 태그 */
+  --radius-md: 4px;    /* 기본 — 썸네일·버튼 */
+  --radius-lg: 6px;    /* 표면 블록 */
+  --radius-xl: 10px;   /* 겹치는 것 */
+  --radius-full: 9999px;
 
-  /* --- 불변: 지면은 떠 있지 않다 -----------------------------------------
-     그림자로 높이를 만들지 않는다. 겹칠 수밖에 없는 것(다이얼로그·팝오버)만 예외. */
+  /* --- 그림자 — 지면은 떠 있지 않다.
+     겹칠 수밖에 없는 것(다이얼로그·팝오버)만 예외라서 lg 하나만 값이 있다. */
   --shadow-sm: none;
   --shadow-md: none;
-  --shadow-lg: 0 14px 40px oklch(0.235 0.008 70 / 0.28);
+  --shadow-lg: 0 14px 40px oklch(0.128 0.011 255 / 0.45);
 
-  /* --- 손잡이: 지면의 치수 ------------------------------------------------ */
+  /* --- 지면의 치수 ------------------------------------------------------- */
   --rule-hair: 1px;      /* 이 시스템이 쓰는 유일한 구분자의 굵기 */
-  --measure: 68ch;       /* 본문 최대 폭 */
-  --rail: 136px;         /* 좌측 메타 열 — arXiv 식별자 한 줄이 들어가는 폭 */
-  --page-max: 1080px;    /* 지면 최대 폭 */
+  --measure: 66ch;       /* 본문 최대 폭 */
+  --rail: 104px;         /* 좌측 메타 열 */
+  --page-max: 960px;     /* 지면 최대 폭 */
 
-  /* --- 손잡이: 목록 밀도 --------------------------------------------------
-     한 화면에 몇 줄을 넣을지는 화면마다 다르다. .list-tight / .list-loose 로 덮어쓴다. */
+  /* --- 목록 밀도 — 화면마다 .list-tight / .list-loose 로 덮어쓴다. */
   --entry-pad: var(--space-3);
-}
-
-/* --- 밤 (dark ground) — 순검정이 아니라 따뜻한 먹빛 ---------------------- */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-bg: oklch(0.175 0.008 80);
-    --color-surface: oklch(0.215 0.009 80);
-    --color-text: oklch(0.915 0.010 85);
-    --color-muted: oklch(0.660 0.010 82);
-    --color-line: oklch(0.300 0.009 80);
-    --color-accent: var(--color-accent-300);
-    --color-accent-2: var(--color-accent-2-300);
-    --color-accent-3: var(--color-accent-3-300);
-    --color-selection: var(--color-accent-900);
-  }
-}
-
-:root[data-theme="dark"] {
-  --color-bg: oklch(0.175 0.008 80);
-  --color-surface: oklch(0.215 0.009 80);
-  --color-text: oklch(0.915 0.010 85);
-  --color-muted: oklch(0.660 0.010 82);
-  --color-line: oklch(0.300 0.009 80);
-  --color-accent: var(--color-accent-300);
-  --color-accent-2: var(--color-accent-2-300);
-  --color-accent-3: var(--color-accent-3-300);
-  --color-selection: var(--color-accent-900);
 }
 
 /* Scoped grounds — so one page can show 낮 and 밤 side by side. */
 .ground-light {
-  --color-bg: var(--color-neutral-100);
-  --color-surface: var(--color-neutral-200);
-  --color-text: var(--color-neutral-900);
-  --color-muted: var(--color-neutral-600);
-  --color-line: var(--color-neutral-300);
-  --color-accent: var(--color-accent-600);
-  --color-accent-2: var(--color-accent-2-600);
-  --color-accent-3: var(--color-accent-3-600);
-  background: var(--color-bg);
-  color: var(--color-text);
+  --bg: #ffffff;
+  --surface: var(--color-ink-50);
+  --border: var(--color-ink-200);
+  --heading: var(--color-ink-900);
+  --body: var(--color-ink-900);
+  --muted: var(--color-ink-600);
+  --faint: var(--color-ink-400);
+  --accent: var(--color-green-700);
+  --focus: var(--accent);
+  --selection: var(--color-green-100);
+  --edge-top: none;
+
+  --cat-paper: oklch(0.500 0.070 148);
+  --cat-release: oklch(0.500 0.070 40);
+  --cat-news: oklch(0.500 0.070 250);
+  --cat-community: var(--color-ink-600);
+  --cat-note: var(--color-ink-800);
+
+  --chart-4: var(--color-ink-700);
+
+  background: var(--bg);
+  color: var(--body);
 }
 
 .ground-dark {
-  --color-bg: oklch(0.175 0.008 80);
-  --color-surface: oklch(0.215 0.009 80);
-  --color-text: oklch(0.915 0.010 85);
-  --color-muted: oklch(0.660 0.010 82);
-  --color-line: oklch(0.300 0.009 80);
-  --color-accent: var(--color-accent-300);
-  --color-accent-2: var(--color-accent-2-300);
-  --color-accent-3: var(--color-accent-3-300);
-  background: var(--color-bg);
-  color: var(--color-text);
+  --bg: var(--color-ink-950);
+  --surface: var(--color-ink-900);
+  --border: var(--color-ink-800);
+  --heading: var(--color-ink-100);
+  --body: var(--color-ink-100);
+  --muted: var(--color-ink-400);
+  --faint: var(--color-ink-600);
+  --accent: var(--color-green-500);
+  --focus: var(--accent);
+  --selection: var(--color-green-800);
+  --edge-top: inset 0 1px 0 oklch(1 0 0 / 0.05);
+
+  --cat-paper: oklch(0.780 0.050 148);
+  --cat-release: oklch(0.780 0.050 40);
+  --cat-news: oklch(0.780 0.050 250);
+  --cat-community: var(--color-ink-400);
+  --cat-note: var(--color-ink-200);
+
+  --chart-4: var(--color-ink-300);
+
+  background: var(--bg);
+  color: var(--body);
 }
 
 /* ==========================================================================
@@ -195,8 +209,8 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--bg);
+  color: var(--body);
   font-family: var(--font-body);
   font-size: var(--text-body);
   font-weight: var(--font-body-weight);
@@ -206,13 +220,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: var(--color-selection); }
+::selection { background: var(--selection); }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
   line-height: var(--leading-heading);
-  letter-spacing: -0.015em;
+  letter-spacing: var(--tracking-heading);
   margin: 0;
 }
 
@@ -226,25 +240,29 @@ h6 { font-size: var(--text-h6); }
 p { margin: 0; max-width: var(--measure); }
 
 /* 링크는 색이 아니라 밑줄이 표시한다 — 색 예산을 아낀다. */
+/* 링크는 색이 아니라 **밑줄이 올라오는 것**으로 표시한다. 색 예산은 액센트 하나뿐이다.
+
+   2026-08-20 철회: 「늘 밑줄이 그어져 있다」를 버렸다. 그것은 신문 지면의 관습이고,
+   균일 피드에서는 스무 행이 전부 밑줄이라 행과 행의 구분이 오히려 사라진다.
+   밑줄은 이제 hover·focus 에서만 온다. (지우지 마라 — 이 문서는 철회를 기록한다.) */
 a {
   color: inherit;
-  text-decoration: underline;
+  text-decoration: none;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
-  text-decoration-color: var(--color-line);
+  text-underline-offset: 0.2em;
   transition: text-decoration-color 120ms linear;
 }
-a:hover { text-decoration-color: currentColor; }
+a:hover { text-decoration: underline; }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: var(--radius-none);
+  border-radius: var(--radius-sm);
 }
 
 hr, .rule {
   border: 0;
-  border-top: var(--rule-hair) solid var(--color-line);
+  border-top: var(--rule-hair) solid var(--border);
   margin: var(--space-5) 0;
 }
 
@@ -259,7 +277,7 @@ hr, .rule {
   font-weight: 400;
   letter-spacing: var(--tracking-meta);
   font-variant-numeric: tabular-nums;
-  color: var(--color-muted);
+  color: var(--muted);
   line-height: var(--leading-tight);
   /* 식별자는 통째로 읽혀야 한다 — base 의 break-word 가 arXiv:2608.01337 을 쪼개지 못하게. */
   overflow-wrap: normal;
@@ -273,7 +291,7 @@ hr, .rule {
   line-height: var(--leading-tight);
 }
 
-.text-muted { color: var(--color-muted); }
+.text-muted { color: var(--muted); }
 .text-lead { font-size: calc(var(--text-body) * 1.12); }
 
 /* 절 제목 — 지면의 작은 머리글 */
@@ -283,22 +301,25 @@ hr, .rule {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-muted);
+  color: var(--muted);
 }
 
 /* ==========================================================================
    카테고리 — 안료 3색은 정보 부호로만 쓴다
    ========================================================================== */
 
-.cat-papers { --cat: var(--color-accent); }     /* 최신 논문 — 草綠 */
-.cat-news   { --cat: var(--color-accent-2); }   /* 허깅페이스 소식 — 朱土 */
-.cat-notes  { --cat: var(--color-accent-3); }   /* 수집 자료 — 藍 */
+/* 다섯 칸이 전부다. 안료 3색 + 먹 2단계 — 늘리려면 여기와 앱의 CAT_CLASS 를 같이 고친다. */
+.cat-papers    { --cat: var(--cat-paper); }     /* 논문 — 草綠 */
+.cat-releases  { --cat: var(--cat-release); }   /* 릴리즈 — 朱土 */
+.cat-news      { --cat: var(--cat-news); }      /* 소식 — 藍 */
+.cat-community { --cat: var(--cat-community); } /* 커뮤니티 — 먹 中 */
+.cat-notes     { --cat: var(--cat-note); }      /* 기록 — 먹 濃 */
 
 .cat-label {
   font-family: var(--font-ui);
   font-size: var(--text-small);
   font-weight: 500;
-  color: var(--cat, var(--color-muted));
+  color: var(--cat, var(--muted));
 }
 
 .tag {
@@ -307,18 +328,18 @@ hr, .rule {
   font-size: 12px;
   line-height: 1.6;
   padding: 1px var(--space-2);
-  border: var(--rule-hair) solid var(--color-line);
+  border: var(--rule-hair) solid var(--border);
   border-radius: var(--radius-sm);
-  color: var(--color-muted);
+  color: var(--muted);
   text-decoration: none;
 }
-.tag:hover { border-color: var(--color-text); color: var(--color-text); }
+.tag:hover { border-color: var(--body); color: var(--body); }
 
 /* ==========================================================================
    Layout — 비대칭 좌측 정렬. 좁은 메타 열 + 넓은 본문 열.
    ========================================================================== */
 
-.page { max-width: 1080px; margin: 0 auto; padding: var(--space-6) var(--space-5); }
+.page { max-width: var(--page-max); margin: 0 auto; padding: var(--space-6) var(--space-5); }
 
 /* 항목 하나 = 좌측 레일(원문의 목소리) + 본문(초록의 목소리) */
 .entry {
@@ -327,9 +348,9 @@ hr, .rule {
   gap: var(--space-4);
   align-items: baseline;
   padding: var(--entry-pad) 0;
-  border-bottom: var(--rule-hair) solid var(--color-line);
+  border-bottom: var(--rule-hair) solid var(--border);
 }
-.entry:first-of-type { border-top: var(--rule-hair) solid var(--color-line); }
+.entry:first-of-type { border-top: var(--rule-hair) solid var(--border); }
 
 /* 밀도는 화면이 정한다 — 목록을 감싸서 덮어쓴다. */
 .list-tight { --entry-pad: var(--space-1); }
@@ -359,7 +380,7 @@ hr, .rule {
 /* 제호 — 지면 왼쪽 위. 가운데 정렬하지 않는다. */
 .masthead { padding: var(--space-6) 0 var(--space-4); }
 .masthead-title { font-size: 46px; font-weight: 700; letter-spacing: -0.035em; line-height: 1; }
-.masthead-line { margin-top: var(--space-3); max-width: 52ch; color: var(--color-muted); font-size: var(--text-small); }
+.masthead-line { margin-top: var(--space-3); max-width: 52ch; color: var(--muted); font-size: var(--text-small); }
 .masthead-meta { margin-top: var(--space-3); display: flex; gap: var(--space-4); flex-wrap: wrap; }
 
 /* 데이트라인 — 날짜·출처·식별자가 기사 앞머리에 한 덩이로 */
@@ -367,14 +388,14 @@ hr, .rule {
 
 /* 표제 / 부제 / 리드 — 세 단계로 들어간다. 리드까지 읽으면 본문을 안 읽어도 안다. */
 .headline { font-family: var(--font-heading); font-weight: var(--font-heading-weight); line-height: 1.15; letter-spacing: -0.03em; }
-.deck { font-size: var(--text-h4); color: var(--color-muted); line-height: var(--leading-tight); max-width: 46ch; }
+.deck { font-size: var(--text-h4); color: var(--muted); line-height: var(--leading-tight); max-width: 46ch; }
 .lede { max-width: 54ch; }
 
 /* --- 목록 항목의 성격 셋 -------------------------------------------------
    같은 데이터를 세 급으로 싣는다. 한 지면에서 셋을 섞는 것이 신문이 하는 일이다. */
 
 /* 머리기사 — 오늘 하나만. 급을 스케일 밖으로 키워도 좋다 (파격 예산). */
-.entry-lead { display: block; padding: var(--space-4) 0 var(--space-6); border-bottom: var(--rule-hair) solid var(--color-line); }
+.entry-lead { display: block; padding: var(--space-4) 0 var(--space-6); border-bottom: var(--rule-hair) solid var(--border); }
 .entry-lead .headline { font-size: clamp(30px, 4.6vw, 54px); }
 .entry-lead .deck { margin-top: var(--space-3); }
 .entry-lead .lede { margin-top: var(--space-3); }
@@ -386,7 +407,7 @@ hr, .rule {
   display: grid; grid-template-columns: auto minmax(0, 1fr);
   gap: var(--space-3); align-items: baseline;
   padding: var(--space-2) 0;
-  border-bottom: var(--rule-hair) solid var(--color-line);
+  border-bottom: var(--rule-hair) solid var(--border);
 }
 .brief-item .entry-title { font-size: var(--text-h5); }
 
@@ -399,7 +420,7 @@ hr, .rule {
 /* 축의 부호 — 두 자리 고정폭 mono. 폭이 내용에 안 달렸으므로 제목의 왼쪽 끝이 흔들리지 않는다.
    「목록에 축을 싣지 마라」의 진짜 근거는 폭이 변하는 라벨이었지 라벨 개수가 아니었다. */
 .index-no { font-variant-numeric: tabular-nums; }
-.index-row + .index-row { border-top: var(--rule-hair) solid var(--color-line); }
+.index-row + .index-row { border-top: var(--rule-hair) solid var(--border); }
 .index-row .t { font-size: var(--text-small); }
 
 @media (max-width: 640px) {
@@ -417,27 +438,27 @@ hr, .rule {
 .btn {
   font-family: var(--font-ui); font-size: var(--text-small); line-height: 1.6;
   padding: var(--space-1) var(--space-3);
-  border: var(--rule-hair) solid var(--color-text);
+  border: var(--rule-hair) solid var(--body);
   border-radius: var(--radius-sm);
-  background: transparent; color: var(--color-text);
+  background: transparent; color: var(--body);
   cursor: pointer; text-decoration: none; display: inline-block;
 }
-.btn:hover { background: var(--color-text); color: var(--color-bg); }
-.btn-quiet { border-color: var(--color-line); color: var(--color-muted); }
-.btn-quiet:hover { border-color: var(--color-text); background: transparent; color: var(--color-text); }
+.btn:hover { background: var(--body); color: var(--bg); }
+.btn-quiet { border-color: var(--border); color: var(--muted); }
+.btn-quiet:hover { border-color: var(--body); background: transparent; color: var(--body); }
 
 .input {
   font-family: var(--font-ui); font-size: var(--text-body);
   padding: var(--space-2) 0;
-  background: transparent; color: var(--color-text);
-  border: 0; border-bottom: var(--rule-hair) solid var(--color-line);
+  background: transparent; color: var(--body);
+  border: 0; border-bottom: var(--rule-hair) solid var(--border);
   border-radius: 0; width: 100%;
 }
-.input:focus { outline: none; border-bottom-color: var(--color-accent); border-bottom-width: 2px; }
-.input::placeholder { color: var(--color-muted); }
+.input:focus { outline: none; border-bottom-color: var(--accent); border-bottom-width: 2px; }
+.input::placeholder { color: var(--muted); }
 
 /* 빈 상태 — 사과하지 않는다. 다음에 갈 곳을 준다. */
-.empty { padding: var(--space-7) 0; border-top: var(--rule-hair) solid var(--color-line); }
+.empty { padding: var(--space-7) 0; border-top: var(--rule-hair) solid var(--border); }
 .empty-line { font-size: var(--text-h4); }
 .empty-next { margin-top: var(--space-3); }
 
@@ -455,7 +476,7 @@ hr, .rule {
   font-size: var(--text-meta);
   letter-spacing: var(--tracking-meta);
   font-variant-numeric: tabular-nums;
-  color: var(--cat, var(--color-accent));
+  color: var(--accent);
 }
 
 /* 기사면에서만 쓰는 확장형 — 원문과 초록의 길이를 나란히 놓는다.
@@ -463,15 +484,15 @@ hr, .rule {
 .ratio-scale { display: grid; gap: 4px; }
 .ratio-row { display: flex; align-items: center; gap: var(--space-2); }
 .ratio-key { width: 52px; flex: none; }
-.ratio-track { width: 132px; height: 7px; background: var(--color-line); position: relative; flex: none; }
-.ratio-fill { position: absolute; inset: 0 auto 0 0; background: var(--cat, var(--color-accent)); }
+.ratio-track { width: 132px; height: 7px; background: var(--border); position: relative; flex: none; }
+.ratio-fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); }
 
 /* 분포 막대 — 여섯 갈래의 편수가 얼마나 기울었는지 길이로 말한다 (`/topics` · `/sources` · `/archive`).
    **먹만 쓴다.** 안료는 3색이고 축은 6개라 나눠 줄 색이 없고, 여기에 색을 들이면
    축과 카테고리의 부호가 섞인다. 6칸을 균등하게 그리는 것은 거짓말이고
    작은 축을 감추는 것은 더 나쁜 거짓말이다 — 순서는 번호 순 그대로 두고 길이만 다르다. */
-.count-bar { height: 7px; background: var(--color-line); position: relative; }
-.count-bar > i { position: absolute; inset: 0 auto 0 0; background: var(--color-muted); display: block; }
+.count-bar { height: 7px; background: var(--border); position: relative; }
+.count-bar > i { position: absolute; inset: 0 auto 0 0; background: var(--muted); display: block; }
 
 /* 시그니처 02 — 1면 편집.
    새 CSS 가 없다. .entry-lead 하나 + .brief-set 묶음의 조합이며, 시그니처는 그 배치 자체다.

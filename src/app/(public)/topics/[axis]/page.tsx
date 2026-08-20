@@ -67,8 +67,6 @@ export default async function AxisPage(props: PageProps<"/topics/[axis]">) {
   }
 
   const items = getPostsByAxis(found.slug).map(toListItem);
-  // 식별자 열은 arXiv ID 가 있는 목록에서만 쓴다.
-  const showIdentifier = items.some((item) => item.paper !== undefined);
 
   // 수록 기간. 목록은 최신순이라 양 끝이 곧 처음과 마지막이다.
   const newest = items.at(0);
@@ -119,9 +117,6 @@ export default async function AxisPage(props: PageProps<"/topics/[axis]">) {
               <PostList
                 items={items}
                 basePath={axisHref(found)}
-                showCategory
-                showIdentifier={showIdentifier}
-                showSummary
                 reserveViews
               />
             </Suspense>

@@ -26,11 +26,14 @@ describe("parseFrontmatter — 정상 케이스", () => {
     expect(parsed.draft).toBe(false);
   });
 
-  it("lead 를 적지 않으면 false 로 채워진다", () => {
-    expect(parseFrontmatter(validFrontmatter(), FILE_PATH).lead).toBe(false);
-    expect(
-      parseFrontmatter(validFrontmatter({ lead: true }), FILE_PATH).lead,
-    ).toBe(true);
+  it("모르는 칸은 조용히 버린다 — 죽은 `lead` 가 남은 파일이 빌드를 깨지 않는다", () => {
+    // 수집기가 아직 그 칸을 쓰고 있어도 발행이 막히면 안 된다. 수집기 쪽에서 지운다.
+    const parsed = parseFrontmatter(
+      { ...validFrontmatter(), lead: true },
+      FILE_PATH,
+    );
+
+    expect("lead" in parsed).toBe(false);
   });
 
   it("source.words 가 있으면 그대로 보존한다", () => {

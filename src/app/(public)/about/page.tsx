@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-const PROSE = "max-w-[68ch] font-serif text-[1.0625rem] leading-[1.75] text-body";
+const PROSE = "max-w-[var(--measure)] text-body";
 const SECTION_TITLE = "text-xl font-semibold text-heading";
 const LINK =
   "text-heading underline decoration-border underline-offset-[0.2em] transition-colors hover:decoration-heading focus-visible:outline-2 focus-visible:outline-focus";

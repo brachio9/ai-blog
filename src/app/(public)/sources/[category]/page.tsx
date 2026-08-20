@@ -6,35 +6,17 @@ import { Suspense } from "react";
 import { Container } from "@/components/layout/Container";
 import { PostList, type PostListItem } from "@/components/post/PostList";
 import {
+  ACCENT_TEXT,
   CATEGORIES,
   categoryHref,
   getCategory,
   type Category,
-  type CategoryAccent,
 } from "@/lib/categories";
 import { getPostsByCategory } from "@/lib/content/posts";
 import { formatDateShort } from "@/lib/format";
 import { SITE_NAME } from "@/lib/site";
 import { countByCategory } from "@/lib/stats";
 import type { Post } from "@/types/content";
-
-/**
- * 제호 위의 카테고리 라벨은 13.5px 라 안료의 기본 단계(낮 600)로는 본문 대비 4.5:1 에 닿지 않는다.
- * 낮에는 한 단계 깊은 700, 밤에는 300 을 쓴다 (docs/UI_GUIDE.md 접근성).
- * 목록 안의 안료(components/post 의 ACCENT_TEXT)는 아직 600 이다 — 목록을 다루는 step 이 함께 정한다.
- */
-const KICKER_ACCENT: Record<CategoryAccent, string> = {
-  paper: "text-[var(--color-accent-700)] dark:text-[var(--color-accent-300)]",
-  release:
-    "text-[var(--color-accent-2-700)] dark:text-[var(--color-accent-2-300)]",
-  news: "text-[var(--color-accent-3-700)] dark:text-[var(--color-accent-3-300)]",
-  // 먹 2칸: 안료와 달리 --color-neutral-* 는 낮밤이 같은 척도라 밤 값을 여기서 직접 뒤집는다.
-  // community 는 낮에 한 단계 깊은 700(8.40:1), note 는 기본 800 으로 이미 12.44:1 이라 그대로 둔다.
-  // 900 은 본문 색이라 제호 위 라벨이 본문과 구분되지 않는다.
-  community:
-    "text-[var(--color-neutral-700)] dark:text-[var(--color-neutral-400)]",
-  note: "text-[var(--color-neutral-800)] dark:text-[var(--color-neutral-200)]",
-};
 
 /** 카테고리 5종을 빌드 타임에 정적 생성한다. */
 export function generateStaticParams() {
@@ -74,7 +56,7 @@ function toListItem(post: Post): PostListItem {
  * 최상위 동적 세그먼트라 알 수 없는 경로를 전부 삼킨다 — 반드시 notFound() 로 걸러낸다.
  * 쿼리 파라미터(tag·page)는 여기서 읽지 않는다. 서버에서 읽는 순간 페이지가 통째로 동적이 되어
  * 정적 생성이 사라진다 (실측). 필터·페이지네이션은 PostList 가 클라이언트에서 처리하고,
- * 목록 자체는 PostList 안의 PostTable(밀집 표)이 그린다.
+ * 목록 자체는 PostList 안의 PostRow(index) 가 그린다.
  */
 export default async function CategoryPage(props: PageProps<"/sources/[category]">) {
   const { category } = await props.params;
@@ -84,8 +66,6 @@ export default async function CategoryPage(props: PageProps<"/sources/[category]
   }
 
   const items = getPostsByCategory(found.slug).map(toListItem);
-  // 식별자 열은 arXiv ID 가 있는 목록에서만 쓴다 — 카테고리 slug 를 여기 박지 않는다.
-  const showIdentifier = items.some((item) => item.paper !== undefined);
 
   // 수록 기간. 목록은 최신순이라 양 끝이 곧 처음과 마지막이다.
   const newest = items.at(0);
@@ -105,7 +85,7 @@ export default async function CategoryPage(props: PageProps<"/sources/[category]
         <header
           className={`masthead ${items.length > 0 ? "border-b border-border" : ""}`}
         >
-          <p className={`voice-ui ${KICKER_ACCENT[found.accent]}`}>
+          <p className={`voice-ui ${ACCENT_TEXT[found.accent]}`}>
             {SITE_NAME} · {found.name}
           </p>
           <h1
@@ -142,8 +122,6 @@ export default async function CategoryPage(props: PageProps<"/sources/[category]
               <PostList
                 items={items}
                 basePath={categoryHref(found)}
-                showIdentifier={showIdentifier}
-                showSummary
                 reserveViews
               />
             </Suspense>

@@ -37,13 +37,12 @@ const NAV = [
 ];
 
 /**
- * 현재 위치는 밑줄이 아니라 안료로 가리킨다 — 링크의 밑줄과 겹치면 구분이 안 된다.
- * 낮 바탕에서 --color-accent(600)는 작은 글자 대비가 4.5:1 에 못 미치므로
- * 한 단계 깊은 700 을, 밤 바탕에서는 300 을 쓴다 (docs/UI_GUIDE.md 접근성).
+ * 현재 위치는 밑줄이 아니라 액센트로 가리킨다 — 링크의 밑줄과 겹치면 구분이 안 된다.
+ * `--accent` 는 지면마다 이미 갈리므로(밤 green-500 8.20:1 · 낮 green-700 4.63:1)
+ * 단계를 손으로 고르던 dark: 변형이 사라졌다.
  * 색만으로 전달하지 않도록 aria-current 와 굵기를 함께 얹는다.
  */
-const CURRENT =
-  "font-medium text-[var(--color-accent-700)] dark:text-[var(--color-accent-300)]";
+const CURRENT = "font-medium text-accent";
 const RESTING = "text-muted hover:text-heading";
 const NAV_LINK =
   "voice-ui transition-colors focus-visible:outline-2 focus-visible:outline-focus";

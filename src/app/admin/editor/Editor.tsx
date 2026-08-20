@@ -523,16 +523,6 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
               />
               초안 (draft — 프로덕션 빌드에서 공개되지 않습니다)
             </label>
-
-            {/* 지면당 머리기사는 하나다 — 새로 붙이면 이전 머리기사에서 떼어 내야 한다. */}
-            <label className="flex items-center gap-2 text-sm text-body">
-              <input
-                type="checkbox"
-                checked={form.lead}
-                onChange={(event) => update({ lead: event.target.checked })}
-              />
-              머리기사 (lead — 1면 맨 위에 크게 실립니다)
-            </label>
           </fieldset>
 
           <fieldset className="space-y-3 rounded-md border border-border p-5">
