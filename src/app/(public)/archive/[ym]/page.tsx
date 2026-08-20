@@ -62,7 +62,7 @@ export default async function ArchiveMonthPage(
       <div className="py-12 md:py-16">
         <header>
           <p className="kicker">{SITE_NAME} · 아카이브</p>
-          <h1 className="mt-[var(--space-2)] text-[length:var(--text-h1)] font-bold tracking-[-0.02em] text-heading">
+          <h1 className="mt-[var(--space-2)] text-[length:var(--text-h1)] font-semibold tracking-[-0.02em] text-heading">
             {monthLabel(ym)}
           </h1>
           <p className="voice-ui mt-[var(--space-2)] text-muted">

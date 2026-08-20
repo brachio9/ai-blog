@@ -42,7 +42,7 @@ export default function SourcesPage() {
       <div className="py-12 md:py-16">
         <header>
           <p className="kicker">{SITE_NAME} · 출처</p>
-          <h1 className="mt-[var(--space-2)] text-[length:var(--text-h1)] font-bold tracking-[-0.02em] text-heading">
+          <h1 className="mt-[var(--space-2)] text-[length:var(--text-h1)] font-semibold tracking-[-0.02em] text-heading">
             출처
           </h1>
           <p className="mt-[var(--space-3)] max-w-[var(--measure)] text-muted">

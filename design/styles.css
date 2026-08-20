@@ -5,8 +5,10 @@
    원문을 읽고 골라 옮겨 적은 자리.
 
    이 시스템은 규칙집이 아니라 손잡이(knob) 모음이다. 불변은 넷뿐이고
-   (두 목소리 · 안료 팔레트 · 손으로 정한 척도 · 떠 있지 않은 지면),
+   (한 목소리 + mono · 액센트 1색 · 다크가 기본 지면 · 부호는 열에 앉는다),
    나머지 값은 전부 여기서 돌려 쓰라고 만들어 둔 것이다.
+   2026-08-20 에 옛 불변 넷(두 목소리 · 안료 팔레트 · 손으로 정한 척도 · 떠 있지 않은 지면)
+   중 셋이 죽었다 — 근거는 design/brief.md 의 사망 기록에 있다.
    기본값은 의견이 세지만 어느 것도 잠겨 있지 않다 — readme.md 참고.
 
    앱은 이 파일의 :root 블록을 정본으로 받아쓴다. 값을 따로 복제하지 마라.
@@ -91,6 +93,8 @@
   --font-ui: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
+  /* 400 · 500 · 600 셋만 불러온다. **700 을 쓰지 마라** — 없는 굵기를 지정하면
+     브라우저가 600 을 알고리즘으로 굵혀 그리고(합성 볼드), 한글에서 획이 뭉개진다. */
   --font-heading-weight: 600;
   --font-body-weight: 400;
 
@@ -283,7 +287,8 @@ hr, .rule {
   word-break: normal;
 }
 
-/* UI 라벨 — 한글 소형 텍스트는 명조 대신 산세리프로 */
+/* UI 라벨 — 본문보다 작은 한글 (2026-08-20 이전에는 「명조 대신 산세리프」였다.
+   지금은 산문도 산세리프라 이 유틸이 가르는 것은 서체가 아니라 크기와 행간이다) */
 .voice-ui {
   font-family: var(--font-ui);
   font-size: var(--text-small);
@@ -378,7 +383,7 @@ hr, .rule {
 
 /* 제호 — 지면 왼쪽 위. 가운데 정렬하지 않는다. */
 .masthead { padding: var(--space-6) 0 var(--space-4); }
-.masthead-title { font-size: 46px; font-weight: 700; letter-spacing: -0.035em; line-height: 1; }
+.masthead-title { font-size: 46px; font-weight: 600; letter-spacing: -0.035em; line-height: 1; }
 .masthead-line { margin-top: var(--space-3); max-width: 52ch; color: var(--muted); font-size: var(--text-small); }
 .masthead-meta { margin-top: var(--space-3); display: flex; gap: var(--space-4); flex-wrap: wrap; }
 

@@ -77,7 +77,7 @@ export default async function CategoryPage(props: PageProps<"/sources/[category]
       <div className="space-y-8 pb-12 md:pb-16">
         {/* 제호 — 홈과 달리 사이트 이름은 작아지고 카테고리 이름이 커진다.
             디자인 정본(design/components/masthead.html)은 34px 를 쓰지만 척도에 없는 값이라
-            한 눈금 위의 --text-h1(40px)로 받는다. 46px 인 홈 제호보다는 여전히 작다.
+            한 눈금 위의 --text-h1(30px)로 받는다. 46px 인 홈 제호보다는 여전히 작다.
             globals.css 의 .masthead-title 은 레이어 밖이라 Tailwind 유틸리티로는 못 덮는다 —
             디자인 정본이 이 자리에 인라인 style 을 쓰는 이유가 그것이다. */}
         {/* 빈 칸에서는 제호를 선으로 닫지 않는다 — .empty 가 자기 윗선을 갖고 있어

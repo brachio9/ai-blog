@@ -121,6 +121,8 @@
   --font-mono: var(--font-plex-mono), "Apple SD Gothic Neo", "Malgun Gothic",
     ui-monospace, monospace;
 
+  /* 400 · 500 · 600 셋만 불러온다 (layout.tsx). **700 을 쓰지 마라** — 없는 굵기를
+     지정하면 브라우저가 600 을 알고리즘으로 굵혀 그리고 한글에서 획이 뭉개진다. */
   --font-heading-weight: 600;
   --font-body-weight: 400;
 
@@ -299,7 +301,7 @@ body {
 
 /* 제호 — 지면 왼쪽 위. 가운데 정렬하지 않는다. */
 .masthead { padding: var(--space-6) 0 var(--space-4); }
-.masthead-title { font-size: 46px; font-weight: 700; letter-spacing: -0.035em; line-height: 1; }
+.masthead-title { font-size: 46px; font-weight: 600; letter-spacing: -0.035em; line-height: 1; }
 .masthead-line { margin-top: var(--space-3); max-width: 52ch; color: var(--muted); font-size: var(--text-small); }
 .masthead-meta { margin-top: var(--space-3); display: flex; gap: var(--space-4); flex-wrap: wrap; }
 

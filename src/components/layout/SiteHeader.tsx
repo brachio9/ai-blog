@@ -65,7 +65,7 @@ export function SiteHeader() {
         <div className="flex items-baseline gap-[var(--space-2)] pt-[var(--space-5)] pb-[var(--space-4)] sm:gap-[var(--space-4)]">
           <Link
             href="/"
-            className="shrink-0 text-[length:var(--text-h4)] font-bold tracking-[-0.02em] text-heading focus-visible:outline-2 focus-visible:outline-focus"
+            className="shrink-0 text-[length:var(--text-h4)] font-semibold tracking-[-0.02em] text-heading focus-visible:outline-2 focus-visible:outline-focus"
           >
             {SITE_NAME}
           </Link>
