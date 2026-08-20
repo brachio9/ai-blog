@@ -91,9 +91,10 @@ describe("정본 ↔ 앱 동기화", () => {
     expect({ missing, drifted }).toEqual({ missing: [], drifted: [] });
   });
 
-  it("② 정본 .ground-dark 와 앱 .dark 가 같은 값이다", () => {
-    const canon = declarations(block(CANON, ".ground-dark"));
-    const app = declarations(block(APP, ".dark"));
+  it("② 정본 .ground-light 와 앱 .light 가 같은 값이다", () => {
+    // 밤은 ①이 이미 본다 (:root ↔ :root). 낮만 따로 볼 수 있으면 두 지면이 다 덮인다.
+    const canon = declarations(block(CANON, ".ground-light"));
+    const app = declarations(block(APP, ".light"));
 
     const drifted: string[] = [];
     for (const [name, value] of canon) {
@@ -147,6 +148,27 @@ describe("정본 ↔ 앱 동기화", () => {
     expect(offenders).toEqual([]);
   });
 
+  it("⑥-2 컴포넌트가 참조하는 var(--…) 가 전부 CSS 에 정의돼 있다", () => {
+    // **실제로 겪은 결함이다.** 안료 ramp 이름을 바꾸면서 `text-[var(--color-accent-700)]`
+    // 여섯 곳이 죽은 참조로 남았다. TS 도 Tailwind 도 잡지 못하고 화면에서만 색이 사라진다.
+    const defined = new Set(
+      [...APP.matchAll(/(--[\w-]+)\s*:/g)].map(([, name]) => name),
+    );
+    // next/font 가 <html> 에 심는 변수는 CSS 에 선언이 없다.
+    const external = /^--font-plex|^--font-noto|^--shiki|^--cat$|^--tw-/;
+
+    const dangling: string[] = [];
+    for (const file of SOURCES) {
+      for (const [, name] of file.code.matchAll(/var\((--[\w-]+)/g)) {
+        if (!defined.has(name) && !external.test(name)) {
+          dangling.push(`${file.path}: ${name}`);
+        }
+      }
+    }
+
+    expect([...new Set(dangling)]).toEqual([]);
+  });
+
   it("⑦ .page 가 --page-max 를 쓴다 — 죽은 토큰을 만들지 않는다", () => {
     expect(APP).toContain(".page { max-width: var(--page-max);");
     expect(CANON).toContain(".page { max-width: var(--page-max);");
@@ -164,8 +186,8 @@ describe("정본 ↔ 앱 동기화", () => {
 
 describe("색 — 색역과 대비", () => {
   const ramp = declarations(block(APP, "@theme static"));
-  const dark = declarations(block(APP, ".dark"));
-  const light = declarations(block(APP, ":root"));
+  const dark = declarations(block(APP, ":root"));
+  const light = declarations(block(APP, ".light"));
 
   const resolve = (map: Map<string, string>, name: string): string => {
     const value = map.get(name);
@@ -191,6 +213,7 @@ describe("색 — 색역과 대비", () => {
       { name: "밤", tokens: dark, bg: resolve(dark, "--bg") },
       { name: "낮", tokens: light, bg: "oklch(1 0 0)" },
     ];
+    // 낮은 :root(밤) 를 물려받는 칸이 없다 — 두 블록이 같은 이름을 전부 다시 정한다.
     const roles = [
       "--body",
       "--muted",

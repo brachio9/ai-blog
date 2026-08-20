@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 /* ==========================================================================
    초록 (Chorok) — design system
@@ -43,44 +43,51 @@
   --color-green-700: oklch(0.545 0.155 148);
   --color-green-800: oklch(0.430 0.115 148);
 
-  /* --- 낮 (light ground) — 표백한 흰 종이 --------------------------------- */
-  --bg: #ffffff;
-  --surface: var(--color-ink-50);
-  --border: var(--color-ink-200);
-  --heading: var(--color-ink-900);
-  --body: var(--color-ink-900);
-  --muted: var(--color-ink-600);
+  /* --- 밤 (dark ground) — **기본 지면이다** ------------------------------
+     검정이 아니라 아주 어두운 먹. 밤에서 검정 그림자는 보이지 않으므로 떠 있는 느낌은
+     위 모서리 1px 의 밝은 inset(--edge-top)이 만든다 — 그것이 입체 장치 전부다.
+     낮은 .ground-light 로만 온다. prefers-color-scheme 을 보지 않는다 (src/lib/theme.ts). */
+  --bg: var(--color-ink-950);
+  --surface: var(--color-ink-900);
+  --border: var(--color-ink-800);
+  --heading: var(--color-ink-100);
+  --body: var(--color-ink-100);
+  --muted: var(--color-ink-400);
   /* 바탕 대비가 본문 기준(4.5:1)에 못 미친다. 구분 기호·비활성처럼 정보를 담지 않는 곳에만. */
-  --faint: var(--color-ink-400);
-  --accent: var(--color-green-700);
+  --faint: var(--color-ink-600);
+  --accent: var(--color-green-500);
   --focus: var(--accent);
-  --selection: var(--color-green-100);
-  /* 입체 — 밤에서만 쓰는 장치다. 낮 지면에서 흰 inset 은 아무 일도 하지 않는다. */
-  --edge-top: none;
+  --selection: var(--color-green-800);
+  --edge-top: inset 0 1px 0 oklch(1 0 0 / 0.05);
 
   /* 카테고리 (정보 부호) — src/lib/categories.ts 의 accent 키와 짝이다.
      **채도가 액센트의 1/3 이하다** (C 0.07 대 0.19). 부호가 액센트를 이기면
      한 화면에 고채도 색이 여섯 개가 되고 「액센트 1색」이 무너진다.
      안료 3색 + 먹 2단계인 것은 타협이 아니라 부호다 — community 는 원문이 여럿이라
      하나를 가리킬 수 없고, notes 는 사람이 골랐다는 것 자체가 기준이다 (CLAUDE.md). */
-  --cat-paper: oklch(0.500 0.070 148);  /* 논문 — 草綠 저채도 · 흰 바탕 5.81:1 */
-  --cat-release: oklch(0.500 0.070 40); /* 릴리즈 — 朱土 · 6.18:1 */
-  --cat-news: oklch(0.500 0.070 250);   /* 소식 — 藍 · 5.97:1 */
-  --cat-community: var(--color-ink-600); /* 커뮤니티 — 먹 中 */
-  --cat-note: var(--color-ink-800);      /* 기록 — 먹 濃 */
+  --cat-paper: oklch(0.780 0.050 148);   /* 논문 — 草綠 저채도 · 밤 바탕 9.81:1 */
+  --cat-release: oklch(0.780 0.050 40);  /* 릴리즈 — 朱土 · 9.47:1 */
+  --cat-news: oklch(0.780 0.050 250);    /* 소식 — 藍 · 9.67:1 */
+  /* 먹 2칸은 안료와 달리 자동으로 뒤집히지 않는다 — 낮의 명도 순서(中 < 濃)를
+     밤에서도 지키려면 밝은 쪽으로 옮겨야 한다. */
+  --cat-community: var(--color-ink-400); /* 커뮤니티 — 먹 中 */
+  --cat-note: var(--color-ink-200);      /* 기록 — 먹 濃 */
 
   /* 차트 계열 색 (순서대로 사용). **이름을 바꾸지 마라** — Chart.tsx 가 이 이름으로 읽고,
      없는 변수를 받은 Recharts 는 경고도 없이 검정으로 칠한다. */
   --chart-1: var(--cat-paper);
   --chart-2: var(--cat-release);
   --chart-3: var(--cat-news);
-  --chart-4: var(--color-ink-700);
+  --chart-4: var(--color-ink-300);
   --chart-5: var(--color-ink-500);
 
-  /* --- 활자 — 두 개의 목소리 -------------------------------------------- */
-  /* 초록의 목소리: 한글 명조. 원문의 목소리: 영문·숫자 mono. UI 는 산세리프. */
-  --font-heading: 'Noto Serif KR', 'Apple SD Gothic Neo', 'Malgun Gothic', serif;
-  --font-body: 'Noto Serif KR', 'Apple SD Gothic Neo', 'Malgun Gothic', serif;
+  /* --- 활자 — **한 목소리 + mono** ---------------------------------------
+     한글 산문은 산세리프 한 벌이다. mono 는 손대지 않은 원문 재료
+     (날짜·식별자·판수·도메인·수치)에만 쓴다 — 한글을 mono 로 짜지 마라.
+     명조를 뺀 것이 이번 개편이다: 한글 패밀리가 둘에서 하나로 줄어 FOUT 이 절반이고,
+     Plex Sans KR 과 Plex Mono 는 같은 슈퍼패밀리라 두 목소리의 관계가 자의적이지 않다. */
+  --font-heading: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   --font-ui: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
@@ -139,57 +146,6 @@
 
   /* --- 목록 밀도 — 화면마다 .list-tight / .list-loose 로 덮어쓴다. */
   --entry-pad: var(--space-3);
-}
-
-/* --- 밤 (dark ground) — 검정이 아니라 아주 어두운 먹 --------------------
-   **밤에서 검정 그림자는 보이지 않는다.** 떠 있는 느낌은 위 모서리 1px 의
-   밝은 inset 이 만든다 (--edge-top). 그것이 이 지면의 입체 장치 전부다. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: var(--color-ink-950);
-    --surface: var(--color-ink-900);
-    --border: var(--color-ink-800);
-    --heading: var(--color-ink-100);
-    --body: var(--color-ink-100);
-    --muted: var(--color-ink-400);
-    --faint: var(--color-ink-600);
-    --accent: var(--color-green-500);
-    --focus: var(--accent);
-    --selection: var(--color-green-800);
-    --edge-top: inset 0 1px 0 oklch(1 0 0 / 0.05);
-
-    --cat-paper: oklch(0.780 0.050 148);
-    --cat-release: oklch(0.780 0.050 40);
-    --cat-news: oklch(0.780 0.050 250);
-    /* 먹 2칸은 안료와 달리 자동으로 뒤집히지 않는다 — 낮의 명도 순서(中 < 濃)를
-       밤에서도 지키려면 밝은 쪽으로 옮겨야 한다. */
-    --cat-community: var(--color-ink-400);
-    --cat-note: var(--color-ink-200);
-
-    --chart-4: var(--color-ink-300);
-  }
-}
-
-:root[data-theme="dark"] {
-  --bg: var(--color-ink-950);
-  --surface: var(--color-ink-900);
-  --border: var(--color-ink-800);
-  --heading: var(--color-ink-100);
-  --body: var(--color-ink-100);
-  --muted: var(--color-ink-400);
-  --faint: var(--color-ink-600);
-  --accent: var(--color-green-500);
-  --focus: var(--accent);
-  --selection: var(--color-green-800);
-  --edge-top: inset 0 1px 0 oklch(1 0 0 / 0.05);
-
-  --cat-paper: oklch(0.780 0.050 148);
-  --cat-release: oklch(0.780 0.050 40);
-  --cat-news: oklch(0.780 0.050 250);
-  --cat-community: var(--color-ink-400);
-  --cat-note: var(--color-ink-200);
-
-  --chart-4: var(--color-ink-300);
 }
 
 /* Scoped grounds — so one page can show 낮 and 밤 side by side. */
@@ -284,20 +240,24 @@ h6 { font-size: var(--text-h6); }
 p { margin: 0; max-width: var(--measure); }
 
 /* 링크는 색이 아니라 밑줄이 표시한다 — 색 예산을 아낀다. */
+/* 링크는 색이 아니라 **밑줄이 올라오는 것**으로 표시한다. 색 예산은 액센트 하나뿐이다.
+
+   2026-08-20 철회: 「늘 밑줄이 그어져 있다」를 버렸다. 그것은 신문 지면의 관습이고,
+   균일 피드에서는 스무 행이 전부 밑줄이라 행과 행의 구분이 오히려 사라진다.
+   밑줄은 이제 hover·focus 에서만 온다. (지우지 마라 — 이 문서는 철회를 기록한다.) */
 a {
   color: inherit;
-  text-decoration: underline;
+  text-decoration: none;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
-  text-decoration-color: var(--border);
+  text-underline-offset: 0.2em;
   transition: text-decoration-color 120ms linear;
 }
-a:hover { text-decoration-color: currentColor; }
+a:hover { text-decoration: underline; }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: var(--radius-none);
+  border-radius: var(--radius-sm);
 }
 
 hr, .rule {

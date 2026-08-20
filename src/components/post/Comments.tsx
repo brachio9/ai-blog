@@ -3,19 +3,12 @@
 import { type ReactElement, useEffect, useRef } from "react";
 
 import { getGiscusConfig } from "@/lib/giscus";
-import { DARK_CLASS } from "@/lib/theme";
+import { currentTheme } from "@/lib/theme";
 
 const GISCUS_ORIGIN = "https://giscus.app";
 
 /** NEXT_PUBLIC_* 는 빌드 타임 상수라 모듈이 로드될 때 한 번만 읽으면 된다. */
 const CONFIG = getGiscusConfig();
-
-/** giscus 프리셋 이름. 사이트 테마와 축이 같아서 그대로 넘길 수 있다. */
-function currentTheme(): "light" | "dark" {
-  return document.documentElement.classList.contains(DARK_CLASS)
-    ? "dark"
-    : "light";
-}
 
 /**
  * 댓글 — Giscus 가 GitHub Discussions 에 저장한다 (ADR-004). 서버·DB 를 쓰지 않는다.

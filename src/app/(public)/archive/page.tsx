@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
-import { ACCENT_TEXT } from "@/components/post/PostTable";
-import { getCategory } from "@/lib/categories";
+import { ACCENT_TEXT, getCategory } from "@/lib/categories";
 import { countByCategory, postsByMonth, type MonthGroup } from "@/lib/stats";
 
 // 루트 레이아웃의 title.template 이 " | {SITE_NAME}" 을 붙인다.

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
-/* Tailwind v4 의 dark: 는 기본이 prefers-color-scheme 이다.
-   사용자 토글(.dark 클래스)로 제어하려면 이 선언이 반드시 필요하다. */
-@custom-variant dark (&:where(.dark, .dark *));
+/* **밤이 기본이라 변형은 light 쪽이다.** Tailwind v4 의 dark: 는 기본이
+   prefers-color-scheme 인데 우리는 그것을 보지 않는다 (src/lib/theme.ts). */
+@custom-variant light (&:where(.light, .light *));
 
 /* ==========================================================================
    토큰 — 정본은 design/styles.css 의 :root 블록이다.
@@ -70,49 +70,52 @@
    이 블록은 어느 캐스케이드 레이어에도 속하지 않는다(unlayered).
    Tailwind 의 @theme 는 @layer theme 안이라, 이름이 겹치면 레이어 밖인 여기가 이긴다. */
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
-  /* --- 낮 (light ground) — 표백한 흰 종이 */
-  --bg: #ffffff;
-  --surface: var(--color-ink-50);
-  --border: var(--color-ink-200);
-  --heading: var(--color-ink-900);
-  --body: var(--color-ink-900);
-  --muted: var(--color-ink-600);
+  /* --- 밤 (dark ground) — **기본 지면이다** */
+  --bg: var(--color-ink-950);
+  --surface: var(--color-ink-900);
+  --border: var(--color-ink-800);
+  --heading: var(--color-ink-100);
+  --body: var(--color-ink-100);
+  --muted: var(--color-ink-400);
   /* 바탕 대비가 본문 기준(4.5:1)에 못 미친다. 정보를 담지 않는 곳에만 쓴다. */
-  --faint: var(--color-ink-400);
-  --accent: var(--color-green-700);
+  --faint: var(--color-ink-600);
+  --accent: var(--color-green-500);
   --focus: var(--accent);
-  --selection: var(--color-green-100);
+  --selection: var(--color-green-800);
   /* 입체 — 밤에서만 쓰는 장치다. 낮 지면에서 흰 inset 은 아무 일도 하지 않는다. */
-  --edge-top: none;
+  --edge-top: inset 0 1px 0 oklch(1 0 0 / 0.05);
 
   /* 카테고리 (정보 부호) — src/lib/categories.ts 의 accent 키와 짝이다.
      **채도가 액센트의 1/3 이하다** (C 0.07 대 0.19). 부호가 액센트를 이기면
      한 화면에 고채도 색이 여섯이 되고 「액센트 1색」이 무너진다.
      안료 3색 + 먹 2단계인 것은 타협이 아니라 부호다 — community 는 원문이 여럿이라
      하나를 가리킬 수 없고, notes 는 사람이 골랐다는 것 자체가 기준이다 (CLAUDE.md). */
-  --cat-paper: oklch(0.500 0.070 148); /* 논문 — 草綠 저채도 · 흰 바탕 5.81:1 */
-  --cat-release: oklch(0.500 0.070 40); /* 릴리즈 — 朱土 · 6.18:1 */
-  --cat-news: oklch(0.500 0.070 250); /* 소식 — 藍 · 5.97:1 */
-  --cat-community: var(--color-ink-600); /* 커뮤니티 — 먹 中 */
-  --cat-note: var(--color-ink-800); /* 기록 — 먹 濃 */
+  --cat-paper: oklch(0.780 0.050 148); /* 논문 — 草綠 저채도 · 밤 바탕 9.81:1 */
+  --cat-release: oklch(0.780 0.050 40); /* 릴리즈 — 朱土 · 9.47:1 */
+  --cat-news: oklch(0.780 0.050 250); /* 소식 — 藍 · 9.67:1 */
+  /* 먹 2칸은 안료와 달리 자동으로 뒤집히지 않는다 — 낮의 명도 순서(中 < 濃)를
+     밤에서도 지키려면 밝은 쪽으로 옮겨야 한다. */
+  --cat-community: var(--color-ink-400); /* 커뮤니티 — 먹 中 */
+  --cat-note: var(--color-ink-200); /* 기록 — 먹 濃 */
 
   /* 차트 계열 색 (순서대로 사용). **이름을 바꾸지 마라** — src/components/mdx/Chart.tsx 가
      이 이름으로 읽고, 없는 변수를 받은 Recharts 는 경고도 없이 검정으로 칠한다. */
   --chart-1: var(--cat-paper);
   --chart-2: var(--cat-release);
   --chart-3: var(--cat-news);
-  --chart-4: var(--color-ink-700);
+  --chart-4: var(--color-ink-300);
   --chart-5: var(--color-ink-500);
 
-  /* --- 활자 — 글꼴 이름을 직접 쓰지 않고 next/font 가 만든 변수를 경유한다.
+  /* --- 활자 — **한 목소리 + mono**. 한글 산문은 산세리프 한 벌이고 mono 는
+     손대지 않은 원문 재료에만 쓴다. 글꼴 이름을 직접 쓰지 않고 next/font 변수를 경유한다.
      한글 폴백을 지우지 마라 — 한글 범위는 preload 되지 않아 첫 페인트에 잠깐 보이고,
      mono 에는 한글 글리프가 아예 없다. */
-  --font-heading: var(--font-noto-serif-kr), "Apple SD Gothic Neo",
-    "Malgun Gothic", serif;
-  --font-body: var(--font-noto-serif-kr), "Apple SD Gothic Neo", "Malgun Gothic",
-    serif;
+  --font-heading: var(--font-plex-sans-kr), "Apple SD Gothic Neo",
+    "Malgun Gothic", sans-serif;
+  --font-body: var(--font-plex-sans-kr), "Apple SD Gothic Neo", "Malgun Gothic",
+    sans-serif;
   --font-ui: var(--font-plex-sans-kr), "Apple SD Gothic Neo", "Malgun Gothic",
     sans-serif;
   --font-mono: var(--font-plex-mono), "Apple SD Gothic Neo", "Malgun Gothic",
@@ -153,45 +156,41 @@
 
   /* 시맨틱 (콜아웃·상태) — 안료 3색은 카테고리 부호로 예약되어 겹쳐 쓸 수 없다.
      OKLCH 척도 밖의 값이라 여기 남는다 (src/lib/og-colors.ts 와 같은 사정). */
-  --success: #3f7d3a;
-  --warning: #8a5a00;
-  --danger: #b02020;
-  --info: #0f6b63;
-}
-
-/* 밤 (dark ground) — 검정이 아니라 아주 어두운 먹.
-   **밤에서 검정 그림자는 보이지 않는다.** 떠 있는 느낌은 위 모서리 1px 의 밝은 inset 이
-   만든다 (--edge-top). 그것이 이 지면의 입체 장치 전부다.
-   정본 design/styles.css 의 .ground-dark 블록을 그대로 옮겼고 셀렉터만 바꿨다. */
-.dark {
-  color-scheme: dark;
-
-  --bg: var(--color-ink-950);
-  --surface: var(--color-ink-900);
-  --border: var(--color-ink-800);
-  --heading: var(--color-ink-100);
-  --body: var(--color-ink-100);
-  --muted: var(--color-ink-400);
-  --faint: var(--color-ink-600);
-  --accent: var(--color-green-500);
-  --focus: var(--accent);
-  --selection: var(--color-green-800);
-  --edge-top: inset 0 1px 0 oklch(1 0 0 / 0.05);
-
-  --cat-paper: oklch(0.780 0.050 148);
-  --cat-release: oklch(0.780 0.050 40);
-  --cat-news: oklch(0.780 0.050 250);
-  /* 먹 2칸은 안료와 달리 자동으로 뒤집히지 않는다 — 낮의 명도 순서(中 < 濃)를
-     밤에서도 지키려면 밝은 쪽으로 옮겨야 한다. */
-  --cat-community: var(--color-ink-400);
-  --cat-note: var(--color-ink-200);
-
-  --chart-4: var(--color-ink-300);
-
   --success: #78ad70;
   --warning: #d9a441;
   --danger: #e08080;
   --info: #4fb3a5;
+}
+
+/* 낮 (light ground) — 사람이 명시적으로 고를 때만 온다.
+   정본 design/styles.css 의 .ground-light 블록을 그대로 옮겼고 셀렉터만 바꿨다. */
+.light {
+  color-scheme: light;
+
+  --bg: #ffffff;
+  --surface: var(--color-ink-50);
+  --border: var(--color-ink-200);
+  --heading: var(--color-ink-900);
+  --body: var(--color-ink-900);
+  --muted: var(--color-ink-600);
+  --faint: var(--color-ink-400);
+  --accent: var(--color-green-700);
+  --focus: var(--accent);
+  --selection: var(--color-green-100);
+  --edge-top: none;
+
+  --cat-paper: oklch(0.500 0.070 148);
+  --cat-release: oklch(0.500 0.070 40);
+  --cat-news: oklch(0.500 0.070 250);
+  --cat-community: var(--color-ink-600);
+  --cat-note: var(--color-ink-800);
+
+  --chart-4: var(--color-ink-700);
+
+  --success: #3f7d3a;
+  --warning: #8a5a00;
+  --danger: #b02020;
+  --info: #0f6b63;
 }
 
 /* --- ③ 역할 → 유틸리티. -------------------------------------------------
@@ -205,6 +204,7 @@
   --color-body: var(--body);
   --color-muted: var(--muted);
   --color-faint: var(--faint);
+  --color-accent: var(--accent);
   --color-focus: var(--focus);
 
   --color-cat-paper: var(--cat-paper);
@@ -219,7 +219,6 @@
   --color-info: var(--info);
 
   --font-sans: var(--font-ui);
-  --font-serif: var(--font-body);
   --font-mono: var(--font-mono);
 }
 
@@ -462,21 +461,23 @@ body {
 
    훅으로 data-language 를 쓴다 — rehype-pretty-code 는 data-theme 과 함께
    항상 이 속성도 붙이므로(defaultLang 이 있어 인라인 코드도 예외가 없다) 범위가 같다.
-   앱에서 data-theme 속성 셀렉터를 아예 없애 두면, 테마 전환이 .dark 클래스
+   앱에서 data-theme 속성 셀렉터를 아예 없애 두면, 테마 전환이 .light 클래스
    한 가지 방식뿐이라는 것이 파일만 봐도 드러난다.
-   ------------------------------------------------------------------ */
+
+   **기본이 --shiki-dark 인 것이 지면 역전의 전부다.** 이 짝을 안 뒤집으면
+   코드블록만 낮으로 남아 밤 지면 한가운데서 흰 상자가 된다. */
 pre[data-language],
 code[data-language],
 code[data-language] span {
-  color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
-}
-
-.dark pre[data-language],
-.dark code[data-language],
-.dark code[data-language] span {
   color: var(--shiki-dark);
   background-color: var(--shiki-dark-bg);
+}
+
+.light pre[data-language],
+.light code[data-language],
+.light code[data-language] span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
 }
 
 /* ------------------------------------------------------------------

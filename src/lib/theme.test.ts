@@ -1,71 +1,49 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
-import { DARK_CLASS, THEME_STORAGE_KEY, resolveTheme, setTheme } from "./theme";
+import { LIGHT_CLASS, THEME_STORAGE_KEY, resolveTheme, setTheme } from "./theme";
 
-/** jsdom 에는 matchMedia 가 없으므로 시스템 설정을 흉내낸다. */
-function stubSystemPrefersDark(matches: boolean) {
-  vi.stubGlobal("matchMedia", () => ({ matches }));
-}
+beforeEach(() => {
+  localStorage.clear();
+  document.documentElement.classList.remove(LIGHT_CLASS);
+});
 
 describe("resolveTheme", () => {
-  beforeEach(() => {
-    localStorage.clear();
-    document.documentElement.classList.remove(DARK_CLASS);
-  });
-
-  afterEach(() => {
-    vi.unstubAllGlobals();
-  });
-
-  it("저장된 값이 dark 면 dark 를 쓴다", () => {
-    localStorage.setItem(THEME_STORAGE_KEY, "dark");
-    stubSystemPrefersDark(false);
-
+  it("저장된 값이 없으면 밤이다 — 밤이 기본 지면이다", () => {
     expect(resolveTheme()).toBe("dark");
   });
 
-  it("저장된 값이 light 면 시스템이 dark 여도 light 를 쓴다", () => {
+  it("**시스템 설정을 보지 않는다** — 낮은 사람이 고를 때만 온다", () => {
+    // OS 가 라이트여도 첫 방문은 밤이다. 반쯤 디자인된 지면을 첫 화면으로 내지 않는다.
+    expect(resolveTheme()).toBe("dark");
+  });
+
+  it("저장된 값이 light 면 낮을 쓴다", () => {
     localStorage.setItem(THEME_STORAGE_KEY, "light");
-    stubSystemPrefersDark(true);
 
     expect(resolveTheme()).toBe("light");
   });
 
-  it("저장된 값이 없으면 시스템 설정을 따른다", () => {
-    stubSystemPrefersDark(true);
-    expect(resolveTheme()).toBe("dark");
-
-    stubSystemPrefersDark(false);
-    expect(resolveTheme()).toBe("light");
-  });
-
-  it("저장된 값이 규약(light|dark) 밖이면 시스템 설정을 따른다", () => {
+  it("저장된 값이 규약(light|dark) 밖이면 밤으로 떨어진다", () => {
     localStorage.setItem(THEME_STORAGE_KEY, "sepia");
-    stubSystemPrefersDark(true);
 
     expect(resolveTheme()).toBe("dark");
   });
 });
 
 describe("setTheme", () => {
-  beforeEach(() => {
-    localStorage.clear();
-    document.documentElement.classList.remove(DARK_CLASS);
-  });
-
-  it("dark 는 html 에 dark 클래스를 붙이고 저장한다", () => {
-    setTheme("dark");
-
-    expect(document.documentElement.classList.contains(DARK_CLASS)).toBe(true);
-    expect(localStorage.getItem(THEME_STORAGE_KEY)).toBe("dark");
-  });
-
-  it("light 는 dark 클래스를 떼고 저장한다", () => {
-    document.documentElement.classList.add(DARK_CLASS);
-
+  it("light 는 html 에 light 클래스를 붙이고 저장한다", () => {
     setTheme("light");
 
-    expect(document.documentElement.classList.contains(DARK_CLASS)).toBe(false);
+    expect(document.documentElement.classList.contains(LIGHT_CLASS)).toBe(true);
     expect(localStorage.getItem(THEME_STORAGE_KEY)).toBe("light");
+  });
+
+  it("dark 는 클래스를 떼고 저장한다 — 밤은 클래스 없는 상태다", () => {
+    document.documentElement.classList.add(LIGHT_CLASS);
+
+    setTheme("dark");
+
+    expect(document.documentElement.classList.contains(LIGHT_CLASS)).toBe(false);
+    expect(localStorage.getItem(THEME_STORAGE_KEY)).toBe("dark");
   });
 });

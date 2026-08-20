@@ -6,35 +6,17 @@ import { Suspense } from "react";
 import { Container } from "@/components/layout/Container";
 import { PostList, type PostListItem } from "@/components/post/PostList";
 import {
+  ACCENT_TEXT,
   CATEGORIES,
   categoryHref,
   getCategory,
   type Category,
-  type CategoryAccent,
 } from "@/lib/categories";
 import { getPostsByCategory } from "@/lib/content/posts";
 import { formatDateShort } from "@/lib/format";
 import { SITE_NAME } from "@/lib/site";
 import { countByCategory } from "@/lib/stats";
 import type { Post } from "@/types/content";
-
-/**
- * 제호 위의 카테고리 라벨은 13.5px 라 안료의 기본 단계(낮 600)로는 본문 대비 4.5:1 에 닿지 않는다.
- * 낮에는 한 단계 깊은 700, 밤에는 300 을 쓴다 (docs/UI_GUIDE.md 접근성).
- * 목록 안의 안료(components/post 의 ACCENT_TEXT)는 아직 600 이다 — 목록을 다루는 step 이 함께 정한다.
- */
-const KICKER_ACCENT: Record<CategoryAccent, string> = {
-  paper: "text-[var(--color-accent-700)] dark:text-[var(--color-accent-300)]",
-  release:
-    "text-[var(--color-accent-2-700)] dark:text-[var(--color-accent-2-300)]",
-  news: "text-[var(--color-accent-3-700)] dark:text-[var(--color-accent-3-300)]",
-  // 먹 2칸: 안료와 달리 --color-neutral-* 는 낮밤이 같은 척도라 밤 값을 여기서 직접 뒤집는다.
-  // community 는 낮에 한 단계 깊은 700(8.40:1), note 는 기본 800 으로 이미 12.44:1 이라 그대로 둔다.
-  // 900 은 본문 색이라 제호 위 라벨이 본문과 구분되지 않는다.
-  community:
-    "text-[var(--color-neutral-700)] dark:text-[var(--color-neutral-400)]",
-  note: "text-[var(--color-neutral-800)] dark:text-[var(--color-neutral-200)]",
-};
 
 /** 카테고리 5종을 빌드 타임에 정적 생성한다. */
 export function generateStaticParams() {
@@ -105,7 +87,7 @@ export default async function CategoryPage(props: PageProps<"/sources/[category]
         <header
           className={`masthead ${items.length > 0 ? "border-b border-border" : ""}`}
         >
-          <p className={`voice-ui ${KICKER_ACCENT[found.accent]}`}>
+          <p className={`voice-ui ${ACCENT_TEXT[found.accent]}`}>
             {SITE_NAME} · {found.name}
           </p>
           <h1

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { axisHref, axisNumber, getAxis } from "@/lib/axes";
-import { CAT_CLASS, getCategory, type CategoryAccent } from "@/lib/categories";
+import { CAT_CLASS, getCategory } from "@/lib/categories";
 import { formatDateShort } from "@/lib/format";
 import { postHref } from "@/lib/pagination";
 import type { Post } from "@/types/content";
@@ -26,22 +26,6 @@ export interface PostTableProps {
   /** 목록의 접근 가능한 이름. 한 화면에 목록이 둘 이상이면 서로 달라야 한다. */
   caption?: string;
 }
-
-/**
- * 카테고리 색 클래스 — globals.css 의 `--cat-*` 를 Tailwind 유틸리티로 받는다.
- * Tailwind 는 런타임에 조합한 클래스 문자열을 만들어 주지 않으므로 accent 키로 고른다.
- *
- * 항목 안에서는 이 맵이 아니라 `CAT_CLASS`(--cat 을 정하는 `.cat-*`)를 쓴다 —
- * 여기 있는 안료는 아직 600 단계라 본문 크기 텍스트에는 대비가 모자란다.
- * 머리글처럼 큰 글자에만 쓴다 (아카이브 머리·소개).
- */
-export const ACCENT_TEXT: Record<CategoryAccent, string> = {
-  paper: "text-cat-paper",
-  release: "text-cat-release",
-  news: "text-cat-news",
-  community: "text-cat-community",
-  note: "text-cat-note",
-};
 
 /** 레일 둘째 줄에 남기는 원문 식별자. 논문 목록에서만 켠다. */
 function identifierOf(post: Post, showIdentifier: boolean): string {

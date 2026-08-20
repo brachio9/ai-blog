@@ -80,6 +80,25 @@ export const CATEGORIES: readonly Category[] = [
 ];
 
 /**
+ * 카테고리 색을 **글자색 유틸리티**로 받는다 — `--cat-*` 를 Tailwind 로 노출한 통로다.
+ * Tailwind 는 런타임에 조합한 클래스 문자열을 만들어 주지 않으므로 accent 키로 고른다.
+ *
+ * `CAT_CLASS` 와 갈리는 지점: 저쪽은 `--cat` 변수를 **정해 주고**(그 아래 `.cat-label`·
+ * `.ratio` 가 따라온다), 이쪽은 그 색을 **직접 칠한다**. 항목 안에서는 CAT_CLASS 를,
+ * 제호·머리글처럼 홀로 서는 라벨에는 이쪽을 쓴다.
+ *
+ * 다섯 칸 모두 두 지면에서 AA 4.5:1 을 넘는다 (design-tokens.test.ts 가 지킨다) —
+ * 개편 전에는 그러지 못해 `dark:` 변형과 700/300 단계를 따로 적어야 했다.
+ */
+export const ACCENT_TEXT: Record<CategoryAccent, string> = {
+  paper: "text-cat-paper",
+  release: "text-cat-release",
+  news: "text-cat-news",
+  community: "text-cat-community",
+  note: "text-cat-note",
+};
+
+/**
  * 안료 클래스 — globals.css 의 `.cat-*` 가 그 항목의 `--cat` 을 정한다.
  * 항목(.entry·.brief-item·.index-row·.entry-lead) 바깥쪽에 붙이면 안쪽의
  * `.cat-label` · `.ratio` 가 그 색을 따라온다. 색 값을 컴포넌트에 적지 않기 위한 유일한 통로다.
