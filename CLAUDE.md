@@ -12,7 +12,7 @@
 - 콘텐츠: MDX 파일 (`content/**/*.mdx`) + `gray-matter` + `zod` 검증
 - MDX 컴파일: `next-mdx-remote/rsc` — `remark-gfm` · `remark-math`/`rehype-katex` · `rehype-pretty-code` · `rehype-slug`
 - 시각화: Recharts(차트) · Mermaid(다이어그램) — 둘 다 lazy-load
-- 저장소: GitHub(본문 **및 이미지**) · Turso/libSQL(조회수). Cloudflare R2 는 쓰지 않는다 (ADR-005)
+- 저장소: GitHub(본문 **및 우리가 만든 이미지**) · Turso/libSQL(조회수). Cloudflare R2 는 쓰지 않는다 (ADR-005). **남의 원문 그림은 커밋하지 않고 원본 주소를 임베드한다** (ADR-014)
 - 인증: Auth.js v5 GitHub OAuth — **반드시 `npm i next-auth@beta`** (`latest` 는 API 가 전혀 다른 v4 다) · 댓글: Giscus
 - 테스트: Vitest — 테스트 파일은 `src/**/*.test.{ts,tsx}` 에 둔다 (`vitest.config.ts` 의 include 범위)
 - 배포: Vercel
@@ -24,6 +24,7 @@
 - **CRITICAL: `/admin/*` 은 `src/proxy.ts` 로 전부 보호하고, 각 페이지/라우트에서 허용 GitHub 계정 화이트리스트로 다시 확인한다.** 클라이언트 체크만으로 막지 마라. Next.js 16 에서 `middleware.ts` 는 `proxy.ts` 로 이름이 바뀌었다 (기능 동일) — `middleware.ts` 를 만들지 마라.
 - **CRITICAL: 비밀값은 환경변수로만.** 코드·콘텐츠·커밋 메시지에 토큰·키를 하드코딩하지 마라.
 - **CRITICAL: 외부 원문을 요약·인용하면 `source.url` 표기가 필수다.** 출처 없는 번역 게시 금지.
+- **CRITICAL: 남의 이미지를 레포에 복제하지 마라 — 원본 주소를 임베드한다** (`source.image`). 받아서 커밋하면 저작권 판단을 편당 사람이 해야 하고 레포가 남의 바이너리로 부푼다. `next/image` 도 쓰지 마라 — 최적화기가 파생 사본을 우리 도메인에서 재배포한다 (ADR-014). 레포에 커밋하는 것은 **우리가 만든 이미지**뿐이다 (ADR-005).
 - **CRITICAL: 모든 시각은 KST(`+0900`) ISO-8601.**
 - **CRITICAL: `CLAUDE.md` · `docs/*.md` · `.gitignore` 를 생성 도구의 산출물로 덮어쓰지 마라.** 이유: 이 5개 문서가 매 step 의 유일한 가드레일이다. 덮어쓰면 이후 모든 step 이 빈 지침으로 실행된다. `create-next-app` 등은 자기 `CLAUDE.md`/`AGENTS.md` 를 만들므로 복사 시 반드시 제외한다. 지침 정본은 `CLAUDE.md` 하나이며 `AGENTS.md` 를 만들지 마라.
 - MDX 컴파일 진입점은 `src/lib/mdx.ts` **하나**. 프리뷰용 별도 파이프라인을 만들지 마라. 이유: 프리뷰와 실제 렌더가 갈라지면 "프리뷰는 되는데 발행하면 깨진다"가 반드시 생긴다.
@@ -108,11 +109,11 @@ phase 는 서로 다른 세션에서 실행되므로 이름이 갈리면 마지�
 
 | slug | 이름 | 부호 | 채우는 주체 |
 |---|---|---|---|
-| `papers` | 논문 | 草綠 (accent) | 봇 + 사람 |
-| `releases` | 릴리즈 | 朱土 (accent-2) | 봇 |
-| `news` | 소식 | 藍 (accent-3) | 봇 |
-| `community` | 커뮤니티 | **먹 中** (neutral-600) | 봇 |
-| `notes` | 기록 | **먹 濃** (neutral-800) | **사람만** |
+| `papers` | 논문 | 草綠 (`--cat-paper`) | 봇 + 사람 |
+| `releases` | 릴리즈 | 朱土 (`--cat-release`) | 봇 |
+| `news` | 소식 | 藍 (`--cat-news`) | 봇 |
+| `community` | 커뮤니티 | **먹 中** (`--cat-community`) | 봇 |
+| `notes` | 기록 | **먹 濃** (`--cat-note`) | **사람만** |
 
 옛 `hf-blog` 한 칸이 `releases`(GitHub 릴리즈 28곳)와 `news`(기업 블로그·뉴스레터 17곳)로 갈라졌다.
 **색을 안 쓰는 것 자체가 부호다** — `community` 는 원문이 여럿이고, `notes` 는 원문이 아니라 **사람이 골랐다는 것**이 기준이다 (직접 잰 글에는 원문이 아예 없다).
@@ -120,6 +121,7 @@ phase 는 서로 다른 세션에서 실행되므로 이름이 갈리면 마지�
 **더 늘릴 때는 값을 치러야 한다.** `CategorySlug`·`CategoryAccent` 유니온 + `Record<CategoryAccent,…>` **4곳**
 (`KICKER_ACCENT`·`ACCENT_COLOR`·`ACCENT_TEXT`·`CAT_CLASS`) + `globals.css` 의
 `--cat-*`·`--color-cat-*`·`.cat-*`. TS 4곳은 컴파일이 잡지만 **CSS 는 못 잡아 조용히 무색이 된다.**
+안료 원료 ramp 이름은 `--color-ink-*`(먹)·`--color-green-*`(草綠)이고 `@theme static` 이 소유한다 — 새 부호 색이 필요하면 거기서 뽑아라 (ADR-012).
 
 ## 비-목표 (명시적 제외)
 
