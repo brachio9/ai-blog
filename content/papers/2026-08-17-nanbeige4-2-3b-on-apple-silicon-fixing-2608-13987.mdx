@@ -22,7 +22,7 @@ selection:
   axisBy: source
   axisConfidence: high
   band: high
-  crossSources: 2
+  crossSources: 3
 ---
 
 Nanbeige4.2-3B는 파라미터 추가 없이 레이어 재사용을 통해 효과적 깊이를 더하는 Looped Transformer 기반의 3B 파라미터 에이전트 모델이다. 저자들은 Apple Silicon 환경에서 이 모델을 Hugging Face transformers 라이브러리로 바로 실행할 수 없게 만드는 다섯 가지 독립적인 버그를 발견했다. 여기에는 RoPE 버퍼가 침묵하게 영으로 초기화되는 문제와 제거된 캐시 API 호출 오류 등이 포함된다.
