@@ -391,25 +391,10 @@ hr, .rule {
 .deck { font-size: var(--text-h4); color: var(--muted); line-height: var(--leading-tight); max-width: 46ch; }
 .lede { max-width: 54ch; }
 
-/* --- 목록 항목의 성격 셋 -------------------------------------------------
-   같은 데이터를 세 급으로 싣는다. 한 지면에서 셋을 섞는 것이 신문이 하는 일이다. */
-
-/* 머리기사 — 오늘 하나만. 급을 스케일 밖으로 키워도 좋다 (파격 예산). */
-.entry-lead { display: block; padding: var(--space-4) 0 var(--space-6); border-bottom: var(--rule-hair) solid var(--border); }
-.entry-lead .headline { font-size: clamp(30px, 4.6vw, 54px); }
-.entry-lead .deck { margin-top: var(--space-3); }
-.entry-lead .lede { margin-top: var(--space-3); }
-.entry-lead .dateline { margin-bottom: var(--space-3); }
-
-/* 단신 — 짧은 것들은 뭉쳐서 한 상자에. 늘어놓지 않는다. */
-.brief-set { display: grid; }
-.brief-item {
-  display: grid; grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--space-3); align-items: baseline;
-  padding: var(--space-2) 0;
-  border-bottom: var(--rule-hair) solid var(--border);
-}
-.brief-item .entry-title { font-size: var(--text-h5); }
+/* --- 목록 항목 -----------------------------------------------------------
+   급으로 나누지 않는다. 2026-08-20 삭제: .entry-lead(머리기사) · .brief-set · .brief-item(단신 묶음) —
+   「1면 편집」이 죽고 목록이 균일 피드가 되면서 자리를 잃었다 (brief.md 사망 기록 · ADR-011).
+   판단은 그쪽에 기록으로 남기고 규칙은 지운다 — 죽은 클래스를 남기면 다음 사람이 그것을 쓴다. */
 
 /* 색인 — 되찾기용. 가장 밀집하고, 훑어서 찾는 것이 유일한 목적이다. */
 .index-row {
@@ -428,7 +413,6 @@ hr, .rule {
      한 항목이 네 줄이 되어 색인이 아니라 목록이 된다. */
   .index-row { grid-template-columns: 26px minmax(0, 1fr); gap: 0; padding: var(--space-2) 0; }
   .index-row > :not(.index-no) { grid-column: 2; }
-  .brief-item { grid-template-columns: 1fr; gap: 0; }
 }
 
 /* ==========================================================================
@@ -494,7 +478,7 @@ hr, .rule {
 .count-bar { height: 7px; background: var(--border); position: relative; }
 .count-bar > i { position: absolute; inset: 0 auto 0 0; background: var(--muted); display: block; }
 
-/* 시그니처 02 — 1면 편집.
-   새 CSS 가 없다. .entry-lead 하나 + .brief-set 묶음의 조합이며, 시그니처는 그 배치 자체다.
-   규칙은 하나뿐 — 지면당 머리기사는 하나. 둘이 되는 순간 편집이 아니라 나열이다.
-   머리기사 선정: 기본값은 가장 최근 글, frontmatter 의 lead 로만 덮어쓴다. */
+/* 시그니처 02 — 선별 경위를 목록 부호로 (`교차 N곳` · `▲N` · `†`).
+   여기 새 CSS 가 없다. 부호는 메타 줄 안의 mono 조각이고 데이터는 frontmatter 의 selection 이다.
+   2026-08-20 — 옛 시그니처 02「1면 편집」과 그 재료(.entry-lead · .brief-*)를 지웠다
+   (brief.md 사망 기록 · ADR-011). */

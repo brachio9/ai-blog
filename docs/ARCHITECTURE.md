@@ -56,7 +56,8 @@ content/**/*.mdx
 
 조회수: Client → /api/views → services/turso.ts → Turso
 댓글:   Client → Giscus iframe → GitHub Discussions
-이미지: public/uploads/ (레포에 커밋) → next/image
+이미지: public/uploads/ (레포에 커밋) → next/image        ← 우리가 만든 것만 (ADR-005)
+썸네일: frontmatter source.image → <img src> 원본 직링크  ← 원문 그림은 복제하지 않는다. next/image 를 안 탄다 (ADR-014)
 ```
 
 **발행**
