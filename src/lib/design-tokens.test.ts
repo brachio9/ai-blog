@@ -169,6 +169,24 @@ describe("정본 ↔ 앱 동기화", () => {
     expect([...new Set(dangling)]).toEqual([]);
   });
 
+  it("⑥-3 globals.css 안의 var(--…) 도 전부 정의돼 있다", () => {
+    // 토큰 이름을 바꿀 때 컴포넌트만 보고 CSS 를 놓치기 쉽다. 여기도 조용히 무색이 된다.
+    const defined = new Set(
+      [...APP.matchAll(/(--[\w-]+)\s*:/g)].map(([, name]) => name),
+    );
+    const external = /^--shiki|^--cat$|^--font-plex/;
+
+    const dangling = [
+      ...new Set(
+        [...APP.matchAll(/var\((--[\w-]+)/g)]
+          .map(([, name]) => name)
+          .filter((name) => !defined.has(name) && !external.test(name)),
+      ),
+    ];
+
+    expect(dangling).toEqual([]);
+  });
+
   it("⑦ .page 가 --page-max 를 쓴다 — 죽은 토큰을 만들지 않는다", () => {
     expect(APP).toContain(".page { max-width: var(--page-max);");
     expect(CANON).toContain(".page { max-width: var(--page-max);");

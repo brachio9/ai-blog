@@ -587,11 +587,11 @@ code[data-language] span {
 
 /* 인라인 코드는 블록과 달리 본문 흐름 안에 있어야 한다 — 테마 배경 대신 표면 토큰을 쓴다. */
 .mdx-body :not(pre) > code[data-language] {
-  border: 1px solid var(--border);
-  border-radius: 0.25rem;
+  border: var(--rule-hair) solid var(--border);
+  border-radius: var(--radius-sm);
   background-color: var(--surface);
   padding: 0.1em 0.35em;
-  font-family: var(--mono);
+  font-family: var(--font-mono);
   font-size: 0.875em;
 }
 
