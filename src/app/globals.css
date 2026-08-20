@@ -436,6 +436,10 @@ body {
   border-radius: var(--radius-md);
   background: color-mix(in oklch, var(--cat, var(--muted)) 16%, var(--surface));
   box-shadow: var(--edge-top);
+  /* **테두리가 없으면 낮 지면에서 상자가 사라진다.** arXiv 그림은 대부분 흰 바탕
+     선화라 흰 종이 위에 얹으면 경계가 없어 얼룩처럼 번진다 (실측). 밤에서는
+     --edge-top 이 그 일을 하지만 낮에서는 아무것도 안 한다. */
+  border: var(--rule-hair) solid var(--border);
 }
 /* 그림은 표지 **위에** 덮인다. 주소가 죽으면 브라우저가 이 자리를 안 그리고
    표지가 뒤에서 그대로 비친다 — onError 도 자바스크립트도 필요 없다. */
