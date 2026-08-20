@@ -45,6 +45,9 @@ export function countBodyChars(mdxBody: string): number {
   return prose.replace(NOT_TEXT, "").length;
 }
 
+/** 시그니처 「추린 비율」의 계산 결과. 규칙은 이 파일 하나에만 있다. */
+export type RatioInfo = NonNullable<ReturnType<typeof compressionRatio>>;
+
 /**
  * 원문 대비 몇 분의 일로 줄였는지. 정수 비율로 반올림한다.
  * sourceWords 가 없으면 null — 호출부는 이때 비율을 그리지 않는다.

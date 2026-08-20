@@ -201,7 +201,7 @@ describe("에디터 왕복 — 무손실", () => {
     readFileSync(
       path.join(
         process.cwd(),
-        "src/lib/content/__fixtures__/roundtrip-lead-words.mdx",
+        "src/lib/content/__fixtures__/roundtrip-words-selection.mdx",
       ),
       "utf8",
     ),
@@ -212,7 +212,6 @@ describe("에디터 왕복 — 무손실", () => {
 
     expect(form.axis).toBe("serving");
     expect(form.format).toBe("explainer");
-    expect(form.lead).toBe(true);
     expect(form.sourceWords).toBe("3240");
     expect(form.selection).toEqual({
       axisBy: "llm",
@@ -232,7 +231,14 @@ describe("에디터 왕복 — 무손실", () => {
     const parsed = parseFrontmatter(toFrontmatterObject(form), POST_PATH);
 
     expect(parsed.source?.words).toBe(3240);
-    expect(parsed.lead).toBe(true);
+  });
+
+  it("죽은 `lead` 가 남은 파일을 열면 폼이 그 칸을 떨어뜨린다", () => {
+    // 봇이 아직 그 칸을 쓰고 있어도 발행은 막히지 않고(스키마가 모르는 칸을 버린다),
+    // 사람이 한 번 열었다 저장하면 파일에서도 사라진다.
+    const form = toDraftForm({ ...file.data, lead: true }, file.content, POST_PATH);
+
+    expect("lead" in toFrontmatterObject(form)).toBe(false);
   });
 
   it("source.words 가 숫자가 아니면 버리지 않고 스키마에 걸리게 둔다", () => {
@@ -266,11 +272,10 @@ describe("에디터 왕복 — 무손실", () => {
     // 경로의 디렉토리 = frontmatter 의 category. 둘이 갈리면 목록·링크가 어긋난다.
     expect(form.category).toBe(postPath.split("/")[1]);
 
-    // `draft`·`lead` 는 폼이 늘 적어 낸다 — 파일이 생략했으면 false 가 붙는다.
-    // 스키마 기본값과 같은 값이라 뜻이 달라지지 않는다. 그 둘 말고 한 글자라도 달라지면 유실이다.
+    // `draft` 는 폼이 늘 적어 낸다 — 파일이 생략했으면 false 가 붙는다.
+    // 스키마 기본값과 같은 값이라 뜻이 달라지지 않는다. 그것 말고 한 글자라도 달라지면 유실이다.
     expect(toFrontmatterObject(form)).toEqual({
       draft: false,
-      lead: false,
       ...post.data,
     });
   });

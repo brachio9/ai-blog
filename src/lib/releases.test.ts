@@ -47,7 +47,6 @@ function release(
       publishedAt: "2026-08-18T09:00:00+0900",
       tags: [],
       draft: false,
-      lead: false,
       source: {
         url: `https://github.com/${repo}/releases/tag/${tag}`,
         title: tag,
@@ -59,6 +58,7 @@ function release(
     body: "",
     filePath: "",
     readingMinutes: 2,
+    ratio: null,
   };
 }
 
@@ -72,7 +72,6 @@ function paper(slug: string): Post {
       publishedAt: "2026-08-18T09:00:00+0900",
       tags: [],
       draft: false,
-      lead: false,
       source: { url: "https://arxiv.org/abs/2608.13706", title: "A paper" },
       paper: { arxivId: "2608.13706", authors: ["A"] },
       selection: SELECTION,
@@ -82,6 +81,7 @@ function paper(slug: string): Post {
     body: "",
     filePath: "",
     readingMinutes: 4,
+    ratio: null,
   };
 }
 

@@ -375,25 +375,75 @@ body {
   .entry { grid-template-columns: 1fr; gap: var(--space-1); }
 }
 
-/* --- 목록 항목의 성격 셋 -------------------------------------------------
-   같은 데이터를 세 급으로 싣는다. 한 지면에서 셋을 섞는 것이 신문이 하는 일이다. */
+/* --- 균일 피드의 행 -----------------------------------------------------
+   **모든 행이 같은 크기다.** 머리기사도 요약을 펴는 행도 없다.
+   행이 다른 것은 크기가 아니라 어떤 부호를 달고 있는가뿐이다.
 
-/* 머리기사 — 오늘 하나만. 급을 스케일 밖으로 키워도 좋다 (파격 예산). */
-.entry-lead { display: block; padding: var(--space-4) 0 var(--space-6); border-bottom: var(--rule-hair) solid var(--border); }
-.entry-lead .headline { font-size: clamp(30px, 4.6vw, 54px); }
-.entry-lead .deck { margin-top: var(--space-3); }
-.entry-lead .lede { margin-top: var(--space-3); }
-.entry-lead .dateline { margin-bottom: var(--space-3); }
-
-/* 단신 — 짧은 것들은 뭉쳐서 한 상자에. 늘어놓지 않는다. */
-.brief-set { display: grid; }
-.brief-item {
-  display: grid; grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--space-3); align-items: baseline;
-  padding: var(--space-2) 0;
+   제목 왼쪽에 오는 것은 전부 폭이 고정된 열이다 (그림 80 · 번호 26).
+   그래서 스무 행의 제목 왼쪽 끝이 한 줄로 선다 — 훑을 수 있게 만드는 유일한 장치다. */
+.row {
+  display: grid;
+  grid-template-columns: 80px 26px minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+  padding: var(--space-3) 0;
   border-bottom: var(--rule-hair) solid var(--border);
 }
-.brief-item .entry-title { font-size: var(--text-h5); }
+.row:first-of-type { border-top: var(--rule-hair) solid var(--border); }
+
+/* 두 자리 고정폭 mono. 훑어 내려갈 때 숫자 한 열이 다섯 색 스무 칩보다 빨리 읽힌다. */
+.row-no { font-variant-numeric: tabular-nums; padding-top: 2px; }
+
+.row-text { display: grid; gap: var(--space-1); min-width: 0; }
+.row-title {
+  font-size: var(--text-h4);
+  font-weight: 500;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--heading);
+}
+/* **한 줄에서 자른다.** 두 줄이 되는 순간 그 행만 커지고 균일 피드가 무너진다. */
+.row-summary {
+  color: var(--muted);
+  font-size: var(--text-small);
+  line-height: var(--leading-tight);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 메타는 두 무리다. 왼쪽은 「무엇인가」, 오른쪽은 「왜 골랐나」.
+   오른쪽을 끝으로 밀어 두면 왼쪽이 들쭉날쭉해도 오른쪽 열이 선다 —
+   덕분에 「추린 비율」이 없는 행(80편 중 39편)에 자리를 예약할 필요가 사라진다. */
+.row-meta { display: flex; justify-content: space-between; gap: var(--space-3); }
+.row-meta-left,
+.row-meta-right { display: flex; gap: var(--space-3); align-items: baseline; min-width: 0; }
+.row-meta-right { flex: none; }
+.row-meta .cat-label { font-size: var(--text-meta); }
+.row-weak { text-decoration: none; cursor: help; }
+
+/* 그림 자리 — 16:9 고정. **그림이 있든 없든 상자 크기가 같다.**
+   달라지면 스무 행에서 열이 떨린다. 96px 행에서 45px 이라 세로 가운데에 앉힌다.
+
+   표지는 안료를 지면에 **아주 옅게** 섞는다. 안료를 그대로 칠하면 큰 색판 스무 개가 서서
+   부호가 아니라 벽지가 된다 — `--cat-*` 의 명도는 원래 작은 글자용이다. */
+.thumb {
+  width: 80px;
+  height: 45px;
+  align-self: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: color-mix(in oklch, var(--cat, var(--muted)) 16%, var(--surface));
+  box-shadow: var(--edge-top);
+}
+
+@media (max-width: 640px) {
+  /* 그림을 버리고 번호만 남긴다 — 80px 을 떼면 제목이 두 줄로 접히는 것을 막을 수 있다. */
+  .row { grid-template-columns: 26px minmax(0, 1fr); gap: var(--space-3); }
+  .row .thumb { display: none; }
+  .row-meta { flex-wrap: wrap; }
+}
 
 /* 색인 — 되찾기용. 가장 밀집하고, 훑어서 찾는 것이 유일한 목적이다. */
 .index-row {
@@ -411,7 +461,6 @@ body {
      한 항목이 네 줄이 되어 색인이 아니라 목록이 된다. */
   .index-row { grid-template-columns: 26px minmax(0, 1fr); gap: 0; padding: var(--space-2) 0; }
   .index-row > :not(.index-no) { grid-column: 2; }
-  .brief-item { grid-template-columns: 1fr; gap: 0; }
 }
 
 /* 빈 상태 — 사과하지 않는다. 다음에 갈 곳을 준다. (design/styles.css 그대로) */

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { type RatioInfo, splitSummary } from "@/components/post/PostLead";
+import type { RatioInfo } from "@/lib/content/compression";
+import { splitSummary } from "@/lib/content/summary";
 import { axisHref, getAxis } from "@/lib/axes";
 import { CAT_CLASS, categoryHref, type Category } from "@/lib/categories";
 import { compressionRatio, countBodyChars } from "@/lib/content/compression";

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { Container } from "@/components/layout/Container";
 import { DayHead } from "@/components/post/DayHead";
-import { PostIndexRow } from "@/components/post/PostIndexRow";
+import { PostRow } from "@/components/post/PostRow";
 import { SITE_NAME } from "@/lib/site";
 import { postsByDay, postsByMonth } from "@/lib/stats";
 
@@ -78,7 +78,7 @@ export default async function ArchiveMonthPage(
             <DayHead group={day} />
             <ul role="list" className="list-tight mt-[var(--space-2)]">
               {day.posts.map((post) => (
-                <PostIndexRow key={post.slug} post={post} />
+                <PostRow key={post.slug} post={post} />
               ))}
             </ul>
           </section>

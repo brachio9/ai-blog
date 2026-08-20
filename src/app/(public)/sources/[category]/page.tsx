@@ -56,7 +56,7 @@ function toListItem(post: Post): PostListItem {
  * 최상위 동적 세그먼트라 알 수 없는 경로를 전부 삼킨다 — 반드시 notFound() 로 걸러낸다.
  * 쿼리 파라미터(tag·page)는 여기서 읽지 않는다. 서버에서 읽는 순간 페이지가 통째로 동적이 되어
  * 정적 생성이 사라진다 (실측). 필터·페이지네이션은 PostList 가 클라이언트에서 처리하고,
- * 목록 자체는 PostList 안의 PostTable(밀집 표)이 그린다.
+ * 목록 자체는 PostList 안의 PostRow(index) 가 그린다.
  */
 export default async function CategoryPage(props: PageProps<"/sources/[category]">) {
   const { category } = await props.params;
@@ -66,8 +66,6 @@ export default async function CategoryPage(props: PageProps<"/sources/[category]
   }
 
   const items = getPostsByCategory(found.slug).map(toListItem);
-  // 식별자 열은 arXiv ID 가 있는 목록에서만 쓴다 — 카테고리 slug 를 여기 박지 않는다.
-  const showIdentifier = items.some((item) => item.paper !== undefined);
 
   // 수록 기간. 목록은 최신순이라 양 끝이 곧 처음과 마지막이다.
   const newest = items.at(0);
@@ -124,8 +122,6 @@ export default async function CategoryPage(props: PageProps<"/sources/[category]
               <PostList
                 items={items}
                 basePath={categoryHref(found)}
-                showIdentifier={showIdentifier}
-                showSummary
                 reserveViews
               />
             </Suspense>

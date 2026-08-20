@@ -134,8 +134,6 @@ const frontmatterSchema = z
     updatedAt: kstDateTime("updatedAt").optional(),
     tags: z.array(z.string().min(1)).default([]),
     draft: z.boolean().default(false),
-    /** 1면 머리기사 지정. 없으면 가장 최근 글이 자동으로 머리기사가 된다. */
-    lead: z.boolean().default(false),
     source: sourceSchema.optional(),
     paper: paperSchema.optional(),
     /**

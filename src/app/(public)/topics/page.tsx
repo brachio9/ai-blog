@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
-import { PostIndexRow } from "@/components/post/PostIndexRow";
+import { PostRow } from "@/components/post/PostRow";
 import { AXES, axisHref, axisNumber } from "@/lib/axes";
 import { getPostsByAxis } from "@/lib/content/posts";
 import { SITE_NAME } from "@/lib/site";
@@ -150,7 +150,7 @@ export default function TopicsPage() {
                     className="mt-[var(--space-2)]"
                   >
                     {recent.map((post) => (
-                      <PostIndexRow
+                      <PostRow
                         key={post.slug}
                         post={post}
                       />

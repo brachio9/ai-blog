@@ -1,5 +1,5 @@
 import { ExternalIcon } from "@/components/mdx/Anchor";
-import type { RatioInfo } from "@/components/post/PostLead";
+import type { RatioInfo } from "@/lib/content/compression";
 import { formatCount, formatDate } from "@/lib/format";
 import type { AxisTrust } from "@/lib/selection";
 import type { PaperMeta, PostSource } from "@/types/content";

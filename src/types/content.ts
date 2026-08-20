@@ -67,8 +67,6 @@ export interface PostFrontmatter {
   updatedAt?: string;
   tags: string[];
   draft: boolean;
-  /** 1면 머리기사 수동 지정. 기본값은 false — 그때는 가장 최근 글이 머리기사다 */
-  lead: boolean;
   source?: PostSource;
   paper?: PaperMeta;
   /**
@@ -89,4 +87,12 @@ export interface Post {
   /** 레포 기준 상대 경로 (에러 메시지용) */
   filePath: string;
   readingMinutes: number;
+  /**
+   * 「추린 비율」 — **로드 타임에 미리 잰다.** 없으면 null.
+   *
+   * 렌더에서 구하면 `countBodyChars()` 의 정규식 여섯 패스를 행마다 돈다.
+   * 더 중요한 것은 **목록이 body 없이도 비율을 그릴 수 있게 된다**는 것이다 —
+   * 「목록은 본문을 클라이언트로 넘기지 않는다」 계약이 그대로 지켜진다.
+   */
+  ratio: number | null;
 }

@@ -31,7 +31,6 @@ function makePost(
     publishedAt: "2026-08-05T09:00:00+0900",
     tags: ["LLM"],
     draft: false,
-    lead: false,
     ...frontmatter,
   };
 
@@ -42,6 +41,7 @@ function makePost(
     body: BODY,
     filePath: `content/${merged.category}/2026-08-05-${slug}.mdx`,
     readingMinutes: 3,
+    ratio: null,
   };
 }
 

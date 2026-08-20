@@ -7,6 +7,7 @@ import type { AxisSlug } from "@/lib/axes";
 import { CATEGORIES, getCategory, type CategorySlug } from "@/lib/categories";
 import type { Post } from "@/types/content";
 
+import { compressionRatio, countBodyChars } from "./compression";
 import { parseFrontmatter } from "./schema";
 
 /** 글 원본은 오직 이 디렉토리의 파일 — CLAUDE.md CRITICAL. */
@@ -51,6 +52,10 @@ function readPost(category: CategorySlug, fileName: string): Post {
     body: content,
     filePath,
     readingMinutes: readingMinutesOf(content),
+    // 여기서 한 번만 잰다 — 목록이 본문을 들고 다니지 않아도 비율을 그릴 수 있게 된다.
+    ratio:
+      compressionRatio(frontmatter.source?.words, countBodyChars(content))
+        ?.ratio ?? null,
   };
 }
 
