@@ -40,6 +40,8 @@ export interface DraftForm {
   sourcePublishedAt: string;
   /** 원문 단어 수 — 「추린 비율」의 분모. 폼에서는 문자열, frontmatter 에서는 정수다 */
   sourceWords: string;
+  /** 원문 그림 주소 — 목록 썸네일이 그대로 임베드한다. 비면 카테고리 표지가 그려진다 */
+  sourceImage: string;
   paperArxivId: string;
   /** 콤마 구분 */
   paperAuthors: string;
@@ -140,6 +142,7 @@ export function newDraft(publishedAt: string): DraftForm {
     sourceLicense: "",
     sourcePublishedAt: "",
     sourceWords: "",
+    sourceImage: "",
     paperArxivId: "",
     paperAuthors: "",
     body: "",
@@ -200,6 +203,7 @@ export function toDraftForm(
     sourceLicense: text(field(source, "license")),
     sourcePublishedAt: text(field(source, "publishedAt")),
     sourceWords: text(field(source, "words")),
+    sourceImage: text(field(source, "image")),
     paperArxivId: text(field(paper, "arxivId")),
     paperAuthors: list(field(paper, "authors")),
     body,
@@ -245,6 +249,7 @@ export function toFrontmatterObject(form: DraftForm): Record<string, unknown> {
     license: optional(form.sourceLicense),
     publishedAt: optional(form.sourcePublishedAt),
     words: integer(form.sourceWords),
+    image: optional(form.sourceImage),
   });
 
   const authors = parseList(form.paperAuthors);

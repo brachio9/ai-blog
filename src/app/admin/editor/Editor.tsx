@@ -606,6 +606,19 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
                 />
               </label>
             </div>
+
+            {/* 목록 썸네일이 이 주소를 **그대로 임베드한다** — 복제하지 않는다.
+                https 가 아니면 브라우저가 막아 빈칸이 된다. 비우면 카테고리 표지가 그려지므로
+                엉뚱한 그림이 걸렸으면 지우는 것이 고치는 것이다. */}
+            <label className={LABEL}>
+              원문 그림 주소 (선택 · https)
+              <input
+                className={`mt-1 ${INPUT} font-mono`}
+                value={form.sourceImage}
+                onChange={(event) => update({ sourceImage: event.target.value })}
+                placeholder="https://arxiv.org/html/2608.00001v1/x1.png"
+              />
+            </label>
           </fieldset>
 
           {/* paper 는 papers 전용이다 — 다른 카테고리에 있으면 스키마가 거부한다. */}

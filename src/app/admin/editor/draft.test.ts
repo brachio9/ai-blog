@@ -186,9 +186,9 @@ describe("frontmatter 직렬화", () => {
 });
 
 /**
- * 폼이 모르는 필드는 저장할 때 조용히 사라지고, `lead`·`source.words`·`selection` 은 전부
- * 그 유실을 스키마가 못 잡는다 (앞의 둘은 기본값이 있고, `selection` 은 선택 필드다).
- * **그 셋을 가진 글이 픽스처인 이유**가 여기 있다.
+ * 폼이 모르는 필드는 저장할 때 조용히 사라지고, `lead`·`source.words`·`source.image`·
+ * `selection` 은 전부 그 유실을 스키마가 못 잡는다 (앞의 둘은 기본값이 있고, 뒤의 둘은
+ * 선택 필드다). **그 넷을 가진 글이 픽스처인 이유**가 여기 있다.
  *
  * `selection` 이 특히 위험하다 — **봇 글 전부가 그 칸을 갖는데 폼에는 입력란이 없다.**
  * 사람이 봇 글을 열어 오타 하나 고치고 저장하면 선별 경위가 통째로 사라지고, 빌드도
@@ -213,6 +213,7 @@ describe("에디터 왕복 — 무손실", () => {
     expect(form.axis).toBe("serving");
     expect(form.format).toBe("explainer");
     expect(form.sourceWords).toBe("3240");
+    expect(form.sourceImage).toBe("https://arxiv.org/html/2608.00001v1/x1.png");
     expect(form.selection).toEqual({
       axisBy: "llm",
       axisConfidence: "high",
