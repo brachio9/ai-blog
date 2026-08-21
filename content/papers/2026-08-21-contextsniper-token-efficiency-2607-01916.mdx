@@ -1,0 +1,49 @@
+---
+title: 레포지토리 코드 수정, 컨텍스트 비용 절반으로 줄이는 ContextSniper
+category: papers
+axis: retrieval
+format: explainer
+summary: 대규모 언어 모델 에이전트가 레포지토리 수준에서 코드를 수정할 때 불필요한 컨텍스트 낭비를 줄이는 방법이다. 저자들은 ContextSniper가 증거 선택의 정밀도를 높여 토큰 사용량과 비용을 대폭 절감한다고 주장한다.
+publishedAt: 2026-08-21T22:02:19+0900
+tags:
+- RAG
+- Claude Code
+- SWE-bench
+draft: false
+source:
+  url: https://arxiv.org/abs/2607.01916
+  title: 'ContextSniper: AntTrail''s Token-Efficient Code Memory for Repository-Level Program Repair'
+  author: Chiwang Luk
+  publishedAt: 2026-08-20T13:00:00+0900
+  words: 9429
+  image: https://arxiv.org/html/2607.01916v5/resource/architecture_v1_20260625.png
+paper:
+  arxivId: '2607.01916'
+  authors:
+  - Chiwang Luk
+  - Matin Mohammad Najafi
+  - Zhifeng Jia
+  - Wei Yang
+  - Xiuchang Li
+  - Jinwei Zhu
+  - Yang Ren
+  - Lei Chen
+  - Gao Cong
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+대규모 언어 모델 에이전트가 실제 레포지토리의 문제를 해결할 수 있지만, 전체 파일 읽기나 광범위한 검색, 긴 터미널 출력 처리 과정에서 유용한 증거와 관련 없는 코드 및 로그가 섞여 컨텍스트 예산을 많이 소모하는 문제가 있다. ContextSniper는 AntTrail의 에이전트 메모리 엔진 중 하나로, 레포지토리 수준의 프로그램 수정 시 정밀한 증거 선택을 담당하는 모듈이다.
+
+이 시스템은 코드와 액션 메모리를 세 가지 추상화 수준으로 인덱싱하고 하이브리드 랭커로 후보를 검색한다. 의도 인식 컨텍스트 게이트를 통해 긴 도구 출력을 필터링하여 컴팩트한 증거 패킷을 반환하며, 필요 시 전체 소스 코드를 복구할 수 있도록 유지한다.
+
+저자들의 주장에 따르면 SWE-bench Lite에서 동일한 50개 작업 조건으로 비교했을 때 ContextSniper는 OpenClaw의 토큰 사용량을 51.5%, 비용은 36.4% 줄였다. Claude Code의 경우 토큰 사용량이 38.9%, 비용이 27.3% 감소했으며 제출된 해결률에는 실질적인 변화가 없었다.
+
+별도의 5개 작업 비교에서도 기존 메모리 및 RAG 스타일 통합 방식보다 토큰 효율성이 높았다고 저자들은 밝혔다. 이러한 결과는 ContextSniper가 수정 품질의 측정 가능한 손실 없이 레포지토리 수준 수정 에이전트의 토큰 및 비용 오버헤드를 상당히 줄일 수 있음을 시사한다.
+
+---
+
+원문: [ContextSniper: AntTrail's Token-Efficient Code Memory for Repository-Level Program Repair](https://arxiv.org/abs/2607.01916)

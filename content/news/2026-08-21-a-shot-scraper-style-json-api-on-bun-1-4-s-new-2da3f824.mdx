@@ -1,0 +1,32 @@
+---
+title: Bun.WebView로 웹 자동화 API 만들기
+category: news
+axis: vibe-coding
+format: explainer
+summary: Simon Willison이 Bun 1.4의 새 기능인 Bun.WebView를 활용해 shot-scraper 스타일의 JSON API 프로토타입을 구축한 과정을 소개한다. Claude Code를 이용해 TypeScript 서버 코드를 생성하고, 복잡한 웹 페이지 처리 시 필요한 메모리 용량을 cgroups로 테스트했다.
+publishedAt: 2026-08-21T22:02:19+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://simonwillison.net/2026/Aug/20/bun-webview-json-api/
+  title: A shot-scraper-style JSON API on Bun 1.4's new Bun.WebView
+  publishedAt: 2026-08-21T00:37:00+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Bun이 Rust로 다시 작성된 후 첫 안정 버전인 1.4가 출시되었다. 릴리스 노트에는 리팩토링 자체보다는 Node.js 호환성 향상과 수천 개의 버그 수정, 그리고 CPU 및 메모리 사용량 감소 등 다양한 성능 개선 사항이 강조되어 있다. 이 중 macOS WebKit이나 Chrome DevTools Protocol을 통해 브라우저 자동화를 지원하는 Bun.WebView 기능이 주목을 끌었다.
+
+Simon Willison은 기존 CLI 도구인 shot-scraper의 JavaScript 기능을 참고하여 웹 페이지를 로드하고 자바스크립트를 실행할 수 있는 API 프로토타입을 구상했다. 이를 위해 Claude Code를 활용하여 TypeScript 서버 구현 코드를 작성했으며, 주요 목적 중 하나는 이러한 서비스를 운영할 때 실제로 얼마나 많은 RAM이 필요한지 확인하는 것이었다.
+
+작성된 서버 코드는 GitHub에 공개되어 있으며, 복잡한 웹 페이지를 처리하기 위해 전체 크롬 브라우저를 실행하는 경우 컨테이너당 192MB에서 256MB 사이의 메모리가 필요하다는 점이 cgroups 테스트를 통해 확인되었다. 이 실험은 AI 도구와 새로운 런타임 기능을 결합하여 웹 자동화 서비스의 자원 요구사항을 빠르게 파악하려는 시도로 볼 수 있다.
+
+이 글은 원문의 앞부분 요약에 기반하고 있으므로 전체적인 결론이나 추가적인 벤치마크 결과는 포함되지 않았다. 더 자세한 코드 구현과 테스트 결과는 Simon Willison의 GitHub 저장소를 참고해야 한다.
+
+---
+
+원문: [A shot-scraper-style JSON API on Bun 1.4's new Bun.WebView](https://simonwillison.net/2026/Aug/20/bun-webview-json-api/)

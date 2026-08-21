@@ -1,0 +1,43 @@
+---
+title: 도구 사용 에이전트의 KV 캐시 효율화, ReCache
+category: papers
+axis: serving
+format: explainer
+summary: ReCache는 도구 스키마의 중복 인코딩 문제를 해결하는 프레임워크다. 자원별 주의 메커니즘과 구조적 가지치기를 통해 추론 비용과 메모리 사용량을 대폭 줄인다고 저자들은 주장한다.
+publishedAt: 2026-08-21T22:02:19+0900
+tags:
+- KV cache
+- prefix caching
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.19662
+  title: 'ReCache: Efficient KV Cache Reuse and Compression for Tool-Augmented LLM Agents'
+  author: Yichu Fang
+  publishedAt: 2026-08-21T13:00:00+0900
+  words: 10910
+  image: https://arxiv.org/html/2608.19662v1/4b_44_map.png
+paper:
+  arxivId: '2608.19662'
+  authors:
+  - Yichu Fang
+  - Sitong Wei
+  - Haozhe Hu
+  - Xiaoyu Shen
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+도구와 스킬을 활용하는 에이전트형 언어 모델은 요청마다 반복되는 스키마를 다양한 조합과 순서로 인코딩해야 한다. 이러한 특성상 기존 접두사 캐싱 방식으로는 키-값(KV) 상태를 재사용하기 어렵다. ReCache는 자원 표현을 독립적으로 캐싱하면서 추론 시점의 계산 및 메모리 오버헤드를 줄이는 프레임워크를 제안한다.
+
+이 프레임워크는 자원별 주의 메커니즘을 통해 자원 간 상호작용을 제거하고 자원에 국한된 위치 정보를 부여한다. 이를 통해 조합에 불변인 KV 블록을 생성한다. 이후 ReCache는 자원 가시성을 기여도 기반의 레이어와 KV 헤드 그룹 경로로 제한하며, 구조적 및 의미적 가지치기를 통해 호출에 필수적인 필드만 유지한다.
+
+저자들은 공개된 도구 및 스킬 사용 데이터셋 7개로 구성된 벤치마크를 사용하여 ReCache를 평가했다. 저자들의 주장에 따르면 자원별 주의 메커니즘은 밀집형 호출 성능(Inv-F1 82.3% 대 82.4%)과 동등한 수준을 보이며, 첫 토큰 생성 시간을 3.655배 빠르게 한다고 한다.
+
+전체 프레임워크는 할당된 KV 텐서 메모리를 92.43% 줄이고 주의 메커니즘 속도를 1.423배 가속한다고 저자들은 보고한다. 재사용 가능한 스키마 인코딩과 선택적 자원 접근을 분리하면 에이전트 추론 비용을 크게 낮출 수 있으며 성능 손실은 제한적이라는 결론을 내린다.
+
+---
+
+원문: [ReCache: Efficient KV Cache Reuse and Compression for Tool-Augmented LLM Agents](https://arxiv.org/abs/2608.19662)

@@ -1,0 +1,35 @@
+---
+title: 이미지 생성과 명령어 실행이 더 매끄러워진 Cline CLI v3.0.56
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline CLI가 이미지 생성 모델의 실시간 미디어 출력과 스킬 명령어 처리 방식을 개선했다. 비채팅 모델은 선택 목록에서 제외되고, PowerShell 오류 처리 및 테마 적용 버그도 수정되었다.
+publishedAt: 2026-08-21T22:02:19+0900
+tags:
+- Claude Code
+- Cline
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/cli-v3.0.56
+  title: CLI v3.0.56
+  author: github-actions[bot]
+  publishedAt: 2026-08-21T14:03:03+0900
+  words: 316
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이제 이미지 생성을 지원하는 모델은 대화 도중 직접 미디어 파일을 생성할 수 있게 되었다. 터미널 인터페이스는 생성된 파일을 임시 경로에 저장하고 경로를 출력하여 사용자가 별도 도구로 열 수 있도록 하며, HTML 세션 내보내기에는 이미지가 인라인으로 포함된다. 또한 ACP 클라이언트도 생성된 이미지를 콘텐츠로 받을 수 있어 워크플로우가 더 자연스럽다.
+
+스킬 슬래시 명령어 처리 방식이 변경되어 성능과 가독성이 좋아졌다. 이제 명령어는 스킬 도구를 통해 로드되며, 메시지 히스토리에는 전체 스킬 본문 대신 입력한 `/command`만 표시된다. 이는 모델에 지시문이 두 번 전달되는 문제를 해결하고, 워크플로우나 젠 모드처럼 예외적인 경우를 제외하면 더 효율적으로 동작한다.
+
+사용자 경험 측면에서도 여러 개선이 있었다. 온보딩 및 모델 선택기에서 이미지나 음성 같은 비채팅 모델은 더 이상 표시되지 않으며, `--model` 플래그로도 거부된다. TUI의 테마 변경 시 다이얼로그 색상이 실시간으로 반영되지 않던 버그와 계정 다이얼로그의 화살표 아이콘 불일치 문제가 해결되어 시각적 일관성이 높아졌다.
+
+또한 기술적 안정성도 강화되었다. 제공자가 실행하는 도구 활동이 누락되던 문제와 훅(hook) 관련 버그가 수정되어 모델 컨텍스트 전달과 취소 제어가 정상적으로 작동한다. PowerShell 명령어는 첫 번째 오류 발생 시 즉시 실패로 처리되며, 젬마 커스텀 베이스 URL 설정과 원격 허브 스케줄링 권한 문제도 해결되었다. 마지막으로 모델 카탈로그가 새로워져 AMD 등 신규 제공자와 가격 정보가 업데이트되었다.
+
+---
+
+원문: [CLI v3.0.56](https://github.com/cline/cline/releases/tag/cli-v3.0.56)

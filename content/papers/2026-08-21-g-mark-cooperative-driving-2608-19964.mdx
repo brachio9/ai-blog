@@ -1,0 +1,39 @@
+---
+title: 차량 간 협력 주행, 지식 그래프로 투명하게
+category: papers
+axis: agent
+format: explainer
+summary: 자율주행 시스템이 부분적 관측 환경에서 직면한 불확실성을 해소하기 위해 차량 간 협력이 필수적이다. 기존 방식은 다중 에이전트 증거를 압축해 정보의 출처와 가시성 맥락을 흐릿하게 만드는 문제가 있다.
+publishedAt: 2026-08-21T22:02:19+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.19964
+  title: 'G-MARK: Grounded Multi-Agent Reasoning for Cooperative Driving via Knowledge Graphs'
+  author: Bhavya Gupta
+  publishedAt: 2026-08-21T13:00:00+0900
+  words: 6518
+  image: https://arxiv.org/html/2608.19964v1/gmark_arch.png
+paper:
+  arxivId: '2608.19964'
+  authors:
+  - Bhavya Gupta
+  - Onat Gungor
+  - Tajana Rosing
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+자율주행 시스템은 주변 객체가 가려지거나 인접한 연결된 차량에게만 보이는 부분적 관측 환경에서 작동해야 한다. 이러한 불확실성을 줄이기 위해 차량 간 협력이 필요하지만, 기존 협력 주행 방법은 다중 에이전트 증거를 잠재 특징이나 숨겨진 다중 모드 상태로 압축하는 경향이 있다. 이로 인해 어떤 에이전트가 각 객체를 관측했는지, 해당 객체가 자차에 가시적인지, 그리고 상충되는 증거가 하류 결정에 어떤 영향을 미치는지 등의 중요한 맥락이 모호해진다.
+
+연구진은 이러한 한계를 극복하기 위해 G-MARK라는 기반 다중 에이전트 추론 프레임워크를 제안한다. 이 프레임워크는 협력적 객체 중심 관측을 명시적인 출처 인식 지식 그래프로 변환한다. 생성된 지식 그래프는 객체 가설과 함께 그 출처 귀속, 자차 대 파트너 가시성, 불확실성, 충돌, 공간 관계 및 계획 관련 맥락을 보존한다.
+
+G-MARK는 이러한 지식 그래프에서 공유 특징 표현을 유도하여 경량 작업 헤드가 객체 추론, 운동 예측, 제어 선택 및 궤적 예측을 지원하도록 한다. 기존 방식과 달리 정보의 흐름이 투명해지며 복잡한 압축 과정 없이도 협력 정보를 효과적으로 활용할 수 있는 구조를 갖췄다.
+
+저자들의 주장에 따르면 G-MARK는 최신 기법 대비 가림 추론 정확도를 42.2% 향상시키고 제어 선택 오류를 13.1% 줄였다. 또한 궤적 계획 정확도는 유사한 수준을 유지하면서 구조화된 통신 페이로드 크기를 25.6배 줄이는 성과를 거두었다.
+
+---
+
+원문: [G-MARK: Grounded Multi-Agent Reasoning for Cooperative Driving via Knowledge Graphs](https://arxiv.org/abs/2608.19964)
