@@ -1,0 +1,39 @@
+---
+title: 학생 모델의 꼬리 확률 누수를 막는 지식 증류법
+category: papers
+axis: serving
+format: explainer
+summary: 기존 Top-k 지식 증류법은 꼬리 확률 정보를 잃어 학생 모델의 엔트로피를 불필요하게 증가시킨다. 저자들은 누락된 꼬리 확률을 별도의 토큰으로 처리해 이 문제를 해결하는 TA-OPD 방법을 제안한다.
+publishedAt: 2026-08-22T22:00:05+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.14728
+  title: Tail-Aware Top-$k$ On-Policy Distillation
+  author: Huipeng Huang
+  publishedAt: 2026-08-19T13:00:00+0900
+  words: 19070
+paper:
+  arxivId: '2608.14728'
+  authors:
+  - Huipeng Huang
+  - Hongxin Wei
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+온-폴리시 증류(OPD)는 언어 모델 간 지식 전달을 위해 학생 모델이 자신의 탐색 경로에서 교사의 다음 토큰 분포와 일치하도록 훈련시키는 효과적인 패러다임이다. 계산 비용을 절감하면서도 밀도 높은 지도를 제공하기 위해 많은 연구에서는 교사의 상위 k개 토큰에 대해 정규화된 분포 간 역 KL 발산을 최소화하는 방식을 사용한다.
+
+하지만 이러한 정규화 목적 함수는 교사의 상위 k개 토큰 외부에 존재하는 꼬리 확률, 즉 총 확률의 일부를 무시하게 된다. 이로 인해 최적화 과정에서 학생 모델의 꼬리 확률과 엔트로피가 점진적으로 증가하며, 결과적으로 다운스트림 작업의 정확도가 경험적으로 저하되는 문제가 발생한다.
+
+이러한 한계를 극복하기 위해 저자들은 누락된 꼬리 확률 신호를 복원하는 새로운 증류 방법인 TA-OPD(Tail-Aware Top-k OPD)를 제안한다. 이 방법은 상위 k개 토큰에 대한 역 KL 발산 최소화뿐만 아니라, 꼬리 확률을 담고 있는 별도의 '꼬리 토큰'을 추가로 고려하여 손실을 계산한다.
+
+이러한 접근은 학생 모델의 다음 토큰 분포가 교사의 분포와 더 잘 일치하도록 유도하며, Top-k 정규화로 인한 꼬리 확률 및 엔트로피 증가를 방지한다. 저자들의 주장에 따르면 광범위한 실험을 통해 TA-OPD가 기존 방법보다 우수함을 입증했으며, 일반적인 벤치마크에서 Avg@8 점수를 최대 8.05포인트까지 향상시켰다고 한다.
+
+---
+
+원문: [Tail-Aware Top-$k$ On-Policy Distillation](https://arxiv.org/abs/2608.14728)

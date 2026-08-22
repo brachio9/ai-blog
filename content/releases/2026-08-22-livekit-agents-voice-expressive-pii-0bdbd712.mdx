@@ -1,0 +1,34 @@
+---
+title: 'LiveKit Agents 1.7: 감정 표현과 개인정보 보호 강화'
+category: releases
+axis: voice
+format: explainer
+summary: LiveKit Agents 1.7은 음성 에이전트의 자연스러운 감정 표현을 가능하게 하는 익스프레시브 모드와 PII 적출 기능을 도입했다. 민감한 데이터는 자동으로 필터링되며, 대화 맥락에 기반한 정서적 억양이 적용된다.
+publishedAt: 2026-08-22T22:00:05+0900
+tags:
+- TTS
+draft: false
+source:
+  url: https://github.com/livekit/agents/releases/tag/livekit-agents%401.7.0
+  title: '@livekit/agents@1.7.0'
+  author: tinalenguyen
+  publishedAt: 2026-08-21T03:59:50+0900
+  words: 982
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 가장 큰 변화는 음성 에이전트가 더 인간らしく 말할 수 있게 된 점이다. 새로 추가된 익스프레시브 모드는 대화의 맥락을 분석해 적절한 감정 태그를 생성하고, 이를 바탕으로 자연스러운 운율과 감정을 담아 응답한다. 개발자는 AgentSession 설정에서 expressive 옵션을 활성화하기만 하면 이 기능을 바로 사용할 수 있다. 이는 단순한 텍스트 변환이 아닌, 상황별 정서적 뉘앙스를 반영하는 진보된 기능이다.
+
+개인정보 보호 측면에서도 중요한 개선이 있었다. 에이전트 관찰성 도구와 연동하여 채팅 기록과 오디오 녹음에서 감지된 PII(개인식별정보)를 의미론적으로 적출한다. 로그와 추적 정보에서도 민감한 데이터는 필터링되지만, 문제 해결에 필요한 진단 컨텍스트는 유지된다. 이 기능으로 인해 프레임워크가 출력하는 일부 추적 속성과 로그 필드 이름이 변경되었으므로, 기존 옵저버빌리티 쿼리를 사용하는 경우 업그레이드 시 이름을 업데이트해야 한다.
+
+성능과 안정성 측면에서도 여러 버그 수정이 포함되었다. 툴 호출 중 인터럽션 발생 시 완료 이벤트가 제대로 방출되지 않는 문제와, TTS에서 단어 타이밍을 보내지 않을 때 트랜스크립트 속도가 0이 되는 오류를 해결했다. 또한 OpenAI 모델과의 연동 시 이미 활성 상태인 대화에 대한 빠른 실패 처리 및 Cartesia 추론 타임스탬프 간격 보존 등 음성 처리의 일관성을 높이는 패치들이 적용되었다.
+
+이 요약은 전체 릴리즈 노트 중 가장 핵심적인 기능 추가와 주요 버그 수정만 다뤘다. CI/CD 관련 내부 설정 변경이나 특정 라이브러리 버전 업데이트 등 세부 커밋 목록은 생략했다. 더 자세한 기술적 사항과 사용 예시는 공식 문서 및 블로그 포스트를 참고하는 것이 좋다.
+
+---
+
+원문: [@livekit/agents@1.7.0](https://github.com/livekit/agents/releases/tag/livekit-agents%401.7.0)

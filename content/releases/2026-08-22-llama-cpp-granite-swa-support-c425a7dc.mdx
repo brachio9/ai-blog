@@ -1,0 +1,34 @@
+---
+title: llama.cpp, IBM Granite SWA 및 MoE 아키텍처 지원 추가
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp가 IBM의 Granite SWA와 GraniteMoeSWA 모델 형식을 공식적으로 지원하기 시작했다. 레이어별 RoPE 패턴 처리 및 MoE 파라미터 변환 기능이 개선되어 해당 아키텍처 호환성이 확보되었다.
+publishedAt: 2026-08-22T22:00:05+0900
+tags:
+- OpenCode
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b10514
+  title: b10514
+  author: github-actions[bot]
+  publishedAt: 2026-08-20T20:17:28+0900
+  words: 1193
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+llama.cpp는 IBM에서 개발한 Granite 시리즈 중 슬라이딩 윈도우 어텐션(SWA)과 혼합 전문가(MoE) 구조를 가진 모델에 대한 지원을 강화했다. 구체적으로 GraniteSWAForCausalLM과 GraniteMoeSWAForCausalLM 아키텍처의 GGUF 변환 및 추론 기능이 추가되었다. 이는 기존 llama.cpp가 처리하지 못했던 특수한 어텐션 패턴을 가진 최신 기업용 모델을 로컬 환경에서 실행할 수 있는 길을 열었다.
+
+이번 업데이트의 핵심은 레이어별 RoPE(Rotary Positional Embedding) 적용 여부를 유연하게 결정하는 메커니즘 도입이다. 개발진은 has_rope 파라미터를 통해 특정 레이어에서만 위치 인코딩을 활성화하거나 비활성화할 수 있도록 구조를 개편했다. 또한 SWA 패턴 로직의 오류를 수정하고, MoE 관련 파라미터가 선택적으로 로드되도록 처리하여 모델 변환 과정에서의 안정성을 높였다.
+
+이 변경사항은 Granite 시리즈뿐만 아니라 향후 유사한 유연한 어텐션 패턴을 요구하는 다른 모델 아키텍처에도 확장 가능한 기반을 마련한다. RoPE 패턴 배열에 대한 변환 인프라가 추가되면서, 특정 레이어의 구조적 특징을 더 정밀하게 반영할 수 있게 되었다. 이는 복잡한 하이브리드 모델을 처리할 때 발생하는 에지 케이스를 줄이는 데 기여할 것으로 보인다.
+
+현재 이 기능은 초기 지원 단계로, 모든 Granite 모델 아키텍처에 has_rope 로직이 적용되도록 표준화 작업이 진행 중이다. 사용자는 최신 빌드를 통해 Granite SWA 및 MoE 모델을 변환하고 실행해 볼 수 있다. 다만 아직 안정화 과정에 있으므로, 프로덕션 환경에서의 사용 전에는 충분한 테스트가 필요하다.
+
+---
+
+원문: [b10514](https://github.com/ggml-org/llama.cpp/releases/tag/b10514)

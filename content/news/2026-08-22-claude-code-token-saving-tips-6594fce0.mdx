@@ -1,0 +1,34 @@
+---
+title: Claude Code 토큰 낭비 막는 앤스로픽 공식 가이드 요약
+category: news
+axis: agent
+format: explainer
+summary: 앤스로픽이 공개한 Claude Code 세션 효율 극대화 가이드의 핵심 내용을 정리한다. 컨텍스트 관리와 캐시 최적화를 통해 개발 비용을 절감하는 실전 팁을 제공한다.
+publishedAt: 2026-08-22T22:00:05+0900
+tags:
+- Claude Code
+- MCP
+draft: false
+source:
+  url: https://www.youtube.com/watch?v=-QwaaSwQIhE
+  title: '[한영자막] 앤스로픽이 직접 밝힌 Claude Code 토큰 낭비 막는 6가지 방법'
+  publishedAt: 2026-08-20T07:00:32+0900
+  image: https://i.ytimg.com/vi/-QwaaSwQIhE/hqdefault.jpg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+앤스로픽은 Claude Code 사용 시 토큰 소모를 줄이고 비용을 아끼기 위한 공식 가이드를 발표했다. 이 자료는 컨텍스트 윈도우 관리부터 프롬프트 캐싱 무효화 방지, 서브 에이전트 활용법까지 포함한다. 개발자가 세션 효율을 극대화할 수 있도록 구체적인 실행 방법을 제시하고 있다.
+
+컨텍스트 관리는 작업 전환 시 /clear 명령어를 사용하고 1시간 이내로 주기적으로 /compact를 실행하는 것이 핵심이다. 불필요한 전역 MCP나 스킬은 /context 및 /memory 명령어로 정리하여 컨텍스트 다이어트를 진행한다. 이는 세션의 노이즈를 줄이고 필요한 정보만 유지하는 데 도움이 된다.
+
+리소스 최적화를 위해서는 세션 중간에 모델을 변경하지 않아야 한다. 모델 변경은 캐시 만료를 유발하므로 비용 절감 효과를 떨어뜨린다. 대신 @파일 멘션을 적극 활용하여 특정 파일 내용만 컨텍스트에 포함시키는 것이 좋다. 이렇게 하면 불필요한 토큰 소모를 막을 수 있다.
+
+시끄러운 CLI 명령어 처리는 Haiku나 Sonnet 같은 서브 에이전트로 분리하는 것이 비용 제어에 효과적이다. 복잡한 작업은 메인 세션에서 처리하고 단순 반복 작업은 서브 에이전트에게 맡기면 효율이 높아진다. 더 자세한 내용은 앤스로픽 공식 블로그와 Sean Kochel의 SNS를 참고하면 된다.
+
+---
+
+원문: [[한영자막] 앤스로픽이 직접 밝힌 Claude Code 토큰 낭비 막는 6가지 방법](https://www.youtube.com/watch?v=-QwaaSwQIhE)

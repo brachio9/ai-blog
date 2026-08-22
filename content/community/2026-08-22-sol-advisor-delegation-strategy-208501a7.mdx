@@ -1,0 +1,35 @@
+---
+title: 작업이 복잡하면 서브 에이전트를 부를까, 혼자 할까? Sol Advisor가 결정한다
+category: community
+axis: agent
+format: explainer
+summary: Daniel McAteer는 Codex용 플러그인 Sol Advisor를 소개하며, 작업 규모와 위험도에 따라 서브 에이전트 위임 여부를 사전에 판단하는 방식을 제안한다. 그는 무조건적인 분할 대신 기본값을 혼자 처리하는 것으로 두고, 필요시 보조나 검토를 추가하는 네 가지 경로를 제시한다.
+publishedAt: 2026-08-22T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/sol-advisor-codex/11678
+  title: 'Sol Advisor: 작업 규모와 위험도에 따라 서브 에이전트 위임 여부를 결정하는 Codex 에이전트 오케스트레이션 플러그인'
+  author: 9bow
+  publishedAt: 2026-08-21T15:30:34+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/a/4/a46bf1a9dc361aff58ec9a001465b5421d8357eb_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+코딩 에이전트 생태계에서 작업을 여러 서브 에이전트로 나누는 방식이 보편화되면서, 오히려 불필요한 오버헤드가 발생한다는 지적이 나온다. Daniel McAteer는 명세 작성과 결과 검증에 드리는 왕복 비용이 작은 작업에서는 낭비이며, 위험한 변경일 경우 단순 분할만으로는 부족하다고 주장한다. 따라서 중요한 판단 기준은 '몇 개로 쪼갤까'가 아니라 '이 작업이 위임할 만한 종류인가'여야 한다고 그는 강조한다.
+
+McAteer가 만든 Sol Advisor는 OpenAI Codex 전용 플러그인으로, 도구 호출 전에 먼저 처리 경로를 선언하도록 설계되었다. 이 플러그인은 기본값을 혼자 처리하는 솔로 모드로 두고, 보조 에이전트 최대 한 명을 두거나 독립 검토를 붙이는 등 네 가지 경로 중 하나를 선택하게 한다. McAteer는 이 방식을 통해 위임 자체를 예외 사항으로 간주하고, 변경분 전체의 최종 검증을 원래 세션이 담당하도록 하여 일관성을 유지하려 했다.
+
+기존 Codex 생태계의 접근법과는 방향이 다르다. 역할별 서브 에이전트를 대량으로 보유하거나 작업마다 병렬 하네스를 새로 짜는 방식과 달리, Sol Advisor는 선택지를 늘리는 대신 위임을 최소화하는 전략을 취한다. McAteer는 이 구성이 Anthropic의 Claude API 어드바이저 전략과 방향성이 비슷하지만, 단순한 조언자와 실행자 분리를 넘어 매 작업마다 나눌지 말지를 재판정하고 기록으로 남긴다는 점에서 차이가 있다고 설명한다.
+
+이 플러그인은 셸 스크립트와 마크다운 문서 등으로 구성되어 있으며, 최신 Codex CLI나 ChatGPT 데스크톱 앱에서 사용 가능하다. McAteer는 에이전트 엔지니어링 뉴스레터 Attention Heads를 운영하며 이 같은 도구 개발을 지속하고 있다. 그는 복잡한 오케스트레이션보다 명확한 판단 기준과 경량화된 워크플로우가 실제 생산성에 더 도움이 될 수 있다고 주장한다.
+
+---
+
+원문: [Sol Advisor: 작업 규모와 위험도에 따라 서브 에이전트 위임 여부를 결정하는 Codex 에이전트 오케스트레이션 플러그인](https://discuss.pytorch.kr/t/sol-advisor-codex/11678)

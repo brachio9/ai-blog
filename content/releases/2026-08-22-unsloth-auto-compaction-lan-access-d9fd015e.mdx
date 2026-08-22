@@ -1,0 +1,41 @@
+---
+title: Unsloth, 맥락 한계 넘기는 대화와 네트워크 접속을 열다
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 자동 컴팩션과 LAN 원격 접속 기능을 실험적으로 도입했다. 긴 대화 시 맥락을 유지하면서도 검색이 가능해졌으며, 로컬 네트워크 내 다른 기기에서 쉽게 접근할 수 있게 되었다.
+publishedAt: 2026-08-22T22:00:05+0900
+tags:
+- RAG
+- Codex
+- OpenCode
+- MCP
+- vLLM
+- speculative decoding
+- KV cache
+- TTS
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.801-beta
+  title: Auto compaction (preview) + LAN Remote Access
+  author: shimmyshimmer
+  publishedAt: 2026-08-21T01:58:37+0900
+  words: 5675
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈는 맥락 한계를 넘어선 긴 대화 처리와 네트워크 접근성을 핵심으로 한다. 자동 컴팩션 기능은 실험 단계지만, 모델의 컨텍스트 윈도우를 초과하더라도 대화를 이어갈 수 있게 해준다. 오래된 대화 턴을 완전히 삭제하는 대신 별도 아카이브로 인덱싱하여 필요할 때 검색해 불러오도록 설계했다. 요약 기능을 사용하지 않고 원본 텍스트를 그대로 보관하므로 사실 회상 정확도를 높이는 데 주력했으며, 이는 기존 RAG 파이프라인을 활용한다.
+
+네트워크 접근성도 크게 개선되었다. LAN 원격 접속 기능은 별도 설정 메뉴에서 활성화할 수 있으며 재부팅 없이 즉시 적용된다. QR 코드나 연결 주소 제공으로 로컬 네트워크 내 다른 기기에서 쉽게 접속할 수 있게 했다. 보안상 기본값은 비활성화되어 있고 관리자 비밀번호 변경을 요구한다. 클라우드플레어 링크 없이도 간편한 네트워크 공유가 가능해졌다는 점이 주목할 만하다.
+
+대화 품질과 사용성 측면에서도 여러 개선이 있었다. 스트리밍 성능 최적화로 긴 대화 시 UI 렉이 줄었고, 스레드 처리 속도가 빨라졌다. 프로젝트 단위로 채팅, 파일, 워크스페이스를 통합 관리하며 시스템 프롬프트나 샘플링 옵션 같은 설정을 기억해준다. 또한 부분 파일 수정 도구와 도구 호출 기능 개선, MCP 동작 안정화 등 개발자 친화적인 기능들도 추가되었다.
+
+하드웨어 및 추론 엔진 관련해서는 커스텀 llama.cpp 빌드 지원이 확대되었다. 캐시 RAM, Mmap, Mlock 등 고급 설정 토글과 스펙ulative 디코딩 KV 캐시, 비전 기능 온/오프 옵션 등을 제공한다. GPU 미지원 시나 oversized GGUF 모델에 대한 검증도 강화되어 안정성이 높아졌다. Unsloth Dynamic v3.0 기반의 새로운 Qwen3.8-27B GGUF는 기존 대비 10% 이상 높은 top-1 정확도를 보인다고 주장하지만, 이는 공식 벤치마크가 아닌 개발사 측 주장을 따른 것이다.
+
+---
+
+원문: [Auto compaction (preview) + LAN Remote Access](https://github.com/unslothai/unsloth/releases/tag/v0.1.801-beta)

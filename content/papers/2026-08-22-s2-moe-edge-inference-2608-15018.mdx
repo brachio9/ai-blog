@@ -1,0 +1,41 @@
+---
+title: 엣지 디바이스에서 MoE 모델 추론 속도를 높이는 S2-MoE
+category: papers
+axis: serving
+format: explainer
+summary: 메모리 제약이 큰 엣지 디바이스 환경에서 혼합 전문가(MoE) 모델의 추론 효율을 개선하기 위해 제안된 프레임워크다. 라우팅과 컨텍스트 공유를 통해 검증 오버헤드를 줄이고 실행 일치를 도모한다.
+publishedAt: 2026-08-22T22:00:05+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.15018
+  title: 'S2-MoE: Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts on Edge Devices'
+  author: Haochen Huang
+  publishedAt: 2026-08-20T13:00:00+0900
+  words: 13494
+  image: https://arxiv.org/html/2608.15018v2/cost_model_calibration_best_available.png
+paper:
+  arxivId: '2608.15018'
+  authors:
+  - Haochen Huang
+  - Shengxuan Qiu
+  - Meng Li
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+엣지 디바이스 환경에서는 메모리와 대역폭 제약이 심해 대규모 언어 모델을 배포하는 것이 쉽지 않다. 기존에는 추론 효율을 높이기 위해 예측적 디코딩과 혼합 전문가(MoE) 아키텍처를 각각 활용했지만, 이 둘을 단순히 결합하면 검증 과정에서의 오버헤드가 과도하게 발생하고 전문가 재사용률이 낮아져 엣지 환경에서는 효과가 제한적이었다.
+
+이러한 문제를 해결하기 위해 저자들은 S2-MoE라는 효율적인 자체 예측적 디코딩 프레임워크를 제안한다. 이 방법은 라우팅 정보를 고려한 적응형 확장을 통해 불필요한 검증을 줄이고, 전문가 게이트의 재사용을 인지하여 검증 효율을 높인다. 또한 드래프트 모델과 대상 모델 간의 컨텍스트를 공유함으로써 실행 흐름을 일치시킨다.
+
+이 기술은 llama.cpp에 구현되어 실제 엣지 디바이스에서 테스트되었다. 저자들의 주장에 따르면 다양한 MoE 모델과 데이터셋에서 표준 자기회귀 디코딩 대비 최대 5.3배, 평균 약 2.0배의 속도 향상을 달성했다. 이는 메모리 병목 현상이 두드러지는 환경에서도 유의미한 성능 개선을 가져올 수 있음을 시사한다.
+
+해당 연구의 코드와 상세 내용은 GitHub 저장소에서 확인할 수 있다. 엣지 디바이스에서의 LLM 추론 최적화에 관심이 있는 개발자들은 이 프레임워크가 기존 방식 대비 어떤 구조적 이점을 제공하는지 참고해 볼 만하다.
+
+---
+
+원문: [S2-MoE: Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts on Edge Devices](https://arxiv.org/abs/2608.15018)
