@@ -1,0 +1,40 @@
+---
+title: '나쁜 답은 버리고 좋은 답만 강조하라: TUP 방식의 지식 증류'
+category: papers
+axis: serving
+format: explainer
+summary: 추론 시 후보군 중 최선의 답을 고르는 Best-of-N 방식을 단일 모델 학습으로 압축하는 기술이다. 기존 방식은 낮은 순위를 가진 답도 일부 반영하지만, 제안된 TUP는 하위권 답을 아예 제외하고 상위권만 강조한다. 저자들은 이 방법이 이론적으로 타당하며 오프라인 학습에서도 경쟁력 있다고 주장한다.
+publishedAt: 2026-08-23T22:00:06+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.19748
+  title: 'Truncate Bad, Upweight Good: BoN-Style Distillation via Rank-Based Classification'
+  author: Yarin Bar
+  publishedAt: 2026-08-21T13:00:00+0900
+  words: 20231
+  image: https://arxiv.org/html/2608.19748v1/figures/method_ill.png
+paper:
+  arxivId: '2608.19748'
+  authors:
+  - Yarin Bar
+  - Yaniv Romano
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 2
+---
+
+추론 시 Best-of-N과 같은 방법은 후보군을 샘플링한 후 보상 모델의 점수로 최상의 완성을 선택해 생성 품질을 높인다. 지식 증류는 이러한 복잡한 과정을 단일 정책으로 압축하려는 시도다. 기존에는 원시 보상 대신 풀 내 순위를 사용하되, 낮은 순위의 완성도 목표 분포에 남아 있도록 부드러운 재가중치를 적용했다. 이는 하위권 답의 확률 질량을 줄이지만 완전히 제거하지는 않는다.
+
+이러한 접근법의 한계로 저자들은 단일 보상 모델의 상단 랭킹에 대한 의존도가 높아질 수 있음을 지적한다. 이에 제안된 TUP(Truncate-bad, Upweight-good Policy)는 낮은 순위의 완성을 지원 집합에서 아예 제거하고, 남은 상위권 부분만 조절 가능한 날카로움으로 재가중치한다. 이 방법은 프롬프트에 독립적인 닫힌 형식의 정규화를 허용하며, 이진 교차 엔트로피를 통한 완전한 오프라인 학습이 가능하다.
+
+학습 시에는 이동된 절단 승률(win-rates)을 부드러운 라벨로 사용하고, 참조 모델로의 증류 로그 가능도 비를 로짓으로 활용한다. 이론적으로 저자들은 특정 가정 하에 알려지지 않은 오라클 보상에 대해 최선의 단조 순위 재가중치가 하위권 절단 규칙과 매칭될 수 있음을 보였다. 이는 하위권을 단순히 가중치만 낮추는 것보다 제거하는 것이 형식적으로 지지받는다는 것을 의미한다.
+
+경험적 결과에 따르면 저자들은 TUP가 강력한 오프라인 정렬 베이스라인들과 경쟁할 수 있다고 주장한다. 이 연구는 복잡한 추론 시 선택 과정을 효율적인 단일 단계 학습으로 대체하면서도, 낮은 품질의 출력을 과감히 배제함으로써 더 안정적인 성능을 얻을 수 있음을 시사한다.
+
+---
+
+원문: [Truncate Bad, Upweight Good: BoN-Style Distillation via Rank-Based Classification](https://arxiv.org/abs/2608.19748)

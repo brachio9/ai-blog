@@ -1,0 +1,35 @@
+---
+title: '모델 내부 없이 할루시네이션 잡는 법: 시간적 신호 융합'
+category: papers
+axis: domain
+format: explainer
+summary: 기존 토큰 단위 검출기의 한계를 넘어 할루시네이션을 연속된 구간으로 파악하는 새로운 접근법을 소개한다. 모델 내부에 접근하지 않고 외부 신호와 텍스트 통계를 융합해 폐쇄형 모델에서도 적용 가능한 검출기를 제안하며, 저자들은 이 방법이 기존 방식보다 성능이 크게 향상된다고 주장한다.
+publishedAt: 2026-08-23T22:00:06+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.18115
+  title: Temporal Multi-Signal Fusion for Token-Level Hallucination Detection
+  author: Igor Itkin
+  publishedAt: 2026-08-20T13:00:00+0900
+  words: 10405
+  image: https://arxiv.org/html/2608.18115v1/x1.png
+paper:
+  arxivId: '2608.18115'
+  authors:
+  - Igor Itkin
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: mid
+  crossSources: 2
+---
+
+기존 토큰 단위 할루시네이션 검출기는 각 토큰을 독립적으로 점수화하기 때문에 생성 모델이 자신감 있게 잘못된 내용을 출력할 때 실패하는 경향이 있다. 이 논문은 할루시네이션을 시간적으로 확장된 구간(span)으로 간주하고 시퀀스 라벨링 기법을 통해 이를 탐지한다. 모델 내부 구조에 접근하지 않고 텍스트 통계, 자연어 추론(NLI) 함의 관계, 언어 모델의 surprisal 값을 융합한 33차원 특징 스트림을 사용하며, 각 토큰은 이 흐름을 통해 점수를 받는다.
+
+저자들의 주장에 따르면, 이러한 특징 위에 양방향 게이트드 순환 유닛(BiGRU)을 적용하면 RAGTruth 데이터셋에서 AUC 0.840의 성능을 달성한다. 이는 독립적인 로지스틱 회귀 베이스라인 대비 11포인트 향상된 수치로, 윌콕슨 부호 순위 검정에서 통계적 유의성(p = 0.002)을 보인다. 통제된 분해 실험 결과, 이 성능 향상의 대부분은 모델의 용량 증가가 아닌 시간적 순서(temporal order)에 기인하는 것으로 나타났다. 즉, 구간 내에서 자신감 있는 위치의 증거가 모호한 이웃 토큰으로 전파되면서 검출력이 높아진다는 것이다.
+
+재귀 신경망, 상태 공간 모델(Mamba), 어텐션 아키텍처 등 다양한 모델 구조를 테스트했을 때 성능 상한선이 약 0.845로 동일하게 나타났으며, 이는 병목 현상이 모델 구조가 아닌 특징 세트(feature set) 자체에 있음을 시사한다. 이 검출기는 생성된 텍스트와 외부 신호만 읽으므로 폐쇄형 소스 모델에도 적용 가능하며, 훈련 중 보지 못한 언어 모델이 생성한 텍스트에서도 AUC 4% 미만의 손실로 성능을 유지하는 것으로 저자들은 보고한다.
+
+---
+
+원문: [Temporal Multi-Signal Fusion for Token-Level Hallucination Detection](https://arxiv.org/abs/2608.18115)

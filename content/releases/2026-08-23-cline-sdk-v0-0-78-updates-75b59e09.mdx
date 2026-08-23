@@ -1,0 +1,34 @@
+---
+title: '클라인 SDK v0.0.78: 중단 없는 업그레이드와 추적 기능 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: 클라인 SDK가 버전 0.0.78로 업데이트되었다. 허브 업그레이드 시 작업 손실 없이 지속 가능하게 처리되며, 커스텀 모델의 도구 호출 오류와 Langfuse 추적 기능이 개선되었다.
+publishedAt: 2026-08-23T22:00:06+0900
+tags:
+- Cline
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/sdk/sdk/v0.0.78
+  title: SDK v0.0.78
+  author: github-actions[bot]
+  publishedAt: 2026-08-23T08:58:28+0900
+  words: 211
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트는 개발자들이 가장 걱정하는 작업 중단 문제를 해결했다. 이제 허브를 업그레이드하거나 드레인을 실행하더라도 진행 중인 작업이 유실되지 않는다. 시스템은 새로운 변경 작업을 일시적으로 거부하고 현재 실행 중인 작업을 완수한 후, 내구성이 있는 이벤트 로그를 통해 클라이언트가 누락된 이벤트를 재실행할 수 있게 한다. 중복된 이벤트는 식별자로 필터링되어 한 번만 전달되므로 데이터 일관성을 유지하면서 안전하게 업그레이드할 수 있다.
+
+커스텀 오픈AI 호환 모델 사용 시 발생할 수 있는 도구 호출 오류도 수정되었다. 이전에는 supportsReasoning 같은 편의 플래그에서 유추한 기능 목록이 절대적인 거부 신호로 오인되어 모든 도구가 요청에서 제거되는 문제가 있었다. 이제 명시적으로 작성된 기능 목록이 우선시되므로, 개발자가 의도한 대로 도구가 정상적으로 호출된다.
+
+Langfuse와의 통합 추적 기능도 더 명확해졌다. 허브 기반 및 위임된 에이전트 실행 시 세션과 클라이언트 신원 정보가 정확히 전달된다. 허브 세션은 요청 헤더에서 클라이언트 이름과 버전을 재구성하고, 위임된 에이전트는 부모 세션 아래에 그룹화되어 속성 없는 추적 기록으로 남지 않는다.
+
+모델 카탈로그가 새로고침되어 여러 제공자의 모델 목록과 가격이 업데이트되었다. DeepSeek, Crof, CrossModel, Eden AI, Kilo, NanoGPT 등 일부 제공자의 기본 모델이 변경되었으므로, 특정 모델을 고정하지 않고 사용하는 경우 이전과 다른 모델이 적용될 수 있다. 이 외에도 다양한 버그 수정과 개선 사항이 포함되었으나, 주요 변경 사항은 위와 같다.
+
+---
+
+원문: [SDK v0.0.78](https://github.com/cline/cline/releases/tag/sdk/sdk/v0.0.78)
