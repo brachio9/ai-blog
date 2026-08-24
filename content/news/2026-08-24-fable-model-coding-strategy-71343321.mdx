@@ -1,0 +1,30 @@
+---
+title: Fable 등장 이후, 코드 생성 모델의 사용 전략이 달라졌다
+category: news
+axis: vibe-coding
+format: explainer
+summary: Drew Breunig는 Fable 모델 출시 전후로 AI 코딩 환경이 변화했다고 지적한다. 과거에는 새 모델이 저렴하게 나오며 문제를 해결해 주었지만, 현재는 고가의 Fable과 충분한 성능의 기존 모델을 구분해 사용해야 한다.
+publishedAt: 2026-08-24T22:00:06+0900
+draft: false
+source:
+  url: https://simonwillison.net/2026/Aug/23/drew-breunig/
+  title: Quoting Drew Breunig
+  publishedAt: 2026-08-24T04:55:30+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+Fable 모델이 등장하기 전까지만 해도 코드 생성 환경이나 컨텍스트 전략을 지나치게 개선하는 것은 무의미해 보였다. 당시에는 비슷한 가격 혹은 더 저렴한 새로운 모델이 자주 출시되면서 대부분의 기술적 문제를 자연스럽게 해결해주었기 때문이다. 즉, 무료 점심(free lunch)이 계속되는 시기였다.
+
+그러나 Fable이 등장하면서 상황이 달라졌다. 이 모델은 놀라운 성능을 자랑하지만 비용이 매우 높다. 반면 Opus를 비롯해 5.6, K3, GLM 등 기존 모델들은 우리가 필요로 하는 대부분의 코드 작업에 있어 '충분히 좋은(good enough)' 수준이었다.
+
+따라서 Drew Breunig는 어떤 작업을 어떤 모델에 맡길지 구분하는 전략을 수립하기 시작했다. 단순히 가장 강력한 모델을 무조건 사용하는 것이 아니라, 비용 대비 효율을 고려해 작업의 성격에 맞는 모델을 선택하는 시대로 진입한 것이다.
+
+이러한 관점은 AI 코딩 도구의 가격 정책과 성능 변화가 개발자의 워크플로우에 미치는 영향을 잘 보여준다. Simon Willison은 이 인용구를 통해 LLM 가격 책정 및 Claude 관련 동향을 짚고 있다. 원문의 전체 맥락과 구체적인 사례는 Drew Breunig의 블로그 글을 참고하면 된다.
+
+---
+
+원문: [Quoting Drew Breunig](https://simonwillison.net/2026/Aug/23/drew-breunig/)

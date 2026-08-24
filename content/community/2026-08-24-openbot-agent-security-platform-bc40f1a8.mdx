@@ -1,0 +1,32 @@
+---
+title: AI 에이전트 실행 환경의 보안과 감사 문제를 해결하는 OpenBot
+category: community
+axis: agent
+format: explainer
+summary: OpenBot는 AI 에이전트에게 전용 컴퓨터를 할당하고 모든 도구 호출을 정책으로 심사하는 자체 호스팅 플랫폼이다. CopilotKit이 공개한 이 프로젝트는 AG-UI 프로토콜을 통해 다양한 프레임워크와 연동하며, 실행 전 감사 기록 생성을 통해 보안 투명성을 확보한다.
+publishedAt: 2026-08-24T22:00:06+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/openbot/11692
+  title: 'OpenBot: 에이전트마다 전용 컴퓨터를 주고 모든 도구 호출을 정책으로 심사하는 자체 호스팅 플랫폼'
+  author: 9bow
+  publishedAt: 2026-08-24T15:30:25+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/f/3/f37449df2f57c6a571c39acc8fb43c537dc57334_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+AI 에이전트에게 실제 업무를 맡기려면 권한 부여가 필수적이지만, 기존 프레임워크에서는 모델이 함수를 호출하는 순간 바로 실행되어 보안과 감사에 취약한 구조였다. 여러 에이전트가 한 브라우저를 공유하면 세션 충돌이 발생하고, 특정 동작의 원인을 추적하기 어려워 보안 담당자의 질문에 답할 근거가 부족했다. OpenBot는 이러한 문제를 해결하기 위해 봇마다 격리된 컨테이너 기반 Chromium과 작업 디렉토리를 할당하여 서로의 로그인 정보와 파일을 분리하는 자체 호스팅 플랫폼이다.
+
+OpenBot의 핵심은 모든 도구 호출을 단 하나의 게이트웨이로 모아 정책 평가와 감사 행 생성 후 실제 동작을 수행하는 구조에 있다. 봇이 브라우저를 조작하거나 파일을 읽을 때 직접 실행하지 않고 서버의 게이트웨이를 경유하며, 화면 스냅샷 확인과 정책 평가를 거쳐 결정 내용을 기록한 뒤에야 컴퓨터를 호출한다. 실패 시에도 감사 행을 추가로 남기어 기록이 먼저 존재하지 않는 실행 경로가 없도록 보장하며, 저수준 엔드포인트 우회도 방지한다.
+
+이 프로젝트는 CopilotKit이 공개했으며, 에이전트와 사용자 인터페이스 간의 개방형 프로토콜인 AG-UI 위에 구축되어 있다. LangGraph, Mastra, CrewAI 등 특정 프레임워크에 구애받지 않고 AG-UI를 지원하는 엔드포인트라면 어떤 도구로 만들었든 동일하게 등록할 수 있는 유연성을 제공한다. 현재 OpenBot는 초기 단계이므로 도입 시 이 점을 고려해야 하지만, 에이전트 실행 환경의 보안과 감사 가능성을 높이는 새로운 접근 방식을 제시한다.
+
+---
+
+원문: [OpenBot: 에이전트마다 전용 컴퓨터를 주고 모든 도구 호출을 정책으로 심사하는 자체 호스팅 플랫폼](https://discuss.pytorch.kr/t/openbot/11692)

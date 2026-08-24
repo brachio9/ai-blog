@@ -1,0 +1,36 @@
+---
+title: Lean4 증명 코드의 질을 LLM이 평가한다
+category: papers
+axis: agent
+format: explainer
+summary: ProofJudge는 Lean 4 형식 증명의 정확성 너머의 품질을 다섯 가지 차원에서 평가하는 에이전트 시스템이다. 저자들은 이 도구가 인간 리뷰어의 선호도를 높은 정확도로 재현할 수 있다고 주장한다.
+publishedAt: 2026-08-24T22:00:06+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.20432
+  title: 'ProofJudge: Tool-Grounded LLM Evaluation of Formal Proof Quality in Mathlib'
+  author: Shane Caldwell
+  publishedAt: 2026-08-24T13:00:00+0900
+  words: 1644
+paper:
+  arxivId: '2608.20432'
+  authors:
+  - Shane Caldwell
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+Lean 4에서 커널 타입 체커를 통과한 형식 증명이라도 그 품질은 천차만별이다. 단순히 맞고 틀림을 넘어서 코드의 가독성이나 라이브러리 활용도 등을 평가하는 기준이 필요하다는 문제의식에서 ProofJudge가 등장했다. 이 시스템은 LLM을 심사관으로 활용하되, 단순 텍스트 분석이 아니라 실제 코드베이스에 접근할 수 있는 에이전트 구조를 취한다.
+
+ProofJudge는 정확성 외에도 라이브러리 레버리지, 자동화 적합성, 구조적 명확성, 명제 품질, Mathlib 관례 준수 등 다섯 가지 차원에서 증명 코드의 점수를 매긴다. 평가 과정에서 심사관 에이전트는 해당 PR이 적용된 커밋의 라이브러리 상태에 직접 접근하여 쿼리할 수 있는 도구를 사용한다. 이를 통해 문맥을 고려한 더 정확한 판단이 가능해진다.
+
+저자들은 이 시스템이 인간 리뷰어의 선호도와 얼마나 일치하는지 검증하기 위해 Mathlib의 서로 다른 PR에서 추출한 218개의 선언으로 구성된 새로운 데이터셋을 구축했다. 평가 기준은 간단하다. 최종적으로 Mathlib에 수락된 버전이 수정 요청을 받은 초기 버전보다 높은 점수를 받을 경우, 심사관이 인간의 선호와 정렬되었다고 간주한다.
+
+저자들의 주장에 따르면, 평가된 여섯 가지 심사관 모델 모두 무작위 추측 수준을 크게 상회하는 성능을 보였다. 정확도는 63.5%에서 80.8% 사이로 나타났다. 특히 두 개의 오픈웨이트 모델은 최고 성능 모델 비용의 약 10분의 1 수준에서도 약 70%의 정확도를 달성했다. 연구진은 추가 연구를 위해 심사관 하네스, 평가 데이터셋, 그리고 평가 추적을 오픈소스로 공개했다.
+
+---
+
+원문: [ProofJudge: Tool-Grounded LLM Evaluation of Formal Proof Quality in Mathlib](https://arxiv.org/abs/2608.20432)

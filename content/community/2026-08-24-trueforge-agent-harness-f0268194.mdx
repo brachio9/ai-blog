@@ -1,0 +1,35 @@
+---
+title: TrueForge로 에이전트 실행 루프를 통째로 관리하는 법
+category: community
+axis: agent
+format: explainer
+summary: TrueFoundry가 공개한 오픈소스 하네스 TrueForge는 모델 호출부터 샌드박스, 채팅 UI까지 에이전트 실행의 모든 계층을 제공한다. YAML 카탈로그로 리소스를 정의하고 HTTP API나 SDK를 통해 다양한 형태로 활용 가능하다.
+publishedAt: 2026-08-24T22:00:06+0900
+tags:
+- Codex
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/trueforge-ui/11685
+  title: 'TrueForge: 모델 호출부터 샌드박스, 채팅 UI까지 에이전트 실행 루프를 통째로 제공하는 오픈소스 하네스'
+  author: 9bow
+  publishedAt: 2026-08-22T19:30:18+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/a/9/a917fc733fbf27d868da9418db6c8c17b6481aa5_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+LLM 기반 에이전트의 프로토타입 제작은 비교적 쉬워졌으나 실제 서비스 운영은 여전히 복잡한 과제다. 스트리밍 응답 처리, 세션 지속성 유지, 도구 서버 연결, 코드 실행을 위한 샌드박스 환경 구축, 위험 작업 전의 인간 승인 절차, 그리고 사용자 인터페이스 구현 등은 에이전트의 핵심 로직과는 무관한 기반 시설이다. 이러한 모델 외부의 실행 계층을 하네스(Harness)라고 부르며, 매번 재구현해야 하는 부담이 크다.
+
+TrueFoundry가 공개한 오픈소스 프로젝트 TrueForge는 이 같은 하네스 역할을 수행한다. 모델 호출, MCP 도구 연동, 스킬 관리, 샌드박스 실행, 승인 절차, 컨텍스트 및 세션 상태 관리 등 에이전트 실행 루프 전체를 대신 처리한다. 특히 동일한 하네스를 채팅 UI, TypeScript SDK 기반 HTTP API, 임베드 가능한 UI 컴포넌트라는 세 가지 방식으로 노출한다는 점이 특징이다. 팀 내부용이라면 제공되는 채팅 UI를 바로 사용하고, 자동화 파이프라인이라면 SDK로 호출하며, 자사 제품에 통합하려면 UI 컴포넌트를 가져다 쓸 수 있다.
+
+TrueForge는 모델, MCP 서버, 스킬, 샌드박스를 YAML 카탈로그로 한 번 설정하면 이후 생성되는 에이전트들이 이를 선택해 사용하도록 구성된다. OpenAI 호환 엔드포인트라면 무엇이든 연결 가능하며, 원격 MCP 서버는 헤더 인증과 OAuth를 지원한다. 스킬은 Git 저장소로 관리되는 지침 팩으로 샌드박스 내에서 필요 시 로드되고, 샌드박스는 Daytona를 통해 필요할 때만 프로비저닝된다. 또한 도구 승인, 사용자 질문, 생성형 UI 등 인간 개입 지점과 서브에이전트, 지연 도구 로딩, 대용량 결과 오프로딩, 컨텍스트 압축 등의 기능도 포함한다.
+
+채팅 UI와 승인 절차, 샌드박스를 갖춘 사내 에이전트를 빠르게 구축하려는 팀에게 TrueForge는 좋은 출발점이 될 수 있다. 다만 이미 LangGraph 등 프레임워크로 직접 파이프라인을 운영하는 경우, 실행 루프 제어권을 하네스에 넘기는 구조이므로 교체 비용과 이득을 따져봐야 한다. 로컬 모드는 기본 로그인이 없고 데이터가 로컬 SQLite 파일에 저장되므로 시험 환경으로 명시되어 있으며, 실행에는 Node.js 22.14 이상이 필요하다.
+
+---
+
+원문: [TrueForge: 모델 호출부터 샌드박스, 채팅 UI까지 에이전트 실행 루프를 통째로 제공하는 오픈소스 하네스](https://discuss.pytorch.kr/t/trueforge-ui/11685)

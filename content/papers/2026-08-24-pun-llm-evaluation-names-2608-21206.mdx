@@ -1,0 +1,39 @@
+---
+title: LLM 평가의 오해, 가상의 이름으로 해결하다
+category: papers
+axis: domain
+format: explainer
+summary: LLM 평가에서 실제 인물의 이름을 사용하면 기억력이나 검색 능력과 사실성 판단이 혼동될 수 있다. 저자들은 검증 가능한 '가상의 plausible unknown name'을 생성하는 PUN 프로토콜을 제안한다. 이 방법은 평가의 신뢰성을 높이는 새로운 기준을 제시한다.
+publishedAt: 2026-08-24T22:00:06+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.21206
+  title: 'No PUN Intended: Plausible Unknown Names for Person-Centred LLM Evaluation'
+  author: Dimitri Staufer
+  publishedAt: 2026-08-24T13:00:00+0900
+  words: 13943
+  image: https://arxiv.org/html/2608.21206v1/Faces_Landscape_Obama_5_1.png
+paper:
+  arxivId: '2608.21206'
+  authors:
+  - Dimitri Staufer
+  - David Hartmann
+  - Ibrahim Baroud
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 3
+---
+
+대규모 언어 모델(LLM)의 사실성, 프라이버시 누출, 편향 등을 평가할 때 인물 이름은 흔히 프롬프트 변수로 사용된다. 하지만 해당 이름이 실제 존재하는지 여부를 통제하지 않으면 측정 결과가 왜곡될 위험이 있다. 모델이 이름을 기억했는지, 외부 정보를 검색했는지, 아니면 단순히 이름에 대한 선입견으로 답을 생성했는지 구분하기 어렵기 때문이다. 또한 잘못된 인물에게 속성을 귀속시키는 오류도 발생할 수 있다.
+
+이 문제를 해결하기 위해 저자들은 'PUN(Plausible Unknown Names)' 프로토콜을 도입한다. 이 접근법은 성함과 이름의 형태가 합리적으로 보이지만, 인덱싱된 증거가 없고 모호성 신호가 없는 이름을 '알려지지 않은 이름'으로 정의한다. 위키데이터에서 파생된 구성 요소를 결합하고 웹 기반 LLM 스크리닝을 거친 후 통제된 검색 재검증을 통해 이러한 이름을 생성하고 검증하는 체계적인 방법이다.
+
+저자들의 주장에 따르면 이 프로토콜로 생성된 이름은 인간 연구자 204명을 대상으로 한 실험에서 통제군보다 더 실제 이름처럼 느껴졌다. 그럼에도 불구하고 참가자들은 해당 이름에 대한 인물 증거를 찾아내는 비율이 단 3%에 그쳤다. 이는 생성된 이름이 충분히 그럴듯하면서도 실제 인물을 연상시키지 않아 평가의 노이즈를 줄일 수 있음을 시사한다.
+
+연구진은 이 프로토콜을 통해 검증된 300개의 이름과 비교용 통제군을 공개했다. 이를 통해 향후 LLM 평가 시 모델의 진정한 추론 능력과 단순 기억력이나 검색 능력을 명확히 구분할 수 있는 도구가 제공된다. PUN은 평가 지표의 신뢰성을 높이고, 기존 평가 방법론의 한계를 보완하는 새로운 표준으로 자리 잡을 가능성이 있다.
+
+---
+
+원문: [No PUN Intended: Plausible Unknown Names for Person-Centred LLM Evaluation](https://arxiv.org/abs/2608.21206)

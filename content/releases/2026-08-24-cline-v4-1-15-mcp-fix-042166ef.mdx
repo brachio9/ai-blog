@@ -1,0 +1,35 @@
+---
+title: 'Cline v4.1.15: MCP 자동 승인 버그 수정'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline v4.1.15는 'MCP 서버 사용' 토글의 동작 방식을 정상화했다. 이제 해당 옵션을 켤 때 모든 MCP 도구 호출이 자동으로 승인된다.
+publishedAt: 2026-08-24T22:00:06+0900
+tags:
+- Cline
+- MCP
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/v4.1.15
+  title: v4.1.15
+  author: github-actions[bot]
+  publishedAt: 2026-08-24T04:56:07+0900
+  words: 74
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+Vibe 코딩 환경에서 외부 도구와의 연동은 작업 흐름의 핵심이다. Cline v4.1.15 릴리즈는 특히 MCP(Model Context Protocol) 서버와의 상호작용에서 발생하던 불편함을 해결하는 데 초점을 맞췄다. 이 변경사항은 SDK 번들을 사용하는 모든 윈도우 환경에 적용된다.
+
+이전 버전에서는 'MCP 서버 사용' 토글을 활성화해도 개별 도구마다 수동으로 옵트인하지 않으면 해당 기능이 작동하지 않았다. 사용자는 설정을 켰음에도 아무 변화가 없는 것처럼 느껴져 혼란을 겪었다. 이번 업데이트는 이러한 논리적 오류를 수정하여 토글 상태가 모든 MCP 도구를 포괄하도록 변경했다.
+
+이제 'MCP 서버 사용' 옵션을 켜면 개별적인 승인 절차 없이 모든 MCP 도구 호출이 자동으로 처리된다. 이는 반복적인 수동 승인을 줄이고 코드 생성 및 분석 작업을 더 원활하게 진행할 수 있게 한다. 복잡한 설정 대신 직관적인 토글 하나로 통합된 경험을 제공한다.
+
+이번 릴리즈는 주로 이 자동 승인 기능의 수정에 집중되어 있다. 다른 세부적인 변경사항은 공식 저장소의 전체 변경 로그를 통해 확인할 수 있으며, 여기서는 가장 영향력 있는 수정 사항만 다뤘다.
+
+---
+
+원문: [v4.1.15](https://github.com/cline/cline/releases/tag/v4.1.15)

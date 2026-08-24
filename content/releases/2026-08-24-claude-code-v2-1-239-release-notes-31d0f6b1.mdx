@@ -1,0 +1,36 @@
+---
+title: 'Claude Code v2.1.239: 비용 투명성, Alpine 지원 강화 및 주요 버그 수정'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Claude Code v2.1.239는 데이터 거주지 관련 프리미엄을 비용 추산에 반영하고 Bedrock 등 환경에서 풀스CREEN 렌더러를 기본 적용했다. Alpine Linux 호환성 개선과 다양한 안정성 패치가 포함되었다.
+publishedAt: 2026-08-24T22:00:06+0900
+tags:
+- Claude Code
+- Cursor
+- MCP
+draft: false
+source:
+  url: https://github.com/anthropics/claude-code/releases/tag/v2.1.239
+  title: v2.1.239
+  author: ashwin-ant
+  publishedAt: 2026-08-22T04:54:23+0900
+  words: 1298
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트는 개발자들이 가장 민감하게 반응하는 비용 구조의 투명성을 높였다. 데이터 거주지 워크스페이스 사용 시 발생하는 미국 전용 추론 프리미엄(1.1배)이 이제 `/cost` 명령어나 상태 줄, `--max-budget-usd` 설정을 통해 명확히 반영된다. 또한 Bedrock, Vertex, Foundry 등 기존에는 제외되었던 환경에서도 신규 설치 시 풀스CREEN 렌더러가 기본으로 제공되며, 사용 한도 초과 시 세션 또는 주간 리셋 시점이 함께 안내되어 예산 관리가 용이해졌다.
+
+플랫폼 호환성과 통합 경험도 크게 개선되었다. Alpine Linux 및 musl 기반 빌드에서 네이티브 이미지 붙여넣기, 클립보드, 오디오 캡처 애드온이 정상적으로 로드되도록 해결했으며, JetBrains IDE 터미널에서의 편집 호출 지연 문제와 프록시 환경에서의 Bedrock 스트리밍 오류로 인한 중복 청구 버그를 수정했다. 클라우드 세션에서는 claude.ai에서 동기화된 플러그인이 `name@synced` 형식으로 표시되어 로컬 설치와 충돌하지 않도록 처리했고, Python 프로젝트 마이그레이션을 위한 `/claude-api upgrade` 명령어를 추가하여 Anthropic SDK 1.x로의 전환을 지원한다.
+
+안정성 측면에서도 여러 핵심 버그가 해결되었다. HTTPS 프록시 환경에서 Bedrock SSO 프로필 사용 시 시작 단계에서 멈추는 현상, 존재하지 않는 디렉토리에서의 크래시 덤프 발생 문제, 그리고 WebFetch의 만료된 페이지 콘텐츠 메모리 누수 등을 수정했다. 또한 MCP elicitation 폼이 풀스CREEN 모드에서 잘리는 문제, 원격 MCP 서버의 일시적 오류 후 복구 실패, 커스텀 세션 제목 소실 등 사용성 관련 결함들이 패치되어 더 매끄러운 개발 환경을 제공한다.
+
+이 요약은 전체 릴리즈 노트 중 비용 계산, 주요 플랫폼 지원, 그리고 안정성에 직접적인 영향을 미치는 변경 사항 위주로 추려낸 것이다. 모든 세부 커밋이나 기여자 목록은 생략되었으며, 전체 변경 내역은 공식 출처를 참고해야 한다.
+
+---
+
+원문: [v2.1.239](https://github.com/anthropics/claude-code/releases/tag/v2.1.239)
