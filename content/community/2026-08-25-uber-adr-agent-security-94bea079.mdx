@@ -1,0 +1,39 @@
+---
+title: 사내 코딩 에이전트 보안, 우버가 공개한 ADR 시스템의 실체
+category: community
+axis: vibe-coding
+format: explainer
+summary: 우버가 사내 코딩 에이전트 활동을 모니터링하기 위해 개발한 ADR 시스템을 소개한다. 전체 기능 중 일부만 오픈소스로 공개된 점과 실제 프로덕션 환경에서의 처리 규모를 정리했다.
+publishedAt: 2026-08-25T22:00:01+0900
+tags:
+- Claude Code
+- Codex
+- Cursor
+- Cline
+- OpenCode
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/adr-agentic-ai-detection-and-response-uber/11691
+  title: 'ADR(Agentic AI Detection and Response): 사내 코딩 에이전트의 활동을 기록해 위협을 탐지하는 Uber의 에이전트 보안 시스템'
+  author: 9bow
+  publishedAt: 2026-08-24T12:30:34+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/a/a/aa211f001e3761cc8dd019414f5a9a88162f74bd_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+사내에서 Cursor나 Claude Code 같은 코딩 에이전트가 활성화되면 기존 보안 도구는 한계에 부딪힌다. 엔드포인트 탐지 및 대응(EDR) 솔루션은 파일 변경이나 프로세스 실행만 기록할 뿐, 에이전트가 어떤 프롬프트를 받고 왜 특정 도구를 호출했는지 추적하지 못한다. 이로 인해 정상적인 코드 수정과 프롬프트 인젝션을 통한 자격 증명 유출을 구분하기 어려워진다. 우버는 이러한 보안 간극을 메우기 위해 에이전트의 활동을 기록하고 위협을 탐지하는 ADR(Agentic AI Detection and Response) 시스템을 구축했다.
+
+ADR은 사내 단말의 AI 도구 목록화(Discovery), 활동 수집(Observability), 방어 성능 측정(Benchmark), 위험 행동 탐지(Detection), 실행 전 차단(Prevention) 등 다섯 가지 기능으로 구성된다. 하지만 현재 오픈소스로 공개된 것은 이 중 세 가지에 해당하는 센서, 벤치마크, 탐지기뿐이다. 우버 개발팀은 나머지 두 기능과 공격 시나리오 생성 엔진인 ADR Explorer는 아직 공개하지 않았다고 명시했다.
+
+이 시스템은 로컬 로그를 읽어 프롬프트와 도구 호출 이력을 정규화한 후, 저렴한 분류 모델로 1차 검사를 거친 뒤 필요한 경우 비싼 추론 모델로 2차 분석을 수행해 비용을 절감한다. 우버 연구진은 MLSys 2026 논문에서 ADR이 프로덕션 환경에서 10개월 이상 운영되며 하루 1만 건 이상의 세션을 처리했다고 주장한다.
+
+공개된 저장소에는 실제 탐지 엔진과 벤치마크 데이터셋이 포함되어 있어 팀 단위 테스트가 가능하다. 다만 논문에서 언급된 전체 시스템의 성능 수치는 오픈소스 버전만으로 재현되지 않을 수 있으므로 주의가 필요하다. 개발자는 README와 재현성 문서를 참고하여 공개된 범위를 정확히 파악한 후 활용해야 한다.
+
+---
+
+원문: [ADR(Agentic AI Detection and Response): 사내 코딩 에이전트의 활동을 기록해 위협을 탐지하는 Uber의 에이전트 보안 시스템](https://discuss.pytorch.kr/t/adr-agentic-ai-detection-and-response-uber/11691)

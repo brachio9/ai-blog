@@ -1,0 +1,35 @@
+---
+title: LingBot-World 2.0, 실시간 조작 가능한 무한 세계를 꿈꾸다
+category: community
+axis: serving
+format: explainer
+summary: Robbyant 팀이 공개한 LingBot-World 2.0은 14B 파라미터 모델로 720p 60fps 실시간 영상을 생성한다고 주장한다. 기존 월드 모델의 길이와 속도 한계를 극복하기 위해 인과적 사전학습과 증류 기술을 적용했으며, 에이전트 하네스를 통해 복잡한 상호작용을 지원한다.
+publishedAt: 2026-08-25T22:00:01+0900
+tags:
+- SGLang
+- distillation
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/lingbot-world-2-0-720p-60fps-14b/11693
+  title: 'LingBot-World 2.0: 720p 60fps 실시간으로 끝없이 조작 가능한 세계를 생성하는 14B 월드 모델'
+  author: 9bow
+  publishedAt: 2026-08-24T09:30:29+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/b/5/b5a49524aa14716982c00ae171f6a25b29991af7_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+인터랙티브 월드 모델은 사용자의 조작에 반응해 다음 화면을 실시간으로 생성하는 기술이다. 기존 방식은 자기회귀 구조로 인해 장시간 실행 시 오차가 누적되어 화면이 무너지거나, 확산 모델의 특성상 프레임 생성 속도가 느려 즉각적인 조작감을 제공하지 못하는 한계가 있었다. Robbyant 팀은 이러한 길이와 속도의 두 가지 벽을 동시에 해결하기 위해 LingBot-World 2.0을 개발했다고 밝혔다.
+
+이 모델은 인과적 사전학습을 통해 무한한 상호작용 구간을 목표로 삼고, 실시간 변형을 위한 증류 기술을 적용해 720p 해상도에서 초당 60프레임의 응답 속도를 확보했다고 저자들은 주장한다. 또한 공격이나 주문 시전 등 다양한 행동군을 지원하고 텍스트 지시를 통한 사건 생성 기능도 추가했으며, 월드 모델 분야에서는 처음으로 에이전트 하네스를 도입해 캐릭터의 행동 계획과 환경 요소 생성을 분리하는 구조를 갖추었다.
+
+Robbyant 팀은 2026년 7월 9일 이 기술 보고서와 함께 추론 코드 및 14B 규모 모델 가중치를 오픈소스로 공개했다. 코드베이스는 Wan2.2 위에 구축되어 있어 해당 문서의 설치 절차를 공유하며, 저자들은 사용자가 실제로 손에 들어오는 코드의 구성과 실행 조건을 상세히 설명하고 있다.
+
+이 프로젝트는 게임 엔진처럼 미리 준비된 3D 자산을 렌더링하는 방식이 아닌 화면 자체를 생성하므로 어떤 장면이든 만들 수 있는 잠재력을 지녔다. 다만 아직 초기 단계의 오픈소스 프로젝트이므로, 저자들이 밝힌 성능 주장은 실제 재현을 통해 검증될 필요가 있으며 현재 공개된 자료는 추론 코드와 모델 가중치에 한정되어 있다.
+
+---
+
+원문: [LingBot-World 2.0: 720p 60fps 실시간으로 끝없이 조작 가능한 세계를 생성하는 14B 월드 모델](https://discuss.pytorch.kr/t/lingbot-world-2-0-720p-60fps-14b/11693)

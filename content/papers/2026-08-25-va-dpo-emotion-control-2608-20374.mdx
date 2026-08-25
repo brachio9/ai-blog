@@ -1,0 +1,40 @@
+---
+title: LLM의 감정을 수치로 정밀하게 조절하는 VA-DPO 방법
+category: papers
+axis: serving
+format: explainer
+summary: 기존의 이산적 감정 라벨 대신 Valence-Arousal 평면의 연속 좌표를 목표값으로 삼아 언어 모델의 감정 생성을 제어하는 VA-DPO 방법을 소개한다. 저자들은 이 방법이 기존 프롬프트 방식보다 감정 조절 정확도를 크게 높이며 일반 지능 성능은 유지한다고 주장한다.
+publishedAt: 2026-08-25T22:00:01+0900
+tags:
+- LoRA
+- DPO
+- MMLU
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.20374
+  title: 'VA-DPO: Valence-Arousal Direct Preference Optimization for Controllable Emotion Generation in Language Models'
+  author: Hyunwoo Kim
+  publishedAt: 2026-08-24T13:00:00+0900
+  words: 5688
+paper:
+  arxivId: '2608.20374'
+  authors:
+  - Hyunwoo Kim
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 3
+---
+
+대부분의 감정 생성 연구는 행복, 분노, 슬픔 같은 이산적인 라벨로 감정을 표현하려 한다. 이는 '조금 우울하지만 차분한' 것과 같은 미묘한 감정 상태를 정확히 전달하기 어렵다. VA-DPO는 이러한 한계를 극복하기 위해 Valence-Arousal 평면 상의 연속 좌표를 목표값으로 지정하고, 언어 모델이 해당 좌표에 도달하도록 훈련하는 방식을 제안한다.
+
+VA-DPO는 Direct Preference Optimization을 기반으로 한다. 고정된 VA 회귀 모델이 생성된 텍스트와 목표 감정 좌표 사이의 유클리드 거리를 점수로 매긴다. 두 후보 간 거리 차이가 특정 마진보다 클 때만 선호 데이터를 구성하고, 이를 통해 LoRA 어댑터를 최적화한다. DPO 목적 함수 자체는 변하지 않으며, 선호 데이터 구축 방식이 핵심이다.
+
+저자들의 주장에 따르면 Llama-3.1-8B-Instruct 모델에서 이 방법은 시스템 프롬프팅 대비 평균 VA 거리를 33%, 퓨샷 프롬프팅 대비 25% 줄인다고 한다. 또한 Valence와 Arousal의 상관관계가 각각 0.93과 0.75로 상승했다고 보고한다. 이러한 성능 향상은 Qwen3-8B와 Llama-3.2-3B 모델에서도 동일하게 적용된다고 저자들은 설명한다.
+
+감정 조절 능력 향상이 일반 지능 저하를 의미하지는 않는다. 저자들은 MMLU 점수 변화가 0이며, HellaSwag와 TruthfulQA 성능도 유지된다고 주장한다. 연구진은 코드, 설정 파일 및 선호 데이터 구축 파이프라인을 공개했다.
+
+---
+
+원문: [VA-DPO: Valence-Arousal Direct Preference Optimization for Controllable Emotion Generation in Language Models](https://arxiv.org/abs/2608.20374)

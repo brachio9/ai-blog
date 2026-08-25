@@ -1,0 +1,49 @@
+---
+title: '에이전트의 실패를 모델의 탓으로 돌리지 마라: Prime Agent 소개'
+category: papers
+axis: vibe-coding
+format: explainer
+summary: Prime Agent는 장기적 에이전트 워크플로우를 위한 오픈소스 프레임워크다. 실행 환경과 전략을 분리하여 모델의 잠재력을 최대한 끌어내도록 설계되었다.
+publishedAt: 2026-08-25T22:00:01+0900
+draft: false
+source:
+  url: https://huggingface.co/papers/2608.23552
+  title: 'Prime Agent: A Self-Improving RLM Harness'
+  author: Seth Karten
+  publishedAt: 2026-08-24T09:00:00+0900
+  words: 6293
+paper:
+  arxivId: '2608.23552'
+  authors:
+  - Seth Karten
+  - Alex L. Zhang
+  - Kevin Thomas
+  - Sebastian Müller
+  - Elie Bakouch
+  - Daniel Auras
+  - Mika Senghaas
+  - Fares Obeid
+  - Konstantin Dunas
+  - Johannes Hagemann
+  - Sami Jaghouar
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 25
+---
+
+현재의 언어 모델은 순차적으로 작동하지만, 장기적인 목표 달성을 위해서는 모델 가중치와 활성 컨텍스트 외부의 정보 및 계산이 필요하다. Prime Agent는 이러한 요구를 충족하기 위해 개발된 오픈소스 하네스로, 장기적 평가와 코딩 에이전트 워크플로우를 지원한다. 이 시스템은 지속 가능한 IPython REPL을 통해 프로그램적 컨텍스트 처리와 테스트 시점 계산을 수행하며, Continual Harness를 통해 히스토리, 메모리, 스킬 등 다양한 요소를 트래젝션 간에 보존한다.
+
+이 프레임워크의 핵심 설계 철학은 실행 환경의 실패가 모델 자체의 실패로 이어지지 않도록 하는 것이다. Prime Agent는 실행, 복구, 검증 및 자원 회계를 표준화하면서도 전략 구성은 모델에게 맡긴다. 이러한 저마찰력의 표현막은 측정의 정확도를 높여 모델의 진정한 최대 잠재력에 가까워지게 한다. 재귀적 서브에이전트는 에이전트 간 직접 통신을 통해 협력하며, Agents View를 통해 인간이 데몬 기반 세션을 검사하고 관리할 수 있다.
+
+저자들의 주장에 따르면 Prime Agent는 ARC-AGI-3 RHAE Best@1 성능을 30%에서 95.5%로 크게 향상시켰다. 또한 장기 컨텍스트 코딩, GPU 커널 생성, 에뮬레이터 구축, 자율 nanoGPT 스피드런 등 다양한 작업에서 기존 인기 하네스와 비교해 동등하거나 우수한 성과를 보였다. 팩토리(Factorio) 게임 환경에서는 정제 과정을 통해 지속적인 기술 발전이 가능해졌으며, 전용 서브에이전트를 활용하여 병렬 작업이 효율적으로 수행되는 것으로 나타났다.
+
+이 프로젝트는 에이전트의 자기 개선 능력을 테스트하고 평가하는 데 중점을 두고 있다. 코드는 GitHub에서 공개되어 있으며, 개발자들은 이 하네스를 통해 모델의 전략적 능력과 실행 환경의 안정성을 분리하여 더 정확한 벤치마킹을 시도할 수 있다. 장기적인 자율성 연구에 관심 있는 독자들은 이 오픈소스 프레임워크를 통해 에이전트 워크플로우의 새로운 가능성을 탐색해 볼 수 있다.
+
+---
+
+원문: [Prime Agent: A Self-Improving RLM Harness](https://huggingface.co/papers/2608.23552)
