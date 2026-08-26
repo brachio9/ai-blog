@@ -1,0 +1,33 @@
+---
+title: llama.cpp로 Nemotron-3 오미니의 오디오·비디오 지원 구현
+category: community
+axis: serving
+format: explainer
+summary: NVIDIA의 Nemotron-3-Nano-Omni 모델에 대한 llama.cpp 기반 GGUF 변환 작업이 완료되었다. 작성자는 이미지뿐만 아니라 오디오와 비디오 입력을 처리할 수 있는 통합 프로젝터 및 코드 포크를 공개했다.
+publishedAt: 2026-08-26T22:00:06+0900
+tags:
+- quantization
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/nemotron-3-omni-ggufs-with-working-audio-video-in-llama-cpp-9-tested-quants-one-pass-a-v/179220
+  title: Nemotron-3-Omni GGUFs with working audio + video in llama.cpp (9 tested quants, one-pass A/V)
+  author: vincentkaufmann
+  publishedAt: 2026-08-25T02:47:54+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+NVIDIA의 Nemotron-3-Nano-Omni-30B는 이미지, 오디오, 비디오를 모두 수용하는 진정한 멀티모달 모델이지만 기존 GGUF 생태계는 시각 정보만 지원해 왔다. 작성자 engram-ae는 이 공백을 메우기 위해 C-RADIO 비전과 Parakeet 오디오 인코더 타워를 통합한 프로젝터 파일과 함께 Q3_K_M부터 BF16까지 9가지 양자화 버전을 공개했다. 이를 통해 단일 llama-server 인스턴스에서 사진, wav, mp4 파일을 드래그 앤 드롭하여 /v1/chat/completions 엔드포인트로 모든 모달리티를 처리할 수 있게 되었다.
+
+기술적 구현은 VincentKaufmann이 관리하는 llama.cpp 포크인 'llama.cpp-omni'에 기반한다. 이 코드에는 Parakeet/FastConformer 오디오 그래프와 C-RADIO 비디오 그래프가 포함되어 있으며, 특히 시간 패치와 EVS 토큰 가지치기를 통해 사운드가 포함된 비디오를 한 번의 요청으로 처리하는 원패스(one-pass) A/V 기능을 제공한다. 모델은 단일 요청에서 시각적 요소를 설명하고 청각적 내용을 인용하며, 리눅스 arm64 환경용 미리 빌드된 바이너리도 함께 제공된다.
+
+작성자 측은 이러한 기능이 단순한 주장이 아님을 검증 결과로 입증했다. 비디오 그래프는 NVIDIA의 PyTorch 참조 구현과 0.0019% 상대 L2 오차 이내로 일치하며 EVS 선택 정확도가 동일하고, 오디오 그래프는 테스트 내레이션을 단어 단위로 정확히 전사하는 것으로 확인되었다. 모든 양자화 버전은 업로드 전 이미지, 오디오, 비디오(사운드트랙 포함)에 대해 테스트되었으며, 구체적인 검증 항목은 저장소의 TEST-MATRIX.md 파일에서 확인할 수 있다.
+
+향후 계획으로는 현재 llama.cpp 마스터 브랜치로 리베이스하여 표준 버전에서도 이미지, 텍스트, 오디오가 동일하게 작동하도록 하고, 비디오 및 원패스 A/V 기능만 포크로 유지하는 방향으로 나아가고 있다. 또한 비디오 경로에 대한 업스트림 PR 제출도 예정되어 있다. 기본 모델과 인코더는 NVIDIA의 오픈 모델 계약 하에 제공되며, GGUF 변환 및 그래프 통합 작업은 작성자가 수행했다.
+
+---
+
+원문: [Nemotron-3-Omni GGUFs with working audio + video in llama.cpp (9 tested quants, one-pass A/V)](https://discuss.huggingface.co/t/nemotron-3-omni-ggufs-with-working-audio-video-in-llama-cpp-9-tested-quants-one-pass-a-v/179220)

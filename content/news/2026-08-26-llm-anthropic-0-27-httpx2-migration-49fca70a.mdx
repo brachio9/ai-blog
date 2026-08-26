@@ -1,0 +1,32 @@
+---
+title: llm-anthropic 0.27, httpx2로 넘어가는 과정
+category: news
+axis: vibe-coding
+format: explainer
+summary: Simon Willison이 llm-anthropic 0.27을 출시했다. 이 업데이트는 Anthropic Python SDK v1.0.0 호환성을 위해 httpx를 httpx2로 전환하는 내용을 담고 있다. Claude Code의 Fable 5 모델을 활용해 마이그레이션 가이드를 읽고 테스트 통과까지 자동화한 사례다.
+publishedAt: 2026-08-26T22:00:06+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://simonwillison.net/2026/Aug/24/llm-anthropic/
+  title: llm-anthropic 0.27
+  publishedAt: 2026-08-25T01:27:04+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+Simon Willison이 llm-anthropic 플러그인의 0.27 버전을 발표했다. 이번 릴리스의 핵심은 최근 출시된 Anthropic Python 라이브러리 v1.0.0과의 호환성 제공이다. 해당 버전은 기존 httpx에서 httpx2로 네트워크 클라이언트를 변경했다. OpenAI도 두 주 전 자신의 v3.0.0 릴리스에서 동일한 변화를 적용한 바 있다.
+
+업그레이드 작업을 진행하는 과정에서 Anthropic이 제공하는 마이그레이션 가이드를 참조했다. Simon Willison은 Claude Code 환경에서 Fable 5 모델을 실행해 이 가이드를 읽고 테스트가 통과하도록 코드를 수정하게 지시했다. 프롬프트는 라이브러리 버전 조건과 가이드 URL, 테스트 통과 요구사항을 명시적으로 포함시켰다.
+
+이 자동화된 작업의 결과는 GitHub에 풀 리퀘스트로 제출되었다. 개발자는 AI 도구를 활용해 공식 문서 기반의 코드 변경 사항을 빠르게 반영하고 검증하는 워크플로우를 시연했다. 이 과정은 외부 라이브러리 버전 업데이트 시 발생할 수 있는 의존성 문제를 효율적으로 처리하는 방법을 보여준다.
+
+이 글은 Simon Willison의 블로그 게시물을 바탕으로 작성되었다. 원문의 전문을 확인하려면 제공된 링크를 통해 직접 읽어보길 바란다.
+
+---
+
+원문: [llm-anthropic 0.27](https://simonwillison.net/2026/Aug/24/llm-anthropic/)

@@ -1,0 +1,46 @@
+---
+title: 코드 생성 모델, 함수 단위 피드백으로 성능 높인다
+category: papers
+axis: serving
+format: explainer
+summary: 수학 추론과 달리 코드 생성에서는 과정 감독의 기준이 모호했다. 이 논문은 다중 함수 프로그램에서 모듈 레벨 함수를 단계로 정의하고 자동 유닛 테스트로 정답을 판별하는 프레임워크를 제안한다. 실행 기반 라벨링이 LLM 심사보다 선호 최적화에 더 효과적임을 보인다.
+publishedAt: 2026-08-26T22:00:06+0900
+tags:
+- DPO
+- LLM-as-a-judge
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.23632
+  title: Function-Level Execution Feedback for Code Preference Optimization
+  author: Idris Nechnech
+  publishedAt: 2026-08-26T13:00:00+0900
+  words: 12309
+  image: https://arxiv.org/html/2608.23632v1/figure1.png
+paper:
+  arxivId: '2608.23632'
+  authors:
+  - Idris Nechnech
+  - Sehwan Kim
+  - Jimin Seo
+  - Yeongoon Kim
+  - Minhae Oh
+  - Sangwoo Hong
+  - Jungwoo Lee
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+수학 추론 분야에서는 사고의 연쇄 과정을 단계별로 감독하며 성능을 높여왔다. 하지만 코드 생성 영역에서는 과정 감독 연구가 미흡한 상태다. 코드의 단계를 줄, 추론 흔적, 프로그램 상태로 어떻게 정의해야 할지 명확하지 않아 라벨링과 최적화 대상 선정이 어려웠기 때문이다.
+
+저자들은 STEP-KTODER라는 프레임워크를 제안한다. 이 방법은 분해된 다중 함수 프로그램에서 모듈 레벨의 함수를 단계로 정의한다. 그리고 자동으로 생성된 유닛 테스트를 통해 각 함수에 이진 정답 라벨을 부여한다. 이를 통해 함수 수준의 과정 감독과 전체 프로그램 결과 수준의 피드백을 결합한 코드 특화형 단계별 KTO 방식을 구현했다.
+
+저자들의 주장에 따르면, HumanEval(+)와 MBPP(+), BigCodeBench, LiveCodeBench 등 주요 벤치마크에서 기존 결과만 고려하는 KTO나 DPO보다 성능이 향상되었다. 특히 실행 기반 라벨링의 중요성이 부각된다. LLM을 심사관으로 사용할 경우 함수 실패를 체계적으로 과대평가하여 긍정적 단계 라벨을 오염시키고, 이는 하위 선호 최적화 성능을 저하시킨다는 분석이다.
+
+이 연구는 코드 생성 모델의 학습 과정에서 과정 감독의 기준을 명확히 하고, 자동화된 테스트 기반 피드백이 LLM 심사보다 신뢰할 수 있음을 시사한다. 관련 코드는 GitHub에서 공개되어 있어 개발자들이 직접 검증하고 적용해 볼 수 있다.
+
+---
+
+원문: [Function-Level Execution Feedback for Code Preference Optimization](https://arxiv.org/abs/2608.23632)

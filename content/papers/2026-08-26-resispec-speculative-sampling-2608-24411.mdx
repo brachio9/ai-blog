@@ -1,0 +1,43 @@
+---
+title: LLM 추론 속도를 높이는 ResiSpec의 핵심 아이디어
+category: papers
+axis: serving
+format: explainer
+summary: 다중 후보 예측 샘플링 방식에서 발생하는 잔류 분포 이동을 해결하는 ResiSpec 프레임워크를 소개한다. 저자들은 이를 통해 기존 방법 대비 최대 1.92배 빠른 속도를 달성했다고 주장한다.
+publishedAt: 2026-08-26T22:00:06+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.24411
+  title: 'ResiSpec: Enhancing Multi-Candidate Speculative Sampling via Residual Distribution Shaping'
+  author: Zhi-Kai Chen
+  publishedAt: 2026-08-26T13:00:00+0900
+  words: 12086
+  image: https://arxiv.org/html/2608.24411v1/Main.png
+paper:
+  arxivId: '2608.24411'
+  authors:
+  - Zhi-Kai Chen
+  - Jun-Jie Tao
+  - Wei-Xiang Mao
+  - De-Chuan Zhan
+  - Han-Jia Ye
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대형 언어 모델의 추론 효율성은 자기회귀 디코딩의 순차적 처리 구조에 의해 근본적으로 제한된다. 이 병목 현상을 완화하기 위해 경량 드래프트 모델이 미래 토큰을 예측하고, 대형 모델이 이를 한 번의 병렬 전달로 검증하는 예측 디코딩 기법이 널리 사용된다. 특히 다중 후보 방식은 다양한 후보 집단을 제시하여 토큰 수용률을 높임으로써 처리 속도를 더 끌어올리려 한다.
+
+하지만 저자들은 이러한 다중 후보 방식이 '잔류 드리프트(Residual Drift)'라는 현상으로 인해 효율성 향상에 한계가 있다고 지적한다. 초기 후보가 거부되면 잔류 목표 분포가 드래프트 모델의 예측과 멀어지게 되는데, 이로 인해 이후의 후보들이 무용지물이 되고 비용이 많이 드는 재샘플링 과정으로 이어진다는 것이다. 즉, 검증 과정에서 분포의 왜곡이 발생하면 추가적인 후보 생성이 의미가 없어지는 구조적 문제가 존재한다.
+
+이 문제를 해결하기 위해 저자들은 ResiSpec이라는 프레임워크를 제안한다. 이 방법은 검증 단계에서 제안 분포를 전략적으로 재구성하여 잔류 목표 질량을 드래프트 모델의 높은 신뢰도 영역에 고정시킨다. 수학적 정렬을 통해 검증 과정을 재설계하되 출력의 정확성을 해치지 않도록 설계되었으며, 이를 통해 후보의 유효성 손실을 방지하고 불필요한 재샘플링을 줄인다고 설명한다.
+
+저자들의 주장에 따르면 ResiSpec은 최첨단 다중 후보 방법 대비 최대 1.92배의 속도 향상을 달성한다. 이 연구는 예측 디코딩의 효율성을 높이기 위한 새로운 접근법으로, 관련 코드는 GitHub에서 공개되어 있다.
+
+---
+
+원문: [ResiSpec: Enhancing Multi-Candidate Speculative Sampling via Residual Distribution Shaping](https://arxiv.org/abs/2608.24411)

@@ -1,0 +1,30 @@
+---
+title: Nemotron-3 오디오·비디오 GGUF 실패 원인과 해결책
+category: community
+axis: serving
+format: explainer
+summary: 일반 GGUF 변환 파일이 시각 정보만 처리해 오디오와 비디오가 작동하지 않는 이유를 설명한다. 작성자는 통합 프로젝터 파일과 수정된 llama.cpp 포크를 통해 이 문제를 해결하는 방법을 제시한다.
+publishedAt: 2026-08-26T22:00:06+0900
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/nemotron-3-omni-in-gguf-why-audio-and-video-need-more-than-the-usual-mmproj-and-where-to-get-ones-that-work/179221
+  title: 'Nemotron-3-Omni in GGUF: why audio and video need more than the usual mmproj (and where to get ones that work)'
+  author: vincentkaufmann
+  publishedAt: 2026-08-25T02:59:04+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/7/6/768fe6c43197c800bc68bd7d31f7550db8503f83_2_690x372.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+Nemotron-3-Nano-Omni-30B 모델을 GGUF 형식으로 변환해 사용하다 보면 오디오나 비디오 입력이 묵묵히 무시되는 현상을 겪을 수 있다. 작성자는 이를 모델 구조의 특성 때문이라고 설명한다. 해당 모델은 시각 인코더인 C-RADIO와 오디오 인코더인 Parakeet/FastConformer를 모두 갖추고 있지만, 널리 배포된 GGUF 저장소들은 시각 타워만 포함하는 mmproj 파일을 제공하기 때문에 llama.cpp가 오디오 가중치를 전혀 인식하지 못한다. 또한 비디오 처리는 단순한 가중치 문제를 넘어 시간적 패치와 토큰 가지치기를 위한 추론 그래프가 필요하지만, 기존 llama.cpp에는 이러한 경로가 누락되어 있었다.
+
+이 문제를 해결하기 위해 작성자는 시각, 오디오, 비디오를 하나의 파일로 통합한 mmproj 프로젝터를 공개했다. 이 통합 파일에는 24층 FastConformer와 멜 필터뱅크를 갖춘 전체 오디오 타워와, 두 개의 RGB 프레임을 채널 연결하여 처리하는 시간적 비디오 임베더가 포함되어 있다. 이를 사용하면 llama-server의 단일 플래그로 이미지, 오디오, 그리고 사운드가 포함된 비디오를 한 번에 처리할 수 있게 된다.
+
+해당 모델과 통합 프로젝터는 Hugging Face의 engram-ae 저장소에서 다운로드할 수 있으며, 9가지 양자화 버전이 제공된다. 작성자는 업로드 전에 모든 모달리티에 대해 테스트를 수행했고 그 결과를 TEST-MATRIX.md 파일로 공개했다. 또한 오디오와 비디오 그래프를 지원하며 arm64 CUDA 바이너리를 미리 빌드해 둔 llama.cpp 포크는 GitHub의 VincentKaufmann/llama.cpp-omni 저장소에서 확인할 수 있다.
+
+---
+
+원문: [Nemotron-3-Omni in GGUF: why audio and video need more than the usual mmproj (and where to get ones that work)](https://discuss.huggingface.co/t/nemotron-3-omni-in-gguf-why-audio-and-video-need-more-than-the-usual-mmproj-and-where-to-get-ones-that-work/179221)

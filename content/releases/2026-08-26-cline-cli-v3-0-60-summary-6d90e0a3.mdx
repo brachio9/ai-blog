@@ -1,0 +1,36 @@
+---
+title: 'Cline CLI v3.0.60: 메모리 폭주 해결과 보안 강화'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline CLI v3.0.60은 장시간 사용 시 발생하는 메모리 과다 소모 문제를 근본적으로 해결했다. 또한 코드베이스 검색 안정성, 비용 표시 정확도, 그리고 Git 자격 증명 보안 강화 등 주요 개선 사항을 포함한다.
+publishedAt: 2026-08-26T22:00:06+0900
+tags:
+- Claude Code
+- Cline
+- MCP
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/cli-v3.0.60
+  title: CLI v3.0.60
+  author: github-actions[bot]
+  publishedAt: 2026-08-26T18:43:26+0900
+  words: 231
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 가장 큰 변화는 백그라운드 허브 프로세스의 메모리 관리 방식이다. 이전 버전은 세션 상태 업데이트 시 대화 기록 전체를 모든 연결된 클라이언트에 브로드캐스트하여, 대규모 작업 시 프로세스가 수십 기가바이트까지 팽창하는 문제가 있었다. 이번 패치는 실행 중인 허브를 퇴역시키고 다음 명령어부터 수정 사항을 적용함으로써 이 문제를 해결한다.
+
+작업 환경의 안정성과 정확성도 개선되었다. 새로 생성되는 파일은 이제 플랫폼별 네이티브 줄 바꿈 문자를 사용하며, 단일 거대한 라인을 포함하는 파일에서 코드베이스 검색 도구가 충돌하던 버그가 수정되었다. 또한 Claude Code의 비용 추정치가 구독 모델과 API 가격 체계의 차이로 인해 실제 청구되지 않는 금액을 표시하던 오류도 바로잡아, 사용자가 불필요한 요금 정보를 보지 않도록 했다.
+
+보안 측면에서는 Git 원격 URL에 포함된 자격 증명이 모델에게 전송되는 작업 공간 정보에서 적색 처리(redacted)되도록 강화했다. 이는 민감한 인증 정보가 외부로 유출될 위험을 줄이는 중요한 조치다. 아울러 MCP 서버 설치 시 인자 구분자 '--'를 명령어 일부로 잘못 인식하던 문제도 해결되어 설치 과정이 더 원활해졌다.
+
+마지막으로 모델 카탈로그가 새로고침되었으며, Agnes AI, Aixy 등 7개의 새로운 제공자가 추가되고 기존 제공자들의 모델 목록 및 가격이 업데이트되었다. ClinePass의 기본 모델이 GLM 5.3으로 변경되는 등 일부 제공자의 기본 모델이 달라졌으므로, 특정 모델을 고정하지 않고 사용하는 경우 이전과 다른 모델이 적용될 수 있음을 유의해야 한다.
+
+---
+
+원문: [CLI v3.0.60](https://github.com/cline/cline/releases/tag/cli-v3.0.60)

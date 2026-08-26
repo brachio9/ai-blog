@@ -1,0 +1,39 @@
+---
+title: 'vLLM 0.28.0: Kimi-K3와 DeepSeek V4 최적화, Rust 프론트엔드 도입'
+category: releases
+axis: serving
+format: explainer
+summary: vLLM 0.28.0은 Kimi-K3 및 DeepSeek V4 모델의 성능을 대폭 개선했다. Rust 기반 프론트엔드와 gRPC 지원이 추가되며 시스템 안정성과 확장성이 강화되었다.
+publishedAt: 2026-08-26T22:00:06+0900
+tags:
+- vLLM
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+- prefix caching
+draft: false
+source:
+  url: https://github.com/vllm-project/vllm/releases/tag/v0.28.0
+  title: v0.28.0
+  author: khluu
+  publishedAt: 2026-08-26T18:46:30+0900
+  words: 3208
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈는 Kimi-K3와 DeepSeek V4 모델에 대한 집중적인 최적화가 핵심이다. 개발진은 Kimi-K3의 경우 디코딩 컨텍스트 병렬 처리(DCP) 지원과 융합 커널 도입을 통해 성능을 높였으며, ROCm 환경에서의 실행도 가능해졌다. 또한 공유 전문가 샤딩 옵션으로 GPU당 약 17GiB의 메모리 절감 효과를 기대할 수 있다고 밝혔다. DeepSeek V4는 희소 MLA가 디코딩부터 추측 디코딩까지 종단 간 작동하도록 개선되었고, AMD Quark NVFP4 지원과 함께 ROCm 환경에서의 호환성도 확대되었다.
+
+추측 디코딩 기술의 진보와 모델 러너 V2의 성숙도 눈에 띈다. DFlash2와 DSpark 기반의 검증 스케줄링이 도입되어 추측 디코딩의 효율성이 향상되었으며, 특히 Kimi-K3의 경우 적응형 토큰 예산을 통해 TTFT(First Token Time)가 약 60% 개선되었다고 주장한다. 모델 러너 V2는 인코더/디코더 분리 아키텍처와 가중치 오프로딩, 다층 MTP KV 캐시 지원 등을 통해 더 유연한 추론 환경을 제공한다.
+
+시스템 구조 측면에서는 Rust로 작성된 프론트엔드와 gRPC 기반의 멀티모달 이미지 추론 지원이 새로워졌다. 이는 독립적인 렌더러와 명시적 데이터 병렬 랭크 라우팅을 가능하게 하며, RL 라이프사이클 제어까지 포함한다. 또한 계층적 KV 캐시 오프로딩 기능이 강화되어 디스크 오프로딩과 외부 이차 티어 매니저 통합이 지원되며, CPU 레이아웃 표준화를 통해 병렬 처리 방식에 구애받지 않는 오프로딩이 가능해졌다.
+
+기본 설정의 변경 사항도 주의가 필요하다. 최대 배치 토큰 수가 8192에서 16384로 증가했고, Mamba 모델의 접두사 캐싱이 기본 활성화되었다. Blackwell 아키텍처의 CUDA 그래프 캡처 기본값도 1024로 상향 조정되었다. 반면 bitsandbytes 지원은 트리 외부 플러그인으로 이동했으며, Transformers 버전이 5.15.0으로 상승하고 일부 구문 기능이 제거되는 등 주요 변경 사항이 있으므로 기존 설정을 점검해야 한다.
+
+---
+
+원문: [v0.28.0](https://github.com/vllm-project/vllm/releases/tag/v0.28.0)
