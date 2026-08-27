@@ -1,0 +1,32 @@
+---
+title: PDF 저장 공간 아끼려면 브로틀리 압축을 쓰자
+category: community
+axis: retrieval
+format: explainer
+summary: 고스트스크립트와 MuPDF에 브로틀리 압축 지원이 추가되었다. PyMuPDF를 사용하는 경우 간단한 옵션 변경으로 PDF 파일 크기를 절반 가까이 줄일 수 있다. 대량 문서 처리 파이프라인에서 저장 비용 절감 효과를 기대할 수 있다.
+publishedAt: 2026-08-27T22:00:05+0900
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/mupdf-brotli-pymupdf/11718
+  title: 고스트스크립트·MuPDF에 브로틀리(Brotli) 압축 추가 — PyMuPDF 쓰시는 분들도 참고하세요
+  author: kyounghee.lee
+  publishedAt: 2026-08-26T11:29:36+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/6/5/65eee2ef86c2e348742966c14f8c45cc44393439_2_1028x539.webp
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+고스트스크립트와 MuPDF 엔진에 브로틀리 압축 기능이 추가되었다. 파이토치 한국모임의 작성자는 이 변경이 단순한 기능 확장을 넘어 대량의 PDF를 다루는 데이터 파이프라인에 실질적인 가치를 줄 것이라고 주장한다. 특히 수백만 건 이상의 문서 컬렉션을 관리할 때 전체 저장 공간과 비용 절감 효과가 크다는 점을 강조한다. 브로틀리는 기존 Flate 압축보다 동일 품질에서 더 작은 파일 크기를 제공하며, 읽기 속도는 기존 뷰어와 동일하게 빠르다.
+
+실제 압축 효과는 문서 성격에 따라 다르다. 작성자가 인용한 예시에서는 Adobe PDF 1.7 레퍼런스 매뉴얼이 브로틀리 적용 후 30.95MB에서 13MB 수준으로 줄어드는 것으로 나타났다. 텍스트와 벡터가 많은 흑백 문서는 용량이 절반 가까이 감소할 수 있다. 다만 아직 모든 도구와 뷰어가 브로틀리를 완벽히 지원하지는 않으므로, 호환성이 중요한 환경이라면 신중하게 접근해야 한다. 저장 공간 절감이 시급한 경우라면 지금부터 적용해도 무방하다.
+
+MuPDF 1.26.0과 고스트스크립트 10.06.0부터 이 기능을 사용할 수 있다. MuPDF의 CLI 도구인 mutool을 쓰면 명령어 하나로 기존 PDF를 브로틀리로 재압축할 수 있다. 압축 강도는 40에서 100 사이로 조절 가능하며, 강도가 높을수록 압축률은 좋지만 시간은 더 걸린다. 디코딩 속도는 강도와 무관하게 일정하므로 워크플로우에 미치는 영향을 테스트해 볼 필요가 있다.
+
+파이썬 환경에서는 PyMuPDF를 통해 쉽게 적용할 수 있다. doc.save 메서드에 use_objstms를 True로 설정하고 deflate 값을 2로 주면 브로틀리 압축이 활성화된다. compression_effort 파라미터로 압축 강도를 지정하면 된다. 작성자는 이 간단한 코드 변경으로 저장 공간 최적화를 시도해 볼 것을 제안한다.
+
+---
+
+원문: [고스트스크립트·MuPDF에 브로틀리(Brotli) 압축 추가 — PyMuPDF 쓰시는 분들도 참고하세요](https://discuss.pytorch.kr/t/mupdf-brotli-pymupdf/11718)

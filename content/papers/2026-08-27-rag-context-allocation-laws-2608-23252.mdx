@@ -1,0 +1,44 @@
+---
+title: 'RAG의 맥락 할당 법칙: 인과 측정과 폐쇄 루프 오케스트레이션'
+category: papers
+axis: retrieval
+format: explainer
+summary: 기존 RAG 시스템이 직면한 증거 활용 측정 오류와 비효율적인 컨텍스트 할당 문제를 해결하는 새로운 접근법을 다룬다. 저자들은 인과적 프로브를 통해 LLM의 실제 의존도를 정확히 측정하고, 단발성 확장이 아닌 순차적 생성을 통한 계산 자원 할당이 검색 성능을 크게 향상시킨다고 주장한다.
+publishedAt: 2026-08-27T22:00:05+0900
+tags:
+- RAG
+draft: false
+source:
+  url: https://huggingface.co/papers/2608.23252
+  title: 'The Laws of Context Allocation: Causal Measurement and Closed-Loop Orchestration in Generative Search'
+  author: Peiyang Liu
+  publishedAt: 2026-08-24T09:00:00+0900
+  words: 24327
+paper:
+  arxivId: '2608.23252'
+  authors:
+  - Peiyang Liu
+  - Xi Wang
+  - Di Liang
+  - Wei Ye
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 4
+---
+
+검색 증강 생성(RAG) 기술이 다양한 포트폴리오 생성으로 나아가는 과정에서 두 가지 핵심 병목 현상이 발생한다. 첫 번째는 증거 활용에 대한 측정이 잘못되어 있다는 점이고, 두 번째는 컨텍스트 예산 할당이 최적화되지 않았다는 것이다. 이 논문은 이 두 문제를 순차적으로 해결하기 위해 기존 관련성 프록시가 어려운 부정적 사례에서 실패하는 '진단 환각'을 지적하고, 이를 효율적인 인과적 leave-one-out 프로브로 대체한다. 이 방법은 생성 모델의 실제 의존도를 정확히 분리하고 LLM 주의력의 구조적 희석을 공식적으로 보정한다.
+
+컨텍스트 할당 문제 해결을 위해 저자들은 이 인과적 프로브를 교란되지 않은 요인 설계 그리드에 적용했다. 기존에 널리 쓰이던 단발성 컨텍스트 확장 전략은 관련성 감소로 인한 페널티를 받는 구조적 함정이라고 증명한다. 대신 여러 순차적 생성 단계에 걸쳐 계산을 반복적으로 할당하는 방식이 더 효과적임을 보였다. 저자들의 주장에 따르면, 이 방법은 32B 모델 규모에서도 견고하게 확장되며 포트폴리오 재현율을 16.7~20.5 절대 백분율 포인트만큼 향상시킨다.
+
+마지막으로 이러한 해결책들을 배포 가능한 폐쇄 루프 서브모듈러 스케줄러로 통합한다. 귀속 기반 대조 디코더를 추가하여 LLM의 주의력 관성을 극복하고 새로운 증거의 통합을 체계적으로 강제한다. 이 아키텍처는 기존 개방 루프 베이스라인을 압도하며, 순차적이고 피드백 기반의 오케스트레이션을 생성형 검색의 정의적 패러다임으로 확립한다.
+
+이 연구의 코드, 데이터, 인과 측정 도구들은 공개되어 있으며, 저자들은 이를 통해 RAG 시스템의 성능 측정이 단순한 관련성 점수가 아닌 실제 인과적 기여도를 기반으로 해야 함을 강조한다. 또한 컨텍스트를 한 번에 많이 주지 않고, 생성 과정마다 필요한 만큼만 동적으로 할당하는 폐쇄 루프 방식이 대규모 모델에서도 더 나은 검색 결과를 도출한다는 점을 입증했다.
+
+---
+
+원문: [The Laws of Context Allocation: Causal Measurement and Closed-Loop Orchestration in Generative Search](https://huggingface.co/papers/2608.23252)
