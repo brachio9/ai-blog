@@ -1,0 +1,42 @@
+---
+title: 행동 기반 검증으로 에이전트 하네스 진화 가속하기
+category: papers
+axis: agent
+format: explainer
+summary: 에이전트 하네스 최적화를 위해 기존 방식의 비효율적 검증을 개선한 프레임워크가 등장했다. 실행 궤적을 분석해 관련 있는 작업만 선별적으로 검증함으로써 평가 비용을 절감하고 성능을 높인다고 한다.
+publishedAt: 2026-08-28T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.27311
+  title: 'Verify Smarter, Evolve Further: Efficient Harness Evolution through Behavior-Aware Verification'
+  author: Jinghan Xu
+  publishedAt: 2026-08-28T13:00:00+0900
+  words: 9943
+  image: https://arxiv.org/html/2608.27311v1/intro.png
+paper:
+  arxivId: '2608.27311'
+  authors:
+  - Jinghan Xu
+  - Yikai Zhang
+  - Aili Chen
+  - Weiyuan Li
+  - Jiaqing Liang
+  - Deqing Yang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+현재 언어 모델 에이전트의 지시, 도구, 런타임 구성 요소 사용 방식을 결정하는 하네스(harness)를 조정하려면 비용이 많이 드는 검증 과정이 필요하다. 기존 제안-검증 방식은 고정된 작업 세트에서 모든 후보에 대해 점수를 매기는데, 이는 관련 없는 행동에 대한 롤아웃을 낭비하고 집계 점수가 특정 성능 저하를 가리는 문제가 있다.
+
+연구진은 이러한 문제를 해결하기 위해 예산 인식을 고려한 자동 하네스 진화 프레임워크인 HarnessLens를 소개한다. 이 프레임워크는 작업 공간과 사용자 설정 구성 요소를 함께 탐색하며, 실행 궤적에서 후보 수정안을 도출한다. 또한 귀속 가능한 증거 게이트(attributable-evidence gate)를 활용해 각 후보가 행동과 관련된 작업에서만 선택적으로 검증되도록 한다.
+
+저자들의 주장에 따르면 세 가지 에이전트 하네스와 네 가지 벤치마크 테스트 결과, HarnessLens는 평균 홀드아웃(held-out) 성능을 7.6%에서 13.6%까지 향상시켰다. 동시에 경쟁 베이스라인보다 평가 예산을 현저히 적게 소모한 것으로 나타났다.
+
+이러한 결과는 제한된 상호작용 예산 하에서 명시적 귀속을 갖춘 행동 기반 검증이 더 신뢰할 수 있고 샘플 효율적인 하네스 진화를 가능하게 한다는 것을 보여준다. 관련 코드는 GitHub의 jhxu5214/HarnessLens 저장소에서 확인할 수 있다.
+
+---
+
+원문: [Verify Smarter, Evolve Further: Efficient Harness Evolution through Behavior-Aware Verification](https://arxiv.org/abs/2608.27311)

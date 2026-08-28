@@ -1,0 +1,35 @@
+---
+title: 읽기 전용 로그로 에이전트 벤치마크를 만드는 BTS-AgentBench
+category: papers
+axis: agent
+format: explainer
+summary: 산업 현장의 읽기 전용 텔레메트리 로그를 실행 가능한 다중 턴 에이전트 작업으로 변환하는 파이프라인을 소개한다. 저자들은 이 방법이 데이터의 재현성을 보장하며 기존 벤치마크 구축의 공백을 메운다고 주장한다.
+publishedAt: 2026-08-28T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.27334
+  title: 'BTS-AgentBench: A Deterministic, Replayable Pipeline from Read-Only Telemetry Logs to Agent Benchmarks'
+  author: Jeong-Yoon Kim
+  publishedAt: 2026-08-28T13:00:00+0900
+  words: 9480
+  image: https://arxiv.org/html/2608.27334v1/figure1.png
+paper:
+  arxivId: '2608.27334'
+  authors:
+  - Jeong-Yoon Kim
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+산업 현장에는 방대한 양의 읽기 전용 텔레메트리 로그가 존재하지만, 이를 실행 가능한 다중 턴 에이전트 작업으로 컴파일하는 방법을 명시한 벤치마크는 드물다. 저자들은 이러한 문제를 해결하기 위해 BTS-AgentBench라는 텔레메트리에서 에피소드로 이어지는 구축 방법을 제안한다. 이 파이프라인은 BTS 메타데이터와 원본 기록을 읽기 전용 도구 저장소로 정규화하고, 도구에서 파생된 정답과 증거를 갖춘 정적 작업을 컴파일한 후 이를 타입이 지정되고 경계가 명확한 운영자 대상 에피소드로 변환한다.
+
+저자들은 이 방법이 기존 소스 계산과 분할을 유지하면서 설명 추가, 목표 수정, 타임스탬프 정책, 품질 게이트 기반 보고, 증거 귀속 등을 더했다고 설명한다. 코드 계약 사전 비행 보고서에서는 0개의 발견 사항이 나왔으며, 구축-배제 컨트롤러는 532개 행 모두에서 완료되었다고 한다. 두 개의 독립적인 원본에서 에피소드로의 빌드가 모든 논리적 도구 저장소 내보내기를 일치시키고, 공개된 학습/개발/테스트 아티팩트를 정확히 재현했다는 점이 확인되었다.
+
+저자들은 동일한 구축 경로를 XAI4HEAT에 적용했을 때 204개의 에피소드를 생성했다고 주장한다. 특히 41개 행으로 구성된 홀드아웃 테스트 분할에서 컨트롤러가 0개 행을 완료하고, 유지된 GPT-5.5 실행이 모든 41개 행을 완료했다는 결과를 제시한다. 이러한 성능 수치는 저자들의 주장에 따른 것이며, 코드와 아티팩트 및 재현 보고서는 지정된 GitHub 저장소에서 확인할 수 있다.
+
+---
+
+원문: [BTS-AgentBench: A Deterministic, Replayable Pipeline from Read-Only Telemetry Logs to Agent Benchmarks](https://arxiv.org/abs/2608.27334)

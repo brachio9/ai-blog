@@ -1,0 +1,39 @@
+---
+title: 코딩 에이전트 API 비용 절감, Weave Router가 임베딩으로 모델을 고른다
+category: community
+axis: vibe-coding
+format: explainer
+summary: Weave는 코딩 에이전트의 요청을 로컬 임베딩 모델로 분석해 최적의 LLM을 선택하는 라우팅 프록시인 Weave Router를 공개했다. 기존 방식과 달리 별도의 분류 모델이나 복잡한 프롬프트 없이 벡터 비교만으로 모델을 결정하며, Weave 측은 이를 통해 비용이 40~70% 절감된다고 주장한다.
+publishedAt: 2026-08-28T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+- Cursor
+- OpenCode
+- vLLM
+- quantization
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/weave-router-llm/11740
+  title: 'Weave Router: 코딩 에이전트의 요청마다 로컬 임베딩으로 모델을 골라 주는 LLM 라우팅 프록시'
+  author: 9bow
+  publishedAt: 2026-08-28T21:30:59+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/1/1/1167db7aff8253b9c3b98c109d10bfb334b0c062_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+코딩 에이전트를 사용하면 사용자가 질문을 한 번 던지는 것보다 훨씬 많은 API 호출이 발생한다. 파일 읽기나 명령 실행 결과 판단 등 다양한 작업이 연속적으로 이루어지기 때문이다. 문제는 이러한 요청들이 모두 동일한 고사양 모델로 처리된다는 점이다. 도구 사용 결과를 정리하는 단순한 작업도 설계 단계의 복잡한 작업과 같은 비용으로 처리되면 지출은 빠르게 증가한다. 사람이 매번 모델을 선택할 수 없는 초 단위 자동화 환경에서, 요청의 성격에 맞는 모델을 자동으로 선택하는 것이 필요하다.
+
+Weave가 공개한 Weave Router는 이러한 문제를 해결하기 위한 라우팅 프록시다. 에이전트가 API를 호출할 때 이 라우터를 경유하면, 라우터가 각 요청을 분석하여 적절한 모델로 중계한다. 기존 라우팅 도구들이 설정 파일의 규칙이나 파인튜닝된 분류 모델을 사용하는 것과 달리, Weave Router는 로컬에서 실행되는 작은 임베딩 모델을 사용한다. 요청을 임베딩한 벡터를 미리 계산해 둔 클러스터 중심과 비교하여, 해당 클러스터에 연결된 모델 목록에서 최적의 선택지를 고르는 방식이다.
+
+Weave는 이 방식을 '감각적인 프롬프트가 아닌 상자에 설치된 작은 임베더'라고 설명한다. Go로 작성된 이 서버는 자체 호스팅이 가능하며, Weave가 운영하는 관리형 서비스와도 연결할 수 있다. Weave 측은 저장소 설명을 통해 라우팅 판단이 50밀리초 이내에 완료되며, 이를 적용하면 비용이 40에서 70퍼센트까지 절감된다고 주장한다. 다만 이 수치들은 Weave의 내부 측정 결과이며, 재현 절차나 구체적인 테스트 조건은 공개되어 있지 않다.
+
+기존 LLM 라우팅 도구들과 비교할 때 Weave Router의 차별점은 모델 선택 근거에 있다. Claude Code Router는 사람이 시나리오별로 모델을 미리 지정하는 설정 파일 기반 접근을 취한다. vLLM Semantic Router는 파인튜닝된 분류 모델이 요청의 의도와 복잡도를 판정하는 방식을 사용한다. 반면 Weave Router는 임베딩 벡터와 클러스터 중심의 비교를 통해 순위표에서 모델을 선택한다. 이는 별도의 분류 모델 학습이나 복잡한 프롬프트 엔지니어링 없이도 요청의 맥락에 맞는 모델 라우팅을 가능하게 하는 구조다.
+
+---
+
+원문: [Weave Router: 코딩 에이전트의 요청마다 로컬 임베딩으로 모델을 골라 주는 LLM 라우팅 프록시](https://discuss.pytorch.kr/t/weave-router-llm/11740)

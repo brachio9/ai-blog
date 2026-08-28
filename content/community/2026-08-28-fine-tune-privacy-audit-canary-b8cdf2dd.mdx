@@ -1,0 +1,33 @@
+---
+title: 파인튜닝 데이터 유출, 캐너리 테스트로 확인하는 법
+category: community
+axis: domain
+format: explainer
+summary: 오픈소스 도구 memaudit는 파인튜닝 과정에서 학습 데이터가 모델에 기억되거나 그대로 출력되는지 검사한다. 작성자는 TinyLlama를 이용한 실제 사례에서 멤버십 추론과 재생산 테스트 결과가 상이할 수 있음을 보여주며, 단일 지표만으로는 위험을 정확히 판단하기 어렵다고 주장한다.
+publishedAt: 2026-08-28T22:00:05+0900
+tags:
+- LoRA
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/open-source-memorization-privacy-auditor-for-trainer-trl-fine-tunes-canary-mia-regurgitation-testing-with-a-real-case-study/179370
+  title: Open-source memorization/privacy auditor for Trainer/TRL fine-tunes — canary MIA + regurgitation testing (with a real case study)
+  author: SarthakAgg31
+  publishedAt: 2026-08-28T17:13:33+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+규제 환경에서 파인튜닝 시 반드시 문서화해야 할 두 가지 질문은 학습 데이터의 존재 여부를 공격자가 판별할 수 있는지와 모델이 프롬프트에 반응해 학습 내용을 그대로 출력하는지다. 이 도구는 훈련 시작 전 미리 등록한 캐너리 기록을 주입하고, LoRA 임베딩 동결로 인한 실패를 사전에 체크한 후 최종 보고서를 생성한다. 외부 서버 연동이나 계정 없이 로컬에서 작동하며, 충분한 통제 그룹이 없을 경우 신뢰할 수 없는 수치 대신 검사를 거부하는 정직한 설계다.
+
+작성자는 Stanford Alpaca 데이터셋 2만 행을 사용해 TinyLlama-1.1B-Chat에 LoRA 파인튜닝을 수행한 실제 사례를 제시한다. 설정은 r=8, 에포크 1회이며 캐너리 토큰 예산은 0.907%로 잡았다. 결과적으로 멤버십 추론 테스트에서는 1% 거짓 양성률 기준 18%의 참 양성률을 기록해 통계적 의미가 있는 기억 흔적이 확인되었으나, 프롬프트 기반 재생산 테스트에서는 0건이 출력되었다.
+
+흥미로운 점은 두 지표가 서로 다른 결과를 보여준다는 것이다. 모델은 손실 기반 멤버십 추론으로 특정 캐너리를 기억하고 있음이 드러났지만, 이를 그대로 외우지는 않았다. 만약 재생산 테스트만 수행했다면 '안전하다'는 오해로 이어질 수 있었으므로, 이 도구는 두 신호를 모두 보고한다. 작성자는 이 결과가 단순한 데모가 아닌 재현 가능한 실제 설정임을 강조하며 저장소 내 스크립트를 통해 누구나 직접 실행할 수 있도록 안내한다.
+
+이 도구는 준수 인증서가 아니며 모델 역추적이나 속성 추론 공격은 범위에 포함되지 않는다. LoRA뿐만 아니라 전체 파인튜닝도 지원하지만 참조 모델 플래그가 명시되어야 한다. 현재 개별 레코드 위험 플래깅은 탐색 단계이며, 작성자는 단일 기록의 결과보다 세트 수준의 결과를 더 신뢰할 만하다고 조언한다. 또한 다른 모델 패밀리나 PEFT 설정에서 사전 비행 검사가 얼마나 견고한지에 대한 피드백을 구하고 있다.
+
+---
+
+원문: [Open-source memorization/privacy auditor for Trainer/TRL fine-tunes — canary MIA + regurgitation testing (with a real case study)](https://discuss.huggingface.co/t/open-source-memorization-privacy-auditor-for-trainer-trl-fine-tunes-canary-mia-regurgitation-testing-with-a-real-case-study/179370)
