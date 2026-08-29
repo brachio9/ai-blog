@@ -1,0 +1,32 @@
+---
+title: Ollama v0.33.1, MLX 성능과 안정성 개선
+category: releases
+axis: serving
+format: explainer
+summary: Ollama가 버전 0.33.1을 출시했다. 이번 업데이트는 주로 Apple Silicon 환경인 MLX 백엔드의 안정성과 기능을 강화하는 데 초점을 맞췄다.
+publishedAt: 2026-08-29T22:00:06+0900
+draft: false
+source:
+  url: https://github.com/ollama/ollama/releases/tag/v0.33.1
+  title: v0.33.1
+  author: github-actions[bot]
+  publishedAt: 2026-08-27T03:09:57+0900
+  words: 64
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈의 가장 큰 변화는 MLX 관련 개선 사항이다. Qwen3.8 Flash Next 모델에 대한 지원을 추가했으며, mlxrunner를 통해 구조화된 출력(structured output)을 처리할 수 있게 되었다. 이는 특정 형식의 응답이 필요한 애플리케이션 개발자에게 유용한 기능이다.
+
+또한 Apple Silicon 사용자의 경험을 고려한 안정성 패치가 적용되었다. 느린 저장소에서 모델을 로드할 때 발생할 수 있는 Metal GPU 타임아웃 문제를 해결하여, 모델 로딩 과정에서의 오류나 지연을 줄였다. 이는 대용량 모델을 자주 다루는 사용자에게 실질적인 편의를 제공한다.
+
+llama.cpp와 MLX 라이브러리 자체도 최신 버전으로 업데이트되었다. cmake 설정 관련 패치도 적용되어 외부 호환성 수정이 더 일관되게 적용되도록 했다. 이러한 내부 라이브러리 업데이트는 전반적인 호환성과 성능에 긍정적인 영향을 미칠 것으로 보인다.
+
+이번 변경사항은 전체 커밋 목록의 일부일 뿐이다. 주요 기능 추가와 안정성 개선 위주로 요약했으며, 세부적인 코드 변경이나 기여자 목록은 공식 릴리즈 노트를 참고해야 한다.
+
+---
+
+원문: [v0.33.1](https://github.com/ollama/ollama/releases/tag/v0.33.1)

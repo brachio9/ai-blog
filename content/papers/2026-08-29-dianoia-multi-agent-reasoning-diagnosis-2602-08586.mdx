@@ -1,0 +1,42 @@
+---
+title: 다중 에이전트 성능 병목 지점을 진단하는 DIANOIA 프레임워크
+category: papers
+axis: agent
+format: explainer
+summary: DIANOIA는 다중 에이전트 추론의 이득을 커버리지, 충실도, 합성 세 가지 채널로 분해하여 측정 가능한 진단 프레임워크를 제공한다. 저자들은 이를 통해 특정 작업의 병목 지점을 식별하고 토큰 자원을 효율적으로 배분하는 방법을 제안한다.
+publishedAt: 2026-08-29T22:00:06+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://arxiv.org/abs/2602.08586
+  title: 'DIANOIA: Diagnostic Decomposition and Joint Optimization for Multi-Agent Reasoning'
+  author: Yiming Yang
+  publishedAt: 2026-08-28T13:00:00+0900
+  words: 27386
+paper:
+  arxivId: '2602.08586'
+  authors:
+  - Yiming Yang
+  - Zhuoyuan Li
+  - Fanxiang Zeng
+  - Hao Fu
+  - Yue Liu
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+다중 에이전트 LLM 시스템은 단일 에이전트보다 성능이 우수하지만, 새로운 작업에 어떤 설계가 적합한지 예측하거나 실패 원인을 진단하는 것은 여전히 어렵다. 이러한 격차는 측정 가능한 기본 요소와 검증 가능한 예측을 갖춘 진단 프레임워크의 부재에서 기인한다. DIANOIA는 다중 에이전트 추론의 이득을 커버리지, 충실도, 합성이라는 세 가지 채널로 분해하여 각각을 경험적으로 측정 가능하게 만든다.
+
+이 분해 구조로부터 도출된 진단 프로토콜은 주어진 작업의 병목 지점이 되는 채널을 식별한다. 저자들은 이 프로토콜을 구현한 다중 에이전트 시스템을 소개하는데, 이는 세 가지 채널에 대응하는 구성 요소로 이루어져 있다. 구체적으로 역할이 다양한 제안자가 커버리지를 담당하고, 실행 기반 검증이 충실도를 담당하며, 반복적 합성이 수행된다.
+
+저자들의 주장에 따르면 이 방법은 GSM8K, AIME-2025, MBPP, BFCL-SP 등 주요 벤치마크에서 강력한 다중 에이전트 베이스라인을 능가한다. 특히 토큰 예산이 동일한 조건에서 MBPP 기준 파레토 프론티어를 지배하며 약 5배의 토큰 절감 효과를 내고, 비용이 동일할 때 정확도를 4.6%p 향상시킨다고 보고된다. 모든 벤치마크에서 프로토콜이 올바른 병목 채널을 선택했으며, 이를 기반으로 구축한 시스템은 모델 전반에 걸쳐 우위를 점했다.
+
+DIANOIA는 다중 에이전트 설계를 채널 인식형 자원 배분 문제로 재정의한다. 사용자는 자신의 작업에서 어떤 채널이 병목 지점인지 진단한 후, 그에 따라 토큰을 투자하면 된다. 관련 코드, 어댑터, 진단 메트릭 및 Claude Code 스킬은 공개된 저장소에서 확인할 수 있다.
+
+---
+
+원문: [DIANOIA: Diagnostic Decomposition and Joint Optimization for Multi-Agent Reasoning](https://arxiv.org/abs/2602.08586)

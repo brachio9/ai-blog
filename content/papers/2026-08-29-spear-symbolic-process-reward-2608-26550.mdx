@@ -1,0 +1,42 @@
+---
+title: 외부 검증 모델 없이도 논리적 추론을 전수하는 SPEAR 방식
+category: papers
+axis: serving
+format: explainer
+summary: 강화학습 기반 지식 증류에서 희박한 결과 보상과 고비용의 신경망 과정 보상 모델(PRM) 사이에서 고민할 필요가 없다. SPEAR는 자연어 추론 과정을 도메인 적응형 심볼릭 마일스톤으로 투영하여, 외부 검증기 없이도 밀도 있는 논리 정합성 보상을 제공한다.
+publishedAt: 2026-08-29T22:00:06+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.26550
+  title: 'SPEAR: Distilling Domain-Adaptive Reasoning Skeletons via Sequential Symbolic Alignment in Reinforcement Learning'
+  author: Zhuochun Li
+  publishedAt: 2026-08-28T13:00:00+0900
+  words: 10308
+  image: https://arxiv.org/html/2608.26550v1/plots/pipeline.png
+paper:
+  arxivId: '2608.26550'
+  authors:
+  - Zhuochun Li
+  - Yuelyu Ji
+  - Yiming Zeng
+  - Daqing He
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+강화학습을 통해 교사 모델의 복잡한 추론 능력을 학생 모델로 전수하는 지식 증류는 큰 잠재력을 지니고 있다. 하지만 현재 연구자들은 두 가지 심각한 딜레마에 직면해 있다. 결과 기반의 희박한 보상은 논리적 가이드가 부족하고, 반면 밀도 있는 신호를 제공하는 신경망 과정 보상 모델(PRM)은 계산 비용이 너무 높다. 이 문제를 해결하기 위해 저자들은 SPEAR(Symbolic Process Evaluation and Alignment Reward)라는 새로운 방법을 제안한다.
+
+SPEAR는 별도의 학습 없이 플러그 앤 플레이 방식으로 시퀀스 레벨의 온-폴리시 증류에 적용되는 과정 보상 방법이다. 이 방식은 자연어로 된 추론 흔적을 도메인 적응형 심볼릭 마일스톤으로 투영한다. 이를 통해 과정 수준의 추론 정렬을 위한 효율적인 프록시를 제공하며, 외부 신경망 검증기의 필요성을 없앤다.
+
+구체적으로 SPEAR는 최장 공통 부분수열(LCS) 알고리즘을 활용하여 학생 모델의 탐색 과정을 교사 모델의 마일스톤과 정렬한다. 이 과정에서 순서를 인지하는 밀도 있는 보상 신호를 생성함으로써, 추가적인 검증 도구 없이도 논리적 일관성을 강제한다. 이는 복잡한 신경망 모델을 통한 검증 대신 심볼릭 접근법으로 효율성을 극대화하려는 시도다.
+
+저자들의 주장에 따르면 수학, 과학, 상식 추론 등 다양한 작업에서 SPEAR가 학생과 교사 모델 간의 추론 격차를 효과적으로 메우는 것으로 나타났다. 시퀀스 레벨 증류와 효율적인 밀도 과정 보상을 결합한 이 방법은 기존 방식의 한계를 극복하는 대안으로 제시된다. 관련 코드와 데이터는 공개된 저장소에서 확인할 수 있다.
+
+---
+
+원문: [SPEAR: Distilling Domain-Adaptive Reasoning Skeletons via Sequential Symbolic Alignment in Reinforcement Learning](https://arxiv.org/abs/2608.26550)

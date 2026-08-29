@@ -1,0 +1,33 @@
+---
+title: OpenAI 호환 API, 단순한 선택이 아닌 스펙트럼이다
+category: community
+axis: serving
+format: explainer
+summary: Hugging Face 포럼의 한 사용자가 OpenAI 호환 API 교체 시 발생하는 숨겨진 문제를 정리했다. 기본 기능은 잘 작동하지만 세부 파라미터 처리 방식에서 공급자마다 차이가 난다.
+publishedAt: 2026-08-29T22:00:06+0900
+tags:
+- vLLM
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/openai-compatible-is-a-spectrum-not-a-boolean-12-things-that-silently-break-when-you-swap-providers/179356
+  title: “OpenAI-compatible" is a spectrum, not a boolean 12 things that silently break when you swap providers
+  author: Aiidelaw
+  publishedAt: 2026-08-28T10:46:58+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Hugging Face 포럼에 글을 올린 작성자는 POST /v1/chat/completions 엔드포인트가 LLM 추론의 사실상의 표준 프로토콜로 자리 잡았다고 지적한다. vLLM, llama.cpp, Ollama 등 주요 도구들이 이 형식을 지원하며 호스팅 서비스들도 이를 광고하지만, 실제로는 세 가지 값만 바꾸면 코드를 그대로 사용할 수 있다는 주장은 제한적일 뿐이다. 작성자는 자신이 경험한 호환성 깨짐 사례를 공유하며, 많은 개발자가 비슷한 문제를 겪고 있을 것이라고 추정한다.
+
+기본적인 요청 구조와 표준 역할, 응답 포맷, SSE 스트리밍 종료 신호, 베어러 인증 등은 공급자를 바꾸더라도 안정적으로 작동한다. 만약 애플리케이션이 이러한 핵심 기능만 사용한다면 공급자 교체는 거의 비용 없이 가능하다. 그러나 작성자는 이 기본 범위를 벗어나면 예상치 못한 문제가 발생하기 시작한다고 경고하며, 자신이 관찰한 문제들을 발견 난이도에 따라 정리했다.
+
+먼저 지원되지 않는 파라미터가 에러를 내지 않고 조용히 무시되는 경우가 많다. 엄격한 API라면 400 에러를 반환해야 하지만 대부분의 호환 엔드포인트는 200 응답과 함께 해당 필드를 무시한다. 또한 추론 모델에 따라 max_tokens 대신 max_completion_tokens를 사용해야 하는데, 서버마다 이를 다르게 처리하거나 잘못 해석하여 생성 제한이 무력화되는 상황이 발생한다. 스트리밍 시 토큰 사용량 정보도 종종 누락되며, 이를 해결하기 위한 옵션 역시 모든 구현체에서 존중받지 않는다.
+
+도구 호출 기능은 기본 수준을 넘어선 부분에서 공급자마다 큰 차이가 난다. 강제 함수 선택이나 병렬 호출, 스키마 엄격 준수 등은 널리 지원되지 않으며, 일부 서버는 프롬프트 주입과 파서를 통해 도구 호출을 모방하다 보니 네이티브 지원보다 더 심각한 실패를 일으킨다. JSON 모드 역시 단순한 객체 반환과 스키마 기반의 엄격한 검증으로 나뉘는데, 이를 혼동하면 데이터 구조가 깨질 수 있다. 작성자는 이러한 세부 사항들이 공급자 교체 시 조용히 시스템을 망가뜨린다고 강조한다.
+
+---
+
+원문: [“OpenAI-compatible" is a spectrum, not a boolean 12 things that silently break when you swap providers](https://discuss.huggingface.co/t/openai-compatible-is-a-spectrum-not-a-boolean-12-things-that-silently-break-when-you-swap-providers/179356)
