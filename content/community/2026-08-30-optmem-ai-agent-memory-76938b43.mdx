@@ -1,0 +1,32 @@
+---
+title: 임베딩 없이 로그 하나로 AI 기억을 관리하는 법
+category: community
+axis: vibe-coding
+format: explainer
+summary: Victor Taelin이 제안한 OptMem은 벡터 데이터베이스와 임베딩 모델을 배제한다. 단순 텍스트 로그와 이진 트리로 에이전트의 영속 메모리를 구현해 복잡성을 줄인다.
+publishedAt: 2026-08-30T22:00:05+0900
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/optmem-ai/11753
+  title: 'OptMem: 데이터베이스도 임베딩도 없이 로그와 이진 트리로 만든 AI 에이전트용 영속 메모리'
+  author: 9bow
+  publishedAt: 2026-08-30T18:30:26+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/9/b/9b162761210da8e5073e19dfe882c714a8528d5f_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+AI 코딩 에이전트에게 기억을 부여하는 기존 방식은 대화 조각을 임베딩으로 변환해 벡터 데이터베이스에 저장한 후 유사도 검색으로 회상한다. Victor Taelin은 이 구조가 개인 작업 환경에는 무겁고, 검색 결과의 투명성이 부족하며 운영 비용이 크다고 지적한다. 그는 Higher Order Company 소속으로 Kind 증명 언어와 HVM 병렬 런타임의 저자이기도 하다.
+
+Taelin이 소개한 OptMem은 임베딩 모델이나 벡터 저장소 없이 단일 파이썬 파일로 동작한다. 이 방식은 텍스트 로그에 기록을 한 줄씩 덧붙이고, 그 위에 이진 요약 트리를 얹어 영속 기억을 만든다. 에이전트 측에서는 426개 토큰짜리 프롬프트만 추가하면 되며, 복잡한 의존성 없이 Python 3 환경만으로 구동된다.
+
+기억 구조는 시간의 흐름에 따라 아래쪽에는 원문이 그대로 남고 위로 올라갈수록 인접한 두 기억이 하나의 요약으로 합쳐지는 형태다. 최근 기억은 상세히 유지되지만 오래된 기억은 압축된 요약본으로만 존재하며, 필요시 언제든 원문 로그로 내려가 확인 가능하다. Taelin은 이 구조가 색인 생성 없이도 고정 폭 저장소를 통해 빠른 탐색을 가능하게 한다고 주장한다.
+
+기존 벡터 검색이 질문과의 의미적 유사도에 의존해 특정 조각을 찾는 것과 달리 OptMem은 세션 시작 시 트리 상위 요약 전체를 한 번에 출력해 맥락을 파악하게 한다. 구체적인 문구 검색은 정규표현식을 이용해 로그 전체를 문자 그대로 탐색한다. Taelin은 기억 100만 개 기준 회상 명령이 0.03초 만에 완료된다고 제시하며, 구조적 단순함이 가져오는 성능 이점을 강조한다.
+
+---
+
+원문: [OptMem: 데이터베이스도 임베딩도 없이 로그와 이진 트리로 만든 AI 에이전트용 영속 메모리](https://discuss.pytorch.kr/t/optmem-ai/11753)

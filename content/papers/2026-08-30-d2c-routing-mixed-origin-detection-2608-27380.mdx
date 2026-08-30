@@ -1,0 +1,42 @@
+---
+title: AI 생성 텍스트의 내용과 표현을 분리해 검출하는 D2C-Routing 방법
+category: papers
+axis: domain
+format: explainer
+summary: 기존 AI 생성 텍스트 검출은 문서 전체를 인간 또는 기계로 이분법적으로 판단하지만, 이는 내용과 표현의 출처가 다른 혼합 기원 텍스트에서는 한계가 있다. 본 연구는 내용과 표현을 차원으로 분리해 각각의 증거를 라우팅한 후 최종 협업 유형을 예측하는 D2C-Routing 방법을 제안한다.
+publishedAt: 2026-08-30T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.27380
+  title: 'D2C-Routing: Dimension-to-Composition Evidence Routing for Mixed-Origin AI-Generated Text Detection'
+  author: Xin Chen
+  publishedAt: 2026-08-28T13:00:00+0900
+  words: 10795
+  image: https://arxiv.org/html/2608.27380v1/fig1_motivation_scope.png
+paper:
+  arxivId: '2608.27380'
+  authors:
+  - Xin Chen
+  - Fuwei Zhang
+  - Yiqi Tong
+  - Wei Guo
+  - Yutian Xiao
+  - Fuzhen Zhuang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+현재 AI 생성 텍스트 검출은 주로 문서 전체가 인간이 작성했는지 기계가 생성했는지를 이진 분류하는 방식으로 접근한다. 그러나 실제 상황에서는 내용의 출처와 표현의 출처가 다를 수 있는 혼합 기원 텍스트가 존재하며, 기존의 단순한 이분법 프레임워크로는 이를 정확히 파악하기 어렵다. 따라서 연구진은 혼합 기원 검출을 내용과 표현이라는 두 차원의 출처 귀속 문제로 재정의하고, 이를 네 가지 협업 유형으로 구성하는 접근법을 제시한다.
+
+제안된 D2C-Routing 방법은 내용 측면과 표현 측면의 증거를 각각 감독된 차원 헤드로 라우팅한 후, 학습된 게이트드 합성 레이어가 최종 라벨을 예측하도록 설계되었다. 이 구조는 텍스트의 본질적인 내용 생성 주체와 문장적 표현 주체를 분리해 분석함으로써 더 정교한 검출이 가능함을 목표로 한다. 특히 HART 벤치마크에서 파생된 MixD2C 데이터셋을 통해 해당 시스템의 성능을 검증했으며, 기존 방법 대비 유의미한 향상을 보인 것으로 나타났다.
+
+저자들의 주장에 따르면 공개된 D2C-Routing 기반 검출 시스템은 MixD2C 분할에서 4방향 평균 TPR@1%FPR 지표로 0.8603의 성능을 달성했으며, 이는 동일 분할의 RACE-local 재실행 결과보다 6.5포인트 높은 수치다. 핵심 아블레이션 실험은 이러한 라우팅 설계의 유효성을 뒷받침하며, 에러 분석 결과는 AI가 생성한 내용을 인간이 표현한 경우와 완전히 AI가 생성한 텍스트를 구분하는 경계가 여전히 가장 어렵다는 점을 드러냈다.
+
+이 연구는 혼합 기원 텍스트 검출에서 내용과 표현을 분리해 처리하는 라우팅 메커니즘의 중요성을 강조한다. 코드 및 관련 아티팩트는 GitHub를 통해 공개되어 있어 재현과 추가 검증이 가능하다.
+
+---
+
+원문: [D2C-Routing: Dimension-to-Composition Evidence Routing for Mixed-Origin AI-Generated Text Detection](https://arxiv.org/abs/2608.27380)

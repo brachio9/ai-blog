@@ -1,0 +1,35 @@
+---
+title: AI가 제텔카스텐을 정리해주는 오픈소스 노트 앱, 로컬 실행도 가능
+category: community
+axis: agent
+format: explainer
+summary: Rocketnotes는 메모를 자연어로 검색하고 AI가 자동으로 분류하는 오픈소스 노트 앱이다. 개발자 Fynn Flügge가 만들었으며 클라우드 호스팅과 로컬 실행을 모두 지원한다.
+publishedAt: 2026-08-30T22:00:05+0900
+tags:
+- RAG
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/rocketnotes-ai/11754
+  title: 'Rocketnotes: 내 문서에 질문하고 제텔카스텐 수집함을 AI가 정리하는 오픈소스 마크다운 노트 앱'
+  author: 9bow
+  publishedAt: 2026-08-30T11:30:29+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/6/8/68d6afdcc798799bddd122352e1a633f23137278_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+개발자가 쌓아 올린 메모는 시간이 지날수록 찾기 어려워지고, 회의 중 남긴 짧은 기록들은 제자리 없이 방치되기 마련이다. Rocketnotes는 이러한 문제를 해결하기 위해 문서를 대상으로 자연어 질문을 던져 답을 얻게 하고, 의미 기반 검색으로 표현이 달라도 관련 내용을 찾아낸다. 또한 제텔카스텐 수집함에 넣어 둔 메모 조각을 AI 에이전트가 분석해 가장 적절한 기존 문서 안으로 자동으로 옮겨 정리한다.
+
+프로젝트 작성자 Fynn Flügge는 LangChain과 Ollama 등 오픈소스 도구들을 활용해 이 앱을 구축했다고 밝혔다. 프론트엔드는 Angular와 TypeScript, Electron으로 구성하고 백엔드는 Go와 Python을 사용했다. 벡터 저장소로는 로컬 환경에서는 ChromaDB를, 클라우드 환경에서는 S3 Vectors를 적용하여 데이터 처리 방식을 유연하게 설계했다.
+
+Rocketnotes는 실행 형태에 따라 세 가지 방법을 제공한다. 저자가 운영하는 무료 호스팅 인스턴스를 사용할 수도 있고, Docker를 통해 자신의 컴퓨터에서 완전히 로컬로 실행할 수도 있다. 소스 빌드를 통해 자체 AWS 계정에 배포하는 방식도 선택 가능하다.
+
+로컬 실행을 선택하면 문서 내용이 외부 모델 제공자로 나가지 않아 프라이버시를 보호할 수 있다. 이 경우 Ollama가 AI 처리를 담당하며, 클라우드 구성에서는 OpenAI나 Anthropic 등의 모델을 활용한다. 사용자는 자신의 필요에 따라 데이터 위치와 AI 처리 방식을 자유롭게 선택하여 사용할 수 있다.
+
+---
+
+원문: [Rocketnotes: 내 문서에 질문하고 제텔카스텐 수집함을 AI가 정리하는 오픈소스 마크다운 노트 앱](https://discuss.pytorch.kr/t/rocketnotes-ai/11754)
