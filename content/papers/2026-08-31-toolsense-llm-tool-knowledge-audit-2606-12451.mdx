@@ -1,0 +1,42 @@
+---
+title: LLM이 도구를 진짜로 이해하는가, ToolSense 진단 프레임워크
+category: papers
+axis: retrieval
+format: explainer
+summary: ToolSense는 LLM의 도구 지식을 진단하는 오픈소스 프레임워크다. 기존 벤치마크가 실제 이해도를 측정하지 못한다는 문제점을 지적하며, 더 현실적인 평가 기준을 제시한다.
+publishedAt: 2026-08-31T22:00:04+0900
+tags:
+- SFT
+draft: false
+source:
+  url: https://arxiv.org/abs/2606.12451
+  title: 'ToolSense: A Diagnostic Framework for Auditing Parametric Tool Knowledge in LLMs'
+  author: Ashutosh Hathidara
+  publishedAt: 2026-08-31T13:00:00+0900
+  words: 17854
+  image: https://arxiv.org/html/2606.12451v2/ToolSense_generation_pipeline_final.png
+paper:
+  arxivId: '2606.12451'
+  authors:
+  - Ashutosh Hathidara
+  - Sai Shruthi Sistla
+  - Sebastian Schreiber
+  - Sahil Bansal
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 3
+---
+
+대규모 언어 모델(LLM)이 에이전트로 활용될 때 수많은 도구를 검색하는 과정이 병목 현상이 된다. 기존 임베딩 기반 접근법은 전문적인 도구 의미를 충분히 포착하지 못할 수 있어, 도구 정보를 가상 토큰으로 인코딩하고 LLM을 직접 검색기로 사용하는 파라메트릭 방식이 주목받고 있다. 저자들은 이 방식이 표준 벤치마크에서는 뛰어난 성능을 보이지만, 실제 도구 이해도를 검증하는 데는 한계가 있다고 지적한다.
+
+기존 ToolBench와 같은 벤치마크는 상세한 쿼리를 사용하고 유효한 토큰 경로로 출력을 제한하기 때문에 모델이 도구를 실제로 이해하는지 알 수 없다. 이를 해결하기 위해 저자들은 ToolSense라는 진단 프레임워크를 제안한다. 이 프레임워크는 도구 카탈로그를 입력받아 모호성 수준에 따른 현실적 검색 벤치마크, 객관식 탐지 벤치마크, 질의응답 탐지 벤치마크 세 가지를 자동으로 생성한다.
+
+저자들의 주장에 따르면 ToolSense를 ToolBench(~47개 도구)와 다섯 가지 파라메트릭 모델 설정에 적용한 결과 지식과 검색의 해리 현상이 드러났다. 현실적 검색 쿼리에서 일부 설정은 기존 벤치마크 대비 50~64퍼센트 포인트가 급락하여 임베딩 모델 기준선보다 낮은 성능을 보였다. 또한 강력한 검색 성능에도 불구하고 사실적 탐지 테스트에서는 무작위 수준에 가까운 점수를 받은 모델이 있어, 검색 능력과 실제 지식 보유가 일치하지 않음을 시사한다.
+
+이 연구는 LLM이 도구를 단순히 패턴으로 기억하는지 실제로 이해하는지를 구분할 수 있는 진단 도구의 필요성을 강조한다. 저자들은 ToolSense 프레임워크와 관련 벤치마크를 오픈소스로 공개하여 커뮤니티의 검증을 유도하고 있다.
+
+---
+
+원문: [ToolSense: A Diagnostic Framework for Auditing Parametric Tool Knowledge in LLMs](https://arxiv.org/abs/2606.12451)

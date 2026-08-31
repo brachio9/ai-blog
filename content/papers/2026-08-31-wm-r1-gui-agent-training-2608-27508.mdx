@@ -1,0 +1,40 @@
+---
+title: 실제 환경 없이 모바일 GUI 에이전트 학습하는 WM-R1
+category: papers
+axis: agent
+format: explainer
+summary: WM-R1은 실제 안드로이드 환경 대신 세계 모델을 사용해 모바일 GUI 에이전트를 강화학습으로 훈련하는 프레임워크다. 저자들은 이 방법이 자원 소모를 줄이고 에이전트의 추론 능력을 향상시킨다고 주장한다.
+publishedAt: 2026-08-31T22:00:04+0900
+tags:
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2608.27508
+  title: 'WM-R1: Training GUI Agents to Reason and leverage World Models with Reinforcement Learning'
+  author: Yu Han
+  publishedAt: 2026-08-31T13:00:00+0900
+  words: 10862
+  image: https://arxiv.org/html/2608.27508v1/fig1_comparison.png
+paper:
+  arxivId: '2608.27508'
+  authors:
+  - Yu Han
+  - Tianwen Qian
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+강화학습을 통해 훈련된 모바일 플랫폼의 GUI 에이전트는 환경 학습 능력에서 뛰어난 성과를 보여주고 있다. 하지만 기존 방식은 실제 환경과의 광범위한 상호작용을 필요로 하기 때문에 자원 비용이 크고 불안정성이 높은 문제가 따른다. 특히 복잡한 GUI 시나리오에서는 이러한 한계가 더 두드러진다.
+
+이 문제를 해결하기 위해 연구진은 WM-R1이라는 새로운 프레임워크를 제안했다. 이는 모바일 GUI 에이전트를 실제 환경이 아닌 세계 모델을 통해 훈련하는 최초의 강화학습 프레임워크다. 구체적으로 세계 모델은 모든 롤아웃 과정에서 상태 전이의 원천으로 작용하며, 학습 루프 내의 실제 안드로이드 환경을 대체한다.
+
+WM-R1은 세계 모델을 에이전트의 사고 과정에 직접 통합한다. 이를 통해 에이전트는 최종 행동을 결정하기 전에 후보 행동들의 결과를 미리 추론할 수 있게 된다. 또한 실제 환경과의 상호작용 없이도 세계 모델 기반의 대규모 병렬화 및 단계별 세분화된 궤적 생성을 지원하며, 작업 성공률과 궤적 효율성, 세계 모델 활용도를 함께 최적화하는 다차원 규칙 기반 보상을 도입한다.
+
+저자들의 주장에 따르면, 2000개의 어려운 작업으로 구성된 고품질 데이터셋을 사용해 효율적으로 훈련한 WM-R1 에이전트는 안드로이드 모바일 벤치마크에서 GRPO 전용 베이스라인 및 추론 시뮬레이션 방법보다 현저히 우수한 성능을 보였다. 관련 코드는 GitHub에서 확인할 수 있다.
+
+---
+
+원문: [WM-R1: Training GUI Agents to Reason and leverage World Models with Reinforcement Learning](https://arxiv.org/abs/2608.27508)

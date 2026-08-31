@@ -1,0 +1,37 @@
+---
+title: 소설 원문으로 Qwen3.5-4B-Base 파인튜닝하는 법
+category: community
+axis: serving
+format: explainer
+summary: 채팅 형식이 아닌 소설 원문을 사용하여 Qwen3.5-4B-Base를 파인튜닝하는 방법을 다룬다. 저자는 VRAM 제한을 고려해 QLoRA를 적용하며, 텍스트를 연속적인 인코더 스트림으로 처리하는 방식을 소개한다.
+publishedAt: 2026-08-31T22:00:04+0900
+tags:
+- quantization
+- LoRA
+- QLoRA
+- fine-tuning
+- SFT
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/how-should-i-fine-tune-qwen3-5-4b-base-on-raw-novel-text-without-a-chat-qa-format/179431
+  title: '## How should I fine-tune Qwen3.5-4B-Base on raw novel text without a chat/QA format?'
+  author: kbuwel
+  publishedAt: 2026-08-29T23:44:06+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+저자는 한국어 소설 원문을 학습시켜 자연스러운 문장 이어나가기와 서사 패턴을 습득하게 하려는 목적으로 Qwen3.5-4B-Base 모델을 파인튜닝하고 있다. 이는 일반적인 지시 튜닝이나 채팅봇 훈련이 아닌, 제한된 VRAM 환경에서 QLoRA를 활용한 도메인 특화 사전 학습에 가까운 접근이다. 목표는 코퍼스에 포함된 캐릭터와 배경 설정을 모델이 이해하도록 하는 것이다.
+
+데이터셋은 Parquet 형식으로 저장되며 각 행이 하나의 완성된 소설을 담고 있다. 저자는 텍스트를 사용자-보조자 대화 형식이나 지시 템플릿으로 변환하지 않는다. 대신 모든 이야기를 원문 그대로 토큰화한 후, 장 구분자(***), 책 구분자(⁂)를 사용하여 연속적인 인코더 스트림으로 연결한다. 이 스트림은 2048개 토큰 길이의 블록으로 고정 길이 패킹되며, 전체 텍스트가 여러 블록에 분산되어 처리된다.
+
+학습 시 라벨은 입력 ID의 복사본을 사용하며, 실제 패딩 위치만 -100로 마스킹한다. 이는 토크나이저가 PAD와 EOS에 동일한 ID를 할당할 수 있어, 실제 EOS 토큰이 손실 함수에서 우연히 제외되는 것을 방지하기 위함이다. 저자는 이 방식을 통해 모델이 텍스트의 끝을 올바르게 인식하도록 유도한다.
+
+모델 로드에는 4비트 NF4 양자화를 적용하며, 컴퓨팅 데이터 타입은 하드웨어 지원 여부에 따라 bfloat16 또는 float16을 선택한다. LoRA 설정은 랭크 32, 알파 64, 드롭아웃 0.05로 구성되며, 바이어스는 제외하고 임의의 타겟 모듈에 적용한다. 이 구성은 VRAM 효율성을 극대화하면서도 소설 문체의 학습 효과를 얻기 위한 저자의 선택이다.
+
+---
+
+원문: [## How should I fine-tune Qwen3.5-4B-Base on raw novel text without a chat/QA format?](https://discuss.huggingface.co/t/how-should-i-fine-tune-qwen3-5-4b-base-on-raw-novel-text-without-a-chat-qa-format/179431)

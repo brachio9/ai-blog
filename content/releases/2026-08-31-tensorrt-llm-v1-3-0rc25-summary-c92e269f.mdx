@@ -1,0 +1,39 @@
+---
+title: 'TensorRT-LLM v1.3.0rc25: KV 캐시 매니저 V2가 표준이 되다'
+category: releases
+axis: serving
+format: explainer
+summary: TensorRT-LLM v1.3.0rc25는 주요 모델들에 대해 KV 캐시 매니저 V2를 기본 활성화하여 확장성과 안정성을 높였다. 반면 분산 서빙 및 특정 모델 조합에서 발생하는 정지 현상과 메모리 오류 등 해결되지 않은 문제가 다수 보고되었다.
+publishedAt: 2026-08-31T22:00:04+0900
+tags:
+- Claude Code
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+- Whisper
+draft: false
+source:
+  url: https://github.com/NVIDIA/TensorRT-LLM/releases/tag/v1.3.0rc25
+  title: v1.3.0rc25
+  author: tongyuantongyu
+  publishedAt: 2026-08-31T12:24:43+0900
+  words: 11181
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 릴리즈의 가장 큰 변화는 KV 캐시 매니저 V2가 DeepSeek, Qwen, Gemma 등 주요 최신 모델들의 기본 설정으로 채택된 점이다. 개발진은 V2 아키텍처가 확장성과 안정성에서 우위를 점한다고 판단하여 신규 모델은 모두 V2를 사용하도록 하고 기존 모델도 점진적으로 마이그레이션할 계획이며, 구버전인 V1은 향후 폐기될 예정이다.
+
+하지만 아직 해결되지 않은 기술적 문제가 다수 존재한다. 분산 서빙 환경에서 시작 또는 종료 시 작업자가 멈추거나(KV 캐시 전송 중 중단 시 정지 등), 특정 모델(Gemma 4 등)의 생성 과정이 무한정 멈출 수 있는 버그가 보고되었다. 특히 B200 GPU에서의 V2 스케줄러 작업 부하 시 간헐적 크래시나 메모리 부족 현상이 발생하며, DeepSeek 및 GPT-OSS 관련 분산 구성에서 초기화 정지나 데드락이 발생할 위험이 있다.
+
+또한 LoRA 적용 시의 livelock 문제나 Qwen3 FP8 LoRA 생성 정지, 그리고 Wan 2.2 등 비주얼 생성 워크로드에서의 품질 저하 및 조건부 동작 손실 문제도 확인되었다. 일부 MoE 모델과 GQA/SWA 추론에서 NaN 발생이나 정확도 손실이 간헐적으로 나타나는 점도 주의해야 할 사항이다.
+
+이 요약은 전체 릴리즈 노트의 일부를 추려낸 것이므로, 실제 프로덕션 환경 적용 전에는 공식 문서의 알려진 문제(Known Issues) 목록을 반드시 확인하고 테스트해야 한다. 특히 분산 아키텍처나 최신 모델 조합을 사용하는 경우 버그 리스크가 높으므로 신중한 검증이 필요하다.
+
+---
+
+원문: [v1.3.0rc25](https://github.com/NVIDIA/TensorRT-LLM/releases/tag/v1.3.0rc25)
