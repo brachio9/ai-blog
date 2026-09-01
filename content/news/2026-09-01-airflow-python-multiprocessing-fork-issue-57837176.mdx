@@ -1,0 +1,31 @@
+---
+title: Airflow가 Python 멀티프로세싱을 고른 이유와 그 한계
+category: news
+axis: agent
+format: explainer
+summary: Apache Airflow가 Python의 GIL 제약을 극복하고 태스크 격리성을 확보하기 위해 멀티프로세싱을 채택한 배경을 설명한다. 포크 방식의 도입과 관련된 기술적 맥락을 다루며, 이후 발생할 구체적인 문제 해결 과정은 다음 편에서 이어진다.
+publishedAt: 2026-09-01T22:10:13+0900
+draft: false
+source:
+  url: https://d2.naver.com/helloworld/4452165
+  title: Python의 멀티프로세싱과 Airflow, 그리고 관련된 문제 해결기 1편
+  publishedAt: 2026-09-01T15:52:03+0900
+  image: https://d2-serving.pstatic.net/v1/images?objectPath=d2%2FEDITOR%2F2026%2Fhelloworld-202608-%EB%8F%84%EC%A0%95%EC%9A%B0%2Ffiles%2Fimage-2026-8-10_10-5-52.png
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+네이버 D2 팀은 데이터 입수 플랫폼의 배치 워크플로를 운영하는 데 Airflow를 사용하고 있으며, 2025년 4월 출시 예정인 Airflow 3.0 도입을 위한 PoC(Proof of Concept)를 진행했다. 이 과정에서 Python의 멀티프로세싱 방식 중 하나인 fork로 인해 발생하는 문제를 발견하고 해결한 경험을 시리즈물로 정리하는데, 이번 1편에서는 해당 문제를 이해하는 데 필요한 배경지식을 다룬다.
+
+Apache Airflow는 Python으로 작성된 워크플로 오케스트레이션 도구로, 사용자가 정의한 DAG(Directed Acyclic Graph)에 따라 태스크들을 스케줄링하여 실행한다. 여기서 태스크 실행에는 병렬성과 격리성이라는 두 가지 핵심 요구사항이 존재한다. 먼저 병렬성은 여러 태스크를 동시에 수행할 수 있어야 한다는 점이다. Python의 표준 구현체인 CPython은 GIL(Global Interpreter Lock)로 인해 단일 인터프리터 내에서 스레드를 아무리 많이 생성해도 Python 바이트코드는 한 순간에 하나만 실행된다. 이는 CPU 집약적인 작업에서 멀티코어의 이점을 얻지 못함을 의미하므로, Airflow는 이러한 제약을 극복하기 위한 방안이 필요하다.
+
+두 번째 요구사항인 격리성은 각 태스크의 수행이 부모 프로세스나 다른 태스크에 영향을 주지 않아야 한다는 것이다. 사용자가 작성한 코드가 태스크로 실행되는 구조상, 특정 태스크의 비정상 종료가 부모 프로세스 전체를 종료시킬 경우 전체 시스템 장애로 이어질 수 있다. 또한 Python은 모듈을 전역적으로 관리하기 때문에, 런타임에 import된 모듈은 코드가 변경되더라도 쉽게 갱신하거나 삭제하기 어렵다. 따라서 태스크가 등록한 모듈은 해당 태스크 완료 시 반드시 폐기되어야 하며, 이를 보장하지 않으면 Git-Sync 등을 통한 코드 변경이 실시간으로 반영되지 않는 문제가 발생한다.
+
+Airflow는 이러한 병렬성과 격리성 요구사항을 모두 만족시키기 위해 멀티프로세싱 방식을 채택했다. 즉, 하나의 태스크당 하나의 프로세스를 생성하여 실행하고, 종료 시 해당 프로세스를 폐기하는 방식이다. 이를 통해 진정한 의미의 CPU 병렬 처리가 가능해지며, 태스크의 비정상 종료가 부모 프로세스에 미치는 영향을 차단할 수 있다. 또한 프로세스 단위 격리를 통해 부모 프로세스의 전역 모듈 오염을 방지하고, 태스크 종료 시 프로세스 자체를 폐기함으로써 모듈 관리상의 격리성도 확보할 수 있다. 이제 Airflow가 멀티프로세싱을 선택했으니, 구체적인 프로세스 생성 방식에 대한 고려가 필요하다.
+
+---
+
+원문: [Python의 멀티프로세싱과 Airflow, 그리고 관련된 문제 해결기 1편](https://d2.naver.com/helloworld/4452165)

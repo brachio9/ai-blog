@@ -1,0 +1,34 @@
+---
+title: llama.cpp b10731, Qwen4exp의 MTP 속도 향상
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp b10731 릴리즈는 Qwen4exp 모델에서 MTP 추론 시 발생하는 성능 저하를 해결한다. 재귀 상태 롤백 기능의 개선으로 컨텍스트 직렬화 오버헤드가 줄어든다.
+publishedAt: 2026-09-01T22:10:13+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b10731
+  title: b10731
+  author: github-actions[bot]
+  publishedAt: 2026-09-01T14:34:08+0900
+  words: 661
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+MTP(Multi-Token Prediction) 추론 방식은 생성된 토큰이 거절될 경우 타겟 상태를 이전 단계로 되돌려야 한다. 이전 버전에서는 이 롤백 지원이 부족해 서버가 매 라운드마다 전체 재귀 상태를 호스트 메모리로 직렬화하는 비효율적인 과정이 반복되었다. 이는 드래프팅으로 얻는 이득보다 더 많은 비용을 발생시키는 원인이었다.
+
+이번 업데이트는 재귀 캐시 스냅샷 관리 방식을 개선하여 이러한 문제를 해결한다. 기존에는 단일 평면만 기록해 롤백 시 누락된 컨볼루션 히스토리가 복원되는 문제가 있었으나, 이제 각 슬롯마다 토큰 하나씩 앞선 시점의 스냅샷을 별도로 기록하도록 변경되었다. 이를 통해 델타 넷의 QKV 및 PLE 컨볼루션 상태가 정확히 롤백된다.
+
+개발진의 벤치마크 결과에 따르면 이 개선은 가독성 있는 텍스트와 코드 생성에서 각각 144 tok/s, 183 tok/s의 속도를 달성했다. 이는 롤백 기능이 적용되기 전 버전의 83~123 tok/s보다 현저히 빠르며, 드래프팅을 전혀 사용하지 않을 때의 108 tok/s보다도 우수한 성능이다.
+
+이 릴리즈는 macOS, Linux, Android 등 주요 플랫폼에 대한 바이너리를 제공한다. 다만 이 요약은 전체 변경 사항 중 MTP 관련 최적화만 다루었으며, 다른 수정 사항이나 기여자 목록은 포함하지 않았다.
+
+---
+
+원문: [b10731](https://github.com/ggml-org/llama.cpp/releases/tag/b10731)

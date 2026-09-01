@@ -1,0 +1,30 @@
+---
+title: 테스트와 추적을 동시에 잡는 Python 래퍼, wrapture
+category: news
+axis: vibe-coding
+format: explainer
+summary: Graham Dumpleton이 만든 wrapture는 함수 접근을 추적하거나 값을 대체하는 래핑 도구를 제공한다. unittest.mock 대안이자 기존 프로젝트의 추적 구현 수단으로 설계되었다.
+publishedAt: 2026-09-01T22:10:13+0900
+draft: false
+source:
+  url: https://simonwillison.net/2026/Aug/31/introducing-wrapture/
+  title: Introducing wrapture
+  publishedAt: 2026-09-01T08:59:36+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Python 생태계의 유명 개발자 Graham Dumpleton이 새로운 도구 wrapture를 소개했다. 이 도구는 그가 이전에 만든 wrapt 라이브러리의 몽키패칭 아이디어를 확장하여, 테스트와 추적을 동시에 적용할 수 있도록 고안된 것이다. 어떤 함수나 메서드에 접근하든 이를 추적하거나 다른 값을 반환하도록 오버라이드하는 작업을 쉽게 만들어준다.
+
+wrapture는 unittest.mock의 대안으로 기능하면서도 기존 프로젝트에 대한 추적 구현을 가능하게 한다. 개발자는 자신이 통제하지 않는 코드에 관찰자를 부착하여 흐르는 데이터를 기록하되, 감시되는 프로그램 자체를 방해하지 않는 문제를 오랫동안 고민해 왔다고 밝혔다. 이를 해결하기 위해 설계된 이 도구는 OpenTelemetry 지원도 포함하고 있다.
+
+기존 Python 프로젝트에 추적을 추가하는 방법은 설정 파일 기반으로도 가능하다. TOML 형식의 설정 파일을 통해 관찰 대상과 출력 방식을 정의하면 된다. 예를 들어 특정 도메인의 메서드를 대상으로 하고 결과를 JSON Lines 형식으로 저장하도록 구성할 수 있다. 아직 출시된 지 몇 주 되지 않은 초기 단계의 프로젝트이지만, 유망한 시작을 보이고 있다.
+
+흥미로운 점은 이 프로젝트가 Graham Dumpleton이 AI 에이전트를 완전히 주도적으로 사용한 첫 번째 대규모 프로젝트라는 것이다. 그는 모든 코드와 문서가 AI 어시스턴트에 의해 작성되었지만, 이것이 비브 코딩(vibe coding)은 아니라고 명확히 구분했다. 비브 코딩처럼 프롬프트 하나에 기대는 방식이 아니라, 그가 이 분야의 오랜 경험으로 정확한 결과를 설계하고 AI를 단지 생산 수단으로 사용한 것이라고 설명했다.
+
+---
+
+원문: [Introducing wrapture](https://simonwillison.net/2026/Aug/31/introducing-wrapture/)

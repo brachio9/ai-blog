@@ -1,0 +1,36 @@
+---
+title: 목표만 던지면 조직도 만들고 AI가 일하는 OpenOPC
+category: community
+axis: agent
+format: explainer
+summary: 홍콩대학교 HKUDS 연구실이 공개한 OpenOPC는 단일 목표 입력으로 조직도를 자동 생성하고 AI 에이전트들이 역할을 분담해 작업을 완료하는 멀티 에이전트 런타임이다. 기존 코딩 도구가 개인 단위 작업에 그치는 것과 달리, 이 도구는 설계부터 배포까지의 복잡한 과정을 회사 구조처럼 조율한다.
+publishedAt: 2026-09-01T22:10:13+0900
+tags:
+- Claude Code
+- Codex
+- Cursor
+- OpenCode
+- distillation
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/openopc-ai-feat-hkuds/11751
+  title: 'OpenOPC: 목표 하나로 조직도를 짜고 AI 직원을 채용해 일을 완료하는 멀티 에이전트 런타임 (feat. HKUDS)'
+  author: 9bow
+  publishedAt: 2026-08-29T11:30:14+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/b/3/b33b589453b75af44cfe0c8c981e4b80cbfdcc21_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: mid
+  crossSources: 1
+---
+
+AI 코딩 에이전트를 사용할 때 '기능 구현' 요청과 '제품 출시' 요청 사이에는 큰 갭이 존재한다. 단일 에이전트는 긴 문맥을 유지하며 설계, 구현, 검토, 문서화, 배포 준비 등 여러 갈래의 작업을 동시에 처리하기 어렵다. 반면 사람이 작업을 세분화해 하나씩 던지면 결국 사람이 조율자가 되어버리는 한계가 있다. OpenOPC는 이러한 조율 문제를 '회사 조직'이라는 메타포로 해결한다. 목표 하나를 입력하면 필요한 역할과 보고 체계를 담은 조직도를 먼저 구성하고, 각 역할에 AI 직원을 배치해 작업을 나누고 검토하는 전 과정을 런타임이 자동으로 관리한다.
+
+홍콩대학교 데이터 인텔리전스 연구실(HKUDS)은 이 방식을 자체 구성(Self-Built), 자체 운영(Self-Run), 자체 성장(Self-Grown)의 세 축으로 설명한다. OpenOPC는 Python 3.10 이상 환경에서 동작하며, 터미널 명령어와 브라우저 기반 Office UI를 제공한다. 실행 주체는 자체 런타임뿐 아니라 Codex, Claude Code, Cursor, OpenCode 등 외부 코딩 에이전트 CLI를 역할별로 지정해 사용할 수 있어 유연성을 확보한다. 모델 연결은 LiteLLM 및 OpenRouter 호환 엔드포인트를 통해 이루어지므로 특정 제공자에 종속되지 않는다.
+
+기존 도구들이 단일 세션 내에서 작업을 처리하거나 사람이 중간에 개입해야 하는 것과 달리, OpenOPC는 에이전트 간 작업 인수인계와 결과 검토, 문제 발생 시 인간 호출 절차까지 갖춘 구조를 지향한다. 이는 단순한 코드 생성을 넘어 프로젝트 전체의 생명주기를 관리하는 멀티 에이전트 시스템으로의 진화를 의미한다. HKUDS 연구진은 이를 통해 복잡한 소프트웨어 개발 프로세스를 AI가 자율적으로 조율할 수 있는 새로운 패러다임을 제시하고 있다.
+
+---
+
+원문: [OpenOPC: 목표 하나로 조직도를 짜고 AI 직원을 채용해 일을 완료하는 멀티 에이전트 런타임 (feat. HKUDS)](https://discuss.pytorch.kr/t/openopc-ai-feat-hkuds/11751)

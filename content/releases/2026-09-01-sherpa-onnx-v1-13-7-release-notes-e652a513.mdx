@@ -1,0 +1,35 @@
+---
+title: sherpa-onnx v1.13.7, 모바일과 웹 API의 안정성을 높이다
+category: releases
+axis: voice
+format: explainer
+summary: sherpa-onnx v1.13.7이 출시되었다. Flutter iOS 빌드 오류 수정과 Rust의 Windows arm64 및 iOS 지원 확장이 주요 변경 사항이다. 또한 Qwen3-ASR의 무음 구간 환각 현상 개선과 JavaScript API의 스트리밍 처리 기능 강화가 포함되었다.
+publishedAt: 2026-09-01T22:10:13+0900
+tags:
+- ASR
+- Whisper
+draft: false
+source:
+  url: https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.13.7
+  title: v1.13.7
+  author: github-actions[bot]
+  publishedAt: 2026-09-01T14:01:16+0900
+  words: 321
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 버전은 모바일 환경에서의 실행 안정성을 높이는 데 주력했다. Flutter 패키지의 iOS 빌드 오류를 수정하고, Rust 바인딩에서 Windows arm64 아키텍처와 iOS 플랫폼을 공식 지원하기 시작했다. 특히 Tauri 프레임워크와의 연동을 위한 예제 코드도 추가되어 데스크톱 애플리케이션 개발자가 sherpa-onnx를 더 쉽게 도입할 수 있게 되었다.
+
+음성 인식 모델의 정확도와 처리 방식에도 개선이 있었다. Qwen3-ASR 모델에서 핫워드나 언어 설정 시 무음 구간에서 텍스트가 잘못 생성되는 환각 현상을 수정했다. 또한 Whisper 특징 추출 방식을 centered-STFT 규격에 맞추어 일관성을 높였으며, 온라인 NeMo 트랜스듀서 디코더에서 ys_probs 확률 값을 반환하도록 기능을 보강했다.
+
+웹 개발자를 위한 JavaScript API도 확장되었다. node-addon 인터페이스를 통해 여러 온라인 스트림을 한 번에 처리하는 배치 디코딩 기능이 추가되어 서버 측 음성 인식 성능이 향상될 것으로 기대된다. 개별 스트림마다 런타임 옵션을 설정하고 조회할 수 있는 기능도 도입되어 실시간 음성 인식 시나리오에서 더 세밀한 제어가 가능해졌다.
+
+기타 Windows 환경에서 비ASCII 문자가 포함된 어휘사전 경로로 온라인 문장 부호 모델을 초기화할 때 발생하는 오류를 수정하는 등 다양한 버그 픽스가 적용되었다. 이번 릴리즈는 전체 변경 사항 중 주요 기능 개선과 안정성 강화 부분을 중심으로 정리한 것이므로, 상세 커밋 목록은 공식 저장소의 변경 내역을 참고해야 한다.
+
+---
+
+원문: [v1.13.7](https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.13.7)

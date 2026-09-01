@@ -1,0 +1,45 @@
+---
+title: 대규모 모델 학습 데이터 영향력 분석을 위한 오픈소스 라이브러리 Bergson
+category: papers
+axis: serving
+format: explainer
+summary: Bergson은 대규모 언어 모델의 학습 데이터 영향력을 분석하는 오픈소스 라이브러리다. MAGIC, SOURCE, TrackStar 등 주요 데이터 귀속 기법을 구현해 연구자들의 접근성을 높인다.
+publishedAt: 2026-09-01T22:10:13+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2606.11660
+  title: 'Bergson: An Open Source Library for Data Attribution'
+  author: Lucia Quirke
+  publishedAt: 2026-09-01T13:00:00+0900
+  words: 6528
+  image: https://arxiv.org/html/2606.11660v2/diagram.drawio.png
+paper:
+  arxivId: '2606.11660'
+  authors:
+  - Lucia Quirke
+  - Louis Jaburi
+  - David Johnston
+  - William Z. Li
+  - Gon\c{c}alo Paulo
+  - Guillaume Martres
+  - Girish Gupta
+  - Stella Biderman
+  - Nora Belrose
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+데이터 귀속(Data Attribution)은 모델의 동작을 학습 데이터의 영향력으로 설명하려는 해석 가능성 분야의 핵심 기술이다. 이 기술은 바람직하지 않은 모델 행동을 디버깅하거나 학습 데이터를 선별하는 데 유용하게 쓰인다. 그러나 기존에는 대규모로 분석하려면 막대한 엔지니어링 노력이 필요했고, 최신 기법들을 지원할 오픈소스 도구가 부족했다.
+
+Bergson은 이러한 장벽을 낮추기 위해 개발된 오픈소스 라이브러리다. 이 도구는 매우 큰 언어 모델과 사전 학습 데이터셋에 확장 가능한 다양한 기법을 제공한다. 특히 디스크 기반 그래디언트 저장소와 다중 노드 분산 학습을 기본적으로 지원하며, 연구자들이 효율적으로 작업할 수 있도록 편의 기능을 갖추고 있다.
+
+이 라이브러리는 세 가지 주요 데이터 귀속 방법인 MAGIC, SOURCE, TrackStar의 오픈소스 구현체를 최초로 제공한다. 저자들의 주장에 따르면 Bergson은 이러한 복잡한 분석 과정을 단순화하고 가속화하여 해당 분야의 연구 속도를 높이는 데 기여할 수 있다. 이를 통해 더 많은 연구자가 대규모 모델의 학습 데이터 영향력을 쉽게 분석할 수 있는 환경이 조성된다.
+
+Bergson 라이브러리는 GitHub에서 공개되어 있으며, EleutherAI가 주도하고 있다. 데이터 귀속 기술에 관심이 있거나 대규모 모델의 학습 데이터를 분석해야 하는 개발자와 연구자들은 이 도구를 활용해 기존보다 훨씬 효율적으로 작업을 진행할 수 있다.
+
+---
+
+원문: [Bergson: An Open Source Library for Data Attribution](https://arxiv.org/abs/2606.11660)
