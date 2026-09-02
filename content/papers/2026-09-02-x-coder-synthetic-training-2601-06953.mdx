@@ -1,0 +1,49 @@
+---
+title: 실제 데이터 없이 코딩 대회 AI를 훈련시키는 X-Coder의 방법론
+category: papers
+axis: serving
+format: explainer
+summary: 경쟁 프로그래밍용 코드 모델은 실제 데이터 부족과 벤치마크 오염 문제를 안고 있다. 이 논문은 임무, 해법, 테스트 케이스까지 모두 합성 데이터로 생성해 SFT와 RL 전 과정을 수행하는 방법을 제시한다.
+publishedAt: 2026-09-02T22:00:05+0900
+tags:
+- SFT
+draft: false
+source:
+  url: https://arxiv.org/abs/2601.06953
+  title: 'X-Coder: Advancing Competitive Programming with Synthetic Tasks, Solutions, and Tests'
+  author: Jie Wu
+  publishedAt: 2026-09-01T13:00:00+0900
+  words: 16667
+  image: https://arxiv.org/html/2601.06953v3/Framework_.png
+paper:
+  arxivId: '2601.06953'
+  authors:
+  - Jie Wu
+  - Haoling Li
+  - Xin Zhang
+  - Jiani Guo
+  - Jane Luo
+  - Xuewei Yang
+  - Steven Liu
+  - Yangyu Huang
+  - Ruihang Chu
+  - Scarlett Li
+  - Yujiu Yang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+경쟁 프로그래밍 분야는 대규모 언어 모델에게 여전히 큰 도전 과제다. 최근 기술 발전에도 불구하고 많은 훈련 파이프라인은 희귀한 실제 세계 데이터에 의존하고 있으며, 이는 확장성 문제와 벤치마크 데이터의 중복 오염 우려를 낳고 있다. 이러한 한계를 극복하기 위해 연구진은 실제 임무나 해법, 테스트 케이스를 직접 사용하지 않고 합성된 학습 자료만으로 모델을 훈련할 수 있는지 탐구했다.
+
+연구진은 강화 학습의 보상 신호로 사용할 수 있는 임무, 검증된 해법, 신뢰할 수 있는 테스트 케이스를 모두 합성해 생성했다. 보상의 신뢰도를 높이기 위해 이중 검증 전략을 도입했으며, 이를 통해 선정된 해결과 테스트 출력 결과에 포함된 노이즈를 줄였다. 이렇게 확보된 고품질 데이터를 바탕으로 X-Coder 모델 시리즈를 훈련시켰다.
+
+저자들의 주장에 따르면 140억 파라미터 규모의 X-Coder-14B는 LiveCodeBench v5에서 67.5%, v6에서 63.4%의 평균 정확도를 기록했다. 이는 베이스 모델 대비 40포인트 이상 향상된 수치다. 이러한 성과는 실제 데이터 없이도 합성 자료를 통해 효과적인 후훈련이 가능함을 시사한다.
+
+추가 분석은 다양한 임무, 검증된 긴 사슬 추론 지도 학습, 코드 중심 강화 학습의 가치를 부각시킨다. 연구진은 이 같은 접근법이 합성 기반 후훈련에 대한 실용적인 통찰을 제공한다고 주장하며, 관련 데이터와 모델을 오픈소스로 공개했다.
+
+---
+
+원문: [X-Coder: Advancing Competitive Programming with Synthetic Tasks, Solutions, and Tests](https://arxiv.org/abs/2601.06953)

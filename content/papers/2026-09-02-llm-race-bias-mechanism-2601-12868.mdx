@@ -1,0 +1,39 @@
+---
+title: LLM 내부에서 인종 편향이 어떻게 작동하는가
+category: papers
+axis: domain
+format: explainer
+summary: 대형 언어 모델이 인종 및 민족 관련 단서를 어떻게 처리하는지 내부 메커니즘을 분석한 연구 결과를 정리한다. 저자들은 프로빙과 뉴런 수준의 귀속 분석을 통해 편향이 특정 뉴런에 집중되지 않고 분산되어 있음을 주장하며, 단순한 개입만으로는 편향을 완전히 제거하기 어렵다고 결론 내린다.
+publishedAt: 2026-09-02T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2601.12868
+  title: 'Tracing the Latent Threads: A Mechanistic Study of How LLMs Represent and Operationalize Race and Ethnicity Cues'
+  author: Shiyue Hu
+  publishedAt: 2026-09-01T13:00:00+0900
+  words: 11416
+  image: https://arxiv.org/html/2601.12868v2/mlp_framework.png
+paper:
+  arxivId: '2601.12868'
+  authors:
+  - Shiyue Hu
+  - Ruizhe Li
+  - Yanjun Gao
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대형 언어 모델(LLM)이 의료나 콘텐츠 안전성 같은 고위험 환경에서 활용되면서 인종과 민족 관련 정보가 텍스트 단서로 명시되거나 암시될 때 모델이 어떻게 반응하는지가 중요해졌다. 기존 연구는 주로 최종 출력 결과의 불평등을 기록하는 데 그쳤으나, 이번 연구는 이러한 효과가 모델 내부에서 어떤 메커니즘으로 발생하는지 규명하려 한다.
+
+저자들은 공개된 데이터셋 두 개와 오픈소스 모델 세 가지를 대상으로 재현 가능한 해석 가능성 파이프라인을 적용했다. 이 과정에서 프로빙, 뉴런 수준의 귀속 분석, 그리고 표적 개입 기법을 조합하여 인종 및 민족 단서에 대한 민감도가 모델 내부 유닛에 어떻게 분포하는지 확인했다.
+
+연구 결과에 따르면, 이러한 민감도는 특정 부분에 집중되지 않고 내부 유닛 전반에 걸쳐 분산되어 있으며 모델마다 그 양상이 크게 다르다. 해당 유닛들은 명시적 그룹 레이블뿐만 아니라 지리, 언어, 문화 및 고정관념 관련 연관성 등 얽힌 의미 요소들과 일치하는 경향을 보인다.
+
+저자들은 선택된 유닛에 개입하면 일부 편향된 예측 패턴을 변경할 수 있다고 주장하지만, 여전히 상당한 잔여 효과가 남는다고 지적한다. 따라서 효과적인 편향 완화는 소수의 식별된 뉴런 조작이 아닌, 작업별로 분산된 메커니즘을 이해하는 데서 출발해야 한다는 결론을 내린다.
+
+---
+
+원문: [Tracing the Latent Threads: A Mechanistic Study of How LLMs Represent and Operationalize Race and Ethnicity Cues](https://arxiv.org/abs/2601.12868)

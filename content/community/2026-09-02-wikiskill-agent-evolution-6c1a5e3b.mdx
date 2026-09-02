@@ -1,0 +1,34 @@
+---
+title: 에이전트 실행 로그를 위키로 쌓아 스킬을 진화시키는 WikiSkill
+category: community
+axis: agent
+format: explainer
+summary: Google Research와 Virginia Tech 연구진은 LLM 에이전트의 실행 경험을 영속적인 지식 베이스인 위키에 압축하는 프레임워크를 제안한다. 이 구조는 원본 로그, 지식을 누적하는 위키, 실행 가능한 스킬로 이루어진 3계층으로 작동하며 기존 자동화 방식의 한계를 극복하려 한다.
+publishedAt: 2026-09-02T22:00:05+0900
+tags:
+- vLLM
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/wikiskill-3/11772
+  title: 'WikiSkill: 에이전트의 실행 경험을 위키에 쌓아 스킬을 진화시키는 3계층 구조에 대한 연구'
+  author: 9bow
+  publishedAt: 2026-09-01T07:00:00+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/1/e/1e002f528395524aec3af0443486e2aee5cea168_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: mid
+  crossSources: 1
+---
+
+LLM 에이전트가 어제 배운 요령을 오늘 또 잊는다면 문제는 이해력이 아니라 기록 부재다. Google Research와 Virginia Tech 연구진은 2026년 8월 arXiv에 공개한 논문에서 이 문제를 해결하기 위해 WikiSkill 프레임워크를 제안한다. 이들은 에이전트의 실행 경험을 영속적인 지식 베이스인 위키로 압축하고, 그 지식을 바탕으로 실행 가능한 스킬을 반복적으로 개선하는 구조를 제시한다.
+
+에이전트 스킬은 모델 파라미터를 건드리지 않고 전문성을 담는 가벼운 형식이다. Anthropic의 가이드가 대표적이며, 지시문과 스크립트를 하나의 디렉토리로 묶고 SKILL.md 파일을 중심으로 구성한다. 이 방식은 사람이 감사할 수 있고 여러 에이전트가 재사용할 수 있다는 장점이 있다. 또한 필요한 내용만 읽어 들이게 하는 점진적 공개를 통해 컨텍스트 공간을 아낄 수 있으며, 모델과 무관하게 지식을 축적하는 통로가 된다.
+
+좋은 스킬을 만드는 일은 사람에게는 어렵다. 에이전트가 어디서 막힐지 미리 예측해야 하므로 실제 실행 전에는 빗나가기 쉽기 때문이다. 최근 연구들은 이를 자동으로 만들고 다듬는 쪽으로 이동했다. 학습 작업에서 에이전트를 실행하고 성공과 실패 궤적을 분석해 스킬을 고친 뒤 검증 점수로 걸러내는 순환 구조가 공통적이다.
+
+WikiSkill 논문은 이 분야의 대표적인 세 가지 방법을 비교한다. EvoSkill은 후보 프로그램들의 프론티어 위에서 탐색을 수행하며 실패 궤적을 활용해 상위 프로그램을 선별한다. Trace2Skill은 성공과 오류를 병렬로 분석해 구조화된 패치를 생성하고 계층적 병합으로 스킬 문서를 업데이트한다. 이러한 기존 방식들과 비교되며 WikiSkill의 3계층 구조가 어떻게 다른지 논의된다.
+
+---
+
+원문: [WikiSkill: 에이전트의 실행 경험을 위키에 쌓아 스킬을 진화시키는 3계층 구조에 대한 연구](https://discuss.pytorch.kr/t/wikiskill-3/11772)
