@@ -1,0 +1,33 @@
+---
+title: AI가 직접 만든 GeoJSON 맵 뷰어와 행정구역 데이터 추출법
+category: news
+axis: vibe-coding
+format: explainer
+summary: Simon Willison이 AI의 도움을 받아 GeoJSON 파일을 지도에 시각화하고 PNG로 내보내는 웹 도구를 구축했다. ChatGPT를 이용해 복잡한 행정구역 경계 데이터를 자동으로 수집하는 방법도 함께 소개한다.
+publishedAt: 2026-09-03T22:00:05+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://simonwillison.net/2026/Sep/1/geojson/
+  title: GeoJSON Map Viewer
+  publishedAt: 2026-09-02T03:05:45+0900
+  image: https://static.simonwillison.net/static/2026/geojson-tool.webp
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+Simon Willison은 Natalie가 Granada Community Services District와 Midcoast Community Council의 지역 정치 경계 지도를 모으는 작업을 돕던 중 GeoJSON 파일을 지도 위에 표시하고 PNG 이미지로 내보낼 수 있는 도구가 필요해졌다. 그는 GPT-5.6-Sol에게 도구 추천을 요청했고, AI가 능동적으로 해당 도구를 구축하는 과정을 거쳤다. 이후 Claude Code for web과 Fable 5.1을 사용해 여러 번의 반복 작업을 거쳐 완성된 것이 바로 이 GeoJSON Map Viewer다.
+
+이 과정에서 흥미로운 점은 GeoJSON 데이터 자체를 얻는 방법이었다. Simon Willison은 ChatGPT Work에 거의 어떤 지역의 경계라도 요청하면, AI가 다양한 정부 데이터 소스에서 파일을 추출하고 결합하여 필요한 데이터를 만들어낸다고 밝혔다. 예를 들어 'El Granada GCSD의 정확한 경계를 나타내는 폴리곤'이나 'Half Moon Bay 인근 MCC의 경계 GeoJSON 파일'과 같은 구체적인 프롬프트를 던졌을 때, AI는 해당 지역의 행정구역 데이터를 정확히 찾아내어 제공했다.
+
+구현된 도구는 사용자의 GeoJSON 데이터가 브라우저 내에 머물며 프라이버시를 보호하는 방식으로 작동한다. 사이드바를 통해 URL이나 텍스트 영역에 GeoJSON 데이터를 입력하면, 색상과 투명도를 조절하여 지도 위에 레이어로 표시할 수 있다. Simon Willison은 이 도구를 사용하여 앞서 AI가 생성한 두 가지 행정구역 경계 데이터를 동시에 시각화한 링크를 공유하며, 복잡한 공간 데이터 처리가 AI의 도움으로 얼마나 간편해졌는지 보여주고 있다.
+
+이 글은 원문의 앞부분(RSS 요약)만을 바탕으로 작성되었으며, 도구의 상세 기술 스펙이나 추가적인 사용 사례는 다루지 않았다. Simon Willison의 블로그에 게재된 전체 내용과 실제 도구 사용법은 원문을 참고해야 한다.
+
+---
+
+원문: [GeoJSON Map Viewer](https://simonwillison.net/2026/Sep/1/geojson/)

@@ -1,0 +1,44 @@
+---
+title: LLM 에이전트가 도구 조합으로 민감 정보를 누설하는 TOP-R 위험과 방어책
+category: papers
+axis: agent
+format: explainer
+summary: LLM 에이전트가 개별적으로는 무해한 도구 결과를 조합해 민감 결론을 도출할 수 있는 TOP-R(Tools Orchestration Privacy Risk)의 존재를 공식화한다. 저자들은 이를 검증하기 위해 TOP-Bench 벤치마크와 LRSE 파이프라인을 구축했으며, 프롬프트 기반 방어만으로는 한계가 있음을 보여준다.
+publishedAt: 2026-09-03T22:00:05+0900
+tags:
+- DPO
+- SFT
+draft: false
+source:
+  url: https://arxiv.org/abs/2512.16310
+  title: 'Agent Tools Orchestration Leaks More: Dataset, Benchmark, and Mitigation'
+  author: Yuxuan Qiao
+  publishedAt: 2026-09-03T13:00:00+0900
+  words: 11885
+  image: https://arxiv.org/html/2512.16310v4/example.png
+paper:
+  arxivId: '2512.16310'
+  authors:
+  - Yuxuan Qiao
+  - Dongqin Liu
+  - Hongchang Yang
+  - Wei Zhou
+  - Songlin Hu
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대규모 언어 모델(LLM) 에이전트는 개별 도구에서 반환된 정보가 민감하지 않더라도, 이를 조합하여 민감한 결론을 유추해낼 수 있는 새로운 프라이버시 위험인 TOP-R(Tools Orchestration Privacy Risk)에 직면해 있다. 연구진은 이 위험이 성립하기 위한 세 가지 조건으로 결론의 민감성, 단일 출처에서의 비추론 가능성, 그리고 구성적 추론 가능성을 정의한다. 이는 에이전트가 여러 단편 정보를 종합하는 과정에서 의도치 않게 프라이버시를 침해할 수 있음을 의미한다.
+
+이러한 위험을 정량화하기 위해 저자들은 네 가지 라이브러리를 활용한 역구성 파이프라인인 LRSE를 소개하고, 이를 통해 1,000개 인스턴스로 구성된 TOP-Bench 벤치마크를 구축했다. 통제된 두 단계 도구 사용 프로토콜 하에서 평가한 결과, 여섯 가지 LLM 에이전트의 평균 작업 완료율은 98.0%, 누설률은 88.6%로 나타났다. 특히 네이티브 추론 기능이 활성화된 모델의 경우 최종 응답 누설률과 추론 추적 누설률이 각각 81.4%와 82.4%에 달하는 것으로 확인되었다.
+
+저자들의 주장에 따르면, 프롬프트 기반의 세 가지 안전장치만 적용했을 때 TOP-Bench 상의 H-score는 평균 약 3.4포인트 향상되는 데 그쳤다. 이는 단순한 프롬프트 엔지니어링으로는 TOP-R을 효과적으로 방어하기 어렵다는 것을 시사한다. 반면 별도의 사후 학습 평가 세트에서 제안된 SFT와 DPO를 결합한 TOP-Align 방법은 베이스 모델 대비 H-score를 16.2포인트나 향상시켰다. 같은 세트에서 프롬프트 기반 완화책의 평균 이득이 5.0포인트였음을 고려할 때, 학습 기반 접근법의 우위가 명확히 드러난다.
+
+이 연구 결과들은 TOP-R에 대응하기 위해서는 프롬프트 조정 이상의 방어 메커니즘이 필요함을 보여준다. 저자들은 안전한 작업 완료 경계를 학습시키는 것이 필수적이라고 주장하며, 관련 데이터셋과 코드를 공개했다. 에이전트 개발자들은 도구 조합 시 발생할 수 있는 프라이버시 누설 위험을 인지하고, 단순한 프롬프트 보호를 넘어 모델 자체의 안전성 학습을 고려해야 한다.
+
+---
+
+원문: [Agent Tools Orchestration Leaks More: Dataset, Benchmark, and Mitigation](https://arxiv.org/abs/2512.16310)

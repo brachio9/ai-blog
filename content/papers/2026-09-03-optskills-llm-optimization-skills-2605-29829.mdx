@@ -1,0 +1,44 @@
+---
+title: LLM이 최적화 문제를 푸는 법을 배우게 하는 OptSkills
+category: papers
+axis: agent
+format: explainer
+summary: OptSkills는 자연어 최적화 문제의 표면적 서술이 아닌 근본적인 원형(archetype)에 따라 문제를 분류한다. 이 방식은 성공적인 해결 경로를 재사용 가능한 워크플로우 수준의 기술로 정제하여 일반화 능력을 높인다.
+publishedAt: 2026-09-03T22:00:05+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.29829
+  title: 'OptSkills: Learning Generalizable Optimization Skills from Problem Archetypes via Cluster-Based Distillation'
+  author: Haochen Yang
+  publishedAt: 2026-09-03T13:00:00+0900
+  words: 18276
+  image: https://arxiv.org/html/2605.29829v2/newfigure2.png
+paper:
+  arxivId: '2605.29829'
+  authors:
+  - Haochen Yang
+  - Ke Zhao
+  - Mengyuan Ma
+  - Xingyu Lu
+  - Xiangfeng Wang
+  - Hong Qian
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대규모 언어 모델(LLM)을 이용해 자연어로부터 최적화 문제를 자동으로 구성하고 해결하는 접근법이 효율적인 패러다임으로 부상하고 있다. 그러나 기존 방법론은 서술의 미세한 변화에 민감하게 반응하거나 특정 사례 수준의 경험 재사용에 그치는 등 일반화 능력이 제한적이다. 특히 새로운 유형의 문제가 등장하거나 문제 유형이 변할 때 적응하기 어려운 한계가 존재한다.
+
+OptSkills는 이러한 문제를 해결하기 위해 문제의 표면적 서술이 아닌 근본적인 원형(archetype)을 기준으로 문제를 클러스터링하는 시스템이다. 분포 내(in-distribution) 일반화를 개선하기 위해 각 클러스터 내에서 다양한 모델링 패러다임과 솔버 설정을 탐색한다. 이후 성공적인 해결 경로를 추출하여 재사용 가능한 워크플로우 수준의 기술로 정제(distill)한다.
+
+분포 외(out-of-distribution) 일반화 능력 향상을 위해 새로 획득한 경로를 활용해 기존 기술을 정교하게 다듬거나 기술 라이브러리를 확장한다. 저자들의 주장에 따르면 이 시스템은 다양한 문제 유형과 시나리오를 포괄하는 데이터셋에서 68.27%의 마이크로 평균 정확도를 달성하여 최첨단 성능을 보였다.
+
+고차원 대규모 벤치마크인 MIPLIB-NL에서는 DeepSeek-V3.2-Thinking보다 4.53% 높은 26.91%의 정확도를 기록했다고 저자들은 주장한다. 또한 Nano-CO에서의 기술 학습 후 OOD NLCO 벤치마크에서 72.79%의 성능을 달성했으며, 관련 코드와 기술은 공개된 저장소에서 확인할 수 있다.
+
+---
+
+원문: [OptSkills: Learning Generalizable Optimization Skills from Problem Archetypes via Cluster-Based Distillation](https://arxiv.org/abs/2605.29829)

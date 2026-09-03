@@ -1,0 +1,37 @@
+---
+title: 'Cline 데스크톱 v0.0.22: 타사 코드 히스토리 가져오기 및 기본 웹 검색 활성화'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline 데스크톱 앱이 Claude Code 등 타사 도구의 대화 기록을 가져올 수 있게 되었다. 또한 웹 검색이 기본으로 켜지고, 스케줄 실행 내역이 정리되며, macOS 음성 입력 버그가 해결되었다.
+publishedAt: 2026-09-03T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+- Cline
+- OpenCode
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/desktop-v0.0.22
+  title: Desktop v0.0.22
+  author: github-actions[bot]
+  publishedAt: 2026-09-02T14:20:45+0900
+  words: 459
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 가장 큰 변화는 외부 도구와의 호환성 강화다. 이제 Claude Code, Codex, opencode에서 생성한 대화 기록을 Cline 세션으로 직접 가져올 수 있다. 설정 메뉴나 세션 헤더의 가져오기 버튼을 통해 로컬 저장소를 스캔하고 원하는 대화를 선택하면 된다. 가져온 세션은 원래 도구가 아닌 사용자가 설정한 제공자와 모델로 이어져 작업할 수 있으며, 온보딩 과정에서도 이 기능을 쉽게 찾을 수 있도록 안내한다.
+
+사용자 인터페이스와 워크플로우의 편의성도 크게 개선되었다. 반복 실행되는 스케줄 작업이 사이드바에서 하나의 접을 수 있는 항목으로 묶여 더 깔끔해졌고, 마켓플레이스 상세 패널은 클릭 시 열리며 필터링 중에도 선택된 항목이 유지된다. 또한 Hub 버전이 앱보다 오래되었을 때 충돌을 방지하기 위해 교체 여부를 명시적으로 묻는 기능이 추가되어 안정적인 실행 환경을 보장한다.
+
+기술적 안정성과 기본 설정도 조정되었다. macOS에서 마이크 권한 누락으로 인해 작동하지 않던 음성 입력이 정상화되었고, 웹 검색이 기본적으로 활성화되었다. Dify나 SAP AI Core 등 특정 모델에서 도구 호출이 정적으로 비활성화되던 버그와 이미지 파일 읽기 오류도 수정했다. 메시지 수정 및 재전송 기능은 체크포인트가 없는 가져온 세션에서도 이제 문제없이 작동한다.
+
+마지막으로 모델 카탈로그가 대대적으로 갱신되었다. Bothub, OpenReason 등 8개의 새 제공자가 추가되었고, Anthropic의 기본 모델이 Claude Opus 5에서 Claude Fable 5.1로 변경되는 등 36개 제공자의 기본 모델 설정이 조정되었다. 특정 모델을 고정하지 않고 사용하는 경우 이전과 다른 모델이 기본으로 적용될 수 있으므로 주의가 필요하다. 이 요약은 주요 변경 사항만 추린 것이며, 전체 변경 내역은 공식 릴리즈 노트를 참고해야 한다.
+
+---
+
+원문: [Desktop v0.0.22](https://github.com/cline/cline/releases/tag/desktop-v0.0.22)

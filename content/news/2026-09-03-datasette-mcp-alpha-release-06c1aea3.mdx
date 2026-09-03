@@ -1,0 +1,32 @@
+---
+title: Datasette MCP 플러그인, 알파를 벗어난다
+category: news
+axis: agent
+format: explainer
+summary: Simon Willison이 개발한 datasette-mcp 플러그인이 0.2 버전으로 정식 출시되었다. 이 업데이트는 SQL 실행 결과의 데이터 구조를 개선하여 AI 모델의 이해도를 높이는 데 중점을 두었다.
+publishedAt: 2026-09-03T22:00:05+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://simonwillison.net/2026/Sep/1/datasette-mcp/
+  title: datasette-mcp 0.2
+  publishedAt: 2026-09-02T00:30:12+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+datasette-mcp 프로젝트가 비드디어 알파 단계를 벗어난 첫 번째 릴리스를 발표했다. Simon Willison은 자신이 이 플러그인을 꾸준히 사용해 본 경험에 기반해 안정성을 확신하며 0.2 버전을 공개했다. 이는 단순한 테스트용 코드를 넘어 실제 사용 가능한 수준으로 성장했음을 의미한다.
+
+이번 업데이트의 핵심 변경점은 execute_sql 함수에서 반환되는 rows 데이터의 형식이다. 기존에는 배열의 배열(array of arrays) 형태였으나, 이제 객체의 배열(array of objects)로 바뀌었다. 이러한 구조적 변화는 컬럼과 값의 매핑 관계를 명확히 함으로써 AI 모델이 위치 기반 인덱스를 추적하는 데 어려움을 겪지 않도록 돕는다.
+
+기술적 의존성 측면에서도 변경이 있었다. 이 버전부터는 mcp 라이브러리의 2.1.1 이상 버전을 필요로 한다. Simon Willison은 약한 성능의 모델이라도 컬럼 매핑을 잃지 않고 데이터를 처리할 수 있도록 하는 것이 이번 수정의 주요 목적이라고 설명했다.
+
+이 글은 릴리스 노트의 요약 부분만 바탕으로 작성되었다. 구체적인 사용법이나 더 자세한 기술적 변경 사항에 대해서는 원문을 참고해야 한다.
+
+---
+
+원문: [datasette-mcp 0.2](https://simonwillison.net/2026/Sep/1/datasette-mcp/)

@@ -1,0 +1,34 @@
+---
+title: 런타임 없이 x64dbg를 AI 에이전트에 연결하는 방법
+category: community
+axis: agent
+format: explainer
+summary: Zig로 작성된 x64dbg-MCP Server는 별도 런타임 설치 없이 디버거를 AI 어시스턴트에 연결한다. 저자는 이 플러그인이 의존성 부담을 줄이고 교차 컴파일을 지원한다고 주장한다.
+publishedAt: 2026-09-03T22:00:05+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/x64dbg-mcp-server-x64dbg-ai-zig/11766
+  title: 'x64dbg-MCP Server: 런타임 설치 없이 x64dbg를 AI 어시스턴트에 연결하는 Zig 기반 플러그인'
+  author: 9bow
+  publishedAt: 2026-09-02T21:00:58+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/0/d/0dce22bf0ffae8da1e3710cbd0101b2922349cb0_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+바이너리 분석은 중단점 설정, 명령어 단계 실행, 메모리 덤프 등 반복적인 작업으로 가득 차 있다. 기존에는 이러한 과정을 자동화하기 위해 파이썬이나 .NET 같은 별도 런타임을 디버거 위에 얹어야 했으나, 악성코드 분석 환경에서는 도구 자체의 의존성 증가가 부담으로 작용해 왔다.
+
+x64dbg-MCP Server는 이 문제를 해결하기 위해 x64dbg 내부에서 동작하는 네이티브 플러그인 하나로 통로를 만든다. 저자는 Zig 언어를 사용해 의존성이 없는 단일 바이너리를 작성했으며, 리눅스나 macOS, WSL 등 다양한 호스트 환경에서 x32와 x64 양쪽 플러그인을 한 번에 교차 컴파일할 수 있다고 밝히고 있다.
+
+이 플러그인은 HTTP 기반의 MCP(Model Context Protocol) 규격을 통해 디버거 기능을 외부에 연다. 전송 계층은 Streamable HTTP와 SSE(Server-Sent Events)를 모두 지원하며 JSON-RPC 2.0으로 통신하므로 최신 및 구형 클라이언트 모두 호환된다. 설정은 클라이언트에 HTTP 주소와 인증 헤더만 입력하면 되며, 플러그인 파일 하나를 디버거 폴더에 넣는 것만으로 설치가 완료된다.
+
+개발 도구를 MCP 서버로 감싸 에이전트에게 여는 방식은 Chrome DevTools MCP 등에서도 볼 수 있는 추세다. 하지만 x64dbg-MCP Server는 외부 브릿지 프로세스가 아닌 디버거 내부에서 실행되며 추가 런타임 의존성을 요구하지 않는다는 점에서 차별화된다. 저자는 이를 통해 분석 환경의 복잡도를 낮추고 AI 어시스턴트와의 통합을 단순화했다고 주장한다.
+
+---
+
+원문: [x64dbg-MCP Server: 런타임 설치 없이 x64dbg를 AI 어시스턴트에 연결하는 Zig 기반 플러그인](https://discuss.pytorch.kr/t/x64dbg-mcp-server-x64dbg-ai-zig/11766)

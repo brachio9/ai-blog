@@ -1,0 +1,34 @@
+---
+title: 코드 에이전트 기억층, 진짜 도움이 되는지 테스트하는 적대적 벤치마크
+category: community
+axis: agent
+format: explainer
+summary: GiulioDER는 코드 에이전트의 기억층이 실제 작업에 도움이 되는지 평가하는 AMB 벤치마크를 공개했다. 단순 정보 검색이 아닌, 노이즈가 섞인 환경에서 코딩 작업 성공 여부를 실행 결과로 검증한다.
+publishedAt: 2026-09-03T22:00:05+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/open-call-test-your-agent-memory-layer-on-an-adversarial-coding-benchmark/179762
+  title: 'Open call: test your agent memory layer on an adversarial coding benchmark'
+  author: Gde05
+  publishedAt: 2026-09-02T23:01:04+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/d/e/de80c7cc5599747257ecfac48d74fbe4e7fe9585_2_690x344.png
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+기존 메모리 벤치마크는 시스템이 관련 청크를 찾아오는지만 확인하지만, GiulioDER는 개발한 AMB(Agent Memory Benchmark)을 통해 그 기억이 실제 코딩 작업을 완수하는 데 도움이 되는지 아니면 오히려 성능을 떨어뜨리는지를 평가한다. 이 벤치마크는 Claude Code가 샌드박스 환경에서 실행되고 생성된 아티팩트에 대해 실행 가능한 테스트로 점수를 매기는 방식으로 운영된다.
+
+테스트 환경은 의도적으로 적대적으로 구성되었다. 존재하지 않거나, 오래되었거나, 대체되었거나, 모순되거나, 인접하거나, 관련 없는 기억들을 섞어 넣는다. 현재 공개된 피드에는 195개의 사전 작성된 세션 트랜스크립트가 포함되어 있으며, 별도의 하드 코퍼스 레코드에서는 196개의 실제 문서와 약 4,704개의 합성 방해 요소로 구성된 총 4,900개 문서(약 143,000개 청크)를 처리하는 능력을 측정한다.
+
+저자는 작은 규모의 메모리 벤더들을 대상으로 참여를 권유하고 있다. 참가비는 없으며, 벤더들은 어댑터 계약을 검토한 후 자신의 자격증명으로 테스트를 실행하고 설정과 결과를 공개할 수 있다. 긍정적인 결과뿐만 아니라 부정적인 결과도 환영한다고 명시했다. 현재 이 스위트는 주로 읽기 경로를 측정하며, 세션 간 에이전트의 작업 학습이나 다중 제품 순위 비교는 아직 포함되지 않았다.
+
+GitHub 저장소를 통해 벤치마크 코드를 확인할 수 있으며, 저자는 신뢰할 만한 결과를 얻기 위해 이 벤치마크가 무엇을 더 측정해야 하는지 커뮤니티의 의견을 구하고 있다. 이는 특정 업체의 합의가 아닌 한 개발자의 주장에 기반한 오픈 호출이며, 재현되지 않은 성능 주장은 사실로 간주하지 않아야 한다.
+
+---
+
+원문: [Open call: test your agent memory layer on an adversarial coding benchmark](https://discuss.huggingface.co/t/open-call-test-your-agent-memory-layer-on-an-adversarial-coding-benchmark/179762)
