@@ -1,0 +1,35 @@
+---
+title: 'Claude Code v2.1.257: 보안 강화와 새 모델 도입'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Claude Code가 기본 Fable 모델을 업데이트하고 시간 표시 설정을 추가했다. 자동 모드에서의 외부 접근 제어가 강화되어 보안이 개선되었으며, 다양한 버그 수정으로 안정성이 높아졌다.
+publishedAt: 2026-09-04T22:00:01+0900
+tags:
+- Claude Code
+- MCP
+draft: false
+source:
+  url: https://github.com/anthropics/claude-code/releases/tag/v2.1.257
+  title: v2.1.257
+  author: ashwin-ant
+  publishedAt: 2026-09-02T02:53:52+0900
+  words: 2428
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈는 Claude Fable 5.1을 새로운 기본 모델로 채택하며 시작한다. 이 모델은 100만 토큰의 컨텍스트 윈도우를 지원하고 캐시 읽기 시 비용 절감 효과를 제공한다. 또한 사용자의 환경에 맞게 시간 표시 형식과 타임존을 설정할 수 있는 기능이 추가되어 작업 기록 확인이 더 편리해졌다.
+
+보안 측면에서 자동 모드의 동작이 강화되었다. 클라우드 메타데이터 접근이나 외부 네트워크 통신 시도 등 잠재적 위험 행위는 이제 환경 설정에서 명시적으로 허용되지 않는 한 자동으로 승인되지 않는다. 특히 작업 디렉토리 외부 파일 읽기에 대한 첫 번째 요청 시 사용자의 승인을 구하는 프롬프트가 도입되어, 의도치 않은 데이터 유출을 방지하는 데 기여한다.
+
+개발자 경험을 위한 세부 조정들도 이루어졌다. 서브에이전트 모델 강제 적용 환경 변수와 세션별 노력 수준 조정 명령어가 추가되었다. 또한 에이전트 뷰에서 세션을 열 때 권한 모드가 올바르게 상속되지 않는 문제나, macOS 및 Windows에서의 백그라운드 세션 시작 실패 등 여러 버그가 수정되어 시스템의 안정성이 향상되었다.
+
+이 외에도 게이트웨이 모델 발견 기능 개선과 인증 헤더 처리 오류 수정 등이 포함되었다. 이러한 변경사항들은 Claude Code의 사용 편의성과 보안성을 동시에 높이는 방향으로 진행되었으며, 전체 커밋 목록 중 주요한 부분만 선별하여 정리했다.
+
+---
+
+원문: [v2.1.257](https://github.com/anthropics/claude-code/releases/tag/v2.1.257)

@@ -1,0 +1,41 @@
+---
+title: 20억 파라미터 모델을 7천만으로 줄인 NanoVDR의 비법
+category: papers
+axis: retrieval
+format: explainer
+summary: 시각 문서 검색에서 쿼리와 문서의 비대칭성을 이용해 모델 크기를 획기적으로 줄인 NanoVDR를 소개한다. 저자들은 텍스트 전용 스튜던트 모델을 통해 추론 속도와 효율성을 높였다고 주장한다.
+publishedAt: 2026-09-04T22:00:01+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2603.12824
+  title: 'NanoVDR: Distilling a 2B Vision-Language Retriever into a 70M Text-Only Encoder for Visual Document Retrieval'
+  author: Zhuchenyang Liu
+  publishedAt: 2026-09-01T13:00:00+0900
+  words: 11767
+  image: https://arxiv.org/html/2603.12824v3/figure1.png
+paper:
+  arxivId: '2603.12824'
+  authors:
+  - Zhuchenyang Liu
+  - Yao Zhang
+  - Yu Xiao
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+시각-언어 모델(VLM) 기반 검색기는 시각 문서 검색 성능을 크게 향상시켰지만, 문서 인덱싱과 쿼리 인코딩 모두에 수십억 파라미터의 대형 모델을 사용해야 한다. 이로 인해 단순 텍스트 쿼리조차 높은 지연 시간과 GPU 의존성을 유발하는 문제가 발생한다. 저자들은 문서가 시각적 복잡성을 요구하는 반면 쿼리는 짧은 텍스트 문자열에 불과하다는 점을 지적하며, 기존 대칭형 설계가 불필요하다고 판단했다.
+
+NanoVDR는 이러한 쿼리와 문서의 비대칭성을 활용하여 두 인코딩 경로를 분리한다. 20억 파라미터의 동결된 VLM 교사가 오프라인에서 문서를 인덱싱하고, 추론 시에는 6900만 파라미터에 불과한 텍스트 전용 스튜던트 모델이 쿼리를 인코딩한다. 이 방식의 핵심은 증류 목적 함수 선택이며, 저자들은 다양한 백본과 벤치마크 데이터셋을 비교한 결과 쿼리 텍스트에 대한 점별 코사인 정렬이 순위 기반 또는 대조적 접근법보다 일관되게 우수한 성능을 보인다고 주장한다.
+
+이 방법은 훈련 중 문서 처리 없이 사전 캐시된 교사 쿼리 임베딩만 필요로 한다. 또한 저자들은 교차 언어 이전이 주요 성능 병목 현상임을 확인하고, 기계 번역된 쿼리로 훈련 데이터를 증ment함으로써 이를 저렴하게 해결했다고 밝혔다. 결과적으로 NanoVDR-S-Multi 모델은 DistilBERT 기반 6900만 파라미터로 교사 모델의 95.1% 품질을 유지하면서도 DSE-Qwen2(20억 파라미터)보다 v2 및 v3 벤치마크에서 더 나은 성능을 보인다고 저자들은 주장한다.
+
+저자들의 주장에 따르면 이 모델은 파라미터가 32배 적고 CPU 쿼리 지연 시간이 50배 낮은 장점을 가진다. 전체 훈련 비용도 GPU 시간 13시간 미만으로 매우 효율적이다. 이는 복잡한 시각 문서 검색 시스템에서 텍스트 쿼리 처리 부분을 경량화함으로써 실제 서비스 환경에서의 접근성을 높일 수 있음을 시사한다.
+
+---
+
+원문: [NanoVDR: Distilling a 2B Vision-Language Retriever into a 70M Text-Only Encoder for Visual Document Retrieval](https://arxiv.org/abs/2603.12824)

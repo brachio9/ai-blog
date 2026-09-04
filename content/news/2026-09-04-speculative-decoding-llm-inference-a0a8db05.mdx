@@ -1,0 +1,32 @@
+---
+title: LLM 추론 속도를 높이는 스펙ulative 디코딩과 AI 모델 공동 설계
+category: news
+axis: serving
+format: explainer
+summary: NVIDIA 기술 블로그는 AI 모델 공동 설계 시리즈의 세 번째 글로, 스펙ulative 디코딩을 활용해 LLM 추론 속도를 높이는 방법을 다룬다. 정확도를 유지하면서 처리 속도를 개선하는 접근법을 소개한다.
+publishedAt: 2026-09-04T22:00:01+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://developer.nvidia.com/blog/co-designing-ai-models-using-speculative-decoding-for-faster-llm-inference/
+  title: Co-Designing AI Models Using Speculative Decoding for Faster LLM Inference
+  author: Tanya Lenz
+  publishedAt: 2026-09-03T01:04:19+0900
+  image: https://developer-blogs.nvidia.com/wp-content/uploads/2026/07/llm-optimize-deploy-768x432.png
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+NVIDIA 기술 블로그는 AI 모델 공동 설계에 관한 연재글의 세 번째 편을 공개했다. 이 글은 대규모 언어 모델(LLM)의 추론 속도를 가속화하면서도 정확도를 유지할 수 있는 방법에 초점을 맞춘다. 특히 스펙ulative 디코딩이라는 기술을 활용하여 이러한 목표를 달성하는 방안을 탐구한다.
+
+스펙ulative 디코딩은 LLM이 토큰을 생성할 때 더 작은 모델이나 휴리스틱을 사용해 다음 단어를 예측하고, 이를 큰 모델이 검증하는 방식이다. 이 과정을 통해 전체적인 추론 속도를 높일 수 있다는 것이 핵심 아이디어다. 정확도 저하 없이 효율성을 개선하려는 시도로 볼 수 있다.
+
+이번 글은 NVIDIA가 제시한 관점이며, 구체적인 수치나 벤치마크 결과는 원문을 참고해야 한다. 현재 제공된 요약만으로는 성능 개선의 구체적 크기나 적용 사례를 확인하기 어렵다. 더 자세한 내용은 NVIDIA 기술 블로그의 원문을 통해 확인할 수 있다.
+
+---
+
+원문: [Co-Designing AI Models Using Speculative Decoding for Faster LLM Inference](https://developer.nvidia.com/blog/co-designing-ai-models-using-speculative-decoding-for-faster-llm-inference/)

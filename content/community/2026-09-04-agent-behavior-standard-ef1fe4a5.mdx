@@ -1,0 +1,30 @@
+---
+title: 에이전트 행동 표준, BEHAVIOR.md로 평가 기준을 통일하다
+category: community
+axis: vibe-coding
+format: explainer
+summary: 에이전트의 복잡한 행동을 추적하고 평가하기 위해 단일 마크다운 파일로 행동 규격을 정의하는 공개 표준이다. 이 방식은 실행용 프롬프트가 아닌 검토와 평가를 위한 참조 기준으로 사용된다.
+publishedAt: 2026-09-04T22:00:01+0900
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/agent-behavior/11800
+  title: 'Agent Behavior: 스킬과 달리 런타임 프롬프트가 아니라 트레이스 검토용으로 쓰는 에이전트 행동 표준'
+  author: 9bow
+  publishedAt: 2026-09-03T18:30:47+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/c/a/caebba8a9ccf31b6bff7dd5d4509d3e1d5793820_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+에이전트가 수백 번의 판단을 거쳐 장시간 작업을 수행하면 최종 결과물 하나만으로 그 성능을 평가하기 어렵다. 정답을 맞았으나 근거 확인을 생략했거나, 검증 단계를 건너뛰었는지 구분되지 않아 평가 지표가 혼란스러워진다. 이러한 문제를 해결하기 위해 Basis와 Braintrust는 에이전트의 맥락 수집부터 오류 회복까지를 반복되는 행동 단위로 기록하는 Agent Behavior 표준을 제안했다. 이 표준은 저장소 내 BEHAVIOR.md 파일 하나로 모든 기준을 통일하여, 평가자와 개발자가 트레이스 검토 및 프롬프트 조정을 위한 단일 참조 출처를 갖게 한다.
+
+기존의 AGENTS.md나 스킬 파일이 에이전트가 작업을 수행하는 동안 읽는 실행 지침이라면, Agent Behavior는 주로 사람이 트레이스를 검토하고 평가를 설계할 때 사용하는 규격이다. 파일 위치와 주 독자가 다르다는 점이 핵심 차이이며, RFC 2119 형식의 MUST와 SHOULD 구분을 통해 도구 제작자와 사용자 간의 책임 범위를 명확히 한다. 이를 통해 에이전트의 행동 패턴을 일관되게 관찰하고 평가 기준을 사전에 확정할 수 있는 구조를 제공한다.
+
+이 표준은 규격 문서와 구조 검사 명령줄 도구, 실제 평가 예제가 함께 공개되어 있어 즉시 적용 가능하다. 복잡한 에이전트 시스템에서 발생하는 불명확한 실패 원인을 추적하는 데 유용하며, 프롬프트 엔지니어링의 객관성을 높이는 데 기여할 것으로 보인다. 아직 초기 단계이나, 에이전트의 행동을 체계적으로 문서화하고 검증하려는 개발자들에게 새로운 기준을 제시한다.
+
+---
+
+원문: [Agent Behavior: 스킬과 달리 런타임 프롬프트가 아니라 트레이스 검토용으로 쓰는 에이전트 행동 표준](https://discuss.pytorch.kr/t/agent-behavior/11800)
