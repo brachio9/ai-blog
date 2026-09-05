@@ -1,0 +1,51 @@
+---
+title: 점수 따질 필요 없다, 랜덤하게 버리면 된다
+category: papers
+axis: serving
+format: explainer
+summary: 추론 작업에서 KV 캐시 압축을 위해 토큰 중요도를 점수로 평가하는 기존 방식이 비효율적임을 지적한다. 프롬프트만 보존하고 나머지는 무작위로 버리는 '랜덤 어텐션' 방식이 더 높은 처리량을 제공한다는 연구 결과를 소개한다.
+publishedAt: 2026-09-05T22:00:02+0900
+tags:
+- vLLM
+- KV cache
+draft: false
+source:
+  url: https://huggingface.co/papers/2609.03430
+  title: 'Random Attention: Rethinking KV Cache Eviction for Efficient Reasoning'
+  author: Heng Wang
+  publishedAt: 2026-09-03T09:00:00+0900
+  words: 15318
+paper:
+  arxivId: '2609.03430'
+  authors:
+  - Heng Wang
+  - Jielin Qiu
+  - Wenting Zhao
+  - Cheng Qian
+  - Liangwei Yang
+  - Jiawei Han
+  - Heng Ji
+  - Silvio Savarese
+  - Shelby Heinecke
+  - Huan Wang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 158
+---
+
+대규모 언어 모델은 긴 추론 과정이 필요한 작업에서 뛰어난 성능을 보이지만, 이 과정에서 생성되는 긴 사고 사슬이 KV 캐시를 심각한 메모리 병목 현상으로 만든다. 기존 KV 캐시 압축 방법들은 모두 동일한 패러다임을 공유하는데, 즉 저장된 토큰 하나하나가 나중에 얼마나 중요할지 추정하여 점수를 매기고 상위 점수 토큰만 유지하는 방식이다. 그러나 이 연구는 그러한 선택 신호가 거의 아무런 기여를 하지 않음을 보여준다.
+
+저자들은 제안한 '랜덤 어텐션' 방식이 프롬프트는 그대로 유지하고 각 어텐션 헤드 내에서 나머지 토큰을 균일하게 무작위로 버리며, 어떤 점수도 계산하지 않는다고 설명한다. 저자들의 주장에 따르면 이 방법은 네 가지 모델과 여섯 가지 추론 작업에서 가장 강력한 기존 제거 알고리즘의 성능과 맞먹으면서도 vLLM 배포 환경에서 32~43% 더 높은 처리량을 제공한다.
+
+통제 실험을 통해 이러한 현상이 발생하는 이유를 설명한다. 첫째, 캐시에서 취약한 부분은 프롬프트이며 선택자 간의 대부분의 격차는 단순히 그 선택 신호가 우연히 프롬프트를 유지했는지 여부에 달려 있다. 둘째, 추론 과정은 텍스트 수준과 어텐션 헤드 수준이라는 두 가지 층위에서 중복성을 통해 스스로를 제거로부터 보호한다.
+
+모델이 작업을 진행하는 동안 여전히 필요한 내용을 다시 서술하고 각 어텐션 헤드가 그 흔적을 별도로 보관하기 때문에 프롬프트만 안전하다면 무작위 추출로도 모델이 필요로 하는 충분한 복사본을 유지할 수 있다. 따라서 이를 선택하기 위해 별도의 점수가 필요하지 않으며, 관련 코드는 공개되어 있다.
+
+---
+
+원문: [Random Attention: Rethinking KV Cache Eviction for Efficient Reasoning](https://huggingface.co/papers/2609.03430)

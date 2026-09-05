@@ -1,0 +1,43 @@
+---
+title: AI 에이전트 훅 업데이트, 공격자의 악성 명령 실행으로 이어지다
+category: papers
+axis: agent
+format: explainer
+summary: AI 에이전트 플랫폼의 생명주기 훅 업데이트 경로를 통해 공격자가 악성 셸 명령을 주입할 수 있는 취약점이 발견되었다. 저자들은 이를 자동화한 HookPry 프레임워크를 공개하고, 기존 방어 체계가 이 위협을 제대로 감지하지 못한다고 주장한다.
+publishedAt: 2026-09-05T22:00:02+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.03884
+  title: 'A Blind Trust, the Bloody Thrust: When Attacker-Controlled Hook Updates Steer AI Agent Harnesses towards Malicious Behaviors'
+  author: Pengxun Li
+  publishedAt: 2026-09-05T13:00:00+0900
+  words: 12286
+  image: https://arxiv.org/html/2609.03884v1/overview.png
+paper:
+  arxivId: '2609.03884'
+  authors:
+  - Pengxun Li
+  - Litian Zhang
+  - Jianwei Hou
+  - Shujiang Wu
+  - Song Li
+  - Zifeng Kang
+  - Xi Zhang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+현대 AI 에이전트 플랫폼은 세션 시작이나 도구 호출 같은 런타임 이벤트에 셸 명령을 바인딩하는 생명주기 훅을 노출한다. 이러한 명령은 호스트 권한으로 실행되지만 LLM이 관찰하지 못하는 시점에 발동될 수 있어 새로운 공격 표면이 된다. 특히 공급망 위협 모델 하에서 공격자가 플러그인 메타데이터와 훅 설정만 통제해도, 정상적인 버전 업데이트를 통해 악의적인 호스트 측 행위를 유도할 수 있다.
+
+저자들은 이러한 취약점을 체계적으로 공격하기 위해 오픈소스 자동화 프레임워크 HookPry를 제안한다. 이 도구는 다양한 AI 에이전트 플랫폼과 백엔드 조합에서 훅 업데이트 경로를 악용하여 권한 상승 같은 악성 행위를 수행한다. 저자들의 주장에 따르면, 1,000회의 종단간 테스트에서 평가된 7개 플랫폼 전원이 침해당했으며, 플랫폼별 성공률은 최대 92.5%에 달했다.
+
+기존의 대표적인 방어 수단은 이 새로운 공격 유형에 대해 불충분한 것으로 나타났다. 저자들의 분석 결과, Microsoft Defender는 악성 아티팩트를 전혀 탐지하지 못해 재현율이 0%였다. 또한 세 가지 정적 방어 도구를 결합해도 전체 악성 아티팩트의 47.5%를 놓치는 것으로 확인되었다.
+
+이 연구는 AI 에이전트 생태계에서 신뢰할 수 있어야 할 업데이트 경로가 오히려 가장 취약한 지점이 될 수 있음을 보여준다. 공격자가 소스 코드 수정 없이 설정 파일만 조작해도 심각한 보안 사고로 이어질 수 있으므로, 플랫폼 개발자와 사용자는 훅 업데이트 과정에 대한 검증 강화가 시급하다.
+
+---
+
+원문: [A Blind Trust, the Bloody Thrust: When Attacker-Controlled Hook Updates Steer AI Agent Harnesses towards Malicious Behaviors](https://arxiv.org/abs/2609.03884)

@@ -1,0 +1,34 @@
+---
+title: '에이전트 병목 해결: 터미널을 아는 Herdr'
+category: news
+axis: vibe-coding
+format: explainer
+summary: 여러 에이전트를 동시에 돌릴 때 발생하는 터미널 관리의 불편함을 해결하는 도구인 Herdr를 소개한다. tmux와 유사한 서버 구조를 유지하면서 에이전트의 상태를 인식하고 알림을 제공하는 기능이 핵심이다.
+publishedAt: 2026-09-05T22:00:02+0900
+tags:
+- Claude Code
+- Codex
+draft: false
+source:
+  url: https://www.youtube.com/watch?v=U9AConAimzM
+  title: 에이전트 시대의 터미널 Herdr | 메타 시니어 엔지니어가 잘때도 에이전트를 돌리는 법
+  publishedAt: 2026-09-04T16:15:39+0900
+  image: https://i.ytimg.com/vi/U9AConAimzM/hqdefault.jpg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+Claude Code 같은 코딩 에이전트를 여러 개 동시에 실행하면 터미널 탭이 빠르게 증가하고, 어느 창에서 작업이 멈춰 있는지 파악하기 어려워진다. 사용자는 특정 에이전트가 승인을 기다리는 동안 다른 작업을 하려다 보면 오히려 자신이 병목 현상이 되는 역설적인 상황에 처하게 된다. 이러한 문제를 해결하기 위해 등장한 것이 Herdr로, 단순한 터미널 멀티플렉서를 넘어 에이전트의 상태를 이해하는 도구로 정의된다.
+
+Herdr는 tmux처럼 터미널 앱을 닫아도 프로세스가 살아있는 서버-클라이언트 구조를 기본으로 한다. 하지만 기존 tmux와 달리 pane 내부에 Claude Code나 Codex 같은 에이전트가 실행 중인지, 작업 중인지, 승인 대기 중인지 등을 사이드바와 알림을 통해 시각적으로 알려준다. 올여름 GitHub 트렌딩 1위를 기록했으며 Y Combinator에도 합류한 오픈소스 프로젝트로, 에이전트 시대에 맞는 터미널 환경의 변화를 보여준다.
+
+실제 사용에서는 Herdr가 에이전트의 명령어를 직접 해석하여 worktree를 생성하거나 pane을 분할하고 새로운 에이전트를 기동하는 등 오케스트레이션 역할을 수행한다. 한 에이전트가 작업을 기다리는 동안 다른 에이전트의 진행 상황을 화면 이동 없이 확인하거나, 결과를 취합해 PR을 만드는 워크플로우가 가능해진다. 이는 단순한 터미널 관리를 넘어 코딩 에이전트가 거주하는 런타임 환경으로의 진화를 의미한다.
+
+이 글은 Herdr의 설치 방법과 workspace, tab, pane 구조, 그리고 에이전트 상태 인식 기능에 대한 데모 내용을 바탕으로 한다. 원문의 전문을 다루지 않았으므로 구체적인 설정 명령어나 심화 기능보다는 도구로서의 위치와 핵심 가치에 초점을 맞추어 요약했다. 더 자세한 내용은 제공된 링크를 통해 확인할 수 있다.
+
+---
+
+원문: [에이전트 시대의 터미널 Herdr | 메타 시니어 엔지니어가 잘때도 에이전트를 돌리는 법](https://www.youtube.com/watch?v=U9AConAimzM)
