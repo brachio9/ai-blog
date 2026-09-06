@@ -1,0 +1,40 @@
+---
+title: 스마트폰에서 직접 작동하는 에이전트 프레임워크 PalmClaw
+category: papers
+axis: agent
+format: explainer
+summary: 기존 모바일 에이전트가 GUI 조작에 의존하는 한계를 넘어, 스마트폰 내부에서 직접 장치를 제어하는 네이티브 프레임워크가 등장했다. PalmClaw는 실행 경계를 명확히 하고 도구를 구조화하여 작업 성공률과 속도를 개선한다고 주장한다.
+publishedAt: 2026-09-06T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2607.13027
+  title: 'PalmClaw: A Native On-Device Agent Framework for Mobile Phones'
+  author: Hongru Cai
+  publishedAt: 2026-09-05T13:00:00+0900
+  words: 5228
+  image: https://arxiv.org/html/2607.13027v2/overview.png
+paper:
+  arxivId: '2607.13027'
+  authors:
+  - Hongru Cai
+  - Yongqi Li
+  - Ran Wei
+  - Wenjie Li
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대형 언어 모델 기반 에이전트는 단순한 응답 생성을 넘어 도구를 호출하고 결과를 관찰하며 다단계 작업을 수행하는 단계로 진화했다. 기존 시스템은 주로 데스크톱이나 서버 환경에서 작동해 왔으나, 스마트폰은 사용자의 데이터와 센서, 일상용 앱이 밀집된 중요한 에이전트 환경이다. 그러나 현재 모바일 에이전트는 대부분 탭, 스와이프, 타이핑 같은 그래픽 사용자 인터페이스(GUI) 조작을 통해 스마트폰을 제어한다. 이러한 방식은 긴 명령 시퀀스를 형성하고 인터페이스에 종속되며, 장치의 핵심 기능을 직접 접근하지 못해 실행 경계를 정의하기 어렵다는 단점이 있다.
+
+PalmClaw는 모바일 폰에서 네이티브로 실행되는 오픈소스 에이전트 프레임워크다. 이 프레임워크는 세션, 메모리, 스킬, 도구, 에이전트 루프를 장치 내에서 직접 관리한다. PalmClaw는 장치의 기능을 명시적인 인자와 구조화된 결과, 명확한 실행 경계를 가진 '장치 도구'로 노출시킨다. 이를 통해 에이전트는 모바일 기능을 직접 사용하면서도 각 행동을 명시적이고 통제 가능한 상태로 유지할 수 있다.
+
+저자들의 주장에 따르면, 이 프레임워크는 가장 강력한 베이스라인 대비 작업 성공률에서 11.5%의 상대적 개선 효과를 보였다. 또한 완료 시간은 94.9%나 단축되었다. 설치 부담이 낮아졌으며, 실행 경계가 어떻게 적용되는지를 보여주는 추적 기록도 제공한다.
+
+PalmClaw는 에이전트가 모바일 환경에서 더 효율적이고 정확하게 작동할 수 있도록 설계된 도구다. 코드와 관련 자료는 GitHub의 ModalityDance/PalmClaw 저장소에서 확인할 수 있다.
+
+---
+
+원문: [PalmClaw: A Native On-Device Agent Framework for Mobile Phones](https://arxiv.org/abs/2607.13027)

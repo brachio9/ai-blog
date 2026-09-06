@@ -1,0 +1,40 @@
+---
+title: llama.cpp 0.4.0, 새로운 모델과 효율성 개선
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp 0.4.0은 Qwen3.8-Flash-Next와 Nemotron-3-Puzzle 등 신규 모델 아키텍처를 지원한다. 지연 로딩과 서버 컨텍스트 제한 기능 도입으로 자원 사용 효율이 높아졌다.
+publishedAt: 2026-09-06T22:00:05+0900
+tags:
+- MCP
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+- TTS
+- Whisper
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/v0.4.0
+  title: v0.4.0
+  author: github-actions[bot]
+  publishedAt: 2026-09-05T04:56:47+0900
+  words: 2979
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈는 Qwen3.8-Flash-Next와 NVIDIA Nemotron-3-Puzzle, nanbeige4.2 등 새로운 모델 아키텍처의 초기 지원을 포함한다. 아직 최적화 작업은 진행 중이지만, 다양한 최신 모델을 실행할 수 있는 기반이 마련되었다. 또한 DSpark를 통한 Nemotron 3.5 지원도 추가되었다.
+
+성능과 자원 관리 측면에서 지연 텐서 읽기(lazy tensor reading) 기능이 도입되어 필요할 때만 데이터를 로드한다. 서버 환경에서는 각 슬롯별 컨텍스트 제한 설정이 가능해졌으며, KV 캐시 복원 최적화와 메모리 피크 방지 개선으로 안정성이 높아졌다. 양자화 과정에서도 RAM 사용량 상한선 설정과 스트리밍 처리가 지원된다.
+
+다중 모달리티(Multimodal) 기능도 확장되었다. 비디오 입력 옵션과 관련 헬퍼 함수들이 추가되어 서버에서 더 유연하게 멀티모달 데이터를 처리할 수 있다. 토큰화 및 비트맵 초기화 관련 API의 const-correctness 개선으로 코드 안정성도 함께 높였다.
+
+ggml 백엔드가 0.23.0으로 업데이트되며 희소 플래시 어텐션과 RDMA 작업에 대한 주요 개선이 반영되었다. YaRN 훈련 컨텍스트 자동 스케일링과 n-gram 히스토리 조회 기능 추가 등 핵심 엔진의 세부 최적화도 이루어졌다. 이 요약은 전체 변경 사항 중 주요 부분만 추려낸 것이다.
+
+---
+
+원문: [v0.4.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.4.0)

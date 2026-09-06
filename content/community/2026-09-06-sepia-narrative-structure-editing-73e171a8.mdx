@@ -1,0 +1,35 @@
+---
+title: AI 글의 티를 없애려면 문장이 아니라 서사 구조부터 고쳐야 한다
+category: community
+axis: vibe-coding
+format: explainer
+summary: sepia는 어휘 교정을 넘어 서사 구조를 종합적으로 개선해 AI 생성글의 흔적을 지우는 에이전트 스킬이다. 저자는 표면적인 문체 수정만으로는 판별을 피할 수 없으므로 담화 수준의 구조적 개정이 필요하다고 주장한다.
+publishedAt: 2026-09-06T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/sepia-ai/11813
+  title: 'sepia: AI가 작성한 티를 없애기 위해, 어휘 교정 뿐만 아니라 서사 구조까지 종합적으로 살펴보고 개선하는 에이전트 스킬'
+  author: 9bow
+  publishedAt: 2026-09-04T15:30:55+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/9/2/92fd6852d2f3066ee43116eaf1520a8fdb1f98d0_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+AI가 쓴 글을 사람처럼 보이게 하는 도구들은 주로 단어와 문장 구조를 다듬는데, sepia의 저자는 이런 표면적 수정이 판별 성능에 큰 영향을 주지 않는다고 지적한다. 2026년 4월 공개된 StoryScope 논문에 따르면 문체 신호 없이 서사 선택만으로 학습한 분류기가 사람과 AI 소설을 높은 정확도로 구분했으며, sepia 저자는 이를 인용해 표면 문체를 제거해도 판별 성능이 크게 떨어지지 않는다고 분석했다.
+
+sepia는 이러한 통찰을 바탕으로 서사 구조를 먼저 고친 뒤에야 단어를 수정하는 에이전트 스킬로 설계되었다. 소설은 서사 구조 개선을 우선시하고, 릴리즈 노트나 장애 회고 같은 실무 문서는 게재 지면에 맞는 규칙을 적용한다. 연산 방식은 새로 쓰기, 진단만 하기, 최소한만 손대기, 사실만 남기고 다시 쓰기 등 네 가지로 고정되어 있어 일관된 처리가 가능하다.
+
+이 도구는 Agent Skills 표준을 따르는 이식 가능한 스킬로, Skills CLI를 통해 한 줄 명령어로 설치할 수 있다. Claude Code, Codex, Grok Build, Antigravity 등 주요 에이전트 플랫폼에서 지원되며, 저자는 이 네 곳에서 설치가 완료되고 항목이 나타나는 것을 직접 확인했다고 밝혔다. 정본 SKILL.md 하나만 관리하면 플랫폼별 별도 사본 유지가 필요 없는 구조다.
+
+sepia는 기존 탈AI 개고 도구들과 달리 더 높은 계층에서 작동한다는 점이 특징이다. 저자는 단순한 문체 교정이 아닌 서사 구조와 담화 수준의 종합적 개정을 통해 AI 글의 흔적을 효과적으로 제거할 수 있다고 주장하며, 이 접근법이 실제 판별 회피에 더 유효함을 강조하고 있다.
+
+---
+
+원문: [sepia: AI가 작성한 티를 없애기 위해, 어휘 교정 뿐만 아니라 서사 구조까지 종합적으로 살펴보고 개선하는 에이전트 스킬](https://discuss.pytorch.kr/t/sepia-ai/11813)
