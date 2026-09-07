@@ -1,0 +1,40 @@
+---
+title: 'SGLang v0.5.19: 빔 서치 지원과 주요 모델 업데이트'
+category: releases
+axis: serving
+format: explainer
+summary: SGLang v0.5.19는 빔 서치 기능을 공식 지원하며 다양한 최신 모델의 배포 가이드를 업데이트했다. DeepEP v2 도입으로 성능이 개선되었으나 일부 기능 조합에서는 아직 제한이 있다.
+publishedAt: 2026-09-07T22:00:05+0900
+tags:
+- reranking
+- SGLang
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+- ASR
+draft: false
+source:
+  url: https://github.com/sgl-project/sglang/releases/tag/v0.5.19
+  title: v0.5.19
+  author: Qiaolin-Yu
+  publishedAt: 2026-09-05T11:27:42+0900
+  words: 7553
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 릴리즈는 214명의 기여자가 참여해 786개의 PR을 합친 결과다. 가장 큰 변화는 빔 서치 기능을 지원하게 된 점이다. 이제 요청에 beam_width 파라미터를 전달하면 단일 샘플 대신 상위 n개의 시퀀스를 반환받을 수 있다. 이 기능은 기존 요청과 함께 바로 사용할 수 있지만, 아직 추론 가속화 기술인 스펙ulative 디코딩이나 disaggregation, DP attention, HiCache와는 혼합되지 않는다.
+
+새로운 모델 지원도 확대되었다. Qwen3.8의 대규모 버전과 27B 모델, dots3.note, Ling-3.0 시리즈, Spark2.5, MiniCPM-SALA, Granite 4.2 등 오토레그레시브 모델들이 추가됐다. 또한 LongCat-Image-Edit와 Edit-Turbo 같은 디퓨전 모델도 지원 목록에 포함되었다. 각 모델별 구체적인 설정 방법은 공식 쿡북에서 확인할 수 있다.
+
+배포 가이드 역시 대폭 업데이트되었다. GLM-5.3과 PaddleOCR-VL의 배포 방법이 새로 소개되었고, Ascend A3나 MI355X 같은 특정 하드웨어 환경에서의 최적화 사례가 상세히 기록됐다. 특히 Qwen3.8-27B 모델은 RTX 5090 및 DGX Spark 등 최신 GPU에서의 성능 재측정 결과가 반영되어 실제 운영 환경에 더 가까운 참고 자료를 제공한다.
+
+인프라 측면에서는 DeepEP v2가 도입되었다. 새로운 ElasticBuffer를 통해 효율성이 개선되었으나, 이 릴리즈 노트의 일부 내용만 공개된 상태다. 전체 변경 사항과 세부 기술적 개선점은 공식 릴리즈 노트와 쿡북 문서를 참조해야 한다.
+
+---
+
+원문: [v0.5.19](https://github.com/sgl-project/sglang/releases/tag/v0.5.19)

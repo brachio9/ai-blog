@@ -1,0 +1,44 @@
+---
+title: 레포 전체 리팩토링 에이전트, 어떻게 평가할까?
+category: papers
+axis: agent
+format: explainer
+summary: 리파지토리 규모 리팩토링을 수행하는 코딩 에이전트의 성능을 통제된 환경에서 평가하기 위한 오픈소스 도구인 RefactorPlatform이 소개되었다. 이 플랫폼은 모델, 실행 방식, 프롬프트 구체성 등 설계 요소를 분리하여 검증할 수 있게 한다.
+publishedAt: 2026-09-07T22:00:05+0900
+tags:
+- RAG
+- Copilot
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.04898
+  title: 'RefactorPlatform: An Open-Source Harness for Controlled Evaluation of Repository-Scale Refactoring Agents'
+  author: Aziz Ben Amor
+  publishedAt: 2026-09-07T13:00:00+0900
+  words: 5207
+  image: https://arxiv.org/html/2609.04898v1/kimi_s1_events.png
+paper:
+  arxivId: '2609.04898'
+  authors:
+  - Aziz Ben Amor
+  - Drish Mali
+  - Mann Acharya
+  - Vijayasri Iyer
+  - S\'ebastien Brati\`eres
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+리파지토리 전체에 걸친 리팩토링 작업은 단일 변경 사항을 수많은 상호 의존 파일에 전파하되 프로그램 동작을 해치지 않아야 하는 까다로운 과제다. 기존에는 에이전트 성공 여부를 결정하는 설계 선택지를 고립시켜 평가할 수 있는 도구가 부족했다. RefactorPlatform은 이러한 공백을 메우기 위해 실행 환경을 고정하고 모델 백본, 실행 체계, 프롬프트 구체성 등 각 설계 축을 명시적으로 변형하며 테스트할 수 있도록 구성되었다.
+
+이 플랫폼은 격리된 워크스페이스에서 실시간 터미널 스트리밍과 토큰, 디프, 트랜스크립트 등의 상세 로깅을 제공한다. 또한 AST 기반 검증과 재현 및 감사 가능한 텔레메트리 내보내기 기능을 갖추고 있다. 저자들은 이 플랫폼을 통해 네 가지 모델 계열의 100개 다중 파일 RefactorBench 태스크를 실행하며 다양한 분석이 가능함을 시연했다.
+
+저자들의 주장에 따르면 AST 기반 청킹은 단순 토큰 윈도우 청킹보다 모든 프롬프트 모드에서 25~30% 더 우수한 성능을 보였다. 반면 단순 검색은 검색 없는 베이스라인보다 낮은 점수를 기록했다. 또한 경량화된 검색 증강 단일 에이전트(86%)가 평가된 서브에이전트 구성(66%)을 능가했으며, 검색으로 실패한 태스크는 위임에서도 실패하는 것으로 나타났다. 검색의 정확도 향상은 토큰 과부하를 상쇄하여 성공적인 리팩토링당 비용은 변하지 않았다.
+
+RefactorPlatform은 리팩토링 에이전트 평가의 재현성과 감사 가능성을 높이기 위해 오픈소스로 공개되었다. 이를 통해 개발자들은 특정 설계 결정이 에이전트 성능에 미치는 영향을 투명하게 검증하고 비교할 수 있게 되었다.
+
+---
+
+원문: [RefactorPlatform: An Open-Source Harness for Controlled Evaluation of Repository-Scale Refactoring Agents](https://arxiv.org/abs/2609.04898)

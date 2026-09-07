@@ -1,0 +1,43 @@
+---
+title: LLM 에이전트의 스킬과 추론을 함께 학습하는 CoSkill
+category: papers
+axis: agent
+format: explainer
+summary: 기존 방식이 스킬을 고정된 워크플로우로 취급해 유연성이 부족하다는 문제를 해결하기 위해 제안된 프레임워크다. 추론 에이전트와 메타스킬 에이전트를 하나의 백본으로 공유하며 협력 학습하게 함으로써 스킬의 진화와 정책 최적화를 동시에 수행한다.
+publishedAt: 2026-09-07T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.04865
+  title: 'CoSkill: Joint Reinforcement Learning of Reasoning and Meta-Skill Agents for Hierarchical Skill Evolution'
+  author: Jinyuan Feng
+  publishedAt: 2026-09-07T13:00:00+0900
+  words: 12900
+  image: https://arxiv.org/html/2609.04865v1/related_arch.png
+paper:
+  arxivId: '2609.04865'
+  authors:
+  - Jinyuan Feng
+  - Dongmin Li
+  - Yiqun Chen
+  - Yang Gao
+  - Xing Chen
+  - Huimu Wang
+  - Zhiqiang Pu
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대규모 언어 모델(LLM) 기반 에이전트의 강화학습에서 샘플 효율성을 높이기 위해 스킬 라이브러리가 활용되고 있다. 그러나 기존 패러다임은 구조적인 한계를 지니고 있다. 스킬의 진화와 정책 최적화를 분리하거나, 메타스킬을 고정된 워크플로우로 인스턴스화하는 방식은 스킬을 관리해야 할 수동적인 객체로 취급한다. 이로 인해 스킬의 유연한 진화와 추론 에이전트와의 상호 적응이 제한된다.
+
+이러한 한계를 극복하기 위해 CoSkill이라는 통합 다중 에이전트 강화학습 프레임워크가 제안되었다. 이 방법은 정적 메타스킬 워크플로우를 학습 가능한 메타스킬 에이전트로 재구성하고, 계층적 스킬 라이브러리 위에서 추론 에이전트와 함께 학습한다. 두 에이전트는 단일 백본을 공유하는 협력 팀으로 모델링되어 종단간 공동 적응이 가능해진다.
+
+구체적으로 추론 에이전트는 검색된 작업 스킬과 하위 세트에서 선택된 단계 스킬에 조건부로 행동을 결정한다. 동시에 이 작업 수행 성과는 메타스킬 에이전트가 해당 단계 스킬을 정제하는 데 지침이 된다. 즉, 추론 과정과 스킬 개선 과정이 서로 영향을 주며 함께 발전하는 구조다.
+
+저자들의 주장에 따르면 ALFWorld와 WebShop 환경에서의 실험 결과 CoSkill은 기존 스킬 기반 및 강화학습 베이스라인을 크게 상회한다. 구체적으로 성공률이 각각 98.4%와 90.6%로 나타났으며, 이는 기존 대비 3.5%p와 6.2%p 향상된 수치다. 또한 초기 단계의 샘플 효율성, 점근적 성능, 그리고 실제 소요 시간 측면에서도 우수함이 확인되었다.
+
+---
+
+원문: [CoSkill: Joint Reinforcement Learning of Reasoning and Meta-Skill Agents for Hierarchical Skill Evolution](https://arxiv.org/abs/2609.04865)

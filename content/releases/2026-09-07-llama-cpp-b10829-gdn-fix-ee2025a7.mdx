@@ -1,0 +1,35 @@
+---
+title: llama.cpp b10829, GDN 정규화 방식 수정으로 정합성 확보
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp b10829 릴리즈는 GDN 모델의 Q/K 정규화 방식을 flash-linear-attention 라이브러리의 정의에 맞게 수정했다. 기존 구현과 참조 라이브러리 간의 수치적 불일치를 해결하여 추론 결과의 정확도를 높였다.
+publishedAt: 2026-09-07T22:00:05+0900
+tags:
+- vLLM
+- SGLang
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b10829
+  title: b10829
+  author: github-actions[bot]
+  publishedAt: 2026-09-07T08:04:50+0900
+  words: 736
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈의 핵심 변경사항은 GDN(Gated Delta Net) 아키텍처에서 사용하는 Q/K 벡터의 정규화 방식 수정이다. 이전 버전에서는 ggml_l2_norm 함수를 사용했는데, 이는 최대값 기반 클램핑(max-based clamping)을 적용하는 torch.nn.functional.normalize와 유사한 동작을 했다. 그러나 flash-linear-attention 라이브러리에서 정의한 l2norm은 루트 내부에 엡실론(epsilon)을 더한 rsqrt 방식을 사용한다. 두 방식의 수학적 정의가 다르므로, 동일한 체크포인트를 사용하더라도 추론 결과가 미세하게 달라질 수 있었다.
+
+이 불일치는 transformers 라이브러리가 Qwen3-Next 모델을 처음 추가할 때 동일한 실수를 범했다가 며칠 만에 수정한 사례와 유사하다. vLLM이나 SGLang 같은 다른 실행 프레임워크는 flash-linear-attention을 직접 벤더링하여 이런 문제가 발생하지 않았으나, llama.cpp는 자체 구현체로 인해 정합성 차이가 존재해 왔다. 이번 패치는 이러한 격차를 해소하기 위해 정규화 연산을 rms_norm 기반의 등가 식으로 대체했다. 이를 통해 루트 내부에 엡실론이 포함된 정확한 수식을 적용하면서도 새로운 ggml 연산자를 추가하지 않고 기존 구조를 유지할 수 있었다.
+
+수정된 코드는 체크포인트에서 제공하는 엡실론 값을 그대로 사용하며, 참조 구현체들이 하드코딩한 1e-6 값과도 일치한다. rwkv7-base와 같은 기존 호출자는 자체적인 기본값을 유지하므로 영향받지 않는다. 이 변경은 주로 GDN 아키텍처를 사용하는 최신 모델들의 추론 정확도를 높이는 데 기여하며, 다른 라이브러리와의 결과 비교 시 더 신뢰할 수 있는 기준이 될 것이다.
+
+이번 릴리즈에는 macOS와 Linux 환경의 바이너리가 포함되어 있으며, Apple Silicon 및 Intel 맥북, Ubuntu 기반의 CPU와 GPU(Vulkan, ROCm) 빌드가 제공된다. GDN 구조를 사용하는 모델을 실행하는 사용자는 이번 업데이트를 적용하여 참조 구현체와의 정합성을 확보할 수 있다. 전체 커밋 목록이나 기여자 명단은 생략하고 주요한 수치적 정확도 개선 사항만 요약했다.
+
+---
+
+원문: [b10829](https://github.com/ggml-org/llama.cpp/releases/tag/b10829)
