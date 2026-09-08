@@ -1,0 +1,46 @@
+---
+title: 휴식 토큰이 추론 능력을 높이는 진짜 이유
+category: papers
+axis: serving
+format: explainer
+summary: 휴식 토큰은 단순한 계산 장치 이상으로 미세 조정의 학습 역학을 변화시킨다. 저자들은 휴식 토큰이 기존 지식을 보존하면서 새로운 정보를 압축하는 메커니즘을 제안한다.
+publishedAt: 2026-09-08T22:00:05+0900
+tags:
+- fine-tuning
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.04489
+  title: 'Towards Understanding Pause Token Fine-Tuning Dynamics: A Mode Retention Perspective'
+  author: Jaehyeon Kim
+  publishedAt: 2026-09-07T13:00:00+0900
+  words: 18844
+  image: https://arxiv.org/html/2609.04489v1/figures/figure1_sh_ver2.png
+paper:
+  arxivId: '2609.04489'
+  authors:
+  - Jaehyeon Kim
+  - Suhwan Kim
+  - Nakyung Lee
+  - Yeongoon Kim
+  - Jimin Seo
+  - Giho Lee
+  - Jungwoo Lee
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대형 언어 모델의 추론 능력을 높이기 위해 시퀀스에 특수한 휴식 토큰을 삽입하는 방법이 주목받고 있다. 기존 연구는 이러한 성능 향상을 계산적 표현력의 증가로 설명해 왔다. 그러나 휴식 토큰이 미세 조정 과정에서 학습 역학을 어떻게 재구성하는지에 대한 탐구는 상대적으로 부족했다. 이번 연구는 휴식 토큰이 훈련 과정의 동역학에 미치는 영향을 두 가지 통제된 실험을 통해 분석한다.
+
+첫 번째 실험은 합성 지속 학습 작업에서 마스크 처리된 휴식 토큰이 이전에 학습된 분포를 덮어쓰는 정도가 최종 적응 수준이 같을 때 약 4배 적다는 점을 확인했다. 이는 모드 보존 효과로 해석된다. 두 번째 실험에서는 합성 수학 추론 탐색에서 경계 인접 토큰이 하위 단계 정보를 훨씬 더 많이 인코딩하게 된다는 사실을 발견했다. 이를 비근시적 압축이라고 부른다.
+
+저자들은 이 두 가지 현상을 설명하는 훈련 규칙인 마스크된 경계 휴식(MBP)을 정식화했다. 이는 추론 단계의 경계에 휴식 토큰을 배치하고 해당 위치의 손실을 마스크 처리하는 방식이다. 저자들의 주장에 따르면 1B에서 8B 규모의 Qwen과 Llama 모델에서 MBP를 적용하면 수학 추론 성능이 최대 6포인트, 코드 생성 성능이 2.5포인트 향상된다. 동시에 일반적인 언어 이해 능력은 보존된다고 한다.
+
+이러한 모드 보존 전략은 GRPO 알고리즘에도 이득을 확장할 수 있음을 보여준다. 연구 결과에 따르면 휴식 토큰은 단순한 추론 시점의 계산 장치를 넘어, 기억 유지와 적응 사이의 트레이드오프를 개입하는 학습 역학 도구로 재정의된다.
+
+---
+
+원문: [Towards Understanding Pause Token Fine-Tuning Dynamics: A Mode Retention Perspective](https://arxiv.org/abs/2609.04489)

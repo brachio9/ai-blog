@@ -1,0 +1,33 @@
+---
+title: 'OpenCode v1.18.28: 세션 추적 개선과 데스크톱 버그 수정'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: OpenCode v1.18.28 릴리즈는 GitHub Copilot 상호작용 헤더에 세션 ID를 포함해 요청 추적을 강화했다. 데스크톱 클라이언트 인증 문제와 아이콘 가시성 개선도 적용되었다.
+publishedAt: 2026-09-08T22:00:05+0900
+tags:
+- Copilot
+- OpenCode
+draft: false
+source:
+  url: https://github.com/anomalyco/opencode/releases/tag/v1.18.28
+  title: v1.18.28
+  author: opencode-agent[bot]
+  publishedAt: 2026-09-05T00:38:23+0900
+  words: 55
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 GitHub Copilot과의 연동 시 세션 관리를 더 명확하게 하는 것이다. 이제 세션 ID가 상호작용 헤더에 포함되어 전송되므로, 한 세션 내에서의 요청 흐름을 추적하는 데 도움이 된다. 이는 개발자가 디버깅하거나 사용 패턴을 분석할 때 유용한 개선 사항이다.
+
+데스크톱 버전에서는 계정 장치 인증 시 데스크톱 클라이언트 ID를 올바르게 사용하는 버그가 수정되었다. 또한 앱에서 파일을 열 때 나타나는 아이콘 크기를 키워 가시성을 높였다. 작은 변화지만 사용자 경험의 편의성을 조금이나마 챙긴 부분이다.
+
+커뮤니티 기여자 @MVS-source는 Eden AI를 제공자 목록에 추가하는 문서 작업을 수행했다. 이번 릴리즈에는 이와 같은 사소한 개선과 버그 수정이 포함되어 있으며, 전체 변경 사항 중 중요한 몇 가지만 추려서 소개한다. 나머지 세부 커밋이나 PR 목록은 공식 릴리즈 노트에서 확인할 수 있다.
+
+---
+
+원문: [v1.18.28](https://github.com/anomalyco/opencode/releases/tag/v1.18.28)

@@ -1,0 +1,159 @@
+---
+title: 에이전트 평가의 표준, Harbor Adapters와 Harbor-Index
+category: papers
+axis: agent
+format: explainer
+summary: 복잡한 에이전트 벤치마크 통합을 위한 Harbor Adapters 인프라와 엄선된 메타데이터셋 Harbor-Index를 소개한다. 저자들은 이 도구를 통해 다양한 모델의 성능과 실패 양상을 분석하고, 평가의 신뢰성을 높이는 오픈소스 아티팩트를 제공한다.
+publishedAt: 2026-09-08T22:00:05+0900
+tags:
+- Codex
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.04298
+  title: 'Harbor Adapters and Harbor-Index: Infrastructure and a Curated Meta-Dataset for Large-Scale Agentic Evaluation'
+  author: Lin Shi (Audrey)
+  publishedAt: 2026-09-07T13:00:00+0900
+  words: 46948
+  image: https://arxiv.org/html/2609.04298v1/bench_progress_and_headroom.png
+paper:
+  arxivId: '2609.04298'
+  authors:
+  - Lin Shi (Audrey)
+  - Haowei Lin (Audrey)
+  - Zixuan Zhu (Audrey)
+  - Xiaoyue Zhou (Audrey)
+  - Xiang Li (Audrey)
+  - Xiangning Lin (Audrey)
+  - Yaxuan Deng (Audrey)
+  - Han Xu (Audrey)
+  - Yuangang Li (Audrey)
+  - Shanda Li (Audrey)
+  - Zizhao Chen (Audrey)
+  - Hanwen Xing (Audrey)
+  - Harsh Raj (Audrey)
+  - Bo Chen (Audrey)
+  - Quan Shi (Audrey)
+  - Steven Dillmann (Audrey)
+  - Yipeng Gao (Audrey)
+  - Puneesh Khanna (Audrey)
+  - Ruofan Lu (Audrey)
+  - Chao Beyond Zhou (Audrey)
+  - Michael Yang (Audrey)
+  - Robert Zhang (Audrey)
+  - Siyuan Chai (Audrey)
+  - Jiayu Chang (Audrey)
+  - Yizhao Chen (Audrey)
+  - Xiaokun Chen (Audrey)
+  - Yiwei Dai (Audrey)
+  - Wenting Yang (Audrey)
+  - Hange Liu (Audrey)
+  - Minghao Liu (Audrey)
+  - Zihan Wang (Audrey)
+  - Adnan El Assadi (Audrey)
+  - Benedikt Stroebl (Audrey)
+  - E. Kelly Buchanan (Audrey)
+  - Han Meng (Audrey)
+  - Junwei He (Audrey)
+  - Longxuan Yu (Audrey)
+  - Radin Shayanfar (Audrey)
+  - Yukyung Lee (Audrey)
+  - Zhikang Dong (Audrey)
+  - Allen G Hart (Audrey)
+  - Anjiang Wei (Audrey)
+  - Anurag Kashyap (Audrey)
+  - Arpandeep Khatua (Audrey)
+  - Audrey Jixin Zheng (Audrey)
+  - Chengrui Ma (Audrey)
+  - David Heineman (Audrey)
+  - Dubing Chen (Audrey)
+  - Hai-Anh Trinh (Audrey)
+  - Haishuo Fang (Audrey)
+  - Hefan Zhang (Audrey)
+  - Hui Shen (Audrey)
+  - Issa Sugiura (Audrey)
+  - Jiankai Sun (Audrey)
+  - Jiechao Gao (Audrey)
+  - Junhong Lin (Audrey)
+  - Junnan Li (Audrey)
+  - Kai Yang (Audrey)
+  - Lei Hsiung (Audrey)
+  - Maoyu Wang (Audrey)
+  - Mengze Tang (Audrey)
+  - Nabil Omi (Audrey)
+  - Negin Raoof (Audrey)
+  - Nicholas Edwards (Audrey)
+  - Octavia Guo (Audrey)
+  - Orfeas Menis Mastromichalakis (Audrey)
+  - Pengliang Ji (Audrey)
+  - Przemys{\l}aw Hejman (Audrey)
+  - Qi Qi (Audrey)
+  - Qunshu Lin (Audrey)
+  - Richard Zhuang (Audrey)
+  - Rui Yang (Audrey)
+  - Ruichen Zheng (Audrey)
+  - Ryan Marten (Audrey)
+  - Shaghayegh Fazliani (Audrey)
+  - Shizheng Hou (Audrey)
+  - Sicong Jiang (Audrey)
+  - Sijie Li (Audrey)
+  - Song Bian (Audrey)
+  - Terry Yue Zhuo (Audrey)
+  - Tianqing Wu (Audrey)
+  - Tom Tang (Audrey)
+  - Wanjia Zhao (Audrey)
+  - Weihao Xuan (Audrey)
+  - Wenhua Liang (Audrey)
+  - Xian Liu (Audrey)
+  - Xin Lan (Audrey)
+  - Xuan Zhang (Audrey)
+  - Xuandong Zhao (Audrey)
+  - Yanchuan Tang (Audrey)
+  - Yifan Jiang (Audrey)
+  - Yijiang Li (Audrey)
+  - Yitong Guan (Audrey)
+  - Yizhi Li (Audrey)
+  - Yonghui Liu (Audrey)
+  - Yuheng Tang (Audrey)
+  - Yujun (Audrey)
+  - Mao
+  - Yunfei Zhao
+  - Yuxin Wang
+  - Yuxuan Tang
+  - Zhenheng Tang
+  - Zhifei Li
+  - Ziruo Wang
+  - Ziyu She
+  - Kaiyuan Liu
+  - Iheb Chaabane
+  - Yuxin Tang
+  - Xiangyi Li
+  - Andy Konwinski
+  - Boxuan Li
+  - Leon Liangyu Chen
+  - Alex Dimakis
+  - Nicholas Carlini
+  - Soroush Vosoughi
+  - Di He
+  - Etash Guha
+  - Benjamin Feuer
+  - Mike Merrill
+  - Ludwig Schmidt
+  - Alex Shaw
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+에이전트 벤치마크가 증가하면서 복잡한 환경 설정과 통합 문제로 인해 평가 자체가 어려워지고 있다. 이를 해결하기 위해 연구진은 Harbor Adapters라는 통합 평가 인프라를 제안한다. 이 도구는 80개 이상의 벤치마크를 단일 플랫폼으로 포팅하여 임의의 에이전트를 평가할 수 있게 하며, 엄격한 코드 리뷰와 동등성 실험을 통해 정확성을 검증했다.
+
+연구진은 54개 벤치마크에서 8가지 모델의 대규모 평가를 수행했다. 모든 모델은 Terminus-2와 세 가지 네이티브 하니스 중 하나를 사용하여 테스트받았다. 이를 통해 기존에는 불가능했던 에이전트 능력과 실패 모드에 대한 광범위한 분석이 가능해졌으며, 저자들은 이러한 비교 분석 결과를 공개했다.
+
+또한 Harbor-Index라는 엄선된 메타데이터셋을 소개한다. 이는 29개 벤치마크에서 난이도 필터링, AI 및 인간 감사, 수정 루프를 거쳐 선별된 82개의 고난도 작업으로 구성된다. 저자들의 주장에 따르면 이 데이터셋은 평가의 도전성과 다양성을 유지하면서도 실행 비용을 절감하며, 가장 강력한 모델인 GPT-5.5(Codex)조차 28.0%의 통과율에 그치는 등 모든 모델-하니스 조합이 30% 미만의 성능을 기록했다.
+
+연구진은 Harbor Adapters와 평가 결과, 심층 분석 자료, Harbor-Index를 오픈소스로 공개한다. 이를 통해 언어 모델 에이전트에 대한 더 신뢰할 수 있고 포괄적인 평가가 가능해질 것으로 기대된다.
+
+---
+
+원문: [Harbor Adapters and Harbor-Index: Infrastructure and a Curated Meta-Dataset for Large-Scale Agentic Evaluation](https://arxiv.org/abs/2609.04298)

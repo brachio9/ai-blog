@@ -1,0 +1,42 @@
+---
+title: 수십 개 문서의 증거를 모으는 RAG, APT-RAG가 해결한다
+category: papers
+axis: retrieval
+format: explainer
+summary: 기존 구조적 RAG는 다중 홉 질문 답변에서 유연성 부족과 증거 수집 한계를 보인다. APT-RAG는 적응형 계획과 위상 인식 증거 수집을 통해 이 문제를 해결한다. 저자들은 이 프레임워크가 기존 방법보다 우수하다고 주장한다.
+publishedAt: 2026-09-08T22:00:05+0900
+tags:
+- RAG
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.04981
+  title: A Tree-based RAG Framework for Evidence-Intensive QA via Adaptive Planning and Topology-Aware Evidence Gathering
+  author: Songeun Lee
+  publishedAt: 2026-09-07T13:00:00+0900
+  words: 16108
+  image: https://arxiv.org/html/2609.04981v1/structured_rag_limitation.png
+paper:
+  arxivId: '2609.04981'
+  authors:
+  - Songeun Lee
+  - Kyungjin Min
+  - Injae Na
+  - Suyeong Lee
+  - Chiyoung Kim
+  - Woohwan Jung
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+최근 구조화된 RAG 방법은 트리나 그래프 기반 추론 구조를 활용하여 다중 홉 질문 답변 성능을 높이고 있다. 그러나 수십 개에서 수백 개에 달하는 문서에 흩어진 정보를 종합해야 하는 증거 집약적 질문 답변에서는 한계가 드러난다. 기존 방법들은 구조적 경직성으로 인해 추론 확장이 제한되며, 위상을 무시한 증거 수집 방식 때문에 서로 다른 추론 노드 간에 증거를 효과적으로 통합하지 못한다.
+
+이러한 문제를 해결하기 위해 저자들은 APT-RAG라는 새로운 프레임워크를 제안한다. 적응형 계획 기능은 질문의 의존성과 증거 요구 사항에 따라 추론 구조를 동적으로 확장한다. 동시에 위상 인식 증거 수집은 형제 노드의 증거 재사용, 직접 검색, 자식 노드에서의 증거 집계 등을 통해 증거 커버리지를 개선한다.
+
+또한 증거 집약적 질문 답변에서 발생하는 큰 생성 오버헤드를 줄이기 위해 증거 기반 배치 답변 생성 방식을 도입했다. 저자들의 주장에 따르면 실험 결과 APT-RAG는 기존 구조적 RAG 방법들을 능가하는 성능을 보였다. 관련 코드는 GitHub에서 확인할 수 있다.
+
+---
+
+원문: [A Tree-based RAG Framework for Evidence-Intensive QA via Adaptive Planning and Topology-Aware Evidence Gathering](https://arxiv.org/abs/2609.04981)
