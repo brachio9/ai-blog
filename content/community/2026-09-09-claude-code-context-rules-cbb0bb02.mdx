@@ -1,0 +1,35 @@
+---
+title: Claude Code, 시스템 프롬프트 80% 삭제의 이유와 새로운 컨텍스트 규칙
+category: community
+axis: vibe-coding
+format: explainer
+summary: Anthropic은 Claude Code의 시스템 프롬프트를 대폭 줄여도 성능이 떨어지지 않는다고 밝혔다. Thariq Shihipar는 이를 바탕으로Claude 5 세대에 맞는 컨텍스트 엔지니어링의 새로운 방향을 제시한다.
+publishedAt: 2026-09-09T22:00:05+0900
+tags:
+- Claude Code
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/anthropic-claude-code-80-claude-5-6/11845
+  title: 'Anthropic, Claude Code 시스템 프롬프트 80% 삭제: Claude 5 세대 컨텍스트 엔지니어링 규칙 6가지'
+  author: 9bow
+  publishedAt: 2026-09-08T07:00:25+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/c/c/ccd50cd574f53dacb4aac014859289104c52eea5_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Anthropic 기술 스태프인 Thariq Shihipar는 Claude Code의 시스템 프롬프트에서 80% 이상을 제거해도 자사 코딩 평가 지표에 측정 가능한 성능 손실이 없었다고 밝혔다. 그는 이를 'Claude의 족쇄를 푸는 일'로 표현하며, 과거 모델의 안전성을 위해 추가했던 과도한 지시가 최신 모델에서는 오히려 판단력을 저해하는 제약으로 작용함을 지적했다. 이에 따라 Anthropic은 `claude doctor` 명령을 통해 사용자가 자신의 스킬과 설정 파일 크기를 직접 조정할 수 있도록 했다.
+
+이 변화는 단순한 프롬프트 최적화를 넘어 '컨텍스트 엔지니어링'의 패러다임을 전환한다. Anthropic은 컨텍스트 엔지니어링을 단일 프롬프트 작성 문제가 아닌, 시스템 프롬프트부터 도구 정의와 메모리에 이르기까지 모델이 매 요청에서 접하는 토큰 전체를 설계하는 문제로 규정한다. 사용자의 입력은 그중 일부일 뿐이며, 나머지 맥락은 사전에 설정된 지침들이 채운다.
+
+과거에는 커뮤니티가 공유해 온 '좋은 설정'들이 오히려 문제를 일으켰다. Thariq Shihipar는 시스템 프롬프트, 스킬, 사용자 요청이 서로 다른 방향을 지시하며 충돌하는 현상을 해결하기 위해 불필요한 통념들을 정리했다고 설명했다. 예를 들어 문서화 수준에 대한 상충되는 지시들이 모델의 판단을 흐리게 만들었다.
+
+이제 개발자들은 Claude 5 세대 모델의 특성에 맞춰 컨텍스트를 재설계해야 한다. 이전 세대에서 유효했던 강한 제약은 새 모델에서는 오히려 방해가 되므로, 불필요한 규칙을 과감히 삭제하고 모델의 자율성을 신뢰하는 방향으로 접근해야 한다. 이는 Anthropic 내부 시스템 프롬프트뿐만 아니라 사용자가 커스터마이징하는 설정 파일에도 적용되는 원칙이다.
+
+---
+
+원문: [Anthropic, Claude Code 시스템 프롬프트 80% 삭제: Claude 5 세대 컨텍스트 엔지니어링 규칙 6가지](https://discuss.pytorch.kr/t/anthropic-claude-code-80-claude-5-6/11845)

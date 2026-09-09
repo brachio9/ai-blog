@@ -1,0 +1,40 @@
+---
+title: vLLM 0.29.0, 모델 러너 V2가 기본이 되다
+category: releases
+axis: serving
+format: explainer
+summary: vLLM 0.29.0 릴리즈는 모델 러너 V2를 모든 모델의 기본으로 채택하며 성능과 안정성을 개선했다. 주요 신규 모델 지원, 추론 가속화 기술 도입, 그리고 분산 학습 환경에서의 가중치 동기화 효율화가 핵심 변경 사항이다.
+publishedAt: 2026-09-09T22:00:05+0900
+tags:
+- Codex
+- vLLM
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+- prefix caching
+draft: false
+source:
+  url: https://github.com/vllm-project/vllm/releases/tag/v0.29.0
+  title: v0.29.0
+  author: khluu
+  publishedAt: 2026-09-09T17:54:49+0900
+  words: 4508
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 릴리즈의 가장 큰 변화는 모델 러너 V2가 모든 모델에서 기본으로 사용된다는 점이다. 이전부터 풀링 모델에 적용되던 이 버전이 이제 전체적으로 표준이 되었으며, ROCm 환경 등 일부 예외를 제외하고는 기존 V1은 더 이상 주요 옵션이 아니다. 모델 러너 V2는 KV 캐시 자동 크기 조정, 배치 샤딩 샘플링을 통한 메모리 절감, 그리고 스펙ulative 디코딩 시의 성능 최적화 등 다양한 내부 개선을 포함한다. 이는 사용자에게 별도의 설정 없이도 향상된 효율성을 제공한다는 의미다.
+
+새로운 모델 지원 범위도 크게 확대되었다. 텐센트의 대규모 MoE 모델인 Hy4-preview와 Qwen3.8-Flash-Next, Granite 시리즈, NemotronH_Omni_Reasoning_V3, 그리고 Kimi K3의 NVFP4 체크포인트 등이 공식적으로 지원된다. 특히 Kimi K3와 DeepSeek V4에 대해서는 fused MXFP4 연산 최적화, Triton 커널 속도 향상, Hopper 아키텍처용 저지연 GEMM 튜닝 등 구체적인 성능 개선 작업이 수행되었다. 개발진은 이러한 최적화가 엔드투엔드 지연 시간 감소와 커널 실행 속도 향상에 기여했다고 주장한다.
+
+추론 속도와 효율성을 높이는 기술들도 다수 도입되었다. 스펙ulative 디코딩 기능은 OpenAI API 응답에 개별 요청별 통계 제공, 로그확률 기반 적응형 검증 확장, 그리고 다양한 모델 아키텍처에 대한 지원 확장을 통해 더 정교해졌다. 또한 Mamba 모델의 프리픽스 캐싱 기능이 개선되어 첫 토큰 생성 시간(TTFT)이 9%에서 25%까지 단축되는 효과가 있다고 발표되었다. 이 기능은 이제 CLI 인자를 통해 쉽게 제어할 수 있으며, 하이브리드 모델에서는 자동으로 밀도 유지 모드로 복원된다.
+
+분산 환경에서의 운영 편의성과 안정성도 강화되었다. RL 가중치 동기화에는 각 워커가 필요한 부분만 가져오는 새로운 P2P 백엔드가 도입되어 네트워크 효율이 개선되었고, 로컬 IPC를 통한 가중치 업데이트와 희소 체크포인트 좌표 업데이트 기능이 추가되었다. 기본 설정 변경 사항으로는 FlashInfer의 올리듀스(All-Reduce)가 TP CUDA 그룹에서 기본적으로 활성화되었으며, 프리픽스 캐시 해싱 방식이 결정론적으로 바뀌어 분산 환경에서의 KV 캐시 사용 시 PYTHONHASHSEED 고정 같은 번거로운 설정이 더 이상 필요하지 않게 되었다. 이 외에도 대기 중인 요청 수 제한 등 여러 기본값이 조정되어 시스템의 예측 가능성을 높였다.
+
+---
+
+원문: [v0.29.0](https://github.com/vllm-project/vllm/releases/tag/v0.29.0)

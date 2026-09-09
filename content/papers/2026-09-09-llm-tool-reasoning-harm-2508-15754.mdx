@@ -1,0 +1,42 @@
+---
+title: '도구가 오히려 LLM 추론을 망칠 때: 상태 의존적 신념 수정'
+category: papers
+axis: agent
+format: explainer
+summary: 외부 도구 사용이 항상 추론 성능을 높인다는 가정은 잘못되었다. 초기 신념이 강할 때 외부 증거는 오히려 정답을 틀리게 만들 수 있다. 저자들은 내부 확신이 도구 품질보다 높을 때는 도구를 사용하지 않는 것이 더 낫다고 주장한다.
+publishedAt: 2026-09-09T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2508.15754
+  title: 'When Tools Hurt LLM Reasoning: State-Dependent Belief Revision under External Evidence'
+  author: Yufeng Zhao
+  publishedAt: 2026-09-09T13:00:00+0900
+  words: 15875
+paper:
+  arxivId: '2508.15754'
+  authors:
+  - Yufeng Zhao
+  - Junnan Liu
+  - Hongwei Liu
+  - Dongsheng Zhu
+  - Yuan Shen
+  - Songyang Zhang
+  - Kai Chen
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대부분의 연구자들은 LLM이 외부 도구를 사용할 때 추론 능력이 단조롭게 향상된다고 가정해 왔다. 관련 정보가 있으면 도움이 되고, 무관한 정보는 무시될 것이라고 믿는 것이다. 그러나 이 논문은 이러한 가정이 상황, 즉 모델의 초기 신념 상태에 따라 달라진다고 지적한다. Python이나 위키백과 같은 도구를 활용한 벤치마크 테스트 결과, 초기 신념이 약할 때는 외부 증거가 확실히 도움이 되었지만, 이미 정답에 가까운 강한 신념을 가진 경우 오히려 정답을 틀리게 만드는 현상이 관찰되었다.
+
+저자들은 이를 '수정 권한의 오배치'로 설명한다. 모델 내부의 정답에 대한 지원이 도구의 예상 출력 품질을 능가할 때 외부 증거를 우선시하는 것은 비효율적이라는 것이다. 따라서 도구 사용으로 인한 피해는 도구를 쓰지 않았을 때 높은 확신을 보였던 사례에 집중될 것이라고 예측했다. 저자들은 임계값 국소화, 잘못된 추론 경로 감사, 동일한 단서 개입 실험 등을 통해 이 예측을 검증했으며, 수정 프레임워크가 오도된 증거로 인한 피해를 어떻게 변화시키는지 보여주었다.
+
+이러한 발견은 도구 사용 유무에 따른 혼합 추론 과정에서 외부 증거를 기본적으로 우선시하기보다는 권한을 중재해야 함을 시사한다. 이를 위해 저자들은 CASE라는 라벨 없는 컨트롤러를 소개했다. 이 컨트롤러는 답변 상태의 확신도를 기준으로 도구 미사용 경로와 도구 보조 경로 중 하나를 선택하며, 기존 신뢰도 기반 중재 기준선보다 성능이 향상되었다.
+
+논문의 핵심 주장은 도구가 만능 해결사가 아니며, 모델의 내부 지식과 외부 증거의 질을 비교하는 메커니즘이 필요하다는 점이다. 저자들은 이 연구가 도구 사용의 무조건적 선호를 재고하게 할 것이라고 보며, 실험 코드를 공개하여 관련 커뮤니티의 검증을 기다리고 있다.
+
+---
+
+원문: [When Tools Hurt LLM Reasoning: State-Dependent Belief Revision under External Evidence](https://arxiv.org/abs/2508.15754)

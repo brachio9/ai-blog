@@ -1,0 +1,48 @@
+---
+title: SFT의 한계를 넘어 RL 초기화를 개선하는 GIFT 방법
+category: papers
+axis: serving
+format: explainer
+summary: 대규모 추론 모델의 사후 학습에서 SFT가 탐색 공간을 축소시키는 문제를 해결하기 위해 제안된 기법이다. 유한 온도 깁스 초기화(GIFT)는 구조적 다양성을 유지하며 RL 단계와의 호환성을 높인다.
+publishedAt: 2026-09-09T22:00:05+0900
+tags:
+- fine-tuning
+- SFT
+draft: false
+source:
+  url: https://arxiv.org/abs/2601.09233
+  title: 'GIFT: Reconciling Post-Training Objectives via Variational Finite-Temperature Gibbs Initialization'
+  author: Zhengyang Zhao
+  publishedAt: 2026-09-09T13:00:00+0900
+  words: 13290
+paper:
+  arxivId: '2601.09233'
+  authors:
+  - Zhengyang Zhao
+  - Lu Ma
+  - Yizhen Jiang
+  - Xiaochen Ma
+  - Zimo Meng
+  - Chengyu Shen
+  - Lexiang Tang
+  - Haoze Sun
+  - Peng Pei
+  - Wentao Zhang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 3
+---
+
+현재 대규모 추론 모델(LRM)의 사후 학습은 지도 미세 조정(SFT) 후 강화 학습(RL)을 수행하는 것이 일반적이다. 그러나 SFT 단계에서 확률 최대화를 강하게 추구하면 분포가 붕괴되어, 이후 RL이 필요한 탐색 공간이 소진되는 본질적인 최적화 불일치가 발생한다.
+
+이 문제를 해결하기 위해 저자들은 KL 정규화 RL의 깁스 최적해에 착안하여 토큰 수준의 변분 대용물을 도출했다. 이를 통해 SFT 목표가 후속 RL 단계와 구조적으로 호환되도록 설계한 것이 유한 온도 깁스 초기화(GIFT)다.
+
+표준 SFT는 이 대용물의 온도가 영도인 퇴화된 한계로 볼 수 있다. 반면 GIFT는 유한 온도를 유지함으로써 모델의 구조적 다양성을 보존한다. 이는 RL 학습에 필요한 탐색 공간을 확보하는 데 핵심적인 역할을 한다.
+
+저자들의 주장에 따르면, GIFT를 RL 초기화에 활용했을 때 기존 표준 SFT보다 우수한 성능을 보이며 경쟁력 있는 베이스라인을 능가한다. 관련 코드는 공개된 저장소에서 확인할 수 있다.
+
+---
+
+원문: [GIFT: Reconciling Post-Training Objectives via Variational Finite-Temperature Gibbs Initialization](https://arxiv.org/abs/2601.09233)
