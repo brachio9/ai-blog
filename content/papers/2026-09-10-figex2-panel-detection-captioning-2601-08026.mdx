@@ -1,0 +1,44 @@
+---
+title: 과학 논문 그림, 캡션 없이도 패널을 찾아내고 설명하는 FigEx2
+category: papers
+axis: retrieval
+format: explainer
+summary: FigEx2는 복합 과학 그림의 개별 패널을 시각적으로 인식하고 설명하는 프레임워크다. 기존 방식이 처리하지 못하던 무캡션 그림까지 다루며, 도메인 간 전이 성능도 보여준다.
+publishedAt: 2026-09-10T22:00:05+0900
+tags:
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2601.08026
+  title: 'FigEx2: Visual-Conditioned Panel Detection and Captioning for Scientific Compound Figures'
+  author: Jifeng Song
+  publishedAt: 2026-09-09T13:00:00+0900
+  words: 8963
+  image: https://arxiv.org/html/2601.08026v5/task_overview.png
+paper:
+  arxivId: '2601.08026'
+  authors:
+  - Jifeng Song
+  - Arun Das
+  - Pan Wang
+  - Hui Ji
+  - Kun Zhao
+  - Yufei Huang
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+과학 논문에는 여러 하위 그림(패널)이 하나로 합쳐진 복합 그림이 자주 등장한다. 이러한 그림을 검색하거나 학습 데이터로 쓰려면 각 패널에 맞는 텍스트 설명이 필요하다. 하지만 PubMed Central에서 수집한 수십만 장의 복합 그림 중 약 16%는 캡션이 아예 없어, 기존 파이프라인에서는 버려질 수밖에 없었다.
+
+연구진은 이 문제를 해결하기 위해 FigEx2를 제안했다. 이 프레임워크는 합쳐진 그림 하나만 입력으로 받아 패널 영역을 찾아내고 각 패널에 맞는 설명을 동시에 생성한다. 이를 위해 엔티티 주의 기반 KL 정규화를 도입해 검출기의 크로스 어텐션을 과학적 엔티티와 정렬했으며, 패널 수준의 Entity-F1 보상을 적용한 GRPO를 사용해 과학적 정확성을 최적화했다.
+
+평가 결과에 따르면 FigEx2는 BioSci-Fig-Cap 데이터셋에서 0.751의 :0.95를 기록했다. 또한 MedICaT 벤치마크에서 Qwen3-VL-8B보다 Entity-F1 점수가 6.80 높았다고 저자들은 주장한다. 이 모델은 생물학 외 물리학과 화학 분야에서도 제로샷으로 잘 작동하는 것으로 나타났다.
+
+이 연구는 도메인 내 감독 학습을 위한 BioSci-Fig-Cap 데이터셋을 구축하고, 교차 학문 평가를 위한 테스트 스위트도 공개했다. 관련 소스 코드는 GitHub에서 확인할 수 있다.
+
+---
+
+원문: [FigEx2: Visual-Conditioned Panel Detection and Captioning for Scientific Compound Figures](https://arxiv.org/abs/2601.08026)

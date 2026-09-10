@@ -1,0 +1,37 @@
+---
+title: 코딩 에이전트 설정을 한곳으로 모으는 로컬 게이트웨이 my-free-code
+category: community
+axis: vibe-coding
+format: explainer
+summary: Claude Code와 Codex 등 다양한 코딩 에이전트의 모델 설정을 중앙에서 관리하는 로컬 게이트웨이 프로젝트다. 원작자는 이 도구가 Anthropic과 무관한 독립 구현이며, 각 제공자의 무료 구간이나 저렴한 모델을 유연하게 선택할 수 있도록 배선을 정리해 주는 것이라고 설명한다.
+publishedAt: 2026-09-10T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+- Cline
+- OpenCode
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/my-free-code-claude-code-codex-9/11843
+  title: 'my-free-code: Claude Code와 Codex 등 코딩 에이전트 9종이 모델 설정을 공유하는 로컬 게이트웨이'
+  author: 9bow
+  publishedAt: 2026-09-08T21:00:39+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/d/8/d8ddf984e6ac3fd22e14d54ee2fe0d8cb23497cd_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+터미널 기반 코딩 에이전트를 여러 개 사용하다 보면 도구마다 환경 변수와 엔드포인트를 따로 맞춰야 하는 번거로움이 따른다. Claude Code는 Anthropic 형식을, Codex 계열은 OpenAI 형식을 사용하기 때문에 같은 모델을 적용하려 해도 설정이 중복되고, API 키 관리나 실패 원인 파악도 도구별로 분리되어 있어 비효율적이다. 원작자는 이러한 문제를 해결하기 위해 로컬에서 HTTP 서버를 띄워 코딩 도구들이 공통으로 바라볼 수 있는 게이트웨이인 my-free-code를 만들었다.
+
+이 프로젝트는 Anthropic과 무관한 독립 구현이며, 이름에 '무료'가 들어갔지만 모델 사용료를 면제해 주는 도구가 아니다. 대신 각 제공자의 무료 티어나 저렴한 모델을 직접 골라 쓸 수 있도록 배선을 정리해 주는 역할을 한다. 의존성은 FastAPI와 uvicorn, httpx, python-dotenv 네 개로 가볍게 구성되어 있으며 Python 3.10 이상에서 동작한다. 저장소에는 라우팅과 프로토콜 변환, 인증, 추론 처리 등에 대한 결정론적 테스트가 포함되어 있어 pytest로 검증할 수 있다.
+
+게이트웨이는 크게 세 가지 일을 수행한다. 첫째는 Anthropic Messages와 OpenAI Responses 두 계열의 요청 형식을 받아 하나로 변환하는 일이다. 토큰 계산과 모델 목록 조회, 상태 확인 엔드포인트도 함께 제공하며, 관리 화면은 /admin 경로에서 접근할 수 있다. 둘째는 라우팅으로, Claude Code의 등급 기반 모델 선택 구조를 수용해 등급마다 다른 상위 모델을 지정할 수 있게 한다.
+
+예를 들어 Sonnet 등급 요청은 DeepSeek로, Haiku 등급은 Groq으로 보내도록 설정 파일을 구성할 수 있다. 또한 FALLBACK_MODELS를 통해 주 제공자가 실패했을 때 대체할 모델 목록을 순서대로 지정하는 기능도 제공한다. 이를 통해 사용자는 여러 코딩 에이전트를 쓰면서도 모델 설정과 제공자 선택을 한곳에서 통제하고, 실패 시 자동으로 다른 모델로 전환되는 환경을 구축할 수 있다.
+
+---
+
+원문: [my-free-code: Claude Code와 Codex 등 코딩 에이전트 9종이 모델 설정을 공유하는 로컬 게이트웨이](https://discuss.pytorch.kr/t/my-free-code-claude-code-codex-9/11843)

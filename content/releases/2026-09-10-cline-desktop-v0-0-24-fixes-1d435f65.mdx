@@ -1,0 +1,35 @@
+---
+title: 'Cline 데스크톱 v0.0.24: 대화 끊김과 무한 루프 해결'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline 데스크톱 앱의 주요 버그들이 수정되었다. 실시간 채팅 중 텍스트가 중복되거나 메시지가 사라지는 현상이 개선되었고, 모델이 같은 작업을 반복할 때 사용자에게 대응 방안을 물어보는 기능이 추가되었다.
+publishedAt: 2026-09-10T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+- Cline
+- OpenCode
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/desktop-v0.0.24
+  title: Desktop v0.0.24
+  author: github-actions[bot]
+  publishedAt: 2026-09-09T17:16:54+0900
+  words: 1132
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+실시간 스트리밍 중 텍스트가 두 배로 표시되거나 중간에 메시지가 끊기는 문제가 해결되었다. 이전에는 사이드카 프로세스가 재시작될 때 카운터가 초기화되어 웹뷰가 데이터를 버리는 오류가 발생했는데, 이제 코어 클라이언트의 구독 상태를 직접 확인하여 중복 렌더링을 방지한다. 또한 대기 중인 프롬프트의 메시지가 사라지거나 컴포저가 바쁨 상태로 고착되는 현상도 수정되어, 대기열 처리 시 대화 기록이 올바르게 유지된다.
+
+모델이 동일한 도구 호출을 반복하거나 연속 실패에 빠질 경우 작업이 갑자기 중단되던 문제가 개선되었다. 이제 5회 이상 같은 호출이나 6회 연속 실패 시 시스템이 자동으로 멈추지 않고 사용자에게 '다른 접근 방식 시도' 또는 '작업 중지'를 선택하도록 안내한다. 이를 통해 모델이 왜 일시 정지되었는지 인지하고 더 나은 방향으로 진행할 수 있도록 유도한다.
+
+에디터 도구의 오류 메시지가 구체화되어 파일 이름과 누락된 파라미터 정보를 명확히 알려준다. 특히 kimi-k3 등 일부 모델에서 옵셔널 파라미터를 null로 채울 때 발생하던 모호한 오류 메시지로 인한 무한 루프가 해결되었다. 또한 Cline Pass 모델 선택이 새 채팅 시작 시 초기화되거나 유효하지 않다고 판단되던 버그도 수정되어, 카탈로그 데이터의 불완전성에도 불구하고 사용자가 선택한 모델이 안정적으로 유지된다.
+
+---
+
+원문: [Desktop v0.0.24](https://github.com/cline/cline/releases/tag/desktop-v0.0.24)

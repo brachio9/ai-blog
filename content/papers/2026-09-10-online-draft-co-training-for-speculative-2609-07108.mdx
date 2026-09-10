@@ -1,0 +1,45 @@
+---
+title: 대규모 RL 후학습에서 추측 디코딩을 빠르게 만드는 온라인 공동 학습
+category: papers
+axis: serving
+format: explainer
+summary: RL 후학습의 병목인 롤아웃 생성 속도를 높이기 위해 대규모 모델과 긴 컨텍스트 환경에서 온라인 드래프트 공동 학습 시스템을 구축했다. 기존에 지원되지 않던 분기 어텐션과 파이프라인 병렬 처리 간 데이터 이동을 해결하여 확장성을 확보했다.
+publishedAt: 2026-09-10T22:00:05+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://huggingface.co/papers/2609.07108
+  title: Online Draft Co-Training for Speculative Decoding in Large-Scale, Long-Context RL Post-Training
+  author: Zili Wang
+  publishedAt: 2026-09-07T09:00:00+0900
+  words: 6179
+paper:
+  arxivId: '2609.07108'
+  authors:
+  - Zili Wang
+  - Zhaopeng Qiu
+  - Yuekai Zhang
+  - Shuang Yu
+  - Junjie Lai
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+  popularity:
+    kind: hf-upvotes
+    count: 22
+---
+
+강화학습(RL) 후학습 과정에서 가장 비용이 많이 드는 부분은 모델의 롤아웃 생성이다. 이를 가속화하기 위해 추측 디코딩을 사용하며, 온라인 공동 학습을 통해 드래프트 모델의 정확도를 높이면 속도를 더 끌어올릴 수 있다. 하지만 대규모 모델과 긴 컨텍스트에서 이 방식을 적용하려면 두 가지 기술적 장벽이 존재한다. 첫째는 표준적인 인과 컨텍스트 병렬(CP) 구현에서 분기 어텐션을 지원하지 않는다는 점이고, 둘째는 타겟 피처가 파이프라인 병렬(PP) 단계에 걸쳐져 있다는 점이다.
+
+연구진은 이 두 문제를 해결하기 위해 대규모 온라인 드래프트 공동 학습을 위한 엔드투엔드 시스템을 제안했다. 컨텍스트 병렬 처리(CP)의 경우, 랭크 로컬 분기 어텐션과 인과 메인 시퀀스 어텐션을 병합한 패킹 및 부하 균형 지그재그 링 어텐션을 확장 적용했다. 파이프라인 병렬 처리(PP)에서는 TapChannel을 통해 별도의 경로를 사용하여 중간 타겟 피처를 단계 간에 전송함으로써 파이프라인 스케줄링에 영향을 주지 않도록 설계했다.
+
+저자들의 주장에 따르면, 이 시스템을 통해 공동 학습된 드래프트 모델은 정책 베이스라인을 밀접하게 따라가며 122B 규모까지 다양한 모델 크기에서 롤아웃 및 엔드투엔드 속도를 크게 향상시켰다. 특히 CP 설계는 256K 토큰에서 강력한 스케일링 성능을 보이며 기존 작업 대비 메모리 절감 효과가 크다고 한다. 또한 PP 전송으로 인한 오버헤드는 미미한 수준이다.
+
+이 연구의 코드는 NVIDIA-NeMo RL 저장소의 이슈 페이지를 통해 확인할 수 있다. 대규모 모델의 RL 후학습 시 추측 디코딩의 효율성을 높이고자 하는 개발자들에게 이 시스템의 아키텍처가 참고 자료가 될 것이다.
+
+---
+
+원문: [Online Draft Co-Training for Speculative Decoding in Large-Scale, Long-Context RL Post-Training](https://huggingface.co/papers/2609.07108)

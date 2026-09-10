@@ -1,0 +1,42 @@
+---
+title: 파인튜닝 없이 LLM 행동 제어하는 TFTV 방법론
+category: papers
+axis: serving
+format: explainer
+summary: 파인튜닝 비용 없이도 모델의 특정 행동을 조절할 수 있는 새로운 방법이 제시되었다. 이 방법은 가중치 공간에서의 방향을 찾아내어 원하는 성질을 강화하거나 억제하는 데 사용된다.
+publishedAt: 2026-09-10T22:00:05+0900
+tags:
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.09054
+  title: Training-Free Task Vectors for LLM Behavioral Control
+  author: Gabriel J. Perin
+  publishedAt: 2026-09-09T13:00:00+0900
+  words: 15700
+  image: https://arxiv.org/html/2609.09054v1/teaser.png
+paper:
+  arxivId: '2609.09054'
+  authors:
+  - Gabriel J. Perin
+  - Lucas Boscaini
+  - Andr\'e Araujo
+  - Nina S. T. Hirata
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+대규모 언어 모델의 사후 수정은 보통 파인튜닝된 모델과 초기 모델의 차이를 계산해 작업 벡터를 만드는 방식으로 이루어진다. 하지만 이 과정은 파인튜닝에 의존하기 때문에 비용이 많이 들고 실용성이 떨어지는 한계가 있다. 연구진은 이러한 문제를 해결하기 위해 파인튜닝 없이도 작업 벡터와 유사한 방향을 계산할 수 있는 TFTV 방법을 제안했다.
+
+이 방법은 순전파 통계만 활용해 활성화 스티어링 벡터를 랭크 원 가중치 공간 편집으로 매핑한다. 저자들은 이 방법이 덧셈을 통한 학습, 뺄셈을 통한 망각, 그리고 여러 편집의 조합과 같은 산술적 성질을 만족한다고 주장한다. 즉, 모델의 특정 행동을 더하거나 빼거나 섞어서 제어할 수 있는 수학적 기반을 제공한다는 것이다.
+
+저자들의 주장에 따르면 TFTV는 대규모 언어 모델의 행동 제어 작업에서 목표 행동을 일관되게 증폭하거나 억제하며 여러 편집을 조합하는 데 효과적이다. 또한 일반적인 지식과 문제 해결 능력은 유지하면서 다른 편집 및 스티어링 기준 방법들과 비교했을 때 더 강력한 특성 제어를 달성하고 유틸리티 보존 면에서도 경쟁력 있는 성능을 보인다고 한다.
+
+이 연구는 사후 훈련 모델 편집과 더 넓은 범위의 학습 없는 모델 제어에 대한 새로운 방향을 제시하고자 한다. 관련 코드는 프로젝트 웹사이트에서 확인할 수 있으며, 이 방법은 파인튜닝 없이도 모델의 행동을 정밀하게 조절할 수 있는 가능성을 보여준다.
+
+---
+
+원문: [Training-Free Task Vectors for LLM Behavioral Control](https://arxiv.org/abs/2609.09054)

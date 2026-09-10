@@ -1,0 +1,38 @@
+---
+title: TensorRT-LLM v1.3.0rc26, 주요 변경점과 주의할 점
+category: releases
+axis: serving
+format: explainer
+summary: TensorRT-LLM v1.3.0rc26 릴리즈 노트를 요약한다. 새로운 모델 지원과 API 변경 사항을 확인하고, 알려진 문제점과 그 해결 방법을 안내한다.
+publishedAt: 2026-09-10T22:00:05+0900
+tags:
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+- Whisper
+draft: false
+source:
+  url: https://github.com/NVIDIA/TensorRT-LLM/releases/tag/v1.3.0rc26
+  title: v1.3.0rc26
+  author: tongyuantongyu
+  publishedAt: 2026-09-09T18:37:50+0900
+  words: 6435
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 릴리즈는 DeepSeek-V4의 Hopper 아키텍처 지원, Qwen3.8-Flash-Next, Kimi K3의 B200 지원 등을 추가했다. Nemotron Super 3.5 VL의 NVFP4 및 비디오 입력 지원도 포함되었으며, Mistral과 Qwen3 밀집 모델이 Model Express 자격을 취득했다. API 측면에서는 TRTLLMSampler 제거와 VisualGen 참조 입력 재설계 등 주요 변경 사항이 있으며, /v1/responses 엔드포인트 완성과 Kimi K3 API 준수, RL 제어 엔드포인트 인증 추가 등이 이루어졌다.
+
+알려진 문제점 중 주목해야 할 것은 Qwen3 혼합 전문가 모델에서 라우팅된 전문가를 타겟으로 하는 LoRA 어댑터가 무시되어 베이스 모델 출력을 생성한다는 점이다. 또한 V2 KV 캐시 매니저 사용 시 충분한 GPU 메모리가 있음에도 불구하고 시작 실패가 발생할 수 있으며, 이는 GPT-OSS와 Eagle-3 추측 디코딩 조합에서 두드러진다. FlashInfer 어텐션 백엔드를 장기간 사용하면 배치 크기 변화에 따라 리소스가 누수되어 GPU 메모리 부족이 발생할 수 있으므로 기본 TRTLLM 어텐션 백엔드 사용을 권장한다.
+
+Blackwell GPU(SM120) 사용 시 DeepSeek 등 멀티헤드 잠재 어텐션 모델에서 생성 중 멈춤이나 충돌이 발생할 수 있으며, NVFP4 W4A16 혼합 전문가 모델은 아직 지원되지 않아 커널 준비 단계에서 중단된다. 비동기 서빙 환경에서 네트워크 일시 단절 후 재시도 요청이 실패할 수 있고, Kimi KDA 모델은 사전 채우기 작업이 없는 배치 예약 시 충돌할 수 있다. 단일 프로세스 내에서 서로 다른 혼합 전문가 레이아웃을 가진 두 모델을 생성하는 것도 불가능하므로 각 구성별로 별도 프로세스를 사용해야 한다.
+
+이미지 생성 및 편집 요청에서 HTTP 500 오류가 발생할 수 있으며, 비디오 엔드포인트의 타이밍 값이 일관되지 않을 수 있다. 텍스트 생성에는 영향을 미치지 않는다. VAE 오프로딩을 사용하는 Wan과 Cosmos3 같은 디퓨전 파이프라인은 로딩 실패할 수 있으므로 오프로딩 없이 실행해야 한다. 온라인 전문가 병렬 로드 밸런싱 활성화 시 비양자화 모델에서 로딩 실패가 발생할 수 있으나 CUTLASS 백엔드에서는 해당 설정을 지원한다.
+
+---
+
+원문: [v1.3.0rc26](https://github.com/NVIDIA/TensorRT-LLM/releases/tag/v1.3.0rc26)
