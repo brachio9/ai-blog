@@ -1,0 +1,42 @@
+---
+title: 방언은 이해하지만 생성하지 못하는 LLM의 딜레마
+category: papers
+axis: serving
+format: explainer
+summary: 대형 언어 모델이 방언을 이해하는 데는 성공했지만, 실제 방언을 생성하는 능력은 여전히 미흡하다. 연구진은 다양한 학습 전략을 비교하며 평가 지표와 실제 생성 품질 사이의 괴리를 확인했다.
+publishedAt: 2026-09-11T22:00:00+0900
+tags:
+- SFT
+draft: false
+source:
+  url: https://arxiv.org/abs/2607.07669
+  title: 'DiaLLM: An Investigation into the Robustness-Generation Gap in English Dialect Adaptation'
+  author: Jordan Painter
+  publishedAt: 2026-09-11T13:00:00+0900
+  words: 14353
+  image: https://arxiv.org/html/2607.07669v3/images/diallm_pipeline.png
+paper:
+  arxivId: '2607.07669'
+  authors:
+  - Jordan Painter
+  - Dipankar Srirag
+  - Adarsh Kappiyath
+  - Diptesh Kanojia
+  - Aditya Joshi
+  - Lu Yin
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+현재 대형 언어 모델은 지역별 영어 방언을 이해하는 수준까지 발전했으나, 출력물은 여전히 미국식 표준 영어에 치우쳐 있다. 방언의 정확한 생성은 단순한 이해를 넘어선 더 어려운 과제이며, 이 부분은 아직 제대로 해결되지 않고 있다. 연구진은 오픈 웨이트 모델 세 가지를 국제 영어 말뭉치로 지속적으로 사전 학습하고, 명시적·암시적 후학습 패러다임과 세 가지 정렬 전략을 조합해 오스트레일리아, 인도, 북부 영국 영어에 대한 첫 번째 통제된 비교 실험을 수행했다.
+
+연구 결과에는 견고성과 생성 능력 사이의 격차가 존재하는 것으로 나타났다. 벤치마크 점수는 지속적인 사전 학습과 감독 미세 조정에 의해 형성되는 반면, 정렬 과정은 벤치마크가 포착하지 못하는 방식으로 생성 결과를 가시적으로 재구성한다. 명시적인 방언 대상 적응 방식은 출력이 일관되게 방언으로 인식되며 광범위한 정렬보다 더 방언적이라고 판단받았으나, 인간 평가가 직접 이루어진 경우 가장 공격적으로 방언 보상을 최적화한 방법이 오히려 가장 방언적이지 않다고 평가받는 역설이 발생했다.
+
+독립적인 언어학적 분석은 이 보상과 품질 사이의 격차를 두 모델 계열에서 뚜렷하게 뒷받침한다. 단일 정렬 방법이 모든 면에서 우위를 점하지는 않으며, 이러한 격차를 해소하려면 더 풍부한 보상 설계와 방언 자원への 지속적인 투자가 필요하다. 저자들은 모든 코드, 체크포인트, 선호 데이터셋을 공개하여 후속 연구를 지원할 예정이다.
+
+---
+
+원문: [DiaLLM: An Investigation into the Robustness-Generation Gap in English Dialect Adaptation](https://arxiv.org/abs/2607.07669)

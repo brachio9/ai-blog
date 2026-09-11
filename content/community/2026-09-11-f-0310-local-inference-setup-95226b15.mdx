@@ -1,0 +1,32 @@
+---
+title: 윈도우에서 XTTS-v2와 Qwen 2.5를 로컬로 돌리는 F-0310 가이드
+category: community
+axis: voice
+format: explainer
+summary: 개발자 fake0310이 윈도우 환경에서 클라우드 없이 XTTS-v2와 Qwen 2.5를 로컬로 실행하는 도구인 F-0310을 소개한다. 이 패키지는 NVIDIA, AMD, 인텔 GPU 및 CPU를 자동으로 감지하여 최적의 백엔드를 선택하며, 설치용 배치 스크립트를 통해 복잡한 의존성 설정 없이 격리된 환경을 구축한다.
+publishedAt: 2026-09-11T22:00:00+0900
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/f-0310-standalone-local-inference-setup-for-xtts-v2-qwen-2-5-on-windows-no-cloud-api/180083
+  title: 'F-0310: Standalone local inference setup for XTTS-v2 + Qwen 2.5 on Windows (No Cloud/API)'
+  author: F-0310
+  publishedAt: 2026-09-08T07:58:21+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/original/3X/4/d/4d5b0944bc97437d917d8fdde277c6e85292c684.webp
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+윈도우에서 Coqui XTTS-v2와 로컬 안전 가드레일을 함께 사용하려는 개발자를 위해 fake0310이 F-0310이라는 독립형 배포 래퍼를 만들었다. 이 도구는 외부 클라우드나 API 의존성 없이 완전히 로컬에서 작동하도록 설계되었으며, 특히 음성 합성 전 프롬프트 필터링을 위해 Qwen 2.5를 통합했다. 이를 통해 사용자는 텍스트 입력 단계에서부터 로컬 환경 내에서 안전성을 검증한 후 음성 생성 파이프라인으로 데이터를 전달할 수 있다.
+
+F-0310의 핵심 기능 중 하나는 하드웨어 자동 감지다. 이 도구는 시스템에 설치된 그래픽 칩셋을 분석하여 NVIDIA CUDA 12.1, AMD DirectML, 인텔 Iris/Arc 또는 CPU 폴백 모드 중 가장 적합한 실행 백엔드를 자동으로 선택한다. 사용자는 별도의 복잡한 설정 없이도 자신의 하드웨어 환경에 맞춰 최적화된 성능을 기대할 수 있으며, 이는 다양한 GPU 환경에서의 호환성을 높이는 데 기여한다.
+
+설치 및 실행 과정은 투명하고 검사 가능한 배치 스크립트(.bat)를 통해 처리된다. install.bat과 run.bat 파일은 컴파일되거나 난독화된 바이너리 없이 격리된 환경을 자동으로 설정해 준다. 이는 사용자가 어떤 패키지가 설치되고 어떻게 환경이 구성되는지 명확히 확인할 수 있게 해주며, 윈도우 사용자들에게 친숙한 실행 방식을 제공한다.
+
+fake0310은 이 도구가 다양한 GPU 환경에서 어떻게 작동하는지에 대한 피드백을 요청하고 있다. 더 자세한 설치 단계와 기술적 아키텍처에 대해서는 DEV Community의 별도 게시물을 참조할 수 있으며, 현재는 초기 배포 단계로 사용자들의 테스트 결과와 의견을 통해 안정성을 높여나가고 있다.
+
+---
+
+원문: [F-0310: Standalone local inference setup for XTTS-v2 + Qwen 2.5 on Windows (No Cloud/API)](https://discuss.huggingface.co/t/f-0310-standalone-local-inference-setup-for-xtts-v2-qwen-2-5-on-windows-no-cloud-api/180083)

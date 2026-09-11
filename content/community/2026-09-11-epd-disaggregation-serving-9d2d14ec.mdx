@@ -1,0 +1,38 @@
+---
+title: 멀티모달 서빙, 비전 인코더를 떼면 정말 빨라질까
+category: community
+axis: serving
+format: explainer
+summary: NVIDIA 연구진이 EPD 분리 서빙이 TTFT는 줄이지만 종단 간 지연은 오히려 늘릴 수 있음을 실측했다. 이미지 처리 부하가 큰 경우에만 이득이 나며, 무조건적인 적용은 성능 저하를 초래할 수 있다.
+publishedAt: 2026-09-11T22:00:00+0900
+tags:
+- vLLM
+- SGLang
+- quantization
+- distillation
+- prefix caching
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/e-p-d-ttft-93-feat-nvidia-dynamo/11883
+  title: 'E-P-D 분리 서빙: 비전 인코더를 떼어내 TTFT를 최대 93% 줄이는 조건과 오히려 느려지는 조건 (feat. NVIDIA Dynamo)'
+  author: 9bow
+  publishedAt: 2026-09-11T07:00:28+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/4/1/41da63be3d05f8ba16e70be468713d2956081de6_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Jesse Gu와 Ryan McCormick 등 NVIDIA 연구진은 2026년 9월 개발자 블로그를 통해 EPD(Encode-Prefill-Decode) 분리 서빙 기법의 실측 결과를 공개했다. 이 방식은 멀티모달 모델 추론 시 비전 인코더 단계를 프리필과 디코드 단계에서 떼어내 독립적으로 실행하는 최적화 기법이다. 기존 텍스트 전용 LLM 서빙에서 프리필과 디코드를 분리한 것과 유사하게, 미디어 처리 부담을 덜어주려는 시도다.
+
+연구진은 NVIDIA Dynamo 프레임워크를 사용해 Qwen3.5-122B-A10B-NVFP4 모델로 실험했다. 이 모델은 27층 ViT가 붙은 희소 MoE 구조의 멀티모달 에이전트 모델이다. 이미지 개수, 출력 길이, 모델 크기 등 다양한 조건을 격자 단위로 테스트한 결과, 비전 인코더를 분리하면 첫 토큰까지의 시간(TTFT)은 모든 조건에서 개선되는 것으로 나타났다.
+
+하지만 종단 간(end-to-end) 지연 시간은 조건에 따라 오히려 나빠지는 비대칭적인 결과가 나왔다. 즉, 인코더를 떼면 항상 빨라지는 것은 아니며 특정 상황에서 전체 처리 속도가 저하될 수 있다는 점을 연구진은 지적했다. 통합 서빙 방식이 단순하게 동작하는 반면, 분리 서빙은 미디어 처리 부하가 큰 경우에만 명확한 이득을 볼 수 있음을 시사한다.
+
+이 결과는 '인코더를 떼면 무조건 빨라진다'는 단순한 결론을 경계해야 함을 보여준다. NVIDIA 연구진은 트래픽 구성과 모델 특성에 따라 분리 서빙의 장단점이 달라지므로, 실제 적용 전에는 구체적인 조건에서의 성능 측정이 필요하다고 강조했다.
+
+---
+
+원문: [E-P-D 분리 서빙: 비전 인코더를 떼어내 TTFT를 최대 93% 줄이는 조건과 오히려 느려지는 조건 (feat. NVIDIA Dynamo)](https://discuss.pytorch.kr/t/e-p-d-ttft-93-feat-nvidia-dynamo/11883)

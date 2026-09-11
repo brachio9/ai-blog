@@ -1,0 +1,37 @@
+---
+title: 논문 검색엔진, 키워드와 의미 모두 잡는 하이브리드 구조
+category: community
+axis: retrieval
+format: explainer
+summary: Hugging Face가 부활시킨 Papers with Code의 검색 시스템을 살펴본다. Niels Rogge는 pgvector와 RRF를 결합해 11만 편 이상의 논문을 효율적으로 검색하는 방법을 공개했다.
+publishedAt: 2026-09-11T22:00:00+0900
+tags:
+- RAG
+- reranking
+- hybrid search
+- MCP
+- vLLM
+- SGLang
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/hugging-face-papers-with-code-11-feat-pgvector-rrf/11859
+  title: Hugging Face가 Papers with Code 논문 11만 편의 하이브리드 검색을 만든 방법 (feat. pgvector, RRF)
+  author: 9bow
+  publishedAt: 2026-09-10T07:00:48+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/3/d/3db47c50e491b89367c17c664e8931337e18251f_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: mid
+  crossSources: 1
+---
+
+Hugging Face의 Niels Rogge는 Papers with Code에 하이브리드 검색을 도입했다고 밝혔다. 그는 연구 논문 검색이 단순한 텍스트 매칭을 넘어, 단어가 직접 등장하지 않아도 의미를 파악하고 오타나 불완전한 제목도 견뎌야 한다고 주장했다. 이를 위해 PostgreSQL 전문 검색과 벡터 검색을 결합하는 방식을 선택했다.
+
+Rogge는 오프라인에서 배치로 임베딩을 생성하고 온라인에서는 빠른 검색에 집중하는 구조를 설계했다고 설명했다. 이 방식은 임베딩 모델 서비스의 응답 지연이나 중단 상황에서도 검색 속도를 유지하기 위한 것이다. 사용자는 정확한 arXiv 식별자로 특정 논문을 찾거나, '작은 언어 모델' 같은 추상적인 개념으로 관련 연구를 탐색할 수 있게 된다.
+
+이 시스템은 웹사이트뿐만 아니라 pwc-cli라는 명령줄 도구와 코딩 에이전트가 사용할 수 있는 Skill 파일도 함께 제공한다. Rogge는 이를 통해 인간과 에이전트 모두에게 열린 AI 연구의 산출물을 쉽게 접근 가능하게 만들고, 궁극적으로 다음 Transformer와 같은 새로운 연구를 뒷받침하는 인프라를 구축하는 것이 목표라고 밝혔다.
+
+---
+
+원문: [Hugging Face가 Papers with Code 논문 11만 편의 하이브리드 검색을 만든 방법 (feat. pgvector, RRF)](https://discuss.pytorch.kr/t/hugging-face-papers-with-code-11-feat-pgvector-rrf/11859)

@@ -1,0 +1,43 @@
+---
+title: 장기 기억의 맹점, 장면 인식으로 해결하다
+category: papers
+axis: agent
+format: explainer
+summary: 기존 에이전트 기억 시스템은 서로 다른 삶의 장면을 구분하지 못해 검색 효율이 떨어진다. CreaMem은 기억을 장면별로 나누고 사건을 다각도로 인코딩하여 이 문제를 해결한다.
+publishedAt: 2026-09-11T22:00:00+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.08550
+  title: 'CreaMem: A Scene-Aware Memory Architecture for Personalized Agents'
+  author: Qixuan Sun
+  publishedAt: 2026-09-09T13:00:00+0900
+  words: 9610
+  image: https://arxiv.org/html/2609.08550v1/creaseed_architecture2.png
+paper:
+  arxivId: '2609.08550'
+  authors:
+  - Qixuan Sun
+  - Yue Que
+  - Bowei He
+  - Jin Guo
+  - Dihang Yang
+  - Wenchang Situ
+  - Chen Ma
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+개인화된 LLM 에이전트의 핵심 기능 중 하나는 장기 기억이다. 기존 시스템들은 주제 단편이나 요약 계층 구조를 통해 정보를 정리하지만, 두 가지 치명적인 한계가 있다. 첫째, 관련 없는 삶의 장면들이 동일한 검색 공간에 섞여 있어 검색 범위가 불필요하게 커지고 서로 간섭을 일으킨다. 둘째, 각 기억이 단일 관점에서만 인코딩되어 같은 사건에 대한 보완적 시각을 찾기가 어렵다.
+
+이러한 문제를 해결하기 위해 저자들은 CreaMem 아키텍처를 제안한다. 이 방법은 기억을 여러 '삶의 장면(Life Scene) 메모리'로 분할하여 검색 시 발생하는 장면 간 간섭을 줄인다. 또한 단일 관점의 한계를 넘어 서로 다른 기억 간의 시너지를 내기 위해, 각 메모리 항목이 에피소드적 관점과 특성 기반 관점이라는 두 가지 방식으로 인코딩되도록 설계했다.
+
+검색 단계에서는 메모리별 균형 잡힌 샘플링 전략을 추가로 적용한다. 저자들의 주장에 따르면, 두 가지 장기 기억 벤치마크에서 수행한 광범위한 실험 결과 CreaMem은 모든 평가 지표에서 QA 정확도를 개선했다. 특히 다단계 추론 성능에서 두드러진 향상을 보였으며, 이는 장면 인식 분할과 크로스 메모리 시너지의 유효성을 입증하는 것이다.
+
+재현 가능성을 높이기 위해 저자들은 코드를 공개 GitHub 저장소에 배포했다. 이 연구는 에이전트가 인간의 삶처럼 맥락에 따라 기억을 구분하고 다각도로 해석할 수 있는 구조를 제시했다는 점에서 의미가 있다.
+
+---
+
+원문: [CreaMem: A Scene-Aware Memory Architecture for Personalized Agents](https://arxiv.org/abs/2609.08550)

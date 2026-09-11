@@ -1,0 +1,41 @@
+---
+title: 초저프레임률 스트리밍 음성 코덱 ZipCodec 소개
+category: papers
+axis: serving
+format: explainer
+summary: ZipCodec은 초저프레임률과 낮은 비트레이트를 실현한 스트리밍 신경망 음성 코덱이다. 저자들은 기존 기술 대비 재구성 품질과 하류 작업 성능을 크게 개선했다고 주장한다.
+publishedAt: 2026-09-11T22:00:00+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.11642
+  title: 'ZipCodec: Ultra-Low-Frame-Rate Streaming Speech Coding'
+  author: Luca Della Libera
+  publishedAt: 2026-09-11T13:00:00+0900
+  words: 6091
+  image: https://arxiv.org/html/2609.11642v1/zipcodec.png
+paper:
+  arxivId: '2609.11642'
+  authors:
+  - Luca Della Libera
+  - Cem Subakan
+  - Mirco Ravanelli
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+신경망 오디오 코덱은 현대 음성 생성 시스템의 핵심 요소로 자리 잡았다. 최근 코덱들은 비트레이트를 낮추는 데 성공했으나, 프레임률을 줄이는 것은 여전히 어려운 과제다. 각 토큰이 더 많은 정보를 보존해야 하기 때문에 재구성 품질 유지가 쉽지 않기 때문이다.
+
+저자들은 이러한 문제를 해결하기 위해 ZipCodec을 제안했다. 이 코덱은 6.25Hz의 초저프레임률과 0.80kbps의 낮은 비트레이트로 동작하며 이론적 지연 시간은 160ms다. 기술적으로는 대규모 WavLM 지식 증류, 재설계된 트랜스포머 아키텍처, 스칼라 구면 양자화기, 그리고 지연 시간 고려 스트리밍 디코더를 결합한 방식이다.
+
+저자들의 주장에 따르면 ZipCodec은 기존 스트리밍 코덱들과 유사한 비트레이트 환경에서 재구성 및 하류 작업 성능을 압도적으로 능가한다. 특히 훨씬 낮은 프레임률로 동작하면서도 이러한 성과를 거두었다는 점이 특징적이다. 또한 8억 4천 2백만 개라는 방대한 파라미터 수에도 불구하고 소비자용 CPU에서도 실시간 단일 스트림 추론이 가능하다고 밝히고 있다.
+
+관련 데모 샘플, 코드, 체크포인트는 공식 웹사이트에서 확인할 수 있다. 이 연구는 arXiv에 게재된 논문의 초록 내용을 바탕으로 하며, 구체적인 성능 수치는 저자들의 주장임을 유의해야 한다.
+
+---
+
+원문: [ZipCodec: Ultra-Low-Frame-Rate Streaming Speech Coding](https://arxiv.org/abs/2609.11642)
