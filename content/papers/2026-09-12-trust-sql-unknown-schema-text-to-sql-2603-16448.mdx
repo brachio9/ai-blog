@@ -1,0 +1,47 @@
+---
+title: 스키마를 모른 채 SQL을 생성하는 에이전트 TRUST-SQL
+category: papers
+axis: agent
+format: explainer
+summary: 수많은 테이블과 노이즈가 섞인 실제 기업 환경에서 전체 스키마를 미리 주입하지 않고도 정확한 SQL을 생성할 수 있는 방법이 제시되었다. 저자들은 에이전트가 필요한 메타데이터만 능동적으로 탐색하고 검증하는 방식으로 문제를 해결한다고 주장한다.
+publishedAt: 2026-09-12T22:00:05+0900
+tags:
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2603.16448
+  title: 'TRUST-SQL: Tool-Integrated Multi-Turn Reinforcement Learning for Text-to-SQL over Unknown Schemas'
+  author: Ai Jian
+  publishedAt: 2026-09-12T13:00:00+0900
+  words: 13087
+  image: https://arxiv.org/html/2603.16448v3/nl2sql_problem.png
+paper:
+  arxivId: '2603.16448'
+  authors:
+  - Ai Jian
+  - Xiaoyun Zhang
+  - Eryu Guo
+  - Wanrou Du
+  - Jingqing Ruan
+  - Jiangbo Pei
+  - Weipeng Zhang
+  - Ke Zeng
+  - Xunliang Cai
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+기존의 텍스트-SQL 파싱 기술은 데이터베이스의 전체 스키마를 미리 알고 있다는 가정 하에 발전해 왔다. 그러나 실제 기업 환경에서는 수백 개의 테이블과 방대한 노이즈가 섞인 메타데이터로 인해 이러한 전제가 성립하지 않는다. 따라서 에이전트는 전체 스키마를 한 번에 주입받는 대신, 관련 있는 부분만 능동적으로 식별하고 검증해야 하는 '알려지지 않은 스키마(Unknown Schema)' 시나리오에 직면하게 된다.
+
+이 문제를 해결하기 위해 저자들은 TRUST-SQL을 제안한다. 이 프레임워크는 작업 부분 관찰 마르코프 결정 과정으로 공식화하며, 자율 에이전트가 구조화된 4단계 프로토콜을 통해 검증된 메타데이터를 바탕으로 추론을 수행하도록 한다. 특히 새로운 Dual-Track GRPO 전략이 핵심인데, 토큰 레벨의 마스크된 장점을 적용하여 탐색 보상과 실행 결과를 분리함으로써 크레딧 할당 문제를 해결한다고 저자들은 설명한다.
+
+저자들의 주장에 따르면, 이 전략은 표준 GRPO 대비 9.9%의 상대적 개선을 가져왔다. 다섯 가지 벤치마크를 통한 광범위한 실험 결과, TRUST-SQL은 베이스 모델 대비 4B 버전에서 평균 절대 성능이 30.6%, 8B 버전에서 16.6% 향상된 것으로 나타났다. 이는 사전 로드된 메타데이터에 의존하는 강력한 베이스라인과 비교해도 뒤지지 않거나 능가하는 수준이다.
+
+결국 TRUST-SQL은 사전 로딩된 메타데이터 없이도 작동하면서도 기존 방법들과 견줄 만한 성능을 보인다. 관련 데이터, 코드, 체크포인트는 허깅페이스에서 공개되어 있어 개발자들이 직접 검증하고 활용 가능하도록 되어 있다.
+
+---
+
+원문: [TRUST-SQL: Tool-Integrated Multi-Turn Reinforcement Learning for Text-to-SQL over Unknown Schemas](https://arxiv.org/abs/2603.16448)

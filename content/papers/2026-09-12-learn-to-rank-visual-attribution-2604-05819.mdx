@@ -1,0 +1,41 @@
+---
+title: 비전 모델의 시각적 설명력을 높이는 학습 기반 순위 매기기
+category: papers
+axis: serving
+format: explainer
+summary: 기존 시각적 설명 방법들의 한계를 극복하기 위해 삭제 및 삽입 지표를 직접 최적화하는 새로운 학습 방식을 제안한다. 가우블-싱크혼 이완을 통해 비미분 가능한 순위 매기기를 미분 가능하게 만들어 종단간 학습이 가능하도록 한다.
+publishedAt: 2026-09-12T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2604.05819
+  title: 'Learn to Rank: Visual Attribution by Learning Importance Ranking'
+  author: David Schinagl
+  publishedAt: 2026-09-09T13:00:00+0900
+  words: 17534
+  image: https://arxiv.org/html/2604.05819v2/figures/intro/images/ILSVRC2012_val_00000612_original.png
+paper:
+  arxivId: '2604.05819'
+  authors:
+  - David Schinagl
+  - Christian Fruhwirth-Reisinger
+  - Alexander Prutsch
+  - Samuel Schulter
+  - Horst Possegger
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+복잡한 컴퓨터 비전 모델의 결정 과정을 해석하는 것은 안전이 중요한 분야에서 신뢰와 책임성을 확립하는 데 필수적이다. 시각적 귀속 맵은 모델 예측과 가장 관련성이 높은 입력 영역을 강조하여 모델의 판단 근거를 보여준다. 그러나 기존 방법들은 효율성, 편향성, 설명의 세밀함 사이에서 타협점을 찾아야 하는 삼중 딜레마에 직면해 있다.
+
+전파 기반 접근법은 계산이 효율적이지만 편향이 있을 수 있고 특정 아키텍처에 종속되는 문제가 있다. 교란 기반 방법은 인과관계적 근거가 확실하지만 계산 비용이 크며, 비전 트랜스포머의 경우 패치 수준의 거친 설명만 제공한다. 학습 기반 설명기는 빠르지만 대체 목적 함수를 최적화하거나 휴리스틱한 교사 모델에서 지식을 증류하는 한계가 있다.
+
+저자들은 이러한 문제점을 해결하기 위해 삭제와 삽입 지표를 직접 최적화하는 학습 체계를 제안한다. 이 지표들은 비미분 가능한 정렬과 순위 매기기에 의존하므로, 이를 순열 학습 문제로 재구성하고 가우블-싱크혼(Gumbel-Sinkhorn) 이완을 사용하여 경직된 정렬을 미분 가능한 형태로 대체한다. 이를 통해 대상 모델의 귀속 기반 교란을 통한 종단간 학습이 가능해진다.
+
+추론 시 이 방법은 단일 순전파로 밀도 있는 픽셀 수준의 귀속 맵을 생성하며, 선택적으로 소수의 단계로 기울기 정제를 수행할 수 있다. 저자들의 주장에 따르면 실험 결과 일관된 정량적 개선과 더 선명하며 경계와 일치하는 설명이 도출되었으며, 특히 트랜스포머 기반 비전 모델에서 그 효과가 두드러진다.
+
+---
+
+원문: [Learn to Rank: Visual Attribution by Learning Importance Ranking](https://arxiv.org/abs/2604.05819)

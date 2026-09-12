@@ -1,0 +1,36 @@
+---
+title: GPT-6 Astra 시대, 지시 파일은 왜 줄여야 하는가
+category: community
+axis: vibe-coding
+format: explainer
+summary: OpenAI Codex 팀의 Eric Provencher는 GPT-6 Astra 전환을 위해 기존 스킬과 AGENTS.md를 재점검하라고 권한다. 모델 능력이 향상됨에 따라 과거의 보조 코드와 과도한 지시는 오히려 방해가 된다는 주장이다.
+publishedAt: 2026-09-12T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/openai-codex-gpt-6-astra-agents-md/11900
+  title: OpenAI Codex 팀이 권하는 GPT-6 Astra 전환 준비, 스킬 설명은 좁게 AGENTS.md는 조건부로
+  author: 9bow
+  publishedAt: 2026-09-12T14:30:49+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/c/5/c527398828a5b673730b982cda0197f16f7edcb6_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+OpenAI Codex 팀의 Eric Provencher는 GPT-6 Astra 도입을 앞두고 저장소와 설정 파일에 쌓인 지시들을 정리하라고 제안한다. 그는 코딩 에이전트의 능력이 급격히 향상되면서 예전처럼 모델이 작업을 수행하는 데 많은 보조 코드나 상세한 지침이 필요하지 않게 되었다고 설명한다. 문제는 과거의 이러한 시도들이 파일 형태로 남아 있어 새로운 모델이 매 요청마다 불필요한 정보를 읽게 만들고, 서로 충돌하는 지시들을 생성한다는 점이다.
+
+그는 스킬(Skill)과 AGENTS.md, 그리고 작업용 프롬프트를 주요 재점검 대상으로 꼽는다. 특히 스킬 설명의 경우 컨텍스트 예산의 2%만 차지하지만 그 영향력은 크다고 강조한다. 따라서 특정 워크플로우나 앱 사용에 대한 지침은 간결하게 유지하고, 모델이 스스로 판단할 수 있는 부분을 과감히 제거해야 한다고 조언한다. 이는 단순히 API 파라미터를 변경하는 것을 넘어, 개발 환경에 누적된 부채를 정리하는 과정이다.
+
+Anthropic도 Claude Code의 시스템 프롬프트에서 80% 이상을 제거한 사례를 발표하며 유사한 입장을 보였다. 두 기업 모두 프런티어 모델의 진화에 따라 사용자에게 동일한 숙제를 내주고 있는 셈이다. 즉, 모델이 더 똑똑해졌기 때문에 우리가 작성하는 지시는 더 좁고 명확해야 하며, 조건부 설정은 신중하게 검토해야 한다는 것이다.
+
+결국 GPT-6 Astra를 효과적으로 쓰기 위해서는 과거의 모범 사례에 집착하기보다, 현재 모델의 능력을 신뢰하고 불필요한 지시들을 덜어내는 것이 중요하다. Eric Provencher는 이러한 재점검이 단순한 설정 변경을 넘어, 코딩 에이전트와의 협업 방식을 근본적으로 전환하는 계기가 될 것이라고 주장한다.
+
+---
+
+원문: [OpenAI Codex 팀이 권하는 GPT-6 Astra 전환 준비, 스킬 설명은 좁게 AGENTS.md는 조건부로](https://discuss.pytorch.kr/t/openai-codex-gpt-6-astra-agents-md/11900)

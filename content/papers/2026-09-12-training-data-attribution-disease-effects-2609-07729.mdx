@@ -1,0 +1,37 @@
+---
+title: 노화 바이오마커 모델의 질병 신호, 학습 데이터에서 찾아내다
+category: papers
+axis: serving
+format: explainer
+summary: 정상 노화 모델을 훈련시킨 데이터 중 특정 샘플이 질병 예측 오차에 미치는 영향을 정량화하는 방법을 소개한다. 저자들은 영향력 함수를 통해 학습 데이터를 분석해 질병 관련 효과를 높이는 주요 샘플을 식별하고 제거함으로써 모델의 진단 성능을 개선했다고 주장한다.
+publishedAt: 2026-09-12T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.07729
+  title: 'Attributing Cohen''s d: Training Data Attribution for Disease-Related Effects in Normative Age Biomarkers'
+  author: Jakob Snel
+  publishedAt: 2026-09-09T13:00:00+0900
+  words: 7589
+paper:
+  arxivId: '2609.07729'
+  authors:
+  - Jakob Snel
+  - Marc-Andre Schulz
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+정상 노화 모델은 건강한 코호트에서 연령을 예측하도록 훈련되며, 환자군에 적용될 때 예측 연령과 실제 연령의 차이를 질병 위험 지표로 사용한다. 기존 접근법은 예측 수준의 손실을 귀속 대상으로 삼았으나, 이 연구는 질병 관련 효과 크기인 Cohen's d를 직접 개별 학습 샘플에 귀속시킨다. 이를 위해 폐쇄형 영향력 함수를 도출했으며, leave-one-out 재훈련 결과와 비교해 검증된 이 함수는 홀드아웃 케이스-컨트롤 분리에 대한 훈련 샘플의 영향을 순위 매긴다.
+
+저자들의 주장에 따르면 영국 바이오뱅크의 네 가지 질병과 두 가지 바이오마커 모달리티에서 실험한 결과, 영향력이 가장 큰 상위 10%의 훈련 샘플을 제거할 때마다 홀드아웃 질병 관련 효과 크기가 모든 시드에서 상승했다. 특히 제2형 당뇨병의 경우 대사체학 기반 연령 효과 크기가 두 배 이상 증가했으며, 다발성 경화증의 뇌 연령 효과는 약 세 분의 일 정도 높아졌다. 반면 무작위로 샘플을 제거하는 경우 50%를 제거해도 효과 크기는 거의 변하지 않아, 성능 향상이 제거된 샘플의 수 때문이 아니라 어떤 샘플을 제거했기 때문임이 확인되었다.
+
+식별된 영향력 높은 대상자들은 진단 기준 기반 제외로는 놓치기 쉬운 임상 전 심대사 부담을 안고 있는 것으로 나타났다. 모델이 직접 관찰하지 않는 마커들에서도 이러한 특징이 드러났다. 제2형 당뇨병에서 이 방법이 가장 큰 효과를 보인 경우, 회수된 주요 마커는 혈당 조절의 표준 지표인 HbA1c였다.
+
+연구진은 재현성과 재사용을 위해 영향력 함수 패키지인 pyinfluence를 공개했다. 이 도구는 노화 바이오마커 모델이 질병 신호를 학습하는 과정에서 어떤 훈련 데이터가 결정적인 역할을 하는지 투명하게 분석할 수 있게 해준다.
+
+---
+
+원문: [Attributing Cohen's d: Training Data Attribution for Disease-Related Effects in Normative Age Biomarkers](https://arxiv.org/abs/2609.07729)

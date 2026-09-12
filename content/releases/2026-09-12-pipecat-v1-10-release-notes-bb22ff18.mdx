@@ -1,0 +1,35 @@
+---
+title: Pipecat v1.10.0, 더 자연스러운 음성 합성과 주요 SDK 호환성 업데이트
+category: releases
+axis: voice
+format: explainer
+summary: Pipecat v1.10.0은 Smallest AI의 연속 생성 API를 도입해 음성 합성의 끊김을 줄이고, OpenAI 및 Anthropic 등 주요 SDK의 최신 버전 호환성을 지원한다. 또한 Gradium STT의 턴 감지 기능과 LiveKit 오디오 버퍼 설정이 추가되었다.
+publishedAt: 2026-09-12T22:00:05+0900
+tags:
+- MCP
+- Whisper
+draft: false
+source:
+  url: https://github.com/pipecat-ai/pipecat/releases/tag/v1.10.0
+  title: v1.10.0
+  author: github-actions[bot]
+  publishedAt: 2026-09-12T11:44:31+0900
+  words: 1239
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 주목할 만한 변화는 SmallestTTSService가 Smallest AI의 continuation API를 사용하기 시작했다는 점이다. 이제 같은 LLM 턴 내의 텍스트 조각들이 하나의 context_id를 공유하며 서버가 이를 단일 연속 생성으로 처리한다. 이로 인해 각 요청마다 억양이 초기화되는 문제가 해결되어 더 자연스러운 음성 출력이 가능해졌으며, 서버 측 버퍼링 창을 제어하는 max_buffer_delay_ms 설정도 새로 추가되었다.
+
+주요 외부 라이브러리와의 호환성도 크게 확장되었다. Pipecat는 이제 OpenAI 3 SDK와 Anthropic 1 SDK를 지원한다. OpenAI 3 SDK는 httpx2 기반의 HTTP 클라이언트를 사용하며 TLS 인증서 검증 방식을 운영체제 신뢰 저장소로 변경했으므로, 최소 컨테이너 이미지나 TLS 검사 프록시 환경에서는 SSL_CERT_FILE 또는 SSL_CERT_DIR 설정이 필요할 수 있다. Anthropic 1 SDK 지원으로 인해 temperature와 같은 파라미터는 extra_body를 통해 전달되며, Bedrock 클라이언트 사용 시에는 명시적인 리전 지정이 필수적으로 요구된다.
+
+음성 인식(STT) 및 오디오 처리 측면에서도 개선이 있었다. GradiumSTTService에 enable_turn_detection 옵션이 추가되어 서버 측의 end-pointing 신호를 기반으로 사용자 턴을 감지할 수 있게 되었으며, 이는 기존 파이프라인의 VAD 대신 사용될 수 있다. 또한 LiveKitParams.audio_out_queue_size_ms 설정을 통해 outgoing rtc.AudioSource의 버퍼 크기를 구성할 수 있게 되어 오디오 스트림 처리의 유연성이 높아졌다.
+
+이 외에도 MCP SDK 2.x 라인과의 호환성을 위해 mcp 의존성 범위가 넓어졌고, SpeechmaticsSTTService는 연결 끊김 시 지수 백오프를 통해 재연결하며 오디오를 버퍼링하는 기능이 강화되었다. 이번 릴리스에는 언급되지 않은 수많은 커밋과 기여가 포함되어 있으므로 전체 변경 사항을 확인하려면 공식 릴리스 노트를 참조해야 한다.
+
+---
+
+원문: [v1.10.0](https://github.com/pipecat-ai/pipecat/releases/tag/v1.10.0)
