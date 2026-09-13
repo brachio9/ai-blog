@@ -1,0 +1,41 @@
+---
+title: LLM 환각, 도메인별 감지 파이프라인이 더 정확하다
+category: papers
+axis: domain
+format: explainer
+summary: 대형 언어 모델의 환각을 탐지하기 위해 분류 모델과 불확실성 정량화, 온도 스케일링 보정을 결합한 다중 신호 파이프라인을 제안한다. 저자들은 일반 도메인에서는 높은 성능을 보이지만, 의학 같은 전문 분야에서는 해당 도메인에 맞춘 사전 학습이 필수적이라고 주장한다.
+publishedAt: 2026-09-13T22:00:06+0900
+tags:
+- fine-tuning
+- DPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.11878
+  title: Domain-Specific Hallucination Detection in Large Language Models
+  author: Varun Teja Chundru
+  publishedAt: 2026-09-11T13:00:00+0900
+  words: 3551
+  image: https://arxiv.org/html/2609.11878v1/context_ablation.png
+paper:
+  arxivId: '2609.11878'
+  authors:
+  - Varun Teja Chundru
+  - Debasmita Biswas
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 3
+---
+
+대형 언어 모델은 유창한 문장을 생성하지만 사실과 다른 주장을 포함하는 환각 현상이 발생한다. 이를 해결하기 위해 저자들은 미세 조정된 DeBERTa-v3 분류, 몬테카를로 드롭아웃을 통한 불확실성 정량화, 온도 스케일링 보정을 결합한 다중 신호 탐지 파이프라인을 제시한다. 이 접근법은 응답 수준에서 환각이 있는지 판단하는 것을 목표로 한다.
+
+저자들의 주장에 따르면, HaluEval 벤치마크에서 일반 도메인 작업은 F1 점수 0.915와 AUROC 0.977을 기록했다. 질문 답변, 요약, 대화 각각의 F1 점수는 0.97, 0.96, 0.82였으며 몬테카를로 드롭아웃 추론 추가로 정확도가 93.2%까지 향상되었다. 문맥 제거 실험은 모델이 표면적 패턴을 악용하는 것이 아니라 진정한 함의 추론을 수행함을 확인했으며, 학습 데이터의 25%만으로도 전체 성능의 77%를 달성한다는 분석도 나왔다.
+
+탐지 외에도 저자들은 직접 선호 최적화(DPO)를 Qwen2.5-0.5B 생성 모델에 적용해 환각률을 85.5%에서 37.7%로 낮췄다고 주장한다. 이는 본 연구의 탐지기 기준으로 측정한 상대적 감소율 55.9%에 해당한다. 이러한 결과는 탐지 기술이 생성 모델의 품질 개선에도 직접적으로 기여할 수 있음을 시사한다.
+
+반면 SciFact라는 생의학 벤치마크를 통한 도메인 간 평가에서는 일반 도메인 학습이 잘 전달되지 않아 F1 점수가 0.52에 그쳤다. 이에 저자들은 PubMedBERT를 SciFact로 미세 조정했을 때 F1 점수 0.63과 AUROC 0.81을 달성했다고 주장하며, 도메인별 환각 감지에는 해당 분야에 맞는 사전 학습 모델이 가장 강력한 적응 전략임을 결론지었다.
+
+---
+
+원문: [Domain-Specific Hallucination Detection in Large Language Models](https://arxiv.org/abs/2609.11878)

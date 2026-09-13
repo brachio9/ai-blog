@@ -1,0 +1,43 @@
+---
+title: Unsloth, 속도와 안정성을 동시에 잡다
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 대규모 성능 개선과 버그 수정 릴리즈를 내놓았다. 확산 모델 추론 속도가 최대 1.7배 빨라졌고 AMD 및 Apple Silicon 환경에서의 호환성과 효율성이 크게 향상되었다.
+publishedAt: 2026-09-13T22:00:06+0900
+tags:
+- RAG
+- Codex
+- MCP
+- quantization
+- LoRA
+- fine-tuning
+- KV cache
+- DPO
+- TTS
+- Whisper
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.808-beta
+  title: Large Performance Gains + Fixes
+  author: danielhanchen
+  publishedAt: 2026-09-10T00:18:29+0900
+  words: 5637
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트는 속도 향상과 신뢰성 강화에 중점을 두었다. 개발진은 INT8 및 FP8 경로를 사용하는 확산 모델의 추론 속도가 기존 대비 1.2배에서 1.7배까지 빨라졌다고 밝혔다. 특히 AMD GPU 환경에서는 Vulkan을 기본으로 전환하여 ROCm 대비 약 20%의 성능 향상을 이끌어냈으며, 스트릭스 할로와 같은 최신 칩셋에서도 프롬프트 처리와 생성 속도가 각각 23%와 8% 개선되었다.
+
+Apple Silicon 사용자들에게도 긍정적인 변화가 있었다. 게이트드 델타 모델의 학습 속도가 최대 25% 빨라졌고, 양자화된 MLX KV 캐시가 이전보다 최대 74% 적은 메모리를 사용한다. 또한 새 맥북 설치 시에도 MLX 훈련과 내보내기 기능이 정상 작동하도록 고쳐졌으며, DoRA 파인튜닝과 다양한 DPO 손실 유형 지원이 추가되었다.
+
+사용자 편의성과 안정성 측면에서도 개선점이 많다. 윈도우 환경에서는 코드 무결성 차단으로 인한 모델 로딩 실패 원인을 명확히 알려주고, 스마트 앱 컨트롤의 위양성 문제를 해결했다. 스튜디오와 API 기능에서는 RAG 문서 업로드가 더 이상 멈추지 않고 진행되며, 오픈AI 호환 API의 스트리밍과 오디오 입력 처리가 원활해졌다. 또한 파이썬 패키지 크기가 60% 이상 줄어든 점도 주목할 만하다.
+
+이 릴리즈는 PyTorch 2.11을 기본으로 채택했으며, 도커 이미지를 통해 NVIDIA와 AMD64, ARM64 환경에서 쉽게 배포할 수 있도록 했다. 개발진은 이 변경 사항들이 전반적인 추론과 훈련의 지연 시간을 줄이고 사용 경험을 매끄럽게 만드는 데 기여했다고 설명한다.
+
+---
+
+원문: [Large Performance Gains + Fixes](https://github.com/unslothai/unsloth/releases/tag/v0.1.808-beta)

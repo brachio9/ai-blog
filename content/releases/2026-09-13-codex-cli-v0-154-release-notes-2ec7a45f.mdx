@@ -1,0 +1,35 @@
+---
+title: 'Codex CLI 0.154.0: GPT-6-Astra 지원과 워크트리 실험 기능'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Codex CLI 0.154.0 릴리즈는 GPT-6-Astra 모델의 공식 지원을 포함한다. 실험적 워크트리 기능과 인라인 질문 응답이 추가되어 개발 흐름을 개선한다.
+publishedAt: 2026-09-13T22:00:06+0900
+tags:
+- Codex
+- MCP
+draft: false
+source:
+  url: https://github.com/openai/codex/releases/tag/rust-v0.154.0
+  title: 0.154.0
+  author: github-actions[bot]
+  publishedAt: 2026-09-10T07:35:38+0900
+  words: 2584
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 주목할 만한 변화는 모델 선택기와 Amazon Bedrock 카탈로그에 GPT-6-Astra가 등장한 것이다. 이는 사용자가 최신 모델의 성능을 바로 테스트하고 마이그레이션 가이드를 참고할 수 있음을 의미한다. 또한 기존 세션에서 외부 플러그인 업그레이드나 롤백 후에도 도구와 스킬이 자동으로 새로고침되도록 개선하여 환경 설정의 일관성을 높였다.
+
+개발 워크플로우 측면에서는 실험적인 워크트리(worktree) 지원이 도입되었다. 이 기능을 통해 새 세션이나 포크된 세션을 위한 격리된 체크아웃을 생성하고, 이를 탐색하거나 다시 이어 작업할 수 있다. 또한 Codex가 백그라운드에서 작업을 계속하는 동안에도 제안된 선택지나 커스텀 텍스트를 사용하여 인라인으로 질문에 답할 수 있게 되어 주요 초안 작성 흐름이 끊기지 않는다.
+
+운영체제별 안정성과 편의성도 강화되었다. Windows 환경에서는 데몬 라이프사이클 명령어와 관리형 업데이트를 통해 여러 세션이 백그라운드 Codex 서버를 공유할 수 있게 되었다. macOS의 경우 샌드박스 보안 정책이 강화되어 터미널 입력 주입을 차단하고, Vim 편집기에는 취소와 반복이 가능한 R 대체 모드가 추가되었다. 복사 기능도 개선되어 리치 텍스트 앱에서 서식을 유지하며 복사하거나 상태 출력물을 선택적으로 복사할 수 있다.
+
+보안과 연결 안정성 측면에서도 여러 버그가 수정되었다. MCP 연결 시 OAuth 토큰 갱신 실패 시 로그인 도전을 명확히 표시하고, 거부된 도구 호출을 자동으로 재시도하지 않도록 조정했다. 또한 다른 앱에서 열린 대화 세션을 다시 열 때 읽기 전용 트랜스크립트를 보여주며 초안을 보존하는 등 사용자 의도를 더 정확히 반영하는 방향으로 개선되었다. 마지막으로 비공식화된 codex mcp-server 진입점은 제거되었다.
+
+---
+
+원문: [0.154.0](https://github.com/openai/codex/releases/tag/rust-v0.154.0)
