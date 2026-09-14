@@ -1,0 +1,34 @@
+---
+title: 'Cline 데스크톱 0.0.27: 로그인 오류와 모델 연결 문제 해결'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline 데스크톱 앱의 최신 버전은 만료된 로그인 상태에서의 에러 처리를 개선하고, 로그아웃 기능의 안정성을 높였다. 또한 OpenCode Go 모델의 통신 오류를 수정하여 다양한 AI 모델과의 연결을 정상화했다.
+publishedAt: 2026-09-14T22:00:05+0900
+tags:
+- Codex
+- Cline
+- OpenCode
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/desktop-v0.0.27
+  title: Desktop v0.0.27
+  author: github-actions[bot]
+  publishedAt: 2026-09-14T07:28:16+0900
+  words: 539
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이전 버전에서는 세션 시작 전 인증 실패 시 중복된 에러 메시지가 표시되거나, 계정 페이지에서 재시도 버튼이 작동하지 않는 문제가 있었다. 이번 업데이트는 만료된 토큰으로 인한 실패를 하나의 명확한 액션 가능한 에러로 통합하여 사용자에게 정확한 해결 방법을 안내한다. 특히 Cline 제공자의 경우 'Cline에 로그인하기' 버튼을 통해, 다른 모델의 경우 '모델 설정 열기' 버튼을 통해 직접적인 수정이 가능하도록 개선되었다. 또한 일시적인 리프레시 토큰 실패 시에도 기존 접근 토큰으로 폴백하는 로직을 유지하면서, 실제 인증 만료 시에는 로그아웃 상태로 정확히 전환되도록 처리했다.
+
+로그아웃 기능의 안정성도 크게 향상되었다. 이전에는 Cline 또는 Cline Pass에서 로그아웃해도 런타임이 확장 프로그램의 저장된 자격 증명을 다시 가져와 자동으로 재로그인되는 현상이 발생했다. 이번 패치에서는 제공자 항목을 제거하는 동시에 이러한 자동 재가져오기 로직을 차단하여 로그아웃 상태가 유지되도록 수정했다. 이는 ChatGPT 및 Codex 관련 문제 해결과 동일한 근본 원인을 처리한 것이며, 이제 사용자는 의도한 대로 세션을 종료할 수 있다. 설정 사이드바의 'Models' 섹션도 자격 증명을 구성하는 곳임을 명확히 하기 위해 'API Providers'로 이름이 변경되었고 아이콘도 함께 업데이트되었다.
+
+음성 입력 및 특정 모델과의 연결 문제도 해결되었다. 음성 인식 실패 시 설정 화면으로 강제 이동하던 대신, 채팅 창 내에 실제 에러 내용을 토스트 메시지로 표시하며 초안과 마이크 버튼을 유지하여 재시도를 용이하게 했다. 또한 OpenCode Go 모델들이 필수 헤더 누락 및 라우팅 오류로 인해 작동하지 않던 문제가 수정되어, Muse Spark나 GPT 등 다양한 모델의 프로토콜 라우팅이 정상적으로 처리된다. 마지막으로 Crusoe가 OpenAI 호환 제공자로 추가되었다. 이 외에도 설정 관련 여러 세부 사항들이 개선되었으나, 주요 변경 사항은 위와 같다.
+
+---
+
+원문: [Desktop v0.0.27](https://github.com/cline/cline/releases/tag/desktop-v0.0.27)

@@ -1,0 +1,37 @@
+---
+title: '추상화 제거로 배우는 허깅페이스: 트레이너부터 GRPO까지'
+category: community
+axis: serving
+format: explainer
+summary: 허깅페이스 API 호출법을 넘어 내부 원리를 이해하기 위한 학습 저장소를 소개한다. 추상화를 단계적으로 제거하며 핵심 개념을 재구현하는 과정을 통해 심층적인 지식을 습득할 수 있다.
+publishedAt: 2026-09-14T22:00:05+0900
+tags:
+- vLLM
+- LoRA
+- fine-tuning
+- GRPO
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/38-runnable-notebooks-for-learning-hugging-face-from-trainer-to-grpo-by-removing-the-abstractions/180330
+  title: 38 runnable notebooks for learning Hugging Face from Trainer to GRPO by removing the abstractions
+  author: pop123ux
+  publishedAt: 2026-09-13T02:58:27+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/9/5/95af3d11a5c6f6c2cceee5b96d59757e2f0a1d13_2_690x344.png
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+저자는 허깅페이스 API를 단순히 호출하는 방법을 배우는 것을 넘어, 그 추상화 장벽을 progressively 제거하여 내부 작동 원리를 이해하는 학습 저장소를 구축했다. 이 저장소에는 트레이너에서 PEFT, 추론/강화학습, 그리고 종단간 프로젝트 작업에 이르기까지 총 38개의 실행 가능한 노트북이 포함되어 있다.
+
+학습 경로는 고수준 API 사용에서 시작해 추상화를 검사하고, 중요한 부분을 직접 재구현한 후 더 나은 정신 모델을 가지고 고수준 도구를 다시 사용하는 순서로 진행된다. 예를 들어 트레이너와 수동 PyTorch 루프를 비교하거나, WordPiece 및 Unigram 토크나이저를 처음부터 구현하는 과정을 포함한다.
+
+또한 LoRA 및 감독 학습 미세 조정, FAISS 의미 검색, tlr/Unsloth/vLLM 실험, 그리고 Gradio와 허깅페이스 허브 워크플로우 등을 다룬다. 특히 GRPO를 첫 원리부터 구현한 후 GRPOTrainer로 이동하는 과정과 루마니아어 XQuAD 프로젝트에서의 단국어 및 다국어 BERT 비교 평가가 주요 내용으로 꼽힌다.
+
+저자는 허깅페이스, LLM 미세 조정, 토크나이징 또는 RL 분야에서 작업하는 사람들의 피드백을 특히 요청한다. GRPO-from-scratch와 루마니아어 QA 평가 섹션이 기본 아이디어를 명확하게 설명하는지, 그리고 학습 경로에 중요한 결함이 있는지 확인하고자 한다.
+
+---
+
+원문: [38 runnable notebooks for learning Hugging Face from Trainer to GRPO by removing the abstractions](https://discuss.huggingface.co/t/38-runnable-notebooks-for-learning-hugging-face-from-trainer-to-grpo-by-removing-the-abstractions/180330)

@@ -1,0 +1,48 @@
+---
+title: 예측 지평선별 중요도 분석으로 시계열 모델 해석력 높이기
+category: papers
+axis: serving
+format: explainer
+summary: 기존 시계열 예측 설명 방법은 모든 미래 단계가 동일한 과거 값에 의존한다고 가정하지만, 이는 사실이 아니다. 저자들은 예측 지평선별로 고유한 중요도 맵을 제공하는 HRX 프레임워크를 제안한다. 이 방법은 모델 수정 없이 적용 가능하며, 특정 예측 단계의 신뢰도를 검증하는 평가 프로토콜과 함께 제공된다.
+publishedAt: 2026-09-14T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.12639
+  title: Explaining Time Series Forecasting with Horizon-Resolved Attribution
+  author: Seunghan Lee
+  publishedAt: 2026-09-14T13:00:00+0900
+  words: 38300
+  image: https://arxiv.org/html/2609.12639v1/figures/fig0_teaser.png
+paper:
+  arxivId: '2609.12639'
+  authors:
+  - Seunghan Lee
+  - Jun Seo
+  - Jaehoon Lee
+  - Junhyeok Kang
+  - Sangjun Han
+  - Sungdong Yoo
+  - Minjae Kim
+  - Tae Yoon Lim
+  - Dongwan Kang
+  - Hwanil Choi
+  - Soonyoung Lee
+  - Wonbin Ahn
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+최근 시계열 예측 모델의 해석 방법론은 예측이 어떤 과거 값에 의존하는지를 식별하는 데 초점을 맞추고 있다. 그러나 대부분의 기존 방법은 단일 중요도 벡터를 반환하며, 이는 모든 예측 단계가 동일한 과거 입력값에 의존한다는 가정에 기반한다. 논문 저자들은 이러한 가정이 현실과 맞지 않으며, 서로 다른 예측 지평선(horizon)은 서로 다른 과거 값에 의존한다고 지적한다. 즉, 가까운 미래와 먼 미래를 예측할 때 모델이 참조하는 과거 데이터의 패턴은 달라진다는 것이다.
+
+이러한 관점에서 저자들은 'Horizon-Resolved eXplanation(HRX)'이라는 새로운 프레임워크를 제안한다. HRX는 설명에 지평선 축을 추가하여 각 예측 단계마다 고유한 중요도 맵을 생성한다. 이 프레임워크는 세 가지 핵심 구성 요소로 이루어져 있다. 첫째, 기존 시계열 백본(backbone) 모델을 수정하지 않고 미분 가능한 예측기에서 이러한 맵을 읽어내는 추정기다. 둘째, 중요도 맵이 높은 입력값을 제거했을 때 특정 예측 단계가 얼마나 변하는지를 측정하여 지평선 축의 타당성을 검증하는 평가 프로토콜이다. 셋째, 주어진 시계열 데이터에서 지평선별 해석이 유의미한지 사전에 예측하는 순위 기준이다.
+
+저자들은 또한 이러한 단계별 의존성이 저차원적임을 보여준다. 즉, 모든 예측 단계의 설명은 소수의 공유된 맵들로 구성되며, 이 맵의 수는 예측 길이가 늘어나더라도 증가하지 않는다. 이는 계산 효율성과 해석의 간결성을 동시에 확보할 수 있음을 의미한다. 다양한 백본 모델과 데이터셋에 대한 광범위한 실험 결과, 성능 개선이 지평선 축에서 비롯되었으며 기존 설명 방법의 추정기에도 적용 가능함이 확인되었다.
+
+저자들의 주장에 따르면 HRX는 단순하면서도 효과적인 플러그인 프레임워크로, 복잡한 모델 구조 변경 없이도 예측의 신뢰성을 높이는 데 기여한다. 이 연구의 코드는 공개되어 있어 재현과 추가 검증이 가능하다. 시계열 예측 모델의 블랙박스 성격을 해소하고, 특정 시간대 예측의 근거를 명확히 하고자 하는 개발자에게 유용한 접근법이다.
+
+---
+
+원문: [Explaining Time Series Forecasting with Horizon-Resolved Attribution](https://arxiv.org/abs/2609.12639)

@@ -1,0 +1,33 @@
+---
+title: 에이전트가 공유 메모리를 읽고 쓰는 방법
+category: community
+axis: agent
+format: explainer
+summary: Sean Everett는 에이전트 간 지식 재사용을 위해 Shared Memory 프로젝트를 만들었다. 정적 Space와 MCP 커넥터를 통해 에이전트는 별도 계정 없이 노트를 검색하고 읽으며, 안전한 쓰기 권한으로 정보를 남길 수 있다.
+publishedAt: 2026-09-14T22:00:05+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/shared-memory-a-public-notebook-for-agents-with-a-static-space-and-mcp-connector/180424
+  title: 'Shared Memory: a public notebook for agents, with a static Space and MCP connector'
+  author: seanmeverett
+  publishedAt: 2026-09-14T21:43:59+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+에이전트가 이전 대화 전체를 반복하지 않고도 다른 에이전트의 유용한 발견을 재사용할 수 있을까? Sean Everett는 이 질문에 답하기 위해 Shared Memory를 구축했다. 그는 Hugging Face의 정적 Space를 통해 라이브 공개 노트북을 검색하고 영구 ID로 전체 내용을 열람하는 기능을 제공하며, 모델이나 GPU, 계정 없이도 읽기가 가능하도록 설계했다.
+
+기술적으로는 MIT 라이선스의 MCP 커넥터와 예제 코드가 search_notes, read_note, post_note 세 가지 도구를 노출한다. 백엔드 HTTP API는 먼저 짧은 요약을 반환하고 필요시 전체 노트를 가져오며, 쓰기 작업은 문자열 ID를 반환하고 수정이나 답변은 parent_id를 통해 연결된다. 또한 안정적 요청 ID가 중복 작성을 방지한다.
+
+저자는 두 에이전트 간 HTTP 예제를 포함해 Agent A가 운영자 승인 내용을 저장하면 Agent B가 해당 ID만 읽어오는 흐름을 보여준다. 이 예제는 LLM을 실행하지 않으며 로컬 픽스처를 사용해 테스트 게시물을 생성하지 않는다. 기본 명령은 읽기 전용이며 쓰기 경로는 명시적으로 처리된다.
+
+이것은 초기 베타 버전으로 자율 군집이나 새 네트워크 프로토콜의 증거가 아니다. 초기 네 개의 발견물은 편집자 시드 노트이며 모든 기여는 공개되고 오류일 수 있다. 게시는 취소 가능한 키와 제한을 사용하며 유해 콘텐츠는 수동 검열로 숨길 수 있다. 노트는 에이전트 작업이나 권한을 덮어쓰는 명령이 아닌 데이터로 취급해야 한다.
+
+---
+
+원문: [Shared Memory: a public notebook for agents, with a static Space and MCP connector](https://discuss.huggingface.co/t/shared-memory-a-public-notebook-for-agents-with-a-static-space-and-mcp-connector/180424)

@@ -1,0 +1,38 @@
+---
+title: AI 에이전트가 내 개인정보를 어떻게 누출하는가
+category: papers
+axis: agent
+format: explainer
+summary: 컴퓨터 사용 에이전트가 여러 앱 간에 접근할 때 발생하는 프라이버시 위험을 평가하기 위한 AgentCIBench 벤치마크가 소개되었다. 연구진은 시각적 인접성 오인, 과잉 공유, 수신자 불일치 등 세 가지 주요 실패 모드를 정의하고 이를 테스트하는 프레임워크를 제시했다.
+publishedAt: 2026-09-14T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2606.23189
+  title: 'Capable but Careless: Do Computer-Use Agents Follow Contextual Integrity?'
+  author: Anmol Goel
+  publishedAt: 2026-09-14T13:00:00+0900
+  words: 18872
+  image: https://arxiv.org/html/2606.23189v2/figures/failure-modes.png
+paper:
+  arxivId: '2606.23189'
+  authors:
+  - Anmol Goel
+  - Iryna Gurevych
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+컴퓨터 사용 에이전트(CUA)는 이제 이메일, 캘린더, 할 일 목록 등 개인용 애플리케이션에서 사용자를 대신해 작업을 수행한다. 이러한 크로스 애플리케이션 접근성은 유용하지만, 한 컨텍스트에서 작업할 때 해당 맥락에 부적절한 다른 곳의 정보를 끌어오는 프라이버시 위험을 초래한다는 점이 간과되어 왔다. 연구진은 이 같은 위험을 실행 가능하고 결정론적으로 점수화할 수 있는 시나리오로 변환하는 평가 도구인 AgentCIBench를 도입했다.
+
+이 벤치마크는 에이전트의 세 가지 일반적인 실패 모드를 타겟으로 한다. 첫 번째는 시각적 공존(visual co-location)으로, 에이전트가 UI 상에서 작업 대상 옆에 있는 금지된 항목을 함께 가져오는 경우다. 두 번째는 작업 모호성 과잉 공유(task-ambiguity overshare)로, 명확하지 않은 프롬프트에 대해 에이전트가 밀도 높은 개인 상태를 덤핑하는 현상을 말한다. 세 번째는 수신자 불일치(recipient misalignment)로, 에이전트가 부적절한 주소자에게 콘텐츠를 전송하는 오류를 지칭한다.
+
+저자들의 주장에 따르면, 15개의 최첨단 에이전트를 평가한 결과 놀라울 정도로 높은 실패율이 나타났다. 15개 중 11개가 시나리오의 50% 이상에서 정보 누출을 보였으며, 평균 누출률은 67.9%로 집계되었다. 또한 에이전트가 환경 내에서 종단간(end-to-end)으로 작업을 완료하는 상황에서도 동일한 실패 패턴이 지속되는 것으로 확인되었다.
+
+연구진은 AgentCIBench를 공개하여 더 안전한 컴퓨터 사용 에이전트의 개발을 장려하고자 한다. 이들은 컨텍스트 기반 정보 공개 테스트를 사전 배포 안전 검사(pre-deployment safety check)로 자리 잡게 함으로써, 에이전트가 실제 서비스되기 전에 프라이버시 위험을 점검할 수 있는 기준을 마련하는 것을 목표로 한다.
+
+---
+
+원문: [Capable but Careless: Do Computer-Use Agents Follow Contextual Integrity?](https://arxiv.org/abs/2606.23189)
