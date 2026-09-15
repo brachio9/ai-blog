@@ -1,0 +1,50 @@
+---
+title: 에이전트 실행 중의 위험을 감시하는 HazardAuditor
+category: papers
+axis: agent
+format: explainer
+summary: HazardAuditor는 에이전트의 실제 실행 과정을 기반으로 안전성을 평가하는 프레임워크다. 저자들은 기존 정적 분석의 한계를 넘어 다양한 에이전트 플랫폼을 통합해 학습 데이터를 표준화했다고 주장한다.
+publishedAt: 2026-09-15T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+draft: false
+source:
+  url: https://huggingface.co/papers/2609.15134
+  title: 'HazardAuditor: From Executable Threats to Safer Computer-Use Agents'
+  author: Yunhao Feng
+  publishedAt: 2026-09-14T09:00:00+0900
+  words: 9463
+  image: https://arxiv.org/html/2609.15134v1/fig1.png
+paper:
+  arxivId: '2609.15134'
+  authors:
+  - Yunhao Feng
+  - Ruixiao Lin
+  - Ming Wen
+  - Yanming Guo
+  - Xingjun Ma
+  - Yutao Wu
+  - Xinhao Deng
+  - Shouling Ji
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 11
+---
+
+컴퓨터 사용 에이전트가 브라우저나 파일 시스템과 직접 상호작용하면서 생성된 텍스트 자체보다 실행 과정에서 발생하는 안전 위험이 부각되고 있다. 기존의 가드 모델은 정적인 프롬프트와 응답만 대상으로 하기 때문에 동적인 에이전트 실행을 감시하기에는 부적합하다. 또한 기존 실행형 안전 플랫폼은 평가 결과만 제공하므로, 다양한 에이전트 프레임워크를 아우르는 가드 모델 학습에 필요한 표준화된 감독 데이터를 생성하지 못한다.
+
+HazardAuditor는 이러한 두 가지 격차를 해소하기 위해 실행 기반의 프레임워크를 제시한다. 이 인프라는 Claude Code, Codex 등 이질적인 에이전트들을 통제된 환경에서 실행하고, 그 상호작용을 교차 프레임워크 감독이 가능한 표준 이벤트 표현으로 정규화한다. 이를 통해 서로 다른 에이전트 시스템 간에도 일관된 안전성 학습이 가능해진다.
+
+저자들은 토큰 수준의 사후 훈련 목표가 생성형 가드 모델에 구조적 불일치를 초래한다고 지적한다. 긴 추론 과정이 그래디언트 업데이트를 지배하게 되면 안전 판단의 핵심이 희석될 수 있다. 이를 해결하기 위해 Guard Policy Optimization(GuardPO)은 결정론적인 안전 결과를 시퀀스 수준의 이점으로 변환하고, 추론 영역과 판정 영역을 정규화하여 안전 결정을 최적화의 유효 단위로 만든다.
+
+저자들의 주장에 따르면 HazardAuditor는 여러 벤치마크와 이질적인 컴퓨터 사용 시스템에서 기존 가장 강력한 가드 모델 대비 정확도를 최대 16.5%p 향상시켰다. 관련 코드, 모델 및 평가 자료는 공식 웹사이트를 통해 공개될 예정이다.
+
+---
+
+원문: [HazardAuditor: From Executable Threats to Safer Computer-Use Agents](https://huggingface.co/papers/2609.15134)

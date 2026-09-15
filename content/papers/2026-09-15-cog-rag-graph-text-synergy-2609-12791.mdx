@@ -1,0 +1,44 @@
+---
+title: 지식 그래프와 텍스트의 양방향 시너지를 통한 RAG 탐색 프레임워크 CoG
+category: papers
+axis: retrieval
+format: explainer
+summary: 대규모 지식 그래프와 텍스트 코퍼스에서 복잡한 추론을 수행하기 위한 새로운 접근법이다. 인간의 문제 해결 과정을 모방하여 계획, 탐색, 반성 주기를 반복하며 구조화된 그래프와 비구조화된 텍스트 간의 양방향 시너지를 구축한다.
+publishedAt: 2026-09-15T22:00:05+0900
+tags:
+- RAG
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.12791
+  title: 'Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy'
+  author: Gengxian Zhou
+  publishedAt: 2026-09-14T13:00:00+0900
+  words: 17830
+  image: https://arxiv.org/html/2609.12791v1/method_comparison.png
+paper:
+  arxivId: '2609.12791'
+  authors:
+  - Gengxian Zhou
+  - Jian Xu
+  - Zichen Tang
+  - Shiming Xiang
+  - Haihong E
+  - Cheng-Lin Liu
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 3
+---
+
+현재의 검색 증강 생성(RAG) 기술은 대규모 언어 모델(LLM)이 지식 집약적 작업을 처리하는 데 기여하지만, 전역적이고 이질적인 지식베이스를 탐색하여 복잡한 추론을 수행하는 것은 여전히 과제다. 기존 방법들은 주로 반응형 그래프 기반 탐색 전략을 사용하는데, 이는 질문의 맥락이나 탐색 진행 상황에 적응하지 못하고 단순히 그래프 위상만 따라가는 한계가 있다. 또한 구조화된 그래프와 비구조화된 텍스트 간의 깊은 양방향 시너지가 부족하다는 지적도 나온다.
+
+이러한 한계를 해결하기 위해 저자들은 CoG(Cognition on Graph)라는 프레임워크를 제안한다. 이 방법은 별도의 학습 없이 작동하며, 인간의 문제 해결 과정을 모방하여 지속적인 계획-탐색-반성(plan-explore-reflect) 주기를 수행한다. 시스템은 능동적으로 조사 계획을 수립하고 이중 소스 검색을 수행한 후, 진행 상황에 대해 동적으로 반성하여 전략을 조정한다.
+
+CoG의 핵심 특징은 구조화된 그래프와 비구조화된 텍스트 간의 깊은 양방향 시너지 구축이다. 텍스트에서 추출된 엔티티가 지식 격차를 메우기 위해 그래프 탐색을 동적으로 안내하는 방식이다. 이를 통해 질문 맥락에 부합하도록 탐색 경로를 유연하게 조정할 수 있다.
+
+저자들의 주장에 따르면, CoG는 7개의 다중 홉 질의응답 벤치마크에서 광범위한 실험을 통해 최신 방법들을 크게 능가하며 우수한 탐색 효율성을 달성한다. 코드와 데이터셋은 공개된 저장소에서 확인할 수 있다.
+
+---
+
+원문: [Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy](https://arxiv.org/abs/2609.12791)

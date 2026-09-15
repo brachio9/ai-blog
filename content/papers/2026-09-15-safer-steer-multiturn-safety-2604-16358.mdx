@@ -1,0 +1,48 @@
+---
+title: 대화 흐름을 고려한 MLLM 안전성 강화, SaFeR-Steer
+category: papers
+axis: domain
+format: explainer
+summary: 다중 턴 대화 환경에서 발생하는 안전성 취약점을 해결하기 위해 제안된 SaFeR-Steer 프레임워크를 소개한다. 합성 데이터 부트스트랩과 피드백 기반 학습을 결합해 모델의 장기적 안정성을 높이는 방식이다.
+publishedAt: 2026-09-15T22:00:05+0900
+tags:
+- GRPO
+- SFT
+draft: false
+source:
+  url: https://arxiv.org/abs/2604.16358
+  title: 'SaFeR-Steer: Evolving Multi-Turn MLLMs via Synthetic Bootstrapping and Feedback Dynamics'
+  author: Haolong Hu
+  publishedAt: 2026-09-14T13:00:00+0900
+  words: 15995
+  image: https://arxiv.org/html/2604.16358v3/intro.png
+paper:
+  arxivId: '2604.16358'
+  authors:
+  - Haolong Hu
+  - Hanyu Li
+  - Tiancheng He
+  - Huahui Yi
+  - An Zhang
+  - Qiankun Li
+  - Kun Wang
+  - Yang Liu
+  - Zhigang Zeng
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+현재 다중 모드 대형 언어 모델은 여러 차례에 걸친 대화 환경에서 점차 활용되고 있다. 공격자는 시각적·텍스트적 대화 이력을 악용해 위험한 의도를 점진적으로 확대하거나, 긴 문맥 처리 과정에서 발생하는 안전성 저하 현상을 노린다. 그러나 기존 안전성 정렬 기술은 단일 턴 데이터와 고정된 템플릿 대화에 의존하는 경우가 많아, 실제 배포 환경과의 괴리가 존재한다.
+
+이 격차를 해소하기 위해 저자들은 SaFeR-Steer 프레임워크를 제안한다. 이 방법은 단계적 합성 부트스트랩과 튜터가 개입하는 GRPO 알고리즘을 결합해, 적응형 공격 하에서 단일 학생 모델을 학습시킨다. 또한 턴별 보상 중 최저값과 평균을 집계하는 궤적 일관성 총괄 보상 기법을 도입해, 낮은 품질의 턴이 전체 대화 결과에 영향을 미치도록 설계했다.
+
+저자들은 이와 함께 1~10턴에 이르는 다중 턴 멀티모달 안전성 데이터셋 STEER를 공개한다. 이 데이터셋은 학습용, 강화학습용, 벤치마크용으로 나뉘며 각각 수천 개의 대화 데이터를 포함한다. 이를 통해 기존 단일 턴 중심의 한계를 넘어 실제 다중 턴 상호작용에 적합한 평가 및 학습 환경을 제공한다.
+
+저자들의 주장에 따르면 Qwen2.5-VL 기반 모델에 이 방법을 적용하면 단일 턴 및 다중 턴 벤치마크에서 안전성과 유용성 점수가 크게 향상된다. 실패 사례가 대화의 후반부로 밀려나며 확장 효과 이상의 강건함을 보인다고 설명한다. 관련 코드는 공개된 저장소에서 확인할 수 있다.
+
+---
+
+원문: [SaFeR-Steer: Evolving Multi-Turn MLLMs via Synthetic Bootstrapping and Feedback Dynamics](https://arxiv.org/abs/2604.16358)

@@ -1,0 +1,43 @@
+---
+title: Hopper GPU에서 LLM 추론 성능을 정확히 파악하는 법
+category: papers
+axis: serving
+format: explainer
+summary: 단일 SM 사용률 수치만으로는 LLM 추론의 실제 작업량을 파악하기 어렵다. 저자들은 H100 NVL 환경에서 vLLM과 FlashAttention-3을 프로파일링하여, 디코딩 단계의 성능 병목 원인을 8가지 세부 지표로 분석하는 방법을 제시한다.
+publishedAt: 2026-09-15T22:00:05+0900
+tags:
+- vLLM
+- quantization
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.12923
+  title: Dissecting GPU Utilization for LLM Inference on Nvidia Hopper
+  author: Mohammad Siavashi
+  publishedAt: 2026-09-14T13:00:00+0900
+  words: 11434
+  image: https://arxiv.org/html/2609.12923v1/fig1_smbusy.png
+paper:
+  arxivId: '2609.12923'
+  authors:
+  - Mohammad Siavashi
+  - Gerald Q. Maguire Jr.
+  - Dejan Kostic
+  - Marco Chiesa
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대규모 언어 모델 추론 시 단일 스트리밍 멀티프로세서 사용률 퍼센트만으로는 실제 수행되는 유용한 작업량을 파악하기 어렵다. 이 수치가 틀렸기 때문이 아니라, 여러 다른 메커니즘을 하나의 숫자로 압축했기 때문에 문제가 발생한다. 특히 디코딩 단계에서는 각 요청이 단 한 개의 토큰만 생성하므로 밀집된 행렬 곱셈이 작은 행렬 연산으로 변형되어 이 현상이 두드러진다.
+
+Hopper 아키텍처에서 bfloat16 GMMA 경로는 이러한 작업을 고정된 64행 행렬 조각으로 실행한다. 따라서 소규모 배치 디코딩 시 각 조각의 실제 토큰 행 점유율은 매우 낮아진다. 저자들의 주장에 따르면, 이는 GPU가 계산 포화 상태처럼 보이지만 실제로는 유효한 작업이 거의 이루어지지 않는 상황을 초래할 수 있다.
+
+이 논문에서는 H100 NVL에서 vLLM과 FlashAttention-3, cuBLASLt를 사용하여 콜드 프리필, 웜 프리필, 디코딩 단계의 시퀀스 길이와 배치 크기를 다양하게 변경하며 프로파일링을 수행했다. 기존의 단일 사용률 수치 대신 Nsight Compute 리포트의 원시 데이터에서 파생된 8가지 검증된 관점을 도입했다. 각 관점은 특정 NCU 카운터나 명시적 공식에 매핑되어 있다.
+
+이러한 다각도의 분석은 사용률 격차를 구체적인 메커니즘으로 연결한다. 저자들은 프래그먼트 채움, 점유율 한계, 정지 시그니처, 웨이브 양자화, 커널 선택 등 네 가지 프로덕션 모델과 여섯 가지 레이어별 커널 역할에 걸쳐 성능 병목 원인을 명확히 구분하는 방법을 제시한다.
+
+---
+
+원문: [Dissecting GPU Utilization for LLM Inference on Nvidia Hopper](https://arxiv.org/abs/2609.12923)

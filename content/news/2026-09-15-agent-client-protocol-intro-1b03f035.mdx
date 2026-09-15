@@ -1,0 +1,33 @@
+---
+title: 에이전트 제어 표준 ACP, MCP의 반대편을 채우다
+category: news
+axis: agent
+format: explainer
+summary: MCP가 에이전트의 도구 호출을 표준화했다면 ACP는 클라이언트가 에이전트를 제어하는 프로토콜이다. Zed와 JetBrains가 주도한 이 개방형 표준은 하네스별 인터페이스 불일치를 해결하고 분산 환경을 가능하게 한다.
+publishedAt: 2026-09-15T22:00:05+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://www.youtube.com/watch?v=tOPsby-irKY
+  title: '[한영자막] AI 에이전트를 위한 만능 리모컨, ACP를 소개합니다'
+  publishedAt: 2026-09-13T07:00:06+0900
+  image: https://i.ytimg.com/vi/tOPsby-irKY/hqdefault.jpg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+에이전트 생태계에서 MCP(Model Context Protocol)는 에이전트가 외부 도구를 호출하는 방향의 표준으로 자리 잡았다. 하지만 클라이언트가 다양한 에이전트 하네스를 일관되게 제어할 수 있는 표준은 부재했다. ACP(Agent Client Protocol)는 바로 이 공백을 메우기 위해 등장한 개방형 프로토콜이다. Block의 Alex Hancock이 Goose 메인테이너로서 MCP Rust SDK 개발 경험을 바탕으로 Zed와 JetBrains에서 시작된 이 표준의 구조와 의미를 설명한다.
+
+기존에는 각 하네스가 독자적인 인터페이스를 사용해 클라이언트 구현마다 별도의 연동이 필요했다. ACP는 이러한 비효율을 제거하고 단일 클라이언트 구현으로 모든 에이전트를 제어할 수 있게 한다. JSON-RPC 기반으로 세션 관리, 메시지 송수신, 도구 호출 알림, 권한 요청 등을 처리하며 커스텀 메서드를 통해 유연하게 확장된다. 이는 개발자가 특정 하네스에 종속되지 않고 보편적인 방식으로 에이전트를 다룰 수 있음을 의미한다.
+
+ACP는 HTTP와 WebSocket을 원격 전송 계층으로 활용하여 클라이언트, 하네스, 도구(MCP), 모델이라는 네 가지 요소를 독립적으로 분산 배치할 수 있게 한다. 서로 다른 두 클라이언트로 동일한 에이전트를 제어하는 데모를 통해 그 실용성을 입증했다. 이러한 구조는 각 구성 요소가 기술 스택에 구애받지 않고 최적의 환경에서 동작하도록 하며, 시스템의 확장성과 유지보수성을 높인다.
+
+클라이언트 생태계가 활성화되면 UX 품질 경쟁이 본격화될 것으로 예상된다. 표준화된 제어 프로토콜은 개발자들이 에이전트의 내부 로직보다는 사용자 경험 개선에 집중할 수 있게 만든다. 이는 궁극적으로 AI 전반의 사용자 경험을 크게 도약시키는 계기가 될 것이다. ACP가 가져올 변화와 더 자세한 기술적 내용은 원문을 참고하면 알 수 있다.
+
+---
+
+원문: [[한영자막] AI 에이전트를 위한 만능 리모컨, ACP를 소개합니다](https://www.youtube.com/watch?v=tOPsby-irKY)

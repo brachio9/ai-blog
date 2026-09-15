@@ -1,0 +1,32 @@
+---
+title: 내 에이전트를 다른 에이전트가 호출하게 하는 A2A Python SDK
+category: community
+axis: agent
+format: explainer
+summary: 파이토치 한국모임은 A2A Python SDK를 소개하며, 복잡한 프로토콜 구현 부담을 줄이고 핵심 로직에 집중할 수 있음을 설명한다. 이 SDK는 에이전트 능력 정의와 실행 로직만 작성하면 나머지 통신 및 상태 관리를 자동으로 처리해준다.
+publishedAt: 2026-09-15T22:00:05+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/a2a-2-a2a-python-sdk-a2a/11893
+  title: '[A2A 알아보기 2편] A2A Python SDK: 나의 에이전트를 다른 사람의 에이전트가 호출할 수 있도록 하기 위해 A2A 서버로 공개하기'
+  author: 9bow
+  publishedAt: 2026-09-14T12:00:58+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/4/0/4007d5b4b38d1e3993c6a6afde2b02ca749f4c5d_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+파이토치 한국모임은 A2A Python SDK가 파이썬 기반 에이전트를 A2A 프로토콜 서버로 쉽게 공개할 수 있게 한다고 설명한다. 기존에는 에이전트 로직과 별개로 능력 문서화, 요청 태스크 변환, 상태 관리, 스트리밍 전송 등 주변 코드를 직접 구현해야 했으나, 이 SDK는 그러한 부수 작업을 대신 처리한다. 개발자는 에이전트의 기능을 기술하는 AgentCard와 실제 업무를 수행하는 AgentExecutor만 구현하면 되며, SDK가 제공하는 핸들러와 라우트 생성 함수가 나머지 통신 부분을 담당한다.
+
+이 라이브러리는 Starlette이나 FastAPI 같은 ASGI 프레임워크와 호환되어 기존 인증 및 로깅 미들웨어 구성을 유지한 채 A2A 엔드포인트만 추가할 수 있다. 파이토치 한국모임은 a2a-samples 저장소의 helloworld 예제를 기준으로 SDK의 구성 요소를 설명하며, 에이전트 카드 제공부터 메시지 태스크 변환, 상태 전이 관리, 스트리밍 이벤트 출력까지 프로토콜 명세에서 요구하는 항목들을 계층적으로 처리함을 강조한다.
+
+직접 구현 시에는 잘 알려진 경로에 에이전트 카드를 제공하고 들어온 메시지를 식별자 발급과 함께 태스크로 바꾸며, 선언하지 않은 기능 호출 시 정해진 오류를 반환하는 등 다양한 작업이 필요하다. SDK는 이러한 복잡한 프로세스를 내부 계층으로 분리하여 개발자가 맨 아래 칸인 핵심 로직만 채우면 되도록 설계되었다. 이를 통해 에이전트 자체보다 주변 코드가 커지는 문제를 해결하고, 표준 규격을 따르는 서버 구축을 간소화할 수 있다.
+
+---
+
+원문: [[A2A 알아보기 2편] A2A Python SDK: 나의 에이전트를 다른 사람의 에이전트가 호출할 수 있도록 하기 위해 A2A 서버로 공개하기](https://discuss.pytorch.kr/t/a2a-2-a2a-python-sdk-a2a/11893)
