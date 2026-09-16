@@ -1,0 +1,32 @@
+---
+title: LiveKit Agents 1.8.2, 에이전트 성능과 가시성을 높이다
+category: releases
+axis: voice
+format: explainer
+summary: LiveKit Agents 1.8.2는 에이전트 시작 속도를 최대 800ms까지 단축하고 이벤트 루프 블로킹을 자동으로 감지한다. 전체 라이프사이클에 대한 추적 기능이 강화되어 디버깅과 성능 분석이 용이해졌다.
+publishedAt: 2026-09-16T22:00:06+0900
+draft: false
+source:
+  url: https://github.com/livekit/agents/releases/tag/livekit-agents%401.8.2
+  title: livekit-agents@1.8.2
+  author: tinalenguyen
+  publishedAt: 2026-09-16T04:48:21+0900
+  words: 755
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 가장 큰 변화는 에이전트의 실행 환경 최적화다. prefork 서버가 포크 전에 라이브러리를 미리 로드하도록 개선하면서 에이전트 시작 시간이 최대 800ms까지 줄어든다. 또한 asyncio 이벤트 루프를 막는 코드를 자동으로 감지해 Agent Insights에 표시하므로, 프로파일러를 붙이지 않아도 병목 지점을 쉽게 찾을 수 있다.
+
+에이전트의 전체 라이프사이클을 추적하는 기능이 대폭 강화되었다. 초기 디스패치 대기 시간부터 세션이 라이브로 전환되는 과정까지의 소요 시간을 명확히 파악할 수 있게 되었다. 턴 넘김, 인터럽션, RPC 호출 등 대화 흐름의 세부 단계까지 트레싱 범위가 확대되어 어디서 시간이 지체되는지 정확히 진단할 수 있다.
+
+외부 서비스와의 연동 안정성도 개선되었다. Deepgram STT에서 소켓이 조용히 끊어지는 상황을 감지해 멈춰서는 현상을 방지하고, ElevenLabs의 실시간 STT에 보조 언어 및 언어 감지 기능이 추가되었다. 또한 텍스트 시뮬레이션 환경에서 DuplexModel이 시작되는 것을 차단하는 등 에러 처리 로직이 보강되어 개발자의 디버깅 부담을 줄였다.
+
+이 요약은 주요 변경 사항 중 성능과 가시성 개선에 초점을 맞춘 것이다. Synthesia 인터랙티브 아바타 플러그인 추가, Gemini 및 Mistral의 중간 대화 지시어 위치 조정 등 기타 기능 추가와 버그 수정도 포함되어 있으나 여기서는 생략했다.
+
+---
+
+원문: [livekit-agents@1.8.2](https://github.com/livekit/agents/releases/tag/livekit-agents%401.8.2)

@@ -1,0 +1,36 @@
+---
+title: AI 코딩 에이전트의 불필요한 코드와 문서를 정리하는 오픈소스 도구 Paperthin
+category: community
+axis: vibe-coding
+format: explainer
+summary: 코딩 에이전트가 생성하는 불필요한 코드와 문서를 제거하기 위한 오픈소스 스킬 모음인 Paperthin을 소개합니다. 프로젝트 관리자는 이 도구가 코드를 추가하는 대신 기존 저장소를 정리하고 검증하는 데 집중한다고 설명했습니다.
+publishedAt: 2026-09-16T22:00:06+0900
+tags:
+- Claude Code
+- Codex
+- Cursor
+- Copilot
+- OpenCode
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/paperthin-28-in-1/11921
+  title: 'Paperthin: 코딩 에이전트가 작업 중 생성한 문서와 코드를 덜어내는 오픈소스 스킬 모음 (28-in-1)'
+  author: 9bow
+  publishedAt: 2026-09-15T21:00:28+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/a/3/a30054bac56819db85949005c9194ab99b40e295_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+코딩 에이전트는 주어진 목표에 따라 파일과 옵션, 템플릿 코드 등을 자동으로 추가하는 경향이 있습니다. 이러한 과정은 작업이 진행되고 있는 것처럼 보이지만, 실제로는 불필요한 문서와 코드가 쌓이는 결과를 낳기도 합니다. Paperthin은 이런 문제를 해결하기 위해 설계된 오픈소스 프로젝트로, 에이전트가 생성한 필요 없는 요소들을 저장소에서 덜어내는 28가지 스킬을 제공합니다.
+
+프로젝트 관리자는 이 스킬들이 새로운 코드를 작성하는 것이 아니라 기존 초안을 깔끔하게 재구성하거나 흩어진 문서를 통합하는 데 사용된다고 강조했습니다. 또한 여러 코드나 문서에 포함된 주장을 외부 자료와 대조하여 불필요하거나 잘못된 내용을 제거하는 방식이라고 설명합니다. 실제로 28종 중 테스트나 코드 생성을 대신하는 스킬은 없으며, 문서 재작성과 같은 정리 작업에 초점을 맞추고 있습니다.
+
+Paperthin의 핵심은 AI 에이전트가 읽는 마크다운 형식의 지침 파일들로 구성되어 있으며, 작은 Node 런타임이 함께 제공됩니다. 이 런타임은 세션 시작 시 새로운 스킬 업데이트를 확인하고 상태를 기록하며, 하루 한 번만 실행되어 사용자에게 알림만 줍니다. 설치는 Vercel Skills 생태계를 통해 간편하게 가능하며, Claude Code 플러그인 정의도 포함되어 있어 다양한 에이전트 환경에서 활용 가능합니다.
+
+---
+
+원문: [Paperthin: 코딩 에이전트가 작업 중 생성한 문서와 코드를 덜어내는 오픈소스 스킬 모음 (28-in-1)](https://discuss.pytorch.kr/t/paperthin-28-in-1/11921)

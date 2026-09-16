@@ -1,0 +1,35 @@
+---
+title: 맥에서 Mistral Small 4 실행 시 NaN 오류 해결
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp b10994 릴리즈는 Apple Silicon 환경에서 특정 모델의 활성화 값이 f16 범위를 초과할 때 발생하는 NaN 오류를 수정한다. 이로 인해 Mistral Small 4와 같은 대규모 MoE 모델에서 긴 입력 처리 시 출력이 깨지는 문제가 해결되었다.
+publishedAt: 2026-09-16T22:00:06+0900
+tags:
+- Claude Code
+- quantization
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b10994
+  title: b10994
+  author: github-actions[bot]
+  publishedAt: 2026-09-16T16:23:56+0900
+  words: 1604
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Apple Silicon(Metal) 환경에서 llama.cpp를 사용할 때 특정 조건 하에 계산 결과가 NaN(Not a Number)으로 나오는 치명적인 버그가 수정되었다. 이는 Mistral Small 4와 같은 많은 전문가를 가진 혼합 전문가 모델(MoE)을 실행할 때 주로 발생했으며, 입력 토큰 수가 32개 이상일 경우 사전 채팅(prefill) 단계에서 어휘 전체가 NaN으로 변해 정상적인 추론이 불가능해지는 현상이었다. 반면 짧은 입력이나 CPU 환경에서는 문제가 없었기 때문에 Metal 백엔드의 특정 연산 경로에 결함이 있다는 것이 확인되었다.
+
+문제의 원인은 Metal의 행렬 곱셈 연산자(mul_mm_id)가 활성화 값을 half 정밀도(f16)로 변환하는 과정에서 발생했다. f16은 최대 표현 가능한 값이 65,504로 제한되어 있는데, 모델의 활성화 값이 이 범위를 초과하면 무한대(inf)로 처리되고 이후 연산에서 NaN으로 전파되었다. 특히 입력 길이가 길어질수록 활성화 값의 크기가 커져 이 문제가 두드러졌으며, 기존 테스트 케이스는 활성화 값을 [-1, 1] 범위로 초기화했기 때문에 이러한 극단적인 상황을 재현하지 못해 발견이 늦어졌다.
+
+개발진은 src1 데이터를 f16 범위에 맞도록 2의 거듭제곱 스케일로 조정하고, 결과를 저장할 때 이를 다시 원래 스케일로 되돌리는 방식으로 문제를 해결했다. 이 방법은 점적(dot product) 연산의 선형성을 활용하여 정확도를 해치지 않으면서 오버플로우를 방지한다. 또한 테스트 스위트에 활성화 값의 최대값(amax)을 조절할 수 있는 파라미터를 추가해, 향후 유사한 범위를 벗어난 수치로 인한 오류를 사전에 탐지할 수 있도록 했다.
+
+이 수정은 Apple Silicon 기기에서 Mistral Small 4와 같이 큰 활성화 값을 가지는 모델을 안정적으로 실행하려는 사용자에게 직접적인 이점을 제공한다. 이제 긴 컨텍스트 처리 시에도 출력이 깨지지 않으며, Metal 백엔드의 신뢰성이 높아졌다. 이번 릴리즈에는 이 외에도 여러 개선 사항이 포함되었으나, 이 NaN 오류 수정이 가장 주목할 만한 변경점이다.
+
+---
+
+원문: [b10994](https://github.com/ggml-org/llama.cpp/releases/tag/b10994)

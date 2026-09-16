@@ -1,0 +1,54 @@
+---
+title: AI 과학 연구, 코드로 실행하고 세션으로 관리한다
+category: papers
+axis: agent
+format: explainer
+summary: OpenAI4S는 AI가 장기적인 과학 연구를 수행할 때 필요한 상태 유지와 재현성을 보장하는 오픈소스 에이전트다. 코드를 실행 행위로, 연구 과정을 세션으로 관리하며 실행 기록과 아티팩트 버전을 통해 워크플로우의 투명성을 확보한다.
+publishedAt: 2026-09-16T22:00:06+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.15096
+  title: 'OpenAI4S: Code as Action, Science as Sessions'
+  author: Gongbo Zhang
+  publishedAt: 2026-09-16T13:00:00+0900
+  words: 11982
+  image: https://arxiv.org/html/2609.15096v1/OpenAI4S_teaser.png
+paper:
+  arxivId: '2609.15096'
+  authors:
+  - Gongbo Zhang
+  - Hao Li
+  - Yu Wang
+  - Mujie Lin
+  - Liuzhenghao Lv
+  - Yicheng Mao
+  - Yimi Wang
+  - Jun Zhu
+  - Minhan Tang
+  - Zhengxiang Jiang
+  - Yusong Wang
+  - Jiayu Yao
+  - Kunpeng Ning
+  - Dawei Pang
+  - Yonghong Tian
+  - OpenAI4S Community
+  - Yuyang Liu
+  - Li Yuan
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+AI가 과학 연구 파트너로 참여할 때 단기적인 코드 생성이 아닌 장기적인 연구 흐름을 유지하는 것이 핵심 과제다. OpenAI4S는 '코드는 행동, 과학은 세션'이라는 원칙 아래 지속적인 컴퓨팅 런타임과 연구 세션 관리를 결합한다. 구조화된 도구 호출로 오케스트레이션을 처리하고, Python 및 R 커널에서 실행되는 완전한 코드 셀을 통해 과학적 행동을 표현한다.
+
+이 시스템은 부가기록형 액션 원장, 셀별 실행 기록, 버전 관리된 아티팩트, 환경 기록, 작업 공간 체크포인트를 통해 결과 생성 과정을 보존한다. 이를 통해 세션 복구, 분기, 확장이 가능해지며 구성 가능한 샌드박스와 권한 제어, 코드 및 궤적 검사를 보완적인 안전장치로 제공한다.
+
+저자들의 주장에 따르면 OpenAI4S는 retrosynthesis, 분자 동역학, 단백질 결합체 설계 등 36가지 연구 시나리오에서 종합 점수 7.83을 기록했다. 이는 세 가지 최전방 모델을 사용한 일반 목적 코딩 하네스의 5.7~6.4점보다 높으며, 특히 장기적이고 계산 집약적인 워크플로우에서 가장 큰 향상을 보였다.
+
+이 결과는 지속적 실행과 세션 수준의 유래 관리를 통합하면 AI 지원 과학 워크플로우의 신뢰성을 높일 수 있음을 시사한다. 다만 환경 지정과 완전한 재실행 가능성은 평가된 모든 시스템에서 여전히 약점으로 남아 있어, 과학용 에이전트의 재현성은 아직 해결되지 않은 문제로 남는다.
+
+---
+
+원문: [OpenAI4S: Code as Action, Science as Sessions](https://arxiv.org/abs/2609.15096)
