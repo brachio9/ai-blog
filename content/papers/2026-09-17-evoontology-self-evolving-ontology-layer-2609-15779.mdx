@@ -1,0 +1,42 @@
+---
+title: 데이터 에이전트의 이해를 돕는 자가진화 온톨로지, EvoOntology
+category: papers
+axis: agent
+format: explainer
+summary: 이질적인 데이터와 에이전트 간의 간극을 메우기 위해 자가진화하는 온톨로지 레이어를 도입한다. 빌더 에이전트가 자동으로 온톨로지를 구축하고, 실행 중 지속적으로 개선되는 구조다.
+publishedAt: 2026-09-17T22:00:02+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.15779
+  title: 'EvoOntology: A Self-Evolving Ontology Layer for Data Agents'
+  author: Meiduo Chong
+  publishedAt: 2026-09-16T13:00:00+0900
+  words: 8540
+  image: https://arxiv.org/html/2609.15779v1/ill.png
+paper:
+  arxivId: '2609.15779'
+  authors:
+  - Meiduo Chong
+  - Shaolei Zhang
+  - Ju Fan
+  - Xiaoyong Du
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+데이터 에이전트는 테이블, 파일, 데이터베이스 등 이질적인 데이터에 대해 자연어 지시를 수행하도록 설계되었다. 그러나 현재 에이전트들은 외부에 존재하는 데이터를 일반적인 도구(컬럼명이나 파일 경로 등)를 통해서만 접근할 수 있어, 에이전트와 데이터 간의 간극(agent-data gap)이라는 심각한 한계에 부딪혀 있다.
+
+기존의 해결책은 에이전트가 원시 데이터 소스를 직접 탐색하게 하거나, 프롬프트에 수동으로 구축된 의미 레이어를 주입하는 방식이었다. 하지만 이러한 접근법은 대규모 이질 데이터 소스에는 확장성이 부족하며, 다양한 에이전트의 행동 패턴에도 유연하게 적응하지 못하는 단점이 있다.
+
+이 논문의 저자들은 이러한 문제를 해결하기 위해 'EvoOntology'라는 자가진화 온톨로지 레이어를 제안한다. 이 시스템은 스키마 레이어, 콘텐츠 레이어, 도구 레이어로 구성된 MCP 서버 형태로 온톨로지를 캡슐화하여, 에이전트가 실행 시점에 능동적으로 온톨로지를 쿼리하고 상호작용할 수 있게 한다.
+
+저자들은 자율적인 온톨로지 구축을 위한 빌더 에이전트와 자가진화 루프를 도입했다고 주장한다. 이 루프는 귀속 기반의 유형화된 편집(attribution-guided typed edits)을 통해 온톨로지를 지속적으로 정제하며, 백본 조건부 페어 평가(backbone-conditional paired evaluation)를 통과한 경우에만 변경 사항을 수용한다. 저자들의 주장에 따르면, 세 가지 널리 사용되는 데이터 에이전트 벤치마크와 네 가지 LLM 백본을 대상으로 한 실험에서 EvoOntology는 강력한 기존 방법론과 의미 레이어 접근법보다 일관되게 우수한 성능을 보이며, 이질적 데이터와의 효과적인 상호작용을 가능하게 한다고 한다.
+
+---
+
+원문: [EvoOntology: A Self-Evolving Ontology Layer for Data Agents](https://arxiv.org/abs/2609.15779)

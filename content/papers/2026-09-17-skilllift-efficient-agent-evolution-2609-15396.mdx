@@ -1,0 +1,36 @@
+---
+title: 비싼 평가 없이 에이전트 스킬을 진화시키는 SkillLift
+category: papers
+axis: agent
+format: explainer
+summary: LLM 기반 에이전트의 스킬 진화 과정에서 발생하는 고비용 평가 병목 현상을 해결하는 방법론이다. 절대적 점수 예측 대신 상대적 순위를 학습하여 평가 비용을 절감하면서도 스킬 품질을 높인다는 것이 핵심이다.
+publishedAt: 2026-09-17T22:00:02+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.15396
+  title: 'SkillLift: Learning Dense Rubrics from Sparse Oracles for Efficient Skill Evolution'
+  author: Haoxiang Kang
+  publishedAt: 2026-09-16T13:00:00+0900
+paper:
+  arxivId: '2609.15396'
+  authors:
+  - Haoxiang Kang
+  - Ming Wen
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대형 언어 모델을 기반으로 한 에이전트는 가중치 업데이트 없이 재사용 가능한 절차적 프롬프트인 지속적 스킬을 통해 적응한다. 기존 방식은 실행 피드백을 바탕으로 스킬 텍스트를 직접 수정하지만, 각 평가마다 전체 에이전트 롤아웃이 필요해 감독 신호의 병목 현상을 초래한다. 이로 인해 탐색 범위가 실패 패치에 국한되는 한계가 존재한다.
+
+연구진은 절대적 결과 회귀보다 순위 매김이 더 매끄러운 감독 목표라고 주장한다. 정확한 점수를 예측하는 것보다 어떤 스킬이 더 나은지 식별하는 데 필요한 오라클 평가 횟수가 적다는 통찰에서 출발했다. 이를 바탕으로 제안된 SkillLift는 오라클 비용과 스킬 탐색을 분리하여, 구조화된 평가 공간인 오라클 정렬 기준을 학습한다.
+
+이 방법은 교대 최적화를 통해 해결되는 이차 계획 문제로 공식화된다. 내부는 고정된 기준을 저렴한 대리 모델로 사용하여 오라클 비용 없이 스킬 수정을 유도하고, 외부는 소수의 오라클 롤아웃을 호출하여 순위 상관관계로 기준을 재정렬한다. 이를 통해 오라클 비용을 분산시키고 텍스트 공간에서의 업데이트를 안정화시킨다.
+
+복잡한 에이전트 작업 벤치마크 실험 결과, 저자들의 주장에 따르면 이 방법은 기존 자동 스킬 방법보다 성능이 우수하며 최첨단 진화 방법 대비 토큰 비용이 40~70% 절감된다고 한다. 관련 코드는 GitHub에서 확인할 수 있다.
+
+---
+
+원문: [SkillLift: Learning Dense Rubrics from Sparse Oracles for Efficient Skill Evolution](https://arxiv.org/abs/2609.15396)

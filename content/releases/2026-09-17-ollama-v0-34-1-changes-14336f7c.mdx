@@ -1,0 +1,34 @@
+---
+title: 'Ollama v0.34.1: MLX 안정화와 API 속도 개선'
+category: releases
+axis: serving
+format: explainer
+summary: Ollama v0.34.1은 Apple Silicon 환경의 MLX 메모리 처리를 개선하고 safetensors 지원을 정식화했다. 대용량 모델 라이브러리에서 /api/tags 응답 속도가 크게 향상되었으며, 반복 토큰 감지 임계값 조정으로 오작동을 줄였다.
+publishedAt: 2026-09-17T22:00:02+0900
+tags:
+- quantization
+draft: false
+source:
+  url: https://github.com/ollama/ollama/releases/tag/v0.34.1
+  title: v0.34.1
+  author: github-actions[bot]
+  publishedAt: 2026-09-15T07:14:03+0900
+  words: 107
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Apple Silicon 사용자를 위해 MLX 관련 기능이 안정화되었다. 이전까지 실험 단계였던 safetensors 기반의 ollama create 명령어가 정식 지원으로 격상했으며, GGUF 모델 생성 시에는 llama.cpp 도구를 통한 변환 및 양자화가 필수적으로 요구된다. 또한 Apple Silicon에서의 MLX 메모리 처리 로직이 개선되어 더 효율적인 자원 관리를 기대할 수 있다.
+
+대규모 모델 라이브러리를 관리하는 사용자에게는 /api/tags 엔드포인트의 성능 향상이 눈에 띈다. 테스트 결과 콜드 스타트 상태에서의 응답 시간이 약 3.1초에서 294밀리초로 단축되었으며, 모델 기능 정보도 일관되게 보고된다. 이는 많은 수의 모델을 로컬에 보유할 때 시스템 부하를 줄이고 탐색 속도를 높이는 데 기여한다.
+
+생성 품질과 관련된 설정에서도 변화가 있었다. 반복 토큰 감지 알고리즘이 개선되어 100개의 연속된 반복 토큰이 검출되어야만 중단되도록 임계값이 조정되었다. 이는 OCR 작업 등에서 발생할 수 있는 위양성(false positive)을 줄이기 위한 조치다. 반면 typical_p 파라미터는 새 모델 생성 시 더 이상 설정할 수 없으며, 기존 GGUF 모델에서만 지원된다.
+
+이번 업데이트에는 MLX와 llama.cpp의 최신 버전 반영 등 내부 라이브러리 갱신도 포함되었다. 전체 변경 내역은 공식 저장소의 비교 페이지에서 확인할 수 있으며, 여기서는 주요 기능 안정화와 성능 개선 사항만 요약했다.
+
+---
+
+원문: [v0.34.1](https://github.com/ollama/ollama/releases/tag/v0.34.1)
