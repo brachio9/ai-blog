@@ -1,0 +1,35 @@
+---
+title: '에이전트가 내 브라우저 세션을 빌려 쓰는 법: BrowserSkill'
+category: community
+axis: vibe-coding
+format: explainer
+summary: BrowserSkill은 로그인된 실제 브라우저 상태를 에이전트가 별도의 창에서 사용할 수 있게 하는 CLI 도구다. 사용자의 작업 흐름을 방해하지 않으면서 인증 정보를 재사용할 수 있어 사내 도구 자동화에 유용하다.
+publishedAt: 2026-09-18T22:00:03+0900
+tags:
+- Claude Code
+- Codex
+- Cursor
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/browserskill-cli/11936
+  title: 'BrowserSkill: 사람이 사용하던 브라우저 상태 그대로 에이전트에게 사용할 수 있도록 하는 CLI 도구'
+  author: 9bow
+  publishedAt: 2026-09-17T17:30:37+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/c/7/c7ba531e7eca9a1b25678b6c733823145eaa4a3a_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+AI 에이전트에게 브라우저를 조작하게 할 때 가장 큰 장벽은 로그인 상태 유지와 사용자 간섭 문제다. 기존 방식은 매번 새 프로필로 시작해 인증 절차에 막히거나, 사용자의 실제 브라우저 창을 잠궈 다른 작업을 못 하게 만드는 단점이 있다. 파이토치 한국모임의 작성자는 이러한 문제를 해결하기 위해 BrowserSkill이라는 도구를 소개했다. 이 도구는 이미 로그인된 사용자의 브라우저를 별도의 '에이전트 창'으로 빌려주어 세션은 그대로 유지하면서도 사용자의 작업에는 방해가 되지 않도록 설계되었다.
+
+BrowserSkill은 `bsk`라는 명령줄 인터페이스와 브라우저 확장을 조합해 작동한다. 에이전트는 셸 명령을 통해 이 도구를 호출하면 로컬 데몬이 중개하여 브라우저 확장에 작업을 전달한다. 이때 실제 조작은 사용자의 기존 탭이 아닌 별도 창에서 이루어지며, 기존 탭에 접근하려면 명시적으로 빌려야 한다. Claude Code나 Cursor 등 셸 명령 실행이 가능한 에이전트라면 특정 프레임워크에 구애받지 않고 사용할 수 있으며, macOS, Linux, Windows와 Chrome, Edge를 지원한다.
+
+복잡한 인증이나 캡차 처리가 필요할 경우 휴먼인더루프(Human-in-the-loop) 방식으로 사용자의 개입을 요청하고 다시 작업을 이어받는 기능도 기본 제공한다. 이는 에이전트가 사람처럼 자연스럽게 브라우저 상태를 이용할 수 있게 해준다. 작성자는 BrowserSkill이 로그인된 실제 브라우저를 활용한다는 점에서는 Browser MCP와 유사하지만, 에이전트가 브라우저를 빌리는 방식에서 차이가 난다고 설명했다. Browser MCP가 MCP 프로토콜을 통해 접근하는 반면, BrowserSkill은 CLI 기반의 독립적인 구조를 가진다는 점이 주요 구별점이다.
+
+---
+
+원문: [BrowserSkill: 사람이 사용하던 브라우저 상태 그대로 에이전트에게 사용할 수 있도록 하는 CLI 도구](https://discuss.pytorch.kr/t/browserskill-cli/11936)

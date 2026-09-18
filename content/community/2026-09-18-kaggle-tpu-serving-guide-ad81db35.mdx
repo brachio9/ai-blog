@@ -1,0 +1,41 @@
+---
+title: 무료 Kaggle TPU로 320B 모델 서빙하는 법
+category: community
+axis: serving
+format: explainer
+summary: Kaggle의 무료 TPU 할당량을 활용해 대규모 언어 모델을 직접 호스팅할 수 있는 방법을 소개한다. GPU 없이도 고성능 모델을 실행하고 외부 API로 접근 가능한 엔드포인트를 만드는 레시피 저장소 kaggle-tpu-lab을 다룬다.
+publishedAt: 2026-09-18T22:00:03+0900
+tags:
+- Claude Code
+- Codex
+- OpenCode
+- vLLM
+- SGLang
+- quantization
+- speculative decoding
+- prefix caching
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/kaggle-tpu-lab-kaggle-tpu-320b-glm-5-3-flash-api/11944
+  title: 'Kaggle TPU Lab: 무료 Kaggle TPU에서 320B 크기의 GLM-5.3-Flash을 서빙하는 코딩 에이전트용 API 레시피 저장소'
+  author: 9bow
+  publishedAt: 2026-09-18T07:30:14+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/c/e/ceb9c46797ce8e8dd4c88a1e99c4be4f50c60e03_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+가중치가 공개된 대형 모델을 개인 장비에서 돌리기에는 메모리 부족이 걸림돌이다. 27B 모델만 해도 bf16 형식으로 적재하려면 55GB 이상의 메모리가 필요하며, 320B 규모의 MoE 모델은 그보다 훨씬 더 많은 자원을 요구한다. 이러한 한계를 극복하기 위해 클라우드 GPU를 시간제로 빌리거나 상용 API를 사용하게 되지만, 이는 사용량에 비례해 비용이 발생한다는 단점이 있다.
+
+kaggle-tpu-lab 저장소는 Kaggle이 무료로 제공하는 TPU v5e-8 환경에서 이러한 대규모 모델을 실제로 서빙하고, OpenAI 및 Anthropic 호환 API 엔드포인트를 얻어내는 방법을 정리한 레시피 모음이다. 저자는 이 저장소에 Qwen3.8-27B와 GLM-5.3-Flash 두 모델에 대한 실행 가이드를 포함했으며, 각 모델마다 실행 가능한 Kaggle 노트북과 커널 스크립트, 성능 측정 결과를 담은 README를 함께 제공했다.
+
+Qwen3.8-27B는 vllm-tpu에 패치를 적용해 bf16 가중치 그대로 실행하는 반면, GLM-5.3-Flash는 기존 스택인 vLLM의 TPU 백엔드가 해당 모델의 선형 어텐션 계산을 지원하지 않아 저자가 JAX로 새로 작성한 엔진을 사용한다. 두 레시피 모두 모델의 원래 컨텍스트 길이인 262,144 토큰을 유지하며, cloudflared 터널을 통해 외부에서 접근 가능한 주소를 생성한다.
+
+이 방법을 활용하려면 전화 인증을 마친 Kaggle 계정과 주당 약 20시간의 무료 TPU 할당량만 있으면 된다. 로컬 환경에 별도의 설치가 필요 없으며, 노트북의 마지막 셀을 실행하면 서버가 시작되고 출력된 엔드포인트 주소와 API 키를 통해 모델을 사용할 수 있다.
+
+---
+
+원문: [Kaggle TPU Lab: 무료 Kaggle TPU에서 320B 크기의 GLM-5.3-Flash을 서빙하는 코딩 에이전트용 API 레시피 저장소](https://discuss.pytorch.kr/t/kaggle-tpu-lab-kaggle-tpu-320b-glm-5-3-flash-api/11944)

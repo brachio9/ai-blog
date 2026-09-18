@@ -1,0 +1,37 @@
+---
+title: EU AI법, 생성형 AI에 맞게 코드로 구현하는 법
+category: papers
+axis: domain
+format: explainer
+summary: EU AI법의 기술적 요구사항을 생성형 AI 시스템에 적용하기 위한 '거버넌스 코드(GaC)' 프레임워크를 소개한다. 저자들은 불확실한 법적 기준을 검증 가능한 수치로 변환하고 CI/CD 파이프라인에서 자동 감사 증거를 생성하는 방법을 제시하며, 이는 수동 감사 대비 효율성을 크게 높일 수 있다고 주장한다.
+publishedAt: 2026-09-18T22:00:03+0900
+tags:
+- EU AI Act
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.20016
+  title: 'Governance-as-Code: Translating EU AI Act Technical Requirements into Executable Compliance Pipelines for Generative AI Systems'
+  author: Rudrendu Kumar Paul
+  publishedAt: 2026-09-18T13:00:00+0900
+  words: 6653
+paper:
+  arxivId: '2609.20016'
+  authors:
+  - Rudrendu Kumar Paul
+  - Sourav Nandy
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+EU AI법은 고위험 AI 제공자에게 기술적 의무를 부과하지만, 기존 조항은 예측형 AI를 전제로 작성되어 생성형 시스템에는 적용하기 어렵다. 저자들은 데이터 거버넌스, 훈련 데이터 출처, 지속적 적합성, 인간 감독, 개방형 견고성, 돌발 위험, 생성형 공정성 등 7가지 기술적 공백이 존재한다고 지적한다. 이러한 격차를 메우기 위해 저자들은 '거버넌스 코드(GaC)'라는 프레임워크를 제안하며, 이는 6개 준수 모듈에 걸쳐 43개의 기계 검증 가능 수용 기준을 포함한다. 이 시스템은 CI/CD 파이프라인에서 실행되며 실제 Rego 정책 코드를 통해 법조항 인덱싱 감사 증거를 생성한다.
+
+저자들은 '적절한 수준'이나 '가능한 편향'과 같은 모호한 법적 기준을 선언적이고 감사 가능한 수치로 변환하는 것을 핵심 목표로 삼는다. 구체적으로 견고성 임계값은 제공자의 문서화된 베이스라인과 최신 기술 하한선을 결합하여 도출하며, 프레임 편향은 반사적 인구통계학적 프로빙으로 테스트되는 8가지 측정 가능 프록시로 단순화한다. 또한 책임 소재를 명확히 하기 위해, 하류 배포자는 상류 제공자의 훈련 데이터 요약서를 검증하는 것으로 충분하며, 개별 샘플 문서화를 요구하지 않는다는 점을 GaC가 반영했다고 설명한다.
+
+이 프레임워크의 유효성은 고위험 상담 챗봇과 제한적 위험 콘텐츠 생성기라는 두 가지 기업용 배포 사례를 통해 검증되었다. 저자들은 기존에 준수 강제를 위해 설계되지 않은 문서 아티팩트가 아닌, 수동 전문가 감사 결과와 벤치마킹을 진행했다. 그 결과 GaC는 수동 감사의 모든 발견 사항, 즉 과태료 부과 사유가 되는 3건의 위반 사항을 정확히 재현했으며, 동시에 감사 노동력을 약 75% 절감하는 성과를 거두었다고 주장한다.
+
+---
+
+원문: [Governance-as-Code: Translating EU AI Act Technical Requirements into Executable Compliance Pipelines for Generative AI Systems](https://arxiv.org/abs/2609.20016)

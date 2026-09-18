@@ -1,0 +1,37 @@
+---
+title: 코딩 에이전트 개발, 비싼 벤치마크 대신 DeltaSelect로 A/B 테스트하기
+category: papers
+axis: vibe-coding
+format: explainer
+summary: 코딩 에이전트 개발 중 빈번한 비교를 위해 전체 벤치마크 실행은 비용과 시간이 너무 든다. DeltaSelect는 소수 임무만으로 전체 성능 추이를 파악할 수 있는 오픈소스 방법이다. 저자들은 이 도구를 사용해 개발 비용을 크게 줄이면서 성능을 높일 수 있다고 주장한다.
+publishedAt: 2026-09-18T22:00:03+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.19607
+  title: 'DeltaSelect: Affordable A/B Testing for Coding Agents'
+  author: Nicholas J. Conn
+  publishedAt: 2026-09-18T13:00:00+0900
+  words: 9242
+  image: https://arxiv.org/html/2609.19607v1/figures/figure-2-selection-pipeline.png
+paper:
+  arxivId: '2609.19607'
+  authors:
+  - Nicholas J. Conn
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+코딩 에이전트 벤치마크는 모델의 종합적인 순위를 매기기 위해 설계되었지, 개발 과정에서의 잦은 의사결정을 돕기 위한 것이 아니다. 개별 실행 결과의 변동성이 크고 전체 스위트 실행 비용이 비싸며, 실제 개발 환경과 벤치마크 하네스가 다를 수 있어 개발자가 매번 전체 테스트를 돌리기에는 부담이 크다. DeepSWE의 공개된 실험 데이터를 재샘플링 분석한 결과, 전체 벤치마크 성능과 5% 분위수 피어슨 상관계수가 0.50 이상인 임무는 113개 중 단 22개(19.5%)에 불과했다.
+
+이 문제를 해결하기 위해 저자들은 DeltaSelect라는 오픈소스 방법을 제안한다. 이 방법은 단일 실행 결과로도 전체 벤치마크 성능을 일관되게 추종하는 임무를 피어슨 상관계수로 선별하고, 분수형 검증 결과를 선형 회귀를 통해 공통 점수로 매핑한다. 또한 예산 범위 내에서 고정된 임무 집합을 선정하여 개발 중 기준 모델과 후보 모델을 반복적으로 비교할 수 있도록 한다. 이 도구는 모델의 최종 순위를 매기기 위한 것이 아니라, 개발 과정에서의 효율적인 비교를 목적으로 한다.
+
+저자들은 gpt-5.6-luna 저추론(low-reasoning) 사례 연구에서 DeltaSelect를 사용해 커스텀 스킬과 지시를 수정하는 과정을 시연했다. 13번의 평가 과정에서 기록된 비용은 2026년 8월 16일 발표된 요금 기준으로 미화 27.86달러였다. 저자들의 주장에 따르면, 채택된 버전은 초기 버전보다 비용이 58.1% 절감되었으며(미화 4.18달러 대비 1.75달러, p=0.008), 보정된 점수는 오히려 더 높았다(36.46% 대비 42.36%, 출판 유사 분산 p=0.326).
+
+이 연구는 코딩 에이전트 개발자가 고비용의 전체 벤치마크 실행에 의존하지 않고도, 소규모 샘플링을 통해 효과적인 A/B 테스트를 진행할 수 있음을 보여준다. DeltaSelect는 아직 재현되지 않은 초기 단계의 방법론이지만, 개발 주기를 단축하고 비용을 절감하면서도 성능 향상을 검증하는 데 유용한 접근법으로 제시된다. 향후 더 많은 모델과 벤치마크에서의 적용 사례가 축적된다면 코딩 에이전트 개발 생태계에 표준적인 도구로 자리 잡을 가능성이 있다.
+
+---
+
+원문: [DeltaSelect: Affordable A/B Testing for Coding Agents](https://arxiv.org/abs/2609.19607)
