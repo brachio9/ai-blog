@@ -1,0 +1,43 @@
+---
+title: LLM 없이 만드는 그래프 RAG, 기하학적 이득으로 다중 홉 검색 성능 높이다
+category: papers
+axis: retrieval
+format: explainer
+summary: 다중 홉 RAG에서 의미적 격차를 메우기 위해 기존 밀도 기반 검색의 한계를 극복하는 새로운 접근법을 소개한다. LLM 호출 없이 문서 벡터만으로 그래프를 구축하여 효율성을 높이는 G3RAG 방식의 원리를 설명한다.
+publishedAt: 2026-09-19T22:00:04+0900
+tags:
+- RAG
+- dense retrieval
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.19622
+  title: Beyond Similarity through Zero-Token Geometric Graphs for Multi-Hop RAG
+  author: Zeliang Li
+  publishedAt: 2026-09-18T13:00:00+0900
+  words: 9801
+  image: https://arxiv.org/html/2609.19622v1/Fig_2.png
+paper:
+  arxivId: '2609.19622'
+  authors:
+  - Zeliang Li
+  - Xiaofen Xing
+  - Kailing Guo
+  - Xiangmin Xu
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+다중 홉 질문 답변을 위한 RAG 시스템은 쿼리와 관련성이 있으면서도 의미적 격차를 메울 수 있는 새로운 증거를 찾아야 한다. 기존 밀도 기반 검색은 의미적으로 유사한 문서에 집중하는 경향이 있어 다단계 추론이 어렵고, 그래프 기반 방법은 대규모 언어 모델(LLM)을 사용한 엔티티 추출이 비용이 많이 들며 노이즈가 섞인 연결로 인해 오류가 전파될 수 있다.
+
+연구진은 이러한 문제를 해결하기 위해 LLM 호출이나 생성 토큰 없이 문서만으로 오프라인 그래프를 구축하는 G3RAG(Geometric Gain Graph RAG)를 제안한다. 이 방법은 문서 표현 간의 방향적 일관성과 직교성을 동시에 포착하는 기하학적 이득 점수를 각 간선에 부여하며, 밀도 인식 위상 페널티를 통해 과도하게 연결된 허브 노드를 억제한다.
+
+저자들의 주장에 따르면 G3RAG는 MusiQue, 2WikiMultiHopQA, HotpotQA 데이터셋에서 평가 결과 기존 그래프 기반 베이스라인 대비 평균 F1 점수 및 답변-문서 히트율에서 가장 높은 성과를 보였다. 특히 MusiQue 벤치마크에서 최대 5.76점의 F1 향상 효과를 보였으며, 엔티티 기반 그래프 구축 방식이 발생하는 토큰 비용을 완전히 제거하는 장점이 있다.
+
+이 연구는 LLM 기반 그래프 구축 없이도 기하학적 구조를 통해 효율적인 다중 홉 증거 발견이 가능함을 보여준다. 코드와 관련 자료는 공개된 저장소에서 확인할 수 있으며, 이는 검색 엔진의 정확도와 비용 효율성을 동시에 고려한 새로운 방향성을 제시한다.
+
+---
+
+원문: [Beyond Similarity through Zero-Token Geometric Graphs for Multi-Hop RAG](https://arxiv.org/abs/2609.19622)

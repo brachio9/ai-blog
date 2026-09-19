@@ -1,0 +1,43 @@
+---
+title: Unsloth, AMD·다중 사용자 지원 강화와 Docker 이미지 업데이트
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 NVIDIA와 AMD GPU를 모두 지원하는 새 Docker 이미지를 출시했다. 다중 사용자 계정 격리 기능과 INT8/FP8 기반 이미지 생성 가속화, ARM64 Windows 지원 등 핵심 기능이 개선되었다.
+publishedAt: 2026-09-19T22:00:04+0900
+tags:
+- RAG
+- dense retrieval
+- Codex
+- MCP
+- vLLM
+- quantization
+- LoRA
+- GRPO
+- SFT
+- Whisper
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.810-beta
+  title: Docker + Multi User + AMD Support
+  author: danielhanchen
+  publishedAt: 2026-09-17T23:37:04+0900
+  words: 7951
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Unsloth는 NVIDIA CUDA와 AMD ROCm을 모두 아우르는 새로운 Docker 이미지를 제공하며, Linux 호스트에서의 AMD GPU 활용이 더욱 수월해졌다. 기존에는 NVIDIA 중심이었으나 이번 업데이트를 통해 RDNA1 및 RDNA2 아키텍처 기반의 AMD 그래픽카드도 공식적으로 지원하게 되었다. 또한 Studio 환경에서 데이터는 볼륨에 영구 저장되지만 애플리케이션 코드는 고정되지 않아 업데이트 시 설정과 비밀번호, 포트 구성 등이 유지되는 구조로 개선되었다.
+
+다중 사용자 계정 기능이 도입되어 설정 메뉴에서 개별 계정을 생성하고 격리된 환경을 사용할 수 있게 되었다. 각 사용자는 고유한 비밀번호와 설정을 가지며, 모델 로딩 조건이 동일할 경우 메모리 상의 모델을 공유하여 효율성을 높인다. 기존 단일 계정 사용자의 동작 방식은 변경되지 않아 이전 사용자들도 별도의 조치 없이 계속 서비스를 이용할 수 있다.
+
+추론 성능과 하드웨어 지원 범위도 확대되었다. 이미지 생성 파이프라인에서 INT8 및 FP8 정밀도를 지원함으로써 추론 속도가 약 2배 빨라졌다고 공식적으로 밝혔다. Windows 환경에서는 ARM64 아키텍처에 대한 CUDA 지원이 추가되어 학습과 추론이 가능해졌으며, NVIDIA GPU의 감지 오류 복구 기능도 강화되었다. 또한 Qwen3.5 모델에 대한 GRPO(Grade Reward Policy Optimization) 개선과 vLLM 통합으로 연구 및 API 활용도가 높아졌다.
+
+보안 측면에서는 샌드박스 외부 파일 접근 시 승인 요청을 통해 자격 증명 보호를 강화했고, 도구 호출 유효성 검사도 엄격해졌다. 학습 관련해서는 LoRA 저장 및 허브 푸시 기능의 안정성이 개선되었으며, 컨테이너 종료 시 체크포인트 자동 저장 기능이 더 신뢰할 수 있게 작동한다. 이러한 변경사항들은 Unsloth 팀이 공식 릴리즈 노트를 통해 발표한 주요 업데이트 내용이며, 전체 커밋 목록이나 기여자 명단은 생략된 요약본이다.
+
+---
+
+원문: [Docker + Multi User + AMD Support](https://github.com/unslothai/unsloth/releases/tag/v0.1.810-beta)

@@ -1,0 +1,37 @@
+---
+title: SGLang v0.5.20, RL 훈련과 캐싱 성능을 높이다
+category: releases
+axis: serving
+format: explainer
+summary: SGLang v0.5.20은 강화학습 롤아웃을 위한 샘플링 마스크 기능과 통합 라디스 트리를 도입했다. 이로 인해 디코딩 처리량과 토큰 히트율이 크게 개선되었으며, 여러 최신 오토레그레시브 및 디퓨전 모델 지원이 추가되었다.
+publishedAt: 2026-09-19T22:00:04+0900
+tags:
+- SGLang
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+- Whisper
+draft: false
+source:
+  url: https://github.com/sgl-project/sglang/releases/tag/v0.5.20
+  title: v0.5.20
+  author: Qiaolin-Yu
+  publishedAt: 2026-09-19T07:41:33+0900
+  words: 11815
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 릴리즈는 강화학습 훈련 파이프라인의 효율성을 높이는 데 중점을 두었다. 새로 도입된 샘플링 마스크 기능은 각 디코딩 단계에서 실제 샘플러가 참조한 토큰과 해당 로그 확률을 반환한다. 이를 통해 학습자는 상위-k 또는 상위-p를 재구성하지 않고도 롤아웃을 정확히 재생할 수 있다. 이 기능은 오버랩 스케줄링과 함께 작동하여 Qwen3-8B 모델에서 배치 크기에 따라 디코딩 처리량이 17%에서 52%까지 증가하는 성과를 보였다.
+
+메모리 관리 측면에서는 통합 라디스 트리가 도입되어 슬라이딩 윈도우 주의 메커니즘의 캐싱 효율을 높였다. 요청이 공유 접두사에서 분기되는 지점에서 상태를 유지함으로써 재계산을 피하고 브랜치가 이를 재사용하도록 했다. DeepSeek-V4-Flash 모델에서 시스템 프롬프트를 공유할 경우 토큰 히트율이 43.8%에서 60.8%로 상승하고 평균 첫 토큰 생성 시간이 1.57초에서 1.07초로 단축되었다.
+
+지원 모델 목록도 확대되었다. GLM-5.3-Flash, Hy4-Preview, Qwen3.8-Flash-Next, K2 Horizon, Nanbeige4.2 등 다양한 오토레그레시브 모델이 추가되었으며, SenseNova-U1.5-8B-MoT와 MiniMax-H3 기반의 FastH3, VDN-H3 같은 디퓨전 모델도 지원한다. 이러한 변경사항은 237명의 기여자가 참여한 713개의 풀 리퀘스트를 통해 이루어졌으며, 전체 목록 중 주요 기능만 선별하여 정리한 것이다.
+
+---
+
+원문: [v0.5.20](https://github.com/sgl-project/sglang/releases/tag/v0.5.20)

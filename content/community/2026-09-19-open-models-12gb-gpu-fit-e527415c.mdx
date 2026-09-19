@@ -1,0 +1,32 @@
+---
+title: 12GB 그래픽카드에 진짜 들어가는 오픈모델은?
+category: community
+axis: serving
+format: explainer
+summary: 구전되는 VRAM 계산법은 현재 모델에는 맞지 않는다. 실제 파일 크기와 컨텍스트 캐시 수식으로 정확도를 따져본다.
+publishedAt: 2026-09-19T22:00:04+0900
+tags:
+- MCP
+- quantization
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/which-open-models-actually-fit-a-12-gb-card-we-measured-instead-of-guessing/180521
+  title: Which open models actually fit a 12 GB card? We measured instead of guessing
+  author: CyferUnknown
+  publishedAt: 2026-09-16T22:50:08+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+Hugging Face 포럼의 한 작성자는 2023년 유행하던 '파라미터 10억 개당 4GB' 같은 경험칙이 현재 출시되는 모델에는 최대 40배까지 오차가 날 수 있다고 지적한다. 이 글은 추측이 아닌 공개된 파일의 바이트 크기와 설정 파일을 기반으로 한 계산 과정을 보여준다.
+
+모델이 그래픽카드에 들어가는지는 가중치 크기, 컨텍스트 캐시 용량, 런타임 오버헤드 세 가지 수치로 결정된다. 가중치는 실제 GGUF 파일의 크기를 측정하며, 컨텍스트 캐시는 모델 설정 파일의 레이어와 헤드 수 등을 바탕으로 계산한다. 또한 macOS는 통합 메모리의 70%만 GPU에 할당하므로 이 한계도 고려해야 한다.
+
+기존의 간단한 컨텍스트 캐시 공식은 더 이상 정확하지 않다. 최신 모델들은 모든 레이어가 전체 컨텍스트를 캐싱하지 않기 때문이다. 따라서 단순히 파라미터 수로 VRAM을 추정하는 대신, 실제 파일 크기와 모델 아키텍처 특성을 반영한 계산이 필요하다.
+
+---
+
+원문: [Which open models actually fit a 12 GB card? We measured instead of guessing](https://discuss.huggingface.co/t/which-open-models-actually-fit-a-12-gb-card-we-measured-instead-of-guessing/180521)

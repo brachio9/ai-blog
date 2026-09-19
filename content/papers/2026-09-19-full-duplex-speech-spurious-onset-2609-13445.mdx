@@ -1,0 +1,37 @@
+---
+title: 전송중에도 말을 시작하는 음성 LLM, 왜 그런가?
+category: papers
+axis: voice
+format: explainer
+summary: 양방향 음성 LLM이 사용자의 침묵 중에 부적절하게 대화를 시작하는 원인을 분석한다. 저자들은 이 현상이 자기 조건화 과정에서의 확률 급증 때문임을 확인하고, 실제 사용자 입력에 대한 반응인지 판별하는 실시간 억제 방법을 제안한다.
+publishedAt: 2026-09-19T22:00:04+0900
+tags:
+- speech-to-speech
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.13445
+  title: Causal Analysis and Mitigation of Spurious Onsets in Full-Duplex Speech LLMs
+  author: Kento Nishi
+  publishedAt: 2026-09-18T13:00:00+0900
+  words: 5208
+  image: https://arxiv.org/html/2609.13445v2/mechanism-readable.png
+paper:
+  arxivId: '2609.13445'
+  authors:
+  - Kento Nishi
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Moshi나 PersonaPlex 같은 음성-음성 LLM은 들으면서 동시에 말할 수 있는 풀듀플렉스 기능을 제공한다. 하지만 사용자가 오랫동안 침묵할 때 모델이 부적절하게 대화를 시작하는 문제가 발생한다. 연구에 따르면 5분간의 연속 생성 중 Moshi는 30%, PersonaPlex는 27.5%의 확률로 이러한 오류가 나타난다. 이 현상이 반복 샘플링 때문인지, 아니면 비음성 출력에 대한 자기 조건화가 원인인지 두 가지 가설을 세우고 검증했다.
+
+분석 결과 모든 오류 발생 지점에서 음성 시작 확률이 단 80ms 프레임 내에서 9자리 이상 급증하는 것을 확인했다. 이는 자기 조건화 과정에서의 확률 폭등이 문제의 원인임을 뒷받침한다. 따라서 진짜 응답을 막지 않으면서 이러한 오류만 억제하기 위해 인과적 반사실 질문을 던진다. 즉, 이전 사용자 입력을 무음 처리했을 때 다음 토큰 분포가 비슷하게 유지된다면 그 응답은 사용자의 말에 대한 것이 아니라고 판단하는 것이다.
+
+이러한 개입 하에서 분포 변화가 작은 경우에만 오류로 간주해 억제를 수행한다. 저자들의 주장에 따르면 실제 마이크 노이즈 환경에서도 이 방법은 오류를 효과적으로 줄이면서 진짜 응답은 보존한다. Moshi의 경우 98.68%와 98.82%, PersonaPlex는 96.90%와 99.25%의 하한 신뢰구간을 보인다고 한다. 이는 모델 재학습 없이 실시간 추론 시에도 적용 가능하며, 결정 시간이 80ms 프레임 예산 내로 유지됨을 의미한다.
+
+---
+
+원문: [Causal Analysis and Mitigation of Spurious Onsets in Full-Duplex Speech LLMs](https://arxiv.org/abs/2609.13445)
