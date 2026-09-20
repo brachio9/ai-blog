@@ -1,0 +1,50 @@
+---
+title: '학생 모델이 끝내지 못하는 이유: EOS 토큰 불일치와 길이 팽창'
+category: papers
+axis: serving
+format: explainer
+summary: 온-폴리시 증류 과정에서 학생 모델의 응답 길이가 비정상적으로 늘어나는 현상을 분석한다. 교사와 학생 모델 간 EOS 토큰 해석 차이를 공유된 정지 행동으로 통합하면 길이 팽창을 완화할 수 있다.
+publishedAt: 2026-09-20T22:00:05+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://huggingface.co/papers/2609.20511
+  title: 'When EOS Tokens Disagree: Understanding Length Inflation in On-Policy Distillation'
+  author: Yuxiao Yang
+  publishedAt: 2026-09-17T09:00:00+0900
+  words: 13465
+  image: https://arxiv.org/html/2609.20511v1/fig/baseline_opd.png
+paper:
+  arxivId: '2609.20511'
+  authors:
+  - Yuxiao Yang
+  - Tianrun Yu
+  - Shangzhe Li
+  - Kaixiang Zhao
+  - Xuchao Zhang
+  - Chetan Bansal
+  - Huaxiu Yao
+  - Taylor W. Killian
+  - Weitong Zhang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+  popularity:
+    kind: hf-upvotes
+    count: 33
+---
+
+온-폴리시 증류(OPD) 과정에서 학생 모델의 응답이 과도하게 길어지거나 생성 예산을 소진하는 길이 팽창 문제가 발생한다. 연구진은 이 현상의 주요 원인으로 베이스 학생 모델과 사후 학습된 교사 모델 간 종결 토큰(EOS) 불일치를 지목한다. 두 모델이 동일한 정지 집합을 선언했더라도 실제 정지 확률을 배치하는 EOS 토큰이 서로 다를 수 있으며, 이는 학생 모델의 선호하는 종결 행동을 억제하면서도 교사 모델의 대안을 신뢰할 수 있게 전달하지 못하게 만든다.
+
+단순히 디코딩 정지 집합만 일치시키는 것은 불충분하다. 기능적으로 등가인 EOS 토큰들을 하나의 공유된 의미론적 정지 행동으로 취급하는 접근법이 Qwen3, Llama, Gemma 세 모델 계열 모두에서 불일치로 인한 길이 팽창을 상당히 완화한다는 사실이 확인되었다. 이는 표면적인 설정 일치보다 토큰의 기능적 동등성을 인식하는 것이 더 중요함을 시사한다.
+
+훈련 과정에서 종결 행동이 어떻게 진화하는지 파악하기 위해 K2-Horizon 훈련 단계별 분석을 수행했다. 이 분석 결과 훈련 중 종결 선호도가 크게 변할 수 있음이 드러났으며, 특히 OPD 후반부에 정지 정렬 이후에도 지속되는 독특한 길이 팽창 현상이 관찰되었다. 이는 종결 불일치가 OPD의 길이 역학을 설명하는 중요한 요인이지만 유일한 원인은 아님을 보여준다.
+
+연구진은 제안된 종결 처리 수정 사항을 반영한 구현체를 공개했다. 이 결과는 증류 과정에서 모델이 언제 어떻게 답변을 끝내야 하는지에 대한 정의를 명확히 함으로써 생성 품질과 효율성을 개선할 수 있음을 시사한다.
+
+---
+
+원문: [When EOS Tokens Disagree: Understanding Length Inflation in On-Policy Distillation](https://huggingface.co/papers/2609.20511)

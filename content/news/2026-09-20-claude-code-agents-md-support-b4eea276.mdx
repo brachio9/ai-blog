@@ -1,0 +1,32 @@
+---
+title: Claude Code, AGENTS.md 지원으로 커스터마이징 문법을 확장한다
+category: news
+axis: vibe-coding
+format: explainer
+summary: Anthropic의 Claude Code가 프로젝트 지시 파일로 AGENTS.md를 지원하기 시작했다. CLAUDE.md가 없을 경우 이를 대체하여 사용하며, 이는 새로운 커스터마이징 방식인 mods 시스템에 기반한다.
+publishedAt: 2026-09-20T22:00:05+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://simonwillison.net/2026/Sep/18/thariq-shihipar/
+  title: Quoting Thariq Shihipar
+  publishedAt: 2026-09-19T04:09:27+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Claude Code는 버전 2.1.277부터 AGENTS.md 파일 지원을 공식적으로 추가했다. 기존에 프로젝트 루트에 CLAUDE.md 파일이 존재하지 않는 경우, Claude가 자동으로 AGENTS.md를 탐색하고 이를 프로젝트 지시사항으로 활용하게 된다. 이는 개발자들이 선호하는 파일명 관례를 존중하면서도 도구 설정의 유연성을 높이는 조치다.
+
+이 기능은 Anthropic이 준비 중인 'mods' 시스템에 기반해 구축되었다. mods는 Claude Code의 동작 방식을 사용자가 직접 수정하고 확장할 수 있는 새로운 커스터마이징 프레임워크다. AGENTS.md 지원은 이 시스템의 기본 내장 모듈로 제공되지만, 사용자는 필요에 따라 자신만의 프로젝트 지시 규칙을 만들어 적용할 수도 있다.
+
+Thariq Shihipar는 해당 기능의 소스 코드가 Anthropic의 GitHub 저장소에 공개되어 있다고 밝혔다. 이를 통해 개발자들은 AGENTS.md가 어떻게 구현되었는지 확인할 수 있으며, 향후 유사한 커스터마이징 모듈을 직접 작성하는 데 참고 자료로 활용할 수 있다. 이는 AI 코딩 에이전트의 설정 파일을 더 개방적이고 확장 가능한 방향으로 나아가고 있음을 시사한다.
+
+이 변화는 단순한 파일명 변경을 넘어 Claude Code의 아키텍처가 모듈화되고 사용자 정의 가능성이 커지고 있음을 보여준다. 원문의 전체 내용과 추가적인 mods 관련 정보는 Simon Willison의 블로그 링크를 통해 확인할 수 있다.
+
+---
+
+원문: [Quoting Thariq Shihipar](https://simonwillison.net/2026/Sep/18/thariq-shihipar/)

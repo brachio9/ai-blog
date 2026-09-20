@@ -1,0 +1,45 @@
+---
+title: 개인정보 보호를 위한 효율적인 연합 학습 영상 검수 프레임워크
+category: papers
+axis: domain
+format: explainer
+summary: FedVideoMAE는 영상 데이터를 서버로 전송하지 않고 로컬에서 학습하는 연합 학습 방식의 영상 검수 프레임워크다. 차등 프라이버시와 안전한 집계를 적용해 개인정보 유출을 방지하면서도 통신 부하를 크게 줄이는 것을 목표로 한다.
+publishedAt: 2026-09-20T22:00:05+0900
+tags:
+- LoRA
+draft: false
+source:
+  url: https://arxiv.org/abs/2512.18809
+  title: 'FedVideoMAE: Efficient Federated Video Moderation with Differential Privacy and Secure Aggregation'
+  author: Ziyuan Tao
+  publishedAt: 2026-09-18T13:00:00+0900
+  words: 6732
+  image: https://arxiv.org/html/2512.18809v3/with_and_without_privacy.png
+paper:
+  arxivId: '2512.18809'
+  authors:
+  - Ziyuan Tao
+  - Chuanzhi Xu
+  - Sandaru Jayawardana
+  - Adnan Mahmood
+  - Wei Bao
+  - Kanchana Thilakarathna
+  - Teng Joon Lim
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+단편 영상의 검수는 점차 엣지 환경과 같은 프라이버시가 중요한 설정으로 이동하고 있다. 사용자는 영상을 친구나 사적 그룹에게만 공유하려 할 수 있지만, 원본 클립을 중앙 서버로 보내면 노출 범위가 넓어지고 대역폭이 소모되며 검수 지연 시간이 증가할 수 있다. 연합 학습은 영상을 기기에 유지하지만, 보호되지 않은 모델 업데이트는 여전히 정보를 누설할 수 있으며 전체 영상 백본은 통신 비용이 많이 든다.
+
+저자들은 이러한 문제를 해결하기 위해 FedVideoMAE를 제안한다. 이 프레임워크는 고정된 VideoMAE 백본에 경량 LoRA와 프롬프트 파라미터를 적응시켜 폭력 감지를 수행한다. 각 학습 라운드에서는 자체 지도형 마스크 영상 재구성과 클라이언트 측 차등 프라이버시, 그리고 어댑터 업데이트의 쌍별 마스크 집계(SA)를 결합한다.
+
+저자들의 주장에 따르면, 이 방법은 RWF-2000 데이터셋에서 1억 5천만 개 이상의 파라미터 대신 약 550만 개의 학습 가능 파라미터만 교환하여 모델 상태 페이로드 비율을 28.3배 줄인다고 한다. 차등 프라이버시나 안전한 집계를 적용하지 않을 때 테스트 정확도는 77.25%에 달하며, DP와 SA를 모두 적용했을 때는 65.25~66.00% 범위를 유지한다고 주장한다.
+
+RLVS와 이진 UCF-Crime 데이터셋에서의 이전 실험에서도 유사한 결과가 나타났으며, 이는 엣지 영상 검수를 위한 프라이버시-유틸리티 트레이드오프를 특징짓는다. 해당 코드는 깃허브에서 공개되어 있다.
+
+---
+
+원문: [FedVideoMAE: Efficient Federated Video Moderation with Differential Privacy and Secure Aggregation](https://arxiv.org/abs/2512.18809)

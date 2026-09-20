@@ -1,0 +1,34 @@
+---
+title: llama.cpp b11039, 슬라이딩 윈도우 패턴 저장 지원 확대
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp 빌드 11039는 GGUF 모델 저장 시 슬라이딩 윈도우(SWA) 패턴을 레이어별로 정확히 기록하는 기능을 강화했다. 이를 통해 Plamo3, Gemma3 등 다양한 아키텍처의 모델 변환과 복원 과정이 안정화되었다.
+publishedAt: 2026-09-20T22:00:05+0900
+tags:
+- LoRA
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b11039
+  title: b11039
+  author: github-actions[bot]
+  publishedAt: 2026-09-18T23:10:21+0900
+  words: 787
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈는 GGUF 형식에서 슬라이딩 윈도우 패턴을 어떻게 읽고 저장할지에 대한 처리 방식을 개선했다. 기존에는 일부 로더가 배열 형태의 패턴 정보를 무시하고 기본값을 적용하는 문제가 있었으나, 이제 레이어별 플래그나 주기(period)로 명확히 인식하도록 수정되었다. 이는 Olmo2, Gemma3n, Exaone4 등 변환 도구가 배열을 작성해도 로더가 이를 올바르게 해석할 수 있음을 의미한다.
+
+모델 저장기(Model-Saver)의 기능이 크게 확장되어, SWA를 사용하는 모든 모델에 대해 레이어별 플래그와 MLA(Multi-Latent Attention) 관련 기하학적 정보를 함께 기록하게 되었다. 특히 dots3note 아키텍처가 필요로 하는 KV LoRA 랭크 정보도 포함되었다. 이러한 변경으로 인해 저장된 GGUF 파일의 구조가 더 일관되게 유지되며, 불필요한 중복 데이터 블록이 제거되어 효율성이 높아졌다.
+
+이 업데이트는 Plamo3, Gemma3, Cohere2, Granite_swa 등 15개 이상의 아키텍처가 테스트 스위트에서 비트 단위 정확도(bit-exact)를 갖춘 원형 복원(roundtrip)을 통과할 수 있도록 했다. 즉, 모델을 GGUF로 변환하고 다시 읽어올 때 원래의 구조적 정보가 손실되지 않음을 보장한다. 이는 다양한 모델 아키텍처를 llama.cpp 환경에서 안정적으로 실행하려는 사용자에게 중요한 신뢰성 향상이다.
+
+사용자는 macOS와 Linux 환경에서 제공되는 바이너리를 통해 이 변경 사항을 바로 적용할 수 있다. CUDA 12 및 13 버전을 포함한 다양한 가속화 옵션이 지원되며, iOS 개발자를 위한 XCFramework도 함께 배포되었다. 다만 macOS Apple Silicon의 KleidiAI 기능은 현재 비활성화 상태임을 참고해야 한다.
+
+---
+
+원문: [b11039](https://github.com/ggml-org/llama.cpp/releases/tag/b11039)
