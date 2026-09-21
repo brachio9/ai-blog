@@ -1,0 +1,41 @@
+---
+title: 추론 모델의 자연스러운 망각을 위한 GUARD 방법론
+category: papers
+axis: domain
+format: explainer
+summary: 대규모 추론 모델에서 보호 대상 사실을 안전하게 잊게 하는 GUARD 방법을 소개한다. 저자들은 기존 망각 기술이 중간 추론 과정에서 정보를 누출할 수 있음을 지적하고, 안전한 거절 응답으로 자연스럽게 이어지는 학습 경로를 제안한다.
+publishedAt: 2026-09-21T22:00:05+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.21677
+  title: 'GUARD: Natural Forgetting in Large Reasoning Models via Guided Answer-Reasoning Distillation'
+  author: Zeyu Yan
+  publishedAt: 2026-09-21T13:00:00+0900
+  words: 12330
+  image: https://arxiv.org/html/2609.21677v1/figure_failure_mechanism_c.png
+paper:
+  arxivId: '2609.21677'
+  authors:
+  - Zeyu Yan
+  - Guanghao Zhou
+  - Minghui Qiu
+  - Ming Gao
+  - Cen Chen
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+최근 대규모 추론 모델의 발전은 기계적 망각을 더 어렵게 만들었다. 최종 답변이 나오기 전 중간 단계의 사슬 사고 과정에서 보호 대상 사실이나 안전하지 않은 논리가 드러날 수 있기 때문이다. 기존 망각 목표는 특정 내용을 억제하거나 내부 표현을 재지향하는 데 집중해 왔다. 하지만 망각 후 모델이 어떻게 이어져야 할지를 명시하지 않아 환각된 대체물, 변형된 경계, 반복적 출력 등의 문제가 발생할 수 있다.
+
+저자들은 대규모 추론 모델의 망각은 자연스러운 망각 경로를 학습해야 한다고 주장한다. 이는 정보를 공개하지 않는 일관된 사슬 사고를 거쳐 안정적인 거절 스타일의 답변으로 이어지는 과정이다. 이를 위해 저자들은 가이드된 답변-추론 증류인 GUARD를 제안했다. 이 방법은 모델이 생성한 안전하지 않은 정보 노출을 안전한 종료 경로로 변환하고, 가이드 토큰을 통해 고정된 대규모 추론 모델을 정렬하며, 이러한 가이드된 행동을 모델 파라미터로 증류한다.
+
+누출 여부 이상의 대체 품질에 대한 평가 지표의 부재를 해결하기 위해 저자들은 자연 망각 추론 점수인 NFRS를 도입했다. 이 점수는 망각된 출력물의 구조적 안정성, 유창성, 근거 없는 대체물을 포착한다. R-TOFU와 STAR-1에서 파생된 해악 의도 설정에 대한 광범위한 실험을 통해 저자들은 GUARD가 널리 채택된 두 가지 증류된 대규모 추론 모델에서 안전하지 않은 정보 및 개인정보 노출을 현저히 줄이면서 추론 유틸리티는 보존한다고 주장한다. 관련 코드는 공개되어 있다.
+
+---
+
+원문: [GUARD: Natural Forgetting in Large Reasoning Models via Guided Answer-Reasoning Distillation](https://arxiv.org/abs/2609.21677)

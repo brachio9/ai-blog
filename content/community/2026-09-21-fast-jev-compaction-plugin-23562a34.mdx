@@ -1,0 +1,33 @@
+---
+title: Claude Code 컨텍스트 정리, 요약 대신 삭제하는 플러그인
+category: community
+axis: vibe-coding
+format: explainer
+summary: 장시간 코딩 에이전트 사용 시 컨텍스트 창이 가득 차면 정보 손실이 발생한다. tamara tran은 Claude Code의 기본 요약을 대체하는 fast-jev-compaction 플러그인을 공개했다. 이 도구는 대화 내용을 요약하지 않고 불필요한 도구 호출 결과만 선택적으로 삭제한다.
+publishedAt: 2026-09-21T22:00:05+0900
+tags:
+- Claude Code
+- LoRA
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/fast-jev-compaction-claude-code/11970
+  title: 'Fast Jev Compaction: 컨텍스트 정리 시, 불필요한 도구 호출 결과를 제외하는 Claude Code 플러그인'
+  author: 9bow
+  publishedAt: 2026-09-21T16:00:19+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/5/c/5c4d957391bcdade96bff0e9f9e187c46ed6bf68_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+코딩 에이전트와 장시간 작업을 이어가면 컨텍스트 창이 채워지고, 이때 발생하는 정보 손실은 치명적이다. 기존 방식은 오래된 대화를 요약문으로 변환하지만, 이 과정에서 파일 경로나 오류 문구 같은 핵심 정보가 누락되기 쉽다. tamara tran은 이러한 요약 단계를 생략하고 불필요한 도구 호출 결과만 제거하는 fast-jev-compaction 플러그인을 제안했다. 이 접근법은 원문을 다시 쓰지 않고 삭제만 수행하여 정보의 정확성을 유지한다.
+
+이 플러그인은 TypeSafe AI의 Jev 모델을 활용하여 무엇을 지울지 결정한다. Jev는 문장을 생성하지 않고 확률적 결정을 내리는 System One 모델로, 각 도구 호출이 기록에 남아야 하는지와 결과를 원문 그대로 둘지를 판단한다. 판단 시에는 대화 전체 맥락을 고려하므로, 이후 발생한 사건을 근거로 과거의 불필요한 호출을 제거할 수 있다. 사용자와 어시스턴트의 텍스트 대화는 이 과정에서 손대지 않고 순서대로 남는다.
+
+fast-jev-compaction은 TypeScript로 작성된 npm 라이브러리와 Claude Code 플러그인으로 구성된다. tamara tran은 같은 맥락에서 Bash 출력을 모델에 전달하기 전에 Jev로 줄이는 jev-pruner도 함께 공개했다. 이 도구들은 Claude Code의 기본 압축 요약을 대체하여, 에이전트가 이미 처리한 경로를 다시 건드리거나 파일을 중복 읽는 오류를 줄이도록 설계되었다.
+
+---
+
+원문: [Fast Jev Compaction: 컨텍스트 정리 시, 불필요한 도구 호출 결과를 제외하는 Claude Code 플러그인](https://discuss.pytorch.kr/t/fast-jev-compaction-claude-code/11970)

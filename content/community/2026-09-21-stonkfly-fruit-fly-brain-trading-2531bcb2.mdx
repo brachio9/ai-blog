@@ -1,0 +1,32 @@
+---
+title: 초파리 뇌로 주식을 사냐? Stonkfly 실험의 구조와 한계
+category: community
+axis: agent
+format: explainer
+summary: 개발자 nftechie는 초파리 뇌 커넥톰을 스파이킹 신경망으로 구현해 차트 이미지를 입력받아 매매 신호를 내보내는 Stonkfly 프로젝트를 소개했다. 이 시스템은 LLM이나 수치 지표 대신 시각적 패턴만으로 뉴런의 발화율을 해석해 주문을 생성하지만, 실제 수익성은 검증되지 않았다.
+publishedAt: 2026-09-21T22:00:05+0900
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/stonkfly-llm-16/11967
+  title: 'Stonkfly: LLM 없이 초파리 커넥톰 16만 뉴런이 매매를 제안하는 실험 (수익성은 미검증)'
+  author: 9bow
+  publishedAt: 2026-09-21T12:30:58+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/5/8/58920bfadef49ad00a98bee50cc57d64aacaef30_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+자동 매매 도구는 주로 사람이 설계한 규칙이나 대규모 언어 모델(LLM)이 가격과 뉴스 데이터를 분석해 판단을 내린다. 개발자 nftechie는 이러한 기존 방식과 달리 초파리의 뇌 배선을 그대로 옮긴 스파이킹 신경망(Spiking Neural Network)이 매수, 매도, 관망 중 하나를 제안하는 Stonkfly 프로젝트를 공개했다. 이 실험은 인공지능의 판단 근거가 텍스트나 수치 통계가 아닌 생물학적 신경 회로의 구조적 반응에서 나올 수 있음을 보여준다.
+
+Stonkfly는 Coinbase Advanced의 시세를 로컬에서 320x180 크기의 차트로 그린 후, 그 이미지의 RGB 픽셀만 신경망에 입력한다. 가격 숫자나 이동평균선 같은 전통적인 지표는 전혀 사용하지 않는다. 대신 MaleCNS v1.0 커넥톰 데이터에 기반한 16만 6천여 개의 뉴런과 약 2,500만 개의 연결이 시각 수용체 자리에 자극을 받아 스파이크 신호를 전달한다. 최종적으로 좌우 DNp20 뉴런의 발화율 차이를 판독기가 읽어 매매 방향을 결정하며, 주문 가드가 한도와 시세 신선도를 점검한 뒤 Coinbase AgentKit을 통해 현물 주문을 내보낸다.
+
+이 프로젝트는 Python 3.11과 C++17 컴파일러가 필요한 파이썬 패키지로, 개발자가 이전에 초파리 뇌로 Doom 게임을 플레이하게 만든 DOOMFLY 프로젝트의 기술을 재사용했다. 커넥톰 임포터와 스파이킹 커널, 가소성 구현은 기존 코드에서 가져왔고, 거래 환경과 주문 안전장치, AgentKit 연동 부분만 새로 개발했다. 온체인 지갑 스왑 기능은 사용하지 않으며, 모든 주문은 Coinbase Advanced 거래소 API를 통해서만 처리된다.
+
+가장 중요한 점은 Stonkfly가 아직 수익성을 입증하지 못했다는 것이다. 이 프로젝트는 실제 자금이 연결된 상태로 배포되지 않으며, 실거래를 위해서는 사용자가 직접 자격 증명을 준비하고 명시적인 동의를 해야 한다. 따라서 현재로서는 초파리 뇌의 신경 회로가 금융 시장 데이터에 반응하는지 확인하는 기술적 실험 단계에 머물러 있으며, 투자 도구로서의 효용성은 검증 전이다.
+
+---
+
+원문: [Stonkfly: LLM 없이 초파리 커넥톰 16만 뉴런이 매매를 제안하는 실험 (수익성은 미검증)](https://discuss.pytorch.kr/t/stonkfly-llm-16/11967)

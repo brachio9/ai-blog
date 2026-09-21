@@ -1,0 +1,34 @@
+---
+title: Cline 데스크톱, 업데이트 후 부팅 실패 버그 해결
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline 데스크톱 앱이 업데이트 후 시작되지 않는 치명적인 버그를 수정했다. 백엔드와 허브 간 버전 불일치로 인한 충돌 원인을 파악하고 코드 일관성을 확보해 안정성을 높였다.
+publishedAt: 2026-09-21T22:00:05+0900
+tags:
+- Cline
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/desktop-v0.0.32
+  title: Desktop v0.0.32
+  author: github-actions[bot]
+  publishedAt: 2026-09-18T10:42:35+0900
+  words: 134
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+vibe 코딩 환경에서 가장 중요한 것은 도구가 매끄럽게 작동하는 것이다. Cline 데스크톱 v0.0.31에서는 업데이트 후 앱이 아예 시작되지 않는 문제가 발생했다. 사용자는 작업공간 선택 화면조차 보지 못한 채 'desktop backend exited before publishing its endpoint'라는 오류 메시지만 마주하게 되었다.
+
+이 문제는 Cline이 백그라운드에서 자체적으로 구동하는 Cline Hub와 메인 애플리케이션 간의 코드 버전 불일치에서 비롯되었다. 두 구성 요소가 서로 다른 코드 베이스로 빌드되면서, 허브가 알리는 빌드 정체성과 앱이 기대하는 것이 달라졌다. 그 결과 앱은 자신이 방금 시작한 허브를 강제로 종료했고, 결국 'No compatible hub runtime is available'이라는 타임아웃 오류를 내며 부팅에 실패했다.
+
+개발진은 이 문제를 해결하기 위해 메인 애플리케이션과 백그라운드 허브가 동일한 코드 베이스를 사용하도록 구조를 변경했다. 이제 두 구성 요소는 더 이상 서로 다른 버전으로 드리프트되지 않는다. 또한 실제 컴파일된 백엔드가 CI 파이프라인에서 매번 엔드투엔드로 부팅 테스트를 거치므로, 유사한 버전 충돌이 재발하는 것을 방지할 수 있게 되었다.
+
+이번 패치는 단순히 버그 수정을 넘어 개발 환경의 신뢰성을 높이는 조치다. 코드베이스의 일관성을 확보함으로써 업데이트 후에도 앱이 안정적으로 구동되도록 보장한다. 이는 vibe 코딩에 집중하려는 사용자에게 불필요한 기술적 장벽을 제거하는 중요한 개선 사항이다.
+
+---
+
+원문: [Desktop v0.0.32](https://github.com/cline/cline/releases/tag/desktop-v0.0.32)

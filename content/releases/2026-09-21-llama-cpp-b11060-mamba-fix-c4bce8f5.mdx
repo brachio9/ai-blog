@@ -1,0 +1,32 @@
+---
+title: llama.cpp b11060, Mamba 모델의 메모리 처리 개선
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp 빌드 11060이 출시되었다. 이번 업데이트는 주로 Mamba 계열 모델의 내부 연산 과정에서 불필요한 메모리 복사를 제거하여 효율성을 높이는 데 초점을 맞췄다. 다양한 플랫폼에 대한 바이너리 파일도 함께 제공된다.
+publishedAt: 2026-09-21T22:00:05+0900
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b11060
+  title: b11060
+  author: github-actions[bot]
+  publishedAt: 2026-09-20T15:07:14+0900
+  words: 601
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+llama.cpp 프로젝트에서 빌드 번호 b11060이 릴리즈되었다. 이번 버전의 가장 주목할 만한 변화는 Mamba 아키텍처를 사용하는 모델들의 실행 안정성과 효율성 개선이다. 개발진은 타임스텝 투영(time-step projection) 입력 데이터가 메모리 상에서 연속적으로 배치되도록 수정했으며, 정규화 과정 이후 불필요하게 발생하던 연속 복사 작업을 생략하는 최적화를 적용했다.
+
+이러한 변경은 Mamba 모델이 복잡한 상태 공간 모델을 처리할 때 발생할 수 있는 메모리 단절 문제를 해결하고 연산 흐름을 매끄럽게 만드는 데 목적이 있다. 결과적으로 특정 환경에서 모델 추론 시 발생할 수 있는 오류를 줄이고 잠재적인 성능 향상을 기대할 수 있다.
+
+이번 릴리즈에는 macOS, iOS, Linux, Android 등 주요 플랫폼에 맞는 바이너리 파일이 포함되어 있다. 리눅스 환경에서는 CPU, Vulkan, CUDA 12 및 13, ROCm, OpenVINO, SYCL 등 다양한 가속화 옵션을 지원한다. 특히 CUDA 13.3 라이브러리를 포함한 빌드도 제공되어 최신 NVIDIA GPU 사용자들에게 유용할 것이다.
+
+이 요약은 전체 릴리즈 노트의 일부를 추려낸 것이며, 모든 변경 사항을 포함하지는 않는다. Mamba 모델을 주로 사용하거나 관련 오류를 겪고 있는 사용자는 이번 업데이트를 적용해 볼 만하다. 전체 커밋 목록이나 기여자 명단은 원본 저장소를 참고해야 한다.
+
+---
+
+원문: [b11060](https://github.com/ggml-org/llama.cpp/releases/tag/b11060)

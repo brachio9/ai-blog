@@ -1,0 +1,50 @@
+---
+title: 기억을 쓰는 에이전트, 진짜 테스트는 언제 하나
+category: papers
+axis: agent
+format: explainer
+summary: 기존 평가는 기억 저장과 행동을 따로 보는데 실제 상황은 둘이 연결되어 있다. 저자들은 이 간극을 메우기 위해 다중 세션에서 경험을 축적해 다음 행동에 쓰는 에이전트 성능을 측정하는 MemoryArena를 소개한다.
+publishedAt: 2026-09-21T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2602.16313
+  title: 'MemoryArena: Benchmarking Agent Memory in Interdependent Multi-Session Agentic Tasks'
+  author: Zexue He
+  publishedAt: 2026-09-21T13:00:00+0900
+  words: 19517
+  image: https://arxiv.org/html/2602.16313v2/teaser_memoryarena.png
+paper:
+  arxivId: '2602.16313'
+  authors:
+  - Zexue He
+  - Yu Wang
+  - Churan Zhi
+  - Yuanzhe Hu
+  - Tzu-Ping Chen
+  - Lang Yin
+  - Ze Chen
+  - Tong Arthur Wu
+  - Siru Ouyang
+  - Zihan Wang
+  - Jiaxin Pei
+  - Julian McAuley
+  - Yejin Choi
+  - Alex Pentland
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+지금까지 에이전트의 기억 능력을 평가할 때는 주로 두 가지 방식으로 나뉘어 왔다. 하나는 과거 대화나 텍스트를 얼마나 잘 떠올리는지 확인하는 방식이고, 다른 하나는 장기 기억이 필요 없는 단일 세션에서의 행동 능력을 보는 것이다. 하지만 현실에서는 이 둘이 분리되지 않는다. 에이전트는 환경과 상호작용하며 경험을 얻고, 그 기억을 바탕으로 미래의 결정을 내리도록 설계되어야 한다.
+
+저자들은 이러한 실제 상황을 반영하기 위해 MemoryArena라는 평가 도구를 제안한다. 이 벤치마크는 여러 세션에 걸쳐 이어지는 작업들로 구성되며, 에이전트가 이전 행동과 피드백에서 교훈을 얻어 기억으로 정제하고, 이를 활용해 이후의 작업을 해결하도록 요구한다. 즉 단순히 정보를 저장하는 것을 넘어, 저장된 기억이 실제 의사결정에 어떻게 기여하는지를 종합적으로 평가하는 구조다.
+
+MemoryArena는 웹 탐색, 선호도 제약이 있는 계획 수립, 점진적 정보 검색, 순차적 형식 추론 등 다양한 영역을 아우른다. 저자들의 주장에 따르면 기존 장기 컨텍스트 메모리 벤치마크인 LoCoMo 등에서 높은 점수를 받았던 에이전트들도 MemoryArena의 다중 세션 환경에서는 성능이 크게 떨어진다. 이는 현재의 평가 방식이 에이전트의 실제 기억 활용 능력을 제대로 측정하지 못하고 있음을 보여준다.
+
+이 연구는 에이전트가 단순히 정보를 암기하는 수준을 넘어, 경험을 축적하고 이를 다음 행동에 연결하는 능력이 얼마나 중요한지를 강조한다. MemoryArena를 통해 기존 벤치마크와 실제 에이전트 작업 환경 사이의 격차를 드러냄으로써, 더 현실적인 에이전트 평가 기준 마련에 기여하고자 한다. 관련 자료는 공식 웹사이트에서 확인할 수 있다.
+
+---
+
+원문: [MemoryArena: Benchmarking Agent Memory in Interdependent Multi-Session Agentic Tasks](https://arxiv.org/abs/2602.16313)

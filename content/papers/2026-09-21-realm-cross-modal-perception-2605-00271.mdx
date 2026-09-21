@@ -1,0 +1,41 @@
+---
+title: 이벤트 카메라에 RGB 파운데이션 모델의 지능을 이식하는 REALM
+category: papers
+axis: serving
+format: explainer
+summary: 이벤트 카메라 데이터에 기존 RGB 파운데이션 모델의 잠재 공간을 활용하는 REALM 프레임워크가 소개되었다. 저자들은 LoRA를 통해 모달리티 간 격차를 해소하고, 별도의 학습 없이도 복잡한 이미지 기반 디코더를 이벤트 데이터에 직접 적용할 수 있다고 주장한다.
+publishedAt: 2026-09-21T22:00:05+0900
+tags:
+- LoRA
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.00271
+  title: 'REALM: An RGB- and Event-Aligned Latent Manifold for Cross-Modal Perception'
+  author: Vincenzo Polizzi
+  publishedAt: 2026-09-21T13:00:00+0900
+  words: 14389
+  image: https://arxiv.org/html/2605.00271v4/eyecatcher.png
+paper:
+  arxivId: '2605.00271'
+  authors:
+  - Vincenzo Polizzi
+  - David B. Lindell
+  - Jonathan Kelly
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이벤트 카메라는 높은 시간 해상도와 낮은 지연 시간, 극한 조명 환경에서의 강건성 등 기존 프레임 기반 센서와 차별화된 장점을 지닌다. 그러나 현재까지의 학습 기반 이벤트 처리 방식은 특정 작업에 국한된 폐쇄적 구조를 벗어나지 못해, 다른 모달리티로 일반화하는 능력이 부족하다는 한계가 있었다.
+
+이러한 공백을 메우기 위해 저자들은 REALM이라는 교차 모달리티 프레임워크를 제안한다. 이 방법은 이벤트 표현을 사전 학습된 RGB 파운데이션 모델의 잠재 공간으로 투영하여, RGB와 이벤트를 정렬된 잠재 다양체로 만든다. 작업별 재학습 대신 저랭크 적응법(LoRA)을 활용하여 모달리티 간 격차를 해소하고, 동결된 RGB 백본이 가진 기하학적 및 의미적 사전 지식을 비동기 이벤트 스트림에 효과적으로 적용한다.
+
+저자들의 주장에 따르면 REALM은 이벤트를 ViT 기반 파운데이션 모델의 잠재 공간으로 효과적으로 매핑한다. 이 방법은 RGB 교사로 훈련된 선형 헤드를 단순히 이전하는 것만으로 깊이 추정 및 시맨틱 세그멘테이션 같은 하류 작업을 수행할 수 있다. 특히 기존 이미지로 학습된 복잡한 디코더인 MASt3R를 원시 이벤트 데이터에 제로샷으로 직접 적용 가능하게 한다는 점이 핵심 성과다.
+
+저자들은 광기초선 특징 매칭 작업에서 REALM이 전용 아키텍처를 압도하는 최첨단 성능을 보였다고 주장한다. 관련 코드와 모델은 제공된 링크를 통해 확인할 수 있으며, 이는 이벤트 카메라의 활용 범위를 기존 RGB 중심의 파운데이션 모델 생태계로 확장하는 중요한 시도로 평가된다.
+
+---
+
+원문: [REALM: An RGB- and Event-Aligned Latent Manifold for Cross-Modal Perception](https://arxiv.org/abs/2605.00271)
