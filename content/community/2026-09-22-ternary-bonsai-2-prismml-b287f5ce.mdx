@@ -1,0 +1,42 @@
+---
+title: 5.93GB로 줄여도 FP16 성능의 98.2%를 지킨 삼진 모델 Ternary Bonsai 2
+category: community
+axis: serving
+format: explainer
+summary: PrismML이 공개한 Ternary Bonsai 2는 270억 파라미터 모델을 가중치만 5.93GB로 압축했다. 기존 FP16 대비 성능 유지율을 98.2%까지 끌어올린 이 모델은 삼진 값 패킹 기술로 파일 크기를 줄였다.
+publishedAt: 2026-09-22T22:00:05+0900
+tags:
+- Cline
+- SWE-bench
+- MCP
+- vLLM
+- quantization
+- KV cache
+- Terminal-bench
+- MMLU
+- GPQA
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/ternary-bonsai-2-27b-5-93gb-fp16-98-2-feat-prismml/11949
+  title: Ternary Bonsai 2 27B, 5.93GB로 줄이고도 FP16 성능의 98.2%를 지킨 삼진 모델 (feat. PrismML)
+  author: 9bow
+  publishedAt: 2026-09-19T11:00:49+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/6/6/669b7c04dfac2eedad88825a441a5a1d209745e2_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+PrismML이 Ternary Bonsai 2 27B를 공개하며, 270억 파라미터급 멀티모달 언어 모델의 행렬 가중치를 {-1, 0, +1} 세 가지 값으로만 저장하는 방식을 적용했다. 이를 통해 FP16 기준 53.80GB였던 원본 모델인 Qwen3.8-27B를 5.93GB로 줄였다고 PrismML은 밝혔다. 이 모델은 20종 벤치마크 평균 점수에서 원본의 98.2%에 해당하는 83.9점을 기록했으며, 가중치는 Apache License 2.0으로 공개되었다.
+
+PrismML은 기존 저비트 양자화가 4비트 아래로 내려갈 때 연쇄적 사고나 도구 호출 파싱 등에서 질적으로 붕괴된다고 주장한다. 따라서 밑바닥부터 저비트로 학습하는 BitNet 계열과 달리, 이미 신뢰받는 사전 학습 모델을 그대로 가져와 표현만 바꾸는 접근을 택했다. 이번 릴리즈의 핵심은 방향성 변화가 아니라 간극 좁히기에 있으며, 1세대 모델이 FP16 대비 95% 성능 유지와 약 7.2GB 파일 크기를 보였던 것과 비교해 개선된 점이다.
+
+Ternary Bonsai 2는 삼진 값을 촘촘히 채워 넣는 PTQ1_0 패킹 기술을 도입해 배포 파일 크기를 이상적 크기인 5.93GB로 줄이고 가중치당 비트수를 1.76비트로 낮췄다. 성능 유지율도 98.2%로 상승했다. 이는 1세대 백서에서 향후 과제로 남겨두었던 두 가지 항목을 동시에 해결한 결과이며, 공식 문서와 2026년 9월 백서를 기준으로 한 수치이다.
+
+이 모델은 노트북 환경에서 약 46.8 tok/s의 속도를 낼 수 있다고 PrismML은 소개한다. 다만 Hugging Face 모델 카드와 어긋나는 수치는 별도로 정리했으며, 현재 공개된 정보는 PrismML의 공식 문서와 백서를 따르고 있다.
+
+---
+
+원문: [Ternary Bonsai 2 27B, 5.93GB로 줄이고도 FP16 성능의 98.2%를 지킨 삼진 모델 (feat. PrismML)](https://discuss.pytorch.kr/t/ternary-bonsai-2-27b-5-93gb-fp16-98-2-feat-prismml/11949)

@@ -1,0 +1,47 @@
+---
+title: '토큰 1%로 충분하다: 온-폴리시 증류의 그라디언트 추정 문제'
+category: papers
+axis: serving
+format: explainer
+summary: 스파이스 온-폴리시 증류에서 소수 토큰만 선택할 때 발생하는 그라디언트 노이즈 문제를 해결하는 방법을 다룬다. 정보 효율성 비율을 도입해 유용성과 추정 신뢰도를 함께 고려한 토큰 선택 전략의 효과를 설명한다.
+publishedAt: 2026-09-22T22:00:05+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://huggingface.co/papers/2609.24432
+  title: '1% of Tokens Can Be Enough: On Gradient Estimation in On-Policy Distillation'
+  author: Huanxin Sheng
+  publishedAt: 2026-09-21T09:00:00+0900
+  words: 14565
+  image: https://arxiv.org/html/2609.24432v1/figures/heatmap_nemotron_qwen3_new.png
+paper:
+  arxivId: '2609.24432'
+  authors:
+  - Huanxin Sheng
+  - Zhiling Ye
+  - Haonan Wang
+  - Jian Wang
+  - Jinjie Gu
+  - Jian Kang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 5
+---
+
+스파이스 온-폴리시 증류는 학생 모델이 생성한 궤적 중 일부 토큰에만 교사의 지도를 할당하는 방식이다. 그러나 샘플링된 다음 토큰으로부터 그라디언트를 추정하면 유용한 교사 가이드라도 노이즈가 섞인 업데이트가 될 수 있다. 이 연구는 정보 기하학 관점에서 고정 접두어에서의 추정 문제를 분석하고, 신호 대 잡음비 분해에 기반한 정보 효율성 비율을 제안한다.
+
+이 비율은 최적의 스칼라 베이스라인 하에서 상대적 그라디언트 추정 오류를 특징짓는다. 후보 집합 근사법을 통해 이 비율과 기존 유용성 점수를 결합하여 토큰을 선택할 수 있으며, 이때 샘플링된 역 KL 훈련 목적 함수는 유지된다. 즉, 단순히 유용한 토큰만 고르는 것이 아니라 그라디언트 추정이 얼마나 신뢰할 수 있는지도 함께 고려하는 것이다.
+
+저자들의 주장에 따르면 수학 및 의학 추론 작업에서 이 방법을 적용하면 기존 선택기보다 성능이 향상된다. 특히 0.1%에서 1%라는 매우 작은 토큰 예산에서도 희소 구성이 토큰 선택 없이 전체 온-폴리시 증류와 맞먹거나 더 나은 결과를 낸다고 한다. 이는 희소 지도를 할당할 때 유용성과 그라디언트 추정 신뢰성을 모두 고려해야 함을 시사한다.
+
+이 연구의 코드는 공개되어 있으며, 소량의 토큰으로도 효율적인 모델 학습이 가능함을 보여준다. 기존 방법 대비 성능 개선을 입증한 이 접근법은 대규모 언어 모델의 증류 과정에서 계산 자원을 절약하면서도 학습 품질을 유지하는 데 기여할 것으로 보인다.
+
+---
+
+원문: [1% of Tokens Can Be Enough: On Gradient Estimation in On-Policy Distillation](https://huggingface.co/papers/2609.24432)

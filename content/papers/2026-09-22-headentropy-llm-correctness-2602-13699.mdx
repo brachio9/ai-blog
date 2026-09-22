@@ -1,0 +1,45 @@
+---
+title: LLM 답변의 정확도를 내부 어텐션 헤드로 미리 판별하는 방법
+category: papers
+axis: serving
+format: explainer
+summary: 대형 언어 모델이 생성한 답변의 정확성을 훈련 없이 예측할 수 있는 HeadEntropy 방법이 소개되었다. 어텐션 헤드의 그라디언트 안정성을 측정하여 환각 현상을 탐지하며, 기존 방법 대비 낮은 비용으로 높은 성능을 보인다고 저자들은 주장한다.
+publishedAt: 2026-09-22T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2602.13699
+  title: Gradient-Stable Attention Heads Signal LLM Correctness
+  author: Sophie Ostmeier
+  publishedAt: 2026-09-21T13:00:00+0900
+  words: 10933
+  image: https://arxiv.org/html/2602.13699v2/overall_figure.drawio.png
+paper:
+  arxivId: '2602.13699'
+  authors:
+  - Sophie Ostmeier
+  - Brian Axelrod
+  - Maya Varma
+  - Asad Aali
+  - Yabin Zhang
+  - Magdalini Paschali
+  - Sanmi Koyejo
+  - Curtis Langlotz
+  - Akshay Chaudhari
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대형 언어 모델은 의학 등 안전이 중요한 분야에서 그럴듯하지만 잘못된 답변을 생성할 수 있어 위험하다. 인간 평가는 비용이 많이 들고, LLM-as-judge 방식은 숨겨진 오류를 유발할 가능성이 있다. 최근 단일 패스 화이트박스 방법은 모델 내부의 선형 프로브를 사용해 문맥적 환각을 탐지하지만, 도메인 밖이나 작업 밖 상황에서의 일반화 능력과 훈련 불필요 설정에 대한 이해는 아직 부족하다.
+
+저자들은 HeadEntropy라는 방법을 제안한다. 이 방법은 추가 그라디언트 업데이트 하에서 각 어텐션 헤드의 패턴이 수정될 만큼 민감한지를 측정하여 답변의 정확성을 예측한다. 핵심 통찰은 softmax 자코비안의 대각합이 2-레니 엔트로피의 단조 함수이며, 이는 참조 주석이 없어도 어텐션 분포와 훈련 중 그라디언트 안정성을 연결한다는 점이다.
+
+저자들의 주장에 따르면, HeadEntropy는 별도의 훈련 없이 AUROC 0.736을 달성한다. 이 방법은 모든 훈련 불필요 베이스라인보다 쌍별 비교에서 우수하며, 숨겨진 상태 프로브와 도메인 밖 성능이 맞먹는다. 또한 추론 비용은 기존 방법의 1% 미만으로 매우 낮다.
+
+연구진은 지시 튜닝된 대형 언어 모델 5개와 일반 지식, 다단계 추론, 수학 추론, 주장 검증, 의학 등 다양한 분야를 아우르는 5개의 데이터셋에서 광범위하게 평가했다. 관련 코드는 GitHub의 StanfordMIMI/HeadEntropy 저장소에서 확인할 수 있다.
+
+---
+
+원문: [Gradient-Stable Attention Heads Signal LLM Correctness](https://arxiv.org/abs/2602.13699)

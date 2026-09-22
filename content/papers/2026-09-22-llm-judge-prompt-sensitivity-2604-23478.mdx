@@ -1,0 +1,40 @@
+---
+title: LLM 심사관, 문장 하나로 판단이 달라지나
+category: papers
+axis: domain
+format: explainer
+summary: 동일한 요청을 다른 말로 표현했을 때 LLM 심사관의 판단이 얼마나 일관되게 유지되는지 분석한다. 저자들은 JudgeSense 벤치마크를 통해 문장 재구성이 평가 신뢰도에 미치는 영향을 검증했다.
+publishedAt: 2026-09-22T22:00:05+0900
+tags:
+- LLM-as-a-judge
+draft: false
+source:
+  url: https://arxiv.org/abs/2604.23478
+  title: 'JudgeSense: A Benchmark for Prompt Sensitivity in LLM-as-a-Judge Systems'
+  author: Rohith Reddy Bellibatlu
+  publishedAt: 2026-09-21T13:00:00+0900
+  words: 19385
+paper:
+  arxivId: '2604.23478'
+  authors:
+  - Rohith Reddy Bellibatlu
+  - Edward Raff
+  - Wenbin Zhang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대형 언어 모델(LLM)이 다른 모델의 출력을 평가하는 도구로 널리 쓰이지만, 동일한 요청을 다르게 표현했을 때 같은 판정을 내리는지에 대한 연구는 부족하다. 이 논문은 여섯 제공자의 스물다섯 가지 심사관 모델을 대상으로 네 가지 평가 작업에서 이러한 민감도를 분석한다. 이를 위해 인간 라벨링 코퍼스에서 추출한 880개 항목으로 구성된 JudgeSense 벤치마크를 공개했으며, 각 항목은 내용적 요청은 동일하지만 표현만 다른 두 가지 지시로 구성된다.
+
+분석 방법은 심사관이 동일한 프롬프트에 대해 스스로 얼마나 일치하는지를 기준으로 삼아 디코딩 노이즈를 배제한다. 이를 통해 문장 표현의 차이로 인한 불일치만을 분리해 측정할 수 있으며, 공개된 데이터는 목록에 없는 다른 심사관 모델도 동일한 방식으로 검증할 수 있게 한다. 모든 점수는 해당 심사관의 자기 일관성 대비 상대적 성능으로 보고된다.
+
+저자들의 주장에 따르면, 문장 재구성은 네 가지 작업 모두에서 일관성을 떨어뜨리며 두 작업에서는 실질적으로 의미 있는 영향력 임계치를 넘는다. 특히 순서 기반 평가 작업이 가장 불안정하고 정확도가 낮은 것으로 나타났다. 또한 같은 계열의 모델이라도 파라미터 수가 많다고 해서 안정성이 높다는 보장은 없다.
+
+또한 에이전트 하네스 내부에서 측정한 심사관은 직접 API 호출을 통해 측정한 동일한 모델보다 더 낮은 일관성 추정치를 보인다. 이는 에이전트 환경에서 모델의 자기 일관성이 문장 표현에 따른 일관성보다 더 빠르게 붕괴되기 때문으로 분석된다.
+
+---
+
+원문: [JudgeSense: A Benchmark for Prompt Sensitivity in LLM-as-a-Judge Systems](https://arxiv.org/abs/2604.23478)
