@@ -1,0 +1,45 @@
+---
+title: MCP 에이전트, 메타데이터 조작으로 어떻게 해킹당하는가
+category: papers
+axis: agent
+format: explainer
+summary: MCP 생태계에서 제3자 도구의 메타데이터와 실행 결과를 악용해 에이전트를 장악하는 A2M 프레임워크를 소개한다. 저자들은 이 공격이 높은 성공률과 비용 증가를 유발할 수 있다고 주장하며, 도구 검증과 격리의 필요성을 강조한다.
+publishedAt: 2026-09-23T22:00:04+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.26761
+  title: 'A2M: Trace-Optimized Agent Hijacking in the MCP Ecosystem'
+  author: Laizhen Li
+  publishedAt: 2026-09-23T13:00:00+0900
+  words: 12599
+  image: https://arxiv.org/html/2609.26761v1/acl_figure1.png
+paper:
+  arxivId: '2609.26761'
+  authors:
+  - Laizhen Li
+  - Xuan Wang
+  - Peicheng Zhao
+  - Juanjuan Zhao
+  - Kejiang Ye
+  - Cheng-zhong Xu
+  - Xitong Gao
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Model Context Protocol(MCP)을 사용하는 에이전트는 제3자 서버의 도구를 선택할 때 의미적 매칭에 의존한다. 이러한 구조는 공격자가 제어하는 메타데이터와 출력 결과를 통해 공급망 위험을 노출시킨다. A2M(Attraction-to-Manipulation)은 이를 악용하는 두 단계 블랙박스 프레임워크로, 먼저 도구 메타데이터를 최적화해 호출 확률을 높이고 이어 실행 트레이스를 이용해 에이전트를 공격자의 의도대로 유도한다.
+
+저자들의 주장에 따르면 LiveMCPBench에서 GLM-4.6을 대상으로 한 직접 공격은 네 가지 시나리오에서 93.6%의 악성 도구 호출률을 기록했다. 인지적 서비스 거부(Cognitive DoS) 상황에서는 정상 대비 가중 토큰 비용이 32.4배 증가했으며, 정보 유출 및 환경 무결성 훼손 등 주요 공격 성공률은 평균 74.4%에 달했다.
+
+재최적화 없이 다른 네 모델로 이 공격을 이전했을 때도 저자들은 상당한 영향력을 유지한다고 주장한다. 이때 악성 도구 호출률은 63.6%, 토큰 비용 증가는 2.7배, 공격 성공률은 24.5%로 나타났다. 이는 특정 모델에 국한되지 않고 MCP 생태계 전반에 걸친 취약점을 시사한다.
+
+이러한 발견은 MCP 생태계에서 더 강력한 도구 검증과 런타임 격리의 필요성을 부각시킨다. 연구진은 관련 코드를 공개하며, 에이전트가 제3자 도구를 신뢰할 때 발생할 수 있는 보안 리스크를 경고하고 있다.
+
+---
+
+원문: [A2M: Trace-Optimized Agent Hijacking in the MCP Ecosystem](https://arxiv.org/abs/2609.26761)

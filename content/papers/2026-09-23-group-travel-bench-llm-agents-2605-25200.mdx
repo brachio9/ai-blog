@@ -1,0 +1,43 @@
+---
+title: LLM이 그룹 여행 계획을 잘 세울 수 있을까?
+category: papers
+axis: agent
+format: explainer
+summary: 기존 LLM 여행 계획 벤치마크는 단일 사용자에 치우쳐 있어 실제 그룹 여행의 복잡성을 반영하지 못한다. 저자들은 다중 사용자 간 선호도 조율과 갈등 해결 능력을 평가하는 GroupTravelBench를 제안한다.
+publishedAt: 2026-09-23T22:00:04+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.25200
+  title: 'GroupTravelBench: Benchmarking LLM Agents on Multi-Person Travel Planning'
+  author: Xiang Cheng
+  publishedAt: 2026-09-23T13:00:00+0900
+  words: 22193
+  image: https://arxiv.org/html/2605.25200v3/overview.png
+paper:
+  arxivId: '2605.25200'
+  authors:
+  - Xiang Cheng
+  - Yulan Hu
+  - Lulu Zheng
+  - Xiangwen Zhang
+  - Zheng Pan
+  - Xin Li
+  - Yong Liu
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+실제 세계의 여행 계획은 대부분 여러 사람이 함께 하는 활동이지만, 기존 LLM 여행 계획 벤치마크는 이를 단일 사용자로 단순화하고 있다. 이러한 접근 방식은 이미 포화 상태에 가까우며, 그룹 계획이 에이전트에게 어려운 이유인 다중 사용자의 사적 선호도 발견, 갈등 표면화, 효용과 공정성의 균형 등을 외면한다. 따라서 이 작업은 다중 사용자 현실로 돌아가기 위해 GroupTravelBench를 소개한다.
+
+GroupTravelBench는 실제 사용자 프로필, 관심지점(POI) 데이터, 티켓 가격을 기반으로 구축된 최초의 다중 사용자·다중 턴 여행 계획 벤치마크다. 세 가지 난이도 수준에 걸쳐 650개의 작업으로 구성되며, 각 작업은 캐시된 도구 데이터를 갖춘 동기식 그룹 채팅 샌드박스에서 실행되어 재현 가능한 오프라인 평가를 가능하게 한다. 단일 사용자 벤치마크가 이미 테스트하는 다단계 추론과 도구 사용 능력을 넘어, 이 벤치마크는 세 가지 그룹 특화 기능을 평가한다.
+
+첫째, 다중 턴 대화를 통한 사적 선호도 elicitation(추출) 능력이다. 둘째, 타협이나 하위 그룹화를 통한 사용자 간 갈등 조정 능력이다. 셋째, 그룹 효용과 공정성을 균형 있게 고려하는 계획 수립 능력이다. 저자들은 이러한 평가와 함께 규칙 기반 결과 지표와 LLM 심사관 프로세스 지표를 결합한 보완적 평가 프레임워크를 제시한다.
+
+저자들의 주장에 따르면, 다양한 최첨단 모델에 대한 테스트 결과 가장 강력한 에이전트조차 네 가지 규칙 기반 결과 지표에서 모두 부족했다. 특히 계획 유효성이 12% 미만으로 나타나 그룹 수준의 결과 품질이 LLM 여행 계획 에이전트의 주요 미해결 과제임을 시사한다.
+
+---
+
+원문: [GroupTravelBench: Benchmarking LLM Agents on Multi-Person Travel Planning](https://arxiv.org/abs/2605.25200)

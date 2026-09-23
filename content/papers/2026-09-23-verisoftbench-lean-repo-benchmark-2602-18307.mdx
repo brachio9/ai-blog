@@ -1,0 +1,40 @@
+---
+title: 수학이 아닌 코드 검증, LLM의 새로운 시험대 VeriSoftBench
+category: papers
+axis: retrieval
+format: explainer
+summary: LLM 기반 증명 자동화 벤치마크가 수학 중심에서 소프트웨어 검증으로 확장된다. VeriSoftBench는 리포지토리 전체 맥락을 고려한 Lean 4 검증 과제를 제공한다.
+publishedAt: 2026-09-23T22:00:04+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2602.18307
+  title: 'VeriSoftBench: Repository-Scale Formal Verification Benchmarks for Lean'
+  author: Yutong Xin
+  publishedAt: 2026-09-23T13:00:00+0900
+  words: 9941
+  image: https://arxiv.org/html/2602.18307v2/mot.png
+paper:
+  arxivId: '2602.18307'
+  authors:
+  - Yutong Xin
+  - Qiaochu Chen
+  - Greg Durrett
+  - I\c{s}il Dillig
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대규모 언어 모델(LLM)은 인터랙티브 정리 증명, 특히 Lean 환경에서 두각을 나타내고 있다. 그러나 기존 벤치마크는 대부분 Mathlib 생태계의 수학 문제 위주로 구성되어 있어 실제 소프트웨어 검증과는 거리가 있다. 실제 코드베이스는 정의가 풍부하고 프로젝트별 라이브러리가 복잡하게 얽혀 있기 때문이다. 이에 연구진은 오픈소스 형식 방법론 개발에서 추출한 500개의 Lean 4 증명 의무를 담은 VeriSoftBench를 소개했다. 이 벤치마크는 리포지토리의 현실적인 맥락과 파일 간 의존성을 보존하도록 패키징되었다.
+
+연구진들은 최첨단 LLM과 전문 증명기를 평가한 결과 세 가지 주요 관찰 사항을 도출했다. 먼저, Mathlib 스타일의 수학에 최적화된 증명기는 이러한 리포지토리 중심 환경으로 잘 이전되지 않는다는 점이다. 두 번째로 성공 여부는 전달적 리포지토리 의존성과 강하게 상관관계가 있다는 것이다. 즉, 증명이 다단계의 복잡한 의존성 폐쇄를 필요로 할수록 해결 가능성이 낮아진다.
+
+세 번째로 증명의 의존성 폐쇄에 한정된 정교한 컨텍스트를 제공하는 것이 전체 리포지토리를 노출하는 것보다 성능이 더 좋았으나 여전히 개선 여지가 많다는 점이다. 이는 방대한 코드베이스 전체를 이해하는 것보다 관련 부분만 정확히 추출해 주는 것이 LLM의 증명 능력 향상에 더 효과적임을 시사한다.
+
+VeriSoftBench와 평가 스위트는 GitHub를 통해 공개되어 있다. 이 벤치마크는 수학 중심이 아닌 실제 소프트웨어 검증 환경에서의 LLM 성능을 측정하고자 하는 연구자들에게 유용한 자료가 될 것이다. 리포지토리 규모 검증에 대한 표준화된 평가 도구가 부재했던 점을 해결해 줄 것으로 기대된다.
+
+---
+
+원문: [VeriSoftBench: Repository-Scale Formal Verification Benchmarks for Lean](https://arxiv.org/abs/2602.18307)

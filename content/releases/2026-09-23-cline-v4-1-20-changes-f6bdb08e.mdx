@@ -1,0 +1,34 @@
+---
+title: 'Cline v4.1.20: 에이전트 병렬 처리와 안정성 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline v4.1.20은 서브 에이전트의 동시 실행을 지원해 작업 속도를 높였다. 모델 카탈로그가 대폭 업데이트되었고, 훅(Hook) 기능의 버그 수정과 컴포저 입력 보존 등 안정성 개선이 포함되었다.
+publishedAt: 2026-09-23T22:00:04+0900
+tags:
+- Cline
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/v4.1.20
+  title: v4.1.20
+  author: github-actions[bot]
+  publishedAt: 2026-09-23T05:45:17+0900
+  words: 551
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트는 동일한 단계에서 생성된 서브 에이전트들이 도구를 순차적으로 실행하던 방식을 변경했다. 이제 독립적인 도구 호출은 동시에 처리되며, 순서가 필요한 작업만 예외로 남겨졌다. 부모 에이전트는 여전히 모든 결과를 기다린 후 다음 턴으로 넘어가므로 논리적 흐름은 유지되면서 전체 실행 시간이 단축될 수 있다.
+
+모델 카탈로그가 209개 제공자와 6,237개 모델로 대폭 확장되었다. Kimi For Coding이 kimi.com과 kimi.ai로 분리되었고, AI21 Labs 등 새로운 제공자가 추가되었다. 특히 기본 모델을 고정하지 않은 경우 DeepSeek V4.1 Flash나 GLM 5.3 Flash 등으로 기본값이 변경될 수 있으므로 설정을 확인하는 것이 좋다. 또한 출력 한도가 큰 모델에 대해 기본 출력 예산이 제한의 30%로 조정되어 더 긴 응답이 가능해졌다.
+
+사용자 경험과 안정성 측면에서도 여러 개선이 있었다. UserPromptSubmit 및 TaskStart 훅을 통해 컨텍스트를 주입하는 기능이 정상적으로 작동하도록 복구되었으며, 리트라이 시 컴포저에 입력된 텍스트가 삭제되지 않도록 수정되었다. 백그라운드 명령어의 출력이 실시간으로 스트리밍되고, Azure API 버전 설정이 정확히 반영되는 등 기존 버그들이 해결되었다.
+
+규칙 파일의 일관성 문제와 작업 기록 삭제 오류도 수정되었다. 이제 .cline/rules 디렉토리나 전역 폴더에 있는 규칙이 패널에 올바르게 표시되며, Windows OneDrive 환경에서도 전역 규칙을 찾을 수 있게 되었다. 또한 작업 삭제 시 인덱스와 실제 파일이 모두 제거되어 재등장하는 문제가 해결되었고, 서브 에이전트 위임 승인 후 개별 도구 호출에 대한 반복적인 승인을 요청하지 않도록 개선되었다.
+
+---
+
+원문: [v4.1.20](https://github.com/cline/cline/releases/tag/v4.1.20)
