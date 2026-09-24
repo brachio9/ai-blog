@@ -1,0 +1,49 @@
+---
+title: 분자 생성의 자유도를 높이는 STAR-VAE, 잠재 변수와 조건부 제어를 결합하다
+category: papers
+axis: domain
+format: explainer
+summary: STAR-VAE는 잠재 변수를 통해 분자의 구조적 보간과 속성 기반 생성을 가능하게 하는 새로운 모델이다. 저자들은 이 방법이 기존 변환기 모델의 한계를 극복하며 높은 유효성과 다양성을 유지한다고 주장한다.
+publishedAt: 2026-09-24T22:00:05+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2511.02769
+  title: 'STAR-VAE: A Scalable Latent-Variable Transformer for Controllable Molecular Generation'
+  author: Bum Chul Kwon
+  publishedAt: 2026-09-23T13:00:00+0900
+  words: 27275
+  image: https://arxiv.org/html/2511.02769v2/images/sas_cls.jpg
+paper:
+  arxivId: '2511.02769'
+  authors:
+  - Bum Chul Kwon
+  - Ben Shapira
+  - Moshiko Raboh
+  - Shreyans Sethi
+  - Shruti Murarka
+  - Joseph A Morrone
+  - Leili Zhang
+  - Wendy Cornell
+  - Jianying Hu
+  - Parthasarathy Suryanarayanan
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+기존 분자 생성용 변환기 모델은 사후 추론이나 잠재 공간에서의 보간이 어려운 구조적 한계를 지니고 있었다. 이러한 문제를 해결하기 위해 연구진은 STAR-VAE를 제안했는데, 이는 SELFIES 인코딩을 적용한 오토리그레시브 변분 오토인코더(VAE)이다. 이 모델은 양방향 인코더와 오토리그레시브 디코더로 구성되며, 7천 9백만 개의 PubChem 분자 데이터셋으로 사전 학습되었다. 속성 신호가 사전 확률, 사후 확률, 디코더를 함께 조건부화하여 특정 성질을 지닌 분자를 생성할 수 있도록 설계되었다.
+
+모델의 확장성과 효율성을 위해 LoRA 어댑터를 도입하여 백본을 수정하지 않고도 소규모 데이터셋에 대한 미세 조정이 가능하도록 했다. 저자들의 주장에 따르면, 무조건적 MOSES 샘플링 환경에서 STAR-VAE는 100%의 유효성과 거의 완벽한 신규성(novelty)을 달성했다. 또한 GuacaMol 벤치마크의 10개 지표 중 5개에서 가장 낮은 KL 발산 값을 기록했으며, 합성 접근성 조건부 생성 시 98%의 유효성을 유지하면서 스피어만 상관계수 0.62를 보였다고 한다.
+
+단백질 표적과의 결합 점수 조절 능력도 확인되었다. 저자들은 세 가지 Tartarus 단백질 표적에 대해 방향성 도킹 점수 제어가 가능하다고 주장한다. ChEMBL의 네 가지 표적을 대상으로 한 실험에서는 시드 기반 사후 샘플링이 표적과 관련된 홀드아웃 스캐폴드를 복원하는 반면, 라벨 조건부 샘플링은 구조적으로 다양한 출력을 생성함을 보였다.
+
+이러한 결과는 잠재 변수를 활용한 분자 생성 모델이 단순한 문법적 유효성을 넘어, 화학적 속성과 생물학적 활성을 정밀하게 제어할 수 있음을 시사한다. 코드와 관련 자료는 GitHub의 BiomedSciAI/STAR-VAE 저장소에서 공개되어 있어 연구자들이 직접 검증하고 활용하는 것이 가능하다.
+
+---
+
+원문: [STAR-VAE: A Scalable Latent-Variable Transformer for Controllable Molecular Generation](https://arxiv.org/abs/2511.02769)

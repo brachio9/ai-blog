@@ -1,0 +1,33 @@
+---
+title: 'YUCLAW 8.0.0: 스냅샷 모드로 증거 데모의 재현성 확보'
+category: community
+axis: domain
+format: explainer
+summary: YUCLAW 개발자는 버전 8.0.0에서 환경에 따른 출력 차이를 해결하기 위해 명시적 스냅샷 모드를 도입했다. 이 방식은 라이브 데이터 대신 번들된 고정 데이터를 사용해 CLI 데모의 재현성을 보장한다.
+publishedAt: 2026-09-24T22:00:05+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/yuclaw-8-0-0-making-evidence-demos-reproducible-with-an-explicit-snapshot-mode/180676
+  title: 'YUCLAW 8.0.0: making evidence demos reproducible with an explicit snapshot mode'
+  author: vincent2026Yu
+  publishedAt: 2026-09-22T10:52:18+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+YUCLAW 프로젝트 관계자가 Hugging Face 포럼에 올린 글에 따르면, 버전 8.0.0 개발 중 동일한 CLI 데모가 연구 데이터베이스 접근 여부에 따라 다른 출력을 내는 문제가 발생했다. 패키지 바이트가 일치함에도 호스트 환경에 따라 README 체크가 통과하거나 실패하는 현상이었다. 이를 해결하기 위해 릴리스된 구현체에서는 `YUCLAW_CORPUS=snapshot` 설정을 통해 데이터 소스를 명시하도록 했다. 이 모드에서는 외부 노드 연결 시도 대신 번들된 스냅샷(2026-08-06 기준)을 사용하며, README 생성 및 설치 패키지 검증도 동일한 모드를 따른다.
+
+출력 결과에는 데이터 소스가 명시되며, 비교는 바이트 단위 정확성을 유지한다. CI 통과를 위해 다른 라인을 무시하지 않았으며, 테스트는 스냅샷 모드에서 노드 접근 가능 여부와 관계없이 동작하는지 확인하고 별도 테스트로 기본 노드 동작을 검증한다. 설계 교훈은 예제의 계약 일부로 데이터 소스를 명시하여 호스트 환경이 침묵하게 선택하지 않도록 하는 것이다. 이는 스냅샷이 현재 세계를 대표한다는 주장을 하지 않으면서도 데모의 재현성을 확보하는 방식이다.
+
+이 기능은 금융 AI 증거를 위한 오픈소스 로컬 워크벤치 내부에 위치한다. 주요 구성 요소로는 증거 입력을 위한 서명 승인 및 제한 파싱인 SHD, 시스템 변경과 검토 증거를 연결하는 EVO, 소스 역사와 중복 그룹 관리를 담당하는 COM, 비교 전 자신의 시도 보존을 위한 PRC가 있다. 패키징된 가이드는 증거 패킷 내보내기 및 새 워크스페이스에서의 검증 과정도 안내한다.
+
+고정 스냅샷과 현재 데이터의 구분을 명확히 유지하면서 환경 간 재현 가능한 증거 예제를 테스트하는 방법에 대한 피드백을 요청했다. 해당 프로젝트는 캐나다에서 구축된 실험적 도구로 로컬 설정이 필요하며, 독립적인 보안 감사나 인간 편익 연구가 수행되지 않았다. 이는 워크플로우 도구일 뿐 프롬프트 인젝션에 대한 일반적 보장은 아니다.
+
+---
+
+원문: [YUCLAW 8.0.0: making evidence demos reproducible with an explicit snapshot mode](https://discuss.huggingface.co/t/yuclaw-8-0-0-making-evidence-demos-reproducible-with-an-explicit-snapshot-mode/180676)
