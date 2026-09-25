@@ -1,0 +1,33 @@
+---
+title: 'Claude Opus 5.5 마이그레이션: 코드 수정과 프롬프트 조정 가이드'
+category: community
+axis: agent
+format: explainer
+summary: Anthropic이 공개한 Claude Opus 5.5 마이그레이션 가이드를 바탕으로 기존 코드의 오류 해결 방법을 정리한다. 모델 제어 파라미터의 변경으로 인한 동작 차이를 확인하고 프롬프트 조정을 함께 진행해야 한다.
+publishedAt: 2026-09-25T22:00:05+0900
+tags:
+- Claude Code
+- SWE-bench
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/claude-opus-5-5-anthropic-opus-5-4-x-sonnet-5-400/12002
+  title: 'Claude Opus 5.5 프롬프팅 & 마이그레이션 가이드: Anthropic이 공개한, Opus 5, 4.x, Sonnet 5 코드를 400 오류 없이 옮기는 법'
+  author: 9bow
+  publishedAt: 2026-09-24T18:30:50+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/e/a/eadeb9255fbf49cabf62c0171c7edf6f9008e581_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Anthropic은 Claude Opus 5.5로 전환 시 발생할 수 있는 400 오류를 방지하기 위해 출발 모델별 코드 수정 가이드를 공식 문서로 제공했다. 이 모델은 기존 Opus 5 대비 가격이 낮아졌으며 에이전트 코딩과 지식 노동에 적합하다고 소개되었으나, 단순 모델 ID 변경만으로는 장애가 발생할 수 있다. 특히 생각(thinking) 기능을 끄거나 특정 도구를 강제 호출하던 옵션들이 사라지고 effort 파라미터로 통합되면서 기본값이 high에서 medium으로 변경되어 기존 코드와의 호환성 문제가 생길 수 있다.
+
+마이그레이션 가이드는 모든 모델에 공통으로 적용해야 할 요청 조건과 응답 처리 방식을 먼저 설명한 후, 출발 모델에 따라 누적으로 적용해야 할 사항을 구분하고 있다. 오래된 버전에서 업그레이드할수록 더 많은 절을 차례로 확인해야 하므로 현재 사용 중인 모델의 버전을 정확히 파악하는 것이 선행되어야 한다. 이미 Opus 5 관련 가이드를 적용했다면 이번 변경 사항 중 Opus 5 절만 추가로 검토하면 된다.
+
+이 글은 Anthropic의 공식 마이그레이션 가이드와 모델 개요, 프롬프트 엔지니어링 가이드를 종합하여 코드 수정과 프롬프트 조정을 함께 다루고 있다. 오류가 나는 코드는 고치면 되지만 오류 없이 동작이 달라지는 부분을 직접 찾아내야 하므로 주의가 필요하다. 두 달 전 정리된 Opus 5 관련 내용을 이미 반영했다면 이번 글의 특정 절만 참고하면 중복 작업을 피할 수 있다.
+
+---
+
+원문: [Claude Opus 5.5 프롬프팅 & 마이그레이션 가이드: Anthropic이 공개한, Opus 5, 4.x, Sonnet 5 코드를 400 오류 없이 옮기는 법](https://discuss.pytorch.kr/t/claude-opus-5-5-anthropic-opus-5-4-x-sonnet-5-400/12002)

@@ -1,0 +1,34 @@
+---
+title: llama.cpp b11177, CUDA 연산 병합으로 추론 속도 개선
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp b11177 릴리즈는 CUDA 환경에서 RMS_NORM과 SCALE 연산을 하나의 커널로 통합했다. 이로 인해 GPU 커널 실행 횟수가 줄어 추론 속도가 미세하게 향상되었으며, 기존 수치 정확도는 유지된다.
+publishedAt: 2026-09-25T22:00:05+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b11177
+  title: b11177
+  author: github-actions[bot]
+  publishedAt: 2026-09-25T14:54:17+0900
+  words: 1018
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈의 핵심은 CUDA 백엔드에서 RMS_NORM과 SCALE 연산을 단일 커널로 융합한 점이다. 이전에는 GDN 레이어 처리 시 각 계층마다 두 개의 추가 SCALE 노드가 생성되어 Qwen3.8-27B 모델 같은 대규모 모델에서 상당한 수의 커널 실행이 발생했다. 이는 GPU 계산 시간 자체보다는 호스트와 드라이버 간의 오버헤드를 증가시키는 주요 원인이었다.
+
+특히 speculative decoding을 사용하는 경우 이 오버헤드가 일반 배치 처리보다 약 10배 더 크게 작용했다. 새로운 융합 방식은 SCALE에 바이어스가 없고 RMS_NORM 출력이 단일 소비자일 때만 적용되며, 기존과 동일한 수치 결과를 보장한다. Metal과 SYCL 백엔드에서는 이미 유사한 패턴이 적용되어 있었다.
+
+개발팀의 벤치마크 결과에 따르면 Qwen3.8-27B 모델을 GTX 1080 Ti 두 개로 테스트했을 때 토큰 생성 속도가 약 0.6% 향상되었다. 콜드 프리필 시나리오에서는 draft-mtp 설정 하에서 최대 4.8%까지 성능이 개선되었으며, 커널 실행 횟수가 기존 수준으로 감소했다. 퍼플렉시티와 같은 정확도 지표는 변경 전후로 동일하게 유지되어 수치적 안정성이 확보되었다.
+
+이번 변경은 CUDA 환경에서의 효율성 향상에 초점을 맞춘 것이며, macOS나 Linux CPU 빌드 등 다른 플랫폼의 바이너리 링크만 제공된 점을 고려하면 주요 기능 변화는 CUDA 최적화에 한정된다. 전체 커밋 목록이나 기여자 명단은 생략하고 가장 중요한 성능 개선 사항만 정리했음을 참고하기 바란다.
+
+---
+
+원문: [b11177](https://github.com/ggml-org/llama.cpp/releases/tag/b11177)
