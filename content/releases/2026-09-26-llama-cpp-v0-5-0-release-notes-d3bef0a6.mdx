@@ -1,0 +1,37 @@
+---
+title: llama.cpp v0.5.0, 백엔드 성능과 모델 지원 확대
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp v0.5.0 릴리즈는 백엔드 성능 최적화와 정합성 개선에 중점을 둔다. CUDA 및 Metal 가속화, 다중 주소 바인딩 등 서버 운영의 안정성을 높였다.
+publishedAt: 2026-09-26T22:00:06+0900
+tags:
+- Copilot
+- quantization
+- LoRA
+- speculative decoding
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/v0.5.0
+  title: v0.5.0
+  author: github-actions[bot]
+  publishedAt: 2026-09-24T05:50:06+0900
+  words: 2709
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈는 백엔드의 성능과 정확도 향상, 더 넓은 모델 커버리지, 그리고 견고해진 서버 라우팅을 주요 목표로 한다. 특히 CUDA의 conv2d 연산에 암시적 GEMM을 적용하고 Metal 환경에서 MoE와 SSM_CONV 융합 최적화를 도입해 실행 속도를 높였다. 또한 서버가 여러 주소에 동시에 바인딩되도록 하여 네트워크 구성의 유연성을 개선했다.
+
+지원 모델 범위도 크게 넓어졌다. HRM-Text(DFM Mimir 1B), MiMo-V2.6, HunyuanOCR 등의 변환 지원을 추가했으며 Nemotron과 Qwen4Exp 등 최신 아키텍처의 처리 로직을 확장했다. Muse Glimmer 모델에 대한 QKV 융합 지원도 포함되어 있어 다양한 구조의 모델을 더 원활하게 실행할 수 있게 되었다.
+
+API와 서버 기능 측면에서도 변화가 있다. LoRA를 열린 파일 포인터에서 직접 로드하는 함수가 추가되었고, 서버 함수 호출 결과에 이미지 출력을 포함할 수 있게 되었다. 호스트 설정에서 쉼표로 구분된 TCP 주소와 UNIX 소켓을 동시에 허용함으로써 배포 환경의 선택지가 늘어났다.
+
+핵심 엔진 부분에서는 스케줄러 예약 시 그래프 입력 진단 기능을 추가하고 MTP 드래프팅에 CUDA 그래프를 활성화해 효율성을 높였다. 텐서 병렬 처리 및 Mamba 타임스텝 투영 관련 버그 수정을 통해 실행 안정성을 강화했으며, 샘플링 매개변수 설정을 환경 변수로 제어할 수 있게 되었다.
+
+---
+
+원문: [v0.5.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.5.0)

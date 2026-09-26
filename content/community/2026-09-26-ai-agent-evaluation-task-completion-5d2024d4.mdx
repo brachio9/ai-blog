@@ -1,0 +1,42 @@
+---
+title: AI 에이전트 평가, 도구 호출에서 과업 완수로
+category: community
+axis: vibe-coding
+format: explainer
+summary: NVIDIA 기술 블로그는 AI 에이전트 평가가 단일 함수 호출 정확도에서 전체 과업 완수율로 이동하고 있다고 분석한다. 정적 벤치마크 점수와 실제 서비스 성능의 괴리를 해소하기 위해 실행 트레이스를 다층적으로 해석하는 접근이 필요함을 주장한다.
+publishedAt: 2026-09-26T22:00:06+0900
+tags:
+- Codex
+- OpenCode
+- SWE-bench
+- MCP
+- fine-tuning
+- SFT
+- Terminal-bench
+- LLM-as-a-judge
+- Elo
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/nvidia-ai/11986
+  title: 'NVIDIA가 정리한 AI 에이전트 평가: 도구 호출 정확도 대신 과업 완수를 채점하는 지표들과 트레이스 읽는 법'
+  author: 9bow
+  publishedAt: 2026-09-23T17:30:59+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/3/e/3e4735b42aab71c3b7021030d9ab9fe9e04bde93_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+NVIDIA 기술 블로그는 AI 에이전트 평가 방식이 함수 호출 한 건을 채점하는 수준에서 과업 전체를 완수하는지를 보는 방식으로 진화하고 있다고 정리했다. Sophia Abbassi 등 저자들은 모델이 그럴듯하게 답하는지 확인하는 기존 지표가 실제 업무 수행 능력을 반영하지 못한다고 지적했다. 정적 벤치마크에서 높은 점수를 받은 모델이 실제 서비스 환경에서 여러 단계의 도구 호출 중 한 단계라도 실패하면 전체 작업이 무너지는 현상이 반복되기 때문이다.
+
+초기에는 lm-evaluation-harness나 HELM 같은 정적 평가 도구가 주를 이루었지만, 에이전트는 다중 턴에 걸친 도구 사용과 오류 처리 과정을 거치므로 단일 출력 문자열로는 평가가 불가능하다. 이 공백을 메우기 위해 UC 버클리 Gorilla 팀이 만든 Berkeley Function-Calling Leaderboard(BFCL)가 등장했으며, 이는 모델이 어떤 함수를 선택하고 인자를 정확히 채우는지를 평가하는 데 초점을 맞췄다. 그러나 이는 여전히 도구 호출의 정확도만 보는 한계가 있다.
+
+실제 에이전트 배포 팀은 정적 점수와 실제 성능 사이의 간극을 이미 경험했을 것이다. 원문 저자들은 이 격차를 좁히기 위해 실행 결과를 담은 트레이스(Trace)를 다양한 층위로 나누어 읽어야 한다고 제안한다. 단순히 도구 호출이 맞았는지 보는 것을 넘어, 과업이 최종적으로 완수되었는지를 확인하는 지표 여섯 개를 통해 에이전트의 실제 능력을 더 정확히 파악할 수 있다고 설명한다.
+
+이러한 평가 프레임워크는 NVIDIA 자사 모델인 Nemotron 3.5 Lightning의 공개 점수를 해석하는 방법으로도 적용된다. 저자들은 에이전트 평가가 단순한 도구 호출 채점을 넘어선 과업 완수 중심으로 이동해야 하며, 이를 위해 트레이스 분석을 통한 심층적인 평가가 필수적이라고 결론지었다.
+
+---
+
+원문: [NVIDIA가 정리한 AI 에이전트 평가: 도구 호출 정확도 대신 과업 완수를 채점하는 지표들과 트레이스 읽는 법](https://discuss.pytorch.kr/t/nvidia-ai/11986)

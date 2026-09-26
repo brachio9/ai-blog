@@ -1,0 +1,65 @@
+---
+title: 106B 모델의 후학습 레시피, Rufus-Air가 공개된 이유
+category: papers
+axis: serving
+format: explainer
+summary: Rufus-Air는 GLM-4.5-Air-Base를 기반으로 한 오픈 소스 대규모 언어 모델 후학습 레시피다. 새로운 인간 주석이나 내부 교사용 모델 없이 공개된 데이터와 오픈 소스 구성 요소만으로 재현 가능한 여덟 단계의 학습 파이프라인을 제공한다.
+publishedAt: 2026-09-26T22:00:06+0900
+tags:
+- distillation
+- SFT
+- RLHF
+draft: false
+source:
+  url: https://huggingface.co/papers/2609.29421
+  title: 'Rufus-Air: An Open LLM Post-Training Recipe'
+  author: Chia-Yuan Chang
+  publishedAt: 2026-09-24T09:00:00+0900
+  words: 23121
+  image: https://arxiv.org/html/2609.29421v1/pipeline.png
+paper:
+  arxivId: '2609.29421'
+  authors:
+  - Chia-Yuan Chang
+  - Renyuan Cheng
+  - Rui Feng
+  - Xiaotian Han
+  - Yuan He
+  - Hongye Jin
+  - Linwei Li
+  - Shiyang Li
+  - Fenglin Liu
+  - Xin Liu
+  - Priyanka Nigam
+  - Haoyang Wen
+  - Zhenghao Xu
+  - Zhuocheng Xu
+  - Bing Yin
+  - Qingyu Yin
+  - Chao Zhang
+  - Rongzhi Zhang
+  - Zhihan Zhang
+  - Zixuan Zhang
+  - Zixuan Zhang
+  - Tuo Zhao
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 4
+  popularity:
+    kind: hf-upvotes
+    count: 1
+---
+
+Rufus-Air는 GLM-4.5-Air-Base 모델을 대상으로 한 오픈 소스 후학습 레시피로, SFT를 시작으로 추론 RL, 코딩 RL, 지시 따르기 RL, 일반 에이전트, 코딩 에이전트, 검색 에이전트, RLHF에 이르는 여덟 단계의 직렬 파이프라인으로 구성된다. 저자들은 데이터셋, 보상 설계, 인프라, 단계 순서 및 각 단계별 결과까지 상세히 문서화하여 타인이 이 레시피를 재현할 수 있도록 했다. 학습 과정은 기본 능력부터 고급 기능으로, 검증 가능한 딱딱한 보상에서 판정기 기반의 부드러운 신호로 점진적으로 발전하도록 설계되었다.
+
+이 연구는 새로운 인간 주석 작업이나 내부 전용 교사용 모델(distillation teacher)을 사용하지 않고, 공개된 데이터와 오픈 소스 구성 요소 위에 구축되었다. 저자들은 주요 발견 사항으로 다양하고 고품질의 SFT가 강력한 능력의 기반을 마련하며, 난이도 필터링이 RL 프롬프트를 생산적인 학습 범위 내에 유지한다고 주장한다. 또한 보상 신호의 신뢰도가 단계 순서를 정하는 실용적인 원칙이 되며, 인프라와 엔지니어링 선택 사항 역시 단순한 구현 세부사항이 아닌 레시피의 핵심 부분이라고 강조한다.
+
+저자들의 주장에 따르면 Rufus-Air는 공식적으로 출시된 GLM-4.5-Air 후학습 모델보다 성능이 향상되었으며, 비슷한 크기의 다른 오픈 소스 모델들과 경쟁할 수 있는 수준을 보인다. 이는 복잡한 대규모 언어 모델의 후학습 과정이 잘 정의된 데이터와 보상 설계, 그리고 적절한 인프라 선택을 통해 재현 가능하고 효과적으로 수행될 수 있음을 시사한다.
+
+이 레시피는 특정 단계에서의 구체적인 성능 수치보다는 전체적인 학습 흐름과 재현 가능성에 초점을 맞춘다. 따라서 개발자들은 이 문서화된 과정을 따라 자신의 환경에서 유사한 수준의 모델 개선을 시도해 볼 수 있으며, 각 단계별 보상 설계와 데이터 처리 방식이 최종 모델의 능력 형성에 미치는 영향을 직접 확인할 수 있다.
+
+---
+
+원문: [Rufus-Air: An Open LLM Post-Training Recipe](https://huggingface.co/papers/2609.29421)

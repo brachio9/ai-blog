@@ -1,0 +1,44 @@
+---
+title: 'Jev 모델로 뭘 만들까: 1천여 개 프로젝트 분류 가이드'
+category: community
+axis: vibe-coding
+format: explainer
+summary: TypeSafe AI의 Jev 모델을 기반으로 한 GitHub 프로젝트 1,142개를 정리한 목록을 소개한다. 이 글은 개발자가 어떤 분야에서 Jev를 활용하는지 파악하고, 신뢰할 수 있는 도구를 찾기 위한 참고 자료다.
+publishedAt: 2026-09-26T22:00:06+0900
+tags:
+- RAG
+- reranking
+- Claude Code
+- Codex
+- Cursor
+- Cline
+- OpenCode
+- MCP
+- vLLM
+- SGLang
+- ASR
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/jev-jev-github-1-23/12003
+  title: 'Jev 생태계: Jev 모델 기반의 GitHub 프로젝트 1천여개를 23개 분야로 정리한 프로젝트 목록'
+  author: 9bow
+  publishedAt: 2026-09-25T18:30:28+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/a/b/ab4c427a3a7738c509704fab8727c3fb489c5b63_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+Jev는 TypeSafe AI가 공개한 System One 모델로, 앱이 질문을 보내면 긴 문장 대신 선택지나 점수 등 코드가 바로 처리할 수 있는 결과를 반환한다. 이 모델의 특징은 자연어 응답이 아닌 구조화된 데이터를 출력한다는 점이며, 이에 대한 상세 설명은 TypeSafe 공식 문서와 PyTorchKR의 기존 소개 글에서 확인할 수 있다.
+
+Jev 공개 이후 언어별 SDK부터 브라우저 조작, 코딩 에이전트, 검색 도구까지 다양한 저장소가 등장했다. 작성자는 요청받은 GitHub 저장소 아홉 곳과 기계 판독용 카탈로그를 합쳐 중복을 제거한 결과 1,142개의 프로젝트를 정리했다. 저장소 이름이 바뀌어도 고유 ID가 같으면 중복으로 처리했으며, 각 프로젝트의 설명은 GitHub 소개 문구를 우선 사용하거나 원본 목록을 압축해 작성했다.
+
+정리된 프로젝트는 공식 SDK와 도구, MCP 연동, 로컬 모델, 에이전트 도구 등 23개 분류로 나누어졌다. 예를 들어 SDK와 프레임워크 관련 저장소가 183개로 가장 많고, 에이전트 도구는 109개, 브라우저 사용은 66개 등으로 구성되어 있다. 이는 Jev가 단순한 채팅 모델을 넘어 다양한 자동화 작업과 시스템 연동에 활용되고 있음을 보여준다.
+
+이 목록에 포함되었다는 것은 코드 실행이나 성능, 보안 검증, TypeSafe의 승인을 의미하지 않는다. 따라서 설치나 도입 전에는 각 저장소의 README와 코드, 라이선스를 직접 확인해야 한다. 이 자료는 Jev 생태계의 현황을 파악하고 관심 분야를 탐색하는 데 도움이 되는 참고용 목록이다.
+
+---
+
+원문: [Jev 생태계: Jev 모델 기반의 GitHub 프로젝트 1천여개를 23개 분야로 정리한 프로젝트 목록](https://discuss.pytorch.kr/t/jev-jev-github-1-23/12003)

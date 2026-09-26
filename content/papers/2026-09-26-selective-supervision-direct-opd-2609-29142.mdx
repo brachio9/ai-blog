@@ -1,0 +1,40 @@
+---
+title: '모든 토큰이 다 중요한 건 아니다: Direct-OPD의 선택적 지도 학습'
+category: papers
+axis: serving
+format: explainer
+summary: Direct-OPD 방식은 강화학습으로 개선된 정책을 작은 모델에서 큰 모델로 전달할 때 토큰 수준의 로그 비율을 사용한다. 그러나 이 방법은 확률 질량이 사라져도 상대적 변화만 측정해 문제가 발생할 수 있다. 저자들은 제인-샤논 발산(JSD)이 낮은 상태를 필터링하는 선택적 지도 학습법을 제안해 성능을 개선했다고 주장한다.
+publishedAt: 2026-09-26T22:00:06+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.29142
+  title: 'Not Every Token Is Worth Distilling: Selective Supervision for Direct-OPD'
+  author: Yibo Zhao
+  publishedAt: 2026-09-25T13:00:00+0900
+  words: 11108
+  image: https://arxiv.org/html/2609.29142v1/method.png
+paper:
+  arxivId: '2609.29142'
+  authors:
+  - Yibo Zhao
+  - Zixuan Yang
+  - Yunshi Lan
+  - Xiang Li
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+Direct On-Policy Distillation(Direct-OPD)은 강화학습(RL)을 통해 개선된 정책을 작은 모델에서 더 큰 학생 모델로 전달하는 방법이다. 이 방식은 RL 적용 전후의 체크포인트 간 토큰 수준 로그 비율을 밀집 지도 신호로 사용하여 학생 모델의 자체 롤아웃에 대한 보상을 제공한다. 그러나 로그 비율은 상대적 변화만을 측정하므로, 두 체크포인트가 학생 모델의 후보 토큰에 부여하는 확률 질량이 사라지더라도 값이 고정될 수 있다는 한계가 있다.
+
+저자들은 정확한 구성을 통해 Direct-OPD 보상과 업데이트는 변하지 않으면서도 제인-샤논 발산(JSD)과 양방향 KL 발산이 해당 질량과 함께 0으로 수렴할 수 있음을 보였다. 또한 작은 JSD가 교사의 행동 변화량을 얼마나 제한하는지 분석했다. 이러한 분석을 바탕으로 저자들은 Direct-OPD의 선택적 지도 학습(S²D-OPD)을 제안한다. 이 방법은 학생이 샘플링한 상태를 교사 참조 JSD로 순위 매긴 후, 발산이 낮은 상태에서의 Direct-OPD 지도를 마스크하고 응답당 상위 10%의 상태만 유지한다.
+
+저자들의 주장에 따르면 S²D-OPD는 추가적인 순전파 없이 두 개의 교사 쌍과 1.7B에서 8B 파라미터 범위의 네 가지 학생 모델을 대상으로 테스트했을 때 AIME와 HMMT 벤치마크에서 밀집 Direct-OPD보다 홀드아웃 정확도를 개선했다. 구체적으로 여덟 가지 설정 중 일곱 가지에서 성능이 향상되었고 나머지 하나에서는 기존 방법과 동등한 결과를 보였다. 이 연구의 코드는 공개된 저장소에서 확인할 수 있다.
+
+---
+
+원문: [Not Every Token Is Worth Distilling: Selective Supervision for Direct-OPD](https://arxiv.org/abs/2609.29142)
