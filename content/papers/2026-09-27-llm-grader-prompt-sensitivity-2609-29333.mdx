@@ -1,0 +1,43 @@
+---
+title: LLM 채점, 프롬프트 한 줄이 성패를 가른다
+category: papers
+axis: serving
+format: explainer
+summary: LLM을 시험 채점에 활용하면 인력 부족 문제를 해결할 수 있지만, 프롬프트 설정에 따라 성능이 극단적으로 달라진다. 연구진은 엄격한 채점 지시가 오픈웨이트 모델의 기능을 마비시키는 원인을 규명하고, 소규모 파인튜닝으로 이를 해결하는 방법을 제시한다.
+publishedAt: 2026-09-27T22:00:03+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.29333
+  title: 'Where LLM Graders Succeed and Break: Evidence from Two Computer-Science Exams'
+  author: Ali Habibullah
+  publishedAt: 2026-09-25T13:00:00+0900
+  words: 33487
+paper:
+  arxivId: '2609.29333'
+  authors:
+  - Ali Habibullah
+  - Yazan Alshoibi
+  - Mohammad Alshiekh
+  - Salman Khan
+  - Naeemullah Khan
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대규모 강의의 서술형 시험 채점은 수백 시간의 인력이 필요하며 자격을 갖춘 채점자가 부족한 현실에서 LLM 기반 자동 채점이 유력한 대안으로 부상했다. 연구진은 컴퓨터 비전 과목의 실기 시험 답안 570건을 대상으로 171가지 설정의 모델을 테스트하여, 최상의 모델이 인간 두 채점자 간 오차(2.61/35)보다 낮은 평균 절대 오차(MAE) 1.64/35를 기록하는 등 높은 정확도를 달성할 수 있음을 확인했다.
+
+그러나 프롬프트의 미세한 차이가 결과를 결정지었다. 연구진의 주장에 따르면, '절대 부분 점수를 주지 않는다'는 두 문장이 포함된 엄격한 채점자 preamble은 17개 오픈웨이트 모델 중 14개의 성능을 급격히 저하시키거나(MAE ≥ 8) 채점 자체를 거부하게 만들었다. 이는 모델의 크기나 톤이 아닌, 크레딧 부여를 제한하는 특정 문장에 대한 과민 반응 때문이며, 일부 주요 폐쇄형 플래그십 모델은 보정이 흔들리기는 했으나 기능 유지 범위 내에 머물렀다.
+
+이러한 취약성은 다른 과목의 머신러닝 시험 1,038건에 대한 추가 테스트에서도 재현되었지만, 방향성은 시험마다 달랐다. 엄격한 프롬프트는 일부 모델의 성능을 악화시켜 기능을 마비시키기도 했지만, 중립적 프롬프트에서 점수를 지나치게 높게 주는 오마킹(over-mark) 경향이 있던 7개 모델의 성능은 오히려 개선되었다. 이는 LLM 채점자의 불안정성이 특정 시험 유형에 따라 다르게 발현됨을 시사한다.
+
+연구진은 이러한 문제를 해결하기 위해 약한 LoRA 파인튜닝을 제안했다. 두 시험에서 수집된 약 3,900개의 채점 예제로 단일 어댑터를 학습시킨 결과, 다섯 개의 소형 오픈 모델이 인간 채점자 쌍과의 일치도 측면에서 동등하거나 더 나은 성능을 보였다. 또한 세 가지 엄격한 페르소나 프롬프트에 대한 민감도가 거의 사라져(MAE ≤ 0.32), 소량의 데이터로 LLM 채점자의 안정성을 확보할 수 있음을 입증했다.
+
+---
+
+원문: [Where LLM Graders Succeed and Break: Evidence from Two Computer-Science Exams](https://arxiv.org/abs/2609.29333)

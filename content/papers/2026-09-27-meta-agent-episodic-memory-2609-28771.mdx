@@ -1,0 +1,42 @@
+---
+title: 금융 거래 에이전트에 에피소드 기억을 더하다
+category: papers
+axis: agent
+format: explainer
+summary: META는 금융 의사결정을 위한 최초의 RAG 기반 에피소드 기억 증강 멀티에이전트 프레임워크다. 과거 거래 경험을 인코딩하여 유사한 시장 상황에서 신호를 재가중치함으로써 방향성 정확도와 강건성을 높인다고 저자들은 주장한다.
+publishedAt: 2026-09-27T22:00:03+0900
+tags:
+- RAG
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.28771
+  title: Agent Memory with Episodic Retrieval for Financial Decision-Making
+  author: Nuoyue Xu
+  publishedAt: 2026-09-25T13:00:00+0900
+  words: 15681
+  image: https://arxiv.org/html/2609.28771v1/META_memory_flow.png
+paper:
+  arxivId: '2609.28771'
+  authors:
+  - Nuoyue Xu
+  - Jiang Liu
+  - Wenxuan Huang
+  - Xiang Zhang
+  - Juntai Cao
+  - Jiaqi Wei
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대규모 언어 모델(LLM)은 금융 분석과 추론에서 강력한 능력을 보이며 에이전트 기반 거래 프레임워크의 발전을 이끌었다. 그러나 기존 접근법은 장기 예측에 치우치거나 상태가 없는(stateless) 분석기로 작동해 복잡한 거래 환경의 요구를 충족하지 못했다. 이러한 한계를 극복하기 위해 저자들은 META(Memory Enhanced Trading Agent)를 제안한다. 이는 금융 의사결정을 위한 최초의 RAG(Retrieval-Augmented Generation) 유사 에피소드 기억 증강 멀티에이전트 프레임워크다.
+
+META는 트렌드, MACD, 스토캐스틱, RSI 등 다양한 전문 지표 에이전트들로 구성된다. 이 에이전트들은 각자의 보고서를 생성하고, 의사결정 에이전트가 이를 통합한다. 핵심은 메모리 모듈로, 과거 거래 에피소드를 시장 상태 임베딩과 결과, 성찰(reflection)로 인코딩해 저장한다. 시스템은 유사한 시장 레짐(regime)에서 관련 경험을 검색하고 신호를 적응적으로 재가중치한다.
+
+저자들의 주장에 따르면 META는 단기 평가에서 향상된 방향성 정확도와 강건성을 달성한다. 에피소드 기억은 거래 및 의사결정에서 레짐 인지(regime-aware), 해석 가능(interpretable), 저지연(low-latency) 의사결정을 위한 강력한 메커니즘을 제공한다고 이들은 결론짓는다. 이 프로젝트의 코드는 GitHub에 공개되어 있다.
+
+---
+
+원문: [Agent Memory with Episodic Retrieval for Financial Decision-Making](https://arxiv.org/abs/2609.28771)

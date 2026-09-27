@@ -1,0 +1,33 @@
+---
+title: 램보다 큰 MoE 모델, CPU만으로 돌리는 Janas 테스트 참여자 모집
+category: community
+axis: serving
+format: explainer
+summary: 개발자가 작성한 C 기반 추론 엔진 Janas의 성능 검증 테스트에 참여할 Linux 사용자를 모집한다. GPU 없이 SSD에서 전문가 모델을 스트리밍하며 실행하는 이 도구의 안정성과 속도를 확인하기 위해 다양한 하드웨어 환경에서의 피드백이 필요하다.
+publishedAt: 2026-09-27T22:00:03+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/call-for-testers-janas-a-cpu-only-engine-that-runs-moe-models-larger-than-ram-one-command-to-test-your-machine/180740
+  title: 'Call for testers: Janas, a CPU-only engine that runs MoE models larger than RAM — one command to test your machine'
+  author: camauri
+  publishedAt: 2026-09-26T04:25:13+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+Janas-LLM 프로젝트 개발자는 일반 PC에서도 램 용량보다 큰 혼합전문가(MoE) 모델을 CPU만으로 구동할 수 있는 C 기반 추론 엔진을 소개하며 테스트 참여자를 모집한다. 이 엔진은 GPU 없이 SSD에서 필요한 전문가 모델만 읽어와 실행하는 방식으로, 개발자의 노트북에서는 48GB 크기의 Qwen3-Next-80B-A3B 모델을 초당 약 23토큰 속도로 처리했다고 주장한다. 또한 터미널 채팅과 OpenAI 호환 HTTP 서버, MCP 지원 등 다양한 기능을 제공한다.
+
+현재 이 엔진은 개발자의 단일 머신에서만 최적화 파라미터를 측정해 왔으므로, 다른 CPU 아키텍처와 저장매체에서의 실제 성능이 불명확하다. 특히 AMD CPU나 AVX-VNNI 미지원 인텔 CPU, 16GB 이하의 메모리, SATA SSD 환경 등 다양한 하드웨어 조합에서의 테스트 결과가 절실하게 필요하다. 이를 통해 엔진이 각기 다른 환경에서 스레드 수와 읽는 데이터 양을 자동으로 조절하는 기능이 제대로 작동하는지 확인하려는 목적이다.
+
+테스트 참여는 리눅스 x86-64 환경에서 두 개의 명령어만으로 가능하다. 별도의 설치 과정 없이 git 클론 후 제공된 스크립트를 실행하면 빌드, 모델 다운로드 및 검증, 속도 측정 등 일련의 테스트가 자동으로 진행된다. 이 과정에서 모델 변환의 결정론적 특성과 온도 0일 때의 출력 결과 재현성을 확인하며, 모든 단계에서 사용자의 동의를 구하고 개인정보는 수집하지 않는다.
+
+테스트 결과는 CPU, 메모리, 디스크 모델 및 배포판 정보와 함께 성능 측정값을 포함한 리포트로 생성되며, 사용자가 동의할 경우에만 GitHub 이슈로 제출된다. 개발자는 이 테스트를 통해 아직 검증되지 않은 다양한 환경에서의 엔진 동작 여부를 확인하고, 발견된 버그나 성능 데이터를 수집해 엔진의 안정성을 높이고자 한다.
+
+---
+
+원문: [Call for testers: Janas, a CPU-only engine that runs MoE models larger than RAM — one command to test your machine](https://discuss.huggingface.co/t/call-for-testers-janas-a-cpu-only-engine-that-runs-moe-models-larger-than-ram-one-command-to-test-your-machine/180740)

@@ -1,0 +1,37 @@
+---
+title: GPU 메모리 부족 걱정 끝, FitCheck로 LLM 적합성 미리 확인하기
+category: community
+axis: serving
+format: explainer
+summary: FitCheck는 PyTorch나 GPU 없이 Hugging Face 모델 설정 파일만으로 VRAM 사용량을 추정하는 도구다. LoRA 및 풀 파인튜닝 시 메모리 부족(OOM) 오류를 사전에 방지하고 최적의 배치 크기를 제안한다.
+publishedAt: 2026-09-27T22:00:03+0900
+tags:
+- LoRA
+- QLoRA
+- fine-tuning
+- KV cache
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/fitcheck-will-your-llm-job-fit-in-gpu-memory/180738
+  title: 'FitCheck: Will Your LLM Job Fit in GPU Memory?'
+  author: mlanvvs
+  publishedAt: 2026-09-25T23:02:21+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/original/3X/c/1/c16a2cbce30c93512437390a52c9bb6bc630960c.svg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대규모 언어 모델(LLM) 작업 시작 전 가장 큰 고민은 해당 설정이 GPU 메모리에 들어갈 수 있는지 확인하는 것이다. mlanvvs는 이 문제를 해결하기 위해 FitCheck를 개발했으며, 이 도구는 LoRA, QLoRA, 풀 파인튜닝 시의 최대 VRAM 사용량을 추정한다. 모델 가중치를 다운로드하거나 PyTorch, CUDA, 실제 GPU 환경이 필요 없이 Hugging Face의 config.json과 파라미터 메타데이터만 읽어서 계산하므로 가볍게 사용할 수 있다.
+
+FitCheck는 메모리 분해 내역과 사용 가능한 GPU 용량, 여유 공간(headroom), 적합성 판정, 그리고 해당 GPU에 들어갈 수 있는 최대 마이크로 배치 크기를 보고한다. 또한 모델 가중치와 KV 캐시를 기반으로 한 서빙(serving) 추정 기능과 배치 크기, 시퀀스 길이, LoRA 랭크 등을 탐색하는 어드바이저 기능도 제공한다. 이를 통해 사용자가 자신의 하드웨어 환경에 맞는 최적의 설정을 찾을 수 있도록 돕는다.
+
+개발자는 Tesla T4 GPU를 대상으로 57회의 교정 및 반복 실험을 수행했으며, 전체 프로세스 추정치의 평균 절대 오차는 2.4%, 최악의 절대 오차는 13.9%라고 주장한다. 별도의 12회 홀드아웃 테스트에서는 평균 절대 오차가 5.4%였으며, 테스트된 설정에 대해 적합성 경계 판정을 12/12로 정확히 맞췄다고 밝혔다. 다만 현재 측정은 단일 Tesla T4 GPU에서만 이루어졌으므로 모든 워크로드에서 OOM을 피할 수 있다는 보장은 아니며, sizing 도구로서의 성격임을 명시했다.
+
+FitCheck는 Hugging Face Space와 GitHub에서 제공되며 pip를 통해 설치할 수 있다. 개발자는 결과의 이해도, 추가 테스트가 필요한 모델 또는 설정, 실제 GPU 사용량과의 일치 여부 등에 대한 피드백을 요청하고 있다. 추정치의 오류 지점을 찾아 재현 가능한 측정으로 개선해 나가는 것이 목표이므로 긍정적 또는 비판적인 의견 모두 환영한다.
+
+---
+
+원문: [FitCheck: Will Your LLM Job Fit in GPU Memory?](https://discuss.huggingface.co/t/fitcheck-will-your-llm-job-fit-in-gpu-memory/180738)
