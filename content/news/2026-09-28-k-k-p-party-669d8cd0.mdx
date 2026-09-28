@@ -1,0 +1,32 @@
+---
+title: AI로 키위새 파티 애니메이션과 발표용 영상 만들기
+category: news
+axis: vibe-coding
+format: explainer
+summary: 시몬 윌리슨은 개발자 컨퍼런스 마무리 강연에서 AI를 활용해 카카포 새의 픽셀 아트 애니메이션을 생성했다. Claude Opus 5.5로 HTML5 캔버스 기반 애니메이션을 만들고, Claude Code와 Playwright를 조합해 이를 발표용 영상으로 자동 변환하는 과정을 소개한다.
+publishedAt: 2026-09-28T22:00:05+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://simonwillison.net/2026/Sep/26/kakapo-party/
+  title: Kākāpō Party
+  publishedAt: 2026-09-27T08:39:06+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+시몬 윌리슨은 WeAreDevelopers World Congress North America의 마무리 강연에서 2026년 카카포 새 번식 시즌의 기록적 성과를 축하하는 내용을 포함했다. 그는 Claude Opus 5.5가 픽셀 아트 애니메이션 생성에 뛰어다는 점을 활용해, 구글 이미지 검색으로 찾은 카카포 사진 세 장을 프롬프트와 함께 AI에게 제공했다. 이를 통해 HTML5 캔버스에서 최소 20마리의 카카포 새가 컨페티를 뿌리며 파티를 즐기는 애니메이션 페이지를 생성해냈다.
+
+생성된 HTML 파일을 키노트 발표 자료에 삽입하기 위해 로컬 Claude Code 세션을 사용했다. 시몬 윌리슨은 AI에게 해당 HTML 파일을 브라우저에서 로드하고, 3초 후부터 클릭 이벤트를 여러 번 발생시켜 컨페티 효과를 담은 15초 분량의 영상을 만들어달라고 지시했다. Claude Code는 Playwright를 활용해 이 작업을 수행했으며, 그 결과물은 최종 슬라이드에 완벽하게 적합했다.
+
+이 과정에서 사용된 Playwright 스크립트는 매우 간결했다. 시몬 윌리슨은 이 전체 과정을 자신의 블로그와 도구 페이지에서 공개했으며, 생성된 애니메이션 페이지와 영상, 그리고 관련 트랜스크립트 링크를 함께 제공했다. 이는 AI가 단순한 코드 생성을 넘어 시각적 콘텐츠 제작 및 자동화 파이프라인 구축까지 지원할 수 있음을 보여주는 사례다.
+
+이 글은 원문의 앞부분(RSS 요약)만을 바탕으로 작성되었으며, 전체 내용은 시몬 윌리슨의 블로그에서 확인할 수 있다.
+
+---
+
+원문: [Kākāpō Party](https://simonwillison.net/2026/Sep/26/kakapo-party/)

@@ -1,0 +1,45 @@
+---
+title: 모호한 의도 속 추천 에이전트의 도구 오케스트레이션, RecToolBench로 평가하다
+category: papers
+axis: agent
+format: explainer
+summary: RecToolBench는 모호한 사용자 지시 하에서 외부 도구를 사용하는 추천 에이전트의 성능을 평가하기 위한 벤치마크다. 기존 테스트가 명시적 의도나 단순 호출에 치우친 점을 보완해, 실제 환경과 유사한 복잡한 도구 오케스트레이션 능력을 검증한다.
+publishedAt: 2026-09-28T22:00:05+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.30717
+  title: 'RecToolBench: Benchmarking Recommendation-Specific Tool Orchestration under Fuzzy User Intent'
+  author: Xiao Chen
+  publishedAt: 2026-09-28T13:00:00+0900
+  words: 12493
+  image: https://arxiv.org/html/2609.30717v1/Framework_L1-L4_updated.png
+paper:
+  arxivId: '2609.30717'
+  authors:
+  - Xiao Chen
+  - Yicheng Zhao
+  - Yingying Wu
+  - Zhendong Chu
+  - Changyi Ma
+  - Qingsong Wen
+  - Xuan Song
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+최근 에이전트 기반 추천 시스템은 수동적인 필터링 엔진에서 벗어나 외부 도구를 활용해 사용자 의도를 해결하는 지시 수행형 에이전트로 진화하고 있다. 그러나 기존 벤치마크들은 주로 명시적인 사용자 의도나 단순화된 도구 환경을 가정하거나 고립된 함수 호출만 다루어, 현실적인 도구 오케스트레이션에 대한 평가는 미흡한 상태였다. 이를 해결하기 위해 저자들은 Model Context Protocol(MCP) 기반의 RecToolBench를 제안했다.
+
+RecToolBench는 세 가지 추천 도메인에서 1,200개 이상의 실행 가능한 작업으로 구성되며, 13개의 MCP 서버와 32개의 도구를 포함한다. 단일 도구 호출부터 병렬 호출, 순차적 도구 체인, 그리고 하이브리드 오케스트레이션까지 다양한 시나리오를 아우른다. 저자들은 확장 가능한 합성-모호화-판단 파이프라인을 통해 실행 가능한 모호한 추천 작업을 생성하고, 규칙 기반 실행 체크와 LLM 평가 기준을 결합해 에이전트의 행동 경로를 평가한다.
+
+저자들의 주장에 따르면 대표적 대규모 언어 모델(LLM)에 대한 실험 결과, 구문적으로 유효한 도구 호출이 성공적인 추천을 보장하지 않는 것으로 나타났다. 특히 오케스트레이션 복잡도가 증가할수록 모델들은 의미론적 파라미터 정합, 다단계 증거 통합, 그리고 근거 기반 최종 추천에서 어려움을 겪는 것으로 드러났다.
+
+이 연구 결과는 모호한 사용자 의도 하에서의 도구 오케스트레이션이 에이전트형 추천 시스템의 주요 병목 현상임을 지적한다. 관련 데이터와 코드는 공개된 저장소에서 확인할 수 있으며, 이는 향후 더 현실적인 추천 에이전트 개발을 위한 기준점을 제공한다.
+
+---
+
+원문: [RecToolBench: Benchmarking Recommendation-Specific Tool Orchestration under Fuzzy User Intent](https://arxiv.org/abs/2609.30717)

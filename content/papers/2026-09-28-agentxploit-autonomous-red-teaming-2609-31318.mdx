@@ -1,0 +1,47 @@
+---
+title: AI 에이전트 취약점, 저장소와 실행 환경에서 자동으로 찾아내다
+category: papers
+axis: agent
+format: explainer
+summary: 저자들은 AI 에이전트의 보안 검사를 위해 저장소 분석과 런타임 공격을 분리하는 AgentXploit 시스템을 제안한다. 이 도구는 오픈소스 에이전트 프레임워크의 취약점을 자동으로 발견하고 악용하는 과정을 자동화한다.
+publishedAt: 2026-09-28T22:00:05+0900
+tags:
+- Codex
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.31318
+  title: 'AgentXploit: Autonomous Repository-to-Runtime Red-Teaming for AI Agents'
+  author: Weida Liang
+  publishedAt: 2026-09-28T13:00:00+0900
+  words: 12762
+  image: https://arxiv.org/html/2609.31318v1/figs/agentxploit-main.png
+paper:
+  arxivId: '2609.31318'
+  authors:
+  - Weida Liang
+  - Shi Qiu
+  - Zhun Wang
+  - Simon Sure
+  - Xiaoyuan Liu
+  - Tianneng Shi
+  - Zhaorun Chen
+  - Wenbo Guo
+  - Dawn Song
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+AI 에이전트는 언어 모델에 외부 데이터와 도구를 결합해 파일을 수정하거나 코드를 실행할 수 있지만, 적대적 콘텐츠가 도구 사용을 변경하거나 주변 소프트웨어에 경로 탐색 및 명령어 삽입 같은 취약점이 있을 때 보안 실패가 발생할 수 있다. 저자들은 감사자가 대상 저장소와 제어된 런타임에 접근할 수 있는 사전 배포 화이트박스 감사 방식을 연구하며, 성공적인 공격은 여전히 작업 정의 공격자 인터페이스를 통해 행동하고 외부 검증자에 의해 확인되어야 한다고 전제한다.
+
+AgentXploit은 저장소 수준의 공격 경로 발견과 런타임 악용을 분리하는 두 역할의 감사 시스템이다. 분석 에이전트는 공격자가 제어하는 입력이 민감한 연산으로 이어지는 경로를 추적하고 코드 기반의 후보 공격 경로를 기록하며, 악용 에이전트는 이러한 경로를 구체적인 공격으로 변환하고 런타임 피드백을 활용해 수정한다. 저자들은 또한 12개의 오픈소스 AI 에이전트 시스템과 프레임워크에 걸친 72개의 재현 가능한 취약점을 포함하는 AgentXploit-Bench를 소개한다.
+
+저자들의 주장에 따르면 세 번의 실행에서 AgentXploit은 종단간 성공률 59.3%를 달성했으며, 이는 Codex의 38.4%보다 높다. 토큰 예산이 일치하는 비교에서는 Codex가 46.3%를 기록했다. 삽입 지점이 제공되는 AgentDojo 벤치마크에서는 악용 에이전트가 79.2%의 공격 성공률을 보인 반면 AgentVigil은 52.7%였다.
+
+이 결과들은 종단간 에이전트 보안 감사에서 저장소 발견과 런타임 악용이 서로 다른 과제임을 강조한다. 저자들은 이러한 접근 방식이 AI 에이전트의 복잡한 보안 취약점을 더 효과적으로 식별하고 검증할 수 있는 기반을 제공한다고 결론지었다.
+
+---
+
+원문: [AgentXploit: Autonomous Repository-to-Runtime Red-Teaming for AI Agents](https://arxiv.org/abs/2609.31318)

@@ -1,0 +1,30 @@
+---
+title: llama.cpp b11216, SYCL 대용량 연산 성능 개선
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp b11216 릴리즈는 SYCL 백엔드의 FWHT 커널을 확장해 512보다 넓은 블록 너비 처리 속도를 높였다. 기존 방식의 병목 현상을 해결하여 대규모 연산 시 효율성을 개선했다.
+publishedAt: 2026-09-28T22:00:05+0900
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b11216
+  title: b11216
+  author: github-actions[bot]
+  publishedAt: 2026-09-27T23:06:35+0900
+  words: 1070
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+llama.cpp b11216 릴리즈는 SYCL 백엔드에서 Fast Walsh-Hadamard Transform(FWHT) 커널의 처리 범위를 넓혔다. 기존에는 512 이하의 블록 너비만 최적화된 알고리즘으로 처리하고, 그 이상은 일반적인 행렬 곱셈 방식으로 돌아가며 계산 효율이 떨어지는 문제가 있었다. 이번 업데이트는 1024부터 8192까지의 넓은 블록 너비에서도 O(n log n) 복잡도를 유지하는 새로운 커널을 도입해 이 문제를 해결했다.
+
+새로운 fwht_kernel_wide 커널은 작업 그룹 단위로 행을 처리하도록 구조를 변경했다. 서브그룹 너비 이하의 연산은 기존처럼 셔플링을 사용하고, 작업 그룹 너비 이내는 로컬 메모리를 통해, 나머지는 레지스터에 유지하며 계산을 수행한다. 이는 기존 좁은 커널과 동일한 나비 알고리즘 및 부호 규칙을 따르며, Intel oneAPI DPC++ CPU 백엔드 등을 통한 독립 테스트에서 수치 정확도가 검증되었다.
+
+이 변경은 ggml의 SYCL 백엔드 등록 과정에서 GPU 플랫폼 존재를 필수로 요구하는 제한으로 인해 완전한 통합 테스트는 아직 진행되지 않았다. 다만 커널 자체의 컴파일 및 알고리즘 정확도는 별도의 테스트 하네스를 통해 확인되었으며, 다양한 너비와 행 수 조합에서 허용 오차 범위 내에서 정상적으로 동작함이 입증되었다. 이는 SYCL 환경에서의 대규모 연산 성능 향상에 기여할 것으로 보인다.
+
+---
+
+원문: [b11216](https://github.com/ggml-org/llama.cpp/releases/tag/b11216)

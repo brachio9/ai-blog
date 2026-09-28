@@ -1,0 +1,32 @@
+---
+title: 하나의 GGUF 모델로 채팅과 분류를 동시에 처리하는 llama-modes
+category: community
+axis: serving
+format: explainer
+summary: llama.cpp 기반 프로젝트인 llama-modes는 하나의 GGUF 모델을 메모리에 한 번 로드한 채 채팅뿐만 아니라 불리언, 선택, 척도 평가 등 다양한 추론 모드에 활용한다. 별도의 분류기나 모델 교체 없이 동일한 가중치를 사용해 구조화된 점수를 반환하는 방식이다.
+publishedAt: 2026-09-28T22:00:05+0900
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/llama-modes-load-one-gguf-once-then-chat-boolean-choice-and-scale/180762
+  title: 'Llama-modes: load one GGUF once, then Chat, Boolean, Choice and Scale'
+  author: loo5x
+  publishedAt: 2026-09-28T02:40:40+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/c/0/c0ba93f7d6e9bbd3069d0a071704f8f4cdf8e44b_2_690x344.png
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+로컬 LLM을 텍스트 생성기로만 사용하는 것이 아니라 두 번째 분류기를 도입하거나 모델을 바꾸지 않고 더 다양하게 쓸 수 있는지 궁금해한 작성자가 llama-modes를 개발했다. 이 프로젝트는 llama.cpp의 포크로, 하나의 GGUF 모델을 메모리에 유지한 채 동일한 가중치를 사용해 여러 추론 모드를 실행하는 것을 핵심으로 한다. 기존 llama-server의 채팅 기능은 그대로 유지하면서, 같은 모델로 불리언(Yes/No) 판별, 임의 후보군에 대한 점수 매기기(CHOICE), 그리고 순서나 간격 척도에 따른 분산 반환(SCALE)이 가능해진다.
+
+후보군 점수 매기기 자체는 새로운 개념이 아니다. 이미 다음 토큰 로짓이나 시퀀스 가능성으로 분류와 랭킹을 하는 사례가 많다. 작성자는 이를 개별 애플리케이션마다 다시 구현하는 대신 llama.cpp 런타임의 재사용 가능한 원시 기능으로 만들고자 했다. 단일 토크인 선택은 모델 출력 상태에서 직접 작동하지만, 다중 토크인 선택의 경우 전체 후보가 하나의 로짓인 것처럼 가정하지 않고 교사가 강제하는 시퀀스 로그 가능성(log P(candidate | prompt))을 사용한다.
+
+척도(Scale) 모드는 시각적으로 가장 쉽게 설명할 수 있는 부분이다. 모델에게 '10점 중 9점'과 같은 텍스트를 생성하도록 요청하는 대신, 제공된 0-10 척도에 대한 전체 이산 분산을 반환받을 수 있다. 순서 척도의 경우 최빈값, 중앙값, 분위수 등을 반환하고, 수치적 거리가 의미를 가지는 간격 척도의 경우 기대값과 가중 확산도 제공한다. 모델이 이러한 요약 통계를 생성하는 것이 아니라 반환된 분산에서 파생되는 값이다.
+
+작성자는 최근 Jev와 의사결정 우선 추론에 대한 논의에서 영감을 받았으나, llama-modes는 Jev의 재구현이 아니며 Jev 스타일 보정을 주장하지 않는다. 대신 일반적인 로컬 GGUF 언어 모델에서 구조화된 점수를 직접 노출하는 다른 경로를 택했다. 현재까지 GPT-OSS 20B MXFP4와 Qwen3.8 Ridge를 Windows 환경의 NVIDIA CUDA로 테스트했으며, 레포지토리에는 Windows CUDA 릴리스, 로컬 React 데모, Python/PowerShell/curl 예제, 쿡북, API 문서 및 재현 가능한 벤치마크 하네스가 포함되어 있다.
+
+---
+
+원문: [Llama-modes: load one GGUF once, then Chat, Boolean, Choice and Scale](https://discuss.huggingface.co/t/llama-modes-load-one-gguf-once-then-chat-boolean-choice-and-scale/180762)
