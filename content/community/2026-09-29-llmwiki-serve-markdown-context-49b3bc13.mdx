@@ -1,0 +1,34 @@
+---
+title: 기존 마크다운을 코딩 에이전트의 지식원으로 연결하는 llmwiki-serve
+category: community
+axis: retrieval
+format: explainer
+summary: llmwiki-serve는 기존 Markdown이나 Obsidian 문서를 수정하지 않고 코딩 에이전트가 조회할 수 있는 읽기 전용 컨텍스트로 제공하는 로컬 서버다. 별도의 RAG 서비스나 벡터 데이터베이스 없이 CLI, HTTP, MCP를 통해 필요한 문서만 근거와 함께 찾아올 수 있게 한다.
+publishedAt: 2026-09-29T22:00:02+0900
+tags:
+- RAG
+- Claude Code
+- Codex
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/llmwiki-serve-markdown-obsidian/12026
+  title: 'llmwiki-serve: Markdown/Obsidian 문서를 코딩 에이전트용 읽기 전용 컨텍스트로 연결하기'
+  author: HwangJohn
+  publishedAt: 2026-09-27T21:56:48+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+프로젝트 규모가 커질수록 README 외에도 ADR, 스펙, 회의 노트 등 다양한 문서가 쌓이지만 코딩 에이전트가 이를 모두 인지하지는 못한다. 프롬프트에 관련 파일을 매번 붙이거나 별도의 호스팅형 RAG 서비스를 운영하는 것은 번거롭고 부담스러운 일이다. llmwiki-serve는 기존 작성 방식을 바꾸지 않고 필요한 문서만 근거와 함께 조회하는 계층을 제공하여 이 문제를 해결한다.
+
+이 도구는 Markdown이나 Obsidian 스타일의 위키 링크, YAML 프론트 매터, 태그 등을 읽으며 원본 파일을 수정하거나 업로드하지 않는다. 기본 검색은 모델이나 임베딩이 필요 없는 어휘 기반 검색이며 draft나 unpublished로 표시된 비공개 문서는 조회 결과에서 자동으로 제외된다. 웹 크롤링이나 문서 컴파일, 답변 합성 등 다른 도구가 담당하는 기능은 제공하지 않는다.
+
+설치는 uv를 통해 가능하며 설치 후 manifest 명령어로 폴더를 등록하거나 query 명령어로 직접 검색할 수 있다. serve 명령어를 실행하면 로컬 서버가 열리며 HTTP나 MCP Streamable HTTP를 지원하는 클라이언트가 해당 엔드포인트에 연결하여 문서를 조회할 수 있다. 이를 통해 코딩 에이전트는 릴리스 체크리스트나 설계 변경과 관련된 ADR 등 필요한 정보를 빠르게 찾아올 수 있게 된다.
+
+---
+
+원문: [llmwiki-serve: Markdown/Obsidian 문서를 코딩 에이전트용 읽기 전용 컨텍스트로 연결하기](https://discuss.pytorch.kr/t/llmwiki-serve-markdown-obsidian/12026)

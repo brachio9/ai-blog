@@ -1,0 +1,45 @@
+---
+title: 추가 학습 없이 LoRA 조합하는 JevSoup 방식
+category: papers
+axis: serving
+format: explainer
+summary: JevSoup는 별도의 학습 데이터나 추가 훈련 없이 전문화된 LoRA 모듈을 조합하는 프레임워크다. 입력과 전문가 설명만으로 두 개의 전문가를 선정하고, 직교 공간을 활용해 업데이트를 결합한다.
+publishedAt: 2026-09-29T22:00:02+0900
+tags:
+- LoRA
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.30922
+  title: 'JevSoup: System-One Routing for Training-Free LoRA Composition'
+  author: Xiuying Wang
+  publishedAt: 2026-09-28T13:00:00+0900
+  words: 3407
+  image: https://arxiv.org/html/2609.30922v1/JevSoup-final.png
+paper:
+  arxivId: '2609.30922'
+  authors:
+  - Xiuying Wang
+  - Jiahua Cheng
+  - Shuotian Li
+  - Yufan Cheng
+  - Bowen Deng
+  - Zhexuan Bai
+  - Yichen Li
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+적응형 AI 시스템 구축에는 다양한 작업에 걸쳐 전문화된 능력을 효과적으로 조율하는 것이 필수적이다. 저-순위 적응(LoRA)은 모듈식 전문성을 가능하게 하지만, 기존 라우팅 접근법은 보조 데이터나 추가 학습, 또는 자기회귀 디코딩을 필요로 하는 한계가 있다. JevSoup는 이러한 문제를 해결하기 위해 시스템 1의 전문가 라우팅과 시스템 2의 실행을 분리하는 학습 불필요 프레임워크를 제안한다.
+
+JevSoup는 입력과 전문가 설명만을 사용하여 구조화된 확률로 두 명의 전문가를 선별한다. 이 과정에서 가장 상위 전문가의 업데이트를 유지하고, 두 번째 전문가의 업데이트를 첫 번째 업데이트의 행 공간에 대한 직교 여분으로 투영한 뒤 동일한 가중치로 결합한다. 이러한 메커니즘은 복잡한 추가 학습 과정 없이도 효율적인 모델 조합을 가능하게 한다.
+
+저자들의 주장에 따르면 JevSoup는 14개의 PorTAL 작업과 세 가지 Qwen3 규모에서 강력한 외부 베이스라인 대비 작업 매크로 정확도에서 최대 1.19%, 샘플 마이크로 정확도에서 최대 1.21%의 절대적 이점을 달성한다. 이는 기존 방법론에 비해 학습 비용 없이 성능 향상을 이끌어냈다는 점을 시사한다.
+
+이 연구의 코드는 GitHub를 통해 공개되어 있어 개발자들이 직접 적용해 볼 수 있다. 추가 학습 부담 없이 LoRA 모듈을 조합하고 싶은 경우 JevSoup의 접근법을 참고할 만하다.
+
+---
+
+원문: [JevSoup: System-One Routing for Training-Free LoRA Composition](https://arxiv.org/abs/2609.30922)

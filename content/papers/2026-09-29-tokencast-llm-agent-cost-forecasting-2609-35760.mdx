@@ -1,0 +1,51 @@
+---
+title: LLM 에이전트 실행 중 토큰 소모량 예측하기
+category: papers
+axis: agent
+format: explainer
+summary: TokenCast는 LLM 에이전트 실행 도중 누적되는 컨텍스트에 따른 토큰 사용량을 실시간으로 추정하는 방법이다. 추가적인 모델 호출 없이 실행 구간별 비용 표현을 학습하여 예측 정확도를 높이고 예산 관리를 지원한다.
+publishedAt: 2026-09-29T22:00:02+0900
+tags:
+- SWE-bench
+draft: false
+source:
+  url: https://huggingface.co/papers/2609.35760
+  title: 'TokenCast: Forecasting Token Consumption During LLM Agent Execution'
+  author: Chaoqian Ouyang
+  publishedAt: 2026-09-28T09:00:00+0900
+  words: 17668
+  image: https://arxiv.org/html/2609.35760v1/tokencast-pipeline.png
+paper:
+  arxivId: '2609.35760'
+  authors:
+  - Chaoqian Ouyang
+  - Ling Yue
+  - Libin Zheng
+  - Huanghui Guo
+  - Shengxiang Xu
+  - YiShu Wang
+  - Ran Li
+  - Jian Yin
+  - Shaowu Pan
+  - Shimin Di
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 3
+---
+
+LLM 에이전트가 동일한 작업을 수행하더라도 실행마다 토큰 소모량이 수십 배까지 달라질 수 있다. 에이전트는 도구 피드백과 중간 결과에 따라 다음 단계를 결정하며, 이 과정에서 컨텍스트가 계속 커져 이후 호출의 입력 크기를 불어넣는다. 따라서 작업 시작 전 총 소비량을 예측하기 어렵고, 실행이 진행됨에 따라 예측을 수정해야 한다.
+
+저자들은 이러한 문제를 해결하기 위해 TokenCast를 제안한다. 이 방법은 각 실행 구간에 대해 합성 가능한 비용 표현을 학습하며, 해당 구간 자체의 소모량과 도입하는 컨텍스트 성장을 기록한다. 인접한 구간들을 조합하면 초기 구간의 컨텍스트가 이후 모든 호출에서 재독힐 때 발생하는 추가 입력 비용을 포괄하는 누적 추정치를 얻을 수 있다.
+
+실행이 진행되면 새로 관찰된 증거로 예측이 갱신되며, 이 과정은 추가적인 LLM 호출을 필요로 하지 않는다. 저자들의 주장에 따르면 SWE-bench Verified에서의 평균 누적 예측 시간은 실행당 32.8ms이다. 또한 4개의 작업 스위트와 6개의 에이전트 모델에서 평가한 96개 조합에 대해 가장 강력한 비교 대상 대비 평균 절대 오차를 평균 14.5% 줄였다고 주장한다.
+
+오프라인 예산 제어 리플레이 환경에서는 TokenCast가 고정 예산 정책과 동일한 트레이스 완료율 기준에서 평균적으로 21.3% 적은 토큰을 사용한다고 저자들은 밝힌다. 해당 코드는 GitHub의 DEFENSE-SEU/TokenCast 저장소에서 확인할 수 있다.
+
+---
+
+원문: [TokenCast: Forecasting Token Consumption During LLM Agent Execution](https://huggingface.co/papers/2609.35760)

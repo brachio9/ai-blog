@@ -1,0 +1,42 @@
+---
+title: 루프형 언어모델의 추론 속도를 높이는 웨이브프론트 디코딩
+category: papers
+axis: serving
+format: explainer
+summary: 루프형 언어모델의 순차적 처리로 인한 지연 문제를 해결하기 위해 훈련 없이 적용 가능한 웨이브프론트 디코딩 기법을 소개한다. 이 방법은 중간 단계의 출력을 활용해 초안 생성과 검증을 병렬화하여 기존 자기회귀 디코딩보다 빠른 속도를 낸다고 주장한다.
+publishedAt: 2026-09-29T22:00:02+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://huggingface.co/papers/2609.23033
+  title: 'WaveFront Decoding: Parallelized Self-Speculative Decoding for Looped Language Models'
+  author: Hyeongju Ha
+  publishedAt: 2026-09-26T09:00:00+0900
+  words: 9989
+paper:
+  arxivId: '2609.23033'
+  authors:
+  - Hyeongju Ha
+  - Jae-Joon Kim
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 4
+---
+
+루프형 언어모델은 가중치를 공유하는 블록을 반복 적용해 파라미터 수를 늘리지 않으면서도 모델의 유효 깊이를 증가시킨다. 하지만 생성된 토큰 하나당 여러 번의 순차적 호출이 필요하므로 디코딩 지연 시간이 크게 늘어나는 단점이 있다. 저자들은 이러한 구조적 한계를 극복하기 위해 훈련 과정 없이 적용 가능한 자체 예측 디코딩 프레임워크인 웨이브프론트 디코딩을 제안한다.
+
+웨이브프론트 디코딩은 루프형 아키텍처의 두 가지 특성을 활용한다. 중간 단계의 재귀 출력이 효과적인 초안 예측으로 작용할 수 있으며, 가중치 공유 덕분에 서로 다른 위치와 깊이의 토큰 상태를 하나의 배치로 처리할 수 있다는 점이다. 이를 통해 얕은 깊이에서 새로운 위치를 지속적으로 초안화하면서, 이전 위치들은 완전한 깊이의 검증 단계로 나아가도록 대각선 형태의 웨이브프론트로 조직한다.
+
+기존의 초안 생성과 검증을 분리하는 방식과 달리 이 방법은 동일한 재귀 호출 내에서 두 과정을 동시에 배치 처리한다. 거절된 초안은 완전한 깊이의 예측을 통해 수정되며, 저자들의 주장에 따르면 Ouro-2.6B 모델에서 2.42배, Huginn-3.5B 모델에서 3.54배의 속도 향상을 달성했다. 이는 Spec-Bench의 여섯 가지 작업 카테고리에서 일관되게 기존 방식보다 우수한 성능을 보였다는 것이다.
+
+추가적으로 재귀 간 KV 공유를 적용하면 웨이브프론트의 KV 트래픽이 감소하며, 저자들은 Huginn-3.5B 모델에서 최대 4.81배의 속도 향상을 가능하게 한다고 밝힌다. 관련 코드는 공개된 저장소에서 확인할 수 있다.
+
+---
+
+원문: [WaveFront Decoding: Parallelized Self-Speculative Decoding for Looped Language Models](https://huggingface.co/papers/2609.23033)
