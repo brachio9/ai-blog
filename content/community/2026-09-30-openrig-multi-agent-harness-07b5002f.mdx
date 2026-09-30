@@ -1,0 +1,37 @@
+---
+title: 재부팅해도 이어지는 코딩 에이전트 팀, OpenRig
+category: community
+axis: vibe-coding
+format: explainer
+summary: OpenRig는 Claude Code와 Codex 세션을 YAML로 정의해 저장하고 불러올 수 있게 한다. 개발자 Mike Schwarz가 제안한 이 도구는 에이전트 간 역할 분담과 맥락 유지 문제를 해결한다.
+publishedAt: 2026-09-30T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+- Cursor
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/openrig-claude-code-codex/12042
+  title: 'OpenRig: Claude Code와 Codex 세션들을 저장하고 불러올 수 있도록 하는 멀티 에이전트 하네스'
+  author: 9bow
+  publishedAt: 2026-09-30T08:00:26+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/b/d/bdcc5c5d4045b4da69d1f428ee8470f6853c2f78_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+코딩 에이전트를 여러 개 동시에 구동하면 세션 관리가 가장 큰 장벽이 된다. Mike Schwarz는 tmux로 연결된 터미널 탭들이 복잡해지며 재부팅 후 에이전트 구성을 되살리는 데 30분이 걸리고, 잊어버린 세션은 영영 사라진다고 지적한다. 이러한 경험에서 출발한 OpenRig는 Claude Code와 Codex 세션을 하나의 팀처럼 정의하고 저장했다가 이름으로 다시 불러올 수 있게 해주는 멀티 에이전트 하네스다.
+
+OpenRig는 개별 에이전트가 아니라 에이전트들이 구성하는 시스템을 관리 대상으로 삼는다. Schwarz는 모델을 감싸는 것이 하네스라면, 그 하네스들을 다시 감싸는 층이 리그(Rig)라고 설명한다. 사용자는 리드 에이전트와 대화하며, 이 에이전트가 다른 전문 에이전트에게 작업을 분배하고 결과를 가져온다. 각 에이전트는 고정된 주소의 시트(Seat)에 자리해 있어 세션이 바뀌어도 역할과 맥락은 유지된다.
+
+이 도구는 TypeScript로 작성된 로컬 데몬과 CLI, TUI, MCP 서버로 구성되며 tmux 위에서 실행된다. macOS와 Linux 환경에서 Node.js 20 이상과 tmux가 필요하며, 별도의 호스팅 서비스 없이 사용자의 머신에서 동작한다. 모델 사용 비용은 각자 로그인한 계정에서 발생한다. Schwarz는 Cursor 시절부터 에이전트 세션 이어받기를 위해 자체 하네스를 사용해 왔으며, 그 경험을 토폴로지 관리 도구로 발전시켜 OpenRig를 만들었다고 밝힌다.
+
+Claude Code 내부에도 서브에이전트 기능이 존재하지만, OpenRig는 이를 외부에서 통합 관리하는 접근법을 취한다. Schwarz가 작성한 비교 페이지와 공식 문서를 기준으로 볼 때, OpenRig는 에이전트 간 관계를 명시적으로 정의하고 재부팅 후에도 동일한 구성으로 복원할 수 있다는 점에서 차별화된다. 이는 에이전트 세션의 일관성을 유지하며 장기적인 프로젝트 작업을 지원하려는 시도다.
+
+---
+
+원문: [OpenRig: Claude Code와 Codex 세션들을 저장하고 불러올 수 있도록 하는 멀티 에이전트 하네스](https://discuss.pytorch.kr/t/openrig-claude-code-codex/12042)

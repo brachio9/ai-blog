@@ -1,0 +1,34 @@
+---
+title: Transformers, GGUF 가중치를 역양자화 없이 바로 실행한다
+category: community
+axis: serving
+format: explainer
+summary: Hugging Face Transformers가 GGUF 양자화 체크포인트를 역양자화하지 않고 압축된 상태로 직접 실행하는 기능을 도입했다. Apple Silicon Mac과 Qwen3.5 계열 모델에서 llama.cpp의 ggml 커널을 활용해 메모리 효율과 생성 속도를 개선했다.
+publishedAt: 2026-09-30T22:00:05+0900
+tags:
+- quantization
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/hugging-face-transformers-gguf-feat-llama-cpp-ggml/12036
+  title: Hugging Face Transformers, 이제 GGUF 가중치도 지원하여 바로 불러와 실행 가능 (feat. llama.cpp, ggml)
+  author: 9bow
+  publishedAt: 2026-09-29T11:30:02+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/c/8/c8109d308dff499aebb1226cd3a3a4477fc324c5_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Hugging Face는 Transformers 라이브러리에 GGUF 양자화 체크포인트를 역양자화(Dequantization) 없이 압축된 그대로 불러와 실행하는 기능을 추가했다. 기존 방식은 GGUF 파일을 로드할 때 가중치를 PyTorch 밀집 모델로 변환하며 메모리 사용량이 원래 크기로 부풀어오르는 문제가 있었다. 이번 업데이트는 가중치를 GPU에 올린 채 llama.cpp가 사용하는 ggml 커널을 통해 압축 블록 위에서 직접 연산을 수행한다. 이로 인해 양자화로 얻은 메모리 절감 효과가 추론 단계까지 유지된다.
+
+이 기능의 첫 지원 대상은 Apple Silicon Mac과 Qwen3.5 계열 아키텍처다. Hugging Face 팀은 호환성이 실제 실행 성능과 결합될 때만 유용하다고 주장하며, ggml 커널을 재사용하고 generate() 함수의 오버헤드를 줄이는 작업을 병행했다. 그 결과 MacBook Pro M2 Max에서 llama.cpp에 근접한 생성 속도를 기록했다고 밝혔다. 이는 로컬 추론 생태계에서 널리 쓰이는 GGUF 포맷이 Transformers의 익숙한 API와 더 자연스럽게 통합되었음을 의미한다.
+
+GGUF는 모델 가중치와 토크나이저 정보, 채팅 템플릿 등 메타데이터를 단일 파일에 담는 포맷이다. llama.cpp 기반 도구인 Ollama나 LM Studio 등이 이 포맷을 표준으로 채택하면서 Hugging Face Hub 내 GGUF 모델 다운로드 수는 수백만 회에 달한다. 이번 변경으로 사용자는 Hub에서 GGUF 파일을 선택해 from_pretrained() 메서드에 파일 이름만 전달하면, 노트북 메모리에 맞게 최적화된 모델을 즉시 생성 작업에 활용할 수 있게 되었다.
+
+이전 버전인 v4.41.0부터 GGUF 로드 기능이 존재했으나 역양자화 과정 때문에 메모리 이점이 사라지는 한계가 있었다. 새로운 방식은 호환성과 성능을 동시에 고려한 설계로, 개발자가 별도의 변환 과정 없이도 양자화된 모델의 장점을 살려 로컬 환경에서 효율적으로 추론할 수 있도록 한다. 이는 로컬 AI 실행 환경을 구성하는 데 있어 선택지를 넓히고 작업 흐름을 단순화하는 데 기여할 것으로 보인다.
+
+---
+
+원문: [Hugging Face Transformers, 이제 GGUF 가중치도 지원하여 바로 불러와 실행 가능 (feat. llama.cpp, ggml)](https://discuss.pytorch.kr/t/hugging-face-transformers-gguf-feat-llama-cpp-ggml/12036)

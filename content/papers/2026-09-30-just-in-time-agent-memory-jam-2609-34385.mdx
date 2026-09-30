@@ -1,0 +1,44 @@
+---
+title: 요청 순간에 맞춰 기억을 찾는 에이전트, JAM의 작동 원리
+category: papers
+axis: agent
+format: explainer
+summary: 기존 에이전트는 요청 전에 미리 기억을 정리하는 방식의 한계를 극복하기 위해 요청 시점에 맞춰 문맥을 구성하는 JAM 프레임워크를 제안한다. 저자들은 이 방법이 기존 방식보다 효율적이며 성능도 우수하다고 주장하며, 학습을 위한 데이터 파이프라인과 코드 공개를 통해 재현성을 지원한다.
+publishedAt: 2026-09-30T22:00:05+0900
+tags:
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.34385
+  title: Just-In-Time Agent Memory with Runtime Agentic Research
+  author: Bingyu Yan
+  publishedAt: 2026-09-30T13:00:00+0900
+  words: 12495
+  image: https://arxiv.org/html/2609.34385v1/main_pic.png
+paper:
+  arxivId: '2609.34385'
+  authors:
+  - Bingyu Yan
+  - Chaofan Li
+  - Hongjin Qian
+  - Shuqi Lu
+  - Chaozhuo Li
+  - Zheng Liu
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+AI 에이전트에게 기억은 핵심 요소이지만, 현재 널리 쓰이는 Ahead-of-Time(AOT) 방식은 특정 요청이 오기 전에 미리 기억을 구축하는 구조다. 이 방식은 온라인 서비스 비용을 줄일 수 있지만, 요청과 무관하게 기억을 정리하다 보니 나중에 중요해지던 세밀한 정보를 놓치게 되는 단점이 있다. JAM(Just-In-Time Agent Memory)은 이러한 한계를 해결하기 위해 실제 요청이 들어오는 런타임 시점에 쿼리에 맞춰 문맥을 구성하는 학습 가능한 프레임워크를 제시한다.
+
+JAM 시스템은 Memorizer와 Researcher 두 가지 구성 요소로 작동한다. Memorizer는 계층적 페이지 스토어에 원본 기록을 모두 보존하면서 간결한 탐색 요약을 유지하고, Researcher는 각 요청마다 증거를 반복적으로 검색하고 검사하며 통합한다. 이 과정에서 에이전트가 기억을 효과적으로 사용하는 행동을 학습시키기 위해 Memory-Gym이라는 데이터 합성 파이프라인을 도입했으며, 이는 여섯 분야의 아홉 가지 작업 유형을 포괄한다.
+
+학습 과정에서는 검증된 궤적을 통한 지도 미세 조정을 먼저 거친 후, 힌트 기반 그룹 상대 정책 최적화(Hint-guided GRPO)를 통해 Researcher를 최적화한다. 저자들의 주장에 따르면 JAM은 에이전트 기억 및 장문맥 처리 관련 다양한 벤치마크에서 AOT 스타일 메모리 시스템보다 더 강력한 작업 성능을 달성했으며, 기존 학습된 에이전트적 메모리 접근법보다 훨씬 효율적인 것으로 나타났다.
+
+연구진은 재현성과 향후 연구를 지원하기 위해 익명화된 소스 코드를 공개했다. 이 프레임워크는 요청에 따라 동적으로 문맥을 구성함으로써 정교한 정보 손실을 방지하고 효율성을 높이는 새로운 에이전트 기억 관리 방식을 제시한다.
+
+---
+
+원문: [Just-In-Time Agent Memory with Runtime Agentic Research](https://arxiv.org/abs/2609.34385)
