@@ -2,8 +2,6 @@
 
 import { useEffect, useSyncExternalStore } from "react";
 
-import type { Post } from "@/types/content";
-
 /** 마지막 방문 시각을 적어 두는 자리. 값은 KST ISO-8601 문자열 그대로다. */
 const STORAGE_KEY = "chorok:last-visit";
 
@@ -22,7 +20,7 @@ const STORAGE_KEY = "chorok:last-visit";
  * 0으로 떨어지면 「내가 못 본 것」이 아니라 「방금 눌렀나」를 세게 된다.
  * 대신 페이지를 떠날 때 적는다.
  */
-export function SinceLastVisit({ posts }: { posts: Post[] }) {
+export function SinceLastVisit({ publishedAt }: { publishedAt: string[] }) {
   // 서버 스냅샷이 `null` 이라 정적 HTML 에는 이 자리가 없다 — 하이드레이션이 갈리지 않는다.
   const previous = useSyncExternalStore(subscribe, readLastVisit, () => null);
 
@@ -46,9 +44,7 @@ export function SinceLastVisit({ posts }: { posts: Post[] }) {
     return null;
   }
 
-  const count = posts.filter(
-    (post) => post.frontmatter.publishedAt > previous,
-  ).length;
+  const count = publishedAt.filter((stamp) => stamp > previous).length;
   if (count === 0) {
     return null;
   }

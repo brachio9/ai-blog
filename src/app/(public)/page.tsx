@@ -72,7 +72,11 @@ export default function Home() {
               ) : null}
               {/* 「지난번 이후 새것」 — 단골에게 가장 중요한데 지금까지 아무 장치가 없었다.
                   클라이언트 전용이라 SSG 를 건드리지 않는다. */}
-              <SinceLastVisit posts={allPosts} />
+              {/* 발행 시각만 넘긴다 — 클라이언트 props 는 HTML 에 그대로 실리므로
+                  `Post` 를 통째로 넘기면 본문 전부가 1면에 실린다. */}
+              <SinceLastVisit
+                publishedAt={allPosts.map((post) => post.frontmatter.publishedAt)}
+              />
             </div>
           </header>
 
