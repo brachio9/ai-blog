@@ -1,0 +1,35 @@
+---
+title: 파라미터 0.02% 수정으로 수학 올림피아드 만점, 비드래프트의 Darwin-180B-RSI 성과
+category: community
+axis: serving
+format: explainer
+summary: 비드래프트가 공개한 Darwin-180B-RSI 모델이 허깅페이스 공식 리더보드 5개 부문에서 1위를 차지했다. 기존 공개 모델의 파라미터를 약 0.02%만 변경하고 재귀적 자가개선 학습을 적용한 결과다.
+publishedAt: 2026-10-01T22:00:05+0900
+tags:
+- MMLU
+- GPQA
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/180b-aime2026-5-1/12047
+  title: 180B 모델로, 수학올림피아드 벤치마크(AIME2026) 만점 포함 5개 부문 모조리 1위 랭크 비결 공개
+  author: AI_OpenFree
+  publishedAt: 2026-09-29T16:23:53+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/d/f/dfe17cebb4285d1e2716cac1804726adcdd3c8a7_2_1028x1150.png
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: mid
+  crossSources: 1
+---
+
+비드래프트는 공개된 Qwen3.8-Flash-Next(180B MoE) 모델을 기반으로 Darwin-180B-RSI를 개발했다. 이 과정에서 전체 파라미터 중 약 0.02%만 수정하는 미세 조정을 수행했으며, 사람이 새로 만든 정답 라벨을 사용하지 않았다. 대신 모델이 스스로 문제를 풀고 검증 가능한 정답으로 채점한 뒤, 맞은 풀이로 자신을 다시 학습시키는 재귀적 자가개선(RSI) 과정을 거쳤다.
+
+파이토치 한국모임에 따르면 Darwin-180B-RSI는 허깅페이스가 공식 벤치마크로 지정한 리더보드 5곳에서 동시에 1위를 기록했다. 대상 분야는 수학 2종, 과학 1종, 종합지식 1종, 시각추론 1종이다. 특히 AIME 2026과 HMMT Feb 2026에서는 리더보드 역사상 처음으로 만점(100%)이 기록되었다.
+
+구체적인 수치로는 GPQA Diamond에서 94.44점, MMLU-Pro에서 88.12점, MMMU-Pro에서 79.48점을 기록했다. 이는 기존 1위 모델 대비 각각 0.94점, 0.12점, 그리고 시각 추론 부문에서 우위를 점한 결과다.
+
+이 결과는 거대 모델을 처음부터 학습하는 데 드는 막대한 자원이 없어도 공개 모델을 정밀하게 진화시켜 세계 최상위 성능에 도달할 수 있음을 보여준다. 비드래프트는 이러한 접근 방식이 엔지니어 관점에서 효율적인 모델 개선 경로가 될 수 있다고 주장한다.
+
+---
+
+원문: [180B 모델로, 수학올림피아드 벤치마크(AIME2026) 만점 포함 5개 부문 모조리 1위 랭크 비결 공개](https://discuss.pytorch.kr/t/180b-aime2026-5-1/12047)

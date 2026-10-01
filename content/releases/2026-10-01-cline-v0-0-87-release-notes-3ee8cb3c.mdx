@@ -1,0 +1,34 @@
+---
+title: 윈도우 프록시 충돌 해결과 토큰 계산 정확도 개선, Cline v0.0.87 릴리즈 노트 요약
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline v0.0.87은 윈도우 환경에서 시스템 프록시 설정으로 인한 허브(Hub) 시작 실패 문제를 해결했다. 또한 리ASONING 토큰의 이중 계산 오류를 수정하여 사용량 통계와 비용 산출의 정확도를 높였다.
+publishedAt: 2026-10-01T22:00:05+0900
+tags:
+- Cline
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/sdk/sdk/v0.0.87
+  title: SDK v0.0.87
+  author: github-actions[bot]
+  publishedAt: 2026-09-29T14:30:55+0900
+  words: 654
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트는 특히 윈도우 사용자들에게 중요한 안정성 개선을 포함한다. 시스템 프록시(Clash, v2ray 등)가 설정된 환경에서 허브 데몬이 로컬호스트 요청을 프록시로 잘못 전달하여 시작되지 않는 문제가 발생했는데, 이제 루프백 주소를 프록시 제외 목록에 자동으로 추가해 이 문제를 해결했다. 또한 윈도우의 특수 경로 인식 문제도 개선되어 데몬이 정상적으로 실행되도록 했다.
+
+사용량 계산 로직에서 중요한 버그가 수정되었다. 이전 버전에서는 리ASONING 토큰이 출력 토큰의 일부로 보고되면서 세션 총계와 텔레메트리 데이터에서 두 번 중복 계산되는 오류가 있었다. 이번 릴리즈는 출력 토큰에서 리ASONING 토큰을 제외하여 정확한 사용량 통계를 제공하지만, 비용 산출 시에는 여전히 전체 토큰 수를 기준으로 적용한다.
+
+AWS Bedrock 및 기타 프로바이더와의 호환성도 강화되었다. GPT-6 등 특정 모델이 인퍼런스 프로파일을 통해 라우팅되도록 수정했고, 리ASONING 설정 관련 오류로 인한 요청 거부 문제를 해결했다. 또한 게이트웨이 모델의 API 프로토콜 설정 유지와 레거시 AWS 프로필 인증 마이그레이션 처리가 개선되어 설정 충돌을 줄였다.
+
+마지막으로 YOLO 모드의 시스템 프롬프트에서 계획/실행 모드 지침을 제거해 불필요한 지시를 없앴고, 크론 및 태스크 파일의 인코딩 문제를 해결하여 윈도우 메모장과 같은 환경에서도 UTF-8 BOM이 포함된 파일을 정상적으로 처리할 수 있도록 했다. 이 외에도 허브 데몬 로그의 상세화 등 내부 디버깅 기능이 개선되었다.
+
+---
+
+원문: [SDK v0.0.87](https://github.com/cline/cline/releases/tag/sdk/sdk/v0.0.87)

@@ -1,0 +1,47 @@
+---
+title: LoRA와 전파인튜닝의 격차를 줄이는 GDLoRA
+category: papers
+axis: serving
+format: explainer
+summary: 저자들은 LoRA가 가진 성능 한계를 그라디언트 분해로 해결하는 GDLoRA를 제안한다. 기존 LoRA 파라미터 외의 수직 성분을 직접 업데이트하여 전파인튜닝에 근접한 성능을 낸다고 주장한다.
+publishedAt: 2026-10-01T22:00:05+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.37027
+  title: 'Beyond Low-Rank Parameterization: Narrowing the Gap Between LoRA and Full Fine-Tuning via Gradient Decomposition'
+  author: Yihao Ouyang
+  publishedAt: 2026-09-30T13:00:00+0900
+  words: 15687
+  image: https://arxiv.org/html/2609.37027v1/Fig1.png
+paper:
+  arxivId: '2609.37027'
+  authors:
+  - Yihao Ouyang
+  - Shiwei Li
+  - Haozhao Wang
+  - Xiandi Luo
+  - Zhuoqi Hu
+  - Jinglun Yu
+  - Yichen Li
+  - Ruixuan Li
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+로우랭크 어댑테이션(LoRA)은 파라미터 효율적 파인튜닝의 표준이지만, 여전히 전파인튜닝(FFT) 대비 성능 격차가 존재한다. 많은 변형 연구가 초기화나 최적화 방식을 개선하려 했으나, 매 학습 단계에서 1차원 가중치 공간 방향이 현재 파라미터화 구조에 의해 제한받는다는 근본적 한계가 있었다.
+
+저자들은 LoRA가 접근 가능한 그라디언트 공간을 분석해 이것이 현재 LoRA 파라미터화가 유도하는 접공간과 일치함을 보였다. 이를 통해 전체 가중치 그라디언트를 현재 모델 파라미터에서 직교 분해할 수 있으며, 이 공간에 수직인 성분을 '수직 그라디언트(normal gradient)'라고 명명했다.
+
+제안된 GDLoRA는 순전파 활성화와 역전파 신호로부터 전체 가중치 그라디언트를 재구성하고, 추출된 수직 성분을 베이스 가중치에 직접 업데이트한다. 이 과정에서 LoRA 팩터에는 기존 AdamW 최적화를 유지하며, 어댑터 및 옵티마이저 설정이 동일할 때 표준 LoRA의 옵티마이저 상태 메모리 예산을 증가시키지 않는다.
+
+자연어 이해, 수학 추론, 상식 추론, 이미지 분류 등 다양한 실험에서 GDLoRA가 기존 LoRA보다 일관되게 개선되며 전파인튜닝과의 성능 격차를 줄인다고 저자들은 주장한다. 관련 코드는 공개된 링크를 통해 확인할 수 있다.
+
+---
+
+원문: [Beyond Low-Rank Parameterization: Narrowing the Gap Between LoRA and Full Fine-Tuning via Gradient Decomposition](https://arxiv.org/abs/2609.37027)

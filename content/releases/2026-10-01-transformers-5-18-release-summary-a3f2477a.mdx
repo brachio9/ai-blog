@@ -1,0 +1,39 @@
+---
+title: 'transformers 5.18: 실시간 화자 식별과 다중 모달 모델 지원 강화'
+category: releases
+axis: serving
+format: explainer
+summary: transformers 5.18 릴리즈는 NVIDIA의 Nemotron 시리즈와 NAVER의 HyperCLOVAX Vision V2 등 주요 모델들을 추가했다. 특히 실시간 오디오에서 화자를 구분하는 기능과 텍스트·이미지·오디오를 통합 처리하는 능력이 강화되었다.
+publishedAt: 2026-10-01T22:00:05+0900
+tags:
+- reranking
+- vLLM
+- TTS
+- ASR
+- Whisper
+draft: false
+source:
+  url: https://github.com/huggingface/transformers/releases/tag/v5.18.0
+  title: Release 5.18.0
+  author: vasqu
+  publishedAt: 2026-10-01T01:46:27+0900
+  words: 3887
+  image: https://github.com/user-attachments/assets/fe735cb3-9e5b-43ad-8f60-9dec8425aec7
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 버전은 실시간 오디오 분석에 특화된 Nemotron 3 Diarization 모델을 새로 지원한다. 이 모델은 최대 8명의 화자가 등장하는 실제 환경의 오디오에서 누가 언제 말했는지 식별하며, 스트리밍과 오프라인 추론 모두를 처리할 수 있다. 입력 버퍼 크기나 출력 해상도를 유연하게 설정할 수 있어 지연 시간 요구사항에 맞춰 최적화할 수 있으며, 청크 기반 추론을 통해 처리 가능한 오디오 길이에 제한이 없다.
+
+다중 모달 추론 모델인 NemotronH Omni도 추가되었다. NVIDIA가 개발한 이 모델은 하이브리드 Mamba-Transformer 언어 모델에 RADIO 비전 인코더와 선택적 사운드 인코더를 결합했다. 이미지, 비디오 패치와 오디오 클립을 각각의 컨텍스트 토큰 위치로 프로젝션하여 텍스트, 시각 자료, 소리를 하나의 오토레그레시브 모델이 통합적으로 추론할 수 있게 했다.
+
+NAVER가 개발한 HyperCLOVAX Vision V2 역시 지원 목록에 포함되었다. 이 모델은 HyperClovaX 언어 모델 백본과 Qwen2.5-VL 비전 인코더를 조합해 텍스트, 이미지, 비디오 입력을 처리한다. 내장된 사고 토큰을 통해 사슬 추론(chain-of-thought) 방식의 복잡한 논리적 처리도 수행할 수 있는 것이 특징이다.
+
+이 외에도 GTE와 같은 장문 텍스트 표현 및 재순위 모델에 대한 지원이 시작되었다. 이번 릴리즈는 특정 도메인별 전문 모델과 다중 모달 융합 기술에 대한 지원을 확대하는 방향으로 진행되었으며, 전체 변경 사항 중 주요한 모델 추가 부분만 요약했다.
+
+---
+
+원문: [Release 5.18.0](https://github.com/huggingface/transformers/releases/tag/v5.18.0)

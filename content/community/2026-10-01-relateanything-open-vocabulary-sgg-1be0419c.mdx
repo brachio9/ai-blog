@@ -1,0 +1,36 @@
+---
+title: 객체 레이블 없이 관계만 묻는 RelateAnything 모델 소개
+category: community
+axis: serving
+format: explainer
+summary: 기존 장면 그래프 생성 모델이 고정된 어휘에 묶인 이유를 분석한다. RelateAnything은 영역과 문자열 관계를 입력받아 실시간으로 개방형 관계 예측을 수행하는 경량 모델의 접근법을 설명한다.
+publishedAt: 2026-10-01T22:00:05+0900
+tags:
+- distillation
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/relateanything/12041
+  title: 'RelateAnything: 객체 레이블 없이 관계 어휘를 문자열로 받는 실시간 개방형 관계 예측 모델'
+  author: 9bow
+  publishedAt: 2026-09-30T14:30:42+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/5/8/588e10600b4e9c50b58b6dd575925194a526bb89_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+RelateAnything 논문 저자는 기존 장면 그래프 생성(SGG) 기술이 여전히 약 50개의 고정된 술어(Predicate) 목록에 갇혀 있는 이유를 모델링의 한계가 아닌 데이터와 평가 방식의 구조적 문제라고 지적한다. 객체 검출이나 분할 분야에서는 이미 개방형 어휘가 도입되어 임의의 클래스를 처리할 수 있게 되었으나, 관계 예측은 여전히 학습 시 정해진 레이블 공간 밖으로는 답하지 못하며, 이는 실제 배포 환경에서의 유연성을 크게 제한한다.
+
+저자는 이 제약을 풀지 못하는 원인을 세 가지로 정리한다. 첫째, 관계 주석은 비용이 높고 신뢰도가 낮아 충분한 지도 신호가 부족하다. 둘째, 객체 클래스에 조건화된 기존 모델 구조나 텍스트 인코더의 토큰 한계는 어휘 확장을 기술적으로 막는다. 셋째, 벤치마크 평가 방식 자체가 학습된 어휘와의 일치도를 측정하므로, 새로운 관계를 예측하는 모델을 오히려 불리하게 만든다.
+
+이러한 문제점을 해결하기 위해 RelateAnything은 5,300만 파라미터 규모의 경량 모델을 제안한다. 이 모델은 이미지와 영역 정보, 그리고 추론 시점에 넘겨받는 문자열 형태의 관계 어휘를 입력으로 받는다. 기존처럼 고정된 클래스 목록에 의존하지 않고, 주어진 문자열 관계를 영역 쌍마다 점수로 매겨 출력하는 방식으로 동작하여 실시간 개방형 관계 예측을 가능하게 한다.
+
+기존의 대형 비전-언어 모델(VLM)이나 텍스트 인코더 기반 방법론이 무겁거나 어휘 확장성에 한계가 있는 것과 달리, RelateAnything은 경량화된 구조로 유연한 입력을 수용한다. 저자는 이 접근법이 관계 예측 분야가 고정된 벤치마크 어휘에서 벗어나 실제 사용자의 질의에 맞춰 응답할 수 있는 단계로 나아가는 데 기여할 것이라고 주장한다.
+
+---
+
+원문: [RelateAnything: 객체 레이블 없이 관계 어휘를 문자열로 받는 실시간 개방형 관계 예측 모델](https://discuss.pytorch.kr/t/relateanything/12041)

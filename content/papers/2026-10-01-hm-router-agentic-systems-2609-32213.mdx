@@ -1,0 +1,42 @@
+---
+title: 에이전트 성능을 결정하는 모델과 하네스, 둘 다 함께 선택하는 HM-Router
+category: papers
+axis: agent
+format: explainer
+summary: HM-Router는 에이전트 시스템에서 모델과 하네스를 개별적으로가 아닌 상호작용까지 고려해 최적의 조합을 선택하는 라우팅 방법이다. 학습된 표현을 공유함으로써 관찰되지 않은 조합에 대한 예측도 가능하게 하여 데이터 효율성을 높인다.
+publishedAt: 2026-10-01T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2609.32213
+  title: 'HM-ROUTER: Joint Model and Harness Routing for Agentic Systems'
+  author: Hao Mark Chen
+  publishedAt: 2026-09-30T13:00:00+0900
+  words: 7696
+  image: https://arxiv.org/html/2609.32213v1/intro_motivation.png
+paper:
+  arxivId: '2609.32213'
+  authors:
+  - Hao Mark Chen
+  - Royson Lee
+  - Yasuyuki Okoshi
+  - Dimitris Anastasiou
+  - Wayne Luk
+  - Hongxiang Fan
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+에이전트의 성능은 단순히 강력한 언어 모델 하나에만 달려 있는 것이 아니다. 도구를 사용하고 실행을 관리하는 하네스와의 궁합이 중요하기 때문이다. 기존 방식들은 모델과 하네스를 따로 고르거나 제한된 조합만 테스트했지만, HM-Router는 각 쿼리에 맞춰 모델과 하네스를 동시에 선택한다. 저자들은 이 방법이 두 구성 요소의 호환성을 더 정확히 파악할 수 있다고 주장한다.
+
+HM-Router의 핵심은 모델과 하네스의 표현을 분리해 학습하되, CP 텐서 분해에서 영감을 받은 상호작용 항을 통해 쿼리에 따른 호환성 변화를 포착한다는 점이다. 이렇게 구성 요소별 표현을 공유하면 관찰된 조합의 학습 데이터가 관찰되지 않은 새로운 조합의 예측에도 도움이 된다. 즉, 모든 경우의 수를 다 테스트할 필요 없이 기존 데이터로 미지의 조합 성능도 추론할 수 있게 된다는 것이다.
+
+저자들은 12개의 공개 에이전트 벤치마크에서 293개 라우트, 73개 모델, 25개 하네스를 포함하는 벤치마크를 구성해 실험했다. 저자들의 주장에 따르면 HM-Router는 기존 학습 기반 베이스라인보다 평균 라우팅 정확도에서 7.3%p 높았으며, 평가된 모든 비용 예산 구간에서 상위권을 기록했다. 특히 훈련 결과의 90%를 제외하고 테스트했을 때, 관찰되지 않은 조합까지 고려한 것이 제한된 조합만 고려했을 때보다 정규화 정확도를 15.8점이나 높였다고 밝혔다.
+
+이러한 구조 덕분에 HM-Router는 새로운 라우트나 구성 요소가 추가될 때도 적은 샘플로 효율적으로 학습할 수 있으며, 본 훈련에 사용되지 않은 벤치마크로도 일반화가 잘 된다고 저자들은 설명한다. 관련 코드와 데이터는 오픈소스로 공개되어 있어 에이전트 시스템의 라우팅 전략을 개선하려는 개발자들이 참고할 수 있다.
+
+---
+
+원문: [HM-ROUTER: Joint Model and Harness Routing for Agentic Systems](https://arxiv.org/abs/2609.32213)
