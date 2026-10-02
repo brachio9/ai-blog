@@ -1,0 +1,49 @@
+---
+title: RL 후학습이 에이전트 능력을 갉아먹는가
+category: papers
+axis: agent
+format: explainer
+summary: 대형 언어 모델의 RL 후학습은 기존 행동을 날카롭게 다듬어 단발성 정확도는 높이지만 해결책 다양성은 떨어뜨린다는 가설을 검증한다. 저자들은 이 현상이 에이전트 작업에서도 발생하며, 이를 측정하는 지표와 완화 방법을 제안한다.
+publishedAt: 2026-10-02T22:00:05+0900
+draft: false
+source:
+  url: https://huggingface.co/papers/2610.01509
+  title: Sharpening Tax in Post-Training
+  author: Changdae Oh
+  publishedAt: 2026-10-01T09:00:00+0900
+  words: 32593
+  image: https://arxiv.org/html/2610.01509v1/figures/sharpeningtax-teaser-v3.png
+paper:
+  arxivId: '2610.01509'
+  authors:
+  - Changdae Oh
+  - Qi Zeng
+  - Qi Qi
+  - Andrey Zhmoginov
+  - Deren Lei
+  - Yun He
+  - Hoang Phan
+  - Hangoo Kang
+  - Azalia Mirhoseini
+  - Sharon Li
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 3
+  popularity:
+    kind: hf-upvotes
+    count: 35
+---
+
+에이전트 작업을 수행하는 대형 언어 모델에서 강화학습(RL) 후학습이 정말로 필요한가? 기존에는 수학이나 코딩 작업에서 RL 후학습이 단발성 정확도를 높이는 대신 해결 가능한 해의 범위를 줄인다는 ‘선명화(sharpening)’ 현상이 관찰되었다. 그러나 에이전트 작업은 다중 턴 도구 사용과 상호작용이 필요하므로, 후학습을 통해 새로 획득한 능력이 필수적일 것이라는 기대가 있었다. 하지만 연구 결과, 가벼운 추론 환경만 갖춘 사전 학습 모델조차도 충분한 테스트 시간 예산을 주면 후학습된 모델보다 더 넓은 해결책 범위(pass@K)를 보인다는 놀라운 사실이 드러났다.
+
+저자들은 RL 후학습이 작업 수행 결과를 ‘완전히 성공’ 또는 ‘전혀 실패’라는 두 극단으로 밀어붙여 샘플링 효율성과 일관성은 높이지만, 결과적으로 해결책의 다양성을 희생시킨다고 분석한다. 이러한 후학습이 가져오는 테스트 시간 확장성의 손실을 정량화하기 위해 ‘선명화 세(Sharpening Tax)’라는 진단 지표를 제안했다. 네 가지 모델 계열과 세 가지 에이전트 벤치마크에서 총 42가지 사례를 대상으로 한 평가 결과, 이 세는 대부분의 설정에서 두드러지게 나타났으며 소수의 롤아웃으로도 추정 가능하고 다른 지표들과도 잘 상관계수를 보였다.
+
+이러한 선명화 세를 줄이기 위해 저자들은 ‘사후 온도 조절 그룹 샘플링(PTGS)’이라는 간단한 베이즈 샘플러를 제안한다. 이 방법은 프롬프트의 난이도를 추정하여 샘플링 온도를 동적으로 조정하는 플러그 앤 플레이 방식이다. 두 가지 에이전트 환경에서 RL 훈련 중 PTGS를 적용한 결과, 고정 온도 기준선보다 선명화 세가 더 작게 발생했다. 즉, 반복 샘플링 시 더 많은 작업을 해결하면서도 단발성 정확도 역시 향상시키는 효과를 보였다.
+
+결국 에이전트 작업에서도 RL 후학습은 기존 모델의 잠재력을 날카롭게 다듬는 동시에 해결책의 다양성을 잃게 만든다는 점이 확인되었다. 하지만 적절한 샘플링 전략을 도입하면 이 손실을 줄이면서 성능을 유지할 수 있다. 이는 에이전트 개발자들이 무조건적으로 후학습된 모델을 선택하기보다, 테스트 시간 예산과 샘플링 방법을 고려해 사전 학습 모델의 잠재력을 활용하는 것이 더 효율적일 수 있음을 시사한다.
+
+---
+
+원문: [Sharpening Tax in Post-Training](https://huggingface.co/papers/2610.01509)

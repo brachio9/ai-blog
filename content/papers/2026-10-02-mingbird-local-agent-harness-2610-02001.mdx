@@ -1,0 +1,40 @@
+---
+title: 작은 모델도 실무를 처리하게 하는 로컬 에이전트 프레임워크 Mingbird
+category: papers
+axis: agent
+format: explainer
+summary: 기존 클라우드 중심 에이전트 시스템에서 작은 오픈 모델이 실패하는 주된 원인은 모델 자체가 아닌 프레임워크의 한계라고 저자들은 지적한다. 로컬 환경에 최적화된 Mingbird는 이러한 구조적 결함을 보완해 2~9B급 모델도 실제 작업을 완수할 수 있게 한다.
+publishedAt: 2026-10-02T22:00:05+0900
+tags:
+- OpenCode
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.02001
+  title: 'Mingbird: A Local-First Agent Harness Enabling Small Open Models to Complete Real Tasks'
+  author: Hao Wang
+  publishedAt: 2026-10-02T13:00:00+0900
+  words: 21629
+  image: https://arxiv.org/html/2610.02001v1/fig3_heatmap.png
+paper:
+  arxivId: '2610.02001'
+  authors:
+  - Hao Wang
+  - Ting Huang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+일반 노트북에서 구동 가능한 2~9B 규모의 작은 오픈 가중치 모델은 클라우드 규모 에이전트 시스템에서는 실제 작업을 거의 완수하지 못한다. 도구 호출 시 컨텍스트 오버플로우가 발생하거나 자기 수정이 발산하며, 무한 루프에 빠지거나 작업이 침묵하게 포기되는 현상이 빈번하다. 저자들은 이러한 실패의 상당 부분이 모델의 능력 부족보다는 에이전트 하네스(harness) 자체의 설계 문제에서 비롯된다고 주장한다.
+
+이 문제를 해결하기 위해 저자들은 Windows와 Ollama 환경에 특화된 로컬 우선 에이전트 프레임워크인 Mingbird를 소개한다. 이 시스템은 작은 모델의 실패 양상을 하나씩 보완하는 열 가지 메커니즘을 포함하는데, 그중 대표적인 것은 바이트 단위의 순영(pre-fill) 예산 관리, 작업 완수를 승인하기 전 다시 작업을 재독하는.finish 게이트, 그리고 시그니처 수준의 루프 감지 기능이다.
+
+저자들의 주장에 따르면 LRAB 벤치마크에서 Mingbird는 0.886의 점수로 기존 시스템들인 goose(0.631), opencode(0.479), agent-mini(0.405)를 크게 앞섰다. 또한 tau-squared-bench에서는 0.856을 기록하며 경쟁 시스템보다 높은 성능을 보였다. 같은 작업 집합에서 최첨단 모델의 성능도 하네스에 따라 0.997에서 0.478까지 편차가 발생했으며, 잘 구성된 스캐폴드를 갖춘 시스템들끼리는 0.072 이내의 좁은 차이만 나타났다는 점도 확인되었다.
+
+연구진은 메커니즘별 제거 실험(ablation) 결과를 방향성 있는 참고치로만 제시한다. 동일한 조건에서의 반복 실험이 평균값을 최대 0.069만큼 이동시킬 수 있어 단일 시행의 오차 범위와 유사하기 때문이다. 다만 전체 메커니즘 스택과 텍스트 재독 기능만을 비교한 한 쌍의 실험에서는 실행 가능한 완료 가드가 세 번의 반복에서 +0.10의 이점을 보였다고 한다. 단, 이 결과는 자체 제작 벤치마크와 단일 머신, 단일 시행 점수에 기반하므로 그 한계를 인지해야 한다.
+
+---
+
+원문: [Mingbird: A Local-First Agent Harness Enabling Small Open Models to Complete Real Tasks](https://arxiv.org/abs/2610.02001)

@@ -1,0 +1,32 @@
+---
+title: 16GB 맥에 Qwen3.6-35B를 SSD 스트리밍으로 돌렸다
+category: community
+axis: serving
+format: explainer
+summary: 개발자 apirathaiya는 M5 MacBook Air에서 Qwen3.6-35B-A3B 모델을 실행하는 방법을 공개했다. SSD에 전문가 레이어를 저장하고 필요할 때만 로드하는 기술로 15토큰/초의 속도를 달성했다고 주장한다.
+publishedAt: 2026-10-02T22:00:05+0900
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/running-qwen3-6-35b-a3b-on-a-8-16-gb-mac-at-15-token-s/182775
+  title: Running Qwen3.6-35B-A3B on a 8-16 GB Mac at 15 Token/s
+  author: AiiamI
+  publishedAt: 2026-10-02T03:51:44+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/9/c/9c70eb51da623ffc060450fccb358cb814b26c0c_2_690x344.png
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+개발자 apirathaiya는 Hugging Face 포럼을 통해 M5 MacBook Air(16GB RAM)에서 Qwen3.6-35B-A3B 모델을 실행한 결과를 공유했다. 이 모델은 혼합 전문가(MoE) 아키텍처를 사용하는데, 그는 모든 전문가 레이어를 SSD에 보관하고 MoE 라우터가 선택한 것만 메모리로 읽어오는 방식을 적용했다. 또한 다음 레이어에서 필요할 전문가를 예측해 미리 로드하는 기법도 함께 사용했다.
+
+그는 이 방법으로 MLX 메모리 사용량을 약 1.7GB로 유지하면서도 원본 mlx_lm과 바이트 단위 동일한 출력을 얻었다고 밝혔다. 전문가 드롭 없이 top-8 라우팅을 그대로 유지했기 때문에 정확도는 기존 체크포인트와 동일하다. 16GB 맥에서의 벤치마크 결과 초당 15.0토큰의 속도를 기록했으며, 이는 직접적인 SSD 스트리밍보다 72.6% 빠른 성능이다.
+
+실제 사용 환경에서는 다른 앱을 실행 중일 때 약 11.8토큰/초의 속도가 나왔고, 짧은 프롬프트에 대한 첫 토큰 생성 시간은 약 2.3초였다. 그는 이 기술을 AiiStream Q3.6이라는 이름으로 Apache-2.0 라이선스에 따라 오픈소스로 공개했다. GitHub 저장소를 통해 해당 코드를 확인할 수 있다.
+
+이 스트리밍 기술은 8GB RAM 맥에서도 작동하도록 설계되었으나, 현재까지 16GB 환경에서만 직접 테스트를 마친 상태다. 따라서 8GB 맥에서의 성능 수치는 아직 추정치에 불과하며 실제 검증이 필요한 상황이다.
+
+---
+
+원문: [Running Qwen3.6-35B-A3B on a 8-16 GB Mac at 15 Token/s](https://discuss.huggingface.co/t/running-qwen3-6-35b-a3b-on-a-8-16-gb-mac-at-15-token-s/182775)

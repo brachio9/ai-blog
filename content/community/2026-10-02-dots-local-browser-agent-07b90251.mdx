@@ -1,0 +1,37 @@
+---
+title: 'OpenAI와 무관한 dots: 봇 탐지 회피형 로컬 브라우저 에이전트'
+category: community
+axis: agent
+format: explainer
+summary: 오픈소스 프로젝트 dots는 OpenAI의 상시 에이전트와 이름만 같은 로컬 브라우저 도구다. 저자는 웹 자동화 실패 원인을 모델이 아닌 브라우저 지문 문제로 진단하며, Firefox 소스 수준에서 패치한 브라우저를 사용한다. 이 도구는 Windows와 Linux에서만 지원되며 OpenRouter API 키가 필요하다.
+publishedAt: 2026-10-02T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+- Gemini CLI
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/dots-firefox-openai-dots/12078
+  title: 'dots: 봇 탐지를 피하도록 패치하고, Firefox로 웹 작업을 하는 오픈소스 로컬 브라우저 에이전트 (≠ OpenAI dots)'
+  author: 9bow
+  publishedAt: 2026-10-02T19:00:37+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/c/8/c8da681875d16cebf02572b55715e62a3694f15d_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+웹 에이전트 개발자 feder-cr는 자동화 작업이 실패하는 주된 원인이 AI 모델의 판단력이 아니라 브라우저 자체의 봇 탐지 기능에 있다고 주장한다. 그의 프로젝트 dots는 이러한 문제를 해결하기 위해 Firefox C++ 소스 코드 단계에서 지문(fingerprint)을 조작해 웹 사이트가 봇임을 감지하지 못하도록 설계되었다. 이 방식은 페이지 로딩 실패나 로그인 유지 문제 등 모델이 동작하기도 전에 발생하는 기술적 장벽을 우회하는 것을 목표로 한다.
+
+dots 저장소는 실제로 복잡한 기능을 담고 있지 않으며, 같은 저자가 만든 invisible-playwright-mcp 패키지의 UI 명령을 호출하는 진입점 역할만 한다. 프로젝트 설명에서도 이 점이 명시되어 있으며, 2026년 9월 OpenAI가 dots라는 이름의 상시 에이전트를 발표한 시점에 맞춰 검색 유도를 위해 이름을 빌려온 것으로 보인다. 저자는 공식적으로 OpenAI와 무관함을 밝히며, 모델은 플래그 하나로 교체해도 웹사이트는 결국 브라우저를 통해 신원을 확인한다는 점을 강조한다.
+
+이 도구의 핵심 차별점은 JavaScript로 지문을 덮어쓰는 기존 방식과 달리, 시드(seed) 하나를 사용해 화면 해상도, 글꼴, GPU 정보 등을 일관되게 생성하는 Firefox 패치 기술에 있다. 이를 통해 동일한 실행 환경에서 재현 가능한 신원을 유지할 수 있다고 저자는 설명한다. 다만 현재 제공되는 엔진 바이너리는 Windows와 Linux(x86_64, arm64)만 지원하므로 macOS 사용자들은 사용할 수 없다.
+
+dots를 실행하면 로컬 웹 UI가 열려 대화창과 에이전트가 조작하는 브라우저 화면을 실시간으로 확인할 수 있다. 사용자는 OpenRouter API 키가 필요하며, --model 옵션을 통해 다양한 모델을 유연하게 적용할 수 있다. 이 프로젝트는 복잡한 코드를 직접 작성하지 않고도 패치된 브라우저를 통해 웹 작업을 수행하려는 사용자를 위한 로컬 에이전트 솔루션이다.
+
+---
+
+원문: [dots: 봇 탐지를 피하도록 패치하고, Firefox로 웹 작업을 하는 오픈소스 로컬 브라우저 에이전트 (≠ OpenAI dots)](https://discuss.pytorch.kr/t/dots-firefox-openai-dots/12078)

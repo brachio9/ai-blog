@@ -1,0 +1,46 @@
+---
+title: 파라미터 변경 없이 LLM의 선택 편향 교정하는 AnyJev
+category: papers
+axis: serving
+format: explainer
+summary: AnyJev는 사전 학습된 언어 모델을 이용해 고정된 옵션 중 하나를 확률로 반환한다. 라벨 우선순위와 위치 편향을 보정하여 정확도를 높인다. 저자들은 이 방법이 파라미터 변경 없이 성능을 개선한다고 주장한다.
+publishedAt: 2026-10-02T22:00:05+0900
+tags:
+- vLLM
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.00831
+  title: AnyJev Technical Report
+  author: Jiamu Zhang
+  publishedAt: 2026-10-02T13:00:00+0900
+  words: 12029
+paper:
+  arxivId: '2610.00831'
+  authors:
+  - Jiamu Zhang
+  - Tianze Yang
+  - Yucheng Shi
+  - Evan Chen
+  - Zixiang Nie
+  - Kelly Wan
+  - Liangjie Hong
+  - Ninghao Liu
+  - Liang Wu
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+현재 시스템은 특정 목적에 맞게 훈련된 모델로 타입화된 결정을 내린다. AnyJev는 사전 학습 및 지시 튜닝이 완료된 언어 모델을 한 번의 프리필(prefill)만으로 이러한 결정을 읽는다. 이 과정은 정답 위치에서 다음 토큰 분포를 옵션 토큰으로 제한한다. 하지만 모델은 입력과 무관하게 특정 라벨에 높은 확률을 부여하거나, 옵션 목록의 특정 위치에 편향을 보이는 두 가지 결함이 있다.
+
+AnyJev는 그라디언트 단계나 파라미터 변경 없이 이 결함을 교정한다. 라벨 사전확률은 레이블 없는 입력에서 추정하여 나누어 제거하고, 옵션 목록의 K개 순환 회전(log-probabilities)의 평균을 내어 위치 편향을 보정한다. 저자들의 주장에 따르면, 20개 옵션 작업에서 순환 회전을 적용하면 순서 반전률이 0.33에서 각각 0.14와 0.18로 낮아졌으며, 두 작업 모두에서 11개 모델의 정확도가 상승했다.
+
+모든 회전을 읽는 것은 K번의 프리필이 필요하므로 효율성이 떨어진다. 저자들은 레이블 없는 상태로 완전 회전 결정에 대해 선택된 정지 규칙을 적용해 이를 줄였다. 한 분할로 임계값을 선택하고 다른 분할에서 불일치를 제한하면, 네 가지 셀 중 두 곳에서 검증된 0.008의 경계 내에서 18개 중 10.6개의 회전을 읽는다.
+
+실제 서비스 환경에서는 하나의 분할에서 선택 및 경계 설정을 수행했다. 저자들의 주장에 따르면, 이 방식은 vLLM에서 7.3개의 회전을 읽고 초당 처리 결정 수를 2.2배 증가시켰다. 해당 코드는 오픈 소스로 제공된다.
+
+---
+
+원문: [AnyJev Technical Report](https://arxiv.org/abs/2610.00831)
