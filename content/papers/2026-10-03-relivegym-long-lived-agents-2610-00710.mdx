@@ -1,0 +1,39 @@
+---
+title: 주 단위 장기 에이전트 평가 환경 ReLiveGym 소개
+category: papers
+axis: agent
+format: explainer
+summary: ReLiveGym은 실제 뉴스와 시장 데이터를 시간순으로 재생하며 장기 운영 에이전트의 성능을 진단하는 평가 환경이다. 저자들은 모델 선택과 행동 타이밍 메커니즘이 장기 작업 수행에 중요한 변수임을 주장한다.
+publishedAt: 2026-10-03T22:00:04+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.00710
+  title: 'ReLiveGym: Evaluating Long-Lived Agents over Weeks of Replayed Reality'
+  author: Xisen Jin
+  publishedAt: 2026-10-02T13:00:00+0900
+paper:
+  arxivId: '2610.00710'
+  authors:
+  - Xisen Jin
+  - Jingheng Li
+  - Zhenglun Chen
+  - Junyi Du
+  - Xiang Ren
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대형 언어 모델 기반 에이전트가 시장 분석처럼 지속적인 모니터링이나 반복적 행동이 필요한 업무에 널리 쓰이고 있다. 이러한 에이전트는 며칠에서 몇 주 동안 사람의 개입 없이 작동해야 하며, 변화하는 환경에 맞춰 적절한 시점에 대응할 수 있어야 한다. 기존 연구들은 주로 정적인 환경을 가정하기 때문에 시간의 흐름에 따른 동적 변화와 장기 운영의 어려움을 충분히 반영하지 못한다.
+
+저자들은 이러한 격차를 메우기 위해 ReLiveGym을 소개했다. 이 평가 환경은 실제 뉴스, 시장, 소셜 미디어 스트림을 시간순으로 재생하는 시뮬레이션 주 동안 에이전트가 희소하게 행동하도록 설계되었다. 작업들은 시간 민감도, 추론 강도, 반복성 등 다양한 수준을 아우른다. 저자들은 여덟 가지 기본 언어 모델을 대상으로 모델 선택과 하네스 설계가 장기 작업 성능에 미치는 영향을 조사했다.
+
+저자들의 주장에 따르면 에이전트가 언제 행동할지 결정하는 메커니즘이 장기 작업에서 중요한 설계 축으로 부각된다. 최적의 설계는 작업 종류나 모델 선택에 따라 달라질 수 있다. 또한 사후 피드백을 통한 지속적 학습이 성능에 미치는 영향과 관찰된 실패 모드를 해결하는 효과를 평가했다.
+
+이 연구 결과들은 장기 운영 에이전트 설계 시 모델 선택, 행동 타이밍 메커니즘, 피드백 활용이 중요한 고려 사항임을 시사한다. 관련 코드는 GitHub에서 확인할 수 있다.
+
+---
+
+원문: [ReLiveGym: Evaluating Long-Lived Agents over Weeks of Replayed Reality](https://arxiv.org/abs/2610.00710)

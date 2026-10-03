@@ -1,0 +1,35 @@
+---
+title: 'Cline SDK v0.0.89: 큰 데이터 처리와 커스텀 모델 지원이 강화됐다'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline SDK v0.0.89는 과도하게 큰 도구 실행 결과를 캐시하여 완전한 내용을 읽을 수 있도록 개선했다. 또한 커스텀 모델 제공자를 에이전트 경로에서 정상적으로 작동하게 하고 설정 저장의 안정성을 높였다.
+publishedAt: 2026-10-03T22:00:04+0900
+tags:
+- Cline
+- MCP
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/sdk/sdk/v0.0.89
+  title: SDK v0.0.89
+  author: github-actions[bot]
+  publishedAt: 2026-10-01T08:34:22+0900
+  words: 257
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이전 버전에서는 MCP나 Composio 도구가 너무 큰 결과를 반환하면 처리가 어려웠지만, 이번 업데이트는 이를 해결한다. 시스템은 세션별 메모리 캐시를 사용하여 과도한 출력을 저장하고 모델에는 미리보기와 함께 특수 URI를 전달한다. 사용자는 이 URI를 통해 줄 범위로 내용을 페이지네이션하여 읽을 수 있으며, 커스텀 도구도 설정을 통해 이 기능을 적용할 수 있다. 캐시는 5회 이상의 모델 반복 없이 접근하지 않으면 만료되며 세션당 16MiB로 제한된다.
+
+커스텀 모델 제공자 지원이 에이전트 경로로 확장되었다. 기존에는 `providers.json`이나 `models.json`에 정의된 커스텀 제공자가 선택 목록에는 나왔지만 실제 실행 시 오류가 발생했다. 이번 릴리즈는 이 문제를 해결하여 커스텀 제공자가 에이전트 작업에서도 정상적으로 등록되고 작동하도록 개선했다.
+
+설정 저장 프로세스의 안정성이 크게 향상되었다. 모델 발견 실패 시에도 설정 저장이 중단되지 않도록 하고, 변경 사항을 직렬화하며 오류 발생 시 이전 설정으로 복원하는 로직을 강화했다. 또한 모델 소스 요청에 인증이 적용되고 자격 증명이나 엔드포인트 변경 시 카탈로그가 자동으로 새로고침된다.
+
+모델 카탈로그도 갱신되었다. Cline 추천 목록에는 GPT-6.1 Sol이 추가되고 Pixel Canary 스텔스 모델은 제거되었다. 302.AI, NanoGPT, Vivgrid, Vultr 등 주요 제공자의 기본 모델이 변경되었으며, 특히 Vultr의 모델 ID가 상류 서비스에서 이름이 바뀌어 기존에 고정된 모델을 다시 선택해야 할 수 있다. 이 외에도 여러 세부 수정 사항이 포함되었으나 여기서는 주요 변경점만 다뤘다.
+
+---
+
+원문: [SDK v0.0.89](https://github.com/cline/cline/releases/tag/sdk/sdk/v0.0.89)

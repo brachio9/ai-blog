@@ -1,0 +1,41 @@
+---
+title: 여러 답을 찾아내는 에이전트, SPADER가 해결한 탐색의 딜레마
+category: papers
+axis: agent
+format: explainer
+summary: SPADER는 다중 정답 질문 답변(Multi-Answer QA) 환경에서 장기적인 도구 사용 능력을 강화학습으로 개선하는 프레임워크다. 단계별 동료 우위(SPA)와 다양성 인식 탐색 보상을 통해 희귀한 정보까지 포괄적으로 발견하도록 유도한다.
+publishedAt: 2026-10-03T22:00:04+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2606.00593
+  title: 'SPADER: Step-wise Peer Advantage with Diversity-Aware Exploration Rewards for Multi-Answer Question Answering'
+  author: Qiming Shi
+  publishedAt: 2026-10-02T13:00:00+0900
+  words: 11548
+  image: https://arxiv.org/html/2606.00593v3/intro_case.png
+paper:
+  arxivId: '2606.00593'
+  authors:
+  - Qiming Shi
+  - Zhaolu Kang
+  - Yunfan Zhou
+  - Di Weng
+  - Yingcai Wu
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대형 언어 모델은 파라미터 지식의 한계를 넘어 도구를 활용해 정보를 수집하는 에이전트로 진화하고 있다. 최근 연구는 장기적인 도구 사용 추론 능력을 향상시켰지만, 대부분 단일 정답을 찾는 작업에 집중해 왔다. 반면 실제 세계의 많은 질의는 하나의 답이 아닌 유효한 답의 전체 집합을 발견해야 하는 다중 정답 질문 답변(Multi-Answer QA) 설정을 요구한다.
+
+이러한 환경은 두 가지 주요 과제를 안고 있다. 첫 번째는 긴 탐색 궤적에 걸쳐 세밀하게 책임(credit)을 배분하는 문제다. 두 번째는 쉽게 찾을 수 있는 고빈도 엔티티를 넘어 지속적으로 탐색할 수 있도록 보상을 정렬하는 문제다. 저자들은 이러한 문제를 해결하기 위해 SPADER라는 강화학습 프레임워크를 제안한다.
+
+SPADER는 크리틱 없이 단계별 책임 배분을 수행하는 Step-wise Peer Advantage(SPA) 메커니즘을 포함한다. 이는 병렬 궤적을 의사 결정 단계로 정렬하고 동료의 수익(return)으로부터 우위(advantage)를 추정한다. 또한 다양성 인식 탐색 보상을 통해 희귀한 발견은 가중치를 높이고 중복된 것은 낮춤으로써 롱테일 엔티티의 발견을 촉진한다.
+
+저자들의 주장에 따르면 SPADER는 QAMPARI, Mintaka, WebQSP, QUEST 등의 벤치마크에서 프롬프트 기반 에이전트나 결과 감시 RL 방법, 최근 단계별 감독 접근법보다 재현율과 전체 F1 점수를 일반적으로 향상시킨다. 관련 코드와 모델 가중치는 GitHub를 통해 공개되어 있다.
+
+---
+
+원문: [SPADER: Step-wise Peer Advantage with Diversity-Aware Exploration Rewards for Multi-Answer Question Answering](https://arxiv.org/abs/2606.00593)

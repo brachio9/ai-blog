@@ -1,0 +1,41 @@
+---
+title: Bilibili, 150개 언어 번역 모델 Index-Translate 공개
+category: community
+axis: serving
+format: explainer
+summary: Bilibili의 Index 팀이 Qwen3.5를 기반으로 한 다국어 번역 모델 패밀리 Index-Translate를 공개했다. 텍스트 번역부터 음성 더빙, 장문 처리까지 특화된 4종 모델을 Apache 2.0 라이선스로 오픈 소스화했다.
+publishedAt: 2026-10-03T22:00:04+0900
+tags:
+- vLLM
+- SGLang
+- distillation
+- GRPO
+- GPQA
+- TTS
+- ASR
+- speech-to-speech
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/bilibili-150-index-translate-5/12070
+  title: Bilibili, 150개 언어의 텍스트와 음성 번역이 가능한 다국어 번역 모델 Index-Translate 5종 공개
+  author: 9bow
+  publishedAt: 2026-10-01T19:30:12+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/f/2/f2a1e625703822d6613e0dca703f1b819fa6b37a_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Bilibili의 Index 팀이 Qwen3.5를 베이스로 한 다국어 번역 모델 패밀리 Index-Translate를 공개했다. 이 패밀리는 150개 언어를 지원하며 텍스트 번역, 음성 번역, 음절 제어 더빙, 장문 문서 번역 등 플랫폼 환경에 맞는 특화 모델을 포함한다. 모든 가중치는 Hugging Face와 ModelScope에서 Apache 2.0 라이선스로 내려받을 수 있다.
+
+Index 팀은 동영상 플랫폼의 번역이 단순한 문장 변환을 넘어 게임 JSON 처리나 커뮤니티 은어 해석, 더빙 타이밍 맞추기 등 맥락에 따라 요구가 다르다고 지적했다. 따라서 하나의 거대한 모델로 모든 기능을 수행하기보다 공유된 다국어 기반 위에 각 능력에 맞는 전용 모델을 분리하는 구조를 택했다. 일반 번역과 지시 따르기는 텍스트 모델로 통합하고, 음절 제어 같은 민감한 기능은 별도 모델로 처리한다.
+
+패밀리는 Index-Translate(텍스트), Index-Echo(음성 번역 및 더빙), Index-Homura(음절 제어 더빙), Index-NativeLong(장문 번역) 네 가지로 구성된다. 각 모델은 2B, 9B 등 다양한 크기로 제공되며 특정 언어 쌍이나 기능에 대해 최적화되어 있다. 예를 들어 Index-Echo는 중국어 원문을 영어나 일본어 등으로 음성 변환하는 데 특화되어 있다.
+
+Index 팀은 기술 리포트를 통해 이 모델들이 기존 벤치마크에서 어떤 성능을 보였는지 평가했다. 다만 홈페이지 요약과 리포트 세부 수치가 일부 어긋나는 점을 고려해 실제 성능 판단 시에는 리포트의 상세 평가를 기준으로 삼아야 한다. 현재는 프리뷰 버전이 포함된 35B 모델도 공개되어 테스트 중이다.
+
+---
+
+원문: [Bilibili, 150개 언어의 텍스트와 음성 번역이 가능한 다국어 번역 모델 Index-Translate 5종 공개](https://discuss.pytorch.kr/t/bilibili-150-index-translate-5/12070)

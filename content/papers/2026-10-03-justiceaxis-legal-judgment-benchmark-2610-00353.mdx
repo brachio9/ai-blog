@@ -1,0 +1,41 @@
+---
+title: 법적 판단의 균형을 잡는 JusticeAxis 벤치마크와 에이전트 프레임워크
+category: papers
+axis: domain
+format: explainer
+summary: 기존 법적 판단 평가 방법이 법조문 적용과 재량 사이에서 극단적으로 치우치는 문제를 지적한다. 저자들은 다국어·다양한 증거를 포함한 JusticeAxis 벤치마크와 상황 경험을 반영하는 JusticeAgent 프레임워크를 제안한다.
+publishedAt: 2026-10-03T22:00:04+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.00353
+  title: 'JusticeAxis: Benchmarking Legal Judgment between Rigid Rule Application and Ungrounded Discretion'
+  author: Zhengkai Tu
+  publishedAt: 2026-10-02T13:00:00+0900
+  words: 5551
+  image: https://arxiv.org/html/2610.00353v1/fig1-overview.png
+paper:
+  arxivId: '2610.00353'
+  authors:
+  - Zhengkai Tu
+  - Mingda Zhang
+  - Zijia Wang
+  - Xiaoying Tang
+  - Jimmy Huang
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+법적 판단은 확립된 사실에 법을 적용하고 그 사정이 발생한 상황을 종합적으로 고려해야 한다. 그러나 현재까지의 평가 방법들은 경직된 법조문 매칭과 근거 없는 재량 사이에서 흔들리며, 실제 균형 잡힌 경험을 검증하지 못하고 있다. 이에 저자들은 법적 판단을 참조점 기반 작업으로 공식화하여, 단일 결정이 법규와 상황 모두에 동시에 고정되도록 정의했다.
+
+저자들은 18개국에서 수집한 256건의 실제 형사 사건으로 구성된 JusticeAxis 벤치마크를 소개한다. 이 데이터셋은 오디오, 이미지, 텍스트 증거를 포함하며 각 사건마다 기록된 판결문과 두 가지 실패 사례에 대한 변호사가 작성한 판결문을 제공한다. 이를 통해 법 적용의 정확성과 상황 고려의 적절성을 동시에 평가할 수 있는 환경을 마련했다.
+
+또한 저자들은 JusticeAgent라는 프레임워크를 제안한다. 이 시스템은 사실 관계를 확립하는 에이전트와 상황 경험의 기술을 지닌 판사 에이전트로 구성된다. 기술은 실행 궤적에서 추출되며 베이지안 신뢰 구간 내에서만 채택되어 안정성을 보장한다. 이러한 구조는 복잡한 법적 추론 과정을 체계적으로 처리할 수 있도록 설계되었다.
+
+저자들의 주장에 따르면, 모델 규모가 커질수록 실패 양상이 달라진다. 오픈웨이트 백본은 근거 없는 토대로 치우치는 반면, 최첨단 모델은 법조문 기본값으로 고정되는 경향을 보인다. JusticeAgent는 이러한 문제를 해결하는 단순하면서도 효과적인 플러그인으로, 동결된 오픈웨이트 백본을 상용 수준까지 끌어올릴 수 있음을 실험을 통해 검증했다.
+
+---
+
+원문: [JusticeAxis: Benchmarking Legal Judgment between Rigid Rule Application and Ungrounded Discretion](https://arxiv.org/abs/2610.00353)

@@ -1,0 +1,44 @@
+---
+title: 자기 조건화 흐름 모델을 고정점 반복으로 재해석하다
+category: papers
+axis: serving
+format: explainer
+summary: 자기 조건화 기법이 연속형 흐름 언어 모델의 성능을 높이는 원리를 고정점 반복 관점에서 설명한다. 이를 바탕으로 두 차원의 고정점 흐름을 정의하고, 기존 모델을 압축하여 효율적인 소수 단계 생성 모델로 정제하는 방법을 제시한다.
+publishedAt: 2026-10-03T22:00:04+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2607.00714
+  title: Self-conditioned Flow Map Language Models via Fixed-point Flows
+  author: Jaehoon Yoo
+  publishedAt: 2026-10-02T13:00:00+0900
+  words: 16643
+paper:
+  arxivId: '2607.00714'
+  authors:
+  - Jaehoon Yoo
+  - Wonjung Kim
+  - Floor Eijkelboom
+  - Chanhyuk Lee
+  - Nicholas M. Boffi
+  - Seunghoon Hong
+  - Jinwoo Kim
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+자기 조건화는 생성된 텍스트의 노이즈를 제거할 때 모델이 자신의 추정값에 조건을 부여함으로써 연속형 흐름 기반 언어 모델의 성능을 높이는 핵심 기술이다. 이 방법은 실험적으로 성공적이지만, 성능이 개선되는 구체적인 메커니즘은 명확히 이해되지 않았다. 또한 소수 단계 생성기인 흐름 맵(flow map) 활용에 대한 관심이 높아지고 있으나, 여기서 자기 조건화를 어떻게 적용해야 하는지는 모호한 상태였다.
+
+저자들은 자기 조건화가 적용된 흐름 언어 모델이 고정점 반복을 수행하며, 이를 통해 반복적인 정제 과정으로 생성 품질을 향상시킨다고 주장한다. 이러한 관점을 바탕으로 고정점 흐름(fixed-point flows)이라는 두 차원의 자기 조건화 흐름 클래스를 공식화했다. 여기서 첫 번째 차원은 흐름 프로세스를 나타내고, 두 번째 차원은 고정점 이터레이션을 의미한다.
+
+고정점 흐름이 유효한 흐름 맵을 정의함을 보인 저자들은, 기존 자기 조건화 흐름 모델에서 이를 정제할 수 있음을 제시한다. 구체적으로 고정점 이터레이션은 고정점 정제를 통해, 흐름 프로세스는 흐름 맵 정제를 통해 각각 압축하는 방식으로 새로운 모델을 유도한다.
+
+이렇게 도출된 흐름 맵 언어 모델 FMLM*는 저자들의 주장에 따르면 OpenWebText 데이터셋에서 1단계 및 소수 단계 생성 성능 면에서 최신 자기 조건화 모델과 기존 소수 단계 모델 모두를 능가한다. 관련 코드는 GitHub 저장소에서 확인할 수 있다.
+
+---
+
+원문: [Self-conditioned Flow Map Language Models via Fixed-point Flows](https://arxiv.org/abs/2607.00714)

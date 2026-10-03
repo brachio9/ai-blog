@@ -1,0 +1,32 @@
+---
+title: 에이전트 성공률 뒤에 숨은 호출을 NeMo Relay로 읽는 법
+category: community
+axis: agent
+format: explainer
+summary: NVIDIA 기술 블로그 저자들은 에이전트의 최종 결과만으로는 도구 사용 과정의 비효율성을 파악할 수 없다고 지적한다. NeMo Relay를 활용해 Hermes Agent의 실행 경로를 추적하면 성공률 수치 뒤에 숨은 실제 호출 패턴과 오류 원인을 확인할 수 있다.
+publishedAt: 2026-10-03T22:00:04+0900
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/nvidia-nemo-relay-feat-hermes-agent/12076
+  title: 'NVIDIA NeMo Relay로 에이전트 하네스 추적하기: 성공률 뒤에 숨은 호출을 트레이스로 읽는 법 (feat. Hermes Agent)'
+  author: 9bow
+  publishedAt: 2026-10-02T15:30:45+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/7/8/78f9edeb9b5ceb8686afc446d1dafab4897f78d8_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+에이전트가 과업을 성공적으로 완수했더라도 그 과정에서 불필요한 검색 재시도나 잘린 파일 읽기 같은 비효율적인 단계를 밟았을 수 있다. William Markito Oliveira 등 NVIDIA 기술 블로그 저자들은 정답 여부만 확인해서는 모델 호출이 왜 늘었는지, 도구 오류에서 어떻게 회복했는지 설명할 수 없다고 주장한다. 이를 위해 에이전트 하네스(Agent Harness)의 프롬프트 구성과 실행 루프를 감싸는 코드의 행동을 OpenTelemetry 트레이스로 기록하는 방법을 제시한다.
+
+저자들은 NeMo Relay와 Hermes Agent를 연동한 튜토리얼을 통해 ATOF 이벤트와 궤적을 추적하는 실습 환경을 공개했다. 이 환경에서는 터미널 도구 사용과 웹 검색 과제를 고정된 버전의 Hermes Agent와 NeMo Relay로 실행하며, macOS나 Linux에서 Docker를 이용해 재현할 수 있도록 구성했다. 이를 통해 에이전트가 도구를 어떻게 정의하고 실행하며 재시도하는지 그 전체 흐름을 시각적으로 파악할 수 있다.
+
+Nous Research가 Hermes Agent의 도구 계층을 수정한 사례를 분석한 결과, Qwen3 Coder 30B 모델의 성공률은 70%에서 81%로 상승했지만 평균 LLM 호출 횟수와 소요 시간도 함께 증가했다. 저자들은 공개된 실행 기록을 직접 확인한 결과, 기존 기준선 실패 사례 중 상당수가 도구가 한 번도 실행되지 않은 채 제공자 측 템플릿 오류로 종료된 것으로 나타났다.
+
+이러한 세부적인 오류 원인을 제외하고 다시 계산하면 수정 전후의 성공률 차이는 86%와 88%로 좁혀진다. 저자들은 단순한 성공률 지표가 아닌 트레이스 데이터를 통해 에이전트 하네스의 실제 동작을 검증해야 평가의 정확도를 높일 수 있다고 강조한다. 이는 에이전트 성능 개선이 단순히 모델 능력 향상이 아니라 하네스 코드의 오류 처리와 피드백 루프 최적화에서 비롯될 수 있음을 시사한다.
+
+---
+
+원문: [NVIDIA NeMo Relay로 에이전트 하네스 추적하기: 성공률 뒤에 숨은 호출을 트레이스로 읽는 법 (feat. Hermes Agent)](https://discuss.pytorch.kr/t/nvidia-nemo-relay-feat-hermes-agent/12076)
