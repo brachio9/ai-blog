@@ -1,0 +1,36 @@
+---
+title: 'Claude Code v2.1.288: 중단된 대화 복구와 클라우드 세션 안정성 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Claude Code의 최신 버전은 Ctrl+C로 중단된 프롬프트를 복원하는 기능과 긴 대화 시 자동 압축 오류 수정을 포함한다. 클라우드 세션 및 MCP 서버 인증 관련 버그도 함께 해결되었다.
+publishedAt: 2026-10-04T22:00:05+0900
+tags:
+- Claude Code
+- Cursor
+- MCP
+draft: false
+source:
+  url: https://github.com/anthropics/claude-code/releases/tag/v2.1.288
+  title: v2.1.288
+  author: ashwin-ant
+  publishedAt: 2026-10-03T05:19:57+0900
+  words: 2097
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트는 개발자의 작업 흐름을 끊지 않도록 중점적으로 개선되었다. 가장 눈에 띄는 변화는 Ctrl+C로 입력을 취소했을 때, 빈 프롬프트 상태에서 위쪽 화살표를 누르면 이전에 작성하던 텍스트와 이미지가 다시 불러와진다는 점이다. 이는 실수로 입력을 지웠을 때의 스트레스를 줄여준다. 또한 전체 화면 모드에서 선택한 텍스트를 모드가 인식할 수 있도록 $.ui.selection() 함수가 추가되어 커스터마이징의 폭이 넓어졌다.
+
+긴 대화나 복잡한 작업 중 발생하는 안정성 문제도 해결되었다. 이전 버전에서는 응답 도중 API 타임아웃이 발생하면 턴 전체가 실패로 처리되었으나, 이제는 부분적인 응답에서 작업을 계속하거나 생각 과정만 있는 응답은 재시도한다. 또한 '프롬프트가 너무 길다'는 오류로 대화 중단을 겪던 사례를 수정하여, 토큰 사용량이 0으로 보고될 때에도 자동으로 문맥을 압축하도록 개선했다.
+
+클라우드 세션과 외부 도구 연동에서의 신뢰성도 높아졌다. MCP 서버가 추가 OAuth 범위를 요청할 때 재인증 프롬프트가 나타나며, GitHub CLI가 없는 환경에서도 내장된 gh api를 사용할 수 있게 되었다. 특히 Bedrock이나 Mantle 같은 환경에서 구형 모델로 전환 시 로컬 분류기로 잘못 전환되던 버그와, Cowork 세션에서 웹 검색 권한 요청이 시간 초과되면 입력 대기 상태로 멈춰 있던 문제도 해결되었다.
+
+마지막으로 구조화된 출력(structured outputs)을 거부하는 게이트웨이 환경에서 세션 제목이나 메모리 호출이 실패하던 문제를 수정했다. 이를 위해 CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS 환경 변수를 통해 구조화된 출력을 비활성화할 수 있는 옵션도 추가되었다. 이번 릴리스는 이러한 주요 기능 개선과 버그 수정 외에도 여러 작은 오류들을 포함하고 있으며, 전체 변경 사항은 공식 릴리스 노트에서 확인 가능하다.
+
+---
+
+원문: [v2.1.288](https://github.com/anthropics/claude-code/releases/tag/v2.1.288)

@@ -1,0 +1,47 @@
+---
+title: VLM이 이미지 비교 결과를 제대로 판단하는가
+category: papers
+axis: domain
+format: explainer
+summary: 컴퓨터 비전 논문의 질적 비교 도표를 평가하기 위한 VisionQ 벤치마크를 소개한다. 단순 선호도 대신 구체적인 시각 기준에 따른 판단 능력을 측정하며, 기존 VLM들의 한계를 드러낸다.
+publishedAt: 2026-10-04T22:00:05+0900
+tags:
+- DPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.00666
+  title: 'VisionQ: VLM-as-a-Judge Taxonomy, Dataset and Benchmark for Qualitative Analysis in Computer Vision'
+  author: Vu Dinh Xuan
+  publishedAt: 2026-10-02T13:00:00+0900
+  words: 13666
+  image: https://arxiv.org/html/2610.00666v1/workflow.png
+paper:
+  arxivId: '2610.00666'
+  authors:
+  - Vu Dinh Xuan
+  - Duc-Hai Nguyen
+  - Minh-Dung Dao
+  - Vu Quynh Giao
+  - Quang Hong Nguyen
+  - Binh-Son Hua
+  - Barry O'Sullivan
+  - David Murphy
+  - Hoang D. Nguyen
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+컴퓨터 비전 연구에서 이미지 비교 도표는 핵심 증거로 쓰이지만, 현재 사용 중인 벤치마크는 단순히 스칼라 점수나 전체적 선호도만 평가한다. 이로 인해 판정 모델이 올바른 시각적 이유와 무관하게 단순히 더 나은 이미지를 고르는 것만으로도 보상을 받을 수 있는 문제가 발생한다. VisionQ는 이러한 문제를 해결하기 위해 동료 검토를 거친 CVPR 및 ICCV 논문의 비교 도표를 기반으로 구축된 최초의 벤치마크다.
+
+이 벤치마크는 1,409편의 논문에서 추출한 1,800개 이상의 검증된 비교 도표와 3,911개의 수동 주석 데이터로 구성된다. 또한 질적 판단의 시각적 기준을 분류하는 6축 51잎 분류 체계를 제시하며, 방법론 이름이나 캡션 등 편향 요소를 제거한 평가 프로토콜을 적용한다. 이를 통해 모델이 특정 시각 기준에 따라 저자들이 지정한 최적의 결과를 정확히 선택하는지 여부를 측정한다.
+
+저자들은 대칭적 증거 쌍으로 학습된 Gemma-4-E4B 기반의 VisionQ-Judge를 제안하며, 이 모델이 홀드아웃 테스트셋에서 마지막 옵션 예측을 7.0%p 줄이고 정확도를 2.5%p 향상시킨다고 주장한다. 이는 기존 평가 방식의 한계를 보완하기 위한 시도로서, 모델이 시각적 근거에 기반한 판단을 내리도록 유도하는 효과를 보여준다.
+
+개방형 및 폐쇄형 VLM 판정 모델 20종을 평가한 결과, 가장 성능이 좋은 모델도 63.1%의 정확도에 그쳤으며 무작위 추측 확률인 32.2%보다 높긴 하지만 여전히 개선의 여지가 많다. 또한 판단의 신뢰도가 시각 기준에 따라 크게 달라지는 것으로 나타나, 특정 영역에서의 VLM 판단 능력 한계가 드러났다.
+
+---
+
+원문: [VisionQ: VLM-as-a-Judge Taxonomy, Dataset and Benchmark for Qualitative Analysis in Computer Vision](https://arxiv.org/abs/2610.00666)

@@ -1,0 +1,35 @@
+---
+title: Claude Code와 Codex를 Python 루프로 조종하는 humanize
+category: community
+axis: vibe-coding
+format: explainer
+summary: Humanfia 팀이 개발한 humanize는 코딩 에이전트 CLI를 직접 대체하지 않고, 사람이 작성한 Python 플로우에 따라 턴을 나누어 실행하는 런타임이다. 예산 관리와 보안 격리를 통해 장시간 작업을 안정적으로 수행하도록 설계되었다.
+publishedAt: 2026-10-04T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+- Cursor
+- OpenCode
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/humanize-python-claude-code-codex/12089
+  title: 'humanize: Python 기반의 작업 명세에 따라 Claude Code와 Codex를 실행하며 작업을 수행하는 에이전트 플로우 실행기'
+  author: 9bow
+  publishedAt: 2026-10-04T10:30:33+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/e/0/e09805ecea0f154a456f646e64f960c7d0c64707_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+코딩 에이전트에게 몇 시간짜리 작업을 맡기면 컨텍스트가 무거워지고 작업 완료 시점을 잘못 판단하는 문제가 빈번하게 발생한다. Humanfia 팀은 이러한 문제를 해결하기 위해 humanize를 개발했으며, 이는 Claude Code나 Codex 같은 기존 CLI 도구를 대체하지 않고 그 위에 실행되는 에이전트 플로우 런타임이다. 사용자는 Python 코드로 작업 흐름을 정의하면 humanize가 세션을 열고 턴을 실행하며 예산을 관리하고 기록을 남긴다. 이 도구는 자체 API 키를 보유하지 않으며, 사용자가 이미 로그인한 CLI를 사람이 사용하는 것처럼 실행하여 결과를 읽는 방식으로 동작한다.
+
+humanize는 Claude Code 플러그인에서 출발해 독립 런타임으로 성장했으며, 현재 14종의 사전 정의된 플로우를 제공한다. ralph_loop는 한 에이전트를 매 라운드 새 세션으로 반복시키고, rlar는 작업자와 별도의 검토자를 배치하며, parallel_flame_chase는 세 갈래 작업을 동시에 실행하는 등 다양한 패턴을 지원한다. 각 역할마다 다른 CLI와 모델을 지정할 수 있어 유연한 워크플로우 구성이 가능하다. 명령어 이름은 hmz이며 Python 3.12 이상이 필요하고, 터미널 인터페이스나 SDK를 통해 동일한 플로우를 실행할 수 있다.
+
+실행 제어 측면에서 chat을 제외한 모든 플로우는 시간, 비용, 출력 토큰 중 하나 이상의 예산 설정이 필수적이다. 가장 먼저 소진된 한도가 실행을 멈추게 되어 과도한 자원 소비를 방지한다. 보안 관련해서는 모든 에이전트가 승인 절차 없이 파일을 수정하고 명령을 실행하므로, 개발팀은 실험용 저장소에서 시작할 것을 권고한다. 역할별 권한은 Linux의 Landlock과 macOS의 Seatbelt를 통해 강제 격리되며, 이는 원문 저자가 제시한 권장 사항이다.
+
+---
+
+원문: [humanize: Python 기반의 작업 명세에 따라 Claude Code와 Codex를 실행하며 작업을 수행하는 에이전트 플로우 실행기](https://discuss.pytorch.kr/t/humanize-python-claude-code-codex/12089)
