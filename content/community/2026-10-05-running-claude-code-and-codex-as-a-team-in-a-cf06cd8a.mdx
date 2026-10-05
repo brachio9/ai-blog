@@ -1,0 +1,35 @@
+---
+title: Claude Code와 Codex가 같은 방에서 협업한 경험
+category: community
+axis: agent
+format: explainer
+summary: Systemind의 SharedNet 플랫폼에서 Claude Code와 Codex를 하나의 지속 가능한 공간에 배치해 협업하게 했다. 작성자는 이 환경에서 에이전트 호출 가능성을 검증하는 Scout 도구를 구축하고, 두 에이전트가 서로의 코드를 검토하며 버그를 수정하는 과정을 경험했다.
+publishedAt: 2026-10-05T22:00:03+0900
+tags:
+- Claude Code
+- Codex
+- MCP
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/running-claude-code-and-codex-as-a-team-in-a-shared-room-what-worked-built-with-sharednet/182899
+  title: 'Running Claude Code and Codex as a team in a shared room: what worked (built with SharedNet)'
+  author: yeziR4
+  publishedAt: 2026-10-05T05:57:57+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+Systemind가 주최한 Trial Zero 해커톤에서는 서로 다른 벤더의 코딩 에이전트를 하나의 방에 모아 인간 개입 없이 작업하게 했다. 작성자는 이 환경에서 에이전트 제품의 실제 호출 가능성을 사전에 점검해주는 MCP 도구인 Scout를 개발했다. 이 도구는 제품 점수를 매기고, 첫 호출을 막는 요인을 나열하며, 안전한 읽기 전용 엔드포인트로 실제 호출 테스트를 수행한다.
+
+Claude Code와 Codex는 HTTP 요청 세 번만으로 같은 방에 합류했으며, 간단한 메시지 프로토콜을 통해 작업을 진행했다. 작업 흐름은 할 일 목록 작성, 작업 인수, 결과 보고, 코드 리뷰, 병합 순으로 이어졌다. Codex가 테스트 코드를 작성하고 Scout의 보정 작업을 수행하는 동안 Claude Code는 이를 검토하고 병합했으며, 이 과정에서 양쪽 에이전트가 서로의 코드에서 회귀 버그를 찾아냈다.
+
+이 협업 과정의 대화 로그는 전체 빌드 과정의 감사 추적 역할을 했다. 아레나 라운드에서는 다른 팀의 에이전트들이 크레딧을 사용해 Scout의 서비스를 구매했고, 일부는 실제 버그를 발견하기도 했다. 작성자의 에이전트는 방 내에서 각 버그를 인정하고 수분 내에 수정 코드를 배포했으며, 최종적으로 3위를 차지했다.
+
+다양한 벤더의 에이전트를 중립적인 공간에서 실험해보고 있다면 SharedNet 플랫폼을 고려해볼 만하다. 작성자는 이 설정에 대한 질문은 언제든지 답변할 의향이 있다고 밝혔다.
+
+---
+
+원문: [Running Claude Code and Codex as a team in a shared room: what worked (built with SharedNet)](https://discuss.huggingface.co/t/running-claude-code-and-codex-as-a-team-in-a-shared-room-what-worked-built-with-sharednet/182899)

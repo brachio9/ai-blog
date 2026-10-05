@@ -1,0 +1,49 @@
+---
+title: GPU 커널 생성 에이전트, 실제 서비스에서는 속도가 왜 느려지는가
+category: papers
+axis: serving
+format: explainer
+summary: FastKernels는 GPU 커널 생성 에이전트의 성능을 실제 추론 시스템 환경에서 평가하는 벤치마크다. 기존 벤치마크가 인공적인 입력과 격리된 테스트로 과장된 속도를 보였으나, 이 도구는 실제 프로덕션 프레임워크와 비교하여 정확성과 속도 향상을 종합적으로 측정한다.
+publishedAt: 2026-10-05T22:00:03+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.23215
+  title: 'FastKernels: Benchmarking GPU Kernel Generation in Production'
+  author: Gabriele Oliaro
+  publishedAt: 2026-10-05T13:00:00+0900
+  words: 20027
+  image: https://arxiv.org/html/2605.23215v2/overview.png
+paper:
+  arxivId: '2605.23215'
+  authors:
+  - Gabriele Oliaro
+  - Jaeseong Lee
+  - Yichao Fu
+  - Zhaoyuan Su
+  - Owen Lu
+  - Sreeram Vennam
+  - May Jiang
+  - Junli Wang
+  - Hao Zhang
+  - Zhihao Jia
+  - Samyam Rajbhandari
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 3
+---
+
+LLM 기반 에이전트가 GPU 커널 생성 분야에서 빠르게 발전하고 있지만, 기존 벤치마크는 커널을 격리된 환경에서 인공적인 입력으로 테스트해왔다. 이러한 방식은 실제 추론 시스템에서는 깨지거나 사라지는 샌드박스 속도를 보상하는 결과를 낳았다. FastKernels는 8개 카테고리에 속한 47가지 대표 아키텍처에서 추출한 384개의 작업으로 구성되며, HuggingFace Transformers 아키텍처의 94.6%를 재구현할 수 있는 커널을 포함한다. 각 작업은 해당 프로덕션 모듈의 인터페이스를 반영하며, 기본 연산부터 전체 모델까지의 계층적 구조를 가진다.
+
+이 벤치마크는 커널 수준과 모델 내 종단간(end-to-end) 실행 경로 모두에서 점수를 매긴다. MacroEval 지표는 보정된 정확도, 커버리지, 속도 향상을 종합하여 리더보드를 구성한다. 저자들은 5가지 대표 에이전트를 대상으로 6,900시간의 테스트를 수행한 결과를 발표했다. 그 결과 커널 수준에서 1.6배에서 6.6배까지 기록하던 속도 향상은 종단간 평가에서는 최대 1.25배로 줄어드는 것으로 나타났다. 또한 승리한 커널 세트 중 단 20%만이 그대로 정상적으로 실행되었으며, 커널 수준의 점수는 에이전트의 실제 순위를 잘못 반영하는 문제가 있었다.
+
+구체적인 사례로 Claude Code와 KDA의 비교가 있다. 격리된 테스트에서는 모든 수준에서 Claude Code가 KDA를 맞서거나 능가했지만, 종단간 평가에서는 KDA의 점수가 3배 더 높게 나왔다. 이는 커널 생성 에이전트의 성능을 평가할 때 격리된 속도 향상만으로는 실제 서비스에서의 효용을 판단하기 어렵다는 점을 보여준다. FastKernels는 이러한 격차를 드러내어 에이전트 개발자들이 실제 프로덕션 환경에 가까운 기준을 고려하도록 유도한다.
+
+이 연구의 코드는 GitHub에서 공개되어 있으며, GPU 커널 생성 기술의 현실적인 성능 평가를 위한 기준으로 활용될 수 있다. 저자들은 기존 벤치마크가 가진 한계를 지적하고, 실제 추론 시스템과의 호환성 및 종단간 성능을 중시하는 평가 방법론의 필요성을 강조한다. FastKernels는 에이전트가 생성한 커널이 단순히 빠른지 아닌지를 넘어, 실제 모델에서 올바르게 작동하는지를 종합적으로 검증하는 도구로 기능한다.
+
+---
+
+원문: [FastKernels: Benchmarking GPU Kernel Generation in Production](https://arxiv.org/abs/2605.23215)

@@ -1,0 +1,34 @@
+---
+title: Apple Silicon에서 추론 속도를 높이는 llama.cpp b11404의 Metal 최적화
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp b11404 릴리즈는 Apple Silicon 환경에서의 Metal 백엔드 성능을 개선한다. 특히 스펙ulative 디코딩 시 발생하는 소규모 행렬 곱셈 연산의 병목 현상을 해결하여 M3 Ultra 칩에서 기존보다 빠른 추론 속도를 제공한다.
+publishedAt: 2026-10-05T22:00:03+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b11404
+  title: b11404
+  author: github-actions[bot]
+  publishedAt: 2026-10-05T15:06:22+0900
+  words: 1074
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈의 핵심은 Apple Silicon 기기에서의 Metal 백엔드 최적화다. 스펙ulative 디코딩은 한 단계에 몇 개의 토큰만 검증하므로, 기존 mat-vec 커널을 사용하면 소스 행이 늘어날수록 처리 시간이 비효율적으로 증가했다. 이로 인해 M3 Ultra와 같은 고성능 칩에서도 직렬 디코딩보다 느린 경우가 발생했는데, 이번 업데이트는 이를 해결하기 위해 2~16개의 소스 행을 처리하는 전용 mat-mul 커널을 도입했다.
+
+새로운 커널은 8x8 simdgroup 행렬을 활용하여 가중치를 한 번만 역양자화하고 스레드 그룹이 연산량을 분담하도록 설계되었다. Q4_0, Q8_0, Q5_K 등 주요 양자화 형식에 대해 전용 커널을 제공하며, 다른 형식은 범용 경로를 사용한다. 이 최적화는 텐서 API가 없는 MTLGPUFamilyApple7 이상 장치에서 특정 행 수 이상일 때만 적용되어, 기존 방식보다 효율적인 연산이 가능한 구간에서만 활성화된다.
+
+또한 연산 퓨전(Fusion) 로직도 개선되었다. MUL_MAT과 ADD 연산을 결합하여 잔차(residual)를 함께 저장하고, 인접한 복사 작업을 단일 디스패치로 묶어 오버헤드를 줄였다. 그래프 최적화 단계에서 장치 속성을 확인하여 퓨전이 가능한 경우에만 재배열을 수행하며, 뷰(view)를 통한 상태 스냅샷 복사 시에도 그룹화를 유지해 효율성을 높였다.
+
+이러한 변경은 릴리즈 과정에서 일부 기능이 제거되거나 정리되기도 했다. 리뷰 피드백에 따라 CPY_BATCH 퓨전과 관련 메모리 범위 변경은 제거되어 마스터 브랜치와 동일한 상태로 복귀했다. 이는 안정성을 우선시하면서도 핵심인 소규모 행렬 곱셈 성능 개선에 집중했음을 의미한다. 전체 커밋 목록이나 기여자 명단은 생략하고 주요 기능 변화만 요약했다.
+
+---
+
+원문: [b11404](https://github.com/ggml-org/llama.cpp/releases/tag/b11404)

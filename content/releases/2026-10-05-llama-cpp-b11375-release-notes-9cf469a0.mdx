@@ -1,0 +1,32 @@
+---
+title: 'llama.cpp b11375: 그래프 재할당 오류 해결 및 CUDA 13 지원'
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp 빌드 11375는 리커런트 상태 처리 방식 개선을 통해 GGML_SCHED_NO_REALLOC 환경에서의 그래프 재할당 오류를 해결했다. 또한 CUDA 13.4 라이브러리를 포함한 다양한 플랫폼 바이너리가 제공된다.
+publishedAt: 2026-10-05T22:00:03+0900
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b11375
+  title: b11375
+  author: github-actions[bot]
+  publishedAt: 2026-10-03T21:36:16+0900
+  words: 793
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 릴리즈의 핵심 변경사항은 컴퓨트 그래프 내 리커런트 상태(recurrent states) 수집 방식의 개선이다. 기존에는 ubatch 셀이 연속적이지 않을 경우 노드 개수는 동일함에도 불구하고 그래프 재할당이 강제되어, GGML_SCHED_NO_REALLOC 옵션 사용 시 프로그램이 중단되는 문제가 있었다. 이는 메모리 예약(reserve) 크기가 실제 필요한 상태 수보다 작게 계산되었기 때문이다.
+
+개발진은 이 문제를 해결하기 위해 n_rs(총 리커런트 상태 수)를 기준으로 단일 get_rows 호출로 모든 상태를 한 번에 수집하도록 로직을 변경했다. ubatch 상태와 추가 상태는 이제 이 단일 블록의 뷰(view)로 처리되며, 예약 크기는 최대치인 n_rs에 맞춰져 재할당 오류가 발생하지 않도록 보장한다. 특히 Mamba 모델의 ssm_scan과 같은 커스텀 게터는 두 번째 상태에서 수집하도록 조정되어 단일 시퀀스 ubatch에서는 상태 복사 오버헤드가 발생하지 않는다.
+
+이러한 그래프 입력 단계에서의 뷰 구축은 호스트 측 오버헤드를 기존 수준으로 유지하면서 안정성을 높이는 효과를 낸다. 즉, 복잡한 배치 처리 상황에서도 메모리 할당 관련 예외 없이 추론이 원활하게 진행된다.
+
+바이너리 제공 측면에서는 macOS와 iOS용 빌드뿐만 아니라 Linux 환경에서 CPU, Vulkan, ROCm 10.0을 지원한다. 특히 NVIDIA GPU 사용자들을 위해 CUDA 12.8과 함께 최신인 CUDA 13.4 라이브러리가 포함된 x64 및 arm64 버전이 새로 추가되었다. 이 릴리즈는 주로 내부 안정성 개선과 새로운 하드웨어 가속 환경 지원을 포함하고 있으며, 전체 변경 내역 중 핵심 사항만 다뤘음을 참고한다.
+
+---
+
+원문: [b11375](https://github.com/ggml-org/llama.cpp/releases/tag/b11375)

@@ -1,0 +1,45 @@
+---
+title: '모방학습은 해를 끼치고 강화학습이 고친다: 반례 생성의 새로운 접근'
+category: papers
+axis: serving
+format: explainer
+summary: 대형 언어모델이 거짓 명제를 반박하지 못하는 문제를 해결하기 위해 Python 검증기를 활용한 환경인 SymCE를 소개한다. 저자들은 모방학습만으로는 모델 성능이 오히려 떨어지지만, 희소 보상을 주는 강화학습으로 이를 복구하고 기존 모델을 능가하는 결과를 얻었다고 주장한다.
+publishedAt: 2026-10-05T22:00:03+0900
+tags:
+- fine-tuning
+- GRPO
+- SFT
+- MMLU
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.02444
+  title: 'Counterexample Generation via Per-Theorem Symbolic Verifiers: When Imitation Hurts and Reinforcement Repairs'
+  author: Omar Farouk Zouak
+  publishedAt: 2026-10-05T13:00:00+0900
+  words: 11656
+paper:
+  arxivId: '2610.02444'
+  authors:
+  - Omar Farouk Zouak
+  - Houssam Eddine Boukhalfa
+  - Soumaya Lakehal
+  - Shiv Katiyar
+  - Samia Nefti-Meziani
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대형 언어모델은 정해진 명제를 증명하는 데는 성공하더라도, 이와 유사하지만 거짓인 명제를 반박하는 데 자주 실패한다. 이러한 부정화 격차는 지도학습 기반의 미세조정으로는 해결되지 않으며, 오히려 상황을 악화시킬 수 있다. 연구진은 이 문제를 결정론적인 Python 검증기를 통한 제약된 증인 방출 문제로 재정의하고, 4,707개의 거짓 대수학 및 실해석학 추측과 실행 가능한 검증기로 구성된 SymCE 데이터셋을 공개했다. 이 검증기는 훈련 환경의 보상 함수 역할도 수행한다.
+
+Qwen3-4B 모델을 사용하여 반례 생성에 특화된 모방학습(SFT)만 적용하면 참 명제 인식률이 0.27에서 0.00으로 붕괴되는 현상이 발생한다. 이는 Gemma-3-4B 모델에서도 재현되며, 단순한 모방이 오히려 모델의 판단력을 무너뜨리는 함정임을 보여준다. 그러나 희소한 결과 기반 보상만 사용하는 강화학습(RLVR)을 적용하면 이 붕괴를 복구할 수 있으며, 인식률이 0.66까지 상승하여 기본 모델 성능을 능가한다.
+
+희소 보상과 밀집 보상은 도메인 내 성공률에서는 통계적 차이가 없으나, 홀드아웃 교정 프로브에서 33점의 격차를 보인다. 연구진은 이 차이는 부분 점수 항에 기인한다고 분석했다. 저자들의 주장에 따르면, 이 방식으로 훈련된 4B 모델은 평가된 모든 7B 오픈웨이트 수학 전문 모델을 능가하며, 상용 프론티어 API 여섯 개와도 경쟁력을 유지한다.
+
+이 모델의 성능은 별도의 프롬프트 변경 없이 GSM8K, MATH-500, MMLU-college-math 등 다른 벤치마크로 이전 학습된다. 인간 감사 결과 검증기 결정의 정확도는 97.7%로 확인되었다. 관련 코드, 데이터, 검증 모듈 및 주석은 GitHub 저장소에서 확인할 수 있다.
+
+---
+
+원문: [Counterexample Generation via Per-Theorem Symbolic Verifiers: When Imitation Hurts and Reinforcement Repairs](https://arxiv.org/abs/2610.02444)

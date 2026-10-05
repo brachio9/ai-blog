@@ -1,0 +1,45 @@
+---
+title: 로블록스 스튜디오에서 에이전트 코딩 능력을 어떻게 측정할까
+category: papers
+axis: agent
+format: explainer
+summary: OpenGameEval은 로블록스 스튜디오 내에서 언어 모델을 에이전트로 실행하여 게임 개발 능력을 평가하는 프레임워크다. 기존 벤치마크와 달리 탐색 행위를 직접 측정하며, 모델별 성능 차이와 성공 요인을 분석한다.
+publishedAt: 2026-10-05T22:00:03+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.02563
+  title: 'OpenGameEval: Benchmarking Agentic Programming and Exploration in a Stateful Game Engine'
+  author: Eray Turkel
+  publishedAt: 2026-10-05T13:00:00+0900
+  words: 18599
+  image: https://arxiv.org/html/2610.02563v1/figures/env_viewport.png
+paper:
+  arxivId: '2610.02563'
+  authors:
+  - Eray Turkel
+  - Mengsha Sun
+  - Kartik Ayyar
+  - Sean Dunigan
+  - Jack Lu
+  - Vlad Shcherban
+  - Hsiang-Shun Shih
+  - Xin Wang
+  - Tiantian Zhang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+현재의 에이전트 코딩 벤치마크는 최종 결과만 점수화하지만 탐색 과정은 간과하는 경향이 있다. OpenGameEval은 로블록스 스튜디오라는 상태 유지 게임 엔진 환경에서 언어 모델을 에이전트로 실행하며, 편집된 장면과 시뮬레이션 플레이 세션 모두에서 실행 가능한 체크를 통해 점수를 매긴다. 이 프레임워크는 8가지 도구로 구성된 액션 공간에서 관찰 도구와 편집 도구를 분리함으로써 탐색 행위를 직접적으로 측정할 수 있게 했다.
+
+저자들의 주장에 따르면, 테스트된 13개의 최전방 모델은 인간이 선정한 84개 핵심 과제를 수행하는 데 어려움을 겪었다. 가장 성능이 좋은 모델도 단일 시도에서 51.7%의 성공률을 보였으며, 다섯 번 모두 성공한 비율은 39.4%에 그쳤다. 어떤 모델도 여섯 가지 특정 과제를 완전히 해결하지 못했으며, 상위 모델들은 서로 다른 과제 유형을 해결하는 방식으로 비슷한 점수를 얻었다. 스크립트 작성 작업에서는 상위 5개 모델 간 차이가 5.0%p였으나, 장면 변경 작업에서는 12.5%p로 벌어졌다.
+
+탐색 행동은 실행의 성공 여부를 예측하는 중요한 지표다. 저자들의 분석에 따르면, 참조 솔루션이 접근한 모든 객체를 조작 전에 검사하는 실행은 그렇지 않은 실행보다 성공률이 높았다. 장면만 다루는 과제에서는 13.4%p, 스크립트만 다루는 과제에서는 9.8%p 더 높은 성공률을 보였다. 이는 에이전트가 작업을 수행하기 전 충분한 탐색과 관찰을 하는 것이 결과에 직접적인 영향을 미침을 시사한다.
+
+이 연구진은 MIT 라이선스 하에 과제 스위트, 플레이스 파일, 과제별 주석, 로블록스 스튜디오 내에서 과제를 실행하는 플러그인 및 업데이트된 리더보드를 공개했다. 관련 자료는 GitHub의 open-game-eval 저장소에서 확인할 수 있다.
+
+---
+
+원문: [OpenGameEval: Benchmarking Agentic Programming and Exploration in a Stateful Game Engine](https://arxiv.org/abs/2610.02563)

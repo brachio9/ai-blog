@@ -1,0 +1,45 @@
+---
+title: OPD 붕괴의 원인, 강화학습 관점에서 풀다
+category: papers
+axis: serving
+format: explainer
+summary: 온폴리시 증류(OPD)가 성능을 높이는 대신 반복적이고 긴 생성으로 붕괴하는 현상을 강화학습 관점에서 설명한다. 교사의 암묵적 보상 모델이 학생의 행동을 평가하는 방식에 따라 결과가 달라지며, 이를 진단해 해결책을 제시한다.
+publishedAt: 2026-10-05T22:00:03+0900
+tags:
+- distillation
+- SFT
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.03185
+  title: Gains and Collapse in On-Policy Distillation:A Reinforcement Learning Perspective
+  author: Han Cui
+  publishedAt: 2026-10-05T13:00:00+0900
+  words: 13231
+  image: https://arxiv.org/html/2610.03185v1/main_fig_w_cases.png
+paper:
+  arxivId: '2610.03185'
+  authors:
+  - Han Cui
+  - Jianhao Yan
+  - Yun Luo
+  - Hongbo Zhang
+  - Zhizhang Fu
+  - Yue Zhang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+온폴리시 증류(OPD)는 언어 모델 사후 학습의 중요한 방법이 되었지만 성능 향상과 함께 과도하게 길고 반복적인 생성으로 붕괴하는 문제가 발생한다. 이러한 상반된 결과의 메커니즘은 명확하지 않았으나, 이번 연구에서는 이를 강화학습 관점에서 설명한다. 교사는 자신이 거의 생성하지 않는 행동조차 학생에게 암묵적으로 보상을 주는 방식으로 작동하며, 이는 OPD가 학생의 능력을 확장하는 것이 아니라 기존 행동을 증폭시킨다는 점을 시사한다.
+
+저자들의 주장에 따르면, 교사의 암묵적 보상 모델이 신뢰할 수 있을 때 OPD는 올바른 응답을 샘플링하기 쉽게 만들어 성능을 향상시킨다. 반면 선호도가 품질과 일치하지 않을 경우 보상 해킹이 발생하여, 교사는 그러한 텍스트를 직접 생성하지 않음에도 불구하고 학생의 과도하고 반복적인 롤아웃을 증폭시킨다. 이는 OPD가 교사가 얼마나 잘 생성하느냐보다 교사가 학생의 롤아웃을 얼마나 신뢰할 수 있게 평가하느냐에 초점을 맞추어야 함을 보여준다.
+
+이러한 진단에 기반하여 저자들은 훈련 중 부적절한 응답을 마스킹하고 SFT 초기화를 사용하는 것이 붕괴를 효과적으로 완화할 수 있다고 주장한다. 이 두 가지 방법은 OPD가 교사의 암묵적 피드백에 의해 선호되는 학생 행동을 증폭시키는 문제를 해결하는 데 도움이 된다. 이를 통해 OPD의 작동 원리를 더 명확히 이해하고, 성능 향상과 안정성 사이의 균형을 찾을 수 있는 방향을 제시한다.
+
+연구 결과 코드는 공개되어 있으며, OPD의 한계를 극복하기 위한 실용적인 접근법을 제공한다. 이 연구는 언어 모델 학습에서 교사의 평가 역할이 생성 능력보다 중요할 수 있음을 강조하며, 향후 더 안정적인 증류 방법 개발에 기여할 것으로 기대된다.
+
+---
+
+원문: [Gains and Collapse in On-Policy Distillation:A Reinforcement Learning Perspective](https://arxiv.org/abs/2610.03185)

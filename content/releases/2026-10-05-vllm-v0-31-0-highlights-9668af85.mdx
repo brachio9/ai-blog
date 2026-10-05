@@ -1,0 +1,42 @@
+---
+title: vLLM 0.31.0, DeepSeek 최적화와 빠른 재시작으로 서비스 성능을 높이다
+category: releases
+axis: serving
+format: explainer
+summary: vLLM 0.31.0 릴리즈는 DeepSeek-V4.1의 FlashMLA 가속과 가중치 캐싱 기반 빠른 재시작 기능을 핵심으로 한다. 모델 러너 V2와 추측 디코딩 지원이 강화되었으며, 대규모 서빙을 위한 스케줄링 제어와 메모리 관리 기능이 개선되었다.
+publishedAt: 2026-10-05T22:00:03+0900
+tags:
+- reranking
+- MCP
+- vLLM
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+- prefix caching
+- Whisper
+draft: false
+source:
+  url: https://github.com/vllm-project/vllm/releases/tag/v0.31.0
+  title: v0.31.0
+  author: khluu
+  publishedAt: 2026-10-05T15:44:55+0900
+  words: 5781
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈는 DeepSeek-V4.1 아키텍처에 대한 심층 최적화를 포함한다. SM100 환경에서 FlashMLA 메가 어텐션과 NVFP4 압축 KV 캐시가 기본 설정으로 적용되었으며, 인덱서용 DeepGEMM 희소 MQA 로짓과 전문가 선택을 결합한 Mega-Gate 퓨징이 도입되었다. 또한 비전 타워의 인코더 CUDA 그래프 지원과 슬라이딩 윈도우 KV를 프리픽스 캐싱에서 제외하는 SWA 바운디드 리플레이 기능이 추가되어 특정 모델 클래스의 추론 효율성을 높였다.
+
+서비스 가용성 측면에서 '빠른 재시작' 기능이 크게 강화되었다. 새로운 vllm preload CLI를 통해 양자화된 가중치를 GPU 메모리에 상주시켜 엔진 재시작 시 로딩 시간을 단축하며, 데이터 병렬성과 MTP 초안 모델 지원이 추가되었다. 실험 단계이지만 CRIU를 활용한 초기화된 엔진 스냅샷 생성 및 복원 기능도 포함되어 있어, 단일 TP 환경에서의 완전한 상태 복원이 가능해졌다.
+
+추론 파이프라인의 유연성을 높이기 위해 모델 러너 V2에서 추측 디코딩과 사용자 정의 로짓 프로세서 지원이 확대되었다. LiLiCorr 초안 작성자와 DFlash 비동기 스케줄링, Gemma4용 DSpark 적응형 검증 등이 도입되었으며, WideEP 배포 시 발생할 수 있는 OOM 문제를 방지하기 위해 MoE 메모리 계산을 프로파일링 단계로 앞당겼다.
+
+대규모 서빙 환경의 안정성과 제어력을 개선하기 위해 스케줄링 로직이 다듬어졌다. 실행 중인 시퀀스 수를 독립적으로 제한하는 매개변수와 대기 중인 프리픽스 요청 수에 적응하는 토큰 임계값 기능이 추가되었으며, KV 블록을 이미 보유한 요청의 우선 처리 순서가 재구성되었다. 또한 MoonEP 기반의 EP all2all 백엔드와 DeepEPv2 시퀀스 병렬화 등 대규모 배포를 위한 통신 최적화 기능들이 포함되어 있다.
+
+---
+
+원문: [v0.31.0](https://github.com/vllm-project/vllm/releases/tag/v0.31.0)

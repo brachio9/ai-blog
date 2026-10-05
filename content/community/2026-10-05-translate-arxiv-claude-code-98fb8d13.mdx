@@ -1,0 +1,32 @@
+---
+title: 수식 깨짐 없이 arXiv 논문을 한국어로 번역하는 법
+category: community
+axis: vibe-coding
+format: explainer
+summary: LaTeX 원본을 활용해 수식과 구조를 유지하며 arXiv 논문을 번역하는 Claude Code 스킬을 소개한다. 용어 일관성과 오류 검사를 강화해 가독성 높은 번역본을 생성할 수 있다.
+publishedAt: 2026-10-05T22:00:03+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/translate-book-arxiv-arxiv-claude-code/12097
+  title: 'Translate Book: arXiv - arXiv 논문을 원문 구조 그대로 번역 논문으로 만들어 주는 Claude Code 스킬'
+  author: kcy4334
+  publishedAt: 2026-10-05T15:20:35+0900
+  image: https://discuss.pytorch.kr/uploads/default/original/3X/6/c/6cd88b7e42b488cb90f68a2a65f67ff868f5e7b3.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+영어 논문 번역 시 수식이 깨지고 표가 어긋나는 문제를 해결하기 위해, 작성자는 arXiv의 LaTeX 원본을 직접 읽어들이는 Claude Code 스킬을 개발했다. 이 도구는 단순한 텍스트 변환이 아닌 절 구성과 번호, 상호 참조까지 원문 구조를 그대로 살려 '번역된 논문' 형태로 출력한다. 결과물은 PDF, EPUB, DOCX 형식으로 제공되며 Anthropic 공식 디렉토리나 명령어를 통해 설치할 수 있다.
+
+작성자는 번역의 질을 높이기 위해 논문을 분할해 병렬 처리하고 조각 간 용어집을 공유하는 방식을 도입했다. 이를 통해 'attention' 같은 전문 용어가 문맥에 따라 다르게 번역되는 일관성 문제를 해결했다. 또한 AI가 에러 없이 틀리는 경우를 잡아내기 위해 원문과 번역본을 대조하는 검사 과정을 반복적으로 강화했으며, 기존 오픈소스인 deusyu/translate-book을 포크해 arXiv 전용 경로와 보조 에이전트를 추가했다.
+
+이 스킬은 Python, Pandoc, Calibre, Chrome 등의 환경이 필요하며 설정 확인용 스크립트를 제공한다. 현재는 전체 논문 번역 시 Claude 사용량이 다소 발생하지만 점진적으로 최적화할 계획이다. CC BY 라이선스 논문을 대상으로 한 샘플 번역본과 GitHub 저장소를 통해 실제 효과를 확인할 수 있으며, 연구실 등에서 활용 중 발견된 오류는 이슈로 보고하면 된다.
+
+---
+
+원문: [Translate Book: arXiv - arXiv 논문을 원문 구조 그대로 번역 논문으로 만들어 주는 Claude Code 스킬](https://discuss.pytorch.kr/t/translate-book-arxiv-arxiv-claude-code/12097)
