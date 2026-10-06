@@ -1,0 +1,37 @@
+---
+title: llama.cpp v0.6.0, 확장 배치 API와 하이브리드 모델 지원 강화
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp v0.6.0이 출시되었다. 혼합 토큰 및 임베딩 처리를 위한 확장 배치 API가 도입되고, GLM-5.3-Flash 등 대형 하이브리드 모델과 Clef 의사결정 모델 지원이 추가되었다. Apple GPU 성능 최적화와 서버 API 개선도 포함된다.
+publishedAt: 2026-10-06T22:00:05+0900
+tags:
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/v0.6.0
+  title: v0.6.0
+  author: github-actions[bot]
+  publishedAt: 2026-10-06T01:56:22+0900
+  words: 4471
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈의 핵심은 `llama_batch_ext`라는 새로운 확장 배치 API와 `llama_process()` 함수의 도입이다. 이를 통해 토큰과 임베딩을 혼합한 입력 처리가 가능해졌으며, MTP(Multi-Token Prediction) 및 딥스택 모델의 상태 임베딩을 개별 토큰 단위로 다룰 수 있게 되었다. 이는 복잡한 아키텍처를 가진 최신 모델들을 더 정교하게 제어할 수 있는 기반 기술로 작용한다.
+
+지원 모델 측면에서는 320B 파라미터 규모의 텍스트 및 비전 하이브리드 모델인 GLM-5.3-Flash(GLM5-Next)와 Clef 의사결정 모델의 지원이 추가되었다. 특히 Qwen4Exp 모델에 대해 MTP 추측 디코딩 기능이 적용되어 DGX Spark 환경에서 약 1.5배 빠른 디코딩 속도를 달성하는 등 품질과 성능이 동시에 개선되었다. 또한 laya, julia-1 등 다섯 가지 의사결정 모델을 위한 새로운 `/v1/systemone` 서버 API가 제공된다.
+
+하드웨어 가속 및 시스템 최적화에도 변화가 있었다. Apple GPU(Metal) 환경에서 F16 KV를 위한 플래시 어텐션 커널과 추측 디코딩용 행렬 곱셈 커널이 도입되어 최대 3배 빠른 연산 속도를 제공한다. Vulkan에서는 양자화된 K/V에 대한 희소 플래시 어텐션 기능이 추가되었고, Qwen4Exp와 Gemma4 모델의 PLE 텐서 프리페칭을 위한 `llama_prefetch_rows()` 함수가 새로 생겼다.
+
+웹 UI는 허깅페이스 허브 데이터 레이어와 모델 다운로드 파이프라인이 대대적으로 개편되었다. 내부적으로는 ggml 라이브러리가 v0.26.0으로 업데이트되었고, 세션 저장 형식 버전도 높아졌다. 이번 요약은 주요 변경 사항 중 일부를 추려낸 것이므로 전체 커밋 목록이나 기여자 명단은 원본 릴리즈 노트를 참조해야 한다.
+
+---
+
+원문: [v0.6.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.6.0)

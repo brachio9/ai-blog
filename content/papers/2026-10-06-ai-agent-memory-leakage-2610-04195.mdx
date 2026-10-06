@@ -1,0 +1,45 @@
+---
+title: 기업용 AI 에이전트, 다른 팀의 기억을 훔쳐본다
+category: papers
+axis: agent
+format: explainer
+summary: 기업 환경에서 여러 사용자가 공유하는 벡터 저장소는 의도치 않게 타인의 정보를 노출시킬 수 있다. 저자들은 일반적인 유사도 검색만으로도 교차 사용자 정보 유출이 발생함을 실험으로 증명한다.
+publishedAt: 2026-10-06T22:00:05+0900
+tags:
+- dense retrieval
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.04195
+  title: 'MemLeak: Cross-User Semantic Leakage in Multi-Tenant AI Agent Memory'
+  author: Priyanka Mudgal
+  publishedAt: 2026-10-06T13:00:00+0900
+  words: 9642
+  image: https://arxiv.org/html/2610.04195v1/memchannel_architecture.png
+paper:
+  arxivId: '2610.04195'
+  authors:
+  - Priyanka Mudgal
+  - Kai Zhao
+  - Guilin Zhang
+  - Andy Olsen
+  - Ezekiel Miller
+  - Xu Chu
+  - Aletta Johanna Blanken
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+기업 내 개인용 AI 에이전트가 장기 기억을 위해 공통 벡터 저장소를 공유할 때 어떤 위험이 발생하는지 궁금한가. 현재 많은 기업 환경에서는 여러 사용자가 하나의 벡터 데이터베이스를 공유하며, 이는 잠재적인 보안 취약점을 만들어낸다. 사용자의 쿼리가 코사인 유사도 기반의 일반적인 검색 방식으로 작동할 때, 다른 사용자의 기억 중 의미적으로 인접한 정보가 우연히 추출될 수 있다는 점이 문제다. 이는 악성 공격 코드가 필요하지 않고 시스템의 정상적인 동작 과정에서 발생하는 교차 사용자 정보 유출 현상이다.
+
+저자들은 이를 '교차 사용자 허용 실패'로 정의하고 여섯 가지 실험을 통해 검증했다. 저자들의 주장에 따르면, 같은 팀 내 데이터를 풀링하여 검색할 때 비적대적 우연 유출률은 70%에서 100%에 달한다. 적대적으로 조작된 기억의 경우 상위 k개 결과에 포함될 확률이 90%에서 100%로 나타나며, MiniLM-L6-v2와 같은 실제 프로덕션 환경과 유사한 밀집 검색에서는 점수 상승폭이 0.416에서 0.511로 확인되었다. 이는 기존 키워드 기반 공격 기준보다 훨씬 높은 성능이다.
+
+더 우려되는 점은 이러한 유출이 최종 응답에 얼마나 치명적인 영향을 미치는지다. 저자들의 실험 결과, 프로덕션 검색 경로를 통한 종단간 응답 오염도는 5점 만점에 5.00으로 나타났다. Claude Sonnet 4.5 모델을 사용했을 때도 4.67/5의 높은 오염도를 기록했다. 놀라운 점은 오염된 응답이 깨끗한 응답보다 더 도움이 되는 것으로 평가받는 경우가 많다는 것이다. 이러한 결과는 인간 판단 기준과도 일치하는 것으로 검증되었다.
+
+이러한 문제를 해결하기 위해 세 가지 아키텍처적 완화 방안을 검토했다. 그중 검색 후 소유권 게이트를 적용하는 방법만이 두 생성 모델 모두에서 깨끗한 기준선 점수인 1.00/5를 일관되게 회복시켰다. 이 방법은 쿼리당 약 1.4ms의 지연 시간 오버헤드를 발생시키지만, 데이터 격리를 보장하는 유일한 효과적인 해결책으로 확인되었다.
+
+---
+
+원문: [MemLeak: Cross-User Semantic Leakage in Multi-Tenant AI Agent Memory](https://arxiv.org/abs/2610.04195)

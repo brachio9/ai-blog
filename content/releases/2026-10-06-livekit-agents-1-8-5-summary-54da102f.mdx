@@ -1,0 +1,34 @@
+---
+title: 'LiveKit Agents 1.8.5: LLM 폴백 라우팅과 추적 기능 강화'
+category: releases
+axis: voice
+format: explainer
+summary: LiveKit Agents 1.8.5는 안정적인 대화 흐름을 위한 LLM 폴백 라우팅 기능을 추가했다. 또한 실시간 재연결 시 함수 호출 복원 및 다양한 TTS·LLM 제공자의 연결 안정성 개선이 포함되었다.
+publishedAt: 2026-10-06T22:00:05+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://github.com/livekit/agents/releases/tag/livekit-agents%401.8.5
+  title: livekit-agents@1.8.5
+  author: tinalenguyen
+  publishedAt: 2026-10-06T11:06:59+0900
+  words: 613
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 대화 중 모델 오류나 제한 발생 시 대체 모델을 자동으로 전환하는 '스틱 LLM 폴백 라우팅' 기능 도입이다. 이를 통해 특정 모델의 응답 지연이나 실패 상황에서도 에이전트 대화가 끊기지 않고 유지될 수 있게 되었다. 특히 Gemini-3.8-live 지원이 개선되고 API 불일치 시 경고가 발생하도록 수정되어, 최신 모델과의 호환성 문제가 사전에 방지된다.
+
+실시간 통신의 안정성을 높이기 위해 OpenAI 실시간 모드 재연결 시 함수 호출 및 그 결과를 다시 재생하는 기능이 추가되었다. 이는 네트워크 불안정 시 대화 맥락이 손실되는 문제를 해결한다. 또한 ElevenLabs와의 웹소켓 연결을 미리 워밍업하고 오디오 수신 후 타임아웃을 재설정하여 음성 합성의 지연과 끊김 현상을 줄였다.
+
+추적 및 모니터링 기능도 크게 강화되었다. 이제 텔레메트리 스팬이 대화 세션과 명확하게 연관되며, LLM 입력 데이터를 델타 형태로 기록하고 도구 이름까지 추적 결과에 포함한다. 이는 복잡한 에이전트 동작의 디버깅과 성능 분석을 훨씬 수월하게 만든다. 아울러 Vertex AI 및 Tavus 등 특정 제공자에서의 호출 ID 처리 오류와 에러 재시도 로직이 수정되어 불필요한 리소스 소모를 방지했다.
+
+기타 Windows 환경의 유니코드 로그 표시 문제 해결, MCP 결과의 비아스키 텍스트 가독성 개선, 그리고 pyjwt 보안 업데이트 등 다양한 버그 수정과 문서 정리가 포함되었다. 이번 릴리스는 단순한 기능 추가를 넘어 에이전트의 신뢰성과 관찰 가능성을 종합적으로 높이는 데 중점을 두었다.
+
+---
+
+원문: [livekit-agents@1.8.5](https://github.com/livekit/agents/releases/tag/livekit-agents%401.8.5)

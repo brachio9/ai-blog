@@ -1,0 +1,43 @@
+---
+title: 작업에 맞춰 푸리에 파동을 고르면 학습 효율이 올라간다
+category: papers
+axis: serving
+format: explainer
+summary: HeuFouFT는 작업 성능을 기준으로 학습할 주파수 좌표를 선택하는 프레임워크다. 기존 고정 방식보다 적은 파라미터로 더 나은 성능을 낸다는 것이 저자들의 주장이다.
+publishedAt: 2026-10-06T22:00:05+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.06437
+  title: 'HeuFouFT: Task-Guided Metaheuristic Coordinate Search for Fourier Fine-Tuning'
+  author: Ruiheng Wang
+  publishedAt: 2026-10-06T13:00:00+0900
+  words: 8109
+  image: https://arxiv.org/html/2610.06437v1/gpt2_spectra_origin.png
+paper:
+  arxivId: '2610.06437'
+  authors:
+  - Ruiheng Wang
+  - Yubo Hou
+  - Yakun Zhu
+  - Tianle Shen
+  - Tao Wan
+  - Zengchang Qin
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+기존 푸리에 파인튜닝은 고주파나 저주파를 일률적으로 샘플링하거나 가우시안 필터를 적용하는 등 작업과 무관한 규칙으로 스펙트럼 자원을 배분한다. HeuFouFT는 이와 달리 실제 다운스트림 작업의 성능을 지표로 삼아 학습할 좌표를 탐색한다. 경량 블록 레벨 프로브로 얻은 초기 강도 맵을 바탕으로 유전 알고리즘과 시뮬레이티드 어닐링, 입자 군집 최적화, cuckoo search 등 세 가지 메타휴리스틱 최적화기를 구동한다.
+
+탐색 과정에서는 랜덤 포레스트가 후보군을 필터링하여 상위 30%만 프록시 파인튜닝에 넘긴다. 저자들의 주장에 따르면 GPT-2-Medium 모델로 E2E 벤치마크를 수행했을 때 이 세 가지 변형 모두 무작위 균일 샘플링, 가우시안 밴드패스, LoRA보다 다섯 가지 지표에서 우위를 보였다. 특히 입자 군집 최적화 방식은 기존 최선 기록을 세운 LoCA보다 네 가지 지표에서 더 나은 결과를 내면서도 학습 가능한 스펙트럼 계수를 37.6%나 덜 사용했다.
+
+좌표 선택이 완료된 후 HeuFouFT는 전체 파인튜닝 대비 FLOPs의 15~18%만 소모한다. 이는 작업에 맞춘 탐색이 고정된 샘플링보다 제한된 스펙트럼 용량을 더 효과적으로 배분한다는 것을 보여준다. 관련 코드는 공개되어 있다.
+
+---
+
+원문: [HeuFouFT: Task-Guided Metaheuristic Coordinate Search for Fourier Fine-Tuning](https://arxiv.org/abs/2610.06437)

@@ -1,0 +1,42 @@
+---
+title: 'RLVR의 탐색 한계를 넘다: NudgeRL로 효율적인 수학 추론 학습하기'
+category: papers
+axis: serving
+format: explainer
+summary: 대규모 언어 모델의 수학 추론 능력을 강화하는 RLVR 방식은 탐색 부족으로 인해 성능 향상에 한계가 있다. NudgeRL은 경량화된 전략 컨텍스트를 활용해 탐색 다양성을 높이고, 이를 통해 기존 방법보다 훨씬 적은 컴퓨팅 자원으로 동등한 성능을 달성할 수 있다고 주장한다.
+publishedAt: 2026-10-06T22:00:05+0900
+tags:
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.15726
+  title: 'Nudging Beyond the Comfort Zone: Efficient Strategy-Guided Exploration for RLVR'
+  author: Chanuk Lee
+  publishedAt: 2026-10-06T13:00:00+0900
+  words: 12022
+  image: https://arxiv.org/html/2605.15726v2/Concept.png
+paper:
+  arxivId: '2605.15726'
+  authors:
+  - Chanuk Lee
+  - Sangwoo Park
+  - Minki Kang
+  - Sung Ju Hwang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대규모 언어 모델의 수학 추론 능력을 향상시키는 검증 가능한 보상을 강화 학습(RLVR)은 확장성 있는 패러다임으로 주목받고 있지만, 근본적으로 탐색(exploration)에 제한이 따른다. 정책(policy)은 이미 샘플링된 궤적(trajecory)에서만 개선될 수 있기 때문에, 더 많은 롤아웃(rollout)을 생성해 이 문제를 해결하려면 막대한 컴퓨팅 비용이 든다. 반면 목표 함수 수준의 수정은 무엇을 탐색할지에 대한 통제를 거의 제공하지 못한다.
+
+이러한 한계를 극복하기 위해 저자들은 NudgeRL이라는 프레임워크를 제안한다. 이 방법의 핵심인 전략 누드징(Strategy Nudging)은 각 롤아웃을 경량화된 전략 수준의 컨텍스트에 조건부로 설정한다. 이때 컨텍스트 생성기가 문제 자체를 풀 필요는 없다. 이렇게 구조화되고 다양성 중심의 탐색을 통해 얻은 학습 효과를 극대화하기 위해, 저자들은 이득(advantage)을 컨텍스트 간 및 컨텍스트 내 항으로 분해하고, 발견된 행동을 기본 정책으로 이전하는 정책 보정 항을 추가한다.
+
+저자들의 주장에 따르면, NudgeRL은 다섯 가지 수학 추론 벤치마크에서 8개의 롤아웃만으로 기존 GRPO 베이스라인이 32개의 롤아웃을 사용했을 때와 맞먹는 성능을 낸다. 이는 총 토큰 수를 약 5배 줄이고, 훈련 컴퓨팅 자원을 2.9배 절감하는 효율성을 의미한다. 즉, 탐색의 질을 높임으로써 양적인 데이터 생성에 의존하던 기존 방식의 비효율성을 해결할 수 있다는 것이다.
+
+이 연구는 RLVR 환경에서 탐색의 효율성을 높이는 새로운 접근법을 제시하며, 관련 코드는 공개되어 있다. 전략 컨텍스트를 활용한 이 방법은 모델이 익숙하지 않은 영역으로의 탐색을 유도하면서도 계산 비용을 크게 낮출 수 있는 가능성을 보여준다. 향후 이 방법이 더 복잡한 추론 작업이나 다른 도메인으로 확장될지 주목된다.
+
+---
+
+원문: [Nudging Beyond the Comfort Zone: Efficient Strategy-Guided Exploration for RLVR](https://arxiv.org/abs/2605.15726)
