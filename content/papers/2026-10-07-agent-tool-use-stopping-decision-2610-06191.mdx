@@ -1,0 +1,45 @@
+---
+title: 도구 결과가 쓸모없다고 판단해도 멈추지 않는 에이전트
+category: papers
+axis: agent
+format: explainer
+summary: 에이전트는 도구에서 무의미한 결과를 반복적으로 받아도 이를 근거로 작업을 중단하지 않는다. 연구진은 강제 통합 단계를 도입해야만 에이전트가 자신의 판단을 행동으로 옮길 수 있음을 확인했다.
+publishedAt: 2026-10-07T22:00:01+0900
+draft: false
+source:
+  url: https://huggingface.co/papers/2610.06191
+  title: 'Judged Useless, Queried Anyway: Tool-Using Agents Rarely Turn Their Own Evidence Judgments into Stopping Decisions'
+  author: Chubin Zhang
+  publishedAt: 2026-10-05T09:00:00+0900
+  words: 24841
+paper:
+  arxivId: '2610.06191'
+  authors:
+  - Chubin Zhang
+  - Zhenglin Wan
+  - Xingrui Yu
+  - Jingxuan Wu
+  - Yaxin Zhou
+  - Ivor Tsang
+  - Bo An
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 3
+  popularity:
+    kind: hf-upvotes
+    count: 2
+---
+
+도구가 계속 쓸모없는 정보를 반환한다면 에이전트는 해당 도구를 더 이상 신뢰하지 않아야 한다. 그러나 실제 실험에서는 에이전트의 '판단'과 '행동'이 크게 분리되어 있는 것으로 나타났다. 연구진은 통제된 실패 환경에서 7가지 에이전트를 테스트했으며, 이 과정에서 에이전트들은 실패한 소스의 결과를 97~100%의 확률로 무의미하다고 판단했다. 하지만 대부분의 에이전트는 이러한 명확한 부정적 판단에도 불구하고 작업을 중단하지 않고 계속 진행하는 경향을 보였다.
+
+에이전트의 중단 시점은 증거보다는 프롬프트의 신호나 외부 제약에 더 민감하게 반응한다. 메모리 기반 답변 허용이나 추론 모드 활성화는 증거와 무관하게 조기 종료를 유발했으며, 명시된 예산은 7~8B 파라미터 모델들의 중단을 마감 시간으로 이동시켰다. 프롬프트에 중단 규칙이나 호출 비용을 명시하더라도 에이전트는 이를 부분적으로만 따랐다. 즉, 에이전트가 스스로 수집한 증거를 바탕으로 중단 결정을 내리는 경우는 드물다는 것이다.
+
+이러한 판단과 행동의 괴리를 해결하기 위해 연구진은 강제 통합 단계를 도입했다. 이 단계는 에이전트가 연속 5회 이상 무의미하다고 판단한 결과 이후에 반드시 답변하도록 요구하는 구조다. 저자들의 주장에 따르면, 이 방법은 모든 모델에서 실패 소스에 대한 성공률을 높였으며 예산이 두 배가 되어도 중단 지점을 고정시키는 효과가 있었다. 또한 에이전트가 이미 자신의 판단을 명시하고 있다면 추가적인 판단 호출 없이도 적용 가능해 효율적이다.
+
+이 연구의 핵심 발견은 에이전트의 내부 평가와 외부 행동이 분리되어 있다는 점이다. 사전 등록된 재현 실험에서 300개의 새로운 질문을 대상으로 한 테스트는 이러한 분리와 강제 통합 규칙의 효과를 다시 한번 확인했다. 에이전트가 도구의 유용성을 정확히 판단하더라도, 이를 중단 결정으로 연결하려면 시스템 설계 차원의 개입이 필요하다는 결론을 내렸다.
+
+---
+
+원문: [Judged Useless, Queried Anyway: Tool-Using Agents Rarely Turn Their Own Evidence Judgments into Stopping Decisions](https://huggingface.co/papers/2610.06191)

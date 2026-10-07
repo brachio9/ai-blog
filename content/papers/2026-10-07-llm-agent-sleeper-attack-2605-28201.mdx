@@ -1,0 +1,43 @@
+---
+title: LLM 에이전트의 잠재적 위협, 슬리퍼 공격이란?
+category: papers
+axis: agent
+format: explainer
+summary: 대규모 언어 모델 에이전트는 외부 환경에서 주입된 적대적 콘텐츠에 취약하다. 기존 연구는 단일 상호작용에서의 즉각적인 공격만 다뤘으나, 이번 논문은 에이전트 상태에 잠복했다가 나중에 활성화되는 '슬리퍼 공격'의 위험성을 지적한다.
+publishedAt: 2026-10-07T22:00:01+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.28201
+  title: 'Plant, Persist, Trigger: Sleeper Attack on Large Language Model Agents'
+  author: Yongxiang Li
+  publishedAt: 2026-10-06T13:00:00+0900
+  words: 18147
+  image: https://arxiv.org/html/2605.28201v2/main_picture.png
+paper:
+  arxivId: '2605.28201'
+  authors:
+  - Yongxiang Li
+  - Moxin Li
+  - Zhixin Ma
+  - Fengbin Zhu
+  - Wenjie Wang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대규모 언어 모델(LLM) 기반 에이전트는 도구 반환 데이터나 웹페이지, MCP 컨텍스트 같은 외부 관찰 결과에 적대적 콘텐츠가 주입되면 안전 위협에 노출된다. 이는 에이전트가 비안전한 행동을 취하거나 잘못된 출력을 생성하도록 유도한다. 기존 연구들은 사용자가 요청을 보낸 직후 에이전트가 즉각적으로 해로운 반응을 보이는 단일 상호작용 공격에 주로 초점을 맞춰왔다.
+
+하지만 적대적 콘텐츠는 동일한 에이전트에 의해 제공되는 여러 상호작용 사이에서도 지속될 수 있다. 이러한 콘텐츠는 에이전트 상태에 잠복해 있다가, 이후 무해한 사용자 쿼리에 의해 활성화될 수 있어 탐지와 대응이 훨씬 어렵다. 연구진은 이 같은 안전 위협 유형을 '슬리퍼 공격(Sleeper Attack)'으로 공식화했다.
+
+연구진은 세션 컨텍스트, 메모리, 재사용 가능한 기술 등 세 가지 에이전트 상태 타겟과 세 가지 공격 전략, 그리고 여섯 가지 실제 해로운 결과를 포함하는 1,896개 인스턴스로 구성된 벤치마크를 구축해 이를 평가했다. 저자들의 주장에 따르면, 기존 단일 상호작용 기준에서 낮은 공격 성공률을 보인 최첨단 오픈소스 및 폐쇄형 LLM 에이전트들도 이 슬리퍼 공격에 여전히 취약한 것으로 나타났다.
+
+이 연구는 에이전트의 상태 지속성을 악용하는 공격의 심각성을 보여준다. 단순한 즉각적 반응뿐만 아니라 시간차를 둔 잠재적 위협까지 고려해야 한다는 점을 강조한다. 관련 코드와 데이터는 공개된 링크를 통해 확인할 수 있으며, 이는 에이전트 보안 강화에 대한 새로운 기준을 제시한다.
+
+---
+
+원문: [Plant, Persist, Trigger: Sleeper Attack on Large Language Model Agents](https://arxiv.org/abs/2605.28201)

@@ -1,0 +1,35 @@
+---
+title: AI 인프라부터 모델 탈옥까지, 텐센트 A.I.G가 한 번에 점검하는 이유
+category: community
+axis: agent
+format: explainer
+summary: 텐센트 주췌 연구소는 AI 보안의 공격 표면이 계층마다 다르므로 탐지 방식도 달라야 한다고 주장한다. 이 관점에서 개발된 오픈소스 플랫폼 A.I.G는 인프라, MCP 서버, 에이전트, 모델을 하나의 웹 UI에서 계층별 특성에 맞춰 점검한다.
+publishedAt: 2026-10-07T22:00:01+0900
+tags:
+- MCP
+- vLLM
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/a-i-g-ai-infra-guard-ai-mcp/12090
+  title: 'A.I.G(AI-Infra-Guard): AI 인프라와 MCP 서버, 에이전트, 모델을 계층별로 점검하는 텐센트의 레드팀 플랫폼'
+  author: 9bow
+  publishedAt: 2026-10-05T11:30:57+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/d/1/d1956f71e9f5075f08931cbe0bd559842977697a_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+사내에서 추론 서버와 에이전트를 운영하며 MCP 도구를 추가하면 보안 점검 대상이 복잡해진다. 기존 웹 취약점 스캐너는 AI 컴포넌트의 지문을 인식하지 못하며, MCP 도구 설명에 숨은 지시문이나 시스템 프롬프트 유출 같은 문제는 애초에 탐지 대상에서 제외된다. 텐센트 주췌 연구소는 이러한 여러 겹의 대상을 한 플랫폼에서 점검할 수 있는 오픈소스 AI 레드팀 플랫폼 A.I.G를 공개했다.
+
+주췌 연구소는 공격 표면이 계층마다 다르므로 탐지 방식도 계층에 맞춰 짝짓기해야 한다고 설명한다. 이를 '계층과 탐지 방식의 짝짓기'라고 부르는 이들은 인프라에는 재현 가능한 규칙 매칭을, 모델에는 판정 모델을 둔 대화형 공격 시험을 적용하는 것이 적절하다고 주장한다. 규칙 매칭으로는 모델 행동을 판정할 수 없고, 인프라 점검에 LLM을 쓰면 결과의 재현성을 잃는다는 것이 이들의 논리다.
+
+A.I.G는 Go로 작성된 웹 서버와 작업자 프로세스로 구성되며, Docker Compose로 설치한다. 인프라 스캔은 Go 작업자 내에서 실행되고, MCP 및 에이전트 스캔, 탈옥 평가는 Python 하위 프로젝트를 서브프로세스로 실행한다. 탐지 규칙은 YAML과 JSON 파일 형태로 저장되어 있어 웹 UI를 통해 최신 규칙을 쉽게 업데이트할 수 있다.
+
+이 플랫폼의 주요 제약사항도 명확하다. 대부분의 기능은 OpenAI 호환 LLM API 설정이 필요하며, 웹 UI에는 인증 기능이 없어 공개 네트워크 배포가 금지된다. 또한 내장된 탈옥 평가 데이터셋 17종에는 한국어 문항이 포함되어 있지 않다.
+
+---
+
+원문: [A.I.G(AI-Infra-Guard): AI 인프라와 MCP 서버, 에이전트, 모델을 계층별로 점검하는 텐센트의 레드팀 플랫폼](https://discuss.pytorch.kr/t/a-i-g-ai-infra-guard-ai-mcp/12090)

@@ -1,0 +1,32 @@
+---
+title: LangGraph 1.2.13, 체크포인트 안정성 강화
+category: releases
+axis: agent
+format: explainer
+summary: LangGraph 1.2.13은 상태 관리의 핵심인 체크포인트 및 델타 채널 처리 로직을 개선한다. 분기된 실행 경로에서 데이터 일관성을 유지하고 버그를 수정하여 에이전트 워크플로우의 신뢰도를 높였다.
+publishedAt: 2026-10-07T22:00:01+0900
+draft: false
+source:
+  url: https://github.com/langchain-ai/langgraph/releases/tag/1.2.13
+  title: langgraph==1.2.13
+  author: github-actions[bot]
+  publishedAt: 2026-10-06T02:51:32+0900
+  words: 250
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+LangGraph 1.2.13 릴리즈는 복잡한 상태 관리 시나리오에서의 안정성에 초점을 맞췄다. 특히 체크포인트를 재생할 때 스레드가 이미 넘어간 경우의 포크 처리와, 오래된 체크포인트의 업데이트가 다른 브랜치로 유출되는 문제를 해결했다. 이는 다중 경로 에이전트 실행 시 상태 충돌을 방지하는 데 중요한 개선 사항이다.
+
+델타 채널(DeltaChannel) 관련 버그 수정도 주요 내용이다. 작성되지 않은 델타 채널에 대해 불필요하게 히스토리를 탐색하지 않도록 하고, 모든 업데이트 경로에서 카운터가 정확히 유지되도록 로직을 보정했다. 또한 중단된 브랜치가 델타 채널 포크로 재생되는 오류를 제거하여 상태 전이의 정확성을 높였다.
+
+서브그래프의 델타 채널 수화(hydration) 시 호출자 해결 저장소를 사용하도록 개선했으며, get_state 메서드에서 이미 응답한 인터럽트를 보고하지 않도록 수정했다. 이러한 변경들은 개발자가 그래프의 상태를 더 정확하게 관찰하고 제어할 수 있게 한다.
+
+이 외에도 Jupyter Notebook, Tornado, PyJWT 등 주요 의존성 패키지의 버전을 업데이트하여 보안 및 호환성을 강화했다. 전체 커밋 목록은 많으나, 위와 같은 상태 관리 로직의 안정화 작업이 이번 릴리즈의 핵심 가치다.
+
+---
+
+원문: [langgraph==1.2.13](https://github.com/langchain-ai/langgraph/releases/tag/1.2.13)

@@ -1,0 +1,41 @@
+---
+title: MCP 환경에서 LLM의 적대적 컨텍스트 취약점, COPEX로 측정하다
+category: papers
+axis: agent
+format: explainer
+summary: MCP 시스템 내 LLM의 도구 사용 중 발생할 수 있는 적대적 영향을 평가하는 벤치마크 COPEX가 소개되었다. 기존 테스트와 달리 에이전트 스택은 고정하고 모델만 변수로 두어 순수한 모델 취약성을 분리해 측정한다.
+publishedAt: 2026-10-07T22:00:01+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.04378
+  title: 'COPEX: Benchmarking LLM Robustness to Adversarial Context Across Model Context Protocol Layers'
+  author: Nahom Birhan
+  publishedAt: 2026-10-06T13:00:00+0900
+  words: 8935
+paper:
+  arxivId: '2610.04378'
+  authors:
+  - Nahom Birhan
+  - Mehrdad Rostamzadeh
+  - Sidhant Narula
+  - Mahmoud Nazzal
+  - Mohammad Ghasemigol
+  - Daniel Takabi
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대규모 언어 모델이 MCP(Model Context Protocol) 시스템에서 도구 사용을 중재함에 따라 사용자의 지시나 도출 스키마, 출력물, 프로토콜 메시지 등 다양한 경로를 통해 적대적 영향이 유입될 수 있다. 기존 벤치마크들은 배포된 에이전트 전체를 평가하는 경우가 많아 모델 자체의 취약성과 가드레일, 오케스트레이션, 일반 작업 능력을 혼동해 왔다. 이에 연구진은 주변 에이전트 스택을 고정하고 도구 선택 모델만 변화시켜 모델을 MCP 클라이언트로 격리하는 통제된 벤치마크인 COPEX를 제안한다.
+
+COPEX는 모델/에이전트, 클라이언트, 서버/도구, 전송 계층 등 네 가지 진입 표면에서 25가지 공격 유형을 125개의 시나리오로 구현했다. 저자들의 주장에 따르면 9개 모델과 3,375회의 실험에서 평균 공격 성공률은 64.4%였으며, 표면별 평균은 58.3%에서 71.4% 사이로 나타났다. 일부 클라이언트 및 전송 계층 공격은 모델의 관찰이나 통제 범위 밖에서 부분적으로 성공하므로 시스템 노출과 모델 취약성을 구분해야 함을 시사한다.
+
+방어 측면에서는 입력과 컨텍스트를 결합해 스캔하는 방식이 무방비 상태 대비 8가지 공격 하위 집합에서 평균 공격 성공률을 49.6% 감소시키는 것으로 나타났다. 이는 단순한 필터링보다 포괄적인 검사가 필요함을 보여준다. 해당 벤치마크 코드는 inspire-center의 GitHub 저장소에서 확인할 수 있다.
+
+---
+
+원문: [COPEX: Benchmarking LLM Robustness to Adversarial Context Across Model Context Protocol Layers](https://arxiv.org/abs/2610.04378)

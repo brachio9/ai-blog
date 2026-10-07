@@ -1,0 +1,38 @@
+---
+title: LLM 에이전트로 취약점 라벨의 진짜를 가려내다
+category: papers
+axis: agent
+format: explainer
+summary: 보안 패치로 수정된 코드를 무조건 취약점으로 간주하는 기존 데이터셋의 오류를 LLM 에이전트가 실행 가능한 증거로 검증한다. 저자들은 이 프레임워크가 주요 공개 데이터셋의 라벨 정확도를 높이고, 재학습 시 탐지 성능을 개선한다고 주장한다.
+publishedAt: 2026-10-07T22:00:01+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.05103
+  title: 'VulValidate: Auditing Function-Level Vulnerability Labels with Executable Evidence'
+  author: Leizhen Zhang
+  publishedAt: 2026-10-06T13:00:00+0900
+  words: 12417
+  image: https://arxiv.org/html/2610.05103v1/vulvalidate_s1_s6_figure.png
+paper:
+  arxivId: '2610.05103'
+  authors:
+  - Leizhen Zhang
+  - Sheng Chen
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+기존 머신러닝 기반 취약점 탐지 모델은 보안 패치 커밋에서 추출한 코드를 학습 데이터로 사용하지만, 단순히 수정되었다는 이유만으로 함수를 취약점으로 오분류하는 문제가 있다. VulValidate는 이 같은 라벨의 신뢰성을 검증하기 위해 LLM 에이전트를 활용해 동적 분석 도구를 조종하고 실행 가능한 취약점 유발 시나리오를 구성한다. 주어진 함수와 패치를 바탕으로 취약 상태와 수정 상태를 재구성한 후, 적절한 도구와 실행 경로를 선택해 입력값을 정교화하며 런타임 동작을 비교함으로써 함수 수준의 취약점 귀속 여부를 판단한다.
+
+저자들은 BigVul, PrimeVul, DiverseVul 등 기존 데이터셋의 취약점으로 표기된 35,849개 인스턴스에 대해 이 검증을 수행했다. 그 결과 전체의 57.2%인 20,510개가 실제 취약점임이 확인되었고, 19.0%인 6,819개의 라벨은 오류로 수정되었으며, 나머지 일부는 검증이 확정되지 않거나 측정 자체가 불가능한 것으로 나타났다. 중복 제거 및 갈등 해결 과정을 거쳐 최종적으로 15,890개의 고유한 취약 함수 코드가 포함된 교정된 데이터셋을 공개했다.
+
+전문가들의 블라인드 리뷰 결과, VulValidate가 확인한 결정을 90.0%~92.0%, 수정한 라벨을 92.6%~99.0%에서 지지하는 것으로 나타났다. 이는 자동화된 검증 결과가 전문가의 판단과 높은 일치도를 보인다는 것을 의미한다. 또한 모델 파라미터를 고정된 상태로 교정된 데이터셋으로 평가했을 때, 기존 데이터셋보다 모든 테스트 대상 탐지기의 F1 점수가 하락하는 결과를 보였다.
+
+이러한 성능 저하는 기존 라벨에 노이즈가 포함되어 있었음을 시사하며, 교정된 라벨로 모델을 재학습하면 다섯 가지 탐지기 중 네 가지의 F1 점수가 향상된다고 저자들은 주장한다. 연구진은 향후 취약점 탐지 연구를 위해 VulValidate 스킬, 교정된 데이터셋, 그리고 재현 가능한 증거를 모두 공개했다.
+
+---
+
+원문: [VulValidate: Auditing Function-Level Vulnerability Labels with Executable Evidence](https://arxiv.org/abs/2610.05103)

@@ -1,0 +1,35 @@
+---
+title: 'transformers v5.19.0: 임베딩 모델과 주의해야 할 변경사항'
+category: releases
+axis: serving
+format: explainer
+summary: transformers 라이브러리 v5.19.0이 출시되었다. 구글의 멀티모달 임베딩 모델 EmbeddingGemma2가 추가된 것이 주요 뉴스다. 또한 MoE 모델과 어텐션 구현 방식에서 호환성에 영향을 줄 수 있는 변경사항이 있으므로 코드 수정이 필요할 수 있다.
+publishedAt: 2026-10-07T22:00:01+0900
+tags:
+- quantization
+draft: false
+source:
+  url: https://github.com/huggingface/transformers/releases/tag/v5.19.0
+  title: Release v5.19.0
+  author: vasqu
+  publishedAt: 2026-10-07T01:39:23+0900
+  words: 1249
+  image: https://github.com/user-attachments/assets/84734e74-163d-4d12-b166-ffcf6749d563
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈의 가장 큰 주목점은 구글이 개발한 멀티모달 임베딩 모델인 EmbeddingGemma2의 지원이다. 이 모델은 텍스트, 이미지, 오디오, 비디오 등 다양한 입력을 하나의 768차원 벡터 공간으로 인코딩하여 크로스 모달 검색이나 유사도 계산에 활용할 수 있다. 마트료시카 표현 학습 기술을 적용해 임베딩 차원을 유연하게 조절할 수 있으며, 사용하지 않는 비전 또는 오디오 모듈은 메모리 절약을 위해 로드 시 비활성화할 수도 있다.
+
+호환성에 영향을 주는 변경사항 중 하나는 MoE 모델의 라우터 로짓 반환 방식이다. 이제 모든 MoE 모델이 Qwen3-MoE 패턴을 따르도록 조정되어, output_router_logits 옵션이 활성화되면 명시적으로 라우터 로짓을 반환한다. 기존에는 이 값이 누락되었거나 다른 형태로 제공되던 경우가 있어, 해당 값을 의존하던 코드는 새로운 출력 클래스 구조에 맞게 수정해야 할 수 있다.
+
+어텐션 메커니즘 관련 변경도 주의가 필요하다. SDPA와 플래시 어텐션 구현에서 사용되던 'paged|' 접두사는 더 이상 권장되지 않으며, 일반적인 어텐션 구현 방식이 연속 배치 처리를 직접 지원하도록 개선되었다. 이로 인해 기존에 paged 접두사를 사용한 설정은 일반 sdpa나 flash_attention_2로 변경해야 하며, 캐시 업데이트 로직의 내부 구조 변화로 인해 커스텀 코드가 영향을 받을 수 있다.
+
+또한 Owlv2ForObjectDetection의 이미지 쿼리 선택 방식이 객체성 점수가 가장 높은 박스를 선택하도록 변경되어, 이전 버전과 다른 탐지 결과를 낼 수 있다. 이번 요약은 주요 변경사항 중 일부를 다룬 것이므로, 전체적인 영향도를 파악하려면 공식 릴리즈 노트를 참고하는 것이 좋다.
+
+---
+
+원문: [Release v5.19.0](https://github.com/huggingface/transformers/releases/tag/v5.19.0)
