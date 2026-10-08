@@ -1,0 +1,39 @@
+---
+title: 0.8B 모델이 Qwen3.8-27B의 사고 여부를 결정해 속도를 높인 Jeff-Code
+category: community
+axis: serving
+format: explainer
+summary: Jeff-Code는 Pi 코딩 에이전트를 포크하여 0.8B 결정 모델인 Jeff를 도입한 프로젝트다. 저자는 Jeff가 매 턴마다 정보 수집과 사고 모드 활성화 여부를 선택함으로써 Qwen3.8-27B의 작업당 시간을 32% 줄였다고 주장한다. 평가 결과 통과율에는 유의미한 차이가 없었으나, 전체 실행 시간 감소폭은 과제당 평균보다 작았다.
+publishedAt: 2026-10-08T22:05:25+0900
+tags:
+- SWE-bench
+- vLLM
+- LoRA
+- fine-tuning
+- SFT
+- Terminal-bench
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/jeff-code-0-8b-qwen3-8-27b-32-pi/12122
+  title: 'Jeff-Code: 0.8B 결정 모델이 턴마다 사고 여부를 골라 Qwen3.8-27B의 작업당 시간을 32% 줄인 Pi 포크'
+  author: 9bow
+  publishedAt: 2026-10-08T15:30:36+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/c/6/c60899733f6c313fced301f73ca05792e32afd8e_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+저자는 로컬에서 실행하는 27B급 추론 모델 코딩 에이전트의 속도를 높이기 위해 Jeff-Code 프로젝트를 소개한다. 이 프로젝트는 Pi 코딩 에이전트를 포크하여, 매 턴마다 깊은 사고가 필요한지 여부를 판단하는 역할을 0.8B 결정 모델인 Jeff에게 맡긴다. Qwen3.5-0.8B를 미세조정한 Jeff는 문장을 생성하지 않고 상황 설명과 선택지를 받아 확률을 출력하는 System 1 모델로 동작하며, 파일 읽기나 코드 검색 같은 단순 작업은 스스로 실행하고 복잡한 경우에만 큰 모델의 사고 모드를 켠다.
+
+저자는 6개 벤치마크의 1,242개 과제에 대해 이 방식을 적용한 결과를 공개했다. 평가 결과 Jeff-Code와 기존 방식의 통과율은 각각 62.8%와 62.4%로 통계적으로 유의미한 차이가 없었다. 그러나 과제당 소요 시간은 Jeff-Code가 기존 대비 0.68배로 줄어들어 약 32%의 속도 향상을 보였다. 저자는 이 수치 역수를 근거로 소개 페이지에서 '47% 빠름'이라고 표기했으나, 전체 과제 시간의 합계는 0.86배로 감소폭이 더 작았다.
+
+평가 로그 분석에 따르면 Qwen 턴의 74.1%가 사고 없이 실행되었으며, Jeff가 대신 처리한 단계 수는 총 2,600번이었다. 만약 모든 턴에서 사고 모드를 끄면 속도는 더 빨라지지만 통과율이 7.6%p 떨어지는 것으로 나타났다. 저자는 이 수치가 저장소 관리자가 작성한 중간 평가 보고서 기준이며, Terminal-Bench 2.0에서는 속도 향상이 뚜렷하지 않았다고 명시했다.
+
+이 연구는 Qwen3.8-27B와 Jeff v1.3 베이스 조합에서만 측정된 결과다. 저자는 Pi의 확장 프레임워크로는 빠른 결정 모델을 에이전트 루프 깊숙이 넣기 어렵다고 판단해 포크를 선택했으며, 학습 코드는 AutoJev 레시피에서 출발했다고 설명한다. 아직 재현되지 않은 상태이므로 이 성능 수치는 저자의 주장이며, 실제 적용 시에는 환경에 따라 결과가 달라질 수 있다.
+
+---
+
+원문: [Jeff-Code: 0.8B 결정 모델이 턴마다 사고 여부를 골라 Qwen3.8-27B의 작업당 시간을 32% 줄인 Pi 포크](https://discuss.pytorch.kr/t/jeff-code-0-8b-qwen3-8-27b-32-pi/12122)

@@ -1,0 +1,34 @@
+---
+title: 'llama.cpp b11489: Hexagon NPU의 Q6_K 디양자화 속도 개선'
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp 빌드 11489는 퀄컴 Hexagon NPU 환경에서 Q6_K 양자화 가중치의 디양자화 속도를 개선했다. 루프 언롤링 최적화를 통해 처리 효율을 높인 것이 주요 변경 사항이다.
+publishedAt: 2026-10-08T22:05:25+0900
+tags:
+- OpenCode
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b11489
+  title: b11489
+  author: github-actions[bot]
+  publishedAt: 2026-10-08T13:35:47+0900
+  words: 684
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+llama.cpp의 빌드 11489는 모바일 및 임베디드 환경에서 중요한 퀄컴 Hexagon NPU 지원에 집중했다. 이 릴리즈의 핵심은 Q6_K 양자화 포맷을 사용하는 모델의 가중치 디양자화(dequantization) 속도를 높인 것이다. 디양자화는 추론 시 메모리에서 읽은 압축된 가중치를 연산 가능한 형태로 변환하는 과정으로, 이 단계의 병목 현상을 줄이는 것은 전체 추론 속도에 직접적인 영향을 미친다.
+
+구체적으로 Hexagon 백엔드에서 Q6_K 관련 코드의 루프 언롤링(loop unrolling) 인자를 2배로 늘려 최적화했다. 이는 반복문 실행 시 발생하는 오버헤드를 줄이고 CPU 파이프라인을 더 효율적으로 활용하도록 하는 기법이다. 이러한 미세 조정은 Snapdragon 칩셋을 탑재한 기기에서 llama.cpp를 실행할 때 가중치 로딩 및 처리 속도를 개선하는 데 기여한다.
+
+이번 빌드는 macOS, iOS, Linux 등 주요 플랫폼에 대한 바이너리를 제공한다. 특히 리눅스 환경에서는 CPU, Vulkan, CUDA 12/13, ROCm, OpenVINO, SYCL 등 다양한 가속기 옵션을 지원하며, 아키텍처별로 arm64와 x64를 구분해 배포한다. 스냅드래곤 기반 리눅스 빌드는 CPU, Adreno GPU, Hexagon NPU 모두를 포함하고 있어 개발자가 각 하드웨어의 성능을 테스트하거나 비교하는 데 유용하다.
+
+이 릴리즈 노트에는 커밋 목록이나 기여자 이름은 생략하고 주요 기능 변경만 요약했다. Hexagon NPU 사용자라면 Q6_K 모델 사용 시 이전 빌드 대비 속도 향상을 체감할 수 있을 것으로 예상된다. 전체 변경 사항과 설치 파일은 공식 릴리즈 페이지에서 확인 가능하다.
+
+---
+
+원문: [b11489](https://github.com/ggml-org/llama.cpp/releases/tag/b11489)

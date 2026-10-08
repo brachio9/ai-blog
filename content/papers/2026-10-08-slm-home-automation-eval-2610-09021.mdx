@@ -1,0 +1,40 @@
+---
+title: 가정 자동화 에이전트, 모든 호출에 최강 모델이 필요한가?
+category: papers
+axis: agent
+format: explainer
+summary: 실제 가정 자동화 시스템에서 작은 언어 모델을 평가한 결과, 모든 작업에 최첨단 대형 모델이 필요하지 않다는 사실이 드러났다. 특정 작업에는 오히려 소규모 로컬 모델이 더 적합하며, 비용 절감과 성능 유지가 동시에 가능하다는 주장이다.
+publishedAt: 2026-10-08T22:05:25+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.09021
+  title: 'Not Every Call Needs a Frontier Model: Per-Call-Site Evaluation of Small Language Models in a Deployed Agentic Home-Automation System'
+  author: Panagiotis Kasnesis
+  publishedAt: 2026-10-08T13:00:00+0900
+  words: 9161
+  image: https://arxiv.org/html/2610.09021v1/figures/callsites.png
+paper:
+  arxivId: '2610.09021'
+  authors:
+  - Panagiotis Kasnesis
+  - Christos Chatzigeorgiou
+  - Lazaros Toumanidis
+  - Amalia Contiero Syropoulou
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+현재의 에이전트 시스템은 의도 파악부터 코드 생성까지 다양한 LLM 호출을 수행하지만, 대부분 가장 어려운 작업에 맞춰진 단일 대형 모델을 모든 곳에 적용한다. 이 논문에서는 실제 운영 중인 오픈소스 홈 자동화 프레임워크 'Wactorz'를 대상으로 0.8B부터 최첨단 호스팅 모델까지 총 9가지 모델을 다섯 가지 호출 지점에서 평가했다. 저자들은 수정되지 않은 프로덕션 프롬프트와 실제 Home Assistant 설치 환경에서 2,520건의 호출을 점수화하며 각 작업의 난이도 차이가 크다는 점을 지적했다.
+
+저자들의 주장에 따르면 모델의 성능은 작업 유형에 따라 일관되게 정렬되지 않으며, 규모가 큰 모델이 항상 더 나은 결과를 내지 않는다. 흥미롭게도 4B 모델이 2B 모델보다 장치 제어(grounded actuation)에서 더 낮은 성능을 보인 사례도 확인되었다. paired 테스트 결과, 가장 좋은 로컬 모델은 다섯 가지 사이트 중 네 곳에서 호스팅 모델과 통계적으로 구별할 수 없을 정도로 유사한 성능을 나타냈다. 코드 생성 작업에서만 작은 호스팅 모델(p=0.039) 및 최첨단 모델(p=0.002)과의 유의미한 차이가 관찰되었다.
+
+전체 정확도 수치 뒤에는 장치 제어와 관련된 안전성 실패가 숨겨져 있다. 소규모 모델은 정확성과 거부 사이의 균형을 극단적으로 해결하는 경향을 보인다. 예를 들어 Gemma4 E2B 모델은 소유하지 않은 장치에 대한 요청의 87.2%를 실행하는 반면, 다른 모델은 모든 요청을 거부하기도 한다. 이러한 특성을 고려해 각 호출 지점에 최적화된 로컬 모델을 라우팅하면 호스팅 모델 대비 91.8%의 정확도를 달성할 수 있으며, 이는 추가 비용 없이 가능한 수준이다.
+
+실제 사용자 평가에서는 생성 작업 두 곳만 호스팅 모델로 사용하고 나머지는 로컬 모델로 처리하는 방식이 모든 것을 호스팅 모델로 처리한 경우와 동일한 만족도(43건 중 39건)를 보였다. 이 방식은 비용의 28%만 지출하면 되며, 벤치마크가 예측한 장치 제어 격차는 실제 사용에서 26건 중 1건으로 나타났다. 저자들은 이 평가용 벤치마크와 도구를 GitHub를 통해 공개했다.
+
+---
+
+원문: [Not Every Call Needs a Frontier Model: Per-Call-Site Evaluation of Small Language Models in a Deployed Agentic Home-Automation System](https://arxiv.org/abs/2610.09021)

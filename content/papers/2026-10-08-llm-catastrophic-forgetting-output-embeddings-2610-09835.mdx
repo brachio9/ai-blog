@@ -1,0 +1,42 @@
+---
+title: LLM 재학습 시 발생하는 치명적 망각, 출력 임베딩에서 발견하다
+category: papers
+axis: serving
+format: explainer
+summary: 대규모 언어 모델의 지속적 학습 과정에서 원본 데이터 없이 발생하는 치명적 망각 현상을 분석한 연구다. 저자들은 망각이 특정 토큰의 출력 임베딩에 집중적으로 발생하며, 이를 해결하기 위해 옵티마이저의 에프실론 값을 조정하는 간단한 방법을 제안한다.
+publishedAt: 2026-10-08T22:05:25+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.09835
+  title: 'A Deafening Silence: Catastrophic Forgetting Lives in the Output Embeddings of Tokens the Data Never Speaks'
+  author: Jonghyun Han
+  publishedAt: 2026-10-08T13:00:00+0900
+  words: 18929
+  image: https://arxiv.org/html/2610.09835v1/fig1_mechanism.png
+paper:
+  arxivId: '2610.09835'
+  authors:
+  - Jonghyun Han
+  - Younghoon Song
+  - Jongyoul Park
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대규모 언어 모델을 지속적으로 사전 학습하거나 미세 조정할 때 치명적 망각 현상이 필연적으로 발생한다. 기존에는 이 문제를 완화하기 위해 접근하기 어려운 원본 데이터를 활용한 리플레이 방법이 주로 사용되어 왔다. 그러나 이러한 데이터 의존적 접근이 불가능한 상황에서도 망각이 어디서 왜 발생하는지 규명하려는 시도가 이루어졌다. 연구진은 14억 개 파라미터 규모까지 다섯 가지 설정에서 체계적인 파라미터 동결 실험을 수행하여 망각의 위치를 분석했다.
+
+연구 결과, 치명적 망각은 새로운 학습 코퍼스에서 거의 등장하지 않는 토큰들의 출력 임베딩에 선택적으로 집중되는 것으로 나타났다. 반면 모델 본체의 동일 영역은 비활성 상태이며 새로운 학습은 다른 곳에서 일어나는 것으로 확인되었다. 이러한 현상은 훈련 모드보다는 코퍼스의 어휘 부족에 의해 지배되며, 고정된 베이스 모델 내에서 토큰 빈도만으로 재학습 전 위험도를 순위 매길 수 있음을 시사한다. 메커니즘적으로 부재한 토큰은 일방적인 소프트맥스 그래디언트를 지속적으로 받으며, 아담 옵티마이저의 두 번째 모멘트 정규화가 이를 전체 크기 업데이트로 증폭시키는 것으로 분석되었다.
+
+이러한 인과 관계를 바탕으로 저자들은 훈련 중 출력 투영 레이어에 한해 아담 옵티마이저의 에프실론 값을 높이는 개입 방안을 제안한다. 1억 6천만 개에서 120억 개 파라미터 규모 및 네 가지 모델 패밀리, 여덟 가지 설정을 아우르는 실험에서 이 방법은 모든 안정적 구성에서 망각의 39.4%에서 67.9%를 제거하는 것으로 나타났다. 저자들의 주장에 따르면 이 방법은 목표 학습 성능을 저하시키지 않으며 모델별 튜닝도 필요하지 않다.
+
+이 방어 기법은 리플레이 방법과 결합했을 때 더 나은 효과를 보이며, Qwen 한국어 데이터셋에서 79.8%의 성과를 기록했다. 또한 릴리즈된 헤드 LoRA가 겪는 23배에 달하는 망각 급증을 해결해 주는 것으로 나타났다. 사후 편집으로 드리프트된 행을 수정해도 5% 미만의 망각만 회복되므로, 이 개입은 반드시 훈련 중 이루어져야 한다. 연구진은 코퍼스가 어휘를 굶주리는 상황에서 단일 줄의 옵티마이저 조정이 치명적 망각에 대한 주요 방어책이 될 수 있음을 시사한다.
+
+---
+
+원문: [A Deafening Silence: Catastrophic Forgetting Lives in the Output Embeddings of Tokens the Data Never Speaks](https://arxiv.org/abs/2610.09835)

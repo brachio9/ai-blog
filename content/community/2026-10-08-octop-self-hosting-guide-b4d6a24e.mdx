@@ -1,0 +1,40 @@
+---
+title: 서버 한 대로 가족과 팀이 쓰는 Octop, 전용 AI 비서 셀프 호스팅 가이드
+category: community
+axis: vibe-coding
+format: explainer
+summary: 텐센트 클라우드가 공개한 Octop는 서버 하나로 다중 사용자가 각자 전용 AI 에이전트를 운영할 수 있게 한다. 계정별로 작업공간과 모델 설정을 분리하여 가족이나 소규모 팀의 프라이버시와 편의성을 동시에 해결한다.
+publishedAt: 2026-10-08T22:05:25+0900
+tags:
+- RAG
+- Claude Code
+- Codex
+- Cursor
+- OpenCode
+- MCP
+- vLLM
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/octop-ai-feat-tencent/12124
+  title: 'Octop: 서버 한 대로 가족과 소규모 팀이 각자 전용 AI 에이전트를 쓰는 셀프 호스팅 비서 (feat. Tencent)'
+  author: 9bow
+  publishedAt: 2026-10-08T06:30:35+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/8/4/849aa0af40908e6d39884abd95f62a54fcde367b_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+vibe-coding에 관심 있는 독자들은 종종 '내 컴퓨터나 서버 하나로 가족이나 동료들과 AI 비서를 공유하려면 어떻게 해야 할까'라고 묻는다. 기존 오픈소스 에이전트들은 대부분 단일 사용자 중심이라, 여러 사람이 쓸 때 대화 기록이 섞이거나 API 키 권한이 유출될 위험이 있었다. 텐센트 클라우드가 MIT 라이선스로 공개한 Octop는 바로 이 문제를 해결하기 위해 설계된 셀프 호스팅 플랫폼이다.
+
+Octop의 핵심 장점은 다중 사용자 지원이다. 관리자가 서버를 한 번 설치하면, 가족이나 팀원은 각자 계정으로 로그인하여 독립적인 에이전트를 생성하고 운영할 수 있다. 사용자는 역할에 따라 분석가나 연구원 등 다양한 에이전트를 만들고, 각각에게 별도의 작업공간 디렉터리와 LLM 설정, 대화 기록, 메신저 채널을 할당한다. 이는 OpenClaw처럼 게이트웨이를 공유하는 방식과 달리, 사용자 단위로 완전히 격리된 환경을 제공한다.
+
+기술적으로는 Python 3.12와 FastAPI로 작성되었으며, 텐센트 클라우드가 별도로 공개한 Octop Harness, Gateway, Memory, Browser 등의 라이브러리를 조합하여 동작한다. 특히 Octop Harness는 LangChain의 deepagents를 기반으로 에이전트 생성을 처리하고, 여기에 모델 라우팅과 메모리 관리를 더한다. 메신저 연동은 Telegram, Discord, WeChat 등 중국 및 글로벌 주요 플랫폼을 지원하지만, Slack은 기본 채널에 포함되지 않으며 대시보드 언어는 영어와 중국어만 제공한다.
+
+보안 측면에서는 주의가 필요하다. Octop는 도구 실행 전 승인 기능이 기본적으로 꺼져 있고, 셸 명령 검사도 경고 로그만 남기는 모드로 시작한다. 따라서 여러 사람이 사용하는 환경이라면 관리자가 공식 문서의 Security 설정을 반드시 변경해야 한다. 이 글은 텐센트 클라우드의 GitHub 조직이 공개한 Octop 프로젝트의 특징과 설치 시 고려해야 할 보안 사항을 요약한 것이다.
+
+---
+
+원문: [Octop: 서버 한 대로 가족과 소규모 팀이 각자 전용 AI 에이전트를 쓰는 셀프 호스팅 비서 (feat. Tencent)](https://discuss.pytorch.kr/t/octop-ai-feat-tencent/12124)

@@ -1,0 +1,31 @@
+---
+title: Python GC와 fork가 부딪히면 생기는 Airflow 메모리 문제
+category: news
+axis: vibe-coding
+format: explainer
+summary: Airflow의 worker 프로세스에서 발생하는 메모리 증가 현상을 분석한 과정이다. Memray를 통해 발견된 힙 누수 외에도, Python의 GC가 fork 방식과 만나면서 생기는 보이지 않는 메모리 문제가 핵심 원인임을 지적한다.
+publishedAt: 2026-10-08T22:05:25+0900
+draft: false
+source:
+  url: https://d2.naver.com/helloworld/4149925
+  title: Python의 GC가 멀티프로세싱과 만나면 생기는 일 - Python과 Airflow, 그리고 관련된 문제 해결기 2편
+  publishedAt: 2026-10-08T15:44:57+0900
+  image: https://d2-serving.pstatic.net/v1/images?objectPath=d2%2FEDITOR%2F2026%2Fhelloworld-202609-%EB%8F%84%EC%A0%95%EC%9A%B0%2Ffiles%2Ffig-01-memray-flamegraph.png
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+이전 글에서는 Airflow가 task 실행을 위해 fork 방식을 사용하며, 이로 인해 부모 프로세스의 자원을 승계하고 Copy-on-Write(COW)가 기대만큼 작동하지 않는 한계가 있음을 살펴보았다. 이번에는 이러한 한계가 실제 PoC 환경에서 어떤 구체적인 문제로 나타나는지 살펴본다. 겉보기에는 무관해 보이는 worker 프로세스의 메모리 증가와 dag-processor의 간헐적 재시작 현상이 결국 Python의 GC와 fork의 충돌에서 비롯된다는 공통점을 지니고 있다.
+
+Airflow 3.1 계열을 CeleryExecutor로 테스트하던 중 worker 컨테이너의 메모리 사용량이 시간이 지날수록 지속적으로 증가하는 현상을 관찰했다. 이는 Airflow가 scheduler나 worker 내에서 프로세스를 fork하여 재사용하는 구조와 관련이 깊다. 초기에는 LocalExecutor부터 조사했으며, Memray라는 도구를 활용해 힙 할당을 호출 스택 단위로 추적해 문제의 원인을 파악하려 했다.
+
+Memray 분석 결과 두 가지 명확한 문제가 드러났다. 첫째, secrets masker가 타입 확인을 위해 kubernetes.client 전체를 import하며 불필요하게 많은 메모리를 차지하는 것이었다. 둘째, Task SDK client가 SSL context를 반복 생성하면서 발생하는 누수였다. 이 두 문제는 전형적인 힙 낭비 및 누수로 판명되어 Airflow 이슈로 등록되었고, 이후 버전에서 해결되었다. 또한 이 과정에서 Memray 추적 기능을 Airflow에 기여하기도 했다.
+
+그러나 두 문제를 수정한 뒤에도 worker의 메모리 사용량은 여전히 증가했다. 특이점은 이러한 증가가 Memray에 잡히지 않았다는 것이다. 즉, worker 프로세스가 새로 할당한 메모리는 거의 없었음에도 전체 메모리 사용량은 늘어나고 있었다. 이는 1편에서 언급된 fork의 한계와 Python GC의 상호작용에서 비롯된 문제로 추측되며, 원문에서는 이 지점에서 분석이 중단되어 있다.
+
+---
+
+원문: [Python의 GC가 멀티프로세싱과 만나면 생기는 일 - Python과 Airflow, 그리고 관련된 문제 해결기 2편](https://d2.naver.com/helloworld/4149925)
