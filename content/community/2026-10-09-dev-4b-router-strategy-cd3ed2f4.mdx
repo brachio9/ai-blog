@@ -1,0 +1,33 @@
+---
+title: 문서 질문 답변 속도와 정확도를 동시에 잡는 Dev-4B의 라우팅 전략
+category: community
+axis: serving
+format: explainer
+summary: suhaas-teja가 공개한 Dev-4B는 문서 기반 질문에 대해 빠른 판단과 신뢰도 점수를 제공한다. 내장된 라우터가 오답 가능성을 감지할 때만 추론 과정을 실행해 속도와 정확도의 균형을 맞춘다.
+publishedAt: 2026-10-09T22:00:01+0900
+tags:
+- LoRA
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/dev-4b-quick-calibrated-decisions-on-a-document-reason-only-when-the-router-flags-risk/182924
+  title: 'Dev-4B: quick calibrated decisions on a document, reason only when the router flags risk'
+  author: suhaas-teja
+  publishedAt: 2026-10-06T03:10:28+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+suhaas-teja는 Hugging Face 포럼에서 소규모 로컬 모델 Dev-4B를 소개했다. 이 모델은 문서에 대한 선택지, 예/아니오, 점수 부여 질문을 처리하며, 내장된 라우터가 빠른 답변이 틀릴 가능성이 높다고 판단할 때만 단계별 추론을 수행하도록 설계되었다. 기본 생성기는 추가 모듈이 꺼져 있을 때 변경되지 않으며, Qwen3-4B-Instruct-2507 기반에 약 133MB의 LoRA 어댑터와 결정 헤드, 온도 조절 파라미터가 더해진 구조다.
+
+저자는 고정된 테스트 질문 7,100개로 성능을 측정했다. 항상 빠르게 답변하는 방식은 정확도 76.3%에 응답 시간 0.16초를 기록했고, 항상 추론하는 방식은 정확도 78.0%에 응답 시간 10.2초가 소요되었다. 반면 Dev-4B의 라우팅 전략은 정확도 81.8%와 응답 시간 1.37초를 달성했다. 특히 산술 및 계수 작업에서 에スカ레이션이 가장 큰 효과를 보였으며, 16GB 메모리 맥북에서는 MLX 8비트 빌드로 5개 질문을 약 3초 만에 처리할 수 있었다.
+
+이 모델은 훈련된 작업 유형 외에는 성능이 떨어질 수 있으며, 여전히 4B 규모 모델의 추론 한계를 가진다. 영어 전용이며 훈련 시 문서 길이는 약 4천 문자였다. 라이선스는 CC BY-NC-SA이며 Ollama나 LM Studio와의 직접 호환성은 없다. 질문 형식은 System One을 따르지만 TypeSafe와는 무관하다.
+
+suhaas-teja는 대부분의 오픈 소스 System One 클론이 단순 결정 모델인 것과 달리, 로컬 환경에서의 교정된 결정과 위험 감지 시 추론으로의 전환을 결합한 점을 차별점으로 꼽았다. 맥북 사용자를 포함한 로컬 의사결정 모델 실험자들의 피드백, 특히 라우터가 에スカ레이션해야 하는 경우와 아닌 경우에 대한 사례를 요청했다.
+
+---
+
+원문: [Dev-4B: quick calibrated decisions on a document, reason only when the router flags risk](https://discuss.huggingface.co/t/dev-4b-quick-calibrated-decisions-on-a-document-reason-only-when-the-router-flags-risk/182924)

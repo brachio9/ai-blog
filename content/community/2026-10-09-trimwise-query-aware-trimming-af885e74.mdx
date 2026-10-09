@@ -1,0 +1,31 @@
+---
+title: 질문과 무관한 맥락만 잘라내는 Trimwise
+category: community
+axis: retrieval
+format: explainer
+summary: 검색 결과나 도구 출력물 중 질문과 관련 없는 부분을 제거하는 오픈소스 라이브러리 Trimwise를 소개한다. 단순 절단 대신 기존 텍스트 조각을 선택해 출처를 추적할 수 있게 하며, 모델 추론 없이도 작동하는 어휘 기반 방식을 제공한다.
+publishedAt: 2026-10-09T22:00:01+0900
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/trimwise-query-aware-context-trimming/183167
+  title: 'Trimwise: query-aware context trimming'
+  author: deathsaber93
+  publishedAt: 2026-10-06T08:49:07+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+검색한 문서나 도구 출력물에는 유용한 증거가 섞여 있지만, 현재 질문과 무관한 내용도 많이 포함된다. 단순히 끝부분을 잘라내면 필요한 정보가 손실될 위험이 있다. 작성자는 이러한 문제를 해결하기 위해 소스 텍스트를 컨텍스트 예산에 맞게 맞추는 오픈소스 Python 라이브러리인 Trimwise와 이를 체험할 수 있는 Space를 공개했다.
+
+Trimwise는 단일 소스 처리용 atrim과 여러 소스가 하나의 공유 예산을 놓고 경쟁하는 다중 소스 처리용 atrim_context를 지원한다. 이 도구는 요약을 생성하는 것이 아니라 기존 소스의 특정 구간을 선택하므로, 유지된 텍스트가 원래 입력의 어디에서 왔는지 추적할 수 있는 출처 정보를 제공한다.
+
+라이브러리의 어휘 경로는 모델 가중치나 LLM 추론을 사용하지 않는다. 선택적 기능으로 의미 기반 및 하이브리드 선택을 위한 임베딩 기반 모드도 제공된다. 작성자는 순위 매김이 관련 증거를 놓칠 수 있고, 주변 맥락 제거가 발췌문의 이해에 영향을 줄 수 있다는 트레이드오프를 인정하며, 공식 벤치마크 테스트 밖의 사례에 대한 피드백을 요청했다.
+
+사용자가 시도해 볼 때 특히 양사어, 부정문, 수정된 사실 등이 손실되는지, 여러 소스에 퍼진 증거가 필요한 답변은 어떻게 되는지, 단순 절단과 비교했을 때 유지된 컨텍스트의 차이가 무엇인지 알려달라고 한다. 작고 재현 가능한 예시가 있으면 도움이 된다고 덧붙였다.
+
+---
+
+원문: [Trimwise: query-aware context trimming](https://discuss.huggingface.co/t/trimwise-query-aware-context-trimming/183167)

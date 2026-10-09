@@ -1,0 +1,36 @@
+---
+title: 'Cline 데스크톱 v0.0.44: 끊긴 연결 복구와 로컬 모델 지원 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline 데스크톱 버전 0.0.44는 채팅 내 머메이드 다이어그램의 인터랙티브 렌더링과 중도 끊긴 세션 자동 재연결 기능을 도입했다. API 키가 불필요한 로컬 및 자체 호스팅 프로바이더 사용 시 발생하던 오류를 수정하고, Windows 환경에서의 MCP 서버 시작 제한 시간을 연장하는 등 안정성을 높였다.
+publishedAt: 2026-10-09T22:00:01+0900
+tags:
+- Cline
+- MCP
+- vLLM
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/desktop-v0.0.44
+  title: Desktop v0.0.44
+  author: github-actions[bot]
+  publishedAt: 2026-10-07T16:17:16+0900
+  words: 268
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이 업데이트는 개발자가 코드 작성 중 겪을 수 있는 불편함을 줄이는 데 초점을 맞췄다. 가장 눈에 띄는 변화는 채팅창에서 머메이드 다이어그램을 인라인으로 인터랙티브하게 볼 수 있게 된 점이다. 이제 다이어그램을 확대·축소하거나 전체 화면으로 보기, 복사 및 다운로드가 가능하며, 다이어그램 내 링크 클릭 시 실제 목적지를 확인하는 보안 다이얼로그가 적용되어 안전성이 강화되었다.
+
+네트워크 불안정 상황에서의 사용성도 크게 개선되었다. Cline Hub와의 연결이 채팅 중 끊겨도 앱은 최대 1분간 자동으로 재연결을 시도하며, 성공하면 대기 중이던 메시지를 계속 전송한다. 재연결에 실패할 경우에만 사용자에게 알림을 주어 수동으로 다시 보내도록 유도하는 방식으로, 작업 흐름의 단절을 최소화했다.
+
+로컬 환경에서의 안정성도 확보되었다. LM Studio, Ollama 등 API 키가 필요 없는 로컬 및 자체 호스팅 프로바이더를 사용할 때 매 턴마다 'API 키 누락' 오류가 발생하던 문제가 해결되어 정상적으로 세션을 시작할 수 있게 되었다. 또한 Windows에서 npx나 uvx로 실행되는 MCP 서버의 경우, 기존 3초라는 짧은 시작 제한 시간으로 인해 서버가 제대로 로드되지 않는 경우가 많았는데, 이 제한 시간을 10초로 연장하여 로딩 실패 문제를 해결했다.
+
+기타 모델 호환성 및 설정 관련 개선 사항도 포함되었다. 커스텀 Anthropic 베이스 URL을 통한 Claude 사용 시 발생하던 400 오류를 수정하고, 특정 추론 레벨만 지원하는 Kimi K3 등 일부 모델이 요청을 거부하는 문제를 해결하여 가장 가까운 지원 레벨로 자동 조정되도록 했다. 또한 모델 응답이 명확하게 종료되지 않았을 때 에이전트가 한 번 더 계속하라고 요청하도록 로직을 변경했으며, 무료 모델 목록에 Solar Mini 4를 추가하고 DeepSeek V4.1 Flash 등을 제거하는 등 모델 카탈로그도 갱신되었다.
+
+---
+
+원문: [Desktop v0.0.44](https://github.com/cline/cline/releases/tag/desktop-v0.0.44)

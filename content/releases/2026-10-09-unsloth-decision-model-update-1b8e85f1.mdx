@@ -1,0 +1,37 @@
+---
+title: Unsloth, LLM을 의사결정 모델로 바꾸다
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 텍스트 및 비전 LLM을 Jev 스타일 의사결정 모델로 변환하는 기능을 추가했다. 정확도가 크게 향상되었으며 ComfyUI 모델 지원과 샌드박스 보안 기능도 강화되었다.
+publishedAt: 2026-10-09T22:00:01+0900
+tags:
+- RAG
+- QLoRA
+- ASR
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.904-beta
+  title: Train your own Decision model
+  author: danielhanchen
+  publishedAt: 2026-10-07T23:58:48+0900
+  words: 2229
+  image: https://github.com/user-attachments/assets/963eab71-49d1-47e7-9ccd-f3c5f1fc8943
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Unsloth는 이제 어떤 텍스트나 비전 대형 언어 모델(LLM)도 QLoRA를 통해 Jev 스타일 의사결정 모델로 훈련할 수 있게 되었다. 개발진은 이 변경으로 의사결정 정확도가 기존 30%에서 80% 수준으로 향상되었다고 주장한다. 사용자는 Unsloth 내에서 직접 모델을 테스트하고, 각 선택지에 대한 신뢰도 점수를 확인하며, Clef 또는 Laya 형식으로 GGUF 파일로 내보낼 수 있다. 또한 llama.cpp를 통해 이미지 이해가 가능한 의사결정 모델을 서빙할 수도 있다.
+
+이미지 생성 분야에서는 ComfyUI 모델에 대한 네이티브 지원이 강화되었다. Unsloth는 이제 Hugging Face에서 ComfyUI의 이미지 및 비디오 모델을 직접 실행하고, 로컬 폴더와 체크포인트를 자동으로 인식한다. Qwen-Image-2.1 모델의 경우 INT8 ConvRot 기술 적용으로 더 많은 고정밀 이미지 디테일을 유지하면서도 생성 속도가 빨라졌다. Krea-2, HunyuanImage-2.1, Wan2.2 등 다양한 전문가용 페어 모델과 NVFP4, MXFP8 형식 모델도 지원한다.
+
+훈련 성능 측면에서도 개선이 있었다. A100 및 RTX PRO 6000 환경에서 Qwen3.5-35B-A3B 모델의 훈련 속도가 최대 4.1배, Qwen3-30B-A3B는 3.3배 빨라졌다. 게이트드 델타, Mamba2, 짧은 컨볼루션 모델에 대한 샘플 패킹이 개선되었고, 프롬프트와 완성 메시지 목록을 하나의 대화로 훈련할 수 있게 되었다. 비전 데이터셋은 각 행의 질문을 유지하며, 채팅 내보내기 및 훈련 데이터에는 시스템 프롬프트가 포함되도록 조정되었다.
+
+데스크톱 애플리케이션과 브라우저 기능도 다듬어졌다. 데스크톱 브라우저에서 열린 페이지에 대해 질문하고, 다운로드 위치를 선택하며, 사이드바의 고정 페이지 순서를 재배열할 수 있다. 검색 기능이 사용 불가능한 결과를 건너뛰고 위키백과로 대체하는 로직이 추가되었으며, 인용 링크 클릭 시 바로 열리도록 개선되었다. 보안 측면에서는 리눅스(Bwrap), macOS(Seatbelt), Windows(MXC) 환경에서 모델이 실행하는 코드를 샌드박스 처리하여 보호 수준을 설정할 수 있게 되었다.
+
+---
+
+원문: [Train your own Decision model](https://github.com/unslothai/unsloth/releases/tag/v0.1.904-beta)
