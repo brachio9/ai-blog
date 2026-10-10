@@ -1,0 +1,35 @@
+---
+title: 에이전트 코딩 리뷰를 위한 터미널 뷰어 Hunk
+category: community
+axis: vibe-coding
+format: explainer
+summary: Hunk는 코딩 에이전트가 생성한 코드 변경 내역을 터미널에서 효율적으로 검토할 수 있도록 돕는 오픈소스 도구다. 여러 파일의 변경 사항을 하나의 스트림으로 이어주고, 에이전트의 설명을 코드 바로 옆에 표시하여 리뷰 과정을 단순화한다.
+publishedAt: 2026-10-10T22:00:04+0900
+tags:
+- Claude Code
+- Codex
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/hunk-diff/12123
+  title: 'Hunk: 코딩 에이전트가 남긴 코드 변경 내역을 검토하는 터미널 diff 뷰어 프로젝트'
+  author: 9bow
+  publishedAt: 2026-10-09T19:30:37+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/d/f/df7d682c01c0ac30cdee022733c79f41b289b986_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+코딩 에이전트 사용이 보편화되면서 개발자의 역할은 코드를 직접 작성하는 것에서 에이전트가 만든 변경 사항을 검증하는 것으로 이동하고 있다. Modem Labs가 후원하는 Hunk는 이러한 맥락에서 탄생한 터미널 기반 diff 뷰어로, 기존 git diff의 긴 텍스트 출력 대신 파일 변경 내역을 문서처럼 통합된 화면에 보여준다. 왼쪽 사이드바를 통해 파일 목록을 확인하며, 방향키와 특정 단축키를 이용해 헝크나 파일 간 이동이 가능하도록 설계되어 있다.
+
+Hunk의 핵심 기능은 에이전트가 남긴 설명 메모를 별도의 채팅 창이 아니라 해당 코드 변경 부분 바로 옆에 카드 형태로 표시하는 것이다. 이를 통해 사용자는 코드 위치와 그 변경 이유를 동시에 파악할 수 있어 리뷰 효율성을 높일 수 있다. 화면 폭에 따라 좌우 분할 보기나 통합 보기로 자동 전환되며, TypeScript로 작성되어 OpenTUI와 Pierre diffs 라이브러리를 기반으로 동작한다.
+
+에이전트는 별도의 터미널에서 hunk session 명령을 실행하여 로컬 루프백 데몬을 통해 리뷰 화면의 구조를 읽고 메모를 추가할 수 있다. 에이전트가 직접 UI를 띄우지 않고 백그라운드에서 연동되므로 사용자는 끊김 없이 코드를 검토할 수 있다. 또한 Git 외에도 Jujutsu와 Sapling 저장소를 지원하며, GitHub CLI 없이도 PR이나 커밋 내역을 열람할 수 있는 기능이 포함되어 있다.
+
+Hunk 측은 이 도구가 일상적인 diff 확인용 페이저인 delta를 대체하기 위한 것이 아님을 명시한다. 시작 속도나 구문 구조 기반 비교(structural diffing) 기능에서는 기존 도구들이 더 우수하므로, Hunk는 주로 에이전트 생성 코드의 리뷰 시나 복잡한 변경 내역 검토에 특화되어 사용되기를 권장한다.
+
+---
+
+원문: [Hunk: 코딩 에이전트가 남긴 코드 변경 내역을 검토하는 터미널 diff 뷰어 프로젝트](https://discuss.pytorch.kr/t/hunk-diff/12123)

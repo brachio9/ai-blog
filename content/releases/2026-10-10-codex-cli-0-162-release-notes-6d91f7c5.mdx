@@ -1,0 +1,35 @@
+---
+title: 'Codex CLI 0.162.0: 작업트리 관리와 TUI 편의성 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: OpenAI Codex CLI 0.162.0 버전이 출시되었다. 이 릴리즈는 Git 워크트리 생성 및 목록 확인 기능을 추가하고, 에이전트 명령 센터에서 작업 고정 기능을 지원한다. 또한 TUI 내 URL 클릭 가능 처리와 다양한 버그 수정을 포함한다.
+publishedAt: 2026-10-10T22:00:04+0900
+tags:
+- Codex
+- MCP
+draft: false
+source:
+  url: https://github.com/openai/codex/releases/tag/rust-v0.162.0
+  title: 0.162.0
+  author: github-actions[bot]
+  publishedAt: 2026-10-09T03:55:59+0900
+  words: 2492
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 가장 큰 변화 중 하나는 Git 워크트리(worktree) 관리 도구의 도입이다. 워크트리 기능이 활성화된 신뢰할 수 있는 로컬 프로젝트에서 새 워크트리를 생성하거나 목록을 확인할 수 있게 되었다. 이는 복잡한 브랜치 작업 시 환경 격리나 병렬 작업을 더 쉽게 수행할 수 있음을 의미한다. 또한 에이전트 명령 센터(Command Center)에서 'p' 키를 눌러 특정 작업을 고정(pin)할 수 있으며, 서버가 지원하면 공유된 고정 그룹에 유지된다.
+
+터미널 사용자 인터페이스(TUI)의 사용성도 크게 개선되었다. 승인 헤더, 질문, MCP 프롬프트 등 다양한 영역에서 URL이 클릭 가능해졌으며, 줄 바꿈이 발생해도 링크를 정상적으로 인식한다. 트랜스크립트 블록 탐색과 복사 기능(/copy 명령어 및 Ctrl+Insert 단축키)이 추가되었고, 마우스 휠 스크롤 속도를 설정할 수 있게 되었다. 이러한 변경사항은 긴 대화 기록이나 복잡한 승인 과정에서 사용자의 시선 이동과 정보 접근을 원활하게 한다.
+
+기술적 안정성과 호환성 측면에서도 여러 수정이 적용되었다. Windows 환경에서 드라이브 문자 파일 접근 문제와 PowerShell 설치를 통한 아카이브 체크섬 검증 오류가 해결되었으며, Linux 샌드박스 시작 시 다중 거부 파일 처리 및 ripgrep 설정 관련 보안 강화가 이루어졌다. 서버의 모델 기본값과 추론 요약 설정을 새로운 TUI 스레드에서 올바르게 존중하도록 수정되었고, Windows 10에서의 기존 라인 엔딩(CRLF) 보존 문제도 해결되었다.
+
+이 외에도 커스텀 Responses 호환 모델 제공자를 위한 라이브 웹 액세스 및 원격 컴팩션 기능 구성이 가능해졌고, JavaScript 헬퍼를 통해 스트리밍 프로미스 결과를 처리하는 기능이 추가되었다. Windows 릴리스에는 서명된 PowerShell 설치자가 포함되었으며, 이전 안정판과 프리릴리스가 새 버전 다운로드 대상이나 설치자 별칭을 덮어쓰지 않도록 개선되었다. 전체 변경 내역은 공식 저장소의 비교 페이지에서 확인할 수 있다.
+
+---
+
+원문: [0.162.0](https://github.com/openai/codex/releases/tag/rust-v0.162.0)

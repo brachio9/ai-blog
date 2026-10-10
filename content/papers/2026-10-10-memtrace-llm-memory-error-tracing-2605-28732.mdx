@@ -1,0 +1,56 @@
+---
+title: LLM 메모리 오류의 원인을 추적하고 자동으로 수정하는 MemTrace
+category: papers
+axis: retrieval
+format: explainer
+summary: 대규모 언어 모델의 메모리 시스템에서 발생하는 오류를 추적하고 그 원인을 규명하는 프레임워크인 MemTrace를 소개한다. 저자들은 실행 가능한 메모리 진화 그래프를 통해 정보 흐름을 세밀하게 분석하며, 이를 바탕으로 오류의 근본 원인을 자동으로 찾아내고 프롬프트를 최적화하는 폐쇄 루프 시스템을 제안한다.
+publishedAt: 2026-10-10T22:00:04+0900
+tags:
+- RAG
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.28732
+  title: 'MemTrace: Tracing and Attributing Errors in Large Language Model Memory Systems'
+  author: Xinle Deng
+  publishedAt: 2026-10-10T13:00:00+0900
+  words: 22040
+  image: https://arxiv.org/html/2605.28732v4/overview.png
+paper:
+  arxivId: '2605.28732'
+  authors:
+  - Xinle Deng
+  - Ruobin Zhong
+  - Hujin Peng
+  - Xiaoben Lu
+  - Yanzhe Wu
+  - Guang Li
+  - Buqiang Xu
+  - Yunzhi Yao
+  - Jizhan Fang
+  - Haoliang Cao
+  - Junjie Guo
+  - Yuan Yuan
+  - Ziqing Ma
+  - Yuanqiang Yu
+  - Rui Hu
+  - Baohua Dong
+  - Hangcheng Zhu
+  - Ningyu Zhang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대규모 언어 모델이 장기적인 추론 작업을 수행하려면 메모리가 필수적이지만, 기존 메모리 시스템은 신뢰성이 부족하고 디버깅이 어렵다는 문제가 있다. 시간이 지남에 따라 정보가 어떻게 합성되고 전파되거나 왜곡되는지를 이해하려면 메모리의 동적 진화를 추적하는 것이 중요하며, 이 연구는 LLM 메모리 시스템에서 오류를 추적하고 귀속시키는 새로운 문제를 다룬다.
+
+저자들은 메모리 파이프라인을 실행 가능한 메모리 진화 그래프로 변환하는 새로운 프레임워크를 제안한다. 이를 통해 운영 정보 흐름을 세밀하게 추적할 수 있으며, Long-Context, RAG, Mem0, EverMemOS 등 대표적인 메모리 시스템에서 수집한 벤치마크인 MemTraceBench를 구축하여 메모리 실패 모드를 체계적으로 연구한다.
+
+또한 저자들은 자동 귀속 방법을 도입하여 실패 사례의 근본 원인을 특정하기 위해 운영 서브그래프를 반복적으로 추적한다. 분석 결과, 메모리 실패는 정보 손실이나 검색 불일치와 같은 작업 수준의 문제에서 비롯되는 체계적인 현임이 드러났다.
+
+중요하게도 저자들은 이러한 세밀한 귀속 신호를 활용하여 하위 프롬프트 최적화를 유도하고, 결함을 자동으로 수정하며 최종 작업 성능을 최대 7.62%p까지 향상시키는 폐쇄 루프 시스템을 구축했다고 주장한다. 관련 코드는 GitHub에 공개되어 있다.
+
+---
+
+원문: [MemTrace: Tracing and Attributing Errors in Large Language Model Memory Systems](https://arxiv.org/abs/2605.28732)

@@ -1,0 +1,37 @@
+---
+title: 에이전트 컨텍스트 폭탄을 수백 토큰으로 줄이는 로컬 인덱서 Leviathan
+category: community
+axis: vibe-coding
+format: explainer
+summary: Joshua Baker가 개발한 Leviathan은 대용량 로그와 티켓 데이터를 SQLite FTS5로 색인해 에이전트가 grep 대신 정밀 검색 결과를 얻게 한다. 개발자의 주장에 따르면 이 방식은 질문당 컨텍스트 토큰을 수백 개 수준으로 유지하며, 원본 데이터 전체를 읽는 기존 방식 대비 효율성을 크게 높인다.
+publishedAt: 2026-10-10T22:00:04+0900
+tags:
+- Codex
+- Cursor
+- Windsurf
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/leviathan-grep/12138
+  title: 'Leviathan: 대용량 티켓과 로그를 grep 대신 수백 토큰의 검색 결과로 에이전트에 건네는 로컬 인덱서'
+  author: 9bow
+  publishedAt: 2026-10-10T11:30:10+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/e/c/ecb69546cd29af58258822116b0ea5f4e0508264_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+코딩 에이전트가 고객 지원 티켓이나 장비 로그 같은 대용량 기록을 다룰 때 흔히 겪는 문제는 grep을 사용해 관련 이력을 통째로 읽어들이는 과정에서 컨텍스트 창이 폭발하는 것이다. 데이터 양이 많아지면 수만에서 수십만 토큰이 한 번의 질문에 들어가고, 에이전트 셸이 출력 길이를 제한하다 보니 중요한 정보가 잘려나가는 현상이 발생한다. 또한 키워드 기반 검색으로는 형식적인 기록과 의미 있는 내용을 구분하기 어려워 정확한 답변 도출이 힘들어진다.
+
+Joshua Baker는 이러한 문제를 해결하기 위해 Rust로 작성된 단일 바이너리인 Leviathan을 소개했다. 이 도구는 JSONL, CSV, SQLite 등의 레코드를 미리 읽어서 SQLite FTS5 기반의 전문 검색 인덱스 파일 하나로 만든다. 네트워크 연결이나 외부 데이터베이스 접속 없이 로컬에서 작동하며, 사용자는 ID, 제목, 본문 등 필드를 매핑해 두면 에이전트가 그룹 이름과 자연어 질문만으로 관련 레코드만 추출할 수 있다.
+
+개발자가 공개한 100만 건 합성 데이터 벤치마크 결과에 따르면 Leviathan을 사용할 경우 질문당 에이전트 컨텍스트에 들어가는 토큰의 중앙값은 436개였다. 반면 가장 나은 grep 전략을 사용했을 때는 107,122개의 토큰이 필요했다. Leviathan은 BM25 알고리즘을 통해 관련성 점수를 매겨 상위 결과만 짧은 카드 형태로 반환하고, 원본 전체가 필요할 때만 ID를 통해 개별 조회하도록 설계되어 데이터 크기와 무관하게 컨텍스트 사용량을 일정 수준으로 유지한다고 주장한다.
+
+Leviathan은 현재 v0.1.0 릴리스 단계로 초기 프로젝트이지만, 셸을 사용하는 코딩 에이전트가 CLI와 스킬 파일로 바로 활용할 수 있도록 구성되었다. 읽기 전용 MCP 서버도 선택적으로 제공하며, 임베딩 없이 어휘 검색에 의존하므로 한국어와 같이 조사 처리가 중요한 언어의 경우 데이터 전처리나 질의 표현에 신경 써야 한다는 점도 개발자가 명시했다.
+
+---
+
+원문: [Leviathan: 대용량 티켓과 로그를 grep 대신 수백 토큰의 검색 결과로 에이전트에 건네는 로컬 인덱서](https://discuss.pytorch.kr/t/leviathan-grep/12138)
