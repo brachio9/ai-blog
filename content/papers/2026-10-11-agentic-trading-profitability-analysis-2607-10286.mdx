@@ -1,0 +1,49 @@
+---
+title: AI 트레이딩 에이전트, 지능의 비용을 수익으로 상쇄할 수 있는가
+category: papers
+axis: agent
+format: explainer
+summary: LLM 기반 트레이딩 시스템이 지능 사용 비용보다 더 많은 수익을 내는지 평가하는 도구 TradeLens를 소개한다. 저자들은 단순 성능 지표 대신 실제 거래 기록과 실행 추적을 분석해 지능의 경제적 타당성을 진단하는 접근법을 제안한다.
+publishedAt: 2026-10-11T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2607.10286
+  title: Can Agentic Trading Systems Pay for Their Own Intelligence?
+  author: Qiqi Duan
+  publishedAt: 2026-10-08T13:00:00+0900
+  words: 17104
+  image: https://arxiv.org/html/2607.10286v3/teaser-v3.png
+paper:
+  arxivId: '2607.10286'
+  authors:
+  - Qiqi Duan
+  - Changlun Li
+  - Chen Wang
+  - Fan Zhang
+  - Mengxiang Wang
+  - Dayi Miao
+  - Peixian Ma
+  - Jiangpeng Yan
+  - Liyuan Chen
+  - Shuoling Liu
+  - Preslav Nakov
+  - Yuyu Luo
+  - Nan Tang
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대규모 언어 모델(LLM) 에이전트가 트레이딩 시스템에 도입되면서 모델의 추론, 도구 사용, 지속적 의사결정 과정에서 발생하는 비용이 실제 거래 가치로 이어지는지가 중요한 화두가 되었다. 기존 평가들은 주로 성능 지표만 보고할 뿐, 동적인 LLM 매개 결정이 유발한 비용을 측정 가능한 추가 수익으로 전환하는지 즉 에이전트의 생존 가능성(viability)을 거의 검토하지 않았다.
+
+이 기준을 적용하기 위해 저자들은 TradeLens라는 진단 툴킷을 도입했다. 이 도구는 거래 기록, 런타임 추적, 배포 설정을 기반으로 트레이딩 궤적을 재구성하고 수익과 비용을 해석 가능한 증거에 귀속시킨다. 이를 통해 에이전트가 자신의 지능에 대한 대가를 치르고 있는지, 그리고 그 이유가 무엇인지 진단할 수 있다.
+
+저자들의 주장에 따르면 광범위한 분석 결과 생존 가능성은 지능에서 수익으로의 전환 효율성에 달려 있다. DeepSeek-V3.2는 자산 선택이 부실하고 GLM-4.7은 타이밍 판단이 부정적이라는 실패 패턴을 보였다. 자본 규모, 거래 빈도, 시스템 아키텍처는 주로 의사결정 귀속 타이밍 가치에 영향을 미치며 이 실행에서 중요하게 작용한다.
+
+이러한 발견들은 LLM 기반 트레이딩 에이전트 평가를 기능 중심의 성능 순위 경쟁에서 지능-수익 전환의 추적 기반 진단으로 재정의한다. 저자들은 해당 코드를 GitHub를 통해 공개했으며, 이는 에이전트 시스템의 경제적 타당성을 평가하는 새로운 프레임워크를 제시한다.
+
+---
+
+원문: [Can Agentic Trading Systems Pay for Their Own Intelligence?](https://arxiv.org/abs/2607.10286)

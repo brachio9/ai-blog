@@ -1,0 +1,40 @@
+---
+title: 언슬로트, 샌드박스 도입과 의사결정 모델 정확도 대폭 상승
+category: releases
+axis: serving
+format: explainer
+summary: 언슬로트가 주요 OS에 걸쳐 코드 실행을 격리하는 샌드박스 기능을 정식 도입했다. 텍스트 및 비전 LLM을 전문적인 의사결정 모델로 변환할 수 있게 되며, 정확도가 기존 대비 크게 향상되었다.
+publishedAt: 2026-10-11T22:00:05+0900
+tags:
+- RAG
+- MCP
+- LoRA
+- QLoRA
+- ASR
+- Whisper
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.905-beta
+  title: Sandboxing is here!
+  author: danielhanchen
+  publishedAt: 2026-10-09T00:43:40+0900
+  words: 3961
+  image: https://github.com/user-attachments/assets/963eab71-49d1-47e7-9ccd-f3c5f1fc8943
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+언슬로트는 리눅스, 맥, 윈도우 환경에서 각각 bwrap, seatbelt, MXC 기술을 활용해 모델이 실행하는 코드를 격리하는 샌드박스 기능을 도입했다. 사용자는 이 격리된 환경의 상태를 확인하고 보호 수준을 선택할 수 있으며, 이는 모델 실행 시 발생할 수 있는 보안 리스크를 줄이는 데 기여한다.
+
+이번 업데이트는 텍스트나 비전 LLM을 '제브(Jev)' 스타일의 의사결정 모델로 전환하는 기능을 강화했다. 개발진은 이 방식을 통해 의사결정 정확도가 30%에서 80% 수준으로 상승했다고 주장한다. 사용자는 QLoRA를 활용해 모델을 학습하고, 신뢰도 점수를 포함한 결정을 내리며, 최종적으로 llama.cpp 등을 통해 이미지 이해가 가능한 모델까지 직접 배포할 수 있다.
+
+이미지 생성 분야에서는 ComfyUI 모델의 네이티브 지원이 확대되었다. 허깅페이스에서 직접 ComfyUI 체크포인트를 인식하고 실행하며, Qwen-Image-2.1 모델의 경우 INT8 ConvRot 기술 적용으로 더 많은 정밀도 이미지를 빠르게 생성할 수 있게 되었다. 또한 Krea-2, HunyuanImage-2.1 등 다양한 전문가용 모델 쌍과 양자화 모델들도 지원 범위에 포함되었다.
+
+학습 성능 측면에서는 Qwen3.5 및 Qwen3 시리즈의 Mixture-of-Experts 모델 학습 속도가 최대 4배 이상 향상되었다는 주장이 담겼다. 게이트드 델타, Mamba2 등 아키텍처에 대한 샘플 패킹 개선과 시스템 프롬프트 포함 처리 등이 적용되어 데이터 준비와 학습 효율성이 높아졌다. 데스크톱 브라우저 기능도 개선되어 열린 페이지에 대한 질의응답과 다운로드 관리가 더 원활해졌다.
+
+---
+
+원문: [Sandboxing is here!](https://github.com/unslothai/unsloth/releases/tag/v0.1.905-beta)

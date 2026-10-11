@@ -1,0 +1,36 @@
+---
+title: LLM이 다른 주 정책값을 가져오는 오류를 어떻게 측정할까
+category: papers
+axis: domain
+format: explainer
+summary: 대규모 언어 모델이 특정 주의 정책을 묻는 질문에 다른 주의 실제 값을 답하는 현상을 검증하는 연구다. 단순한 환각인지 관할구역 간 대체 오류인지 구분하기 위해 최소 집합 설계법을 적용했다.
+publishedAt: 2026-10-11T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.09458
+  title: Right Number, Wrong State? Measuring Cross-Jurisdiction Substitution in LLM Recall of State Policy
+  author: Jiayu Feng
+  publishedAt: 2026-10-08T13:00:00+0900
+  words: 3331
+paper:
+  arxivId: '2610.09458'
+  authors:
+  - Jiayu Feng
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대규모 언어 모델이 주별 정책 질문에 틀린 답을 내놓을 때, 이는 무의미한 환각일 수도 있고 다른 주의 실제 유효 값을 가져온 것일 수도 있다. 이 연구는 미국 50개 주와 워싱턴 D.C. 총 51개 관할구역과 메디케이드 소득 자격 기준 세 가지 항목을 대상으로 질문 문장은 고정하고 관할구역만 바꾸는 최소 집합 설계법으로 이를 테스트한다. 정답 데이터는 공식 자료집에서 가져왔으며 독립 출처와 대조해 정확성을 확인했다.
+
+저자들의 주장에 따르면 사전 등록된 프로토콜 하에서 Claude Sonnet 5.5와 GPT-5.6 Sol은 153개 항목 중 각각 10개와 25개에서 다른 주의 현재 값을 재현 가능하게 출력했다. 두 번의 독립 실행 결과에서도 동일한 값이 나왔다는 점은 모델이 특정 관할구역의 정보를 혼동해 가져온다는 강력한 증거로 보인다. 이는 단순한 노이즈가 아니라 구조적인 대체 오류 가능성을 시사한다.
+
+하지만 이러한 귀속은 매우 취약하다. 잘못된 답이 다른 주의 값과 일치한다고 모두 대체 오류로 치면 실제 같은 주의 기록을 확인했을 때보다 3~5배 더 많은 재현 가능한 대체 사례가 나온다. 이는 겉보기에 다른 주의 답처럼 보이는 것 중 상당수가 사실은 질문한 주 자체의 값이지만 다른 기준이나 과거 연도의 데이터에서 비롯된 것이기 때문이다.
+
+따라서 관할구역 간 오류에 대한 주장은 같은 주의 완전한 참조 집합이 필요하다. 연구진은 이 프로토콜, 정답 테이블, 그리고 모든 모델 출력을 공개할 예정이다. 이는 향후 LLM의 정책 정보 검색 신뢰도를 평가하는 데 필요한 기준을 제시한다.
+
+---
+
+원문: [Right Number, Wrong State? Measuring Cross-Jurisdiction Substitution in LLM Recall of State Policy](https://arxiv.org/abs/2610.09458)

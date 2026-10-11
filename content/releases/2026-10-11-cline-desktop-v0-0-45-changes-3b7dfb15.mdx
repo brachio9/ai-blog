@@ -1,0 +1,37 @@
+---
+title: 'Cline 데스크톱 0.0.45: SSH 연결 안정화와 모델 카탈로그 대대적 업데이트'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline 데스크톱 버전 0.0.45는 SSH 원격 환경에서의 연결 오류와 불필요한 리소스 소모 문제를 해결했다. 또한 GPT-6 및 Claude 시리즈에서 추론 기능 비활성화 시 발생하던 에러를 수정하고, 주요 제공자의 기본 모델을 Claude Haiku 5.5로 일괄 변경하는 등 모델 카탈로그를 대폭 갱신했다.
+publishedAt: 2026-10-11T22:00:05+0900
+tags:
+- Cline
+- Copilot
+- OpenCode
+- MCP
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/desktop-v0.0.45
+  title: Desktop v0.0.45
+  author: github-actions[bot]
+  publishedAt: 2026-10-08T15:50:30+0900
+  words: 195
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+SSH 원격 환경 사용자에게 가장 큰 변화는 연결 안정성 개선이다. 이전 버전에서 SSH 환경 접속 시 문법 오류로 인해 실패하던 문제가 해결되어 정상적으로 작동한다. 또한 SSH 환경에서 깃 브랜치 레이블이 5초마다 두 개의 새 로그인 세션을 생성하며 리소스를 낭비하던 버그를 수정했다. 이제 상태 확인 주기를 30초로 늘렸고, 브랜치 선택기에서 직접 전환할 경우에만 즉시 업데이트되도록 최적화했다.
+
+AI 모델 관련 오류 처리도 강화되었다. GPT-6 Astra나 Claude Opus 5.5 등 특정 최신 모델에서 추론(reasoning) 기능을 끌 때 400 에러가 발생하던 문제가 해결되어 정상적으로 작동한다. 또한 컴포저 화면에서 긴 모델 이름이 공간이 충분할 경우 전체를 표시하고, 공간이 부족할 때만 잘리도록 UI가 개선되었다. 백그라운드 서비스의 안정성도 높아져 MCP 서버나 훅이 종료될 때 입력을 다 읽지 못해 크래시하던 현상이 사라졌다.
+
+모델 카탈로그는 대대적으로 새로고침되었다. Claude Haiku 5.5가 추가되었으며, Google Vertex AI, GitHub Copilot, Eden AI 등 여러 주요 제공자의 기본 모델이 기존 Sonnet 계열에서 Claude Haiku 5.5로 변경되었다. 이는 각 플랫폼의 비용 효율성과 성능 균형을 고려한 선택으로 보인다. VS Code 확장 프로그램에서 설정을 마이그레이션할 때 생성되던 빈 SAP AI Core 프로바이더 문제도 함께 수정되었다.
+
+이번 업데이트는 SSH 작업 환경의 신뢰성을 높이고, 다양한 AI 모델 제공자에서의 호환성 문제를 해결하는 데 중점을 두었다. 전체 변경 사항 목록은 공식 저장소의 릴리즈 노트를 참고하면 되며, 여기서는 주요 사용자 경험과 안정성에 영향을 미치는 핵심 변경점만 요약했다.
+
+---
+
+원문: [Desktop v0.0.45](https://github.com/cline/cline/releases/tag/desktop-v0.0.45)
