@@ -1,0 +1,46 @@
+---
+title: SSM 상태 대신 입력을 캐시하는 ReplaySSM
+category: papers
+axis: serving
+format: explainer
+summary: ReplaySSM은 SSM의 상태 관리를 최적화하여 추론 속도를 높인다. 저자들은 상태 업데이트를 주기적으로 체크포인트로 분리하고 최근 입력을 버퍼에 유지함으로써 메모리 트래픽을 줄이고 검증 속도를 개선했다고 주장한다.
+publishedAt: 2026-10-12T22:09:17+0900
+tags:
+- vLLM
+- quantization
+- speculative decoding
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.13778
+  title: 'ReplaySSM: Cache SSM Inputs, Not State'
+  author: Ze-Wei Liou
+  publishedAt: 2026-10-12T13:00:00+0900
+  words: 23900
+paper:
+  arxivId: '2610.13778'
+  authors:
+  - Ze-Wei Liou
+  - Harris Nover
+  - Amey Naik
+  - Andrii Skliar
+  - Igor Shovkun
+  - Ido Shahaf
+  - Tri Dao
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+하이브리드 모델에서 상태 공간 모델(SSM)은 매 단계마다 고정 크기의 재귀 상태를 읽고 쓰는 과정에서 병목 현상이 발생한다. 이러한 즉각적인 상태 관리는 낮은 연산 강도 대비 큰 메모리 입출력을 유발하며, 예측적 디코딩 시 롤백이 비싸고 양자화 오차가 후속 업데이트로 전파되는 문제를 낳는다.
+
+ReplaySSM은 재귀 구조를 풀어서 상태를 체크포인트와 최근 SSM 입력 버퍼로 표현한다. 이를 통해 출력 계산과 체크포인트 업데이트를 분리하고, 체크포인트를 주기적으로만 업데이트하여 대부분의 단계에서 상태 쓰기를 피한다. 저자들의 주장에 따르면 이 방식은 지배적인 상태 메모리 트래픽을 약 절반으로 줄인다.
+
+최근 입력을 유지하면 예측적 롤백이 단순한 버퍼 포인터 조작으로 가능해지고 중간 상태를 물리화하지 않고 출력만으로도 검증할 수 있다. 또한 낮은 정밀도의 체크포인트로 대부분의 출력 계산을 수행하고 높은 정밀도 체크포인트로 재귀 업데이트를 처리하여, 저정밀 사본의 반올림 오차가 후속 업데이트에 영향을 주지 않도록 한다.
+
+vLLM에 Mamba-2와 Gated DeltaNet을 대상으로 구현한 결과, 서빙 배치 크기 256에서 튜닝된 vLLM 베이스라인 대비 표준 디코딩 속도를 1.20~1.47배 가속했다고 저자들은 밝혔다. 또한 120B급 두 모델에서 vLLM의 예측적 디코딩 대비 약 1.8배의 처리량을 달성했으며, 별도 상태 정밀도 사용이 공유 저정밀 체크포인트 대비 출력 KL 발산과 하류 정확도 손실을 줄였다고 주장한다.
+
+---
+
+원문: [ReplaySSM: Cache SSM Inputs, Not State](https://arxiv.org/abs/2610.13778)

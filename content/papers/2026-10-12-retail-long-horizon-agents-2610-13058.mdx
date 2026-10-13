@@ -1,0 +1,48 @@
+---
+title: 실패한 탐색을 되돌려 장기 임무 에이전트를 진화시키는 ReTRAIL
+category: papers
+axis: agent
+format: explainer
+summary: 장기 임무에서 초기 실수가 연쇄 실패로 이어지는 문제를 해결하기 위해 환경 상태를 되돌리되 학습된 지식은 유지하는 프레임워크를 소개한다. 저자들은 단순한 되감기보다 탐색 경험을 재사용하는 것이 장기 임무 수행에 더 효과적이라고 주장한다.
+publishedAt: 2026-10-12T22:09:17+0900
+tags:
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.13058
+  title: 'Travel Back To Move Forward: Retrospective Exploration and Evolving for Long Horizon Agents'
+  author: Ziang Ye
+  publishedAt: 2026-10-12T13:00:00+0900
+  words: 22030
+  image: https://arxiv.org/html/2610.13058v1/flow_retrail_styled.png
+paper:
+  arxivId: '2610.13058'
+  authors:
+  - Ziang Ye
+  - Wentao Shi
+  - Lei Chen
+  - Zhengzhou Cai
+  - Yu Wang
+  - Zhiyuan Yao
+  - Zihan Wang
+  - Xierui Song
+  - Fuli Feng
+  - Yixin Cao
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대형 언어 모델 기반 에이전트가 장기적인 임무를 수행할 때 초기의 작은 실수가 연쇄적으로 확대되어 에이전트를 막다른 길로 내몰 수 있다. 이러한 상황에서 에이전트는 단순히 실패를 인정하는 것을 넘어, 과거의 상태로 되돌아가면서 동시에 탐색 과정에서 얻은 교훈을 다음 결정에 활용할 수 있어야 한다. ReTRAIL은 환경의 상태를 이전 시점으로 되감되, 유효한 진행 상황과 버려진 탐색 경로에서 배운 지식을 보존하여 앞으로 나아가게 하는 프레임워크다.
+
+이 프레임워크는 두 가지 보완적인 신호를 통해 공유 정책을 학습한다. 상태 고정 GRPO(State-Anchored GRPO)는 다시 방문한 상태에서 가능한 대안적 연속성을 비교하여 실행 능력을 향상시키고, 브랜치 진행 보상은 이후 탐색의 진전 과정을 통해 반성하도록 유도한다. 즉 환경은 과거로 돌아가지만 에이전트의 지식은 계속 앞으로 나아가도록 설계된 것이다.
+
+저자들의 주장에 따르면 단순히 되감기 기능만 추가하는 것은 제한적인 이득을 제공하거나 오히려 성능을 저하시킬 수 있다. 반면 ReTRAIL은 생산성이 낮은 상태에서 되돌아와 버려진 브랜치에서 얻은 통찰력을 이후 탐색을 안내하는 데 사용한다. 이는 장기 임무 해결을 위해 환경 되감기와 경험 재사용을 결합하는 것이 가지는 가치를 보여준다.
+
+이 연구는 마인스위퍼, 소코반, ALFWorld, ScienceWorld 등 네 가지 상호작용 벤치마크에서 실험되었다. 저자들은 이러한 결과들이 장기 임무 에이전트의 진화를 위해 과거의 탐색 경험을 현재와 미래의 의사결정에 어떻게 연결해야 하는지에 대한 중요한 단서를 제공한다고 결론지었다.
+
+---
+
+원문: [Travel Back To Move Forward: Retrospective Exploration and Evolving for Long Horizon Agents](https://arxiv.org/abs/2610.13058)

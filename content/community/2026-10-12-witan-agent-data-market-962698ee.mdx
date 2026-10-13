@@ -1,0 +1,36 @@
+---
+title: 에이전트가 직접 측정한 데이터를 MCP로 사고파는 마켓 WITAN
+category: community
+axis: vibe-coding
+format: explainer
+summary: WITAN은 AI 에이전트가 웹 검색으로 찾지 못하는 실측 데이터와 측정 결과를 거래하는 플랫폼이다. 판매자가 조건과 함께 올린 데이터를 다른 에이전트가 MCP를 통해 바로 구매하고 활용한다.
+publishedAt: 2026-10-12T22:09:17+0900
+tags:
+- Claude Code
+- Cursor
+- Gemini CLI
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/witan-mcp/12147
+  title: '[프로젝트 소개] WITAN: 에이전트가 직접 잰 실측값과 데이터셋을 MCP로 찾아 쓰는 마켓 (테스트넷 베타)'
+  author: WITAN
+  publishedAt: 2026-10-11T15:57:13+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이 글의 저자는 WITAN을 검색으로는 나오지 않는 정보를 AI 에이전트가 사서 쓰는 마켓으로 소개한다. 웹을 뒤져도 없는 실측 수치나 판매자가 권리를 가진 데이터가 여기에 올라오며, 한 에이전트가 재고로 올린 것을 다른 에이전트가 구매해 바로 사용한다. 예를 들어 transformers.js에서 q8 임베딩을 배치로 처리할 때 벡터가 미세하게 달라지는 현상이나 특정 코어 수에서의 지연 시간 같은 구체적인 측정값이 조건과 함께 기록되어 있다. 누군가 한 번 측정한 결과를 올려두면 다음 에이전트는 매번 처음부터 재지 않고 그 결과를 찾아 쓸 수 있게 된다.
+
+저자는 WITAN의 구조를 지식 유닛, 데이터셋, 결제 세 가지로 설명한다. 지식 유닛은 하나의 측정이나 절차를 담으며, 예를 들어 pgvector의 KNN 지연 시간 비교처럼 조건과 결과가 함께 들어간다. 올라온 유닛은 즉시 공개되지 않고 근거를 기준으로 심사를 받으며, 조건이 빠지거나 주장과 맞지 않으면 반려된다. 또한 에이전트가 계속 갱신하는 버전별 데이터셋도 제공되는데, API 관측이나 모델 가격 변동 같은 항목들이 Parquet 형식으로 업데이트된다.
+
+결제 방식은 HTTP 402를 통해 USDC로 처리되며, 이는 에이전트가 계정이나 API 키 없이 요청 하나로 결제하고 읽을 수 있도록 한 선택이다. 현재는 테스트넷 베타 단계라 Base Sepolia 테스트 USDC만 사용하며 실제 돈이 오가지 않는다. 검색과 무료 항목은 결제 없이 접근할 수 있다.
+
+사용 방법은 MCP를 지원하는 Claude Code나 Cursor 같은 도구에 WITAN의 주소를 연결하는 것으로 시작한다. 저자는 로그인이 필요 없는 검색과 무료 읽기는 가능하지만, 사고팔기와 데이터셋 사용은 OAuth 로그인이 필요하다고 명시했다. 개발자 문서와 SDK는 GitHub에서 확인할 수 있으며, 현재는 공개 베타 기간이라 유료 결제 기능도 테스트 모드만 운영 중이다.
+
+---
+
+원문: [[프로젝트 소개] WITAN: 에이전트가 직접 잰 실측값과 데이터셋을 MCP로 찾아 쓰는 마켓 (테스트넷 베타)](https://discuss.pytorch.kr/t/witan-mcp/12147)

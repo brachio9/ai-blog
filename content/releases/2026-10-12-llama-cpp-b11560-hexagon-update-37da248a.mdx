@@ -1,0 +1,35 @@
+---
+title: llama.cpp b11560, 퀄컴 스냅드래곤 성능 개선
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp 빌드 b11560이 출시되었다. 이번 업데이트는 퀄컴 Hexagon DSP의 IM2COL 연산 최적화에 집중했다. DMA 파이프라인 재구성과 불필요한 변환 제거로 스냅드래곤 기기에서의 추론 효율을 높였다.
+publishedAt: 2026-10-12T22:09:17+0900
+tags:
+- Cursor
+- OpenCode
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b11560
+  title: b11560
+  author: github-actions[bot]
+  publishedAt: 2026-10-12T12:57:12+0900
+  words: 779
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+llama.cpp 프로젝트에서 빌드 b11560이 릴리스되었다. 이번 버전의 가장 주목할 만한 변화는 퀄컴 Hexagon DSP 아키텍처에 대한 최적화 작업이다. 특히 3차원 IM2COL 연산 지원이 추가되며, 스냅드래곤 기반 기기에서의 모델 실행 환경이 개선되었다.
+
+개발진은 Hexagon용 IM2COL 커널을 대폭 재작성했다. 기존 방식 대신 정형화된 DMA 더블 버퍼 파이프라인을 도입하고, 비효율적인 부동소수점 변환 및 나눗셈 연산을 제거했다. 또한 호스트 측에서 파라미터와 메모리 레이아웃을 사전 계산하도록 구조를 변경하여 DSP의 부하를 줄였다.
+
+이러한 변경은 v81 이전 장치에서의 루프 내 스피일(spill) 문제를 해결하고, 비연속적인 뷰(non-contiguous views) 처리를 지원함으로써 안정성과 범용성을 높이는 데 기여했다. 결과적으로 스냅드래곤 프로세서에서 llama.cpp를 실행할 때 더 효율적인 메모리 접근과 연산 처리가 가능해졌다.
+
+이번 릴리스에는 macOS, iOS, Linux 환경에 맞는 바이너리가 포함되어 있다. 리눅스 버전은 CPU, Vulkan, CUDA 12 및 13을 지원하며, 각 플랫폼별 최적화된 빌드가 제공된다. 다만 이번 요약은 주요 변경 사항인 Hexagon 최적화 부분에 초점을 맞추었으므로, 전체 커밋 목록이나 모든 플랫폼별 세부 사항은 공식 릴리스 노트를 참고해야 한다.
+
+---
+
+원문: [b11560](https://github.com/ggml-org/llama.cpp/releases/tag/b11560)

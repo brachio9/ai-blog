@@ -1,0 +1,44 @@
+---
+title: 생성 후 수정이 가능한 LLM, AutoIndexer의 편집 연쇄 메커니즘
+category: papers
+axis: serving
+format: explainer
+summary: 기존 오토레그레시브 모델은 생성된 텍스트를 사후에 수정하기 어렵다는 한계를 가진다. AutoIndexer는 토큰의 삽입, 치환, 삭제를 통해 기존 맥락을 유연하게 수정하는 편집 연쇄 방식을 도입한다.
+publishedAt: 2026-10-12T22:09:17+0900
+tags:
+- Cursor
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.12545
+  title: 'AutoIndexer: Flexible-Order Decoding by Training Causal Models on Chains of Edits'
+  author: Shu Ishida
+  publishedAt: 2026-10-12T13:00:00+0900
+  words: 10999
+  image: https://arxiv.org/html/2610.12545v1/AutoIndexer_overview.png
+paper:
+  arxivId: '2610.12545'
+  authors:
+  - Shu Ishida
+  - Aliasghar Khani
+  - Tianyu Zhang
+  - The Cong Luong
+  - James Seale Smith
+  - Adam Gaier
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 3
+---
+
+기존 오토레그레시브 언어 모델은 순차적으로 단어를 생성하기 때문에 교차 참조나 미래 의존성 같은 비인과적 구조를 처리할 때 한계가 있다. 인간의 반복적 추론처럼 사후에 출력을 수정할 수 없으며, 확산 기반 LLM 역시 미리 생성된 맥락에서 임의 개수의 토큰을 유연하게 삽입하거나 제거하는 데 어려움을 겪는다.
+
+AutoIndexer는 텍스트 에디터의 커서 이동과 유사한 방식으로 기존 토큰 시퀀스 내 위치를 지정하고 수정 마커를 예측하는 생성 모델이다. 이 모델은 토큰의 삽입, 치환, 삭제를 통해 과거 출력을 사후에 유연하게 수정할 수 있는 편집 연쇄 메커니즘을 학습한다.
+
+학습 과정에서는 정답 레이블에 역방향 편집 연쇄 작업을 적용해 교란된 시퀀스를 생성하고, 모델이 이를 원래 상태로 되돌리는 방식으로 훈련한다. 이러한 교란 학습은 모델이 오류가 포함된 맥락에 강인하게 반응하도록 하며 코드 수정과 같은 편집 작업에도 적응력을 높인다.
+
+저자들의 주장에 따르면 AutoIndexer는 표준 LLM 벤치마크 성능을 해치지 않으면서 기존 오토레그레시브 및 확산 모델이 갖지 못한 생성 후 컨텍스트 편집 능력을 보여준다. 관련 코드는 오토데스크 AI 연구소의 깃허브 저장소에서 확인할 수 있다.
+
+---
+
+원문: [AutoIndexer: Flexible-Order Decoding by Training Causal Models on Chains of Edits](https://arxiv.org/abs/2610.12545)
