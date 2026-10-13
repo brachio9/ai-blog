@@ -1,0 +1,40 @@
+---
+title: 블랙박스 모델의 개념 기반 설명, 가중치 없이 풀다
+category: papers
+axis: domain
+format: explainer
+summary: 기존 방법론이 분류 및 회귀 모델에 국한되거나 가중치 접근을 요구하는 반면, HnS는 블랙박스 비전 모델의 개념 기반 설명을 가능하게 한다. 시각-언어 모델을 활용해 이미지 내 개념 영역을 마스킹하고 출력 변화로 귀속도를 측정한다.
+publishedAt: 2026-10-13T22:03:59+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.13935
+  title: 'Hide and Seek: HIDE Concepts to SEEK explanations for black box models'
+  author: Bhanu Tokas
+  publishedAt: 2026-10-12T13:00:00+0900
+  words: 14786
+  image: https://arxiv.org/html/2610.13935v1/Flow.png
+paper:
+  arxivId: '2610.13935'
+  authors:
+  - Bhanu Tokas
+  - Rahul Nair
+  - Rockwell Jackson
+  - Hannah Kerner
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+머신러닝 모델, 특히 블랙박스 비전 모델의 예측을 해석하는 것은 핵심 과제다. 기존 개념 기반 귀속 방법은 분류나 회귀 모델에만 적용 가능했으며, 모델 가중치 접근 권한이나 대규모 개념 주석이 달린 데이터셋이 필요했다. 또한 대부분의 방법이 이미지 전체 수준의 설명만 제공할 수 있어 한계가 있었다.
+
+저자들은 이러한 제약을 해소하기 위해 HnS(Hide and Seek)라는 새로운 방법을 제안한다. 이 방법은 모델 가중치나 라벨링된 개념 데이터셋 없이도 작동하며, 다양한 비전 모델을 해석할 수 있다. 주어진 개념과 이미지 집합에 대해 시각-언어 모델을 사용해 개념과 일치하는 이미지를 검색하고, 해당 영역을 국소화한 뒤 마스킹 처리한다.
+
+마스킹된 이미지와 원본 이미지의 블랙박스 모델 출력 변화를 측정하여 귀속도를 산출한다. 이를 통해 모델의 행동을 직접 측정함으로써 충실한 설명을 제공하고, 지역적 귀속도 지원이 가능하다. 저자들은 CelebA와 COCO-Stuff 데이터셋에서 HnS의 유효성을 검증했으며, 기존 방법과 비교했을 때 실제 정답 귀속도와 더 높은 일치도를 보였다고 주장한다.
+
+또한 이미지 캡셔닝 및 위성 이미지 분할 등 기존 개념 귀속 방법이 적용되지 못했던 다양한 작업에서의 적용 가능성을 시연했다. 저자들은 익명화된 코드를 부록 자료로 제공했으며, 재현 전이므로 성능 수치는 저자들의 주장에 따른다.
+
+---
+
+원문: [Hide and Seek: HIDE Concepts to SEEK explanations for black box models](https://arxiv.org/abs/2610.13935)

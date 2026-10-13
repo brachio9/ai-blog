@@ -1,0 +1,34 @@
+---
+title: 'llama.cpp b11535: 벤치마크 크기 설정 개선과 주요 빌드 제공'
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp b11535 릴리즈는 llama-bench 도구의 동작 방식을 수정하여 사용자 지정 컨텍스트 길이를 더 잘 반영하도록 했다. macOS, iOS, Linux 등 주요 플랫폼의 바이너리 빌드가 제공되며 CUDA 및 ROCm 지원도 포함된다.
+publishedAt: 2026-10-13T22:03:59+0900
+tags:
+- OpenCode
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b11535
+  title: b11535
+  author: github-actions[bot]
+  publishedAt: 2026-10-10T03:49:51+0900
+  words: 679
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 릴리즈에서 가장 눈에 띄는 변경 사항은 llama-bench 도구의 개선이다. 벤치마크 실행 시 -fitc 플래그로 지정한 컨텍스트 길이가 기본 요구 크기보다 클 경우 이를 존중하도록 동작이 수정되었다. 이는 사용자가 특정 조건에서의 성능을 더 정확하게 측정하고자 할 때 유용한 기능이다.
+
+macOS와 iOS 사용자를 위해 Apple Silicon과 Intel 기반의 바이너리 빌드가 제공된다. 특히 macOS Apple Silicon 버전은 KleidiAI 가속 기능이 현재 비활성화 상태로 출시되었으므로 주의가 필요하다. iOS 개발자는 XCFramework 형태로 배포된 파일을 통해 앱에 통합할 수 있다.
+
+Linux 환경에서는 Ubuntu를 기반으로 한 다양한 빌드가 준비되어 있다. CPU 전용 빌드부터 Vulkan, CUDA 12 및 13, ROCm 10.0, OpenVINO, SYCL 등 하드웨어 가속 옵션을 포함한 빌드까지 폭넓게 지원한다. 특히 CUDA 라이브러리는 별도로 제공되므로 설치 시 함께 다운로드해야 한다.
+
+이 요약은 전체 릴리즈 노트의 일부를 추려낸 것이다. 커밋 목록이나 기여자 명세는 생략했으며, 주요 변경 사항과 빌드 정보 위주로 정리했다. 더 자세한 기술적 세부사항은 공식 릴리즈 페이지를 참고하길 바란다.
+
+---
+
+원문: [b11535](https://github.com/ggml-org/llama.cpp/releases/tag/b11535)

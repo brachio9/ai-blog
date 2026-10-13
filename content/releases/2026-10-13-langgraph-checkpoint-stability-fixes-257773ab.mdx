@@ -1,0 +1,32 @@
+---
+title: 'LangGraph 체크포인트 안정성 강화: 데이터 손실 방지와 순서 보정'
+category: releases
+axis: agent
+format: explainer
+summary: LangGraph 체크포인트 모듈의 주요 버그 수정 사항을 다룬다. 중단된 실행 재개 시 데이터 순서가 어긋나는 문제와 직렬화 오류 발생 시 원본 데이터 보존 기능을 개선하여 신뢰성을 높였다.
+publishedAt: 2026-10-13T22:03:59+0900
+draft: false
+source:
+  url: https://github.com/langchain-ai/langgraph/releases/tag/checkpoint%3D%3D4.3.0
+  title: langgraph-checkpoint==4.3.0
+  author: github-actions[bot]
+  publishedAt: 2026-10-13T07:26:41+0900
+  words: 144
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+LangGraph 체크포인트는 에이전트 실행 상태를 저장하고 복원하는 핵심 구성 요소다. 이번 업데이트에서는 특히 '델타(Delta)' 기록과 관련된 안정성 문제가 집중적으로 해결되었다. 에이전트가 일시 중단된 후 다시 시작될 때, 변경된 데이터가 실제 발생했던 순서대로 재생되지 않아 상태 불일치가 발생할 수 있었는데, 이를 태스크 경로와 라이브 순서에 맞춰 정확히 재현하도록 수정했다. 이는 복잡한 워크플로우에서 상태 일관성을 유지하는 데 결정적인 개선이다.
+
+데이터 손실 방지를 위한 조치도 포함되었다. 객체를 다시 빌드할 수 없는 예외 상황에서도 직렬화된 원본 데이터를 그대로 유지하도록 하여, 복구 과정에서 정보가 유실되는 것을 막았다. 또한 인메모리 저장소(InMemorySaver)의 기본 델타 히스토리 동작을 최신 체크포인트로 설정하는 등 내부 구현의 일관성을 높여 개발자가 예측 가능한 방식으로 상태를 관리할 수 있게 했다.
+
+저장소 연산의 안전성도 강화되었다. 네임스페이스 라벨 유효성 검사를 스토어 디스패치 전에 수행하여 잘못된 라벨로 인한 에러를 사전에 차단한다. 스토어의 put 메서드에서 허용하는 값의 타입 범위를 넓혀 더 다양한 데이터 구조를 유연하게 저장할 수 있도록 했다. 이러한 변경들은 체크포인트 모듈이 단순한 저장소를 넘어 견고한 상태 관리 레이어로 작동하도록 돕는다.
+
+의존성 라이브러리 업데이트도 병행되었다. urllib3와 anyio 등 핵심 의존 패키지의 버전을 최신으로 올려 보안 패치와 호환성 문제를 해결했다. 이번 릴리스는 기능 추가보다는 기존 시스템의 결함을 메우는 데 주력했으며, 이로써 LangGraph 기반 에이전트의 장기 실행 안정성이 한층 높아졌다.
+
+---
+
+원문: [langgraph-checkpoint==4.3.0](https://github.com/langchain-ai/langgraph/releases/tag/checkpoint%3D%3D4.3.0)

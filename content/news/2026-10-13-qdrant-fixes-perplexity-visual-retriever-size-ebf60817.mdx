@@ -1,0 +1,31 @@
+---
+title: PDF 시각 검색의 크기 문제, Qdrant가 해결했다
+category: news
+axis: retrieval
+format: explainer
+summary: Perplexity는 PDF 페이지를 이미지로 인식하는 새로운 임베딩 모델을 출시했다. Qdrant는 이 모델이 직면한 데이터 크기 문제를 해결하는 방안을 제시한다.
+publishedAt: 2026-10-13T22:03:59+0900
+draft: false
+source:
+  url: https://qdrant.tech/blog/pplx-embed-v2/
+  title: Perplexity's New Visual Retriever Has a Size Problem. We Fixed It.
+  author: Andrey Vasnetsov
+  publishedAt: 2026-10-13T09:00:00+0900
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+재무 보고서의 숫자는 행과 열, 단위가 함께해야 의미를 갖는다. 차트 역시 라벨 없이는 해석이 불가능하다. PDF 기반 검색을 구축할 때 이러한 문맥 정보는 필수적인 검색 대상이다.
+
+Perplexity는 문서 페이지를 이미지로 검색하는 두 가지 레이트 인터랙션 모델을 발표했다. 이 모델은 표, 차트, 레이아웃을 포함한 페이지 이미지를 임베딩한다. 별도의 OCR 단계를 건너뛰고 페이지가 보이는 그대로 검색할 수 있다.
+
+이러한 시각적 검색 방식은 문맥 보존에 유리하지만 데이터 크기와 관련된 문제가 발생한다. Qdrant는 Perplexity의 새로운 시각 리트리버가 겪는 크기 문제를 해결하는 방법을 소개한다.
+
+전체 내용은 원문을 참고해야 한다.
+
+---
+
+원문: [Perplexity's New Visual Retriever Has a Size Problem. We Fixed It.](https://qdrant.tech/blog/pplx-embed-v2/)

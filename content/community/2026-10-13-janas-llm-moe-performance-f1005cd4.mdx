@@ -1,0 +1,32 @@
+---
+title: 메모리 부족해도 속도가 빠르다, Janas-LLM의 MoE 최적화 전략
+category: community
+axis: serving
+format: explainer
+summary: Janas-LLM 개발자는 메모리보다 큰 모델을 NVMe SSD와 결합해 처리하는 방식을 제안한다. Intel Core Ultra 9 환경에서 Qwen3-Next-80B 모델의 추론 속도가 llama.cpp 대비 현저히 높다는 주장을 펼친다.
+publishedAt: 2026-10-13T22:03:59+0900
+tags:
+- MCP
+- quantization
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/janas-llm-37-tok-s-vs-llama-cpp-2-8-tok-s-on-qwen3-next-80b-on-an-intel-core-ultra-9-185h-with-32-gb-ram/190340
+  title: Janas-LLM 37 tok/s vs llama.cpp 2.8 tok/s on Qwen3-Next-80B, on an Intel Core Ultra 9 185H with 32 GB RAM
+  author: camauri
+  publishedAt: 2026-10-11T22:36:46+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+Janas-LLM 개발자는 메모리 용량(32GB)보다 큰 Qwen3-Next-80B 모델을 Intel Core Ultra 9 노트북에서 실행하는 벤치마크 결과를 공개했다. 이 엔진은 모델의 MTP 블록을 활용한 초안 생성 기능 사용 시 초당 37토큰, 사용하지 않을 때 24토큰의 속도를 기록했으며, 이는 llama.cpp의 2.8토큰 대비 압도적인 차이이다. 프롬프트 읽기 속도 역시 Janas-LLM이 62토큰으로 llama.cpp의 16토큰을 크게 앞섰다. 개발자는 이 성능 차이가 Qwen3 시리즈와 Gemma 4 등 다양한 모델에서 일관되게 나타났다고 주장한다.
+
+이러한 성능의 핵심은 GGUF 파일을 재양자화하지 않고 JNS 형식으로 변환하는 방식에 있다. 각 레이어의 전문가(Expert)를 독립적인 슬롯으로 배치해 정렬된 O_DIRECT 요청으로 직접 읽도록 구성했다. 이 과정에서 모델 가중치는 메모리에 상주하고, 필요한 전문가만 NVMe SSD에서 io_uring을 통해 페이지 캐시를 우회하여 읽어온다. 이로 인해 llama.cpp가 GPU 연산 시 메모리 부족으로 실행되지 않았던 상황에서도 Janas-LLM은 안정적으로 동작했다.
+
+개발자는 캐시 크기가 제한적일 때 다음 레이어의 라우터를 미리 적용해 필요한 전문가를 병렬로 읽어드리는 '읽기 앞당기기' 기술도 적용했다고 설명했다. 이 기법은 긴 프롬프트 처리 시에도 성능 저하 없이 속도를 유지하는 데 기여했으며, 4GB 캐시 환경에서도 기존 대비 더 빠른 토큰 처리 속도를 보였다. 또한 메모리에 없는 경량 전문가는 계산에서 제외하는 등 효율적인 자원 관리를 통해 제한된 하드웨어 환경에서의 대규모 MoE 모델 추론을 가능하게 했다.
+
+---
+
+원문: [Janas-LLM 37 tok/s vs llama.cpp 2.8 tok/s on Qwen3-Next-80B, on an Intel Core Ultra 9 185H with 32 GB RAM](https://discuss.huggingface.co/t/janas-llm-37-tok-s-vs-llama-cpp-2-8-tok-s-on-qwen3-next-80b-on-an-intel-core-ultra-9-185h-with-32-gb-ram/190340)
