@@ -1,0 +1,35 @@
+---
+title: 작업 중심으로 정리한 리버스 엔지니어링 도구 목록과 MCP 서버 가이드
+category: community
+axis: agent
+format: explainer
+summary: 리버스 엔지니어링 도구를 플랫폼이 아닌 수행하려는 작업 기준으로 분류한 Awesome Reverse Engineering 목록을 소개합니다. AI 에이전트 연동을 위한 MCP 서버 정보를 별도로 정리했으며, 도구 검증 현황과 기존 목록과의 차이점을 명시했습니다.
+publishedAt: 2026-10-14T22:00:06+0900
+tags:
+- Copilot
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/awesome-reverse-engineering-mcp/12172
+  title: 'Awesome Reverse Engineering: MCP 서버까지 작업별로 정리한 리버스 엔지니어링 도구 목록'
+  author: 9bow
+  publishedAt: 2026-10-14T11:30:27+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/a/c/ac24561e9b73e0ac0c8eab951e8a895694397619_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+리버스 엔지니어링 초보자는 어떤 도구부터 시작해야 할지 막막해하기 쉽습니다. 실행 파일 분석, 디스어셈블링, 프로세스 계측 등 목적에 따라 필요한 도구가 달라지고 대상이 Android 앱이나 Unity 게임인지에 따라서도 선택지가 변합니다. GitHub에는 별 수천 개가 달린 도구 목록들이 있지만, wtsxDev나 alphaSeclab의 목록은 2019년 이후 업데이트가 멈춰 있어 최신 AI 연동 도구를 찾기 어렵습니다. 이에 대해 morluto는 2026년 10월 기준 새로 만든 Awesome Reverse Engineering 목록을 통해 이러한 공백을 메우려 했습니다.
+
+이 목록은 도구의 종류나 플랫폼이 아니라 독자가 하려는 작업 기준으로 항목을 분류합니다. README의 'Start here' 표에서 실행 파일 기능 식별이나 호출 추적, 빌드 비교 자동화 등의 작업을 선택하면 해당 절로 이동하도록 구성했습니다. 이 목록은 코딩 에이전트용 리버스 엔지니어링 도구 REA를 개발한 팀이 운영하며, Ghidra나 IDA 같은 분석 도구를 하나의 MCP로 묶어 에이전트에 연결하는 방식의 최신 흐름을 반영하고 있습니다.
+
+특히 AI 에이전트와의 연동을 위해 MCP 서버와 플러그인 10개를 별도 절에 정리했습니다. IDA, WinDbg, Binary Ninja 등 벤더가 공식으로 내놓은 서버에는 필요한 버전이나 라이선스 조건을 함께 명시해 사용자의 선택을 돕습니다. 같은 이름의 alphaSeclab 목록이 2019년 12월에 갱신이 멈춰 있는 것과 달리, 이 목록은 2024년 이후 등장한 MCP 기반 도구를 찾는 사람에게 더 적합한 정보를 제공합니다.
+
+신규 추가된 23개 항목 중 4개만 직접 실행해 재현했고 나머지 19개는 문서로만 확인했다고 개발자가 밝혔습니다. 링크 검사 통과가 도구의 품질을 보장하지 않는다는 점을 명시하며, 독자가 각 도구를 신중하게 평가하도록 안내하고 있습니다.
+
+---
+
+원문: [Awesome Reverse Engineering: MCP 서버까지 작업별로 정리한 리버스 엔지니어링 도구 목록](https://discuss.pytorch.kr/t/awesome-reverse-engineering-mcp/12172)

@@ -1,0 +1,32 @@
+---
+title: 텍스트가 아닌 확률로 답하는 오픈 소스 결정 모델 Jebadiah v2.1
+category: community
+axis: serving
+format: explainer
+summary: Jebadiah v2.1은 텍스트 생성 대신 각 답변 후보에 대한 확률을 반환하는 오픈 소스 결정 모델이다. 작성자는 27B와 9B 모델의 Decision Index 점수 상승을 보고하며 GGUF 및 MLX 빌드 파일을 공개했다.
+publishedAt: 2026-10-14T22:00:06+0900
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/jebadiah-v2-1-open-decision-models-27b-9b-that-return-a-probability-per-label/190535
+  title: 'Jebadiah v2.1: open decision models (27B, 9B) that return a probability per label'
+  author: jbrashear
+  publishedAt: 2026-10-14T04:11:54+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/d/6/d6aa0f62d6178c7e1f0f4b97eff5d3c664a1b309_2_690x372.png
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+Hugging Face 포럼에서 한 사용자가 Jebadiah v2.1을 발표했다. 이 모델은 일반적인 텍스트 생성 방식과 달리, 주어진 질문에 대해 허용된 답변 후보 각각에 대한 점수를 매기고 확률을 반환한다. 이러한 설계는 소프트웨어가 결과를 기반으로 즉시 행동을 취해야 하는 환경에서 통합하기 용이하게 만든다.
+
+작성자는 27B와 9B 모델의 성능 개선을 주장했다. Decision Index 0.3 공개 스위트 기준, 27B 모델은 기존 55.11점에서 57.03점으로 상승했으며, 9B 모델은 44.09점에서 47.20점으로 올랐다. 두 모델 모두 자가 평가 결과이며 Decision Index 보드에 제출된 수치다.
+
+성능 지표에는 주의가 필요하다. 작성자는 도구 사용(tool use) 항목에서 두 모델 모두 점수가 하락했다고 명시했다. Hugging Face 카드에는 이러한 회귀(regression)를 포함한 모든 벤치마크 결과가 상세히 기록되어 있다. 또한 완전 가중치와의 일치 확인을 거친 GGUF와 MLX 빌드 파일이 제공된다.
+
+이 글은 단일 작성자의 발표이며 업계의 합의가 아니다. 작성자는 프로덕션 환경에서 로짓 기반 분류를 활용하는 개발자들의 피드백을 요청하며, 상세한 결과는 Hugging Face 데이터셋 페이지에서 확인할 수 있다고 안내했다.
+
+---
+
+원문: [Jebadiah v2.1: open decision models (27B, 9B) that return a probability per label](https://discuss.huggingface.co/t/jebadiah-v2-1-open-decision-models-27b-9b-that-return-a-probability-per-label/190535)

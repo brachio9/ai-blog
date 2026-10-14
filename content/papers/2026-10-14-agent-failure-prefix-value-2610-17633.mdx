@@ -1,0 +1,43 @@
+---
+title: LLM 에이전트 실패 지점, 판별기가 지적한 곳이 진짜 원인일까
+category: papers
+axis: agent
+format: explainer
+summary: 인간이나 LLM 판별기가 지목한 '첫 번째 실수'가 에이전트 실패의 진정한 원인인지 검증하는 연구다. 실행 가능한 접두사 값(prefix value)을 통해 실제 성공 확률이 떨어지는 시점을 찾아내고, 기존 판별기 라벨의 한계를 지적한다.
+publishedAt: 2026-10-14T22:00:06+0900
+tags:
+- SWE-bench
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.17633
+  title: Executable Prefix Values for Locating Agent Failures
+  author: Bingyu Shen
+  publishedAt: 2026-10-14T13:00:00+0900
+  words: 42159
+paper:
+  arxivId: '2610.17633'
+  authors:
+  - Bingyu Shen
+  - Jiaqi Tang
+  - Lan Wei
+  - Yi Sheng
+  - J. Jenny Li
+  - Boyang Li
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+LLM 에이전트 디버깅 분야에서는 인간이나 LLM 판별기가 지목한 '첫 번째 실수'를 실패의 결정적 순간으로 간주해 왔다. 하지만 이러한 라벨이 실패의 근본 원인을 가리키는 것인지, 아니면 단순히 증상을 지적하는 것인지에 대한 의문이 제기되었다. 이 연구는 해당 구분을 실행 가능한 형태로 만들어 보려는 시도로, 실패한 궤적의 중간 상태를 재구성하여 에이전트를 다시 시작시킨다. 이를 통해 각 단계에서의 성공 확률인 접두사 값(prefix value)을 추정하고, 실패에 대한 '돌이킬 수 없는 지점(point of no return)'을 인증한다.
+
+연구진은 SWE-bench Verified의 150개 작업에서 두 개의 고정된 오픈웨이트 에이전트를 사용해 47개와 60개의 실패 궤적에 대한 곡선을 작성했다. Traverse 기준 하에서 네 가지 최첨단 판별기가 라벨링한 모든 단계를 조사한 결과, 서로 다른 계통의 판별기들이 동일한 단계를 정확히 지적한 경우는 57건 중 21건에 불과했다. 더욱이 최신 판별기들은 성공한 실행에서도 실수를 지적하는 경우가 많았으며, 10개 중 8개와 10개 중 10개의 성공 사례에서 오류를 플래그로 표시하기도 했다.
+
+연구 결과, 라벨링된 단계에서 에이전트의 성공 확률이 떨어지지 않는 경우가 전체 라벨의 66%에 달했다. 총 188건의 답변 중 단 7건만이 결정적 단계를 정확히 명명하는 것으로 나타났다. 즉, 현재 사용 중인 판별기들의 지목은 컨트롤러가 필요로 하는 정보를 제공하지 못한다는 사실이 확인되었다.
+
+저자들의 주장에 따르면, 측정된 재시작 지점에서 에이전트를 다시 시작하면 오프라인 환경에서 기대 성공률이 0.44에서 0.57로 상승한다. 실제 재시작 실험도 이러한 이점을 입증했으며, 반면 판별기가 지목한 라벨 지점에서 재시작할 경우 성공률은 오히려 -0.08에서 -0.03로 하락했다. 연구진은 해당 코드와 곡선, 라벨을 공개했다.
+
+---
+
+원문: [Executable Prefix Values for Locating Agent Failures](https://arxiv.org/abs/2610.17633)

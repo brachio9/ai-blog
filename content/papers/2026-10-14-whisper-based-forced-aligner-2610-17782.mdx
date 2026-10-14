@@ -1,0 +1,40 @@
+---
+title: 전화 음성까지 정밀하게 자르는 Whisper 기반 강제 정렬기
+category: papers
+axis: voice
+format: explainer
+summary: 기존 CTC 방식의 강제 정렬기가 단어 경계에서 오류를 범하는 문제를 해결하기 위해 Whisper를 미세 조정했다. 인간이 직접 표시한 단어 경계 데이터를 학습시켜 전화 통화 환경에서도 높은 정밀도를 달성했다고 저자들은 주장한다.
+publishedAt: 2026-10-14T22:00:06+0900
+tags:
+- LoRA
+- Whisper
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.17782
+  title: Where Words Begin and End
+  author: Husein Zolkepli
+  publishedAt: 2026-10-14T13:00:00+0900
+  words: 22219
+  image: https://arxiv.org/html/2610.17782v1/img/fig_ctc_peaky.png
+paper:
+  arxivId: '2610.17782'
+  authors:
+  - Husein Zolkepli
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+강제 정렬기는 오디오 파일 내의 각 단어가 언제 시작하고 끝나는지 위치를 찾는 도구로, 많은 음성 처리 파이프라인에서 필수적이다. 그러나 기존에 널리 쓰이는 CTC 기반 정렬기는 단어 경계마다 불필요한 일시 정지를 삽입하거나 단어 시작 시점을 늦게 잡는 문제가 있었다. 특히 전화 통화와 같은 노이즈가 많은 오디오 환경에서는 평가된 정렬기가 거의 없을 정도로 성능이 떨어지는 상황이었다.
+
+연구진은 몬트리올 강제 정렬기(MFA)를 포함한 아홉 가지 정렬기 구성을 읽은 영어, 대화체 영어, 전화 영어의 단어 경계와 비교했다. 그 결과 MFA가 가장 정밀했지만, CTC 기반 정렬기는 단어 내부의 프레임 대부분이 공백 토큰으로 분류되어 시작 시점을 늦게 잡는 것으로 나타났다. 이를 해결하기 위해 연구진은 Whisper 모델에 LoRA를 적용해 각 단어의 시작과 끝을 타임스탬프 토큰으로 예측하도록 미세 조정했다.
+
+학습에는 87개 언어의 총 47시간 분량, 즉 인간이 직접 표시한 단어 경계 데이터만 사용했다. 저자들의 주장에 따르면 이 방식으로 만든 정렬기는 모든 영어 테스트 조건에서 MFA보다 정밀도가 높았으며, MFA의 한국어와 네덜란드어 모델보다도 우수했다. TIMIT 데이터셋을 이용한 FA-Bench 프로토콜 평가에서도 기존 최고 기록인 18.2ms 대비 11.6ms의 단어 경계 오류를 기록했다고 밝혔다.
+
+전화 대화 환경에서는 타임스탬프 슬롯을 해당 단어 뒤에 배치하고 노이즈가 있는 전사본으로 학습하는 것이 가장 중요했다. 이러한 설정은 정렬기가 전사본의 오류에 거의 민감하지 않게 만들었다. 공개된 모델은 실제 유선 전화 통화에서 MFA의 36.5ms 대비 16.0ms의 오류율을 보였으며, 관련 모델과 코드는 허깅페이스를 통해 제공되고 있다.
+
+---
+
+원문: [Where Words Begin and End](https://arxiv.org/abs/2610.17782)

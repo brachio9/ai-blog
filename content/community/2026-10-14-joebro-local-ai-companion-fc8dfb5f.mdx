@@ -1,0 +1,34 @@
+---
+title: 맥에서 돌리는 로컬 AI, 아이폰으로 연결하는 법
+category: community
+axis: serving
+format: explainer
+summary: 개발자 joexk1이 공개한 JoeBro는 맥에 설치된 로컬 AI 백엔드를 아이폰 앱과 연동한다. 클라우드 중개 없이 Tailscale이나 Wi-Fi를 통해 직접 통신하며, 캘린더와 같은 배경 작업도 처리한다.
+publishedAt: 2026-10-14T22:00:06+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/joebro-1-3-an-iphone-companion-for-a-local-mac-ai-workspace/190567
+  title: 'JoeBro 1.3: an iPhone companion for a local Mac AI workspace'
+  author: joexk
+  publishedAt: 2026-10-14T15:05:23+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/0/3/036f8b8ec4b95d91fbcbdaaf84a71cbff7884f1d_2_690x431.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+joexk1은 지난 6월에 소개했던 macOS용 로컬 AI 워크스페이스인 JoeBro에 아이폰 전용 컴패니언 앱인 JoeBro Mobile을 추가했다고 밝혔다. 이 조합은 사용자의 맥에서 실행 중인 백엔드와 아이폰이 직접 통신하도록 설계되었으며, 모든 소스 코드는 GPLv3 라이선스로 공개되었다. 클라우드 서버를 경유하지 않고 로컬 환경에서만 작동한다는 점이 핵심이다.
+
+맥 앱은 Ollama 또는 OpenAI 호환 엔드포인트를 사용하며, 아이폰은 Tailsail이나 Wi-Fi를 통해 이 백엔드에 메시지를 보낸다. 모델 호출 역시 맥에서 이루어지므로 데이터가 외부로 유출되지 않는다. 개발자는 중개 서버를 운영하지 않으며, 백엔드는 Python 표준 라이브러리와 SQLite로 구성되고 인터페이스는 SwiftUI로 구현되었다. 기기 페어링은 맥 설정의 QR 코드를 통해 진행되며, 토큰은 iOS 키체인에 저장된다.
+
+배경 작업 기능에는 일정 개발자가 많은 시간을 투자했다. 하트비트는 캘린더, 알림, 작업 결과를 확인하지만 변경 사항이 있을 때만 모델을 호출한다. 사용자는 배경 작업용 작은 모델을 선택하거나 조용한 시간대 및 일일 한도를 설정할 수 있으며, 이러한 기능은 기본적으로 꺼져 있다. 아이폰 앱은 맥의 MCP 서버나 플러그인을 추가할 수 없다.
+
+현재 버전에는 몇 가지 제한 사항이 있다. 번들된 설정을 사용하려면 JoeBro가 열려 있고 맥이 깨어 있어야 한다. 맥 앱은 Apple Silicon 기반 macOS 26 이상이 필요하며, 아이폰 앱은 iOS 17 이상에서 Xcode로 빌드해야 하고 App Store에 등록되어 있지 않다. 호스팅 모델 제공자를 선택한 경우 프롬프트가 해당 제공자에게 전송될 수 있다. 개발자는 로컬 모델을 사용하는 사용자들에게 유용한 기능과 신뢰할 수 있는 배경 작업에 대한 피드백을 요청했다.
+
+---
+
+원문: [JoeBro 1.3: an iPhone companion for a local Mac AI workspace](https://discuss.huggingface.co/t/joebro-1-3-an-iphone-companion-for-a-local-mac-ai-workspace/190567)
