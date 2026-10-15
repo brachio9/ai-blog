@@ -1,0 +1,35 @@
+---
+title: 내 모델로 코딩하고 결과를 검증하는 로컬 IDE, JACO 소개
+category: community
+axis: vibe-coding
+format: explainer
+summary: JACO는 로컬 모델을 연결해 코딩 에이전트 작업을 수행하고 그 결과를 검증할 수 있는 통합 개발 환경이다. 작성자는 코드 변경과 실행 증거의 연결을 유지하며, 장기적으로는 저장소 지식을 활용해 작업 효율을 높이는 것을 목표로 한다고 밝혔다.
+publishedAt: 2026-10-15T22:00:03+0900
+tags:
+- Claude Code
+- Codex
+- MCP
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/jaco-ide-local-coding-with-your-own-models-and-verifiable-agent-results/190533
+  title: 'JACO IDE: local coding with your own models and verifiable agent results'
+  author: Rick8444
+  publishedAt: 2026-10-14T04:11:50+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+작성자는 JACO IDE를 로컬 소프트웨어 개발 런타임이자 IDE 인터페이스로 구축 중이며, 로컬 모델 및 코딩 에이전트 사용자들의 피드백을 구하고 있다. 이 프로젝트의 핵심 목표는 코딩 목표, 실행 도구, 변경 사항, 그리고 반환된 증거 사이의 연결고리를 유지하는 것이다. 작성자는 시스템이 모든 것을 자동으로 학습한다는 주장을 펼치는 것이 아니라, 장기적으로 저장소 지식과 검증된 경험을 통해 다음 작업을 더 쉽게 만드는 방향으로 나아가고 있다고 설명한다.
+
+현재 JACO Lite 릴리스 후보 버전에서는 IDE, Aura 채팅, Nova 실행 기능과 로컬 워크플레이스 서비스가 포함되어 있다. 사용자는 Ollama나 LM Studio 등을 통해 자신의 모델을 연결하거나 지원되는 제공업체의 키를 사용할 수 있으며, 모델 품질과 하드웨어 요구사항은 선택에 따라 달라진다. 작성자가 제안하는 초기 워크플로는 Git 저장소를 열고 모델을 연결한 후 Nova에게 제한된 코딩 목표를 부여하고, 그 결과로 생성된 변경 사항과 테스트 출력을 검토하는 것이다.
+
+JACO Editor는 IDE와 동일한 워크벤치 API를 사용하여 MCP(MCP) 연결을 지원한다. 외부 클라이언트는 이 인터페이스를 통해 프로젝트 파일과 Git 작업을 처리할 수 있으며, 파일 덮어쓰기는 현재 콘텐츠 해시를 요구하므로 다른 에이전트의 편집이 침묵하게 대체되는 것을 방지한다. 명령어와 테스트 실행은 무제한 셸 대신 Nova를 통해 이루어지며, Codex나 Claude Code 등과의 연결 설정 및 시크릿 저장소 임포트에 대한 가이드도 제공한다.
+
+현재 Windows용 Lite 패키지는 ZIP 추출 후 시작 스크립트 실행을 통한 부팅과 런타임 정체성 확인, 실제 MCP 프로젝트 호출 테스트 등을 거쳤다. 하지만 이는 시작과 연결성을 확인한 것일 뿐 모든 코딩 작업의 성공을 보장하지는 않는다. 작성자는 이 제품이 아직 릴리스 후보 단계이며 Node.js 22.5 이상이 필요하고, SEER나 클라우드 서비스는 포함되지 않았다고 명시한다.
+
+---
+
+원문: [JACO IDE: local coding with your own models and verifiable agent results](https://discuss.huggingface.co/t/jaco-ide-local-coding-with-your-own-models-and-verifiable-agent-results/190533)

@@ -1,0 +1,41 @@
+---
+title: 에이전트가 직접 코드를 짜서 지식 그래프를 탐색하는 DKGI 방식
+category: papers
+axis: agent
+format: explainer
+summary: 기존의 고정된 인터페이스 대신 에이전트가 파이썬 코드로 지식 그래프 파일을 직접 조작하는 DKGI 방식을 소개한다. 저자들은 이 방법이 도구 생성과 사용을 동시에 진화시켜 기존 벤치마크에서 더 높은 성능을 낸다고 주장한다.
+publishedAt: 2026-10-15T22:00:03+0900
+tags:
+- knowledge graph
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.18616
+  title: 'Knowledge Graphs as Files: An Agent Harness Where Tool Creation and Tool Use Co-Evolve'
+  author: Yuyang Bai
+  publishedAt: 2026-10-14T13:00:00+0900
+  words: 20707
+  image: https://arxiv.org/html/2610.18616v1/figures/fig_coevolution.png
+paper:
+  arxivId: '2610.18616'
+  authors:
+  - Yuyang Bai
+  - Yu Wang
+  - Yu Zhang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 3
+---
+
+텍스트가 풍부한 지식 그래프를 검색할 때는 관계를 따라가며 텍스트 증거를 확인해야 한다. 하지만 미리 정의된 그래프 인터페이스는 에이전트가 접근할 수 있는 증거의 범위를 제한한다. 에이전트가 도구를 조합하거나 검색된 서브그래프를 처리하는 코드를 작성하더라도 이러한 제약은 여전히 존재한다.
+
+이 문제를 해결하기 위해 저자들은 직접 지식 그래프 상호작용(DKGI)이라는 새로운 프레임워크를 제안한다. 이 방식에서 언어 모델 에이전트는 노드와 엣지 파일 전체를 대상으로 직접적인 접근 도구를 생성한다. 에이전트는 파이썬 코드를 작성하여 관계를 추적하고 노드 집합을 결합하며 텍스트 증거를 선별한다. 이 과정에서 셸 검색과 파일 검사 실행이 교차되며, 대량의 노드 집합을 일괄 처리한 후 모델이 평가할 수 있는 선택된 텍스트만 반환한다.
+
+실행 피드백은 도구 생성과 수정을 안내하고, 진화하는 도구는 에이전트가 다음에 수집할 증거를 결정한다. 저자들의 주장에 따르면 훈련 없이 적용된 DKGI는 세 가지 도메인의 벤치마크 데이터셋에서 기존 가장 강력한 베이스라인보다 모든 그래프에서 Hit@1 점수 기준 최소 6.7점 이상 높은 성능을 보였다. 통제된 아블레이션 연구는 셸 전용 접근이나 미리 정의된 그래프 도구 대비 다중 턴 프로그래밍의 이점을 확인했으며, 에이전트 트래젝션은 검색 확장을 위해 코드를 수정하거나 오류를 해결하는 과정을 보여준다.
+
+이러한 결과는 그래프 탐색 과정에서 도구 생성과 도구가 함께 진화하도록 허용하는 것이 가지는 가치를 강조한다. 저자들은 코드와 데이터를 GitHub 레포지토리에서 공개했으며, 에이전트가 스스로 도구를 만들고 사용하며 학습해나가는 과정의 중요성을 제시한다.
+
+---
+
+원문: [Knowledge Graphs as Files: An Agent Harness Where Tool Creation and Tool Use Co-Evolve](https://arxiv.org/abs/2610.18616)

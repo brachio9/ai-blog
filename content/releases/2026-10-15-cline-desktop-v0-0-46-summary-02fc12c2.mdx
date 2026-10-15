@@ -1,0 +1,35 @@
+---
+title: 'Cline 데스크톱 v0.0.46: 대화 흐름과 자동 압축 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline 데스크톱 앱의 새로운 업데이트는 대화 내비게이션과 오류 처리를 명확히 한다. 이미지 토큰 과대평가로 인한 조기 자동 압축 문제를 해결하고, 스케줄링 루틴 및 모델 카탈로그도 안정화했다.
+publishedAt: 2026-10-15T22:00:03+0900
+tags:
+- Cline
+- OpenCode
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/desktop-v0.0.46
+  title: Desktop v0.0.46
+  author: github-actions[bot]
+  publishedAt: 2026-10-14T00:03:59+0900
+  words: 394
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트는 긴 대화에서 특정 지점으로 빠르게 이동할 수 있는 기능을 추가한다. 대화창 왼쪽 가장자리에 보낸 프롬프트 목록이 표시되며, 마우스를 올리면 미리 보고 클릭하면 해당 부분으로 바로 이동한다. 또한 플러그인 로드 실패 시 에러 내용을 채팅창에 명시적으로 보여주어 도구 사용이 갑자기 중단되는 혼란을 줄였다. 클라우드 로그인 대기 중 취소 기능과 웹에서 변경한 세션 제목의 동기화도 지원한다.
+
+자동 압축(auto-compaction) 로직이 크게 개선되었다. 이전에는 스크린샷 등 이미지가 토큰 수를 과대평가하여 대화 한도에 도달하기 전에 불필요하게 압축이 실행되는 문제가 있었는데, 이제 이미지 토큰을 정확히 계산한다. 또한 모델 카탈로그에 컨텍스트 윈도우 정보가 없을 때는 선택된 모델의 값을 참조하도록 수정했다. 규칙 파일 중 심볼릭 링크도 정상적으로 로드되며, .claude/skills 폴더 내 스킬 발견 기능도 추가되었다.
+
+스케줄링 루틴의 안정성이 향상되었다. 대기 중인 실행이 자동으로 시작되고, 모델 호출 실패 시 에러 상태로 명확히 표시된다. 서비스 중단 후 복귀 시 누락된 모든 실행을 한 번에 돌리지 않고 최신 발생 건만 처리한다. 편집기 도구가 일부 모델에서 null 값을 받는 버그도 수정되었다.
+
+모델 카탈로그가 새로고침되어 여러 제공자의 기본 모델과 엔드포인트가 업데이트되었다. Cline 무료 목록에는 Step 5 Preview가 추가되었고, v0 제공자는 v0-1.5-md 모델만 제공한다. 이 외에도 Git 미설치 시 명확한 안내 메시지 표시, 비추천 모델 제거 등 다양한 버그 수정이 포함되었으나 여기서는 주요 변경 사항만 다뤘다.
+
+---
+
+원문: [Desktop v0.0.46](https://github.com/cline/cline/releases/tag/desktop-v0.0.46)

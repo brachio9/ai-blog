@@ -1,0 +1,47 @@
+---
+title: 다중 턴 에이전트 학습에 남은 토큰 수를 진행도 지표로 쓴 DeltaTTG
+category: papers
+axis: agent
+format: explainer
+summary: DeltaTTG는 다중 턴 에이전트의 희소 보상 문제를 해결하기 위해 '남은 토큰 수'를 진행도 지표로 활용한다. 작업별 규칙 없이 다양한 정책의 궤적에서 저비용으로 학습하며, 기존 GRPO 대비 성능을 개선했다고 주장한다.
+publishedAt: 2026-10-15T22:00:03+0900
+tags:
+- GRPO
+draft: false
+source:
+  url: https://huggingface.co/papers/2610.17666
+  title: 'DeltaTTG: Training Multi-Turn Agents with a Token-to-Go Progress Meter'
+  author: Xuyan Ye
+  publishedAt: 2026-10-13T09:00:00+0900
+  words: 14080
+  image: https://arxiv.org/html/2610.17666v1/teaser.png
+paper:
+  arxivId: '2610.17666'
+  authors:
+  - Xuyan Ye
+  - Xiyan Fu
+  - Shengda Fan
+  - Jiawei Cui
+  - Yankai Lin
+  - Wei Lu
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 4
+  popularity:
+    kind: hf-upvotes
+    count: 23
+---
+
+다중 턴 에이전트에게 강화학습을 적용할 때 가장 큰 장벽은 보상 신호가 희소하다는 점이다. 작업이 완전히 끝날 때까지 보상을 주지 않으면 개별 단계의 가치를 평가하기 어렵고, 단계별 비교를 위해 상태 매칭이나 외부 평가자가 필요하면 비용이 막대해진다. DeltaTTG는 이러한 문제를 해결하기 위해 '남은 토큰 수(Token-to-Go, TTG)'를 관측 가능한 진행도 지표로 제안한다. 이는 작업 완료까지 필요한 노력의 대리 변수로 작용하며, 특정 작업에 맞춘 규칙 없이 다양한 정책이 기록한 궤적에서 저비용으로 학습할 수 있다.
+
+학습 과정에서는 고정된 진행도 미터의 추정치 변화를 통해 단계별 우도를 재분배한다. 이때 보상 자체는 변경하지 않고 각 궤적의 우도 부호와 토큰 평균 규모를 보존한다. 이를 통해 에이전트는 최종 결과에서 파생된 이득을 개별 단계에 더 정확하게 할당할 수 있게 된다. 저자들은 이 방법이 외부 평가자나 인간 주석이 필요 없이 재사용 가능한 진행도 신호를 학습한다고 설명하며, 이는 기존 방법론이 겪던 고비용 문제를 우회하는 핵심 메커니즘이라고 주장한다.
+
+저자들의 주장에 따르면 DeltaTTG는 ALFWorld, PaperSearchQA, BFCLv3 벤치마크에서 Qwen3-4B와 Llama-3.1-8B-Instruct 모델로 각각 5.7점과 7.2점의 평균 점수 향상을 기록했다. 이는 비교 대상인 GRPO 알고리즘을 상회하는 수치이며, 다른 강화학습 베이스라인 대비 평균적으로 더 나은 성능을 보였다고 한다. 또한 배우(actor) 학습에 필요한 GPU 시간은 GRPO와 유사하게 유지되어 계산 효율성도 해치지 않았다고 저자들은 밝힌다.
+
+추가 실험 결과에서는 샘플 효율성과 도메인 밖 성능이 개선되었으며, 미터가 단계의 질을 구별하고 테스트 시간의 행동 선택을 안내하는 능력이 다양한 배우 크기에서 확인되었다고 한다. 이 연구는 다중 턴 에이전트의 학습 안정성과 효율성을 높이는 새로운 접근법으로 평가받으며, 관련 코드는 GitHub를 통해 공개되어 있다.
+
+---
+
+원문: [DeltaTTG: Training Multi-Turn Agents with a Token-to-Go Progress Meter](https://huggingface.co/papers/2610.17666)

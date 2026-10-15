@@ -1,0 +1,34 @@
+---
+title: MLX 0.32.4, 안정성과 호환성 강화
+category: releases
+axis: serving
+format: explainer
+summary: MLX 0.32.4는 Python 3.15 지원과 다양한 버그 수정을 통해 안정성을 높였다. 특히 CUDA 및 Metal 환경에서의 메모리 관리와 연산 오류를 해결하여 개발자의 신뢰도를 제고했다.
+publishedAt: 2026-10-15T22:00:03+0900
+tags:
+- quantization
+draft: false
+source:
+  url: https://github.com/ml-explore/mlx/releases/tag/v0.32.4
+  title: v0.32.4
+  author: zcbenz
+  publishedAt: 2026-10-15T08:37:14+0900
+  words: 2044
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트는 주로 기존 기능의 안정성 확보에 집중했다. Python 3.15 및 3.15t 버전 지원을 추가해 최신 인터프리터와의 호환성을 넓혔다. 또한 배열의 위치 인덱싱(__pos__)과 빈 배열 처리 등 파이썬 레벨에서의 동작을 표준 규격에 더 가깝게 수정하여 사용 편의성을 개선했다.
+
+하드웨어 가속 레이어에서 중요한 개선이 있었다. M5 이전 칩셋에서 스케일드 도트 프로덕트 어텐션(SDPA) 실행 시 메모리 사용량을 최적화했으며, CUDA 환경에서는 gather 연산의 성능을 높이는 코드를 추가했다. 또한 GPU 스트림 대기 중 발생할 수 있는 데드락 문제를 해결하고, CUDA 오류 보고 후 상태를 초기화하는 로직을 보완해 시스템 안정성을 강화했다.
+
+배열 조작과 관련된 여러 버그를 수정했다. 음수 스텝을 가진 슬라이스, 비연속 배열의 누적 합(cumsum), 그리고 vmap 내에서의 뷰(view) 처리 등에서 발생할 수 있는 오류들을 해결했다. 특히 그룹별 컨볼루션 레이어 초기화 시 채널 수 계산 오류와 정렬되지 않은 오프셋 문제를 수정하여 복잡한 텐서 연산에서의 정확도를 높였다.
+
+이 릴리즈는 커밋 목록에 나열된 모든 변경 사항을 포함하지만, 여기서는 주요한 안정성 및 호환성 개선 사항만 다뤘다. 스캐터드 어텐션과 게이트드 델타 넷의 VJP 추가 등 자동 미분 관련 기능도 보완되었으나, 전체적인 방향은 기존 코드의 견고함을 높이는 데 있었다.
+
+---
+
+원문: [v0.32.4](https://github.com/ml-explore/mlx/releases/tag/v0.32.4)
