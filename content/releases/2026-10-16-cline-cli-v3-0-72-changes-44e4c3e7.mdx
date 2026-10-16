@@ -1,0 +1,36 @@
+---
+title: 'Cline CLI v3.0.72: 플러그인 격리 강화와 모델 목록 대대적 개편'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline CLI가 플러그인을 별도의 워커 프로세스에서 실행하도록 변경해 안정성을 높였다. 동시에 기본 모델이 Gemini 4 Argon으로 바뀌고, 지원 제공자 목록이 대폭 업데이트되었다.
+publishedAt: 2026-10-16T22:00:05+0900
+tags:
+- Cline
+- Copilot
+- OpenCode
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/cli-v3.0.72
+  title: CLI v3.0.72
+  author: github-actions[bot]
+  publishedAt: 2026-10-16T14:35:42+0900
+  words: 288
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈의 가장 큰 변화는 플러그인 실행 방식이다. 기존에는 허브 내부에서 직접 구동했으나, 이제는 별도의 워커 프로세스를 사용한다. 이는 시스템 안정성을 높이고 충돌을 방지하기 위한 조치로, 호환되지 않는 빌드에서는 경고 메시지를 통해 이를 명시적으로 알려준다. 더 이상 `in_process` 모드는 지원되지 않으며, 기본값인 `worker` 또는 `sandbox` 모드만 사용해야 한다.
+
+에러 처리와 디버깅 기능도 개선되었다. 응답 중 제공자 오류가 발생하면 최대 3회까지 재시도한 후 실패로 처리한다. 또한 실패한 모델 요청 시 제공자의 고유 요청 ID를 로그에 기록해, 향후 기술 지원 티켓 추적과 문제 해결을 더 쉽게 만든다.
+
+모델 목록이 대폭 갱신되었다. 기본 추천 모델은 Grok 4.7에서 Gemini 4 Argon으로 변경되었으며, 무료 목록에서는 Step 5 Preview가 Nemotron 3.5 Super VL로 대체되었다. Boundless와 Standard Compute 같은 새로운 제공자가 추가되고, SambaNova의 기본 모델이 MiniMax M3로 설정되는 등 다양한 제공자의 기본 모델과 지원 범위가 조정되었다.
+
+허브 명령어(`cline hub`)에도 `--json`, `--allow-port-fallback` 등의 새로운 플래그가 추가되어 스크립트 자동화와 연결 설정이 유연해졌다. 다만 허브 관련 명령어 실행은 이제 사용 통계의 CLI 활성화 횟수에 포함되지 않는다. 전체 변경 내역은 공식 저장소의 비교 링크에서 확인할 수 있다.
+
+---
+
+원문: [CLI v3.0.72](https://github.com/cline/cline/releases/tag/cli-v3.0.72)

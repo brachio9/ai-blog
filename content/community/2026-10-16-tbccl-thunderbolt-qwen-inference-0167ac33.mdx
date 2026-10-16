@@ -1,0 +1,33 @@
+---
+title: 썬더볼트로 맥과 NVIDIA GPU를 연결해 Qwen 27B 돌리기
+category: community
+axis: serving
+format: explainer
+summary: 개발자가 썬더볼트 4를 통해 Mac mini M4와 NVIDIA RTX 3070 Ti 노트북을 연결하는 TBCCL 라이브러리를 소개한다. 이 설정을 사용해 Qwen 27B 모델을 두 기기에서 분산 추론한 초기 테스트 결과를 공유한다.
+publishedAt: 2026-10-16T22:00:05+0900
+tags:
+- vLLM
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/tbccl-running-qwen-27b-across-apple-silicon-and-nvidia-gpus-over-thunderbolt-4/190636
+  title: 'TBCCL: Running Qwen 27B across Apple Silicon and NVIDIA GPUs over Thunderbolt 4'
+  author: tensorsofthewall
+  publishedAt: 2026-10-16T02:07:22+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+개발자는 맥과 NVIDIA GPU를 썬더볼트 4로 직접 연결해 분산 학습 및 추론이 가능한지 실험하기 위해 TBCCL이라는 C++ 통신 라이브러리를 만들었다. 이 프로젝트는 macOS와 리눅스, 그리고 서로 다른 가속기 간에 별도의 전송 계층을 구축하지 않고도 PyTorch, vLLM, Exo 등 주요 프레임워크에서 통신할 수 있도록 어댑터를 제공한다. 현재는 썬더볼트 IP 네트워킹 상의 TCP를 사용하여 데이터를 주고받는다.
+
+이 개발자는 Exo를 활용해 mlx-community/Qwen3.8-27B-4bit 모델을 Mac의 Metal과 리눅스의 CUDA 환경에 걸쳐 실행하는 데 성공했다. 모델의 64개 트랜스포머 레이어 중 21개를 리눅스 기기에, 나머지 43개를 맥 기기에 배치하여 처리했다. 초기 테스트에서는 약 6.8~6.9 토큰/초의 디코딩 처리량을 기록했으며, 이는 Exo MlxRing 베이스라인인 약 7.2 토큰/초보다 다소 느린 수치다.
+
+첫 응답 시간(TTFT)은 냉기동 시 12.7초, 웜업 후 11.8초로 측정되었다. 리눅스 기기의 GPU 피크 메모리 사용량은 약 7.4~7.7GB였다. 다만 이 수치는 138 토큰 프롬프트와 64개 생성 토큰을 대상으로 한 짧은 실행 결과이며, 테스트 중 노트북의 열 스로틀링이 심하게 발생했으므로 참고용으로만 봐야 한다.
+
+TBCCL 코어 라이브러리와 모든 어댑터는 오픈 소스로 공개되어 있다. 개발자는 macOS와 리눅스 간 썬더볼트 직접 연결 설정 가이드, 설치 방법 및 예제 코드도 함께 제공했다. 현재까지 이 개발자의 개인 장비 쌍에서만 검증되었으며, 통신 오버헤드에 대한 추가 조사가 필요한 상황이다.
+
+---
+
+원문: [TBCCL: Running Qwen 27B across Apple Silicon and NVIDIA GPUs over Thunderbolt 4](https://discuss.huggingface.co/t/tbccl-running-qwen-27b-across-apple-silicon-and-nvidia-gpus-over-thunderbolt-4/190636)

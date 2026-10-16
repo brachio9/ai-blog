@@ -1,0 +1,45 @@
+---
+title: 성공한 추론 과정 속 오류 토큰, 어떻게 다룰 것인가
+category: papers
+axis: serving
+format: explainer
+summary: 강화학습을 통한 LLM 추론 능력 향상 시 발생하는 긍정적 크레딕 오염 문제를 해결하는 TACO 방법을 소개한다. 정책 자체를 기준으로 토큰의 희소성을 평가하여 오류 가능성을 점수화하고, 이를 통해 학습 안정성과 성능을 개선한다고 저자들은 주장한다.
+publishedAt: 2026-10-16T22:00:05+0900
+tags:
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2607.07976
+  title: 'Right Answer, Wrong Tokens: Tail-Aware Credit Calibration for RLVR'
+  author: Xiuyi Lou
+  publishedAt: 2026-10-16T13:00:00+0900
+  words: 9411
+  image: https://arxiv.org/html/2607.07976v2/figures/taco_radar_final.png
+paper:
+  arxivId: '2607.07976'
+  authors:
+  - Xiuyi Lou
+  - Zicheng Xu
+  - Yu-Neng Chuang
+  - Hoang Anh Duy Le
+  - Zhaozhuo Xu
+  - Guanchu Wang
+  - Vladimir Braverman
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 3
+---
+
+대형 언어 모델의 추론 능력을 강화학습으로 향상시키는 과정에서 GRPO 방식은 종종 긍정적 크레딕 오염이라는 실패 모드에 직면한다. 성공한 경로의 유익한 토큰과 함께 지역적으로 오류인 꼬리 토큰도 균일하게 보상을 받으며 강화되기 때문이다. 이는 모델이 실제로 유용하지 않은 패턴까지 학습하도록 유도하여 성능 저하를 초래할 수 있다.
+
+이 문제를 해결하기 위해 연구진은 TACO라는 방법을 제안한다. 이 방법은 토큰 수준의 오류 라벨 없이도 긍정적 크레딕을 보정한다. 정책이 자신의 기준이 되어 각 샘플링된 토큰의 희소성을 평가하고, 이를 통해 꼬리 위험 점수를 산출한다. 이 점수는 잠재적 지역 오류의 대리 지표로 사용된다.
+
+TACO는 높은 꼬리 위험 점수를 가진 토큰에 대해 긍정적 크레딕을 부드럽게 줄인다. 이때 가중치를 완전히 제로로 만들지 않고 유지함으로써, 유용한 희소 패턴을 학습할 기회를 잃지 않으면서도 오류 강화는 제한한다. 이러한 접근법은 모델이 과도하게 잘못된 방향으로 수렴하는 것을 방지하면서도 학습의 유연성을 보존한다.
+
+저자들의 주장에 따르면 TACO는 네 가지 LLM과 여덟 개의 추론 벤치마크에서 GRPO 기반 방법보다 일관되게 성능을 개선했다. 또한 장기적 강화학습에서의 지속적인 성능 향상을 뒷받침하는 훈련 안정성도 높였다고 한다. 관련 소스 코드는 공개되어 있어 누구나 확인하고 활용할 수 있다.
+
+---
+
+원문: [Right Answer, Wrong Tokens: Tail-Aware Credit Calibration for RLVR](https://arxiv.org/abs/2607.07976)

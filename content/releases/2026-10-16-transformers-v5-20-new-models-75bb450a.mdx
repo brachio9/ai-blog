@@ -1,0 +1,39 @@
+---
+title: 'transformers v5.20.0: 멀티모달과 MoE 모델의 새로운 지평'
+category: releases
+axis: serving
+format: explainer
+summary: Hugging Face transformers 라이브러리 v5.20.0이 출시되었다. 메타의 Muse Spark Open, InclusionAI의 Ling 3.0 등 주요 멀티모달 및 혼합 전문가(MoE) 모델들이 네이티브로 지원된다. 이번 업데이트는 복잡한 코드 실행 없이도 최신 아키텍처를 쉽게 사용할 수 있도록 개선하는 데 중점을 두었다.
+publishedAt: 2026-10-16T22:00:05+0900
+tags:
+- quantization
+- distillation
+- fine-tuning
+- KV cache
+- Whisper
+draft: false
+source:
+  url: https://github.com/huggingface/transformers/releases/tag/v5.20.0
+  title: Release v5.20.0
+  author: vasqu
+  publishedAt: 2026-10-16T03:05:36+0900
+  words: 3076
+  image: https://github.com/user-attachments/assets/bf34ea27-0edf-4ded-ba6f-905b04096126
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈의 가장 큰 주목점은 메타에서 공개한 Muse Spark Open 모델의 추가다. 이 모델은 텍스트, 이미지, 오디오, 비디오 등 다양한 입력을 받아 텍스트를 생성하는 멀티모달 혼합 전문가(MoE) 아키텍처를 채택했다. 전체 파라미터는 816B에 달하지만 토큰당 활성화되는 파라미터는 42B로 효율성을 높였으며, 최대 100만 토큰까지의 컨텍스트 윈도우를 지원한다. 특히 다중 파일 편집, 디버깅, 도구 사용 등 에이전트형 코딩 작업에 특화되어 훈련되었다.
+
+InclusionAI의 Ling 3.0 Flash 모델도 네이티브 지원을 통해 더 쉽게 접근할 수 있게 되었다. 이전 버전들과 달리 이제 trust_remote_code=True 설정 없이도 BailingHybridForCausalLM 클래스를 통해 직접 로드할 수 있다. 이 모델은 Kimi Delta Attention(KDA) 레이어와 Multi-head Latent Attention(MLA) 레이어를 하이브리드 방식으로 결합했으며, MLA 블록에서는 인터리브된 로터리 임베딩과 헤드별 출력 게이트를 사용한다.
+
+또한 Aleph Alpha의 Kolibri 1 모델이 추가되었다. 독일어와 영어에 특화된 추론용 MoE 모델로, 각 레이어에서 시그모이드 라우팅을 통해 384개의 전문가 중 6개를 선택하고 하나의 공유 전문가를 더한다. 슬라이딩 윈도우 어텐션과 풀 어텐션을 교차 배치하며, RoPE는 슬라이딩 윈도우 레이어에만 적용되는 독특한 구조를 가진다.
+
+마지막으로 MiniCPM-V 4.7의 개선 사항도 포함되었다. 기존 버전 대비 핵심 변화는 '캔버스 M-RoPE' 도입이다. 시각적 토큰을 단일 1차원 시퀀스로 번호 매기는 대신, 2차원 캔버스 위에 배치하여 시간, 높이, 너비 좌표를 부여한다. 이를 통해 동일 이미지의 공간적 관계와 비디오 프레임의 시간적 순서를 더 정확하게 유지할 수 있게 되었다. 이번 업데이트에는 소개하지 못한 기타 버그 수정 및 개선 사항들도 포함되어 있다.
+
+---
+
+원문: [Release v5.20.0](https://github.com/huggingface/transformers/releases/tag/v5.20.0)

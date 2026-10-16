@@ -1,0 +1,32 @@
+---
+title: 메타 Muse Spark Open, NVIDIA GB300에서 에이전트 코딩 워크플로우 확장
+category: news
+axis: vibe-coding
+format: explainer
+summary: 메타가 코딩에 특화된 816B MoE 모델 Muse Spark Open을 출시했다. NVIDIA GB300 NVL72 시스템과 결합해 에이전트 기반 코딩 워크플로우의 확장성을 높이는 방안을 제시한다.
+publishedAt: 2026-10-16T22:00:05+0900
+draft: false
+source:
+  url: https://developer.nvidia.com/blog/scale-agentic-coding-workflows-with-metas-muse-spark-open-on-nvidia-gb300-nvl72/
+  title: Scale Agentic Coding Workflows with Meta’s Muse Spark Open on NVIDIA GB300 NVL72
+  author: Tanya Lenz
+  publishedAt: 2026-10-16T03:00:01+0900
+  image: https://developer-blogs.nvidia.com/wp-content/uploads/2026/09/open-model-unbox-768x432.jpg
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+vibe-coding을 하는 개발자들은 이제 더 이상 로컬 환경의 한계나 클라우드 비용에 시달리지 않아도 될까. 메타가 최근 공개한 Muse Spark Open은 코딩 작업에 최적화된 대규모 언어 모델로, 전체 파라미터는 816B이지만 실제로 활성화되는 파라미터는 42B에 불과하다. 이는 혼합 전문가(MoE) 구조 덕분에 효율성을 극대화하면서도 복잡한 코드 생성 및 이해 능력을 유지할 수 있음을 의미한다.
+
+이 모델의 또 다른 특징은 100만 토큰이라는 방대한 컨텍스트 윈도우를 지원한다는 점이다. 긴 코드베이스나 여러 파일에 걸친 의존성 관계를 한 번에 파악하고 처리할 수 있게 되면서, 에이전트 기반 코딩 워크플로우의 정확도와 범위가 크게 넓어질 것으로 보인다. 개발자들은 이제 작은 조각이 아닌 전체 프로젝트 맥락에서 AI와 협업할 수 있는 환경이 조성되고 있다.
+
+NVIDIA는 이러한 메타의 모델을 GB300 NVL72 시스템 위에서 실행하는 방안을 제시한다. 이 고사양 GPU 클러스터는 Muse Spark Open의 연산 부하를 감당하면서도 빠른 추론 속도를 제공해, 에이전트 코딩 파이프라인을 대규모로 확장하는 데 필요한 인프라를 마련한다. 하드웨어와 소프트웨어의 시너지가 실제 개발 현장의 생산성 향상으로 이어질지 주목된다.
+
+아직 초기 단계이므로 구체적인 성능 수치나 벤치마크 결과는 확인되지 않았다. 메타와 NVIDIA가 제시한 기술적 방향성은 명확하지만, 실제 개발 환경에서 어떤 수준의 안정성과 속도를 보여줄지는 향후 공개될 상세 자료나 커뮤니티의 피드백을 통해 검증되어야 할 부분이다. 원문의 전체 내용을 통해 더 자세한 기술 스펙과 실험 결과를 확인할 수 있다.
+
+---
+
+원문: [Scale Agentic Coding Workflows with Meta’s Muse Spark Open on NVIDIA GB300 NVL72](https://developer.nvidia.com/blog/scale-agentic-coding-workflows-with-metas-muse-spark-open-on-nvidia-gb300-nvl72/)
