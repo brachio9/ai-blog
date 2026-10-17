@@ -1,0 +1,35 @@
+---
+title: 'Codex CLI 0.163.0: 설정 검색과 실시간 개입이 쉬워졌다'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Codex CLI 0.163.0은 설정 관리의 편의성과 실행 중 개입 능력을 강화했다. Daybreak 모델의 기본 활성화와 백그라운드 서버 재시작 기능도 추가되었다.
+publishedAt: 2026-10-17T22:00:05+0900
+tags:
+- Codex
+- MCP
+draft: false
+source:
+  url: https://github.com/openai/codex/releases/tag/rust-v0.163.0
+  title: 0.163.0
+  author: github-actions[bot]
+  publishedAt: 2026-10-16T06:30:38+0900
+  words: 2618
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이 버전에서 가장 눈에 띄는 변화는 설정과 키맵 관리의 개선이다. 이제 /config 명령어를 통해 카테고리별 설정을 즉시 검색하고 변경할 수 있으며, 어떤 변경사항이 재부팅을 필요로 하는지 한눈에 파악할 수 있다. 또한 /keymap에서 리더 키를 커스터마이징할 수 있게 되었고, 기본값은 Ctrl+X로 설정되었다. 음성 무음 기능은 F9으로 이동했으며, 단축키 힌트는 선택이나 취소 전까지 화면에 유지된다.
+
+실행 흐름 제어에도 중요한 업데이트가 있었다. Codex가 응답하는 도중 후속 명령을 보내면 즉시 방향을 전환할 수 있으며, 이는 코드 모드 셀과 중첩된 도구 호출도 중단시킨다. 또한 읽기 전용 도구들인 스킬, 메모리, 대화 기록 조회 등을 병렬로 독립적으로 실행할 수 있어 처리 속도가 개선되었다. 백그라운드 서버 관리 역시 /daemon 명령어로 재시작이 가능하며, 작업 중단에 대한 경고 후 자동으로 재연결된다.
+
+Daybreak 모델은 자격을 갖춘 계정에 대해 기본 활성화되었으며, codex exec 명령어를 통해 OpenAI API 키와 함께 선택할 수도 있다. 안정성 측면에서는 저장된 스레드 복원 시 권한과 네트워크 승인 설정이 정확히 유지되도록 수정되었고, 사이드 대화(/side)로 돌아갈 때 대기 중인 프롬프트 응답도 올바른 스레드로 반환된다. Windows 환경에서의 붙여넣기 문제와 WSL에서의 클립보드 처리 지연 현상도 해결되었다.
+
+기술적 세부사항으로는 Linux와 macOS 릴리스 패키지 크기를 줄이기 위해 바이너리 심볼을 제거했으며, Codex가 패치된 zsh 대신 표준 셸 실행자를 사용하도록 변경되었다. 기존에 퇴역한 셸 플래그를 사용하는 설정은 마이그레이션 알림을 받게 된다. 이 요약은 주요 기능과 버그 수정만 다루었으며, 전체 변경 내역은 공식 깃허브 저장소에서 확인할 수 있다.
+
+---
+
+원문: [0.163.0](https://github.com/openai/codex/releases/tag/rust-v0.163.0)

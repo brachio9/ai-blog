@@ -1,0 +1,35 @@
+---
+title: 'Claude Code v2.1.301: 자동 재시작과 관찰성 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Claude Code v2.1.301은 비인간 모드에서의 사용량 제한 처리와 OpenTelemetry 추적 기능을 강화했다. 또한 다양한 버그 수정을 통해 안정성을 높였다.
+publishedAt: 2026-10-17T22:00:05+0900
+tags:
+- Claude Code
+- MCP
+draft: false
+source:
+  url: https://github.com/anthropics/claude-code/releases/tag/v2.1.301
+  title: v2.1.301
+  author: ashwin-ant
+  publishedAt: 2026-10-16T04:22:06+0900
+  words: 1203
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트는 주로 자동화 환경과 관찰성(Observability)을 개선한다. `CLAUDE_CODE_RETRY_WATCHDOG` 모드를 사용할 때, 사용량 한도 리셋 시간이 너무 길어지면 대기하지 않고 요청을 종료하도록 하는 설정이 추가되었다. 이는 장시간 방치된 작업에서 불필요한 대기 시간을 줄여준다. 또한 `claude-api` 스킬에 OpenTelemetry 추적 가이드가 포함되어 있으며, `ant` CLI를 통해 추적 목적지를 설정하는 방법이 명시되었다. 도구 사용 결정(tool_decision) 이벤트에도 분류기 판정 및 권한 모드 정보가 추가되어 자동 모드와 수동 권한 규칙의 구분이 명확해졌다.
+
+터미널 인터페이스와 편집 기능도 일부 개선되었다. vim 모드에서 `%` 모션이 추가되어 괄호 매칭 점프로 이동할 수 있게 되었으며, 삭제나 복사 명령과 함께 사용 가능하다. 모듈 입력 필드에 `rows` 속성이 생겨 여러 줄의 텍스트를 입력할 수 있게 되었고, 엔터는 제출, Shift+엔터 또는 역슬래시 후 엔터는 줄바꿈으로 동작한다. 이는 터미널 내에서의 복잡한 입력 처리가 더 자연스러워졌다.
+
+안정성 측면에서 여러 버그가 수정되었다. Anthropic API에서 최신 Fable 모델이 조직에 접근 불가할 경우 이전 버전 모델로 한 번 재시도하는 로직이 적용되어 에러 발생을 줄였다. 디스크 공간 부족으로 로그인 갱신이 실패할 때 더 명확한 오류 메시지를 표시하며, 작업 트리의 삭제나 아티팩트 업데이트 시 발생할 수 있는 데이터 손실 및 충돌 문제도 해결되었다. 또한 grep 및 glob 검색 실패 시 에러를 정확히 보고하고, 워크플로우 에이전트의 단계 생략 버그를 수정하여 실행 결과의 신뢰성을 높였다.
+
+마지막으로 터미널 호환성 문제가 광범위하게 개선되었다. VTE 기반의 구형 터미널이나 iTerm2에서 나타났던 이상 문자 표시 문제(`>0q`, `GOK` 등)가 해결되어 프롬프트 화면이 정상적으로 렌더링된다. 모델 전환 시 발생할 수 있는 인증 갱신 지연 및 타임아웃 문제도 수정되어, 특히 Bedrock 제공자가 아닌 환경에서의 모델 변경과 토큰 갱신 과정이 더 원활하게 진행된다. 이 외에도 메모리 사용량 과다 발생 및 긴 인명 처리로 인한 정지 현상 등 다양한 세부 버그들이 함께 해결되었다.
+
+---
+
+원문: [v2.1.301](https://github.com/anthropics/claude-code/releases/tag/v2.1.301)

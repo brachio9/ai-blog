@@ -1,0 +1,49 @@
+---
+title: VLM의 전문 능력을 하나로 모으는 SCOPED 방법론
+category: papers
+axis: serving
+format: explainer
+summary: SCOPED는 시각-언어 모델(VLM)에 강화학습을 적용할 때 발생하는 능력 간 충돌 문제를 해결한다. 개별 전문가 모델을 훈련시켜 명시적 기술을 추출한 후, 이를 통합된 학생 모델에 전이하는 방식이다.
+publishedAt: 2026-10-17T22:00:05+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://huggingface.co/papers/2610.22217
+  title: Skill-Decoupled On-Policy Expert Distillation for Unified Vision-Language Models
+  author: Yuqi Xiong
+  publishedAt: 2026-10-15T09:00:00+0900
+  words: 15164
+  image: https://arxiv.org/html/2610.22217v1/mopd.png
+paper:
+  arxivId: '2610.22217'
+  authors:
+  - Yuqi Xiong
+  - Chunyi Peng
+  - Zhipeng Xu
+  - Qing Yang
+  - Zhenghao Liu
+  - Zulong Chen
+  - Yu Gu
+  - Ge Yu
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+  popularity:
+    kind: hf-upvotes
+    count: 1
+---
+
+시각-언어 모델(VLM)에 강화학습(RL)을 적용하면 특화된 시각 능력을 이끌어낼 수 있지만, 서로 다른 목표를 동시에 최적화하려 하면 그라디언트 충돌이 발생한다. 이 문제를 피하기 위해 각 능력을 독립적으로 훈련하는 전문가 모델을 만들면 간섭은 줄지만, 보상 최적화 과정에서 전문 지식과 보상 해킹 편향이 섞일 위험이 있다.
+
+이 논문에서는 이러한 문제를 해결하기 위해 기술 분리 온-폴리시 전문가 증류(SCOPED)를 제안한다. 이 방법은 능력별 전문가를 훈련시키고 보상 기반 반성을 통해 명시적 기술을 추출한다. 증류 과정에서는 이 기술이 전문가의 지도 역할을 하지만, 통합된 학생 모델에는 직접 제공되지 않는다. 이를 통해 학생 모델은 추론 시 명시적 기술 없이도 절차적 지식을 내부화하도록 유도한다.
+
+저자들의 주장에 따르면 SCOPED는 여덟 가지 멀티모달 벤치마크에서 기존 백본 모델과 혼합 능력 RL보다 일관되게 우수한 성능을 보였다. 이는 독립적으로 습득한 능력을 통합하는 데 있어 기술 분리 온-폴리시 전문가 증류가 효과적임을 시사한다.
+
+추가 분석 결과, 공동 최적화 시 발생하는 간섭 문제를 해결하고 기술 보강이 더 일관된 전문가 궤적을 만들며 작업 관련 시각 증거에 대한 주의력을 높이고 통합 학생 모델에서 전문 지식을 잘 보존하는 것으로 나타났다. 관련 코드와 데이터는 GitHub 저장소에서 확인할 수 있다.
+
+---
+
+원문: [Skill-Decoupled On-Policy Expert Distillation for Unified Vision-Language Models](https://huggingface.co/papers/2610.22217)

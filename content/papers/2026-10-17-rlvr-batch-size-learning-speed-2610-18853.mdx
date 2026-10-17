@@ -1,0 +1,43 @@
+---
+title: RLVR에서 배치 크기를 키우면 학습이 느려지는 이유
+category: papers
+axis: serving
+format: explainer
+summary: 검증 가능한 보상을 사용하는 강화학습에서 큰 배치를 사용하면 학습 효율이 떨어진다. 저자들은 두 시계 프레임워크를 통해 이 현상을 설명하고 최적의 학습 스케줄을 제안한다.
+publishedAt: 2026-10-17T22:00:05+0900
+tags:
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.18853
+  title: 'Two Clocks: Why Larger Rollout Batches Learn Slower but Fail on Schedule in Reinforcement Learning with Verifiable Rewards'
+  author: Yuante Li
+  publishedAt: 2026-10-14T13:00:00+0900
+  words: 15346
+  image: https://arxiv.org/html/2610.18853v1/framework.png
+paper:
+  arxivId: '2610.18853'
+  authors:
+  - Yuante Li
+  - Junwei Quan
+  - Kai Qiu
+  - Kate Zhang
+  - Yicheng Tao
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+검증 가능한 보상을 사용하는 강화학습은 모델 응답 생성 비용이 크기 때문에 큰 배치와 제곱근 기반 학습률 스케일링을 사용한다. 기존에는 한 번의 옵티마이저 단계당 샘플 진행 상황을 보존한다고 알려졌으나, 실제 다단계 훈련에서는 그 메커니즘이 명확하지 않았다. 저자들은 진전에 필요한 샘플 수와 붕괴 전에 소모되는 샘플 수를 분리하는 두 시계 프레임워크를 개발했다.
+
+저자들의 주장에 따르면 제곱근 규칙은 샘플당 일차 드리프트는 보존하지만 실제 진행 상황은 보존하지 못한다. 큰 배치는 더 짧고 긴 업데이트를 수행하며 곡률로 인해 더 많은 손실을 입어 학습률에 의존하는 임계 배치 이상에서는 샘플 효율이 저하된다. 또한 드리프트 임계값 가설은 제곱근 규칙을 따라가도 실패 시계의 샘플 수는 약하게 불변임을 예측한다.
+
+Qwen2.5-Math-1.5B 모델을 사용한 통제된 GRPO 실험에서 16배의 배치 범위에서 두 예측 모두를 지지하는 결과가 나왔다. 비율 클리핑은 특히 큰 배치에서 실패를 지연시키지만 없어도 진행 격차는 지속된다. 클립 폭을 넓히면 안정성을 희생해 일시적인 속도 이득을 얻을 수 있다. 다른 데이터셋과 일반 목적 체크포인트, 7B 모델에서도 동일한 진행 격차가 재현되었다.
+
+이 연구는 두 시계 프레임워크를 활용해 간단한 다단계 RLVR 스케줄을 도출한다. 임계 배치 아래에서 시작하다가 실패 전에 더 큰 배치로 전환하는 방식이다. 관련 코드는 GitHub에서 확인할 수 있다.
+
+---
+
+원문: [Two Clocks: Why Larger Rollout Batches Learn Slower but Fail on Schedule in Reinforcement Learning with Verifiable Rewards](https://arxiv.org/abs/2610.18853)

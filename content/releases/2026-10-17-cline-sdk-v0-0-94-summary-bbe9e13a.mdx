@@ -1,0 +1,36 @@
+---
+title: 'Cline SDK v0.0.94: 플러그인 보안 강화와 모델 목록 대대적 업데이트'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline SDK 0.0.94는 플러그인 실행 환경을 워커 스레드 및 샌드박스로 제한하여 보안을 강화했다. 모델 스트리밍 중 에러 재시도 로직을 개선하고, 기본 추천 모델을 Gemini 4 Argon으로 변경하는 등 핵심 기능과 모델 카탈로그를 대폭 업데이트했다.
+publishedAt: 2026-10-17T22:00:05+0900
+tags:
+- Cline
+- Copilot
+- OpenCode
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/sdk/sdk/v0.0.94
+  title: SDK v0.0.94
+  author: github-actions[bot]
+  publishedAt: 2026-10-16T12:51:13+0900
+  words: 403
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈의 가장 큰 변화는 플러그인 실행 환경의 보안 강화다. 이제 플러그인은 기본적으로 워커 스레드나 서브프로세스 샌드박스 내에서만 실행되며, 기존에 존재하던 인프로세스(in_process) 모드는 완전히 제거되었다. 호스트가 필요한 부트스트랩 파일을 제공하지 않으면 더 이상 조용히 실행되지 않고 명시적인 에러를 반환하며, SSH 원격 환경에서도 이 보안 정책이 적용된다. 이는 플러그인 실행 시 발생할 수 있는 잠재적 위험을 격리하고 시스템 안정성을 높이는 조치다.
+
+에러 처리 및 재시도 로직도 더 효율적으로 개선되었다. 모델 스트리밍 시작 후 발생하는 제공자 오류는 최대 3회까지 재시도하며, 최종 실패 시 로그와 Langfuse 추적에 에러로 기록된다. 이전에는 재시도 예산이 소진되면 에이전트의 전체 턴 재시도가 트리거되어 비용과 시간이 불필요하게 증폭되는 문제가 있었으나, 이번 업데이트로 이러한 연쇄 재시도는 중단되었다. 또한 모델 요청 실패 로그에 제공자의 요청 ID가 포함되어 문제 추적의 정확도를 높였다.
+
+디버깅 및 원격 연결 기능도 확장되었다. AskQuestionExecutor가 텍스트와 이미지 블록을 반환할 수 있게 되어 답변과 함께 첨부된 파일이 모델에게 전달되는 흐름이 개선되었다. 원격 프록시의 WebSocket 업그레이드 시 HTTP 헤더를 통해 인증을 갱신할 수 있는 기능이 추가되었고, 스탠드얼론 SSH 원격 헬퍼는 제거되어 업로드된 Cline CLI를 통해 허브 데몬을 실행하는 방식으로 통합되었다.
+
+마지막으로 모델 카탈로그와 기본 설정이 대폭 업데이트되었다. 전체 모델 수는 6,862개에서 6,952개로 증가했으며, Boundless와 Standard Compute 등 새로운 제공자가 추가되었다. 특히 Cline의 첫 번째 추천 모델이 Claude Sonnet 5.5에서 Gemini 4 Argon으로 변경되었고, 무료 목록과 각 제공자의 기본 모델도 Nemotron 3.5 Super VL이나 Muse Spark Open 등으로 조정되었다. 이는 사용자에게 더 최신적이고 최적화된 모델 경험을 제공하기 위한 조치다.
+
+---
+
+원문: [SDK v0.0.94](https://github.com/cline/cline/releases/tag/sdk/sdk/v0.0.94)

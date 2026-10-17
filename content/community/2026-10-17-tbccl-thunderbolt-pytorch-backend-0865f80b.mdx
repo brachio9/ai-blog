@@ -1,0 +1,33 @@
+---
+title: 썬더볼트로 맥과 리눅스 GPU를 연결해 분산 학습하는 TBCCL
+category: community
+axis: serving
+format: explainer
+summary: PyTorch 포럼의 한 사용자가 썬더볼트 4를 통해 Mac mini M4와 NVIDIA GPU가 탑재된 리눅스 머신을 연결하는 통신 라이브러리인 TBCCL을 공개했다. 이 도구는 PyTorch의 분산 학습 백엔드로 등록되며, vLLM 및 Exo와의 통합 작업도 진행 중이다.
+publishedAt: 2026-10-17T22:00:05+0900
+tags:
+- vLLM
+draft: false
+source:
+  url: https://discuss.pytorch.org/t/tbccl-custom-pytorch-distributed-backend-for-mac-linux-over-thunderbolt/225551
+  title: 'TBCCL: Custom PyTorch Distributed Backend for Mac/Linux over Thunderbolt'
+  author: tensorsofthewall
+  publishedAt: 2026-10-16T00:21:24+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+PyTorch 포럼에 글을 올린 작성자는 Mac mini M4와 NVIDIA GPU가 장착된 리눅스 머신을 썬더볼트 4 케이블로 직접 연결하여 분산 학습과 추론을 수행하는 실험을 진행했다. 이를 위해 TCP 기반의 썬더볼트 IP 네트워킹 위에서 동작하는 독립형 C++ 통신 라이브러리인 TBCCL을 개발했으며, PyTorch의 torch.distributed 모듈에 이 라이브러리를 백엔드로 등록하는 torch-tbccl 패키지도 함께 구축했다.
+
+현재 작성자는 Mac과 리눅스 환경에서 두 호스트 간 통신 및 All-Reduce 연산을 테스트 완료한 상태다. 썬더볼트 연결 설정 가이드와 양쪽 머신에서 실행되는 PyTorch 어댑터 예제 코드를 제공하여 사용자가 직접 환경을 구성하고 동작을 확인할 수 있도록 했다. 이 접근법은 하드웨어 간 물리적 연결을 활용하여 기존 네트워크 제약을 우회하려는 시도다.
+
+작성자는 통신 런타임이 특정 프레임워크에 종속되지 않도록 설계하여 학습과 추론 모두에서 재사용 가능하게 만들겠다는 의도를 밝혔다. 현재 vLLM과 Exo와의 통합 작업도 병행하고 있다. 이는 TBCCL이 PyTorch뿐만 아니라 다른 인퍼런스 엔진에서도 활용될 수 있는 범용 통신 레이어로 발전하기를 바라는 전략이다.
+
+아직 실험 단계이며 Gloo 등 기존 백엔드와의 체계적인 성능 비교는 미비한 상태다. 작성자는 향후 성능 벤치마킹을 계획 중이라고 명시했다. 특히 이질적 장치 지원과 PyTorch 분산 API 통합에 대해 커스텀 백엔드를 다뤄본 개발자들의 피드백을 요청하며, 해당 기술의 안정화와 성능 최적화를 위한 커뮤니티 참여를 유도하고 있다.
+
+---
+
+원문: [TBCCL: Custom PyTorch Distributed Backend for Mac/Linux over Thunderbolt](https://discuss.pytorch.org/t/tbccl-custom-pytorch-distributed-backend-for-mac-linux-over-thunderbolt/225551)
