@@ -1,0 +1,43 @@
+---
+title: 픽셀 기반 언어 모델의 다국어 확장, MIXAR
+category: papers
+axis: serving
+format: explainer
+summary: MIXAR는 라틴 문자와 CJK 스크립트를 포함한 8개 고자원 언어로 사전 학습된 최초의 생성형 다국어 픽셀 기반 언어 모델이다. 기존 토크나이저 방식의 한계를 극복하고 저자원 언어로의 일반화 성능을 높이는 것을 목표로 한다.
+publishedAt: 2026-10-18T22:00:04+0900
+tags:
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2604.11575
+  title: 'MIXAR: Scaling Autoregressive Pixel-based Language Models to Multiple Languages and Scripts'
+  author: Chen Hu
+  publishedAt: 2026-10-16T13:00:00+0900
+  words: 15716
+  image: https://arxiv.org/html/2604.11575v2/pipeline.png
+paper:
+  arxivId: '2604.11575'
+  authors:
+  - Chen Hu
+  - Yintao Tai
+  - Antonio Vergari
+  - Frank Keller
+  - Alessandro Suglia
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+기존 토크나이저 기반 접근법의 어려움을 우회할 수 있다는 잠재력으로 인해 픽셀 기반 언어 모델에 대한 관심이 높아지고 있다. 그러나 지금까지 존재하던 모델들은 영어 중심적이었으며 생성형 모델로 훈련하기가 까다로운 한계가 있었다. MIXAR는 이러한 문제를 해결하기 위해 등장한 최초의 생성형 다국어 픽셀 기반 언어 모델로, 라틴 문자와 CJK 스크립트를 아우르는 8개 고자원 언어를 대상으로 사전 학습을 진행했으며 파라미터 규모는 5억 개에 달한다.
+
+저자들의 주장에 따르면 MIXAR는 고자원 언어만 사용하여 사전 학습되었음에도 불구하고 동일한 코퍼스로 학습된 토크나이저 기반 모델보다 보지 못한 저자원 언어로 더 잘 일반화된다고 한다. 특히 사전 학습 혼합 데이터와 거리가 먼 스크립트에서 가장 큰 성능 향상을 보이며, 보다 공정한 언어 기술 구현을 위한 한 걸음을 내딛는 결과를 나타냈다.
+
+픽셀 공간에서의 자유로운 생성을 가능하게 하기 위해 MIXAR는 기존 픽셀 기반 모델의 불안정했던 적대적 훈련 단계를 GRPO 기반 강화학습 단계로 대체했다. 이 방식은 모델이 스스로 생성한 결과에 대해 보상을 주도록 설계되었으며, 저자들의 주장에 따르면 이는 더 안정적인 학습을 유도하고 다국어 벤치마크에서 자유 생성 정확도를 최대 2.3배까지 높이는 효과를 거두었다고 한다.
+
+또한 MIXAR는 판별형 벤치마크에서 비교 가능한 토크나이저 기반 모델과 비슷한 성능을 보이며 규모가 커질수록 일관되게 성능이 개선되는 모습을 보인다. 저자들은 또한 MIXAR가 토크나이저 기반 모델보다 정서법 공격에 더 잘 견딘다고 주장하며, 관련 코드와 모델은 GitHub를 통해 공개되어 있다.
+
+---
+
+원문: [MIXAR: Scaling Autoregressive Pixel-based Language Models to Multiple Languages and Scripts](https://arxiv.org/abs/2604.11575)

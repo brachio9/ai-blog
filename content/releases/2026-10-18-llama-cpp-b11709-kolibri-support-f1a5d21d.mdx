@@ -1,0 +1,32 @@
+---
+title: llama.cpp b11709, Kolibri-1 모델 지원 추가
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp 빌드 11709는 Aleph-Alpha의 이산 전문가 혼합(MoE) 모델인 Kolibri-1을 공식적으로 지원한다. 독일어와 영어를 처리하는 78B 파라미터 모델의 구조적 특징을 반영한 변환 및 추론 코드가 적용되었다.
+publishedAt: 2026-10-18T22:00:04+0900
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b11709
+  title: b11709
+  author: github-actions[bot]
+  publishedAt: 2026-10-17T21:28:30+0900
+  words: 916
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈는 Aleph-Alpha에서 개발한 Kolibri-1 모델에 대한 지원을 추가했다. 이 모델은 독일어와 영어를 모두 이해하는 바이링구얼 MoE 아키텍처를 채택했으며, 전체 파라미터 수는 78B이지만 토큰당 활성화되는 파라미터는 약 34억 개로 효율적인 추론이 가능하다. 구조적으로는 50개의 레이어로 구성되며, 각 레이어에는 라우팅을 통해 선택되는 384개의 전문가와 1개의 공유 전문가가 존재한다.
+
+주의할 점은 이 모델의 어텐션 메커니즘이 혼합되어 있다는 것이다. 네 개의 슬라이딩 윈도우 레이어와 하나의 풀 레이어가 교차하며, 슬라이딩 레이어는 NeoX RoPE를 사용하고 풀 레이어는 NoPE를 적용한다. 또한 GQA(Grouped Query Attention) 방식을 통해 48개의 쿼리 헤드를 4개의 KV 헤드로 매핑하며, 각 블록 내 어텐션 및 MLP 출력은 잔류 스트림 합치기 전에 각각 정규화된다.
+
+변환 과정에서는 기존 AfmoeModel의 체크포인트 레이아웃을 재사용하여 전문가 선택 바이어스와 공유 전문가 정보를 처리한다. 공개된 FP8 체크포인트는 별도의 특수 코드 없이 일반적인 가중치 스케일링 경로를 통해 로드되며, 새로운 텐서 이름 매핑과 Qwen2 사전 토크나이저 기반의 12만 개 어휘사전 등록이 포함되었다.
+
+이 업데이트는 llama.cpp가 다양한 아키텍처를 수용하는 범위를 넓히는 작업의 일환이다. 복잡한 MoE 구조와 특수한 정규화 방식을 가진 최신 모델도 로컬 환경에서 실행할 수 있는 기반이 마련되었음을 의미한다.
+
+---
+
+원문: [b11709](https://github.com/ggml-org/llama.cpp/releases/tag/b11709)

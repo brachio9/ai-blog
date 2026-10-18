@@ -1,0 +1,33 @@
+---
+title: URL 단편으로 문서를 공유하는 LaTeX 렌더러
+category: news
+axis: agent
+format: explainer
+summary: Simon Willison이 Tiny Little Office의 아이디어를 차용해 만든 LaTeX 렌더러를 소개한다. URL의 해시 단편에 문서 데이터를 담아 링크 하나로 내용을 공유할 수 있게 했다.
+publishedAt: 2026-10-18T22:00:04+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://simonwillison.net/2026/Oct/15/latex/
+  title: LaTeX renderer
+  publishedAt: 2026-10-15T11:07:28+0900
+  image: https://static.simonwillison.net/static/2026/tiny-little-office.webp
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: low
+  crossSources: 1
+---
+
+Paul Ford와 Aboard Foundry가 개발한 웹 앱 Tiny Little Office에서 영감을 얻은 이 도구는 다양한 콘텐츠 편집 기능을 제공한다. 워드 프로세서, 아우트라이너, 프레젠테이션 빌더 등 여러 에디터가 포함되어 있다.
+
+이 서비스의 핵심 기법은 모든 문서 데이터를 URL의 해시 단편(#fragment) 영역에 저장한다는 점이다. 이를 통해 생성된 모든 문서는 북마크 가능하고 공유 가능한 링크가 된다.
+
+Tiny Little Office는 에이전트가 문서를 렌더링할 수 있는 URL을 구성하는 방법을 안내하는 llms.txt 파일도 제공한다. Claude는 이 파일을 활용해 URL 형식의 작동 원리를 설명하는 데크 링크를 생성하기도 했다.
+
+Simon Willison은 이러한 아이디어를 바탕으로 LaTeX 렌더러를 구현했다. 원문의 앞부분만 확인한 상태이므로 구체적인 기술적 세부사항이나 전체 기능 목록은 원문을 참고해야 한다.
+
+---
+
+원문: [LaTeX renderer](https://simonwillison.net/2026/Oct/15/latex/)

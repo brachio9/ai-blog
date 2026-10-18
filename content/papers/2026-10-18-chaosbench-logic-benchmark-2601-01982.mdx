@@ -1,0 +1,38 @@
+---
+title: LLM의 논리 추론 한계를 드러내는 카오스 벤치마크
+category: papers
+axis: domain
+format: explainer
+summary: 대규모 언어 모델이 자연어 처리에서는 뛰어나지만 정밀한 논리 및 기호 추론에서는 취약하다는 점을 지적한다. 이를 검증하기 위해 혼돈적 동역학 시스템을 대상으로 한 새로운 벤치마크가 소개되었다.
+publishedAt: 2026-10-18T22:00:04+0900
+tags:
+- neuro-symbolic
+draft: false
+source:
+  url: https://arxiv.org/abs/2601.01982
+  title: 'ChaosBench-Logic: A Benchmark for Logical and Symbolic Reasoning on Chaotic Dynamical Systems'
+  author: Noel Thomas
+  publishedAt: 2026-10-16T13:00:00+0900
+  words: 4755
+paper:
+  arxivId: '2601.01982'
+  authors:
+  - Noel Thomas
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+대규모 언어 모델은 자연어 작업에서 뛰어난 성능을 보이지만, 정확한 논리와 기호 추론이 필요한 분야에서는 여전히 취약하다. 혼돈적 동역학 시스템은 결정론적이면서도 무작위성이나 복잡성으로 오해받기 쉬운 특성 때문에 이러한 한계를 테스트하는 데 특히 까다로운 환경이다. 저자들은 이 같은 맥락에서 LLM의 추론 능력을 평가하기 위한 ChaosBench-Logic 벤치마크를 제안한다.
+
+이 벤치마크는 30가지 다양한 동역학 시스템을 대상으로 하며, 일차 논리(FOL) 온톨로지를 통일된 기준으로 사용한다. 각 시스템에는 11개의 의미적 술어에 대한 진리값 할당이 주석 처리되어 있고, 다단계 함의나 교차 시스템 유사성, 반사실 추론, 편향 탐지, 다중 턴 대화 등 7가지 추론 범주에 걸쳐 총 621개의 질문이 생성되었다. 또한 논리적 정확도, 함일 일관성, 대화 응집성, 모순 등을 측정하는 지표와 오픈 소스 평가 파이프라인을 함께 공개한다.
+
+저자들의 주장에 따르면 초기 실험 결과 GPT-4, Claude 3.5 Sonnet, Gemini 2.5 Flash, LLaMA-3 70B 등 최전선 모델들은 항목별 정확도에서 91~94%의 높은 점수를 기록했다. 그러나 구성적(compositional) 항목에서는 0점을 기록했으며 전역적 응집성이 매우 취약한 것으로 나타났다. 대화 수준의 정확도는 GPT-4(CoT)의 53.1%에서 LLaMA-3(zero-shot)의 75.5% 사이로 분포했다.
+
+ChaosBench-Logic은 이러한 실패 사례를 진단할 수 있는 엄격한 테스트베드를 제공한다. 이는 LLM의 과학적 추론 능력을 향상시키기 위한 신경-기호(neuro-symbolic) 접근법 개발의 기초가 될 것으로 기대된다.
+
+---
+
+원문: [ChaosBench-Logic: A Benchmark for Logical and Symbolic Reasoning on Chaotic Dynamical Systems](https://arxiv.org/abs/2601.01982)

@@ -1,0 +1,32 @@
+---
+title: 파일 이름이 아니라 내용으로 찾는 로컬 검색 앱 DigUp
+category: community
+axis: retrieval
+format: explainer
+summary: DigUp은 EmbeddingGemma 2 모델을 사용해 사진, PDF, 영상 등 파일의 내용을 문장으로 검색하는 로컬 데스크톱 앱이다. 개발자 Abdur Rahim이 만든 이 앱은 네트워크 연결 없이 기기 내에서 벡터 색인을 생성하며, macOS와 Windows, Linux에서 사용 가능하다.
+publishedAt: 2026-10-18T22:00:04+0900
+tags:
+- Cursor
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/digup-embeddinggemma-2-pdf-macos-spotlight/12205
+  title: 'DigUp: EmbeddingGemma 2 모델로 사진, PDF, 녹음, 영상 속 내용을 문장으로 찾는 (macOS의 Spotlight와 같은) 로컬 파일 검색 앱 🔍'
+  author: 9bow
+  publishedAt: 2026-10-16T17:30:40+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/4/1/41533fcbf484b3c2cf1720fd56f0b64975158fb3_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+파일 이름이나 메타데이터가 아닌 실제 내용으로 파일을 찾고 싶을 때 DigUp이 유용하다. 개인 개발자 Abdur Rahim는 운영체제 기본 검색인 Spotlight나 Windows Search가 파일 이름과 텍스트에 기반한다고 설명하며, 녹음의 특정 대목이나 영상의 장면처럼 파일이 보여 주거나 들려주는 내용으로 바로 접근하는 것이 DigUp의 차별점이라고 주장한다. 사용자가 폴더를 지정하면 앱은 Google DeepMind의 EmbeddingGemma 2 모델을 활용해 해당 파일들과 검색어를 벡터로 변환해 색인한다.
+
+EmbeddingGemma 2는 텍스트, 이미지, 오디오, 영상을 하나의 공간에 매핑하는 멀티모달 임베딩 모델이다. Hugging Face 모델 카드에 따르면 파라미터 수가 740M로 노트북에서도 실행 가능하며 100개 이상의 언어를 지원한다고 한다. DigUp은 이 모델을 통해 영어로 검색해도 벵골어나 아랍어로 작성된 메모를 찾을 수 있게 하며, 검색 결과에서 PDF는 해당 페이지, 영상과 녹음은 특정 시점, 코드는 편집기의 줄로 바로 이동해 준다.
+
+DigUp은 초기 프로젝트라 버그 보고와 기능 요청이 많은 상태이며, Apple Silicon Mac용 정식 버전과 Windows, Linux용 베타가 제공된다. 모델 파일(865MB)을 처음 한 번 내려받고 하루 한 번 업데이트를 확인하는 것 외에는 네트워크를 사용하지 않으며 계정이나 원격 측정(Telemetry)도 없다. 검색 엔진은 Swift로 작성되어 모든 운영체제에서 동일한 코드를 사용하며, Mac에서는 macOS 프레임워크를, Windows와 Linux에서는 PDFium과 FFmpeg 등 오픈소스 라이브러리를 활용해 파일을 읽는다.
+
+---
+
+원문: [DigUp: EmbeddingGemma 2 모델로 사진, PDF, 녹음, 영상 속 내용을 문장으로 찾는 (macOS의 Spotlight와 같은) 로컬 파일 검색 앱 🔍](https://discuss.pytorch.kr/t/digup-embeddinggemma-2-pdf-macos-spotlight/12205)

@@ -1,0 +1,34 @@
+---
+title: 'Cline 데스크톱 0.0.48: GPT-6 지원과 모델 목록 대대적 업데이트'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline 데스크톱 버전 0.0.48이 출시되었다. 이번 업데이트는 GPT-6 모델 호환성 문제를 해결하고 기본 모델을 Claude Sonnet 5.5로 되돌리는 데 중점을 두었다. 또한 주요 제공업체들의 기본 모델 목록을 새로 고쳐 최신 AI 환경에 대응했다.
+publishedAt: 2026-10-18T22:00:04+0900
+tags:
+- Cline
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/desktop-v0.0.48
+  title: Desktop v0.0.48
+  author: github-actions[bot]
+  publishedAt: 2026-10-17T13:34:20+0900
+  words: 110
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 Cline 데스크톱 0.0.48 업데이트는 개발자들이 가장 궁금해하던 GPT-6 모델 지원 문제를 해결한다. 이전 버전에서는 OpenAI 및 Azure 호환 엔드포인트에서 `max_tokens` 파라미터를 사용하려다 요청이 거부되는 오류가 발생했으나, 이번에는 이를 `max_completion_tokens`로 올바르게 처리하여 GPT-6 시리즈 모델을 정상적으로 사용할 수 있게 되었다.
+
+기본 모델 설정에도 변화가 있었다. Cline의 공식 제공자 목록에서 Claude Sonnet 5.5가 다시 최상위권으로 복귀하며 기본 모델로 지정되었다. 이는 사용자들이 별도의 설정 변경 없이도 안정적이고 성능이 검증된 모델을 바로 활용할 수 있음을 의미한다.
+
+모델 카탈로그 전반에 걸친 대대적인 갱신도 주목할 만하다. CommandCode와 Reflection이라는 새로운 제공자가 추가되었으며, 302.AI, Eden AI, Prime Inference 등 기존 제공자들의 기본 모델도 각자의 최신 기술에 맞게 변경되었다. 예를 들어 CoreWeave는 Reflection Beam 1.0을, Scaleway는 DeepSeek V4.1 Flash를 기본값으로 채택했다.
+
+이러한 변경사항은 단순히 버전 번호가 올라간 것이 아니라, 빠르게 진화하는 AI 모델 생태계에 Cline이 실시간으로 적응하고 있음을 보여준다. 특정 모델의 성능 수치나 벤치마크 결과보다는 '어떤 모델이 이제 사용 가능한지'에 초점을 맞춰 업데이트되었으므로, 새로운 모델을 테스트해보고자 하는 개발자들에게는 좋은 기회가 될 것이다.
+
+---
+
+원문: [Desktop v0.0.48](https://github.com/cline/cline/releases/tag/desktop-v0.0.48)

@@ -1,0 +1,39 @@
+---
+title: LLM 에이전트, 모델이 아닌 실행 환경으로 고치다
+category: papers
+axis: agent
+format: explainer
+summary: LLM 에이전트의 성능을 높이기 위해 모델 가중치를 수정하는 대신 실행 시간 하네스를 개선하는 Life-Harness를 소개한다. 학습 과정에서 발생한 반복적 오류를 분석해 환경 계약 및 절차적 기술에 개입하는 메커니즘으로 전환한다.
+publishedAt: 2026-10-18T22:00:04+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.22166
+  title: 'Adapting the Interface, Not the Model: Runtime Harness Adaptation for Deterministic LLM Agents'
+  author: Tianshi Xu
+  publishedAt: 2026-10-16T13:00:00+0900
+  words: 15243
+  image: https://arxiv.org/html/2605.22166v3/exp_abstract.png
+paper:
+  arxivId: '2605.22166'
+  authors:
+  - Tianshi Xu
+  - Huifeng Wen
+  - Meng Li
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+LLM 에이전트는 언어 모델 자체뿐만 아니라 관찰, 도구 사용, 액션 실행, 피드백 해석 및 궤적 제어를 중재하는 런타임 하네스에 의해 형성된다. 기존 에이전트 적응 방법은 주로 모델 파라미터를 업데이트하지만, 결정론적이고 규칙 기반의 도메인에서 많은 실패는 모델과 환경 간 인터페이스 불일치에서 기인한다. Life-Harness는 고정된 LLM 에이전트의 성능을 모델 가중치나 평가 환경 변경 없이 향상시키는 수명 주기 인식 런타임 하네스다.
+
+Life-Harness는 학습 궤적에서 반복적으로 발생하는 상호작용 실패를 환경 계약, 절차적 기술, 액션 실현 및 궤적 규제를 위한 재사용 가능한 개입으로 변환하여 진화한다. 이 과정은 보지 못한 작업에 대한 평가 시에는 고정된 상태로 유지된다. 저자들은 AgentBench, tau-bench, tau2-bench, AppWorld 등 8개의 환경과 18개의 오픈 웨이트 백본 모델, 그리고 3개의 프론티어 모델을 대상으로 Life-Harness를 평가했다.
+
+저자들의 주장에 따르면 Qwen3-4B-Instruct를 사용할 때 Life-Harness는 7개의 공유 환경에서 평균 정확도 측면에서 Meta-Harness보다 28.7%p, AHE보다 7.5%p 높게 나타났다. 동시에 최적화 토큰 사용량은 각각 8.5%와 68.4% 절감되었다. 진화된 하네스는 GPT-5.5, Opus 4.8, Gemini 3.1 Pro 등 프론티어 모델에도 적용되어 평균 정확도를 3.5%p 향상시키는 것으로 보고된다.
+
+이 연구는 모델 자체를 수정하지 않고도 에이전트의 실행 환경을 최적화함으로써 결정론적 작업에서의 성능을 높일 수 있음을 보여준다. 관련 코드는 GitHub의 Life-Harness 저장소에서 확인할 수 있다.
+
+---
+
+원문: [Adapting the Interface, Not the Model: Runtime Harness Adaptation for Deterministic LLM Agents](https://arxiv.org/abs/2605.22166)
