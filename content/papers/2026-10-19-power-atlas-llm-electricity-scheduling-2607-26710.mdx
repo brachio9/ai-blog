@@ -1,0 +1,45 @@
+---
+title: 전력망과 AI 연산, 동시에 최적화하는 LLM 모델 PowerAtlas
+category: papers
+axis: serving
+format: explainer
+summary: 전력 공급과 컴퓨팅 작업의 일정을 함께 고려하는 문제를 해결하기 위해 대규모 언어모델을 활용하는 연구가 나왔다. 저자들은 기존 솔버나 일반 LLM이 가진 한계를 극복하고 제약 조건을 준수하는 일정을 생성하는 PowerAtlas를 제안했다.
+publishedAt: 2026-10-19T22:00:05+0900
+tags:
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2607.26710
+  title: 'PowerAtlas: Feasibility-Aware Language Models for Electricity-Computing Co-Scheduling'
+  author: Kaiwen Jiang
+  publishedAt: 2026-10-19T13:00:00+0900
+  words: 20776
+  image: https://arxiv.org/html/2607.26710v2/Fig1.png
+paper:
+  arxivId: '2607.26710'
+  authors:
+  - Kaiwen Jiang
+  - Siya Xu
+  - Ziyue Zhu
+  - Kaiwen Xue
+  - Chao Yang
+  - Anh Tuan Luu
+  - Haoran Luo
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+전력과 컴퓨팅의 공동 스케줄링은 작업이 어디에서 언제 실행될지와 발전기의 전력 분배를 동시에 결정해야 하는 복잡한 문제다. 작업 배치 위치가 노드별 수요를 변화시키고, 전력 가용성이 작업을 처리할 수 있는지를 결정하기 때문에 두 요소는 서로 긴밀하게 연결되어 있다. 기존 연구들은 최적화 솔버나 학습된 컨트롤러로 이러한 결합 문제를 다루어 왔으며, 최근에는 대규모 언어모델이 스케줄링과 전력 시스템의 구조화된 결정을 내리는 데 점차 활용되고 있다.
+
+그러나 기존 방식에는 명확한 한계가 존재한다. 최적화 솔버는 문제 인스턴스에 따라 실행 시간이 크게 달라지며, 일반 LLM은 출력을 올바르게 파싱하더라도 전력망 제약이나 서비스 요구사항을 위반하는 경우가 빈번하다. 이러한 배경에서 저자들은 ECCS를 구조화된 결정 작업으로 공식화하고, 2,000개의 인스턴스로 구성된 ECBench 벤치마크를 공개했다. 이 데이터셋에는 Gurobi 최적 참조 스케줄과 함께 전력망 한계, 작업 서비스, 비용, 지연 시간 등을 검증할 수 있는 실행 가능한 체크 기능이 포함되어 있다.
+
+저자들은 솔버 호출이나 검색 없이 단일 응답으로 공동 일정을 생성하는 PowerAtlas를 제안한다. 이 모델은 지도 학습 초기화와 결정론적 점수 평가자의 피드백을 활용한 Feasibility-Aware GRPO로 훈련된다. 저자들의 주장에 따르면, 백본 모델당 10~40개의 페어 인스턴스에서 테스트한 결과, 선택된 PowerAtlas 체크포인트는 베이스 모델 대비 위반률을 89~98% 감소시키고 패널티 비용을 최대 26배까지 낮췄다. 다만 공급 부족 잔여분이 여전히 존재한다는 점도 함께 명시하고 있다.
+
+이 연구의 코드와 데이터는 깃허브를 통해 공개되어 있어 재현과 추가 검증이 가능하다. 전력망 제약 조건을 고려한 AI 스케줄링 기술의 발전 방향을 보여준 이번 연구는, 복잡한 인프라 운영 문제에서 LLM의 실용성을 높이는 새로운 접근법으로 주목받고 있다.
+
+---
+
+원문: [PowerAtlas: Feasibility-Aware Language Models for Electricity-Computing Co-Scheduling](https://arxiv.org/abs/2607.26710)

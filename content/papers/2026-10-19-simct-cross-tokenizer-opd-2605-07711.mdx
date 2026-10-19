@@ -1,0 +1,47 @@
+---
+title: 토크나이저가 다를 때 교사의 지시를 되찾는 SimCT 방법
+category: papers
+axis: serving
+format: explainer
+summary: 교사와 학생 모델의 토크나이저가 다르면 기존 지식 증류 방식에서 많은 학습 신호가 손실된다. SimCT는 짧은 다중 토큰 연속을 비교 대상으로 삼아 이 손실을 보전한다. 저자들은 이를 통해 수학 추론 및 코드 생성 작업에서 성능이 향상된다고 주장한다.
+publishedAt: 2026-10-19T22:00:05+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.07711
+  title: 'SimCT: Recovering Lost Supervision for Cross-Tokenizer On-Policy Distillation'
+  author: Jie Sun
+  publishedAt: 2026-10-16T13:00:00+0900
+  words: 16419
+  image: https://arxiv.org/html/2605.07711v3/teaser-v4.png
+paper:
+  arxivId: '2605.07711'
+  authors:
+  - Jie Sun
+  - Mao Zheng
+  - Mingyang Song
+  - Qiyong Zhong
+  - Yilin Cheng
+  - Bichuan Feng
+  - Pengfei Liu
+  - Junfeng Fang
+  - Xiang Wang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+온-폴리시 증류(OPD)는 대형 모델의 행동을 작은 모델로 옮기는 표준적인 도구다. 하지만 이 방식은 교사와 학생 모델이 동일한 텍스트를 토큰 단위로 동일하게 해석한다고 가정한다. 두 모델이 사용하는 토크나이저가 서로 다르면, 이 가정은 성립하지 않는다. 특히 어휘 체계가 충돌하는 위치에서 정확한 공유 토큰 매칭을 시도하면 교사의 중요한 신호의 상당 부분이 조용히 버려진다.
+
+이 문제를 해결하기 위해 저자들은 SimCT(Simple Cross-Tokenizer OPD)를 제안한다. 이 방법은 감독 학습의 공간을 확장하여 손실된 신호를 되찾는다. 기존 공유 토큰 비교에 더해, 두 토크나이저가 모두 실현할 수 있는 짧은 다중 토큰 연속을 비교 대상으로 삼는다. 이때 OPD 손실 함수의 형태 자체는 변경하지 않는다.
+
+저자들은 이러한 단위들이 교사와 학생 간에 함께 토큰화할 수 있는 가장 세분화된 감독 인터페이스라고 주장한다. 더 거친 대안들은 온-폴리시 학습에 유용한 교사와 학생의 구별을 제거해 버린다고 설명한다. 즉, 정확한 공유 토큰 매칭으로 인해 버려졌던 감독 신호를 회복하는 것이 핵심이다.
+
+수학 추론과 코드 생성 벤치마크에서 세 쌍의 이질적인 교사-학생 모델에 대해 실험한 결과, SimCT는 기존 공유 어휘 OPD 및 대표적인 교차 토크나이저 베이스라인보다 일관되게 높은 성능을 보인다고 저자들은 주장한다. 아블레이션 연구도 이러한 개선이 정확히 버려졌던 감독 신호의 회복에서 비롯됨을 확인해 주었다.
+
+---
+
+원문: [SimCT: Recovering Lost Supervision for Cross-Tokenizer On-Policy Distillation](https://arxiv.org/abs/2605.07711)

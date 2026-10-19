@@ -1,0 +1,34 @@
+---
+title: Pipecat이 파일과 이미지를 대화 맥락에 넣는 법
+category: releases
+axis: voice
+format: explainer
+summary: Pipecat v1.13.0은 RTVI를 통해 클라이언트가 보낸 파일과 이미지를 LLM 대화 맥락에 포함하는 기능을 추가했다. 제공자별 URL 처리와 보안 검증을 갖춘 새로운 파일 해결사 시스템이 도입되었다.
+publishedAt: 2026-10-19T22:00:05+0900
+tags:
+- quantization
+- TTS
+- speech-to-speech
+draft: false
+source:
+  url: https://github.com/pipecat-ai/pipecat/releases/tag/v1.13.0
+  title: v1.13.0
+  author: github-actions[bot]
+  publishedAt: 2026-10-19T15:35:05+0900
+  words: 16945
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 사용자가 봇에게 파일을 보내면 이를 LLM이 이해할 수 있는 문맥으로 자연스럽게 연결하는 것이다. 기존에는 텍스트나 음성만 주로 다뤘다면, 이제 이미지나 문서 같은 바이너리 데이터도 대화 흐름의 일부가 된다. 새로운 메시지 타입과 프레임 구조를 통해 파일 데이터를 base64 인코딩된 문자열이나 URL 형태로 전달하며, 이를 Anthropic, OpenAI 등 주요 LLM 제공자마다 최적화된 형식으로 변환해준다.
+
+파일 처리 방식은 제공자의 특성에 따라 유연하게 대응한다. 각 LLM 서비스는 자신이 직접 가져올 수 있는 공개 HTTP URL이나 클라우드 스토리지 경로를 명시하고, 해당 범주에 속하면 봇이 중간에서 다운로드하지 않고 제공자가 직접 접근하도록 한다. 반면 지원되지 않는 형식이나 보안상 제한되는 주소는 새로운 FileResolver가 대신 다운로드하여 인메모리 캐시에 저장한 후 사용한다. 이 과정에서 URL은 변경되지 않은 불변 콘텐츠로 간주되며, 필요시 강제로 갱신할 수 있는 메커니즘도 제공한다.
+
+보안과 효율성을 위해 파일 해결사는 엄격한 네트워크 규칙을 따른다. 기본적으로 공개 라우팅 가능한 주소나 허용된 CIDR 범위 내의 HTTP URL만 다운로드하며, 리디렉션은 거부하고 50MB라는 크기 제한을 둔다. 이는 서버 사이드 요청 위조(SSRF) 공격을 방지하기 위한 장치다. 또한 로컬 저장소 같은 백엔드는 파일이 캐시되면 원본을 삭제하는 옵션을 지원해 불필요한 디스크 공간을 절약할 수 있다. 이러한 구조는 여러 서비스가 동일한 인스턴스를 공유할 때 중복 다운로드를 피하고 효율성을 높인다.
+
+---
+
+원문: [v1.13.0](https://github.com/pipecat-ai/pipecat/releases/tag/v1.13.0)

@@ -1,0 +1,50 @@
+---
+title: Unsloth, NVIDIA Nemotron 3.5와 Meta Muse Spark Open 지원 추가
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 NVIDIA의 Nemotron 3.5 시리즈와 Meta의 Muse Spark Open 모델을 로컬 환경에서 실행할 수 있도록 업데이트했다. 텍스트 확산 기반 LLM 학습과 DeepSpeed 훈련 지원이 강화되었으며, 코딩 에이전트용 프롬프트 캐싱 성능도 개선되었다.
+publishedAt: 2026-10-19T22:00:05+0900
+tags:
+- RAG
+- Claude Code
+- Codex
+- Cursor
+- OpenCode
+- MCP
+- vLLM
+- SGLang
+- LoRA
+- QLoRA
+- fine-tuning
+- speculative decoding
+- KV cache
+- GRPO
+- DPO
+- SFT
+- TTS
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.908-beta
+  title: NVIDIA Nemotron 3.5 + Meta Muse Spark Open
+  author: shimmyshimmer
+  publishedAt: 2026-10-16T03:50:55+0900
+  words: 6729
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Unsloth는 NVIDIA의 Nemotron 3.5 Bolt와 Super VL, 그리고 Meta의 Muse Spark Open 모델 실행을 공식적으로 지원한다. Nemotron 3.5 Bolt는 24GB 메모리로 구동 가능하며, Super VL은 1비트 양자화 시 약 64GB, 4비트 시 128GB 메모리가 필요하다. 특히 Super VL은 기존 Inkling Small 대비 입력 토큰이 많을 때 약 5배 빠른 생성 속도를 보인다. Meta의 Muse Spark Open은 816B 중 42.7B가 활성화되는 MoE 구조로, 2비트 양자화 시 약 256GB 메모리에서 동작하며 텍스트·이미지·오디오 등 다중 모드 입력을 처리한다.
+
+코딩 에이전트 사용자를 위해 Claude Code나 Codex 같은 도구와 함께 로컬 GGUF 모델을 사용할 때 프롬프트 재처리량을 대폭 줄이는 캐싱 기능이 개선되었다. 또한 브라우저 자동화 기능에서 탭 분리 및 커서 조작이 더 안정적으로 작동하며, sd-server나 Ollama 등 외부 이미지 서버를 통해 생성된 이미지를 대화 흐름에 자연스럽게 연결할 수 있게 되었다.
+
+학습 측면에서는 LLaDA, Dream, SDAR 등 텍스트 확산(Text-Diffusion) 기반 LLM의 학습과 채팅 기능을 앱 내에서 지원한다. 이 과정에서 실시간 노이즈 제거 캔버스를 통해 생성 과정을 시각적으로 확인할 수 있다. 또한 DeepSpeed ZeRO-2 및 ZeRO-3 전략을 통한 4비트 QLoRA, 전체 파인튜닝, DPO 학습 및 CPU 오프로드 기능이 강화되어 대규모 모델의 효율적인 학습이 가능해졌다.
+
+이번 업데이트는 특정 커밋이나 기여자 목록보다는 주요 기능 변경에 초점을 맞춘 요약이다. Nemotron과 Muse Spark Open은 각각 문서 이해·컴퓨터 사용 및 장기 코딩 작업에 특화된 모델로, Unsloth를 통해 로컬 환경에서의 접근성이 크게 높아진 것이 핵심이다.
+
+---
+
+원문: [NVIDIA Nemotron 3.5 + Meta Muse Spark Open](https://github.com/unslothai/unsloth/releases/tag/v0.1.908-beta)
