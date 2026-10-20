@@ -1,0 +1,39 @@
+---
+title: 'SGLang v0.5.22: 모델 로딩 속도와 하드웨어 지원의 확장'
+category: releases
+axis: serving
+format: explainer
+summary: SGLang 0.5.22 버전은 InstantTensor를 통한 모델 로딩 속도 향상과 Apple Silicon Mac 지원 추가를 주요 특징으로 한다. DeepSeek 및 Qwen 등 주요 모델의 추론 성능 개선과 확산 모델 생태계 확장이 포함되었다.
+publishedAt: 2026-10-20T22:00:03+0900
+tags:
+- reranking
+- SGLang
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+draft: false
+source:
+  url: https://github.com/sgl-project/sglang/releases/tag/v0.5.22
+  title: v0.5.22
+  author: ch-wan
+  publishedAt: 2026-10-19T11:55:19+0900
+  words: 15515
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 릴리즈는 개발자 경험과 하드웨어 접근성을 크게 넓혔다. 새로 도입된 InstantTensor 로더는 모델 로딩 시간을 기존 대비 최대 10배까지 단축한다. 또한 Apple Silicon Mac에서 표준 PyTorch 백엔드를 지원하게 되어, MLX뿐만 아니라 더 넓은 환경에서의 실행이 가능해졌다. 이는 맥북 사용자들에게 SGLang을 활용하는 문턱을 낮추는 중요한 변화다.
+
+주요 언어 모델들의 추론 성능도 다각도로 개선되었다. DeepSeek-V4.1은 H200 GPU에서 처리량이 최대 2.3배 증가했으며, AMD MI350X/MI355X에서도 DSpark를 통해 높은 성능을 발휘한다. Qwen과 GLM 시리즈는 B200/B300 계열 GPU에서 각각 12%와 10% 이상의 디코딩 속도 향상을 기록했다. MiMo-V2.6-Pro 역시 DFlash 적용으로 처리량이 크게 늘었다.
+
+긴 프롬프트 처리와 특수 아키텍처 지원도 강화되었다. PD 분산 처리는 긴 프롬프트 작업에서 처리량을 최대 27% 높이고 p95 TTFT를 절반으로 줄인다. HiSparse는 CPU 메모리에 KV 캐시를 두며 EAGLE 및 MTP를 지원해 긴 컨텍스트 서빙에 유리하다. GLM 모델은 디코딩 컨텍스트 병렬화와 MTP를 결합해 최대 2.1배 빠른 디코딩이 가능해졌다.
+
+확산 모델과 이미지 생성 생태계도 확장되었다. Clef, PPLX-Decider, EmbeddingGemma 2 등 새로운 언어 및 비전 모델이 지원 목록에 추가되었다. 확산 모델 분야에서는 HunyuanImage-3.0-Instruct, Kandinsky 6, Wan-Animate-2, SANA-Video 2.0 등이 cookbook을 통해 소개되었다. 특히 ComfyUI와의 통합이 개선되어 MiniMax-H3와 Qwen-Image 2.1 실행이 가능해졌으며, 커뮤니티 GGUF 체크포인트와 LoRA 로딩도 지원한다.
+
+---
+
+원문: [v0.5.22](https://github.com/sgl-project/sglang/releases/tag/v0.5.22)

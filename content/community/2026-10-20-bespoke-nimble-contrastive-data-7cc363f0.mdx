@@ -1,0 +1,34 @@
+---
+title: 사실 하나만 바꾼 데이터로 만든 결정 모델 Nimble
+category: community
+axis: serving
+format: explainer
+summary: Bespoke Labs가 Jev를 재현한 Bespoke Nimble의 학습 레시피와 코드를 공개했다. 이 모델은 사실 하나만 다른 대조 데이터를 사용해 판별력을 학습했으며, 기존 방식보다 효율적인 서빙 구조를 갖췄다.
+publishedAt: 2026-10-20T22:00:03+0900
+tags:
+- Claude Code
+- distillation
+- LoRA
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/bespoke-labs-9b-nimble/12196
+  title: Bespoke Labs, 사실 하나만 바꾼 대조 데이터로 만든 9B 결정 모델 Nimble과 학습 레시피 공개
+  author: 9bow
+  publishedAt: 2026-10-18T19:30:19+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/3/4/34bdd5c878e34a124f358577f119f2a32f802abe_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Bespoke Labs는 Qwen3.5-9B 기반의 결정 모델 Bespoke Nimble과 그 학습 방법을 공개했다. 이 모델은 텍스트와 질문을 받아 정해진 선택지 중 하나를 고르는 데 특화되어 있으며, 추론 과정을 글로 출력하지 않고 허용된 토큰의 로짓만 읽어 확률을 반환한다. 이러한 구조는 라우팅이나 분류처럼 코드가 바로 판단 결과를 처리해야 하는 환경에 적합하다. Besoke Labs는 Jev와 같은 비공개 모델의 출력을 증류하는 대신, 자체적으로 큐레이션한 데이터를 사용해 모델을 학습했다고 밝혔다.
+
+학습 데이터는 약 2,676개의 예제로 구성되며, 거의 동일한 두 문장에서 사실 하나만 바꿔 정답을 뒤집는 대조 쌍으로 만들었다. 라벨링은 사람이 검토하지 않고 모델이 검사한 합성 라벨을 사용했다. Bespoke Labs는 이 저장소의 주된 목적이 성능 경쟁이 아니라 데이터 제작과 학습 레시피를 공개하는 것이라고 설명했다. 또한 MiniCheck 연구진과의 협력 경험에서 서빙 방식과 데이터 큐레이션에 많은 영향을 받았다고 덧붙였다.
+
+Bespoke Labs가 제시한 평가 결과에 따르면, 자체 홀드아웃 데이터셋에서 기준 라벨 일치율은 90.12%로 기반 모델보다 높았으나 Jev보다는 낮았다. 사람이 라벨을 단 공개 벤치마크 13개에서는 매크로 평균 74.8%를 기록해 Jev에 1.2%p 뒤졌다. 가중치 라이선스는 버전마다 다르며, 최신 버전은 가중치 없이 유료 API로만 제공된다. Bespoke Labs는 하루 만에 만든 저장소라 거친 부분이 있을 수 있음을 인정하면서도, 오픈 소스 커뮤니티가 결정 모델을 재현하는 데 필요한 레시피를 제공했다고 강조했다.
+
+---
+
+원문: [Bespoke Labs, 사실 하나만 바꾼 대조 데이터로 만든 9B 결정 모델 Nimble과 학습 레시피 공개](https://discuss.pytorch.kr/t/bespoke-labs-9b-nimble/12196)

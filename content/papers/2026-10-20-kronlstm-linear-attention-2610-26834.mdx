@@ -1,0 +1,44 @@
+---
+title: 긴 문맥 처리를 위한 크로네커 델타 규칙과 KronLSTM
+category: papers
+axis: serving
+format: explainer
+summary: KronLSTM은 크로네커 델타 규칙을 기반으로 한 선형 어텐션 아키텍처다. 기존 메모리 업데이트 방식보다 간섭을 최소화하여 긴 문맥 처리에 유리한 안정적인 메모리 동역학을 제공한다.
+publishedAt: 2026-10-20T22:00:03+0900
+draft: false
+source:
+  url: https://huggingface.co/papers/2610.26834
+  title: Kronecker Delta Rule for Long Context Linear Attention
+  author: Anamaria-Roberta Hartl
+  publishedAt: 2026-10-19T09:00:00+0900
+  words: 48446
+paper:
+  arxivId: '2610.26834'
+  authors:
+  - Anamaria-Roberta Hartl
+  - Levente Zólyomi
+  - Michael List
+  - Günter Klambauer
+  - Sebastian Böck
+  - Sepp Hochreiter
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 20
+---
+
+긴 문맥을 다루는 언어 모델링에서 메모리의 안정성은 핵심 과제다. 저자들은 크로네커 델타 규칙이라는 새로운 연관 행렬 메모리 업데이트 규칙을 제안하며, 이를 바탕으로 KronLSTM 아키텍처를 소개한다. 이 방식은 xLSTM 계열에 메모리 수정 메커니즘을 추가해, 특정 연관성을 교정하면서도 행렬 공간의 단일 방향만 변경하도록 설계되었다.
+
+이러한 최소 침습적 메모리 수정은 기존 델타 규칙 업데이트와 비교해 이전에 저장된 정보와의 간섭을 줄인다. 덕분에 긴 문맥 처리에 특히 적합하며, 메모리 동역학은 정상 상태 분포로 수렴하는 마르코프 체인으로 수학적으로 기술된다. 입력 시퀀스 전체에서 메모리 행렬의 기대 노름이 균일하게 유계임을 보장하므로, 별도의 정규화나 안정화 메커니즘 없이도 안정적인 메모리 상태를 유지할 수 있다.
+
+저자들의 주장에 따르면 KronLSTM은 기존 선형 어텐션 아키텍처와 경쟁하거나 종종 더 나은 성능을 보인다. 특히 (Gated) DeltaNet 계열 모델들과 비교했을 때 긴 문맥 벤치마크에서 두각을 나타낸다고 한다. 이러한 결과는 크로네커 델타 규칙이 재귀적 선형 어텐션 아키텍처의 안정적인 연관 메모리를 위한 효과적이고 분석 가능한 기반임을 입증한다.
+
+연구진은 해당 코드와 모델을 오픈소스로 공개했다. GitHub와 Hugging Face를 통해 KronLSTM의 구현과 학습된 모델에 접근할 수 있으며, 이는 긴 문맥 처리를 필요로 하는 애플리케이션 개발자들에게 유용한 자료가 될 것이다.
+
+---
+
+원문: [Kronecker Delta Rule for Long Context Linear Attention](https://huggingface.co/papers/2610.26834)

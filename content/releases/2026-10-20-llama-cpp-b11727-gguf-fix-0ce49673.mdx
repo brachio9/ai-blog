@@ -1,0 +1,34 @@
+---
+title: 'llama.cpp b11727: GGUF 파일 손상 방지 업데이트'
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp 빌드 11727은 GGUF 분할 및 내보내기 도구의 안정성을 강화했다. 입력 파일이 잘린 경우 오류를 감지하여 손상된 출력 생성을 막았다.
+publishedAt: 2026-10-20T22:00:03+0900
+tags:
+- LoRA
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b11727
+  title: b11727
+  author: github-actions[bot]
+  publishedAt: 2026-10-19T19:23:39+0900
+  words: 775
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+GGUF 형식의 모델 파일을 분할하거나 변환하는 과정에서 예상치 못한 문제가 발생할 수 있다. 특히 원본 파일의 크기가 부족하거나 데이터가 잘려 있는 경우, 기존 도구는 이를 인지하지 못하고 오류가 포함된 파일을 생성해 왔다. 이는 이후 모델 추론 시 예기치 않은 동작을 유발하거나 시스템 안정성을 해칠 수 있는 잠재적 위험이다.
+
+이번 릴리즈에서는 이러한 문제를 해결하기 위해 gguf-split 및 export-lora 도구에 데이터 무결성 검증 기능을 추가했다. 이제 도구는 입력 GGUF 파일의 텐서 데이터 범위를 철저히 점검하며, 읽어야 할 데이터가 부족할 경우 처리를 중단하고 오류를 반환한다. 이를 통해 잘린 파일로 인해 손상된 출력물이 생성되는 것을 사전에 차단한다.
+
+이 변경은 모델 파일을 다루는 파이프라인의 신뢰성을 높이는 데 기여한다. 사용자가 모델 분할이나 LoRA 내보내기 작업을 수행할 때, 입력 파일의 이상을 즉시 인지하고 대응할 수 있게 되었다. 이는 단순한 버그 수정을 넘어 데이터 처리 과정에서의 안전장치를 강화하는 의미 있는 개선이다.
+
+이 글은 릴리즈 노트 중 주요 변경 사항만 추려 요약한 것이다. 전체 커밋 목록이나 기여자 명세는 원본 저장소를 참고해야 한다.
+
+---
+
+원문: [b11727](https://github.com/ggml-org/llama.cpp/releases/tag/b11727)

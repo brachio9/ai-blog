@@ -1,0 +1,48 @@
+---
+title: 비디오에서 사물을 찾게 하려면 시각적 추론이 필요하다
+category: papers
+axis: serving
+format: explainer
+summary: 기존 텍스트 기반 추론은 비디오의 시각적 증거와 단절되는 한계가 있다. 연구진은 시간과 공간에 뿌리내린 새로운 추론 체계를 제안한다. 이를 통해 모델이 영상 속 사물의 궤적을 더 정확하게 예측할 수 있다고 주장한다.
+publishedAt: 2026-10-20T22:00:03+0900
+tags:
+- fine-tuning
+- SFT
+draft: false
+source:
+  url: https://huggingface.co/papers/2610.25090
+  title: 'Think Visually Across Space and Time: Grounded Reasoning for Video Segmentation'
+  author: Junwei Wen
+  publishedAt: 2026-10-18T09:00:00+0900
+  words: 12569
+  image: https://arxiv.org/html/2610.25090v1/vis_groundmore_v3.png
+paper:
+  arxivId: '2610.25090'
+  authors:
+  - Junwei Wen
+  - Deshui Miao
+  - Guangming Lu
+  - Ming-Hsuan Yang
+  - Xin Li
+  - Wenjie Pei
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+  popularity:
+    kind: hf-upvotes
+    count: 13
+---
+
+비디오 추론 분할 작업은 암시적으로 묘사된 대상의 픽셀 단위 마스크 궤적을 예측하는 것을 요구한다. 이때 공간적 관계와 시간적 사건을 해결해야 정답이 나온다. 그러나 텍스트만 사용하는 사슬 사고 방식은 선택 이유를 설명하더라도 시각적 참조를 명시하지 못한다. 이로 인해 언어적 추론과 프레임에 분산된 증거 사이에 비디오 참조 간극이 발생한다.
+
+연구진은 이 문제를 해결하기 위해 시간적 비디오 원시체 사슬을 제안한다. 이는 공간과 시간에 뿌리내린 비디오 사슬 사고의 일종으로, 쿼리와 관련된 관찰을 연대기적 추론 사슬로 조직한다. 각 원시체는 엔티티 참조를 시간적 지지와 타임스탬프가 붙은 공간적 증거와 연결한다. 이 사슬은 언어와 이러한 참조를 교차하여 어떤 엔티티가 관련 있는지, 언제 사건이 성립하는지, 어디에 증거가 나타나는지에 대한 추론을 안내한다.
+
+선택된 대상 원시체는 비디오 마스크 예측을 위한 박스 프롬프트와 시간적 지지를 제공한다. 연구진은 이 표현 방식을 학습하기 위해 지도 미세 조정과 사슬 정렬 강화 학습을 위한 데이터셋을 구축했다. 저자들의 주장에 따르면, 다섯 가지 벤치마크와 세 가지 모델 백본에서의 광범위한 실험 결과 TCoVP가 강력한 성능을 보였다고 한다.
+
+이 연구는 추론 과정 내에서 공간 및 시간적 증거를 조직하는 것의 효과성을 강조한다. 모든 모델과 코드는 공개될 예정이며, 프로젝트 페이지를 통해 관련 자료를 확인할 수 있다.
+
+---
+
+원문: [Think Visually Across Space and Time: Grounded Reasoning for Video Segmentation](https://huggingface.co/papers/2610.25090)
