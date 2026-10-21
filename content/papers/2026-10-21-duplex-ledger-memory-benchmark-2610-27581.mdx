@@ -1,0 +1,44 @@
+---
+title: 양방향 대화 에이전트의 기억, 어떻게 정리할 것인가
+category: papers
+axis: voice
+format: explainer
+summary: DuplexLedger는 양방향 음성 에이전트의 지속적 메모리 관리를 평가하는 벤치마크다. 기존 시스템이 상호작용과 메모리 상태를 분리해 평가하는 한계를 지적하며, 이벤트 단위의 기록·수정·무시·유지 기준을 제시한다.
+publishedAt: 2026-10-21T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.27581
+  title: 'DuplexLedger: Benchmarking Transactional Memory in Full-Duplex Speech Agents'
+  author: Yuxuan Li
+  publishedAt: 2026-10-21T13:00:00+0900
+  words: 20819
+  image: https://arxiv.org/html/2610.27581v1/figures/fig1_1.png
+paper:
+  arxivId: '2610.27581'
+  authors:
+  - Yuxuan Li
+  - Xiangchen Guan
+  - Kunrong Li
+  - Jin Wang
+  - Kaiwen Luo
+  - Yang Xiao
+  - Yufei Guo
+  - Zhisheng Chen
+  - Liang Lin
+  - Kun Wang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+양방향 음성 에이전트는 말하고 듣는 동시에 영구 메모리를 업데이트해야 하지만, 어떤 이벤트를 저장하거나 수정하거나 배제해야 할지 명확하지 않다. 기존 벤치마크는 상호작용 타이밍과 메모리 결과를 분리해 평가하므로, 올바른 답변 뒤의 상태 전이를 가려버린다. 이를 해결하기 위해 저자들은 DuplexLedger를 소개한다. 이는 1,094개의 지속적 세션으로 구성된 이국어 벤치마크로, 네 가지 양방향 시나리오와 이벤트 수준의 기록·수정·무시·유지 감독, 명시적인 사전·사후 메모리 상태, 그리고 동일 세션 내 6,564개의 질문과 검사를 정렬한다.
+
+저자들은 다섯 가지 양방향 모델을 평가한 결과 상호작용-메모리 격차를 발견했다고 주장한다. 강력한 경계 제어와 일관된 최종 상태 메모리를 결합하는 시스템은 없으며, 가장 좋은 최종 상태 사실 커버리지는 2.01%에 불과하다는 것이다. 이를 바탕으로 저자들은 ACT-Mem을 제안한다. 이는 이벤트 컨트롤러, 버전화된 트랜잭션 원장, 타입 지정 검색기로 구성된 892만 파라미터 사이드카이며, 고정된 MiniCPM-o 4.5 백본과 결합된다.
+
+저자들의 주장에 따르면, 219개의 홀드아웃 세션에서 ACT-Mem은 최신 값 정확도를 4.11%에서 8.68%로 높이고 구식 진술과 방해 요소 채택을 줄인다. 상호작용 경계는 개선되지만 중단 정지는 느려진다. 이러한 결과는 무차별적인 전사 기록 유지가 아닌 선택적이고 감사 가능한 양방향 메모리를 지향해야 함을 시사한다. 코드는 https://github.com/lyx-researcher/DuplexLedger에서 확인할 수 있다.
+
+---
+
+원문: [DuplexLedger: Benchmarking Transactional Memory in Full-Duplex Speech Agents](https://arxiv.org/abs/2610.27581)

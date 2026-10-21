@@ -1,0 +1,33 @@
+---
+title: Flame으로 검색 에이전트 훈련할 때 GPU 자원과 가중치 동기화 다루는 법
+category: community
+axis: serving
+format: explainer
+summary: 오픈소스 분산 엔진 Flame을 사용해 Qwen2.5-3B-Instruct 모델의 검색 능력을 강화하는 훈련 사례를 다룬다. 저자는 웜 GPU 서비스, 갱 스케줄링, 증분 가중치 동기화 등 인프라 측면에서의 접근 방식과 초기 실험 결과를 공유한다.
+publishedAt: 2026-10-21T22:00:05+0900
+tags:
+- vLLM
+draft: false
+source:
+  url: https://discuss.pytorch.org/t/training-a-search-r1-agent-with-flame-warm-gpu-services-gang-scheduling-and-incremental-weight-sync/225581
+  title: 'Training a Search-R1 agent with Flame: warm GPU services, gang scheduling, and incremental weight sync'
+  author: k82cn
+  publishedAt: 2026-10-20T14:28:58+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Flame 프로젝트 개발자가 PyTorch 포럼에 올린 글에 따르면, 이 오픈소스 분산 엔진을 활용해 Qwen2.5-3B-Instruct 모델이 BM25 코퍼스 검색을 통해 HotpotQA 질문에 답하도록 훈련하는 예제를 추가했다. 훈련 루프는 vLLM 실행자가 트래젝토리를 생성하고 PyTorch 트레이너 레플리카가 그룹 상대 이점을 활용해 정책을 업데이트하며, Flame의 객체 캐시가 배치와 가중치 업데이트를 전달하는 방식으로 동작한다.
+
+이 시스템의 핵심 인프라 구성 요소로는 호출 간 모델과 인덱스, 옵티마이저 상태를 유지하는 웜 실행자, 대기 작업에 따라 생성 용량을 탄력적으로 확장하는 기능, 트레이너 그룹이 최소 자원을 함께 할당받아 부분적 스케줄링 문제를 피하는 갱 스케줄링, 그리고 초기 전체 내보내기 후 변경된 bf16 값만 가져오는 증분 가중치 동기화가 꼽힌다. 이러한 설계는 자원 효율성과 훈련 안정성을 높이는 데 목적이 있다.
+
+저자가 제시한 100스텝 실험 결과에 따르면, 14개의 롤아웃 GPU와 2개의 트레이너 GPU를 사용했을 때 홀드아웃 정확 일치 점수가 14.5%에서 47%로 향상되었다. 첫 두 스텝 이후 평균 스텝당 소요 시간은 24.3초였으며, 안정 상태에서의 가중치 발행량은 전체 모델 크기인 6.17GB 대비 약 165MB 수준이었다. 이는 증분 동기화가 대역폭 절감에 기여함을 시사한다.
+
+다만 저자는 이 결과가 단일 시드와 200개의 평가 질문, 그리고 특정 문단으로 구축된 코퍼스를 기반으로 했으므로 기존 Search-R1 벤치마크와 직접 비교할 수 없다고 명시했다. 또한 동기식 루프로 인해 GPU가 상당한 시간 동안 유휴 상태에 머무르는 한계도 지적하며, 에이전트 훈련 시스템을 구축하는 다른 개발자들에게 가중치 동기화 처리 방식과 동기식 업데이트 및 정책 지연 간의 절충안에 대한 의견을 구했다.
+
+---
+
+원문: [Training a Search-R1 agent with Flame: warm GPU services, gang scheduling, and incremental weight sync](https://discuss.pytorch.org/t/training-a-search-r1-agent-with-flame-warm-gpu-services-gang-scheduling-and-incremental-weight-sync/225581)

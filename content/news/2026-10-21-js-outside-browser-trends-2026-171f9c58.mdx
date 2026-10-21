@@ -1,0 +1,36 @@
+---
+title: '브라우저 밖 JS의 변천사: Node.js, Deno, Bun과 공급망 보안'
+category: news
+axis: vibe-coding
+format: explainer
+summary: 2019년 이후 브라우저 밖 JavaScript 생태계의 변화를 정리한다. Node.js의 내장 기능 강화와 연 1회 릴리스 전환, Deno와 Bun의 경쟁 구도 변화, 그리고 npm 인수와 공급망 공격에 대한 대응을 다룬다.
+publishedAt: 2026-10-21T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+- Gemini CLI
+- MCP
+draft: false
+source:
+  url: https://d2.naver.com/helloworld/1443473
+  title: 2026년과 이후 JavaScript의 동향 - 브라우저 밖의 JavaScript
+  publishedAt: 2026-10-21T12:38:48+0900
+  image: https://d2-serving.pstatic.net/v1/images?objectPath=d2%2FEDITOR%2F2026%2Fhelloworld-202610-%EB%B0%95%EC%9E%AC%EC%84%B1%2Ffiles%2F2-00.gif
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+브라우저 밖 JavaScript 환경은 지난 7년간 큰 변화를 겪었다. 과거 서버와 빌드 도구 실행에 그쳤던 Node.js는 이제 TypeScript 직접 실행, 테스트 러너, SQLite 및 WebSocket 클라이언트 등을 내장하며 권한 모델로 파일과 네트워크 접근을 제한하는 종합 런타임으로 진화했다. 버전 번호도 12에서 26으로 크게 올랐다.
+
+경쟁 구도 역시 달라졌다. Node.js 호환성을 목표로 삼던 Deno와 Bun이 등장했으나, 2026년 현재 Deno 팀이 Cloudflare에 합류하면서 Deno 런타임 개발은 종료되는 것으로 알려졌다. 이에 따라 Node.js와의 호환성 경쟁은 주로 Bun과 같은 다른 런타임으로 집중되고 있다.
+
+패키지 관리 영역에서는 GitHub가 npm을 인수하며 기술 외적 불확실성이 해소된 대신, 2025년부터 공급망 공격이 주요 위협으로 부상했다. 메인테이너 계정 탈취와 자체 전파 웜 등 악성 버전 유통 사례가 반복되자, npm과 pnpm은 설치 스크립트 기본 실행을 중단하는 등 보안 조치를 강화했다.
+
+이 글은 2019년 이후의 주요 사건을 간략히 정리한 것으로, Node.js 사용 현황, WinterTC 표준, 데스크톱 및 모바일 개발 도구, PWA와 XR, OpenJS Foundation, 그리고 AI 코딩 도구가 생태계에 미치는 영향 등을 추가로 다루고 있다. 번들러와 WASI 관련 내용은 다른 편에서 설명한다.
+
+---
+
+원문: [2026년과 이후 JavaScript의 동향 - 브라우저 밖의 JavaScript](https://d2.naver.com/helloworld/1443473)

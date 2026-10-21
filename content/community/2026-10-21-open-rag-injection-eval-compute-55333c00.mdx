@@ -1,0 +1,32 @@
+---
+title: 오픈소스 RAG 프롬프트 인젝션 평가, 컴퓨팅 자원이 필요하다
+category: community
+axis: retrieval
+format: explainer
+summary: 뉴저지 기반 보안 연구사 Qwalora가 오픈 가중치 모델의 RAG 프롬프트 인젝션 취약성을 검증하는 PARALLAX 프로젝트를 소개한다. 재현 가능한 평가 환경 구축을 위해 Hugging Face 커뮤니티 GPU 보조금 신청 시 필요한 컴퓨팅 사양과 절차에 대한 조언을 구하고 있다.
+publishedAt: 2026-10-21T22:00:05+0900
+tags:
+- RAG
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/compute-guidance-for-an-open-rag-prompt-injection-evaluation-by-a-small-company/190848
+  title: Compute guidance for an open RAG prompt-injection evaluation by a small company
+  author: qwalora-research
+  publishedAt: 2026-10-21T11:49:48+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/0/9/097f7cced1ffe2656379300c3a294e1f611bf313_2_690x372.png
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+뉴저지에 위치한 독립 보안 연구사 Qwalora는 검색된 문서 내 공격자 제어 텍스트가 오픈 가중치 지시 모델의 시스템 명령을 무시하게 만드는 현상을 연구하는 PARALLAX 프로그램을 운영 중이다. 이들은 현재 결정론적 규칙 기반 평가 도구와 Ed25519 서명 검증 데모를 포함한 공개 쇼케이스를 제공하지만, 아직 실제 모델을 실행하지 않았으므로 구체적인 보안 취약점 발견 결과는 보고하지 않았다.
+
+Qwalora는 코드와 합성 코퍼스를 보안 및 방법론 검토가 완료된 후 공개할 계획이며, 그 전에 사전 정의된 프로토콜에 따라 평가를 수행하려 한다. 이 프로토콜은 48개의 합성 작업과 10가지 고정 공격 변형, 3가지 인젝션 위치를 포함하며, 각 항목당 온도 0 생성과 시드 재실행을 통해 비결정성을 측정한다. 또한 Qwen2.5와 Mistral, Llama-3.1 등 주요 오픈소스 모델의 특정 리비전과 해시 값을 기록하여 실험의 투명성을 확보할 예정이다.
+
+이들이 현재 가장 궁금해하는 것은 Hugging Face 커뮤니티 GPU 보조금 신청 시 필요한 컴퓨팅 자원 규모에 대한 가이드라인이다. Qwalora는 초기 추정치로 단일 24GB GPU에서 약 40시간의 연산 시간을 필요로 한다고 보지만, 이는 짧은 벤치마크 실행 후 정확한 측정값으로 대체될 예정이다. 무료 티어에서는 정적 스페이스만 호스팅 가능하다는 점을 고려하여, 공식적인 보조금 요청 전에 이 추정치를 어떻게 다뤄야 하는지에 대한 커뮤니티의 조언을 구하고 있다.
+
+---
+
+원문: [Compute guidance for an open RAG prompt-injection evaluation by a small company](https://discuss.huggingface.co/t/compute-guidance-for-an-open-rag-prompt-injection-evaluation-by-a-small-company/190848)
