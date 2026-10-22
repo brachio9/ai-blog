@@ -1,0 +1,47 @@
+---
+title: Unsloth, DeepSeek-V4.1과 FLUX.3 지원으로 로컬 AI 환경 진화
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 DeepSeek-V4.1-Flash와 FLUX.3 Image Klein 모델의 로컬 실행을 지원한다. 이미지 및 비디오 편집 기능 강화와 MCP 설정 단순화, 다중 GPU 학습 알파 버전 제공 등 주요 기능이 업데이트되었다.
+publishedAt: 2026-10-22T22:00:05+0900
+tags:
+- RAG
+- Claude Code
+- Codex
+- Cursor
+- MCP
+- vLLM
+- quantization
+- LoRA
+- QLoRA
+- fine-tuning
+- GRPO
+- DPO
+- SFT
+- Terminal-bench
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.909-beta
+  title: DeepSeek-V4.1 & FLUX-3
+  author: danielhanchen
+  publishedAt: 2026-10-20T01:21:58+0900
+  words: 7277
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Unsloth는 최근 릴리즈를 통해 DeepSeek-V4.1-Flash-1017과 FLUX.3 Image Klein 모델의 로컬 실행을 공식 지원한다. DeepSeek-V4.1-Flash-1017은 총 552억 파라미터 중 활성 파라미터가 약 16억 개에 불과하며, Engram 테이블을 SSD에 두어 1비트 양자화 시 약 125GB의 메모리만 필요로 한다. 이 모델은 이전 버전 대비 추론 및 코딩 성능이 향상되었고 출력 길이가 짧아졌으며, Terminal-Bench 4.0에서 점수가 크게 상승한 것으로 알려졌다. 또한 고난도 사고 모드가 기본 활성화되어 있으며 사용자는 노력 수준을 조절하거나 비활성화할 수 있다.
+
+이미지 생성 및 편집 분야에서는 Black Forest Labs의 FLUX.3 Image Klein 모델이 추가되었다. 이 56억 파라미터 모델은 최대 10장의 참조 이미지를 활용해 텍스트 렌더링 및 이미지 수정이 가능하며, GPU 메모리 24GB에서 실행된다. GGUF 포맷 지원으로 전용 GPU가 없는 컴퓨터에서도 사용 가능하고, 기본 베이스 모델도 제공된다. 특히 짧은 프롬프트를 상세한 캡션으로 확장하는 기능이 기본 활성화되어 어려운 자세의 인물 생성 시 왜곡 문제를 해결하는 데 도움이 된다.
+
+대화 및 미디어 처리 기능도 강화되었다. 로컬 채팅 모델과 함께 이미지·비디오·음성 모델을 동시에 로드할 수 있게 되었으며, Qwen-Image-Edit 시리즈는 한 번에 최대 3장의 이미지를 편집할 수 있다. 비디오 생성 시 커스텀 해상도와 종횡비를 설정하거나 모델이 학습된 크기를 선택할 수 있고, 갤러리에서 바로 편집을 시작하거나 드래그 앤 드롭으로 이미지를 추가하는 등 워크플로우가 개선되었다. 대용량 텍스트 인코더를 사용하는 모델의 경우 GPU 지원 시 양자화된 인코더를 기본 로드하여 메모리 사용량을 최대 절반까지 줄이고 로딩 속도를 높였다.
+
+개발자 편의성을 위한 기능도 업데이트되었다. `unsloth mcp add` 명령어 하나로 Claude Code, Codex, Cursor 등의 코딩 에이전트를 Unsloth에 연결하는 MCP 설정이 단순화되었다. 또한 다중 GPU 환경에서의 FSDP2 기반 학습이 알파 버전으로 제공되며, 학습 시작 전 모델이 학습할 토큰을 미리 확인할 수 있는 기능이 추가되었다. 이번 업데이트는 주요 기능의 일부를 다루었으며, 전체 변경 사항은 공식 릴리즈 노트를 참고해야 한다.
+
+---
+
+원문: [DeepSeek-V4.1 & FLUX-3](https://github.com/unslothai/unsloth/releases/tag/v0.1.909-beta)

@@ -1,0 +1,34 @@
+---
+title: 에이전트 코딩 폭주, 서버가 대신 정리하는 gitai
+category: community
+axis: vibe-coding
+format: explainer
+summary: 코딩 에이전트가 한 브랜치에 몰려드는 문제를 해결하기 위해 Anthropic의 Scion 아이디어를 GitLab Gitaly 위에 구현한 오픈소스 프로젝트다. 개발자는 서버가 변경을 자동으로 rebase하고 반영하면 병합 대기열 없이도 높은 처리량을 얻을 수 있다고 주장한다.
+publishedAt: 2026-10-22T22:00:05+0900
+tags:
+- Cursor
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/gitai-rebase-git-anthropic-scion/12235
+  title: 'gitai: 한 브랜치에 몰린 코딩 에이전트들의 변경을 서버가 대신 rebase해 반영하는 Git 서버 (Anthropic Scion 설계 참고)'
+  author: 9bow
+  publishedAt: 2026-10-21T11:30:06+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/2/d/2df1cab57d1e06aebe4e97d1e7e00c567b93c0d7_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: mid
+  crossSources: 1
+---
+
+코딩 에이전트가 급증하면서 같은 브랜치에 수많은 짧은 변경이 동시에 몰리는 현상이 나타나고 있다. Anthropic은 사내 모노레포에서 하루 병합 건수가 수천 건에서 세만 건 이상으로 폭증하며 소스 관리가 주요 병목이 되었다고 밝혔다. 기존 Git의 분산 구조는 사람이 몇 시간 작업 후 한 번 푸시하는 흐름에 최적화되어 있어, 에이전트의 빈번하고 짧은 변경 처리에는 전체 클론과 병합 대기열이 부담으로 작용한다.
+
+gitai는 이러한 문제를 해결하기 위해 Anthropic의 Scion 설계 개념을 참고하여 GitLab의 Gitaly 서버를 기반으로 구현한 프로젝트다. 이 시스템은 에이전트가 전체 저장소를 클론하지 않고 필요한 파일만 처리하도록 하며, 변경 사항을 서버가 자동으로 rebase하여 브랜치 끝에 반영한다. 이를 통해 병합 대기열 없이도 원자적 갱신(CAS) 방식으로 여러 에이전트의 변경을 순차적으로 기록하고 충돌을 줄일 수 있다고 개발자는 설명한다.
+
+개발자가 노트북 환경에서 수행한 테스트 결과, 배칭 기능을 활성화했을 때 50개 에이전트의 250개 변경 중 200개가 성공적으로 반영되는 것으로 나타났다. 반면 배칭을 끄면 성공률이 99개로 떨어졌으며, 상위 1% 지연 시간은 9.9초에서 12.7초로 증가했다. 이는 서버가 여러 변경을 묶어 처리할 때 전체 처리량은 높지만 개별 응답 속도는 다소 느려질 수 있음을 시사한다.
+
+현재 gitai는 초기 버전(v0.1.0)으로 웹 UI나 CI 연동 기능이 없으며, 다중 노드 구성과 클라우드 스토리지 테스트도 제한적으로 검증된 상태다. Anthropic과 무관한 개인 개발자의 독립 구현이라는 점을 명시하며, 에이전트 중심의 새로운 소스 관리 패러다임을 실험해 볼 수 있는 도구로 소개된다.
+
+---
+
+원문: [gitai: 한 브랜치에 몰린 코딩 에이전트들의 변경을 서버가 대신 rebase해 반영하는 Git 서버 (Anthropic Scion 설계 참고)](https://discuss.pytorch.kr/t/gitai-rebase-git-anthropic-scion/12235)

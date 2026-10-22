@@ -1,0 +1,38 @@
+---
+title: 두 마리 토끼를 한 번에 잡는 검색 모델 UIBK-Embedding
+category: papers
+axis: retrieval
+format: explainer
+summary: 밀집 인코더와 후기 상호작용 검색기의 장점을 결합한 새로운 모델이 등장했다. 별도의 점수 융합 단계 없이 단일 패스에서 두 가지 표현을 생성해 기존 인덱스에 바로 적용할 수 있다.
+publishedAt: 2026-10-22T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.27195
+  title: 'UIBK-Embedding: Effective Text Retrieval by Unifying Dense and Late-Interaction Retrieval'
+  author: Abdelrahman Abdallah
+  publishedAt: 2026-10-21T13:00:00+0900
+  words: 11214
+paper:
+  arxivId: '2610.27195'
+  authors:
+  - Abdelrahman Abdallah
+  - Mohammed Ali
+  - Adam Jatowt
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+기존에는 밀집 벡터로 텍스트의 주제를 파악하고 토큰 수준의 매칭으로 정확한 엔티티를 찾는 두 방식을 별개의 모델과 인덱스로 운영해야 했다. 이는 시스템 복잡도를 높이고 점수 융합이라는 추가 단계를 필요로 했다. UIBK-Embedding-v1은 이러한 비효율성을 해결하기 위해 1억 7,900만 파라미터의 영어 인코더를 통해 두 가지 표현을 한 번에 생성한다.
+
+이 모델의 핵심은 밀집 임베딩을 토큰 벡터 목록의 세 개 추가 벡터로 작성하고, 일차원 태그로 두 종류가 서로 매칭되지 않도록 분리하는 것이다. 이를 통해 수정 없는 MaxSim 연산만으로도 토큰 수준의 최대 유사도와 가중치 밀집 코사인 점수의 합을 계산할 수 있다. 따라서 별도의 변경 없이 표준 후기 상호작용 인덱스인 PLAID에서 바로 실행이 가능하다.
+
+저자들의 주장에 따르면 UIBK-Embedding-v1은 BEIR 벤치마크에서 nDCG@10 59.79점을 기록했다. 이는 동일 크기 클래스의 최강 모델인 LateOn보다 2.57점 높으며, 문서 길이를 동일하게 맞췄을 때도 2.10점 우위를 보였다. 총 15개 데이터셋에서 모두 앞섰고, 오염 제거 버전에서도 평균적으로 우세한 성능을 보였다고 한다.
+
+MTEB 결과 저장소의 156개 모델 중 UIBK-Embedding-v1보다 높은 점수를 내는 모델은 최소 15억 파라미터를 가진 대형 모델들뿐이다. 이 모델의 코드, 가중치 및 기술 블로그 포스트는 깃허브와 허깅페이스에서 공개되어 있다.
+
+---
+
+원문: [UIBK-Embedding: Effective Text Retrieval by Unifying Dense and Late-Interaction Retrieval](https://arxiv.org/abs/2610.27195)

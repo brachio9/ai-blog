@@ -1,0 +1,38 @@
+---
+title: 'TensorRT-LLM v1.4.0rc1: KV 캐시 V2와 새로운 모델 지원'
+category: releases
+axis: serving
+format: explainer
+summary: TensorRT-LLM v1.4.0rc1은 KV 캐시 매니저 V2를 기본값으로 전환하며 disaggregated serving 아키텍처의 핵심을 강화한다. DeepSeek-V4.1, Qwen3 등 최신 모델 지원과 함께 Rubin 및 Blackwell 하드웨어 최적화가 포함되었다.
+publishedAt: 2026-10-22T22:00:05+0900
+tags:
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+- Whisper
+draft: false
+source:
+  url: https://github.com/NVIDIA/TensorRT-LLM/releases/tag/v1.4.0rc1
+  title: v1.4.0rc1
+  author: peihu-nv
+  publishedAt: 2026-10-22T10:38:13+0900
+  words: 5559
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈의 가장 큰 변화는 KV 캐시 매니저 V2와 Python 기반 KV 캐시 트랜스시버가 기본 설정으로 변경된 점이다. 이는 기존 사용자에게Breaking Change로 작용하므로 주의가 필요하다. 특히 disaggregated serving 환경에서 스트리밍 요청 취소 시 발생할 수 있는 KV 캐시 전송 오류와 Qwen3 모델의 JSON 스키마 응답 문제 등 알려진 이슈들이 존재하므로, 프로덕션 적용 전 테스트가 필수적이다.
+
+모델 지원 측면에서는 DeepSeek-V4.1-Flash와 NVFP4 GLM-5.3-Flash 체크포인트 지원이 추가되었다. 또한 Qwen3.8-Flash-Next를 실험적 Modeling V2 타겟으로 포함하고, DFlash에서 LiLiCorr 드래프트 체크포인트를 지원한다. Hopper 아키텍처에서 Nemotron-H NVFP4 체크포인트에 대한 자동 W4A16 폴백 제거도 포함되어 있어, 특정 하드웨어 환경에서의 동작 방식이 달라질 수 있다.
+
+성능 최적화와 새로운 기능으로는 Mooncake 커넥터 통합과 KV 캐시 V2 호스트 티어의 점진적 채우기가 도입되었다. Rubin 로컬리티 도메인 실행 지원과 SM107 및 다중 노드 MegaMoE 초기화 확장이 포함되어 차세대 하드웨어 대응력을 높였다. 또한 MiniMax-H3의 비디오 VAE 디코딩 가속화와 Kimi K3의 Rubin 최적화, PrimTS의 다양한 정밀도 컨텍스트 어텐션 경로 추가 등 특정 모델과 워크로드에 대한 타겟팅된 개선이 이루어졌다.
+
+API 및 구성 측면에서는 C++ ArrayView API를 std::span으로 교체하고, LLM 구성을 통한 Modeling V2 선택 방식을 도입했다. 컴파일 아티팩트 캐시 설정을 TRTLLM_CACHE_DIR로 통합하여 관리 편의성을 높였으며, KV 캐시 V2 풀 리밸런싱 파라미터를 구성 가능하게 만들었다. 비주얼 제네레이션 관련 어텐션 모듈 재구성 및 토큰 샤딩 텐서 병렬화 지원도 포함되어 멀티모달 워크플로우의 효율성을 개선한다.
+
+---
+
+원문: [v1.4.0rc1](https://github.com/NVIDIA/TensorRT-LLM/releases/tag/v1.4.0rc1)

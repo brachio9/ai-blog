@@ -1,0 +1,38 @@
+---
+title: LLM 비용 추적부터 에이전트 조회까지, Traceway 셀프 호스팅 가이드
+category: community
+axis: vibe-coding
+format: explainer
+summary: Traceway는 로그와 LLM 호출 데이터를 단일 서버로 통합하는 오픈소스 관측 플랫폼이다. OpenTelemetry 기반이며 코딩 에이전트가 운영 데이터를 직접 조회할 수 있도록 설계되었다.
+publishedAt: 2026-10-22T22:00:05+0900
+tags:
+- RAG
+- Claude Code
+- Codex
+- Cursor
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/traceway-llm-ai/12232
+  title: 'Traceway: LLM 호출 비용까지 추적하고 AI 에이전트가 직접 조회하는 셀프 호스팅 관측 플랫폼'
+  author: 9bow
+  publishedAt: 2026-10-20T11:30:55+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/b/9/b9578873be1b13e9b7ceb445241bbdfd2c19984f_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+LLM을 서비스에 도입하면 기존 성능 모니터링 외에 토큰 비용과 대화 흐름까지 추적해야 하는 부담이 생긴다. Traceway는 이러한 로그, 트레이스, 메트릭, 예외, 세션 리플레이 및 LLM 호출 데이터를 하나의 서버에 모아 같은 트레이스 ID로 묶어 보여주는 오픈소스 관측 플랫폼이다. 개발팀은 이 도구가 APM과 LLM 전용 도구 간 화면 이동 없이 통합된 뷰를 제공한다고 설명한다.
+
+데이터 수집은 OpenTelemetry의 OTLP/HTTP 형식을 그대로 받아들이는 방식으로 진행된다. 백엔드는 언어별 전용 SDK 없이 기존 OpenTelemetry SDK의 내보내기 주소만 변경하면 되고, 브라우저와 모바일 앱은 Traceway SDK를 사용한다. LLM 호출은 gen_ai.* 속성이 붙은 span으로 들어오면 모델, 토큰, 비용, 대화, 도구 호출 단위로 정리되지만, Traceway 자체에는 모델 가격표가 없으므로 앱에서 직접 계산해 넣거나 OpenRouter처럼 비용 값을 함께 보내야 한다.
+
+Traceway의 차별점은 코딩 에이전트가 운영 데이터를 직접 조회할 수 있도록 스킬, 읽기 전용 CLI, MCP 서버를 제공한다는 점이다. Claude Code나 Cursor 같은 에이전트가 traceway exceptions list 명령을 실행해 결제 오류 원인을 찾는 흐름이 가능하다. 쓰기 작업은 별도 자격 증명과 조직 관리자 승인이 모두 있어야 열리며, OpenLLMetry와 OpenLIT 계측은 그대로 동작하지만 OpenInference 형식은 속성 변환이 필요하다.
+
+셀프 호스팅 환경은 SQLite 또는 DuckDB 단일 컨테이너부터 ClickHouse와 PostgreSQL 구성까지 선택할 수 있다. Traceway는 Go와 Gin으로 만든 백엔드에 SvelteKit 대시보드를 내장한 단일 바이너리로 배포되며, 개발팀은 같은 코드로 관리형 클라우드 서비스도 운영한다. 셀프 호스팅 판은 기능 차이 없이 무료로 제공되지만 2.0 버전은 트레이스 테이블 변경으로 인한 호환성 깨짐이 있으므로 주의가 필요하다.
+
+---
+
+원문: [Traceway: LLM 호출 비용까지 추적하고 AI 에이전트가 직접 조회하는 셀프 호스팅 관측 플랫폼](https://discuss.pytorch.kr/t/traceway-llm-ai/12232)
