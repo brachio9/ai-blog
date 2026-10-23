@@ -1,0 +1,40 @@
+---
+title: 'ESPnet 202611: F5-TTS와 ESPnet3의 새로운 계약'
+category: releases
+axis: voice
+format: explainer
+summary: ESPnet 202611 릴리즈는 F5-TTS 모델과 음운 토크나이저를 공식 지원하며, 차세대 프레임워크인 ESPnet3의 추론 및 데이터셋 계약을 정의한다. 오디오 품질 평가 도구와 Bagpiper 명령줄 인터페이스가 추가되어 사용 편의성이 크게 향상되었다.
+publishedAt: 2026-10-23T22:00:05+0900
+tags:
+- Codex
+- MCP
+- vLLM
+- quantization
+- fine-tuning
+- TTS
+- ASR
+draft: false
+source:
+  url: https://github.com/espnet/espnet/releases/tag/v.202611
+  title: ESPnet version 202611
+  author: sw005320
+  publishedAt: 2026-10-23T13:31:58+0900
+  words: 1833
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리즈에서 가장 주목할 만한 변화는 F5-TTS 모델과 Phonological Tokenizer의 도입이다. 이는 텍스트-음성 변환(TTS) 파이프라인에 새로운 옵션을 제공하며, 특히 F5-TTS 관련 헬퍼 기능들이 추가됨으로써 모델 학습 및 추론 과정이 더 수월해졌다. 또한 오디오 품질 평가(AQA) 도구가 `espnet2.bin.aqa_inference`로 통합되었고, ARECHO 메트릭 모델과 URGENT24 레시피가 지원된다. 이를 통해 VERSA와 같은 프로젝트는 PyPI를 통해 지원 모델을 설치할 수 있게 되어 기존 git 클론 방식의 번거로움을 덜 수 있다.
+
+차세대 프레임워크인 ESPnet3의 기반이 다져졌다. 추론, 데이터셋, 메트릭, 스테이지에 대한 계약(contract)이 정의되어 시스템 간 상호 운용성이 명확해졌다. 특히 Hugging Face Hub 태그를 통해 발행된 번들을 로드하는 기능이 추가되었고, 전역 배치 분배가 구성 가능해졌다. 이는 대규모 모델 학습 시 리소스 할당을 더 유연하게 제어할 수 있음을 의미하며, 추론 선언을 바탕으로 데모 노트북과 모델 카드 사용법을 자동으로 생성하는 기능도 포함되어 개발자 경험을 개선한다.
+
+사용자 인터페이스 측면에서도 중요한 변화가 있었다. Bagpiper가 명령줄(`espnet describe`, `espnet render`)과 MCP 서버에서 직접 사용 가능해졌다. 이는 복잡한 설정 없이 모델을 설명하거나 렌더링할 수 있게 해주며, 특히 데모 환경이나 OWSM(Open Whisper Speech Model)과의 연동 시 유용하다. 또한 모든 ASR 인코더와 TTS, SLU, 화자 식별, UniVERSA 인코더에 스케일드 닷-프로덕트 어텐션이 적용되어 상대 위치 어텐션 포함 전반적인 성능과 안정성이 개선되었다.
+
+의존성 관리 측면에서도 변화가 있었다. `hydra-core`와 `omegaconf`가 핵심 의존성으로 격상되었고, `espnet[asr]`는 포크된 패키지가 아닌 업스트림 1.7.5 버전의 `ctc-segmentation`을 사용하도록 변경되었다. 새로운 엑스트라 패키지인 `espnet[splet]`와 `espnet[rst]`가 추가되었으며, 디코딩, 스트리밍, 학습 관련 다양한 버그 수정이 포함되어 있다. 이번 요약은 주요 기능 중심이며, 전체 커밋 목록이나 모든 버그 수정 사항은 공식 릴리즈 노트를 참고해야 한다.
+
+---
+
+원문: [ESPnet version 202611](https://github.com/espnet/espnet/releases/tag/v.202611)

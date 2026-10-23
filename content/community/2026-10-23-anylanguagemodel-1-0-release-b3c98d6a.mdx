@@ -1,0 +1,35 @@
+---
+title: Apple Foundation Models API로 로컬·클라우드 모델 통일하는 AnyLanguageModel 1.0
+category: community
+axis: serving
+format: explainer
+summary: Hugging Face가 Apple의 Foundation Models API를 따르는 Swift 패키지 AnyLanguageModel 1.0을 발표했다. import 문 한 줄 변경으로 기기 내 모델과 클라우드 API를 동일하게 사용할 수 있게 되었다. 도구 호출과 구조화된 출력 지원이 확대되며 기존 앱 업그레이드 시 호환성 주의가 필요하다.
+publishedAt: 2026-10-23T22:00:05+0900
+tags:
+- MCP
+- quantization
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/hugging-face-apple-foundation-models-anylanguagemodel-1-0/12258
+  title: Hugging Face, Apple Foundation Models 코드를 그대로 로컬과 클라우드에서 사용 가능한 AnyLanguageModel 1.0 공개
+  author: 9bow
+  publishedAt: 2026-10-23T16:30:45+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/5/c/5cb211bab0ba81aa9626e4e2193cf4d4c716534a_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Hugging Face는 Apple의 Foundation Models 프레임워크와 동일한 API를 제공하는 Swift 패키지 AnyLanguageModel 1.0을 공식 발표했다. Mattt는 Hugging Face 블로그를 통해 이 패키지가 개발자가 모델 제공자를 자유롭게 선택할 수 있게 해준다고 설명했다. 기존에는 오픈 가중치 모델을 MLX나 llama.cpp로 실행하거나 OpenAI, Anthropic 등의 클라우드 API를 쓸 때 각각 다른 SDK와 호출 방식을 익혀야 했으나, 이제 import 문만 바꾸면 같은 세션 코드로 시스템 모델, Core ML, 클라우드 API 등을 교체해 사용할 수 있게 되었다.
+
+이 패키지는 새로운 추상화를 만들지 않고 Foundation Models API를 그대로 따르는 방식으로 설계되었다. Apple 플랫폼 개발자에게 익숙한 LanguageModelSession을 통해 프롬프트를 보내고 스트리밍 응답을 받으며, @Generable 매크로를 이용해 타입이 정해진 출력이나 도구 호출도 지원한다. 지난 1년간의 업데이트를 통해 도구 호출과 구조화된 출력(Guided Generation) 기능이 모든 제공자에서 동작하도록 개선되었고, 클라우드 쪽에서도 Open Responses 호환 엔드포인트와 Private Cloud Compute까지 범위가 넓어졌다.
+
+AnyLanguageModel 1.0과 함께 swift-huggingface 및 swift-xet도 1.0 버전으로 출시되었다. 이 세 패키지는 Hub에서 모델을 받는 경로를 담당하며 공개 API를 확정함에 따라 호환성을 깨는 변경이 포함되었다. 따라서 기존 앱을 업그레이드하기 전에는 AnyLanguageModel 1.0.0 릴리스 노트를 반드시 확인해야 한다. 특히 이전 버전에서 생성된 연관 값이 있는 enum 콘텐츠는 1.0에서 디코딩되지 않을 수 있으므로 주의가 필요하다.
+
+Apple은 OS 27에서 Foundation Models의 LanguageModel 프로토콜을 외부 모델에 개방하는 등 생태계를 확장해 왔다. 이에 따라 Anthropic의 Claude for Foundation Models 패키지 등 외부 모델과의 연동도 원활해지고 있다. Hugging Face는 이 발표를 통해 로컬과 클라우드의 경계를 흐릿하게 만들며 개발자가 모델 실행 환경에 구애받지 않고 일관된 코드를 작성할 수 있는 기반을 마련했다고 강조했다.
+
+---
+
+원문: [Hugging Face, Apple Foundation Models 코드를 그대로 로컬과 클라우드에서 사용 가능한 AnyLanguageModel 1.0 공개](https://discuss.pytorch.kr/t/hugging-face-apple-foundation-models-anylanguagemodel-1-0/12258)

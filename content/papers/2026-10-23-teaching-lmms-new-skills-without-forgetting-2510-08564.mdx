@@ -1,0 +1,44 @@
+---
+title: 대형 다중모달 모델, 새로운 기술 학습 시 기존 능력 유지하는 법
+category: papers
+axis: serving
+format: explainer
+summary: 대형 다중모달 모델에 새로운 기술을 순차적으로 가르칠 때 발생하는 망각 현상을 분석한다. 출력 토큰 분포의 이동을 제어하기 위해 특정 레이어만 선택적으로 튜닝하는 방법이 기존 방법보다 효율적임을 저자들은 주장한다.
+publishedAt: 2026-10-23T22:00:05+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2510.08564
+  title: How to Teach Large Multimodal Models New Skills
+  author: Zhen Zhu
+  publishedAt: 2026-10-23T13:00:00+0900
+  words: 22165
+  image: https://arxiv.org/html/2510.08564v3/figures/main_new_figure.jpg
+paper:
+  arxivId: '2510.08564'
+  authors:
+  - Zhen Zhu
+  - Yiming Gong
+  - Yao Xiao
+  - Yaoyao Liu
+  - Derek Hoiem
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+대형 다중모달 모델에 새로운 기술을 가르칠 때 기존 능력을 잃지 않는 방법은 무엇인가. 연구진은 세 가지 모델 계열에서 다섯 가지 목표 기술에 대한 순차적 파인튜닝을 수행하며 여덟 가지 벤치마크에서의 일반 능력 변화를 관찰했다. 놀랍게도 한 기술 학습 후 손실된 성능이 다른 기술을 추가로 튜닝하는 과정에서 부분적으로 회복되는 현상을 발견했으며, 이는 출력 토큰 분포의 이동과 관련이 있음을 확인했다.
+
+저자들은 단순한 카운팅 바이어스 프로브를 통해 이 분포 이동이 망각과 공변한다는 점을 추적해냈다. 이를 바탕으로 학습은 강하게 하되 드리프트는 제한하는 두 가지 튜닝 레시피를 제시한다. 첫 번째는 셀프 어텐션 프로젝션 레이어만 업데이트하는 방법이고, 두 번째는 MLP 게이트 및 업 레이어만 업데이트하며 다운 프로젝션을 고정하는 방식이다.
+
+저자들의 주장에 따르면 이 선택적 튜닝 방법은 전체 LLM 튜닝보다 학습-망각 트레이드오프에서 압도적으로 우수하다. 구체적으로 셀프 어텐션 레이어 업데이트는 학습 점수 상승 24.9, 망각 감소 -0.6을 기록했으며, MLP 게이트 및 업 레이어 업데이트는 각각 +30.5와 -2.1의 결과를 보였다. 반면 전체 튜닝은 +31.8의 학습 향상에도 불구하고 -23.3의 심각한 망각을 초래했다.
+
+이 방법은 LwF, LoRA, MoE, WiSE-FT 등 일반적인 망각 완화 방법과 비교해도 학습-안정성 균형에서 맞서거나 능가한다. 추가 파라미터나 리플레이, 단계별 튜닝 없이도 더 단순하게 구현 가능하다는 점이 장점이다. LLaVA-OneVision, LLaVA-NeXT, Qwen2.5-VL 등 다양한 모델에서 검증된 이 결과는 새로운 기술 학습 시 망각을 막는 핵심이 구성 요소 선택을 통한 출력 분포 이동 제어에 있음을 확인시켜준다.
+
+---
+
+원문: [How to Teach Large Multimodal Models New Skills](https://arxiv.org/abs/2510.08564)
