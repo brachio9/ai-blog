@@ -1,0 +1,39 @@
+---
+title: LiteLLM 정식 파이프라인 해킹, 악성 패키지 배포 사건 정리
+category: community
+axis: domain
+format: explainer
+summary: LiteLLM의 정식 릴리스 파이프라인이 조작되어 악성 버전이 PyPI와 Docker에 배포되었다. 공식 방어 장치를 우회한 이번 공격으로 자격 증명 탈취 코드가 유통된 경위와 대응 방안을 정리한다.
+publishedAt: 2026-10-24T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+- Cursor
+- Copilot
+- Windsurf
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/litellm-v1-107-0/12282
+  title: 'LiteLLM v1.107.0 공급망 공격: 정식 릴리스 파이프라인이 서명해 배포한 악성 패키지'
+  author: 9bow
+  publishedAt: 2026-10-23T13:30:15+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/8/c/8c08dab6084ee137cc1b8401290ef3432fff4a5e_2_1028x685.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+2026년 10월 21일, LiteLLM의 정식 릴리스 파이프라인이 조작되어 악성 코드 내장 버전인 litellm==1.107.0이 PyPI와 Docker 레지스트리에 배포되었다. LiteLLM 측은 해당 버전을 즉시 회수했으며, 특정 시간대에 버전 고정 없이 설치하거나 관련 Docker 이미지를 실행한 사용자에게 영향이 미쳤다고 밝혔다. 엔터프라이즈 전용 레지스트리 사용자는 안전하다.
+
+영향을 받은 경우 악성 파일을 삭제한 후 1.106.2 버전으로 재설치해야 한다. 또한 해당 호스트가 접근할 수 있던 모든 비밀 값은 교체해야 한다. LiteLLM은 공격자가 인터넷에 노출된 사내 배포 환경의 로그에서 개발자 GitHub CLI OAuth 토큰을 탈취해 릴리스 워크플로를 변경했다고 보고했다. 최초 침입 경로는 아직 명확히 규명되지 않았다.
+
+LiteLLM은 100여 개의 LLM API를 단일 인터페이스로 호출하는 Python SDK이자 프록시 서버다. 이 구조상 LiteLLM 서버가 해킹되면 연결된 모든 LLM 계정의 키가 노출될 위험이 있다. 올해 초에도 Trivy 의존성 탈취를 통한 공급망 공격이 발생한 바 있으며, 당시 이후 CI/CD 보안 강화 조치를 도입했음에도 이번 사고는 발생했다.
+
+LiteLLM은 공격자가 개발자 계정 토큰을 이용해 릴리스 워크플로를 수정했고, 정식 파이프라인이 이를 빌드·서명·배포했다고 설명했다. Upwind와 Wiz Research의 분석에 따르면 기존 보안 장치인 PyPI Trusted Publishing과 Cosign 서명 등이 우회된 형태다. 현재 사고 조사는 진행 중이며, 관련 커뮤니티에서는 최신 정보 공유가 이어지고 있다.
+
+---
+
+원문: [LiteLLM v1.107.0 공급망 공격: 정식 릴리스 파이프라인이 서명해 배포한 악성 패키지](https://discuss.pytorch.kr/t/litellm-v1-107-0/12282)

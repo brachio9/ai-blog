@@ -1,0 +1,36 @@
+---
+title: 'Pipecat v1.14.0: 퍼플렉시티 에이전트와 NVIDIA 오미 모델 지원 강화'
+category: releases
+axis: voice
+format: explainer
+summary: Pipecat v1.14.0은 웹 검색 기능이 포함된 퍼플렉시티 에이전트 API와 음성·영상 입력을 직접 처리하는 NVIDIA 오미 LLM 서비스를 추가했다. 또한 NVIDIA STT의 화자 구분 기능과 Speechmatics의 8kHz 오디오 지원이 개선되었다.
+publishedAt: 2026-10-24T22:00:05+0900
+tags:
+- TTS
+- speech-to-speech
+- Whisper
+draft: false
+source:
+  url: https://github.com/pipecat-ai/pipecat/releases/tag/v1.14.0
+  title: v1.14.0
+  author: github-actions[bot]
+  publishedAt: 2026-10-24T10:24:33+0900
+  words: 3789
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트는 외부 지식에 접근해야 하는 대화형 AI 구현을 더 쉽게 만든다. 새로 추가된 퍼플렉시티 에이전트 HTTP LLM 서비스는 웹 검색 결과를 바탕으로 답변을 생성하며 함수 호출도 지원한다. 기본적으로 저지연 설정인 'fast' 프리셋을 사용하지만, 필요시 모델과 프리셋을 독립적으로 설정할 수 있다. 특히 앤스로픽 모델을 사용할 때는 최대 토큰 수를 명시해야 하며, 답변에는 출처 인용 마커가 포함될 수 있어 정보의 신뢰성을 높이는 데 도움이 된다.
+
+NVIDIA 관련 기능도 크게 확장되었다. NVIDIA STT 서비스는 이제 화자 구분 기능을 통해 누가 말했는지 식별한 결과를 프레임 단위로 전달하며, 설정에 따라 텍스트에 화자 라벨을 붙일 수도 있다. 더 중요한 것은 NVIDIA 오미 LLM 서비스의 추가다. 이 서비스는 별도의 음성 인식(STT) 단계 없이 오디오·이미지·비디오를 직접 입력받아 처리한다. 실시간 모드에서는 사용자의 발화를 즉시 전사하고 답변하므로, 기존 파이프라인 구조가 아닌 실시간 서비스로 동작함을 인지하고 이벤트 핸들링 방식을 변경해야 한다.
+
+기존 STT 서비스들의 안정성과 유연성도 개선되었다. Speechmatics STT 서비스는 이제 16kHz뿐만 아니라 8kHz 오디오 샘플 레이트도 공식적으로 지원하며, 이 두 가지 외의 레이트는 연결 시 오류로 처리된다. 또한 문장 단위 전사 기능을 활성화하면 구두점마다 결과를 확정해 내보낼 수 있어, 짧은 문구라도 빠르게 처리해야 하는 실시간 대화 시스템에서 유용하게 쓰일 것이다.
+
+마지막으로 LLM 텍스트 프로세서에 텍스트 변환기 추가 및 제거 기능이 도입되어 응답 전후의 텍스트 가공이 더 유연해졌다. 이번 릴리즈는 주요 기능만 소개한 것이며, 전체 변경 사항 목록은 공식 저장소를 참고해야 한다.
+
+---
+
+원문: [v1.14.0](https://github.com/pipecat-ai/pipecat/releases/tag/v1.14.0)

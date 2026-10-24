@@ -1,0 +1,48 @@
+---
+title: 금융 에이전트의 다단계 추론을 검증하는 FinHopper 벤치마크
+category: papers
+axis: agent
+format: explainer
+summary: FinHopper는 금융 분야의 복잡한 다단계 검색과 추론 능력을 평가하기 위한 새로운 벤치마크다. 중간 단계의 정답이 다음 질문을 결정하는 엄격한 조건부 의존성을 가진 금융 특유의 문제를 다루며, 과정 중심 평가를 가능하게 한다.
+publishedAt: 2026-10-24T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.26036
+  title: 'FinHopper: A Progressive Multi-Hop Benchmark for Complex Financial Agents with Step-wise Evaluation'
+  author: Yuxuan Wu
+  publishedAt: 2026-10-21T13:00:00+0900
+  words: 13311
+  image: https://arxiv.org/html/2610.26036v1/Finhopper-fig-1-new.png
+paper:
+  arxivId: '2610.26036'
+  authors:
+  - Yuxuan Wu
+  - Miaopei Lin
+  - Qiufang Ying
+  - Lin Dan
+  - Hao Zhao
+  - Qirui Liu
+  - Yuteng Shen
+  - Shaohui Wu
+  - Weihong Luo
+  - Xiku Du
+  - Xing Tang
+  - Hao Chen
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+금융 에이전트는 개방형 검색을 통해 사실 기반 투자 질문에 답해야 하지만, 일반 다단계 QA와 달리 각 중간 답변이 엔티티나 날짜, 수치 지표 등 정확한 타입의 제약 조건으로 작용한다는 점이 핵심 차이점이다. 이러한 엄격한 조건부 의존성 때문에 작은 중간 오류가 연쇄적으로 발생하여 그럴듯하지만 잘못된 검색 경로로 이어질 수 있다.
+
+연구진은 주식, 펀드, 거시경제 사실 등을 포함하고 1단계부터 6단계까지의 추론 깊이를 제어할 수 있는 FinHopper를 소개한다. 이 벤치마크는 과정 수준 평가가 가능한 금표 중간 답변을 제공하며, 검증된 원자적 금융 QA 패턴을 의존성 보존 체인으로 구성하는 상태 전이 기반 합성 프레임워크를 통해 대규모로 구축되었다.
+
+구축 과정에서는 합성 중 검증, 모델 앙상블 확인, 금융 전문가의 공개 검색 검증을 거쳐 데이터의 신뢰성을 높였다. 20가지 LLM 에이전트 설정에 대한 실험 결과, 공개 검색 도구는 필요하지만 충분하지 않다는 사실이 드러났다.
+
+저자들의 주장에 따르면, 홉 깊이가 증가함에 따라 성능이 급격히 떨어지며 최상의 모델도 인간 전문가 수준에는 훨씬 못 미친다. 또한 최종 답변만 평가하는 방식으로는 숨겨져 있던 부분적 추론 진행 상황을 파악할 수 없었으나, 과정 인식 점수 체계가 이를 드러내었다.
+
+---
+
+원문: [FinHopper: A Progressive Multi-Hop Benchmark for Complex Financial Agents with Step-wise Evaluation](https://arxiv.org/abs/2610.26036)

@@ -1,0 +1,37 @@
+---
+title: AI 에이전트 명령어, 실행 전 안전장치로 미리 확인해 보기
+category: community
+axis: vibe-coding
+format: explainer
+summary: Hugging Face 포럼에서 Ayaannnnnnn이 공개한 테스트 공간은 AI 코딩 에이전트가 실행하려는 셸 명령어의 위험도를 사전에 판단하는 도구다. 이 도구는 명령어를 허용, 검토 요청, 차단 중 하나로 분류하며 어떤 단계에서 결정되었는지 보여준다.
+publishedAt: 2026-10-24T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+- Cursor
+- Gemini CLI
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/a-space-to-test-what-a-coding-agent-guardrail-says-about-a-shell-command/190936
+  title: A Space to test what a coding-agent guardrail says about a shell command
+  author: Ayaannnnnnn
+  publishedAt: 2026-10-23T14:32:08+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/5/9/59c47d1665fd4d9e6b90ca3adf46dd5bedf0f62a_2_690x345.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Ayaannnnnnn은 Hugging Face Space를 통해 AI 코딩 에이전트가 실행할 셸 명령어의 안전성을 미리 점검할 수 있는 인터페이스를 구축했다. 사용자는 명령어를 입력하면 레이아 가드(laya-guard)가 이를 분석하여 허용, 사용자 검토 요청, 차단 중 하나의 결과를 반환한다. 또한 어떤 규칙이나 모델 단계에서 해당 결정이 내려졌는지도 함께 표시해 준다. 이는 Claude Code, Cursor 등 여러 에이전트와 호환되는 오픈소스 프로젝트로, GitHub에서도 관련 코드를 확인할 수 있다.
+
+이 테스트 공간은 무료 계정으로 운영 가능한 구조를 갖췄다. 저자는 ZeroGPU 환경에서 CPU 기반의 약 322M 파라미터 모델을 사용하며, GPU 할당량을 소모하지 않도록 설계했다. 실제 모델 추론은 CPU에서 수행되지만, 시스템 요구사항을 충족하기 위해 호출되지 않는 GPU 함수 하나만 존재하도록 설정해 무료 계정의 제한을 우회했다. 이를 통해 방문자의 GPU 쿼터는 전혀 사용하지 않고 서비스를 제공한다.
+
+기술적 구현 방식도 특이하다. Gradio의 서버 기능을 활용해 커스텀 HTML 페이지와 API 엔드포인트를 직접 구성했으며, 빌드 시점에 모델 파일을 미리 로드하여 서비스 시작 시 지연을 방지했다. 보안과 안정성을 위해 입력 길이를 4,000자 및 32KB로 제한하고, 방문자당 분 20회, 전체적으로 분 300회의 요청 한도를 두었다. 또한 모든 요청 데이터는 기록되지 않도록 설계되어 프라이버시를 보호한다.
+
+저자는 이 도구가 실제 사용에서 어떻게 작동하는지 피드백을 받고 있으며, 특히 오인식되는 명령어 사례를 수집해 모델의 정확도를 높이고자 한다. 현재 MIT 라이선스로 공개된 레이아 가드는 로컬 환경에서 정규식과 작은 모델을 결합해 도구 호출을 판단하는 방식으로 동작한다.
+
+---
+
+원문: [A Space to test what a coding-agent guardrail says about a shell command](https://discuss.huggingface.co/t/a-space-to-test-what-a-coding-agent-guardrail-says-about-a-shell-command/190936)
