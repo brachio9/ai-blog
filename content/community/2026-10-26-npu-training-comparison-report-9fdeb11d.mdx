@@ -1,0 +1,30 @@
+---
+title: 추론 전용 NPU에서 3억 2,560만 파라미터 모델 사전학습 성공
+category: community
+axis: serving
+format: explainer
+summary: 추론 전용으로 설계된 NPU에서 3억 2,560만 파라미터 규모의 언어 모델을 성공적으로 사전학습한 실험 결과다. 저자는 B200 GPU와 동일한 조건에서 학습을 진행하여 하드웨어 차이 외에 다른 변수를 통제하며 품질 동등성을 검증했다.
+publishedAt: 2026-10-26T22:00:05+0900
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/npu-325m-0-b200-gpu/12304
+  title: 추론 전용 NPU에서 325M 언어모델을 0부터 사전학습하고, B200 GPU와 짝지은 비교로 품질 동등성을 검증한 기록
+  author: AI_OpenFree
+  publishedAt: 2026-10-26T15:03:44+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/8/5/855b7a4b436199c96245701e78ef04ee231adbfd_2_1028x475.png
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+저자는 추론 전용 가속기에서 학습을 수행하기 위해 필요한 역전파 및 옵티마이저 상태 관리와 같은 소프트웨어 스택을 별도로 개발했다. 특히 긴 학습 과정에서 발생할 수 있는 수치적 불안정성을 해결하는 데 집중했으며, 이를 검증하기 위해 GPU 기반 실험을 대조군으로 설정했다.
+
+실험에 사용된 모델은 20층 구조의 디코더 전용 트랜스포머로, 바이트 단위의 어휘를 사용하여 토크나이저의 영향을 배제했다. 저자는 동일한 시드와 초기 가중치, 데이터셋을 사용하여 GPU와 NPU에서 각각 학습을 진행했으며, 이를 통해 하드웨어 성능 외의 변수를 완전히 통제했다.
+
+학습 결과는 표준적인 LlamaForCausalLM 형식을 따르며, 저자는 두 모델의 가중치와 평가 스크립트를 공개하여 누구나 실험을 재현할 수 있도록 했다. 이번 실험은 추론 전용 하드웨어에서도 충분히 고품질의 모델 학습이 가능함을 증명하는 데 목적이 있다.
+
+---
+
+원문: [추론 전용 NPU에서 325M 언어모델을 0부터 사전학습하고, B200 GPU와 짝지은 비교로 품질 동등성을 검증한 기록](https://discuss.pytorch.kr/t/npu-325m-0-b200-gpu/12304)

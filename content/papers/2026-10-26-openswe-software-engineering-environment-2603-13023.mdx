@@ -1,0 +1,50 @@
+---
+title: 소프트웨어 엔지니어링 에이전트 학습을 위한 대규모 오픈 환경 OpenSWE 공개
+category: papers
+axis: agent
+format: explainer
+summary: 연구자들이 소프트웨어 엔지니어링 에이전트를 학습시킬 수 있는 대규모 실행 가능 환경인 OpenSWE가 공개되었다. 이 프레임워크는 12,800개 이상의 저장소를 포함하는 45,320개의 Docker 환경을 제공하며 모든 인프라를 공개한다.
+publishedAt: 2026-10-26T22:00:05+0900
+tags:
+- SWE-bench
+draft: false
+source:
+  url: https://arxiv.org/abs/2603.13023
+  title: 'daVinci-Env: Open SWE Environment Synthesis at Scale'
+  author: Dayuan Fu
+  publishedAt: 2026-10-26T13:00:00+0900
+  words: 11124
+  image: https://arxiv.org/html/2603.13023v3/teaser8.png
+paper:
+  arxivId: '2603.13023'
+  authors:
+  - Dayuan Fu
+  - Shenyu Wu
+  - Yunze Wu
+  - Zerui Peng
+  - Yaxing Huang
+  - Jie Sun
+  - Ji Zeng
+  - Mohan Jiang
+  - Lin Zhang
+  - Yukun Li
+  - Jiarui Hu
+  - Liming Liu
+  - Jinlong Hou
+  - Pengfei Liu
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+기존의 소프트웨어 엔지니어링(SWE) 에이전트 학습 데이터는 규모와 저장소 다양성 측면에서 한계가 있었고, 산업계의 솔루션은 내부 인프라가 공개되지 않아 학계 연구가 어려웠다. 이를 해결하기 위해 연구진은 Python 기반의 투명한 프레임워크인 OpenSWE를 구축했다. 이 시스템은 64개 노드의 분산 클러스터에서 작동하는 멀티 에이전트 합성 파이프라인을 통해 저장소 탐색, Dockerfile 구축, 평가 스크립트 생성 및 반복적인 테스트 분석을 자동화한다.
+
+단순히 규모만 키우는 것이 아니라 학습 효율을 극대화하기 위해 품질 중심의 필터링 파이프라인을 도입했다. 연구진은 각 환경의 난이도를 분석하여 해결 불가능하거나 너무 쉬운 사례를 걸러내고 학습에 최적화된 환경만을 선별했다. 이 과정에서 약 147만 달러의 투자를 통해 약 9,000개의 품질이 보증된 환경과 13,000개의 궤적 데이터를 확보했다.
+
+저자들의 주장에 따르면 OpenSWE-32B와 OpenSWE-72B 모델은 SWE-bench Verified에서 각각 62.4%와 66.0%의 성능을 기록하며 Qwen2.5 시리즈 중 최고 수준을 달성했다. 또한 SWE 특화 학습을 통해 수학적 추론과 과학 벤치마크에서 성능 향상을 확인했으며, 사실적 기억 능력은 저하시키지 않았다고 주장했다.
+
+---
+
+원문: [daVinci-Env: Open SWE Environment Synthesis at Scale](https://arxiv.org/abs/2603.13023)

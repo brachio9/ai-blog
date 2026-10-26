@@ -1,0 +1,58 @@
+---
+title: 로봇의 복잡한 작업 수행을 위한 그래프 기반 멀티 에이전트 학습 프레임워크 GaP
+category: papers
+axis: agent
+format: explainer
+summary: 변동성이 큰 산업용 로봇 작업에서 신뢰성을 확보하기 위해 그래프 구조를 활용하는 GaP 프레임워크를 제안한다. 이 시스템은 모듈형 기술 라이브러리를 조합하여 실행 계획을 생성하고 시뮬레이션을 통해 스스로 학습한다.
+publishedAt: 2026-10-26T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2607.05369
+  title: 'GaP: A Graph-as-Policy Multi-Agent Self-Learning Harness For Variational Automation Tasks'
+  author: Kaiyuan Chen
+  publishedAt: 2026-10-26T13:00:00+0900
+  words: 8720
+  image: https://arxiv.org/html/2607.05369v2/GaP-title-figure-1.png
+paper:
+  arxivId: '2607.05369'
+  authors:
+  - Kaiyuan Chen
+  - Shuangyu Xie
+  - Letian Fu
+  - Justin Yu
+  - William Pacini
+  - Sandeep Bajamahal
+  - Hudson Kim
+  - Jaimyn Drake
+  - Daehwa Kim
+  - Haoru Xue
+  - Jonathan Francis
+  - Christian Juette
+  - Peter Schaldenbrand
+  - Muhammet Yunus Seker
+  - Ruwan Wickramarachchi
+  - Uksang Yoo
+  - Guanzhi Wang
+  - Adithyavairavan Murali
+  - Balakumar Sundaralingam
+  - S. Shankar Sastry
+  - Yuke Zhu
+  - Linxi "Jim" Fan
+  - Spencer Huang
+  - Ken Goldberg
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 3
+---
+
+로봇이 실제 산업 현장에서 활용되기 위해서는 복잡한 환경 변화에 대응하면서도 높은 신뢰성을 유지해야 한다. 기존의 모델 프리 정책은 물체의 기하학적 구조나 위치가 다양하게 변하는 '변분 자동화(Variational Automation)' 작업에서 안정적인 성능을 내는 데 한계가 있다. 이를 해결하기 위해 연구진은 해석 가능한 로봇 프로그래밍과 모델 프리 정책의 유연성을 결합한 접근 방식을 제시한다.
+
+제안된 GaP는 모듈형 오픈 로봇 기술 라이브러리(MORSL)를 기반으로 인식, 계획, 제어 노드를 포함하는 유향 계산 그래프를 생성하는 멀티 에이전트 코딩 프레임워크다. GaP는 내부 시뮬레이션 환경을 구축하여 다양한 그래프 구조와 파라미터를 병렬로 실행하며, 이를 통해 작업 성공률과 처리량을 높이는 방향으로 그래프 구조를 반복적으로 개선한다.
+
+연구진은 시뮬레이션과 실제 환경을 포함한 8개의 새로운 변분 자동화 벤치마크를 통해 GaP의 성능을 검증했다. 저자들의 주장에 따르면 GaP는 기존의 베이스라인 모델들보다 유의미하게 높은 성공률을 달성할 수 있다.
+
+---
+
+원문: [GaP: A Graph-as-Policy Multi-Agent Self-Learning Harness For Variational Automation Tasks](https://arxiv.org/abs/2607.05369)
