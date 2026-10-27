@@ -1,0 +1,42 @@
+---
+title: 페르시안어 검색 성능을 극대화한 Yalda-Embedding 모델 공개
+category: papers
+axis: retrieval
+format: explainer
+summary: 페르시안어 전용 검색 모델인 Yalda-Embedding이 공개되었다. 이 모델은 0.6B 규모의 파라미터를 유지하면서도 고성능 검색 능력을 확보했다.
+publishedAt: 2026-10-27T22:00:05+0900
+tags:
+- dense retrieval
+- distillation
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.32933
+  title: 'Yalda-Embedding: Open Development of a Competitive Persian Retrieval Model'
+  author: Yalda Taheri
+  publishedAt: 2026-10-26T13:00:00+0900
+  words: 5242
+paper:
+  arxivId: '2610.32933'
+  authors:
+  - Yalda Taheri
+  - Mohammad Hassan Heydari
+  - Armon Rasooli
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+페르시안어는 다국어 텍스트 표현 기술이 발전했음에도 불구하고, 언어 특화 학습 자원과 효율적인 임베딩 모델이 부족한 상황이다. 연구진은 이러한 한계를 극복하기 위해 Qwen3-Embedding-0.6B를 기반으로 100만 개 이상의 쿼리-문서 쌍을 활용해 학습시킨 Yalda-Embedding 모델을 개발했다.
+
+저자들의 주장에 따르면, 이 모델은 FaMTEB의 8개 페르시안어 검색 작업에서 0.6B 규모 모델 중 가장 높은 평균 점수인 0.5488을 기록했다. 이는 Qwen3-Embedding-0.6B와 F2LLM-v2-0.6B를 모든 작업에서 능가하는 수치이며, 4B 규모 모델인 Qwen3-Embedding-4B와 비교해도 매우 근소한 차이로 대등한 성능을 보여준다.
+
+연구진은 모델 성능 향상을 위해 대비 학습 배치 크기, 최적화 안정화, 그리고 F2LLM-v2-8B로부터의 관계 지식 증류(Relational Knowledge Distillation)를 분석했다. 특히 증류 기법을 적용했을 때 추론 시간의 모델 크기 증가 없이 평균 점수를 0.4813에서 0.5488로 끌어올리는 성과를 얻었다.
+
+연구진은 모델 가중치와 학습 및 평가 코드, 그리고 쌍방향 데이터셋을 공개했다. 이를 통해 다른 연구자들이 데이터 구성을 확인하고 독립적인 평가를 수행하거나, 추가적인 비용 없이 모델을 재사용할 수 있는 환경을 제공한다.
+
+---
+
+원문: [Yalda-Embedding: Open Development of a Competitive Persian Retrieval Model](https://arxiv.org/abs/2610.32933)

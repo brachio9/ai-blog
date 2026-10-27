@@ -1,0 +1,40 @@
+---
+title: '엣지 디바이스에서 MoE 모델을 더 빠르게 돌리는 법: MoE-SpAc'
+category: papers
+axis: serving
+format: explainer
+summary: 메모리 제한이 있는 엣지 환경에서 MoE 모델의 추론 속도를 높이는 새로운 프레임워크가 제안되었다. 이 기술은 투기적 디코딩(Speculative Decoding)을 메모리 관리 센서로 활용하여 효율을 극대화한다.
+publishedAt: 2026-10-27T22:00:05+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://arxiv.org/abs/2603.09983
+  title: 'MoE-SpAc: Efficient MoE Inference Based on Speculative Activation Utility in Heterogeneous Edge Scenarios'
+  author: Shuhuai Li
+  publishedAt: 2026-10-26T13:00:00+0900
+  words: 18601
+  image: https://arxiv.org/html/2603.09983v2/fig/ob.png
+paper:
+  arxivId: '2603.09983'
+  authors:
+  - Shuhuai Li
+  - Jianghao Lin
+  - Dongdong Ge
+  - Yinyu Ye
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 3
+---
+
+Mixture-of-Experts(MoE) 모델은 성능 확장성이 뛰어나지만, 메모리 자원이 한정적인 엣지 기기에서 실행하기에는 큰 부담이 따른다. 기존의 오프로딩 방식은 자기회귀(Autoregressive) 생성 과정에서 발생하는 동적이고 불규칙한 전문가(Expert) 활성화 특성 때문에 I/O 병목 현상을 해결하는 데 어려움을 겪어왔다.
+
+저자들은 이러한 문제를 해결하기 위해 투기적 디코딩(Speculative Decoding)을 단순한 연산 가속기가 아닌 메모리 관리를 위한 정보 탐색 센서로 재정의했다. 이를 바탕으로 제안된 MoE-SpAc 프레임워크는 전문가 수요를 추적하는 투기적 유틸리티 추정기, 온라인 정수 최적화를 통해 계산을 동적으로 분할하는 이종 워크로드 밸런서, 그리고 프리페칭과 제거를 통합하는 비동기 실행 엔진으로 구성된다.
+
+저자들의 주장에 따르면, MoE-SpAc는 7개의 벤치마크에서 기존 SOTA SD 기반 베이스라인 대비 TPS를 42% 개선했으며, 모든 표준 베이스라인 대비 평균 4.04배의 속도 향상을 달성했다고 한다.
+
+---
+
+원문: [MoE-SpAc: Efficient MoE Inference Based on Speculative Activation Utility in Heterogeneous Edge Scenarios](https://arxiv.org/abs/2603.09983)

@@ -1,0 +1,41 @@
+---
+title: 긴 코드 작업 시 컨텍스트 압축이 작업 성공에 미치는 영향 분석
+category: papers
+axis: agent
+format: explainer
+summary: 긴 호흡의 코딩 작업을 수행하는 에이전트가 컨텍스트 제한을 넘어서기 위해 사용하는 압축 기술이 작업의 핵심 상태를 삭제할 수 있다는 점을 지적한다. 연구진은 이를 평가하기 위한 Compact-Bench를 공개하고 다양한 모델과 프롬프트 조합에 따른 성능 변화를 분석했다.
+publishedAt: 2026-10-27T22:00:05+0900
+tags:
+- Claude Code
+- SWE-bench
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.31710
+  title: 'Compact-Bench: Measuring What Context Compaction Costs Long-Horizon Coding Agents'
+  author: Ruopei Sun
+  publishedAt: 2026-10-26T13:00:00+0900
+  words: 13806
+paper:
+  arxivId: '2610.31710'
+  authors:
+  - Ruopei Sun
+  - Jianfeng Cai
+  - Kangwen Zhao
+  - Wengang Zhou
+  - Houqiang Li
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+긴 호흡의 코딩 작업에서 컨텍스트 압축은 필수적이지만, 작업 완수에 필요한 핵심 정보를 삭제하는 부작용을 초래할 수 있다. 기존의 평가 방식은 효율성이나 정보 유지량에 집중했기 때문에 특정 히스토리 교체 작업이 결과에 미치는 영향을 분리해서 확인하기 어려웠다. 이를 해결하기 위해 연구진은 동일한 저장소 상태에서 전체 히스토리와 요약본만을 비교하는 Compact-Bench를 구축했다.
+
+연구진은 14개의 요약 모델을 사용하여 35개의 소프트웨어 엔지니어링 문제와 146개의 에이전트 세션을 테스트했다. 저자들의 주장에 따르면 Claude Opus는 가장 많은 수리 성공을 보존했으나 DeepSeek-Flash는 가장 많은 손실을 기록했다. 또한 Kimi-K3를 요약 모델로 사용할 때 Kimi Code 프롬프트가 작업 지속성을 가장 잘 유지했다. 하지만 LLM 요약은 기계적 추출 방식에 비해 반복되는 세부 정보를 훨씬 적게 유지하는 것으로 나타났다.
+
+실험 결과 특정 수리 작업은 14개 모델 중 13개에서 손상되었고, 특정 프롬프트는 모든 테스트에서 실패를 보였다. 이는 단순히 관련 정보를 유지하는 것만으로는 성공적인 작업 지속을 보장할 수 없음을 시사한다. 신뢰할 수 있는 압축을 위해서는 작업을 완료하는 데 필요한 진행 상황을 정확히 보존하는 것이 핵심이다.
+
+---
+
+원문: [Compact-Bench: Measuring What Context Compaction Costs Long-Horizon Coding Agents](https://arxiv.org/abs/2610.31710)

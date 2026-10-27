@@ -1,0 +1,30 @@
+---
+title: NVIDIA와 Jane Street가 공개한 Mamba-2 가속화 커널
+category: community
+axis: serving
+format: explainer
+summary: Jane Street와 NVIDIA 엔지니어들이 Mamba-2의 순전파를 cuTile로 구현한 최적화 과정을 공개했다. 이 커널은 기존 Triton 기반 구현보다 최대 1.82배 빠른 성능을 보여준다.
+publishedAt: 2026-10-27T22:00:05+0900
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/jane-street-nvidia-mamba-2-triton-1-82-cutile/12261
+  title: Jane Street 및 NVIDIA, Mamba-2 순전파를 Triton보다 최대 1.82배 빠르게 구현한 cuTile 커널 공개
+  author: 9bow
+  publishedAt: 2026-10-26T20:00:32+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/5/8/5858ba730d61cc48933add1dd6413f58afba4c55_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+Jane Street의 Sylvain Gugger와 Axel Feldmann, 그리고 NVIDIA의 엔지니어들이 협력하여 Mamba-2의 순전파를 최적화한 기술 블로그 글을 공개했다. 이들은 Mamba-2의 순전파 과정을 chunk_cumsum, fwd_pass_state, compute_out라는 세 개의 cuTile Python 커널로 나누어 구현하는 과정을 수식과 코드로 설명했다.
+
+이번 구현은 NVIDIA B300 GPU에서 측정되었으며, 기존 mamba_ssm의 Triton 커널과 비교했을 때 1.14배에서 1.82배까지 빠른 성능을 기록했다. 특히 상태 크기가 클수록 성능 차이가 더 크게 벌어지는 특징을 보였다. 다만 이는 커널 단위의 순전파 측정 결과이며 역전파나 전체 학습 속도까지 포함된 수치는 아니다.
+
+최적화된 커널은 TileGym 저장소를 통해 공개되었으며, 블로그에서 다루지 않은 역전파 커널도 함께 포함되어 있다. Jane Street는 이 기술을 초기에 도입하여 Mamba-2를 cuTile로 구현했고, 이후 NVIDIA와 협력하여 커널을 최적화했다는 점이 기술적 배경으로 언급되었다.
+
+---
+
+원문: [Jane Street 및 NVIDIA, Mamba-2 순전파를 Triton보다 최대 1.82배 빠르게 구현한 cuTile 커널 공개](https://discuss.pytorch.kr/t/jane-street-nvidia-mamba-2-triton-1-82-cutile/12261)

@@ -1,0 +1,36 @@
+---
+title: GPU별 Qwen2.5-7B 추론 비용 및 성능 비교
+category: community
+axis: serving
+format: explainer
+summary: Runcrate 관계자가 RTX A6000, L40S, H100 GPU를 활용해 Qwen2.5-7B 모델의 추론 비용을 측정한 결과다. 서버 부하 상황에서 100만 토큰 생성 시 발생하는 비용을 비교했다.
+publishedAt: 2026-10-27T22:00:05+0900
+tags:
+- vLLM
+- quantization
+- speculative decoding
+- prefix caching
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/vllm-on-three-gpus-qwen2-5-7b-tokens-per-second-and-cost-per-1m-tokens-on-rtx-a6000-l40s-and-h100/191025
+  title: 'vLLM on three GPUs: Qwen2.5-7B tokens per second and cost per 1M tokens on RTX A6000, L40S and H100'
+  author: heydryft
+  publishedAt: 2026-10-26T19:37:21+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+Runcrate에서 활동하는 한 개발자가 소형 모델을 자가 호스팅할 때 고려해야 할 실제 운영 비용을 확인하기 위해 테스트를 진행했다. 그는 사양표에 명시되지 않는 실제 서버 부하 상황에서의 비용을 파악하고자 세 종류의 단일 GPU 머신을 대여했다.
+
+테스트는 vLLM을 사용하여 Qwen/Qwen2.5-7B-Instruct 모델을 bf16 데이터 타입으로 실행하며 진행되었다. 동시 접속자 수에 따른 처리 성능을 측정했으며, 네트워크 지연을 배제하기 위해 클라이언트와 서버를 동일한 머신에서 구동했다.
+
+실험에 사용된 하드웨어는 RTX A6000, L40S, 그리고 H100 PCIe 모델이다. 해당 개발자는 각 GPU의 시간당 대여 비용과 초당 생성 토큰 수를 기반으로 100만 토큰 생성 시 발생하는 비용을 산출했다.
+
+이 실험은 특정 환경에서의 벤치마크 결과이며, 실제 서비스 환경에 따라 결과는 달라질 수 있다. 개발자는 모델의 추론 성능뿐만 아니라 운영 효율성을 고려한 비용 측정이 중요하다는 점을 강조했다.
+
+---
+
+원문: [vLLM on three GPUs: Qwen2.5-7B tokens per second and cost per 1M tokens on RTX A6000, L40S and H100](https://discuss.huggingface.co/t/vllm-on-three-gpus-qwen2-5-7b-tokens-per-second-and-cost-per-1m-tokens-on-rtx-a6000-l40s-and-h100/191025)

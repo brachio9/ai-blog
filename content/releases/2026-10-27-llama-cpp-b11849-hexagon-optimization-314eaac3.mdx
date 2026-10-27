@@ -1,0 +1,32 @@
+---
+title: 'llama.cpp b11849 업데이트: Hexagon 가속 및 연산 최적화'
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp b11849 버전에서는 Hexagon 플랫폼을 위한 SGN 연산 지원과 최적화가 추가되었다. 또한 f16 지원 및 차원 축소(dims collapsing) 로직 개선이 포함되었다.
+publishedAt: 2026-10-27T22:00:05+0900
+tags:
+- OpenCode
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b11849
+  title: b11849
+  author: github-actions[bot]
+  publishedAt: 2026-10-24T11:56:07+0900
+  words: 720
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 릴리스의 핵심은 Hexagon 가속기에서의 SGN(Sign) 연산 지원이다. 개발팀은 SGN 연산 시 부호 비트(sign bit)를 활용하여 최적화를 진행했으며, 이를 통해 해당 플랫폼에서의 연산 효율을 높였다.
+
+기술적인 개선 사항으로는 hex-sgn에 f16 지원이 추가되었고, hex-unary의 SGN 연산이 범용 unary_collapse를 사용하도록 업데이트되었다. 이 과정에서 더 많은 조건에 적용될 수 있도록 축소 체크(collapse checks) 제약이 완화되었다.
+
+추가적으로 차원 축소(dims collapsing) 기능이 개선되었으며, 해당 로직이 호스트 측 솔버(host-side solver)에서 실행되도록 변경되었다. 이번 업데이트는 전체 변경 사항 중 일부이며, 상세한 변경 내역은 공식 릴리스 노트를 참조해야 한다.
+
+---
+
+원문: [b11849](https://github.com/ggml-org/llama.cpp/releases/tag/b11849)
