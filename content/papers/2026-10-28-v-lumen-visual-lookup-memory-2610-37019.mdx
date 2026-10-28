@@ -1,0 +1,40 @@
+---
+title: 모델 크기 대신 메모리로 확장하는 시각 언어 모델의 새로운 방식
+category: papers
+axis: retrieval
+format: explainer
+summary: V-LUMEN은 모델의 파라미터를 늘리는 대신 외부 메모리 구조를 활용해 시각 언어 모델의 용량을 확장하는 기술이다. 시각적 특징을 이산화하고 텍스트 조건에 맞춰 검색되는 메모리 시스템을 구축한다.
+publishedAt: 2026-10-28T22:00:06+0900
+tags:
+- LoRA
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.37019
+  title: 'V-LUMEN: Visual Lookup Memory for Embedding Scaling in Vision-Language Models'
+  author: Miso Choi
+  publishedAt: 2026-10-28T13:00:00+0900
+  words: 22324
+  image: https://arxiv.org/html/2610.37019v1/overview_fig.png
+paper:
+  arxivId: '2610.37019'
+  authors:
+  - Miso Choi
+  - Daekeun Kim
+  - Eunji Kim
+  - Jungbeom Lee
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 3
+---
+
+기존 언어 모델은 텍스트 토큰의 이산적 특성을 활용해 메모리 기반의 용량 확장을 이뤄왔다. 하지만 시각적 특징은 연속적이고 공간적 구조를 가지며 쿼리에 의존적이기 때문에 이를 동일한 방식으로 확장하는 데 어려움이 있었다. 저자들은 이러한 한계를 극복하기 위해 시각적 특징을 이산화하고 공간적 집계 기반의 해싱을 통해 메모리 키를 구축하는 V-LUMEN을 제안한다.
+
+V-LUMEN은 텍스트 조건에 따른 관련성 신호를 통해 메모리를 조절하며, 검색된 임베딩을 게이트 기반 잔차 경로를 통해 백본 모델과 결합한다. 이 과정에서 모든 주소 지정은 비매개변수 방식으로 처리된다. 이러한 구조 덕분에 모델의 용량은 연산량 증가가 아닌 저장 공간의 확대로 이어지며, 검색 비용은 테이블 크기에 비례하여 고정된다.
+
+저자들의 주장에 따르면 V-LUMEN은 고정된 Qwen3-VL-2B 백본 모델의 성능을 추론 중심의 벤치마크에서 실질적으로 개선하며, 학습 데이터와 겹치지 않는 이미지에 대해서도 제로샷 전이가 가능하다. 또한 동일한 파라미터 예산 내에서 LoRA나 MoE 어댑터의 일부 용량을 V-LUMEN으로 옮겼을 때 정확도가 유지되는 것으로 보아, 외부 시각 메모리가 독립적인 용량 축이라는 점이 확인되었다.
+
+---
+
+원문: [V-LUMEN: Visual Lookup Memory for Embedding Scaling in Vision-Language Models](https://arxiv.org/abs/2610.37019)

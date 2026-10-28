@@ -1,0 +1,44 @@
+---
+title: 작은 언어 모델로 리버스 엔지니어링의 저수준 동작 추론하기
+category: papers
+axis: serving
+format: explainer
+summary: 리버스 엔지니어링은 일반적인 코딩 작업과 달리 저수준 프로그램 동작에 대한 추론이 필수적이다. 본 연구는 소형 언어 모델을 활용해 x86-64 기본 블록의 실행 결과를 예측하도록 학습시키는 방법을 제안한다.
+publishedAt: 2026-10-28T22:00:06+0900
+tags:
+- fine-tuning
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.36288
+  title: 'BUSTA: Teaching Small Language Models to Reason About Binary Execution'
+  author: Ritika Poddar
+  publishedAt: 2026-10-28T13:00:00+0900
+  words: 4780
+paper:
+  arxivId: '2610.36288'
+  authors:
+  - Ritika Poddar
+  - Aidan Fennelly
+  - Deirdre Murphy
+  - Eric Wolos
+  - Corre L. Steele
+  - Michael Doyle
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+리버스 엔지니어링(RE)은 일반적인 소프트웨어 개발과 달리 프로그램의 저수준 동작을 이해해야 하는 특수한 영역이다. 특히 리소스가 제한된 샌드박스 환경에서는 거대 모델을 자유롭게 활용하기 어렵기 때문에, 효율적인 소형 모델 활용 방안이 중요하다.
+
+저자들은 특정 리버스 엔지니어링 기술을 오픈 모델에 전이시키기 위해 '역방향 기본 블록 실행' 방식을 도입했다. 이는 x86-64 기본 블록과 목표로 하는 출력 레지스터 상태가 주어졌을 때, 이를 생성하는 입력 레지스터 값을 모델이 예측하게 하는 방식이다.
+
+연구팀은 Qwen3-1.7B와 Nemotron-3-Nano 모델을 Group Relative Policy Optimization(GRPO) 기법으로 미세 조정했다. 저자들의 주장에 따르면, 이 과정을 통해 Qwen3-1.7B의 예측 정확도는 73.2%에서 85.3%로, Nemotron-3-Nano는 63.3%에서 95.2%로 향상되었다.
+
+최상위 모델(Frontier models)이 여전히 가장 높은 정확도(최대 99.2%)를 기록하고 있지만, 미세 조정된 Nemotron-3-Nano는 훨씬 적은 파라미터 수로 그에 근접하는 성능을 보여주었다. 연구팀은 학습에 사용된 데이터셋과 미세 조정된 모델을 모두 공개했다.
+
+---
+
+원문: [BUSTA: Teaching Small Language Models to Reason About Binary Execution](https://arxiv.org/abs/2610.36288)

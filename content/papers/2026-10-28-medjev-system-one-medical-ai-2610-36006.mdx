@@ -1,0 +1,41 @@
+---
+title: GPT-4급 성능을 내는 가벼운 의료용 의사결정 모델 MedJev
+category: papers
+axis: domain
+format: explainer
+summary: 연구진은 텍스트 생성 없이 빠른 의사결정을 지원하는 시스템 원(System One) 모델 MedJev를 공개했다. 이 모델은 노트북에서 실행 가능하며 의료 지식 및 진단 벤치마크에서 GPT-4에 근접하는 성능을 보여준다.
+publishedAt: 2026-10-28T22:00:06+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.36006
+  title: 'MedJev: Evaluating Zero-Shot System-One Decision Making in Medicine'
+  author: Simon A. Lee
+  publishedAt: 2026-10-28T13:00:00+0900
+  words: 12950
+  image: https://arxiv.org/html/2610.36006v1/figures/fig_mc_accuracy.png
+paper:
+  arxivId: '2610.36006'
+  authors:
+  - Simon A. Lee
+  - Jiahang Sha
+  - Moonseong Jeong
+  - Yunbei Pan
+  - Jeffrey N. Chiang
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 3
+---
+
+연구진은 의료 현장에서 빠르고 효율적인 의사결정을 돕기 위해 텍스트 생성 과정 없이 단일 추론으로 구조화된 질문에 답하는 시스템 원 모델 MedJev를 개발했다. 이 모델은 로컬 환경에서 구동이 가능하며 의료 지식, 진단, 환자 수준 예측을 포함한 10개의 벤치마크에서 평가되었다.
+
+저자들의 주장에 따르면 MedJev는 MedQA에서 72.5%, USMLE에서 75.4%, NEJM에서 80.1%의 정확도를 기록하며 GPT-4의 성능에 근접했다. 환자 수준의 예측 작업에서는 병원 내 사망률 예측에서 XGBoost를 상회하는 AUROC 0.926을 달성했으나, 응급실 분류 및 입원 결정과 같은 운영 결과 예측에서는 지도 학습 모델보다 낮은 성능을 보였다.
+
+모델의 신뢰도 측면에서 환자 수준의 예측은 상당한 미세 조정이 필요한 것으로 나타났다. 이를 해결하기 위해 연구진은 50~200개의 레이블된 데이터를 활용해 지역 환자군에 맞게 예측을 조정하는 가벼운 2개 파라미터 재보정 방법을 제안했다. 이 방법을 통해 오류를 크게 줄일 수 있었다.
+
+결론적으로 시스템 원 모델은 낮은 계산 비용과 효율적인 로컬 보정을 유지하면서도 경쟁력 있는 예측 성능을 제공하는 유망한 제로샷 의료 AI 기반이 될 수 있다. 연구진은 향후 연구를 위해 코드와 평가 프레임워크를 공개했다.
+
+---
+
+원문: [MedJev: Evaluating Zero-Shot System-One Decision Making in Medicine](https://arxiv.org/abs/2610.36006)

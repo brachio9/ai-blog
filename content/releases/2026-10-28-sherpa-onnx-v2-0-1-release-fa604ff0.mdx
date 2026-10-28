@@ -1,0 +1,32 @@
+---
+title: 'sherpa-onnx v2.0.1 업데이트: VoxLock 지원 및 멀티 플랫폼 API 확장'
+category: releases
+axis: voice
+format: explainer
+summary: sherpa-onnx의 v2.0.1 버전이 공개되었다. 이번 업데이트의 핵심은 VoxLock 모델에 대한 광범위한 플랫폼 지원과 음성 처리 성능 개선이다.
+publishedAt: 2026-10-28T22:00:06+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://github.com/k2-fsa/sherpa-onnx/releases/tag/v2.0.1
+  title: v2.0.1
+  author: github-actions[bot]
+  publishedAt: 2026-10-27T00:24:29+0900
+  words: 379
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 릴리스에서 가장 눈에 띄는 변화는 VoxLock 모델에 대한 통합이다. 개발팀은 VoxLock을 위한 Python, C/CXX, JavaScript, Java, Kotlin, C#, Swift, Go, Dart, Rust, Pascal 등 매우 폭넓은 언어의 API를 추가했다. 이를 통해 다양한 개발 환경에서 VoxLock 모델을 활용할 수 있는 기반이 마련되었다.
+
+음성 처리 기능 측면에서는 VoxLock 타겟 스피커 음성 분리 기능을 포함한 음성 노이즈 제거 기능이 추가되었다. 또한 Canary greedy search에서 생성된 토큰의 디코더 위치를 수정하고, 스트리밍 NeMo CTC 모델에서 librosa 스타일의 fbank를 사용하도록 변경하여 성능과 호환성을 개선했다.
+
+모델 최적화와 안정성 측면에서도 개선이 있었다. Kokoro 모델을 int8로 양자화할 때 STFT 변환을 float32로 유지하도록 수정하였으며, Flutter 패키지 배포 관련 오류와 CI 실패 사례들을 수정했다. 이번 업데이트는 전체 변경 사항 중 주요 기능인 VoxLock 지원과 핵심 버그 수정에 집중되어 있으며, 상세한 변경 내역은 전체 변경 로그를 통해 확인할 수 있다.
+
+---
+
+원문: [v2.0.1](https://github.com/k2-fsa/sherpa-onnx/releases/tag/v2.0.1)

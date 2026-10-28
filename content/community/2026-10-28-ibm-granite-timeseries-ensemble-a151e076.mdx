@@ -1,0 +1,32 @@
+---
+title: IBM이 공개한 시계열 모델 4종 통합 앙상블 기법
+category: community
+axis: serving
+format: explainer
+summary: IBM Research는 4개의 시계열 모델을 결합하여 예측 분포를 생성하는 Granite Timeseries Ensemble R1을 공개했다. 추가 학습 없이 설정 파일만으로 여러 모델의 분위수 예측을 하나로 합치는 방식이다.
+publishedAt: 2026-10-28T22:00:06+0900
+tags:
+- fine-tuning
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/ibm-4-granite-timeseries-ensemble-r1/12321
+  title: IBM, 시계열 모델 4종의 분위수 예측을 하나로 합치는 Granite Timeseries Ensemble R1 공개
+  author: 9bow
+  publishedAt: 2026-10-28T18:30:08+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/5/1/518e933d5cc061a5c7f37fc1bc9166f1c0338cce_2_1028x661.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+시계열 파운데이션 모델은 데이터 특성에 따라 성능 차이가 발생할 수 있다. IBM Research는 이를 해결하기 위해 서로 다른 구조를 가진 4개의 Granite 시계열 모델을 동시에 호출하고, 각 모델이 출력하는 분위수 예측을 하나의 분포로 통합하는 방식을 제안했다. 이는 기상 예보나 계절 예측에서 여러 모델을 결합하는 방식과 유사한 원리다.
+
+이 기술은 별도의 가중치 학습 없이 특정 라이브러리를 통해 구현된다. 기본적으로 4개 모델을 동일한 비중으로 섞는 확률 앙상블을 제공하며, 예측 구간이 좁은 모델에 더 높은 가중치를 부여하는 IQR 앙상블을 대안으로 사용할 수 있다. 사용자는 Hugging Face에서 제공되는 설정 파일(config.json)을 통해 모델 조합 방식을 정의한다.
+
+IBM 연구진은 GIFT-Eval 벤치마크에서 두 앙상블 방식이 단일 구성 모델들을 앞섰다고 주장했다. 다만 실제 성능 차이는 매우 작았으며, 특정 지표에서는 단일 모델이 더 나은 결과를 보이기도 했다. 이 모델은 특정 라이선스 기준을 적용한 순위에서 3위를 기록했으나, 전체 리더보드 기준으로는 39위에 해당한다.
+
+---
+
+원문: [IBM, 시계열 모델 4종의 분위수 예측을 하나로 합치는 Granite Timeseries Ensemble R1 공개](https://discuss.pytorch.kr/t/ibm-4-granite-timeseries-ensemble-r1/12321)

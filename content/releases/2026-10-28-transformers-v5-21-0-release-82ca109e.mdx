@@ -1,0 +1,40 @@
+---
+title: 'Hugging Face Transformers v5.21.0 업데이트: 문서 이해 및 TTS 모델 지원 확대'
+category: releases
+axis: serving
+format: explainer
+summary: Hugging Face Transformers 라이브러리가 v5.21.0으로 업데이트되며 새로운 모델 지원이 추가되었다. 이번 업데이트에서는 문서 이해를 위한 OCR 모델과 온디바이스용 TTS 모델 등이 포함되었다.
+publishedAt: 2026-10-28T22:00:06+0900
+tags:
+- vLLM
+- quantization
+- distillation
+- speculative decoding
+- TTS
+- Whisper
+draft: false
+source:
+  url: https://github.com/huggingface/transformers/releases/tag/v5.21
+  title: 'Release: v5.21.0'
+  author: Cyrilvallez
+  publishedAt: 2026-10-27T03:17:42+0900
+  words: 3487
+  image: https://github.com/user-attachments/assets/c45955fb-dfcc-4266-8223-b0d70efb9a5b
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 문서 이해 능력을 강화한 모델들의 추가다. OpenBMB의 MiniCPM-OCR은 스캔된 페이지나 영수증, 표와 같은 텍스트 밀도가 높은 이미지를 읽는 데 특화된 모델이다. 또한 시각적 문서 이해 및 검색을 위해 설계된 UltraVBert도 새롭게 지원된다.
+
+모델 구조 측면에서는 Recursive의 MoE(Mixture-of-Experts) 언어 모델인 Flint가 추가되었다. Flint는 하이브리드 어텐션과 학습된 어텐션 싱크를 사용하는 등 효율적인 구조를 가진 것이 특징이다. 이 모델들은 다양한 문서 처리 및 언어 모델링 작업에서 활용될 수 있다.
+
+음성 합성 분야에서도 새로운 모델이 추가되었다. Gradium의 온디바이스용 TTS 모델인 Phonon TTS가 포함되었으며, 이는 12.5 Hz의 속도로 오디오 잠재 변수를 생성하는 방식을 사용한다. 이번 업데이트는 문서 이해와 음성 합성 등 다양한 멀티모달 분야의 활용성을 높이는 데 초점을 맞추고 있다.
+
+참고로 이번 릴리즈 노트에는 위에서 언급한 모델들 외에도 다양한 변경 사항이 포함되어 있으나, 주요 업데이트 사항 위주로 요약하였다.
+
+---
+
+원문: [Release: v5.21.0](https://github.com/huggingface/transformers/releases/tag/v5.21)
