@@ -1,0 +1,46 @@
+---
+title: GUI 인터페이스 학습으로 일반적인 시각적 관찰 능력 키우는 법
+category: papers
+axis: agent
+format: explainer
+summary: GUI grounding 데이터를 활용해 화면 너머의 일반적인 시각적 관찰 능력을 학습시키는 LBS 모델이 공개되었다. 이 모델은 지도 학습과 강화 학습을 결합하여 복잡한 시각적 추론 능력을 효과적으로 향상시킨다.
+publishedAt: 2026-10-29T22:00:04+0900
+tags:
+- fine-tuning
+- SFT
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.37093
+  title: 'Learning to Look Beyond Screens: Transferable Visual Observation from GUI Grounding'
+  author: Ruilin Yao
+  publishedAt: 2026-10-28T13:00:00+0900
+  words: 12617
+  image: https://arxiv.org/html/2610.37093v1/fig1_final.png
+paper:
+  arxivId: '2610.37093'
+  authors:
+  - Ruilin Yao
+  - Xinyu Qiu
+  - Tianyu Zou
+  - Yi Rong
+  - Shengwu Xiong
+  - Shuheng Shen
+  - Changhua Meng
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+시각적 인식 기술은 단순히 사물을 인식하는 단계를 넘어 특정 과제를 수행하기 위한 능동적인 관찰로 진화하고 있다. 연구진은 GUI grounding을 공간적 감독(spatial supervision)의 확장 가능한 소스로 활용하여, 인터페이스에 국한되지 않는 관찰 행동을 학습하는 방법을 탐구했다.
+
+제안된 LBS(Look Beyond Screens) 모델은 교사 모델이 생성한 GUI grounding 궤적을 통해 지도 학습(supervised initialization)을 먼저 수행한다. 이후 다회차의 크롭 및 검토(crop-and-inspect) 의사결정을 위해 강화 학습을 추가로 진행하는 구조를 가진다.
+
+저자들의 주장에 따르면, LBS 모델은 기존 베이스라인 모델보다 성능이 지속적으로 향상되는 결과를 보였다. 특히 지도 학습을 넘어선 성능 향상이 PerceptionBench, HR-Bench, ChartQAPro 등 다양한 벤치마크에서 확인되었으며, 이는 GUI 모방을 넘어 일반화된 관찰 전략을 지원함을 시사한다.
+
+연구진은 두 단계의 상호보완적 역할을 분석했다. 지도 학습이 시각적 검토의 기본 원칙을 수립한다면, 강화 학습은 이러한 원칙들이 실제 하위 작업에서 효과적으로 작동하도록 개선하는 역할을 수행한다. 결과적으로 GUI grounding은 일반적인 시각적 관찰과 멀티모달 추론을 위한 실용적인 감독 패러다임이 될 수 있다.
+
+---
+
+원문: [Learning to Look Beyond Screens: Transferable Visual Observation from GUI Grounding](https://arxiv.org/abs/2610.37093)

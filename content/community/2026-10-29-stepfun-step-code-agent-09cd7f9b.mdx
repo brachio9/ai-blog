@@ -1,0 +1,37 @@
+---
+title: StepFun이 공개한 터미널 코딩 에이전트 Step Code
+category: community
+axis: vibe-coding
+format: explainer
+summary: StepFun이 오픈소스 프로젝트 Pi를 기반으로 개발한 터미널 코딩 에이전트 Step Code를 공개했다. 이 에이전트는 서브 에이전트와 계획 모드, 웹 페이지 배포 기능을 포함하며 자사 모델인 Step 5 Preview에 최적화되어 있다.
+publishedAt: 2026-10-29T22:00:04+0900
+tags:
+- Claude Code
+- Codex
+- OpenCode
+- MCP
+- vLLM
+- Terminal-bench
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/step-code-stepfun-pi/12287
+  title: 'Step Code: StepFun이 Pi 코딩 에이전트에 서브에이전트와 웹 페이지 배포를 더한 터미널 코딩 에이전트'
+  author: 9bow
+  publishedAt: 2026-10-27T11:30:40+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/7/a/7ae155522e818fe00469b836747e7394146d513f_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+StepCode는 StepFun이 자사 플래그십 모델인 Step 5 Preview를 위해 최적화한 터미널 코딩 에이전트다. 이 프로젝트는 Mario Zechner가 만든 오픈소스 코딩 에이전트 Pi에서 파생되었으며, Pi의 핵심 기능 위에 서브 에이전트, 계획 모드, 목표 기반의 장시간 실행 기능 등을 추가하여 확장했다.
+
+Step Code는 사용자가 Anthropic이나 OpenAI의 API 키를 연결하거나 Ollama, vLLM 같은 로컬 엔드포인트를 사용할 수 있도록 지원한다. 특히 내장된 StepPage 플러그인을 통해 로컬에서 생성한 정적 웹 페이지를 공개 URL로 배포하거나 이전 버전으로 되돌리는 기능을 제공하며, Claude Code의 MCP 설정 및 플러그인과도 호환된다.
+
+StepFun은 자체 측정을 통해 Step Code가 Multi-Frame에서 73.3%의 성능을 기록했으며, Terminal-Bench 2.1에서는 DeepSeek Harness와 동점이라는 결과를 발표했다. 다만 공식 설치본은 텔레메트리가 활성화된 상태로 시작하며, 운영체제 수준의 샌드박스 보안을 제공하지는 않는다는 점을 유의해야 한다.
+
+---
+
+원문: [Step Code: StepFun이 Pi 코딩 에이전트에 서브에이전트와 웹 페이지 배포를 더한 터미널 코딩 에이전트](https://discuss.pytorch.kr/t/step-code-stepfun-pi/12287)

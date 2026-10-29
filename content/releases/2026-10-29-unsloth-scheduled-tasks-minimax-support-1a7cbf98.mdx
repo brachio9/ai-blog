@@ -1,0 +1,46 @@
+---
+title: 'Unsloth 업데이트: 예약 작업 기능과 MiniMax 모델 지원 추가'
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 예약 실행 기능과 MiniMax-M3.1-Flash 모델 지원을 포함한 대규모 업데이트를 발표했다. 이번 업데이트는 Mac 사용자들을 위한 성능 최적화와 FLUX 3 편집 기능 강화에 집중하고 있다.
+publishedAt: 2026-10-29T22:00:04+0900
+tags:
+- MCP
+- vLLM
+- SGLang
+- quantization
+- distillation
+- LoRA
+- QLoRA
+- fine-tuning
+- KV cache
+- GRPO
+- DPO
+- SFT
+- TTS
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.911-beta
+  title: Scheduled + MiniMax-M3.1-Flash + Perf Gains
+  author: danielhanchen
+  publishedAt: 2026-10-26T23:23:54+0900
+  words: 9494
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 사용자가 특정 일정에 맞춰 프롬프트를 실행할 수 있는 예약 작업(Scheduled tasks) 기능이다. 로컬 모델이나 연결된 API를 통해 매일, 매주 또는 매월 단위로 실행되는 작업을 설정할 수 있으며, 실행 결과는 개별 채팅으로 자동 저장된다. 이는 반복적인 데이터 수집이나 정기적인 콘텐츠 생성 업무를 자동화하는 데 유용하다.
+
+모델 지원 측면에서는 MiniMax의 428B MoE 모델인 MiniMax-M3.1-Flash가 새롭게 추가되었다. 또한 이미지 생성 분야에서는 FLUX 3를 활용한 이미지 편집 기능이 강화되었으며, NVIDIA Cosmos3-Edge를 통한 비디오 생성과 세부 묘사를 위한 Detailer 기능이 포함되었다. 특히 FLUX.3 Klein 모델을 통해 사진의 크기를 유지하며 편집할 수 있는 기능이 주목된다.
+
+성능 최적화는 특히 Mac 사용자들에게 큰 변화를 제공한다. MLX 기반의 채팅 응답 속도가 최대 16% 향상되었으며, Apple Silicon 환경에서 Z-Image GGUFs의 생성 속도가 이전보다 1.5~2배 빨라졌다는 것이 개발 측의 주장이다. 또한 구형 NVIDIA GPU에서 Wan2.1 모델의 렌더링 속도가 약 5배 빨라지는 등 하드웨어별 최적화도 대폭 개선되었다.
+
+사용자 편의성을 위한 UI/UX 개선도 포함되었다. 모델별로 실행 설정을 저장할 수 있는 프리셋 기능이 도입되었고, GGUF 채팅 시 진행 상황과 예상 소요 시간이 표시된다. 이번 업데이트는 예약 실행과 성능 개선을 중심으로 이루어졌으며, 그 외에도 다양한 세부 기능 개선이 포함되어 있다.
+
+---
+
+원문: [Scheduled + MiniMax-M3.1-Flash + Perf Gains](https://github.com/unslothai/unsloth/releases/tag/v0.1.911-beta)

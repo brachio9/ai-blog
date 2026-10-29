@@ -1,0 +1,44 @@
+---
+title: 파라미터 효율을 극대화하는 적응형 LoRA 기법, SimplexLoRA
+category: papers
+axis: serving
+format: explainer
+summary: SimplexLoRA는 학습 과정에서 각 레이어의 중요도에 따라 어댑터 랭크를 동적으로 할당하는 기술이다. 추가적인 파라미터나 추론 비용 없이 모델의 효율성을 최적화한다.
+publishedAt: 2026-10-29T22:00:04+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.37206
+  title: 'SimplexLoRA: Dynamic Rank Updating via Alternating Minimization with Simplex Projection'
+  author: Igor Shalygin
+  publishedAt: 2026-10-28T13:00:00+0900
+  words: 7125
+  image: https://arxiv.org/html/2610.37206v1/figures/heatmap2.png
+paper:
+  arxivId: '2610.37206'
+  authors:
+  - Igor Shalygin
+  - Grigorii Davydenko
+  - Andrey Veprikov
+  - Aleksey Antonov
+  - Nikolay Bushkov
+  - Stanislav Moiseev
+  - Aleksandr Beznosikov
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+거대 언어 모델을 효율적으로 미세 조정하기 위해 널리 쓰이는 LoRA는 특정 레이어에 낮은 랭크의 어댑터를 삽입하는 방식이다. 하지만 기존의 LoRA는 모든 레이어에 동일한 랭크를 고정적으로 할당한다는 한계가 있다. 이를 해결하기 위해 제안된 SimplexLoRA는 학습 과정에서 각 어댑터의 중요도를 학습하여 자원을 동적으로 배분한다.
+
+SimplexLoRA는 짧은 웜업 단계를 통해 $n$-scaled simplex 상에서 어댑터별 중요도 가중치를 최적화하고 이를 고정한다. 이 방식은 전체 파라미터 수나 추론 비용을 늘리지 않으면서도 모델이 필요로 하는 곳에 계산 능력을 집중시킨다. 특히 낮은 랭크 설정에서 효과적인 자원 배분이 가능하다는 점이 특징이다.
+
+저자들은 DeBERTaV3, BART-large, Llama 3.1 8B, Qwen3-8B 모델을 활용해 12개의 언어 이해, 요약, 추론 과제를 평가했다. 저자들의 주장에 따르면 SimplexLoRA는 표준 LoRA 및 최근의 적응형 베이스라인 모델들과 대등하거나 더 우수한 성능을 보여주었다.
+
+---
+
+원문: [SimplexLoRA: Dynamic Rank Updating via Alternating Minimization with Simplex Projection](https://arxiv.org/abs/2610.37206)

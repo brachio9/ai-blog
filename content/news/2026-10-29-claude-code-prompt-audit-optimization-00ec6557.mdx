@@ -1,0 +1,35 @@
+---
+title: Claude Code의 prompt-audit 기능으로 불필요한 프롬프트 제거하기
+category: news
+axis: agent
+format: explainer
+summary: Claude Code v2.1.283부터 도입된 /doctor prompt-audit 명령어를 통해 이전 모델용 지시사항을 찾아낼 수 있다. 이를 활용하면 모델의 정확도는 유지하면서 불필요한 비용을 절감하는 효과를 얻을 수 있다.
+publishedAt: 2026-10-29T22:00:04+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://www.youtube.com/watch?v=z02tGC3Wu4Q
+  title: CLAUDE.md 속 옛 문장 /doctor로 찾아 지우기
+  publishedAt: 2026-10-28T08:00:04+0900
+  image: https://i.ytimg.com/vi/z02tGC3Wu4Q/hqdefault.jpg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+실밸개발자 채널의 영상이다. 이 글은 **영상 설명란만 보고** 추린 것이다 — 영상에서 실제로 무슨 말을 하는지는 확인하지 않았다.
+
+Anthropic은 최신 모델이 이전 모델과 달리 'verify twice'나 'scratchpad' 같은 구체적인 절차 지시를 글자 그대로 따르는 경향이 있다고 설명한다. 이러한 지시는 도구 호출과 글자 수를 늘릴 뿐 정확도에 큰 영향을 주지 않으면서 비용만 상승시키는 원인이 된다.
+
+Claude Code는 이러한 문제를 해결하기 위해 /doctor prompt-audit(또는 /checkup prompt-audit) 기능을 제공한다. 이 기능은 CLAUDE.md, 스킬, 에이전트, 명령 파일에서 구형 모델에 최적화된 문장을 찾아내며, 동일한 검사는 /claude-api prompt-audit를 통해서도 실행 가능하다.
+
+Anthropic 블로그의 사례에 따르면, 고객지원 벤치마크에서 모델을 변경하고 prompt-audit을 적용했을 때 비용이 약 25% 절감된 사례가 보고되었다. 다만 이는 특정 벤치마크 결과이므로 참고용으로 확인해야 한다.
+
+영상에서는 실제 Claude Code 환경에서 구형 방식의 문장이 포함된 CLAUDE.md 파일을 생성하고, /doctor prompt-audit 명령어를 실행하여 수정안을 diff 형태로 확인하는 과정을 보여준다. 이때 특정 지시사항이 모델의 안전장치에 의해 차단되는 현상도 함께 관찰된다.
+
+---
+
+원문: [CLAUDE.md 속 옛 문장 /doctor로 찾아 지우기](https://www.youtube.com/watch?v=z02tGC3Wu4Q)
