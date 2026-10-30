@@ -1,0 +1,30 @@
+---
+title: 'PyTorch 2.15 출시: NCCL 백엔드 개선과 Apple Silicon FP8 지원'
+category: community
+axis: serving
+format: explainer
+summary: PyTorch 2.15 버전이 새롭게 출시되었다. 이번 업데이트에서는 NCCL 백엔드 재작성, FSDP2 제어 기능 강화, 그리고 Apple Silicon 및 NVIDIA Blackwell을 위한 성능 개선이 포함되었다.
+publishedAt: 2026-10-30T22:00:05+0900
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/pytorch-2-15/12351
+  title: PyTorch 2.15 출시 공지 | 파이토치 한국 사용자 모임
+  author: bot
+  publishedAt: 2026-10-29T16:04:48+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/c/8/c84733e9ec8dc592f9731a503439a4f3cd1852b4_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+파이토치 한국모임은 PyTorch 2.15의 출시 소식을 공유했다. 이번 업데이트의 핵심 변화 중 하나는 새로 작성된 NCCL 백엔드가 기본값으로 설정된 것이다. 시스템 멈춤 발생 시 기록을 덤프하는 Flight Recorder 기능이 추가되었으며, 필요시 이전 버전으로 되돌릴 수 있는 옵션도 제공된다.
+
+분산 학습 성능을 높이기 위한 기능도 강화되었다. torch.distributed에 단방향 전송이 추가되었으며, FSDP2와 파이프라인 처리에서 메모리와 통신을 더 세밀하게 제어할 수 있게 되었다. 이를 통해 정밀도가 중요한 매개변수를 fp32로 유지하거나 변화도 리덕션을 계산과 중첩하는 등의 작업이 가능해졌다.
+
+하드웨어별 최적화도 눈에 띈다. NVIDIA Blackwell GPU에서는 NVGEMM 커널 실행 횟수를 줄여 4비트 LLM 디코딩 속도를 개선했으며, Apple Silicon에서는 FP8 지원과 더불어 MoE 디코드 속도를 개선한 새로운 grouped_mm을 제공한다. 또한 AMD 및 Intel GPU를 포함한 더 넓은 플랫폼 지원과 Python 3.15에서의 torch.compile 지원이 포함되었다.
+
+---
+
+원문: [PyTorch 2.15 출시 공지 | 파이토치 한국 사용자 모임](https://discuss.pytorch.kr/t/pytorch-2-15/12351)

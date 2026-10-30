@@ -1,0 +1,42 @@
+---
+title: 'LLM이 특정 단어를 선택하는 이유를 추적하는 방법: Jacobian Scopes'
+category: papers
+axis: domain
+format: explainer
+summary: LLM이 특정 토큰을 예측할 때 어떤 입력 단어가 결정적인 영향을 미쳤는지 분석하는 Jacobian Scopes 방법론을 소개한다. 섭동 이론과 정보 기하학을 기반으로 모델의 예측 분포와 불확실성을 정량적으로 측정한다.
+publishedAt: 2026-10-30T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2601.16407
+  title: 'Jacobian Scopes: A Unified Geometric Framework for Token-Level LLM Attribution'
+  author: Toni J. B. Liu
+  publishedAt: 2026-10-30T13:00:00+0900
+  words: 18989
+  image: https://arxiv.org/html/2601.16407v5/schematics.png
+paper:
+  arxivId: '2601.16407'
+  authors:
+  - Toni J. B. Liu
+  - Baran Zadeo\u{g}lu
+  - Gurbir Arora
+  - Rapha\"el Sarfati
+  - Nicolas Boull\'e
+  - Christopher J. Earls
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+거대 언어 모델(LLM)은 문맥 속의 의미적 묘사나 예시를 바탕으로 다음 토큰을 예측하지만, 복잡한 레이어와 어텐션 헤드 구조 때문에 어떤 토큰이 예측에 가장 큰 영향을 주었는지 파악하기는 어렵다. 연구진은 이를 해결하기 위해 그래디언트 기반의 토큰 단위 인과적 귀속 방법인 Jacobian Scopes를 제안했다.
+
+Jacobian Scopes는 섭동 이론과 정보 기하학에 기반하여 입력 토큰이 모델의 특정 로짓, 전체 예측 분포, 그리고 모델의 불확실성(유효 온도)에 미치는 영향을 정량화한다. 이를 통해 모델이 지시사항을 어떻게 이해하는지, 번역 시 어떤 단어와 구문을 활용하는지, 그리고 시계열 예측에서 작동하는 메커니즘은 무엇인지 등을 분석할 수 있다.
+
+저자들의 주장에 따르면, Jacobian Scopes의 분포 수준 분석 방법인 Fisher 및 Temperature Scopes는 기존의 그래디언트 기반 귀속 방법보다 6개 모델과 데이터셋 조합 중 10개 설정에서 우수한 성능을 보였다. 연구진은 이 방법론을 검증하기 위해 지시사항 이해, 번역, 문맥 내 학습(ICL) 사례 연구를 수행했으며, 토큰 제거 기반의 충실도 벤치마크를 통해 성능을 확인했다.
+
+연구진은 연구 결과를 공유하기 위해 구현체를 오픈소스로 공개했으며, 사용자들이 직접 텍스트를 입력해 실험해 볼 수 있는 인터랙티브 데모를 제공하고 있다.
+
+---
+
+원문: [Jacobian Scopes: A Unified Geometric Framework for Token-Level LLM Attribution](https://arxiv.org/abs/2601.16407)

@@ -1,0 +1,35 @@
+---
+title: 'OpenCode v2.2.3 업데이트: Claude Code 통합 및 성능 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: OpenCode v2.2.3 버전에서는 Claude Code 지원과 데스크톱 앱의 성능 최적화가 핵심이다. 개발자 경험을 개선하기 위한 구조적 변화와 안정성 패치가 포함되었다.
+publishedAt: 2026-10-30T22:00:05+0900
+tags:
+- Claude Code
+- Cursor
+- OpenCode
+- MCP
+draft: false
+source:
+  url: https://github.com/anomalyco/opencode/releases/tag/v2.2.3
+  title: v2.2.3
+  author: github-actions[bot]
+  publishedAt: 2026-10-30T18:55:45+0900
+  words: 1521
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 Claude Code와의 통합이다. 사용자는 이제 Claude Code를 설치하고 인증한 뒤, OpenCode에서 Claude Agent를 선택하여 기존의 로그인 세션과 모델을 그대로 활용할 수 있다. 이는 개발 환경의 연속성을 유지하는 데 큰 도움을 줄 것이다.
+
+데스크톱 환경에서의 사용자 경험도 대폭 개선되었다. 긴 대화나 스트리밍 답변 시 발생하는 렌더링 부하를 줄여 성능을 최적화했으며, 사이드 패널 탭 오류나 세션 관련 알림 등 기존의 고질적인 버그들을 수정하여 전반적인 안정성을 확보했다.
+
+개발자들을 위한 내부 구조 변화도 포함되었다. `@opencode/ai` 패키지에서 실험적인 미디어 기능들이 별도 경로로 이동했고, TUI 플러그인을 위한 의존성 요구사항이 업데이트되었다. 또한 통합 관리 정책이 세분화되어 MCP 서버, 스킬, 플러그인에 대한 제어가 더욱 명확해졌다. 이번 릴리스는 전체 업데이트 중 주요 개선 사항만을 요약한 것이며, 세부적인 변경 사항은 공식 릴리스 노트를 참조해야 한다.
+
+---
+
+원문: [v2.2.3](https://github.com/anomalyco/opencode/releases/tag/v2.2.3)

@@ -1,0 +1,39 @@
+---
+title: 데이터가 쌓일수록 기억은 흐려진다? 에이전트 메모리의 확장성 검증법
+category: papers
+axis: agent
+format: explainer
+summary: 기존의 에이전트 메모리 평가는 고정된 데이터셋에서의 성능에만 집중했다. 본 연구는 불필요한 정보가 추가될 때 실제 사용 가능한 증거가 얼마나 유지되는지 측정하는 새로운 평가 프로토콜을 제안한다.
+publishedAt: 2026-10-30T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.07313
+  title: 'When Stored Evidence Stops Being Usable: Scale-Conditioned Evaluation of Agent Memory'
+  author: Jiaqi Shao
+  publishedAt: 2026-10-30T13:00:00+0900
+  words: 12182
+paper:
+  arxivId: '2605.07313'
+  authors:
+  - Jiaqi Shao
+  - Yiyi Lu
+  - Yunzhen Zhang
+  - Bing Luo
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+현재 에이전트 메모리 성능을 평가하는 방식은 특정 쿼리에 대한 검색 품질이나 고정된 스냅샷에서의 정확도에 치중되어 있다. 하지만 실제 환경에서는 시간이 흐름에 따라 관련 없는 세션 데이터가 계속해서 쌓이게 되며, 이 과정에서 기존의 유효한 정보가 얼마나 잘 보존되는지 확인하기 어렵다. 저자들은 이러한 문제를 해결하기 위해 관련 정보는 고정하고 무관한 세션만 추가하며 메모리의 변화를 추적하는 규모 조건부 평가 프로토콜을 제시한다.
+
+이 프로토콜은 에이전트의 메모리 궤적을 기록하며 예산 준수 신뢰도, 메모리 호출 부담, 실패 영역 분해, 그리고 신뢰도가 목표치 아래로 떨어지는 사용 가능 규모 경계 등 네 가지 진단 지표를 제공한다. 이를 통해 에이전트가 방대한 데이터 속에서도 필요한 정보를 정확히 유지하며 작동하는지 정량적으로 분석할 수 있다.
+
+연구진은 LongMemEval과 LoCoMo 벤치마크를 활용해 평면 및 계층적 메모리 인터페이스에서 이 프로토콜을 적용했다. 저자들의 주장에 따르면 HippoRAG는 호출 횟수 제한 내에 머물지만 무관한 세션이 추가됨에 따라 신뢰도가 16~20%포인트 하락하는 결과가 나타났다. 또한 LiCoMemory의 경우 모델 크기에 따라 성능 차이가 크게 발생하며, 특정 모델은 예산을 초과하는 반면 다른 모델은 테스트 범위 내에서 안정적인 성능을 유지한다는 점이 확인되었다.
+
+결론적으로 이 연구는 에이전트의 메모리 확장성을 평가할 때 에이전트 모델, 인터페이스 유형, 데이터 규모, 그리고 상호작용 예산을 종합적으로 고려해야 한다는 프레임워크를 제공한다. 이는 단순히 정확도 수치만 보는 것이 아니라 실제 운영 환경에서 데이터가 누적될 때의 견고성을 평가하는 중요한 기준이 될 것이다.
+
+---
+
+원문: [When Stored Evidence Stops Being Usable: Scale-Conditioned Evaluation of Agent Memory](https://arxiv.org/abs/2605.07313)

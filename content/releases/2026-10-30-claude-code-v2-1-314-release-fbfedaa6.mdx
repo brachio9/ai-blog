@@ -1,0 +1,35 @@
+---
+title: 'Claude Code v2.1.314 업데이트: 대화 요약 및 안정성 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Claude Code의 대규모 대화 관리 기능과 다양한 인프라 연결 오류가 수정되었다. 특히 긴 대화 세션을 효율적으로 유지하기 위한 자동 압축 기능이 추가되었다.
+publishedAt: 2026-10-30T22:00:05+0900
+tags:
+- Claude Code
+- MCP
+draft: false
+source:
+  url: https://github.com/anthropics/claude-code/releases/tag/v2.1.314
+  title: v2.1.314
+  author: ashwin-ant
+  publishedAt: 2026-10-30T10:06:26+0900
+  words: 2780
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 대규모 대화 세션을 관리하는 방식이다. VS Code와 Claude Desktop의 Code 탭에서 20만 토큰 이상의 긴 대화가 방치될 경우, 시스템이 자동으로 이를 요약한다. 이 요약본은 프롬프트 캐시가 만료되었을 때 다음 메시지를 처리하는 기초 데이터로 활용되어 효율적인 컨텍스트 유지를 돕는다.
+
+사용자 경험을 저해하던 다양한 오류 상황도 개선되었다. 조직 관리자가 모델의 노력 수준(effort level)을 제한했을 때 발생하던 오류를 해결하기 위해, 이제 시스템이 자동으로 낮은 수준의 노력을 시도하고 사용자에게 알린다. 또한 Microsoft Foundry나 Bedrock 환경에서 모델 배포 설정이 맞지 않거나 이미지가 많을 때 발생하던 세션 끊김 현상도 수정되었다.
+
+보안 및 인프라 연결성도 강화되었다. 작업 디렉토리 외부로의 쓰기 권한을 제한하는 기능이 추가되었으며, Bedrock 가드레일 필터 작동 로그를 확인하거나 특정 IDP 그룹에만 접근을 허용하는 기능이 도입되었다. TLS 연결 오류나 MCP 서버 인증 관련 버그도 함께 수정되어 전반적인 실행 안정성이 높아졌다.
+
+이번 릴리스 노트에는 수많은 버그 수정과 기능 개선이 포함되어 있지만, 핵심은 긴 대화의 효율적 관리와 다양한 클라우드 환경에서의 안정적인 작동이다. 전체 변경 사항은 공식 릴리스 노트를 참조해야 한다.
+
+---
+
+원문: [v2.1.314](https://github.com/anthropics/claude-code/releases/tag/v2.1.314)
