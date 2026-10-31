@@ -1,0 +1,35 @@
+---
+title: AI 에이전트를 활용한 디지털 휴먼 영상 제작 자동화
+category: community
+axis: vibe-coding
+format: explainer
+summary: Digital Human Koubo는 대본 작성부터 영상 생성, 검수, 편집까지의 전 과정을 코딩 에이전트가 처리하는 기술이다. Renoise와 Remotion을 결합하여 일관성 있는 가상 발표자 영상을 제작한다.
+publishedAt: 2026-10-31T22:00:05+0900
+tags:
+- Claude Code
+- Codex
+- MCP
+- Whisper
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/digital-human-koubo-renoise-ai-remotion/12340
+  title: 'Digital Human Koubo: Renoise로 만든 AI 발표자 영상을 Remotion으로 편집하는 에이전트 스킬'
+  author: 9bow
+  publishedAt: 2026-10-29T15:30:47+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/2/6/2694119cac44d8fd2960c516f289c2bfffeefd4a_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Digital Human Koubo는 AI 영상 생성 모델을 활용해 사람이 말하는 장면을 만드는 과정에서 발생하는 번거로운 전후 작업을 자동화하는 에이전트 스킬이다. 긴 대본을 여러 구간으로 나누어 생성할 때 발생하는 목소리 톤의 불일치나 모델의 오류를 해결하기 위해, 코딩 에이전트가 정해진 순서에 따라 작업을 수행하도록 설계되었다.
+
+이 시스템은 사용자의 한 문장 요청을 바탕으로 적절한 편집 스타일을 추천하고 대본을 작성한다. 이후 사용자의 승인을 거쳐 구간별로 영상을 생성하며, 생성된 영상은 Whisper를 통해 다시 받아쓰기하여 대본과 비교하는 검수 과정을 거친다. 저자는 유명 크리에이터의 영상을 분석해 만든 48개의 화면 구성 컴포넌트를 제공하여 영상의 품질을 높였다.
+
+기술적으로는 Renoise의 MCP 서버를 통해 Grok Video 1.5를 호출하여 영상을 생성하고, Remotion을 사용하여 최종 편집과 렌더링을 수행한다. 저자는 이 시스템을 통해 27초 분량의 광고나 4분 이상의 튜토리얼 영상을 제작할 수 있음을 확인했으며, 한국어 대사의 경우 Whisper 재확인 정확도가 94%로 측정되었다.
+
+---
+
+원문: [Digital Human Koubo: Renoise로 만든 AI 발표자 영상을 Remotion으로 편집하는 에이전트 스킬](https://discuss.pytorch.kr/t/digital-human-koubo-renoise-ai-remotion/12340)

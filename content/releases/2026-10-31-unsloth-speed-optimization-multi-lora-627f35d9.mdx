@@ -1,0 +1,48 @@
+---
+title: 'Unsloth 업데이트: 더 빠른 실행 속도와 효율적인 Multi-LoRA 학습 지원'
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 실행 속도 개선과 Multi-LoRA 배치 학습 기능을 포함한 대규모 업데이트를 발표했다. 이번 업데이트를 통해 모델 로딩 및 도구 호출 속도가 대폭 향상되었으며, 여러 개의 파인튜닝 작업을 동시에 처리할 수 있게 되었다.
+publishedAt: 2026-10-31T22:00:05+0900
+tags:
+- RAG
+- Codex
+- Cursor
+- MCP
+- vLLM
+- SGLang
+- quantization
+- LoRA
+- QLoRA
+- fine-tuning
+- GRPO
+- DPO
+- SFT
+- TTS
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.912-beta
+  title: Trick or Treat + Optimizations
+  author: danielhanchen
+  publishedAt: 2026-10-28T23:09:50+0900
+  words: 8294
+  image: https://github.com/user-attachments/assets/36f5a627-e30c-461a-bf55-508aa3f30fb4
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 사용자 경험을 개선하는 속도 최적화에 있다. Unsloth는 초기 실행 속도를 약 2배 향상시켰으며, 리눅스 환경에서의 도구 호출 및 모델 목록 처리 속도를 대폭 개선했다. 특히 데이터셋 준비와 모델 로딩 과정에서 눈에 띄는 성능 향상을 구현했다.
+
+학습 효율성 측면에서는 Multi-LoRA 배치 기능이 새롭게 도입되었다. 이제 호환 가능한 여러 파인튜닝 작업을 큐에 쌓아두면 공유 베이스 모델 위에서 각기 다른 LoRA 어댑터를 사용하여 동시에 학습할 수 있다. Unsloth 측은 Triton 커널을 활용해 베이스 레이어를 한 번만 실행함으로써 단일 어댑터 대비 약 1.52배 빠른 속도를 확보했다고 주장한다.
+
+사용자 편의를 위한 기능도 대폭 강화되었다. SGLang 및 vLLM 환경에서 추론 모델의 사고 과정(Reasoning)을 확인하거나 JSON 출력 형식을 유지하는 기능이 추가되었으며, 긴 대화에서 이전 내용을 압축하며 대화를 이어가는 기능도 포함되었다. 또한 브라우저 제어 기능이 개선되어 모델이 브라우저를 직접 조작하는 환경이 더욱 원활해졌다.
+
+이번 업데이트에는 위에서 언급한 주요 기능 외에도 다양한 최적화와 버그 수정이 포함되어 있다. 전체 변경 사항은 공식 릴리즈 노트를 통해 확인할 수 있다.
+
+---
+
+원문: [Trick or Treat + Optimizations](https://github.com/unslothai/unsloth/releases/tag/v0.1.912-beta)

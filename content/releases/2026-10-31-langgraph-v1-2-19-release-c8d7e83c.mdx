@@ -1,0 +1,32 @@
+---
+title: 'LangGraph 1.2.19 업데이트: 스트리밍 및 도구 실행 안정성 개선'
+category: releases
+axis: agent
+format: explainer
+summary: LangGraph 1.2.19 버전에서는 스트리밍 처리와 도구 호출 시 발생하는 버그들이 수정되었다. 특히 노드 내부에서 실행되는 스트리밍과 서브그래프 구조에서의 데이터 처리가 개선되었다.
+publishedAt: 2026-10-31T22:00:05+0900
+draft: false
+source:
+  url: https://github.com/langchain-ai/langgraph/releases/tag/1.2.19
+  title: langgraph==1.2.19
+  author: github-actions[bot]
+  publishedAt: 2026-10-31T07:23:43+0900
+  words: 118
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 주목할 변화는 스트리밍 데이터의 무결성 유지다. 기존에 스트리밍 노드 페이로드가 재작성될 때 trace_policy가 유지되지 않던 문제가 해결되었으며, 노드 내부에서 실행되는 그래프의 스트리밍 출력 메시지가 정상적으로 방출되도록 수정되었다.
+
+그래프 구조의 복잡성을 다루는 부분에서도 개선이 있었다. 스트리밍 중인 부모 그래프에서 RemoteGraph.stream을 사용할 때 subgraphs=False 옵션이 제대로 준수되지 않던 현상이 수정되었다. 또한 메시지와 도구 이벤트가 그래프의 네임스페이스를 올바르게 따르도록 개선되어 복잡한 워크플로우에서의 데이터 추적이 용이해졌다.
+
+도구 실행 및 태스크 처리의 안정성도 강화되었다. 일시 중단된 도구가 실패로 보고되지 않도록 수정되었으며, 스트리밍 중에 @task의 결과값을 기다리는 동작이 정상적으로 수행된다. 추가로 ToolNode의 도구 이름이 그래프 노드 메타데이터에 포함되어 관리하기 편리해졌다.
+
+이 외에도 의존성 라이브러리 업데이트를 포함한 여러 수정 사항이 포함되어 있다. 이번 릴리스는 전체 업데이트 중 일부 주요 개선 사항만을 요약한 것이며, 상세한 변경 내역은 공식 릴리스 노트를 참조해야 한다.
+
+---
+
+원문: [langgraph==1.2.19](https://github.com/langchain-ai/langgraph/releases/tag/1.2.19)

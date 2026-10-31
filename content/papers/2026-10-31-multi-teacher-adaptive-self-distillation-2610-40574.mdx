@@ -1,0 +1,43 @@
+---
+title: 토큰 단위로 최적화된 교사 모델을 선택하는 MTA-OPSD 기법
+category: papers
+axis: serving
+format: explainer
+summary: 기존의 자기 증류 방식이 문장이나 응답 단위로만 교사를 고정했던 한계를 극복하고, 토큰 단위로 최적의 교사를 선택하는 MTA-OPSD 방식을 제안한다. 이 방법은 매 토큰마다 가장 적합한 교사를 동적으로 선택하여 학습 효율을 극대화한다.
+publishedAt: 2026-10-31T22:00:05+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.40574
+  title: 'Every Token Needs Its Own Teacher: Multi-teacher Adaptive On-policy Self-distillation'
+  author: Yifu Luo
+  publishedAt: 2026-10-30T13:00:00+0900
+  words: 8438
+paper:
+  arxivId: '2610.40574'
+  authors:
+  - Yifu Luo
+  - Chuang Ma
+  - Zeyu Chen
+  - Enkelejda Kasneci
+  - Qi Chen
+  - Gjergji Kasneci
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+기존의 온폴리시 자기 증류(OPSD) 방식은 특정 참조 데이터를 기반으로 교사를 구성하지만, 학습 과정에서 교사를 고정하거나 응답 단위로만 변화를 주는 수준에 머물러 있었다. 저자들은 이러한 방식이 충분하지 않다고 주장하며, 동일한 응답 내에서도 토큰마다 선호되는 교사가 다를 수 있다는 점을 강조한다.
+
+저자들은 교사 개입 파일럿 연구를 통해 토큰별로 선호되는 교사가 다르다는 사실을 확인했다. 이를 바탕으로 다수결 투표와 KL 발산 기반 선택을 통해 각 토큰에 적합한 교사를 식별할 수 있음을 밝혀냈다. 이러한 발견은 토큰 수준에서 적응형 교사 선택이 필요하다는 근거가 되었다.
+
+제안된 MTA-OPSD는 후보 교사들로 구성된 풀을 구축하고, 매 토큰이 학습 과정에서 자신의 선호에 맞는 교사를 적응적으로 선택하게 한다. 이는 토큰 수준에서 교사 감독을 조정하는 최초의 온폴리시 자기 증류 방법이다.
+
+저자들의 주장에 따르면, Qwen3 모델을 활용한 수학적 추론 작업에서 MTA-OPSD는 기존 OPSD 방식보다 우수한 성능을 보였으며, 베이스 모델 대비 평균 최대 +5.9의 이득을 얻었다고 한다.
+
+---
+
+원문: [Every Token Needs Its Own Teacher: Multi-teacher Adaptive On-policy Self-distillation](https://arxiv.org/abs/2610.40574)
