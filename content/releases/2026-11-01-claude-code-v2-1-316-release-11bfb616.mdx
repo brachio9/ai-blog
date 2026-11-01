@@ -1,0 +1,33 @@
+---
+title: 'Claude Code v2.1.316 업데이트: 안정성 개선 및 정책 관리 기능 강화'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Claude Code의 이번 업데이트는 시스템 안정성 개선과 정책 관리 기능 강화에 집중했다. 특히 쉘 환경에서의 버그 수정과 모델 접근 권한 제어 기능이 대폭 개선되었다.
+publishedAt: 2026-11-01T22:00:05+0900
+tags:
+- Claude Code
+- MCP
+draft: false
+source:
+  url: https://github.com/anthropics/claude-code/releases/tag/v2.1.316
+  title: v2.1.316
+  author: ashwin-ant
+  publishedAt: 2026-10-31T10:01:35+0900
+  words: 1417
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 릴리즈에서는 개발 환경의 안정성을 높이기 위한 다양한 버그 수정이 포함되었다. macOS와 리눅스 환경에서 Claude Code가 종료될 때 쉘 명령어가 계속 실행되던 문제가 해결되었으며, Bash와 PowerShell 환경에서 발생하던 복잡한 스크립트 실행 오류 및 네트워크 요청 지연 현상들이 수정되었다.
+
+사용자 편의와 보안을 위한 정책 관리 기능도 강화되었다. Claude 앱 게이트웨이에 그룹별 통합 예산 설정 기능이 추가되었으며, 정책 적용 시 여러 정책을 중첩해서 적용할 수 있는 레이어드 모드가 도입되었다. 또한 Amazon Bedrock과의 연동 시 보안 가드레일이 제대로 작동하도록 입력 태그 처리 기능이 추가되었다.
+
+모델 사용과 관련된 세부 설정도 다양해졌다. 서브 에이전트의 작업 강도를 별도로 설정할 수 있는 기능이 추가되었고, 특정 키워드를 비활성화하거나 인증서 루프를 유지하는 등의 세밀한 제어가 가능해졌다. 이번 업데이트에는 많은 변경 사항이 포함되어 있으며, 위 내용은 그중 핵심적인 개선 사항들이다.
+
+---
+
+원문: [v2.1.316](https://github.com/anthropics/claude-code/releases/tag/v2.1.316)

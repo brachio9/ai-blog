@@ -1,0 +1,46 @@
+---
+title: 'Unsloth 업데이트: 사용자 맞춤형 UI와 성능 개선'
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 사용자 편의성을 높이는 UI 개선과 성능 최적화 업데이트를 발표했다. 이번 업데이트는 개인화된 설정과 리눅스 환경에서의 성능 향상에 초점을 맞췄다.
+publishedAt: 2026-11-01T22:00:05+0900
+tags:
+- RAG
+- Claude Code
+- Codex
+- OpenCode
+- MCP
+- vLLM
+- LoRA
+- QLoRA
+- fine-tuning
+- KV cache
+- GRPO
+- Whisper
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.913-beta
+  title: Customize + Performance + UI/UX improvements
+  author: shimmyshimmer
+  publishedAt: 2026-10-30T23:46:03+0900
+  words: 6023
+  image: https://github.com/user-attachments/assets/a4c01069-da2f-4cf3-afee-d19499cfefc3
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 사용자 맞춤형 환경 구축이다. 사용자는 이제 채팅 배경을 변경하거나 컴포저 위치를 하단으로 옮길 수 있으며, 불필요한 인사말을 숨겨 더 깔끔한 화면을 구성할 수 있다. 또한 라이브러리 카드 디자인이 개선되었고 이미지 드래그 앤 드롭 기능이 추가되는 등 전반적인 사용성이 강화되었다.
+
+성능 측면에서는 리눅스 환경의 지연 시간이 크게 줄어들었으며, 특히 VRAM이 제한된 환경에서 Qwen-Image의 렌더링 속도가 최대 2배까지 빨라졌다. 앱 업데이트 속도 역시 파이썬 사전 컴파일 방식을 조정하여 기존 대비 절반 수준으로 단축되었다. 긴 답변을 출력할 때 발생하는 파싱 오류 문제도 개선되어 훨씬 매끄러운 스트리밍이 가능하다.
+
+새로운 모델 지원과 기술적 개선도 포함되었다. DeepSeek-V4.1-Flash-1017 GGUF 프리뷰 모델이 추가되었으며, FLUX.2-klein-9B 모델을 낮은 메모리 환경에서 구동할 수 있게 되었다. 또한 MoE 파인튜닝 시 호환 가능한 API 작업을 동시에 실행할 수 있는 기능이 추가되어 작업 효율성이 높아졌다.
+
+이번 업데이트는 방대한 내용을 포함하고 있으며, 위 내용은 그중 주요 변경 사항만을 요약한 것이다. 전체 변경 사항은 공식 릴리즈 노트를 통해 확인할 수 있다.
+
+---
+
+원문: [Customize + Performance + UI/UX improvements](https://github.com/unslothai/unsloth/releases/tag/v0.1.913-beta)

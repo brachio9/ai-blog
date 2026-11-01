@@ -1,0 +1,34 @@
+---
+title: 'OpenCode v2.2.4 업데이트: 터미널 유지력과 인터랙티브 아티팩트 지원'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: OpenCode v2.2.4 버전에서는 데스크톱 터미널의 세션 유지 기능과 인터랙티브 아티팩트 게시 기능이 새롭게 추가되었다. 또한 Claude Agent 설정 프로세스가 개선되었으며 다양한 버그 수정이 포함되었다.
+publishedAt: 2026-11-01T22:00:05+0900
+tags:
+- Claude Code
+- Cursor
+- OpenCode
+draft: false
+source:
+  url: https://github.com/anomalyco/opencode/releases/tag/v2.2.4
+  title: v2.2.4
+  author: github-actions[bot]
+  publishedAt: 2026-10-31T01:59:08+0900
+  words: 631
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 데스크톱 터미널의 안정성이다. 이제 터미널이 세션에 귀속되어 서버가 재시작되어도 스크롤백 기록이 유지되며, TUI 및 다른 창과 동기화된다. 터미널 이름을 변경해도 재시작 후 유지되는 등 작업 연속성이 크게 개선되었다.
+
+개발 생산성을 높여줄 인터랙티브 아티팩트 기능도 도입되었다. 설정 파일에서 활성화하면 에이전트가 HTML이나 정적 아티팩트를 로컬 제공자나 플러그인 저장소를 통해 직접 게시하고 업데이트할 수 있다. 또한 Claude Agent를 사용할 때 인증 및 연결 확인 과정을 더 명확하게 안내받을 수 있도록 설정 프로세스가 개선되었다.
+
+사용자 편의를 위한 다양한 개선 사항도 포함되었다. 워크트리 생성 시 단축키를 통해 기본 브랜치를 빠르게 선택할 수 있으며, DeepSeek V4.1 Flash 모델에 대한 Go 제한 수치가 상향 조정되었다. 이 외에도 다양한 버그 수정이 이루어졌으나, 이번 글에서는 주요 기능 변화 위주로 요약하였다.
+
+---
+
+원문: [v2.2.4](https://github.com/anomalyco/opencode/releases/tag/v2.2.4)

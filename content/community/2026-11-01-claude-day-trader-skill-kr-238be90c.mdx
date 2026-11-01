@@ -1,0 +1,31 @@
+---
+title: Claude를 활용한 국내 주식 데이 트레이딩 자동화 프로젝트
+category: community
+axis: vibe-coding
+format: explainer
+summary: 미국 주식용 데이 트레이딩 스킬을 국내 시장에 맞춰 재구현한 프로젝트다. 토스증권과 한국투자증권 API를 활용하며, 단순 매매를 넘어 장기 투자 전략 검증과 투자 원칙 점검 기능을 포함한다.
+publishedAt: 2026-11-01T22:00:05+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/day-trader-skill-kr-day-trader-skill-claude/12373
+  title: '[프로젝트 공유] day-trader-skill-kr: 미국 주식 전용 Day Trader Skill을 국내 주식용으로 옮기고, 장기 투자 검증·대가 점검표·논지 추적을 더한 Claude 스킬 묶음'
+  author: sinkytiger
+  publishedAt: 2026-11-01T19:53:38+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+한 개발자가 공유한 이 프로젝트는 기존의 미국 주식용 데이 트레이딩 스킬을 국내 시장 환경에 맞춰 이식한 것이다. 원본의 원칙을 유지하면서도 한국 시장의 특성에 맞춰 시세 데이터 소스를 토스증권과 KRX로 변경하고, 거래세와 수수료를 포함한 실제 손익 계산 방식을 도입했다. 또한 투자 경고 종목이나 VI 상황 등 국내 시장 특유의 제약 사항을 반영했다.
+
+단순히 매매 신호를 생성하는 것에 그치지 않고, 개발자는 장기 투자 실험실 기능을 추가하여 다양한 전략의 과거 성적을 비교할 수 있게 했다. 이는 2010년부터의 KRX 데이터를 기반으로 하며, 생존 편향을 배제하기 위해 상장 폐지나 합병된 종목까지 포함하여 계산한다. 또한 가치 투자와 성장 투자의 기준이 되는 다양한 지표를 점검할 수 있는 도구도 포함되었다.
+
+안전성을 위해 Claude가 직접 매매를 결정하는 구조는 지양했다. 시스템은 스크립트를 실행하고 그 결과를 전달하는 역할만 수행하며, 실제 주문은 한국투자증권 모의투자 계좌를 통해 실행된다. 모든 주문은 위험 점검 통과와 사용자 승인 단계를 거쳐야만 나가는 구조로 설계되어 안전성을 확보했다.
+
+---
+
+원문: [[프로젝트 공유] day-trader-skill-kr: 미국 주식 전용 Day Trader Skill을 국내 주식용으로 옮기고, 장기 투자 검증·대가 점검표·논지 추적을 더한 Claude 스킬 묶음](https://discuss.pytorch.kr/t/day-trader-skill-kr-day-trader-skill-claude/12373)

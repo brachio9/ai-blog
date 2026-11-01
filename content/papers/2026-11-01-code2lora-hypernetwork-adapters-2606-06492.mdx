@@ -1,0 +1,42 @@
+---
+title: 코드 모델의 저장소 지식을 효율적으로 학습시키는 Code2LoRA
+category: papers
+axis: serving
+format: explainer
+summary: 코드 모델이 프로젝트의 컨벤션이나 API를 이해하도록 돕는 새로운 프레임워크인 Code2LoRA가 발표되었다. 이 기술은 하이퍼네트워크를 통해 저장소별 LoRA 어댑터를 생성하여 추론 비용 없이 지식을 주입한다.
+publishedAt: 2026-11-01T22:00:05+0900
+tags:
+- RAG
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2606.06492
+  title: 'Code2LoRA: Hypernetwork-Generated Adapters for Code Language Models under Software Evolution'
+  author: Liliana Hotsko
+  publishedAt: 2026-10-30T13:00:00+0900
+  words: 22003
+  image: https://arxiv.org/html/2606.06492v2/figs/architecture_overview.png
+paper:
+  arxivId: '2606.06492'
+  authors:
+  - Liliana Hotsko
+  - Yinxi Li
+  - Yuntian Deng
+  - Pengyu Nie
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 2
+---
+
+기존의 코드 언어 모델은 프로젝트의 의존성이나 API를 파악하기 위해 긴 컨텍스트를 입력하거나 저장소별로 별도의 파인튜닝을 진행해야 했다. 하지만 이러한 방식은 대규모 저장소를 다룰 때 비용이 많이 들고, 계속 변화하는 코드베이스에 유연하게 대응하기 어렵다는 한계가 있다.
+
+Code2LoRA는 이러한 문제를 해결하기 위해 하이퍼네트워크 프레임워크를 도입했다. 이 방식은 저장소 전용 LoRA 어댑터를 생성하여 추론 시 추가적인 토큰 비용 없이 저장소 지식을 모델에 주입한다. 사용자는 정적인 코드베이스를 위한 Code2LoRA-Static과 지속적으로 변화하는 개발 환경을 위한 Code2LoRA-Evo 중 상황에 맞는 모드를 선택할 수 있다.
+
+저자들은 자체 구축한 RepoPeftBench를 통해 제안한 방법의 성능을 검증했다. 저자들의 주장에 따르면 Code2LoRA-Static은 개별 저장소 LoRA 학습의 상한선에 도달하는 성능을 보였으며, Code2LoRA-Evo는 단일 공유 LoRA 대비 높은 정확도를 기록하며 변화하는 코드 환경에서도 효과적임을 입증했다고 밝혔다.
+
+---
+
+원문: [Code2LoRA: Hypernetwork-Generated Adapters for Code Language Models under Software Evolution](https://arxiv.org/abs/2606.06492)

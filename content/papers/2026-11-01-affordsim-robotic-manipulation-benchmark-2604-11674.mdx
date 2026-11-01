@@ -1,0 +1,47 @@
+---
+title: 로봇의 작업 목적에 맞는 파지 지점을 찾는 데이터 생성 프레임워크 AffordSim
+category: papers
+axis: agent
+format: explainer
+summary: 로봇이 사물의 기능적 영역을 정확히 파악하여 조작할 수 있도록 돕는 데이터 생성 및 벤치마크 플랫폼인 AffordSim이 공개되었다. 자연어 설명을 기반으로 작업 관련 장면을 생성하고, 개방형 어휘 기반의 3D 어포던스 예측을 결합하여 실제 실행 가능한 파지 지점을 추출한다.
+publishedAt: 2026-11-01T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2604.11674
+  title: 'AffordSim: A Scalable Data Generator and Benchmark for Affordance-Aware Robotic Manipulation'
+  author: Mingyang Li
+  publishedAt: 2026-10-30T13:00:00+0900
+  words: 15650
+  image: https://arxiv.org/html/2604.11674v4/figure0_v10.png
+paper:
+  arxivId: '2604.11674'
+  authors:
+  - Mingyang Li
+  - Haofan Xu
+  - Haowen Sun
+  - Xinzhe Chen
+  - Sihua Ren
+  - Liqi Huang
+  - Xinyang Sui
+  - Chenyang Miao
+  - Jiawei Ye
+  - Qiongjie Cui
+  - Xingyu Chen
+  - Zeyang Liu
+  - Xuguang Lan
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+기존의 로봇 조작 데이터 생성 방식은 일반적인 파지 추정기를 사용하거나 사물마다 수동으로 접촉 지점을 지정해야 하는 한계가 있었다. 일반 추정기는 작업의 의미를 고려하지 못해 다음 동작과 맞지 않는 지점을 선택하는 경우가 많고, 수동 방식은 새로운 사물이나 작업이 추가될 때마다 반복적인 작업이 필요하기 때문이다.
+
+AffordSim은 이러한 문제를 해결하기 위해 자연어 기반의 작업 설명으로부터 장면을 합성하고, 어포던스 쿼리를 생성하여 사물 표면에 매핑하는 방식을 도입했다. 시스템은 특정 영역에 조건화된 파지를 샘플링하고 모션 플래닝을 통해 실행 가능한 후보를 선별하며, 시뮬레이션과 실제 환경의 차이를 줄이기 위해 다양한 환경 변수를 무작위로 적용한다.
+
+저자들의 주장에 따르면 AffordSim은 어포던스가 중요한 작업에서 수동 주석 대비 93%의 궤적 수집 성공률을 기록했으며, 어려운 복합 작업에서도 89%의 성공률을 달성했다. 또한 AffordSim 데이터로 학습된 시각-언어-행동 정책을 실제 로봇에 적용했을 때 평균 24%의 성공률을 보였다고 주장한다.
+
+---
+
+원문: [AffordSim: A Scalable Data Generator and Benchmark for Affordance-Aware Robotic Manipulation](https://arxiv.org/abs/2604.11674)

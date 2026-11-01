@@ -1,0 +1,29 @@
+---
+title: AI 에이전트의 기억을 오염시켜 지시를 배신하게 만들 수 있을까?
+category: community
+axis: agent
+format: explainer
+summary: AI 에이전트의 메모리를 조작하여 원래의 지침을 어기게 만드는 공격 가능성을 실험한 결과다. 저자는 이를 검증하기 위한 로컬 테스트 환경을 구축하고 방어 및 복구 메커니즘을 테스트했다.
+publishedAt: 2026-11-01T22:00:05+0900
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/can-you-make-an-agent-betray-its-owners-instructions-by-changing-what-it-remembers/191272
+  title: Can you make an agent betray its owner's instructions by changing what it remembers?
+  author: RishabhPande
+  publishedAt: 2026-11-01T00:34:35+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Rishabh Pande는 AI 에이전트의 메모리가 공격 표면이 될 수 있다는 점에 주목하여 이를 검증할 수 있는 로컬 테스트 환경을 구축했다. 그는 기존 연구에서 정의된 네 가지 공격 시나리오를 실제 메모리 백엔드에 적용하여 에이전트의 의사결정이 어떻게 변하는지 확인했다.
+
+테스트 결과, 방어 조치가 없는 에이전트는 4가지 공격 시나리오 모두에서 의사결정이 왜곡되었으나 방어 및 복구 메커니즘을 적용했을 때는 모두 차단되거나 정상으로 돌아오는 것을 확인했다. 다만 스크립트 파서가 처리할 수 없는 특정 문구는 공격으로 감지되지 않았는데, 이는 시스템의 기술적 한계이지 보안상의 성공이 아니다.
+
+저자는 이 실험을 공개하며 다른 개발자들이 방어 체계를 뚫고 에이전트가 잘못된 선택을 하게 만드는 사례를 찾아낼 것을 제안했다. 이번 실험은 합성 데이터와 스크립트 기반의 결정론적 에이전트를 사용했으므로 실제 대규모 언어 모델(LLM)의 동작을 그대로 대변하는 것은 아니지만, 메모리 오염과 복구의 메커니즘을 확인하는 데 목적이 있다.
+
+---
+
+원문: [Can you make an agent betray its owner's instructions by changing what it remembers?](https://discuss.huggingface.co/t/can-you-make-an-agent-betray-its-owners-instructions-by-changing-what-it-remembers/191272)
