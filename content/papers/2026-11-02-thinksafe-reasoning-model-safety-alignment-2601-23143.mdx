@@ -1,0 +1,47 @@
+---
+title: 추론 모델의 성능을 유지하며 안전성을 강화하는 ThinkSafe 기법
+category: papers
+axis: domain
+format: explainer
+summary: 추론 모델의 강화 학습 과정에서 발생하는 안전성 저하 문제를 해결하기 위한 ThinkSafe 프레임워크를 제안한다. 외부 교사 모델 없이 스스로 생성한 데이터를 통해 안전성을 정렬하는 방식이다.
+publishedAt: 2026-11-02T22:00:05+0900
+tags:
+- distillation
+- fine-tuning
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2601.23143
+  title: 'ThinkSafe: Self-Generated Safety Alignment for Reasoning Models'
+  author: Seanie Lee
+  publishedAt: 2026-11-02T14:00:00+0900
+  words: 21918
+  image: https://arxiv.org/html/2601.23143v5/pareto_v2.png
+paper:
+  arxivId: '2601.23143'
+  authors:
+  - Seanie Lee
+  - Sangwoo Park
+  - Yumin Choi
+  - Gyeongman Kim
+  - Minki Kang
+  - Jihun Yun
+  - Sung Ju Hwang
+  - Dongmin Park
+  - Jongho Park
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+최근 대규모 추론 모델은 강화 학습을 통해 뛰어난 성능을 확보하지만, 이 과정에서 안전성 성능이 저하되는 부작용이 발생한다. 기존에는 외부 교사 모델을 활용한 증류 방식이 대안으로 사용되었으나, 이는 모델의 추론 성능을 훼손할 수 있다는 한계가 있다.
+
+연구진은 안전성 재정렬을 KL 투영으로 공식화하여 분석했다. 학생 모델이 스스로 수용하는 분포가 KL 최적화 측면에서 독특한 위치를 점한다는 점에 착안하여, 외부 교사 없이도 안전성 정렬 데이터를 생성할 수 있는 ThinkSafe를 설계했다. 이 방식은 거부 유도(Refusal steering)를 통해 안전 추론을 이끌어내고, 안전 가드를 통해 응답을 필터링한 뒤 오프라인 미세 조정을 수행한다.
+
+저자들의 주장에 따르면 ThinkSafe는 추론 성능을 유지하면서도 안전성을 크게 개선하며, 특히 Qwen3-0.6B 모델에서 데이터 생성과 학습을 포함한 전체 과정을 GRPO 대비 약 7분의 1의 시간으로 완료하면서도 유사한 추론 성능과 더 나은 안전성을 확보했다고 한다. 연구진은 이 분석을 통해 조향으로 유도된 타겟 왜곡의 한계를 규명하고, 교사 증류보다 낮은 평균 타겟 KL을 보장하는 충분 조건을 제시했다.
+
+---
+
+원문: [ThinkSafe: Self-Generated Safety Alignment for Reasoning Models](https://arxiv.org/abs/2601.23143)

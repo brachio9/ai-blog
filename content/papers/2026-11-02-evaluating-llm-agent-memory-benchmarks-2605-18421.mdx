@@ -1,0 +1,46 @@
+---
+title: LLM 에이전트의 기억력, 어디까지 가능할까? EvoMemBench로 본 메모리 성능
+category: papers
+axis: agent
+format: explainer
+summary: LLM 에이전트의 핵심 역량인 메모리 시스템을 체계적으로 평가하기 위한 EvoMemBench가 공개되었다. 이 벤치마크는 메모리의 범위와 내용에 따라 에이전트의 성능을 다각도로 분석한다.
+publishedAt: 2026-11-02T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.18421
+  title: 'EvoMemBench: Benchmarking Agent Memory from a Self-Evolving Perspective'
+  author: Yuyao Wang
+  publishedAt: 2026-11-02T14:00:00+0900
+  words: 16291
+  image: https://arxiv.org/html/2605.18421v3/main_figure.png
+paper:
+  arxivId: '2605.18421'
+  authors:
+  - Yuyao Wang
+  - Zhongjian Zhang
+  - Mo Chi
+  - Kaichi Yu
+  - Yuhan Li
+  - Miao Peng
+  - Bing Tong
+  - Chen Zhang
+  - Yan Zhou
+  - Jia Li
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 3
+---
+
+최근 대규모 언어 모델(LLM) 에이전트 연구는 주로 추론, 계획, 실행 능력에 집중되어 왔다. 하지만 에이전트가 정보를 저장하고 업데이트하며 장기적으로 유지하는 메모리 능력은 필수적임에도 불구하고, 이를 체계적으로 평가할 수 있는 기준은 부족한 상황이었다.
+
+연구진은 이러한 문제를 해결하기 위해 메모리를 '자기 진화(self-evolving)' 관점에서 분석하고, 이를 평가할 수 있는 통합 벤치마크인 EvoMemBench를 제안했다. 이 벤치마크는 메모리의 범위(에피소드 내 vs 에피소드 간)와 내용(지식 중심 vs 실행 중심)이라는 두 가지 축을 기준으로 구성되어 있다.
+
+저자들의 주장에 따르면, 현재의 메모리 시스템은 아직 보편적인 해결책에 도달하지 못한 상태다. 긴 문맥을 처리하는 기본 모델들이 여전히 강력한 경쟁력을 유지하고 있으며, 메모리 시스템은 현재 문맥이 부족하거나 과제가 매우 어려울 때 가장 큰 효과를 발휘하는 것으로 나타났다. 또한 모든 상황에서 동일하게 작동하는 단일 메모리 형태는 존재하지 않는다는 점도 확인되었다.
+
+분석 결과에 따르면 지식 집약적인 환경에서는 검색 기반 방식이 강점을 보였으나, 실행 중심의 과제에서는 저장된 경험이 과제의 구조와 일치할 때 절차적 및 장기 메모리 방식이 더 효과적이었다. 이번 연구는 향후 더 효율적인 LLM 기반 에이전트 메모리 시스템을 구축하는 데 기여할 것으로 기대된다.
+
+---
+
+원문: [EvoMemBench: Benchmarking Agent Memory from a Self-Evolving Perspective](https://arxiv.org/abs/2605.18421)

@@ -1,0 +1,41 @@
+---
+title: 기존 언어 모델을 확산 모델로 변환하는 효율적인 방법, BYOD
+category: papers
+axis: serving
+format: explainer
+summary: 기존의 자기회귀(AR) 언어 모델을 확산 언어 모델(DLM)로 효율적으로 변환하는 BYOD 기법이 공개되었다. 이 방법은 LoRA를 활용해 파라미터 변화를 최소화하면서도 병렬 토큰 업데이트와 양방향 어텐션을 가능하게 한다.
+publishedAt: 2026-11-02T22:00:05+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.41574
+  title: 'BYOD: Build Your Own DLM - Efficient Autoregressive-to-Diffusion Language Model Conversion'
+  author: Ruurd J. A. Kuiper
+  publishedAt: 2026-11-02T14:00:00+0900
+  words: 10061
+  image: https://arxiv.org/html/2610.41574v1/figures/demo_gemma_confidence_64steps_64tokens_probability.png
+paper:
+  arxivId: '2610.41574'
+  authors:
+  - Ruurd J. A. Kuiper
+  - Robert A. Bagheri
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+현재 언어 모델 시장은 자기회귀 모델이 주류지만, 확산 언어 모델은 병렬 생성과 양방향 문맥 활용 측면에서 장점이 있다. 하지만 확산 모델을 구축하려면 막대한 비용이 드는 사전 학습이나 전체 모델 미세 조정이 필요하다는 한계가 있었다. 연구진은 이러한 문제를 해결하기 위해 기존 모델의 구조를 유지하면서도 확산 생성 능력을 부여하는 BYOD 프레임워크를 제안한다.
+
+BYOD는 LoRA 기술만을 사용하여 파라미터 효율적으로 AR 모델을 DLM으로 변환한다. 저자들의 주장에 따르면, 이 방식은 Gemma 2, Llama 3.1, Qwen2.5, Ministral 모델에 적용 가능하며, 특히 Mistral 모델을 확산 모델로 변환한 사례는 이번이 처음이다. 모든 기본 모델의 파라미터는 고정된 상태에서 전체 파라미터의 약 4.1~5.8%에 해당하는 어댑터만 학습하며, 단일 GPU 환경에서도 수 시간 내에 변환이 가능하다.
+
+실험 결과, 변환된 모델들은 완전 마스킹된 시퀀스에서 생성을 수행하고 양방향 문맥을 유지하면서도 기존 모델의 지식을 상당 부분 보존하는 것으로 나타났다. 저자들은 BYOD-Gemma 모델이 9개 태스크 평가에서 LLaDA 8B Instruct와 유사한 수준의 평균 정확도를 기록했다고 주장한다. 다만, 낮은 네트워크 기능 평가(NFE) 예산에서의 생성 품질은 여전히 개선이 필요한 과제로 남아 있다.
+
+이번 연구는 기존 모델 제품군을 확산 생성 모델로 확장할 수 있는 실질적인 경로를 제공한다. 연구진은 다른 모델로의 확장을 돕기 위해 독립적인 학습 및 평가 구현체와 인터랙티브 데모를 함께 공개했다. 이는 효율적인 모델 변환이 나아가야 할 방향과 기술적 격차를 확인하는 데 중요한 기초가 될 것이다.
+
+---
+
+원문: [BYOD: Build Your Own DLM - Efficient Autoregressive-to-Diffusion Language Model Conversion](https://arxiv.org/abs/2610.41574)

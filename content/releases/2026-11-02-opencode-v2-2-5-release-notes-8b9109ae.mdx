@@ -1,0 +1,35 @@
+---
+title: 'OpenCode v2.2.5 업데이트: 워크트리 단축키와 컨텍스트 관리 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: OpenCode v2.2.5 버전이 공개되었다. 이번 업데이트에서는 워크트리 및 쉘 모드 단축키 추가와 컨텍스트 윈도우 관리 효율성을 높이는 기능이 핵심이다.
+publishedAt: 2026-11-02T22:00:05+0900
+tags:
+- OpenCode
+- MCP
+draft: false
+source:
+  url: https://github.com/anomalyco/opencode/releases/tag/v2.2.5
+  title: v2.2.5
+  author: github-actions[bot]
+  publishedAt: 2026-10-31T08:17:23+0900
+  words: 535
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 워크트리(Worktree)와 쉘 모드(Shell Mode)를 위한 단축키 도입이다. 이제 macOS와 Windows/Linux 환경에서 각각 지정된 단축키를 통해 워크트리를 선택하거나 기본 브랜치를 전환할 수 있으며, 컴포저 내에서 쉘 모드를 전환하는 기능도 추가되었다.
+
+사용자 편의성을 위한 세부 기능도 개선되었다. 댓글 팝업에서 특정 인용구만 선택해 전송하는 기능이 추가되었으며, 파일 읽기나 편집 시 발생하는 오류 메시지가 더 구체적으로 표시되도록 개선되었다. 또한, 기존에 실패하던 bash 도구 호출이 shell로 자동 전환되어 실행되는 등 전반적인 안정성이 강화되었다.
+
+모델 활용 측면에서는 컨텍스트 윈도우 관리가 더욱 유연해졌다. 이제 토큰 수뿐만 아니라 컨텍스트 윈도우의 일정 비율을 여유 공간으로 남겨두는 퍼센트 기반의 압축 버퍼 설정이 가능해졌다. 이는 다양한 크기의 컨텍스트를 가진 모델들을 하나의 설정으로 효율적으로 관리할 수 있게 해준다.
+
+기타 버그 수정으로는 MCP 서버의 대용량 메시지 처리 속도 개선과 모델 전환 시 발생하던 추론(Reasoning) 텍스트 변환 오류 해결 등이 포함되었다. 이번 업데이트는 전체 변경 사항 중 주요 개선 사항만을 요약한 것이며, 세부적인 버그 수정이나 UI 수정 사항은 공식 릴리즈 노트를 참조해야 한다.
+
+---
+
+원문: [v2.2.5](https://github.com/anomalyco/opencode/releases/tag/v2.2.5)

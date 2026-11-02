@@ -1,0 +1,33 @@
+---
+title: AI 모델 가중치 내부에 가상 하드웨어와 보안 OS를 구축하다
+category: community
+axis: serving
+format: explainer
+summary: ViKernel v0.4는 대형 언어 모델의 가중치 내에 CPU, GPU, 메모리 등의 하드웨어 회로를 구현하고 그 위에서 보안 운영체제를 실행하는 기술을 선보였다. 이번 업데이트에서는 Meta Muse Glimmer 30B 모델에 이를 이식하고 실제 에이전트 보안 위협을 차단하는 성능을 검증했다.
+publishedAt: 2026-11-02T22:00:05+0900
+tags:
+- DPO
+- SFT
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/meta-30b-cpu-npu-gpu-ram-rom-vikernel-v0-4/12390
+  title: 'Meta 30B 모델 가중치 안에 CPU·NPU·GPU·RAM·ROM, 그리고 운영체제를 넣었다: ViKernel v0.4 기술 분석'
+  author: AI_OpenFree
+  publishedAt: 2026-11-02T22:02:26+0900
+  image: https://discuss.pytorch.kr/uploads/default/original/3X/c/f/cfe85c985c39acab69a648e0c4f35b6f611de869.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+ViKernel v0.4는 단순히 개념을 시연하던 이전 버전과 달리 실제 오픈 웨이트 모델인 Meta Muse Glimmer 30B에 가상 회로를 이식한 결과물이다. 개발자는 기존의 ROM, RAM, xPU 구조에 GPU(SIMT) 유닛을 추가하여 하드웨어 구조를 확장했으며, 이를 통해 에이전트가 도구를 호출할 때 모든 동작이 보안 게이트를 통과하도록 설계했다.
+
+이번 업데이트에서 가장 주목할 점은 실제 보안 위협에 대한 실측 데이터다. 개발자는 프롬프트 주입이나 사칭뿐만 아니라 실제로 백도어를 심은 모델을 활용해 차단율을 측정했으며, CUDA 커널 실행 및 백도어 차단 성능을 수치로 제시했다. 다만 개발자는 현재의 실행 속도가 실제 GPU보다 훨씬 느리다는 점을 솔직하게 밝히며 기술적 한계를 명시했다.
+
+데모 환경 또한 대폭 확장되어 17종의 앱이 실제 게이트에 연결된 데스크톱 형태의 인터페이스를 제공한다. 이는 Meta Muse Spark 1.3 실시간 에이전트와 결합하여 모든 도구 호출이 ViKernel의 보안 검증을 거치도록 구성된 구조다.
+
+---
+
+원문: [Meta 30B 모델 가중치 안에 CPU·NPU·GPU·RAM·ROM, 그리고 운영체제를 넣었다: ViKernel v0.4 기술 분석](https://discuss.pytorch.kr/t/meta-30b-cpu-npu-gpu-ram-rom-vikernel-v0-4/12390)

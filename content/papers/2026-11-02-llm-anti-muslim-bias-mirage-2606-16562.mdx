@@ -1,0 +1,35 @@
+---
+title: AI 모델의 이슬람 혐오 편향, 추론과 에이전트 환경에서 더 심해진다
+category: papers
+axis: domain
+format: explainer
+summary: 최신 LLM이 복잡한 추론이나 에이전트 역할을 수행할 때 이슬람 관련 편향이 더 강화된다는 연구 결과가 발표되었다. 기존의 단순 프롬프트 기반 완화 방식으로는 이러한 복합적인 편향을 해결하기 어렵다는 점이 확인되었다.
+publishedAt: 2026-11-02T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2606.16562
+  title: 'MIRAGE: Auditing Anti-Muslim Bias in Frontier LLMs Across Reasoning, Agentic, and Time-Coupled Conditions'
+  author: Noor Islam S. Mohammad
+  publishedAt: 2026-11-02T14:00:00+0900
+  words: 13293
+paper:
+  arxivId: '2606.16562'
+  authors:
+  - Noor Islam S. Mohammad
+  - Tamim Sheikh
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+최근 연구에 따르면 대규모 언어 모델(LLM)에서 발견되는 이슬람 혐오 편향은 단순한 문장 완성을 넘어 실제 서비스 환경에서 더 복잡하게 나타난다. 연구진은 이를 검증하기 위해 직접적인 답변, 생각의 사슬(CoT) 추론, 그리고 에이전트 기반의 의사결정이라는 세 가지 실제 배포 환경을 포함하는 MIRAGE 벤치마크를 구축했다.
+
+저자들의 주장에 따르면, 모델이 추론 과정을 거칠 때 오히려 이슬람과 폭력의 연관성이 직접적인 답변보다 12~34% 더 강화되는 현상이 관찰되었다. 또한 동일한 증거를 바탕으로 한 에이전트의 의사결정에서도 이슬람과 비이슬람 사례 사이에 9~22%포인트의 불균형이 발생했으며, 최근의 분쟁 관련 뉴스 맥락이 포함될 때 편향이 18~27% 증가하는 것으로 나타났다.
+
+문제는 기존의 프롬프트 기반 편향 완화 기술이 이러한 복합적인 상황에서 제대로 작동하지 않는다는 점이다. 기존 방식은 단순 문장 완성에서의 편향은 억제할 수 있지만, 에이전트 환경에서 발생하는 불균형은 그대로 유지되는 한계가 확인되었다. 연구진은 이러한 편향을 효과적으로 제어하기 위한 후속 연구를 위해 MIRAGE 벤치마크와 평가 도구를 공개했다.
+
+---
+
+원문: [MIRAGE: Auditing Anti-Muslim Bias in Frontier LLMs Across Reasoning, Agentic, and Time-Coupled Conditions](https://arxiv.org/abs/2606.16562)
