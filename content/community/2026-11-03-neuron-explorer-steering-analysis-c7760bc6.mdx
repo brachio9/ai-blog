@@ -1,0 +1,36 @@
+---
+title: 뉴런의 반응이 아니라 '영향력'으로 모델의 내부를 들여다보는 법
+category: community
+axis: agent
+format: explainer
+summary: 단순히 특정 뉴런이 어떤 문장에 반응하는지를 확인하는 기존 방식에서 벗어나, 해당 뉴런을 직접 조작했을 때 모델의 출력이 어떻게 변하는지를 측정하는 '스티어링 우선' 방식의 탐색 도구입니다. Qwen3.5-4B 모델을 대상으로 뉴런의 역할을 시각화하고 분석하는 데 최적화되어 있습니다.
+publishedAt: 2026-11-03T22:00:03+0900
+tags:
+- Claude Code
+- MCP
+- vLLM
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/neuron-explorer-qwen3-5-4b/12310
+  title: 'neuron explorer: 최대 활성 예시 대신 스티어링 결과로 Qwen3.5-4B 뉴런을 읽는 탐색기'
+  author: 9bow
+  publishedAt: 2026-10-31T19:30:19+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/e/5/e53ffc6d5ef4a40d930e05e51d6358e80660919e_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+기존의 언어 모델 해석 방식은 대량의 텍스트를 입력하며 특정 뉴런이 강하게 반응하는 사례를 수집하는 데 집중했다. 하지만 이러한 방식은 반응의 크기순으로 뉴런을 나열할 뿐, 실제 모델의 출력에 중요한 영향을 미치면서도 반응 강도가 낮게 측정되는 뉴런을 놓칠 수 있다는 한계가 있다. 
+
+최근 Nick Cammarata는 분해 모델을 거치지 않고 뉴런을 직접 연구할 것을 제안하며, 특정 뉴런을 조작했을 때 모델이 어떤 행동을 보이는지 확인하는 것이 중요하다는 점을 강조했다. 이러한 방법론을 바탕으로 개발된 neuron explorer는 특정 뉴런의 출력 방향을 모델에 더하거나 빼면서 생성되는 결과 변화를 추적한다.
+
+이 도구는 한 층의 모든 MLP 뉴런에 대해 짧은 프롬프트에 대한 응답을 생성하고, 이를 무작위 방향의 대조군과 비교하여 순위를 매긴다. 이를 통해 특정 뉴런이 모델을 어떻게 변화시키는지 3D 지도 위에서 탐색할 수 있으며, 실제 사례로 특정 뉴런을 밀었을 때 모델이 자신을 외계 지성체로 소개하는 등의 변화를 확인한 사례가 있다. 
+
+사용자는 이 도구를 통해 뉴런의 렌즈와 연결 상태를 확인하고, 층별 뉴런 지도를 통해 모델의 내부 구조를 시각적으로 파악할 수 있다. 이는 단순히 뉴런이 무엇을 읽는지를 넘어, 뉴런이 모델의 생성 과정에서 어떤 역할을 수행하는지 직접적으로 확인하는 데 도움을 준다.
+
+---
+
+원문: [neuron explorer: 최대 활성 예시 대신 스티어링 결과로 Qwen3.5-4B 뉴런을 읽는 탐색기](https://discuss.pytorch.kr/t/neuron-explorer-qwen3-5-4b/12310)

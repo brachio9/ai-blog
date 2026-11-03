@@ -1,0 +1,39 @@
+---
+title: 'SGLang v0.5.23 업데이트: DeepSeek 성능 최적화와 TPU 지원 소식'
+category: releases
+axis: serving
+format: explainer
+summary: SGLang v0.5.23이 공개되었다. 이번 업데이트에서는 DeepSeek 모델의 추론 성능 개선과 Google TPU 지원, 그리고 MoE 모델 최적화가 핵심이다.
+publishedAt: 2026-11-03T22:00:03+0900
+tags:
+- Cursor
+- SGLang
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+draft: false
+source:
+  url: https://github.com/sgl-project/sglang/releases/tag/v0.5.23
+  title: v0.5.23
+  author: Fridge003
+  publishedAt: 2026-11-03T07:14:10+0900
+  words: 14449
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 릴리스에서 가장 눈에 띄는 변화는 DeepSeek-V4.1 모델에 대한 최적화다. SGLang은 GB300 환경에서 프리필(prefill) 처리량을 최대 1.5배 높였으며, 32K에서 64K 길이의 프롬프트에서 첫 번째 토큰 생성 지연 시간을 약 28% 단축했다고 발표했다. 또한 전용 커널을 활용한 저지연 모드를 통해 단일 사용자 디코딩 속도를 대폭 끌어올렸다.
+
+MoE(Mixture of Experts) 모델 사용자들을 위한 기능도 강화되었다. DeepSeek-V4.1-Flash와 GLM-5.3-Flash 같은 모델이 H200에서 첫 토큰 생성 속도가 30%에서 58%까지 빨라졌으며, Paged Experts 기능을 통해 소비자용 GPU에서도 대규모 MoE 모델을 CPU 오프로딩보다 최대 30배 빠른 속도로 실행할 수 있게 되었다. 
+
+인프라 확장성 측면에서는 Google TPU7x 지원이 추가되었다. SGLang-TorchTPU 플러그인을 통해 이제 TPU 환경에서도 SGLang을 사용할 수 있다. 또한 양자화된 MoE 모델에서 LoRA 어댑터를 서비스할 수 있는 새로운 엔진이 도입되었으며, DeepSeek 스타일의 MLA 모델에서 프리픽스 캐시를 파일 기반 L3 저장소에 유지하는 기능이 추가되었다.
+
+이번 업데이트는 방대한 양의 코드 수정과 기여를 포함하고 있으며, 위에서 언급한 핵심 기능 외에도 다양한 모델 지원과 성능 개선이 포함되어 있다. 전체 변경 사항은 공식 릴리스 노트를 통해 확인할 수 있다.
+
+---
+
+원문: [v0.5.23](https://github.com/sgl-project/sglang/releases/tag/v0.5.23)

@@ -1,0 +1,41 @@
+---
+title: 폐쇄형 모델의 숨겨진 추론 과정(CoT)을 복원하는 RECAST 기술
+category: papers
+axis: agent
+format: explainer
+summary: Claude나 GPT 같은 폐쇄형 모델은 최종 답변만 제공하며 내부 추론 과정은 공개하지 않는다. RECAST는 이러한 모델의 최종 답변을 기반으로 추론 단계를 역으로 재구성하여 학습 데이터를 생성하는 프레임워크다.
+publishedAt: 2026-11-03T22:00:03+0900
+tags:
+- SFT
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.41813
+  title: 'RECAST: REconstruction of Chain-of-Thought via Auditable Structured Traces'
+  author: Qi Wang
+  publishedAt: 2026-11-02T14:00:00+0900
+  words: 7466
+paper:
+  arxivId: '2610.41813'
+  authors:
+  - Qi Wang
+  - Kang Xu
+  - Chengcheng Wan
+  - Jiangtao Wang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+최근 출시되는 고성능 추론 모델들은 보안과 정책상의 이유로 내부 추론 과정을 숨기고 최종 결과값만 출력한다. 기존의 추출 방식은 모델이 제공하는 별도의 추론 필드나 메모리 공간을 활용하려 했으나, 최신 모델들은 이러한 채널 자체를 차단하고 있어 기술적 한계에 부딪혔다.
+
+연구진은 기존의 추출 방식이 Claude-Sonnet-5.5와 같은 모델에서 작동하지 않는다는 점을 확인하고, 아예 다른 접근 방식을 제안했다. RECAST는 모델이 내놓은 정답과 질문을 입력으로 받아, 모델이 도달했을 법한 논리적 추론 과정을 역으로 재구성하는 방식을 취한다.
+
+이 시스템은 재구성된 추론을 정제하여 SFT(Supervised Fine-Tuning)용 데이터로 변환하며, Claude-Sonnet-5.5를 포함해 GPT-6.1, Gemini 3와 같은 최신 모델에서도 성공적으로 작동하는 것으로 확인되었다. 저자들은 이 시스템이 숨겨진 채널 없이도 폐쇄형 모델의 추론 데이터를 확보할 수 있는 최초의 방법이라고 주장한다.
+
+RECAST는 오픈 소스로 공개되었으며 에이전트 기술로 패키징되어 있다. 단 한 번의 프롬프트로 전체 파이프라인을 실행해 학습용 데이터를 생성할 수 있다. 다만 이 논문은 시스템의 구조와 위협 모델, 검증된 결과에 집중하며 대규모 벤치마크 성능 향상을 직접적으로 보증하지는 않는다.
+
+---
+
+원문: [RECAST: REconstruction of Chain-of-Thought via Auditable Structured Traces](https://arxiv.org/abs/2610.41813)

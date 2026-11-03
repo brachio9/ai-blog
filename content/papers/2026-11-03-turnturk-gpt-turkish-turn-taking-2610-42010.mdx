@@ -1,0 +1,41 @@
+---
+title: 터키어 대화에서 발화 전환 시점을 예측하는 TurnTurk-GPT 모델
+category: papers
+axis: voice
+format: explainer
+summary: 터키어 대화 데이터에서 발화 전환(Turn-taking) 지점을 예측하는 TurnTurk-GPT 모델이 발표되었다. 이 모델은 실제 대화과 합성 데이터를 활용해 학습되었으며, 기존 다국어 탐지기보다 우수한 성능을 보였다.
+publishedAt: 2026-11-03T22:00:03+0900
+tags:
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.42010
+  title: 'TurnTurk-GPT: Text-Based Turn-Taking Prediction for Turkish'
+  author: Ahmet Tu\u{g}rul Bayrak
+  publishedAt: 2026-11-02T14:00:00+0900
+  words: 4735
+paper:
+  arxivId: '2610.42010'
+  authors:
+  - Ahmet Tu\u{g}rul Bayrak
+  - Fatma Nur Korkmaz
+  - Nur Ya\u{g}mur Tuncer
+  - Mustafa Serta\c{c} T\"urkel
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+연구진은 터키어 GPT-2 모델을 기반으로 TurnGPT 목적 함수를 사용하여 발화 전환 예측 모델인 TurnTurk-GPT를 개발했다. 이 모델은 문장 부호가 없고 소문자로 구성된 텍스트를 처리하며, 스트리밍 음성 인식 결과와 유사한 환경에서 작동하도록 설계되었다. 평가 과정에서는 기록이나 화자가 겹치지 않는 엄격한 데이터 분할 방식을 사용하여 모델의 성능을 검증했다.
+
+저자들의 주장에 따르면, TurnTurk-GPT는 기존에 널리 사용되는 다국어 발화 종료 탐지기보다 우수한 성능을 보여주었다. 다만 제로샷 언어 모델과 비교했을 때는 학습에 포함된 화자가 테스트에 등장할 때만 성능 우위를 보였으며, 처음 보는 화자가 등장할 때는 두 모델의 성능 차이가 통계적으로 유의미하지 않았다고 밝혔다. 
+
+연구 결과는 터키어의 문법적 특징과 밀접한 관련이 있는 것으로 나타났다. 발화 마지막 단어의 접미사를 제거할 경우 평균 정밀도(AP)가 최대 44%까지 하락하는 반면, 문장 내부 단어의 경우 2% 하락에 그쳤다. 이는 터키어에서 발화 종료의 단서가 동사 중심의 형태론적 구조에 위치함을 시사한다. 
+
+학습 데이터 구성에 있어서는 합성 대화 데이터만으로 학습한 모델이 가장 낮은 성능을 기록했다. 또한 화자가 말을 멈추는 상황에서는 제로샷 및 다국어 기반 모델들이 무작위 추측에 가까운 성능을 보였다. 연구진은 모델과 평가 프로토콜을 공개적으로 배포했다.
+
+---
+
+원문: [TurnTurk-GPT: Text-Based Turn-Taking Prediction for Turkish](https://arxiv.org/abs/2610.42010)

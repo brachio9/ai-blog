@@ -1,0 +1,38 @@
+---
+title: 긴 문맥의 정보를 더 잘 기억하게 만드는 DAMI 초기화 기법
+category: papers
+axis: retrieval
+format: explainer
+summary: 선형 어텐션 모델이 긴 문맥에서 정보를 제대로 유지하지 못하는 문제를 해결하기 위해 제안된 초기화 방법이다. 학습 전 메모리 유지 특성을 미리 설정하여 효율적인 정보 검색 성능을 확보한다.
+publishedAt: 2026-11-03T22:00:03+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.41994
+  title: 'DAMI: Dual-Axis Memory Initialization for Enhanced Long-Context Retrieval in Gated Linear Attention'
+  author: Zhangchi Feng
+  publishedAt: 2026-11-02T14:00:00+0900
+  words: 7855
+paper:
+  arxivId: '2610.41994'
+  authors:
+  - Zhangchi Feng
+  - Harry Jiang
+  - Yangyifei Luo
+  - Ray Zhang
+  - Richong Zhang
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+선형 어텐션은 시퀀스 길이에 비례하여 확장되는 장점이 있지만, 유한한 상태 메모리 구조로 인해 긴 문맥에서 특정 정보를 정확히 찾아내는 능력이 제한된다. 특히 게이트 기반의 선형 재귀 구조에서는 메모리 유지력이 게이트 파라미터와 입력 활성화 값에 의해 결정되는데, 실험 결과 이 파라미터들은 학습 후에도 초기값과 높은 상관관계를 유지하는 것으로 나타났다.
+
+연구진은 이러한 초기화의 중요성에 주목하여 Dual-Axis Memory Initialization(DAMI) 기법을 도입했다. 이 방법은 학습 시작 전부터 파라미터를 공동으로 구성하며, 헤드별로 서로 다른 기하학적 시간 척도를 할당하고 레이어별로 입력 민감도를 조절하는 프로파일을 적용한다. 이는 추가적인 학습 파라미터 없이도 모델의 동작 목표를 맞추는 역할을 한다.
+
+저자들의 주장에 따르면 DAMI를 적용했을 때 GDN, KDA, Mamba-2, RWKV-7 등 다양한 모델에서 무작위 초기화 대비 RULER 방식의 검색 정확도가 5.29에서 16.71%포인트까지 향상되었다. 다만 언어 모델링이나 상식 추론, 실제 데이터 검색 성능은 기존의 무작위 초기화 기반 모델들과 유사한 수준을 유지하는 것으로 보고되었다.
+
+---
+
+원문: [DAMI: Dual-Axis Memory Initialization for Enhanced Long-Context Retrieval in Gated Linear Attention](https://arxiv.org/abs/2610.41994)

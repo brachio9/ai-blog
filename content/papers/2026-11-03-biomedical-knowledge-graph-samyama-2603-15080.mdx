@@ -1,0 +1,40 @@
+---
+title: 파편화된 바이오 의학 데이터를 하나로 묶는 대규모 지식 그래프 구축법
+category: papers
+axis: agent
+format: explainer
+summary: 분산된 바이오 의학 데이터를 통합하기 위해 Rust 기반의 Samyama 그래프 데이터베이스를 활용한 대규모 지식 그래프 생태계를 구축했다. 3억 개 이상의 노드와 14억 개의 에지를 포함하는 통합 저장소를 구축하고, AI 에이전트가 접근하기 쉬운 MCP 서버를 구현했다.
+publishedAt: 2026-11-03T22:00:03+0900
+tags:
+- knowledge graph
+- MCP
+draft: false
+source:
+  url: https://arxiv.org/abs/2603.15080
+  title: 'Open Biomedical Knowledge Graphs at Scale: Construction, Federation, and AI Agent Access with Samyama Graph Database'
+  author: Madhulatha Mandarapu
+  publishedAt: 2026-11-02T14:00:00+0900
+  words: 5455
+paper:
+  arxivId: '2603.15080'
+  authors:
+  - Madhulatha Mandarapu
+  - Sandeep Kunkunuru
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+바이오 의학 데이터는 Reactome, DrugBank, PubMed 등 다양한 데이터베이스에 파편화되어 존재한다. 연구진은 이를 통합하기 위해 Rust 기반의 Samyama 그래프 데이터베이스를 활용하여 경로(Pathways), 임상 시험(Clinical Trials), 약물 상호작용(Drug Interactions)을 포함하는 세 가지 핵심 지식 그래프를 구축했다. 이들은 최종적으로 3억 2,800만 개의 노드와 14억 4,000만 개의 에지를 포함하는 대규모 통합 저장소로 확장되었다.
+
+데이터 통합 과정에서는 쿼리 시점의 속성 조인과 로드 시점의 식별자 중복 제거 방식을 사용했다. 저자들의 주장에 따르면, 3억 2,800만 개의 노드와 14억 4,000만 개의 에지를 약 37분 만에 로드하는 데 성공했으며, 13만 개 이상의 교차 소스 엔티티를 통합했다. 또한 200개의 쿼리 테스트에서 97.5%의 성공률을 기록했다고 주장한다.
+
+연구진은 AI 에이전트의 활용을 돕기 위해 스키마 기반의 Model Context Protocol(MCP) 서버 생성을 도입했다. 3개의 핵심 지식 그래프를 활용한 BiomedQA 벤치마크에서, 도메인 특화 MCP 도구는 98%의 정확도를 달성했으며 이는 일반적인 GPT-4o의 75% 정확도보다 높은 수치라고 저자들은 주장한다.
+
+이 연구는 재현 가능한 ETL 프로세스와 휴대 가능한 스냅샷 패턴을 제공함으로써, 복잡한 바이오 의학 데이터를 통합하고 AI 모델이 효율적으로 접근할 수 있는 기반을 마련했다는 데 의의가 있다.
+
+---
+
+원문: [Open Biomedical Knowledge Graphs at Scale: Construction, Federation, and AI Agent Access with Samyama Graph Database](https://arxiv.org/abs/2603.15080)

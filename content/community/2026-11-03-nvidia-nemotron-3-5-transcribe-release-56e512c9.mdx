@@ -1,0 +1,40 @@
+---
+title: NVIDIA가 공개한 음성 인식·번역 통합 모델 Nemotron 3.5 Transcribe
+category: community
+axis: serving
+format: explainer
+summary: NVIDIA가 음성 인식, 화자 구분, 번역을 하나의 모델로 처리하는 Nemotron 3.5 Transcribe를 공개했다. 이 모델은 여러 단계를 거쳐야 했던 기존 방식을 통합하여 효율성을 높였다.
+publishedAt: 2026-11-03T22:00:03+0900
+tags:
+- vLLM
+- SGLang
+- quantization
+- LoRA
+- fine-tuning
+- speculative decoding
+- TTS
+- ASR
+- Whisper
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/nvidia-40-nemotron-3-5-transcribe-feat-granary-v2/12368
+  title: NVIDIA, 40개 언어 받아쓰기와 화자 구분, 번역을 한 모델로 처리하는 Nemotron 3.5 Transcribe 공개 (feat. Granary v2)
+  author: 9bow
+  publishedAt: 2026-11-02T09:00:57+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/f/d/fd76cce98305d5f3b2fd16ccca58afcd37affb66_2_1028x732.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+NVIDIA는 녹음 파일과 자연어 지시문을 함께 입력받아 텍스트로 변환하는 음성 모델 Nemotron 3.5 Transcribe를 공개했다. 기존에는 Whisper나 Parakeet 같은 모델로 음성을 인식하고, pyannote-audio로 화자를 분리하며, 별도의 번역 모델을 실행하는 복잡한 단계를 거쳐야 했다. 하지만 이 모델은 음성 증강 언어 모델(SALM) 구조를 채택하여 이 모든 과정을 하나의 체크포인트로 통합했다.
+
+이 모델은 40개 언어의 받아쓰기와 31개 언어의 영어 상호 번역을 지원하며, 한국어는 모든 기능을 지원하는 최상위 품질 등급에 해당한다. 특히 SALM 구조 덕분에 사용자는 지시문에 따라 숫자의 표기 방식이나 머뭇거림의 포함 여부 등 출력 규칙을 유연하게 조정할 수 있다. NVIDIA는 기술 보고서를 통해 녹음에 대한 정답 대본은 하나로 고정되지 않는다는 점을 강조했다.
+
+Nemotron 3.5 Transcribe는 실시간 스트리밍이 아닌 최대 1시간 길이의 오프라인 녹음 파일을 처리하는 모델이다. 공식 예제는 H100 80GB 1장을 기준으로 하며, 소비자용 GPU에서는 NVFP4 체크포인트만 지원한다. NVIDIA는 모델과 함께 학습 데이터 파이프라인인 Granary v2와 미세조정 도구도 함께 공개했다.
+
+---
+
+원문: [NVIDIA, 40개 언어 받아쓰기와 화자 구분, 번역을 한 모델로 처리하는 Nemotron 3.5 Transcribe 공개 (feat. Granary v2)](https://discuss.pytorch.kr/t/nvidia-40-nemotron-3-5-transcribe-feat-granary-v2/12368)

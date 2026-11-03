@@ -1,0 +1,32 @@
+---
+title: 분산 AI 학습 시 발생하는 복잡한 오류를 추적하는 방법
+category: news
+axis: serving
+format: explainer
+summary: 분산 AI 워크로드에서 발생하는 단일 오류는 여러 노드에 걸쳐 연쇄적인 증상을 일으킨다. NVIDIA는 이러한 복잡한 오류를 정확히 진단하기 위한 Attribution 기능을 제공한다.
+publishedAt: 2026-11-03T22:00:03+0900
+draft: false
+source:
+  url: https://developer.nvidia.com/blog/diagnose-distributed-ai-workload-failures-with-nvidia-attribution/
+  title: Diagnose Distributed AI Workload Failures with NVIDIA Attribution
+  author: Elizabeth Goodman
+  publishedAt: 2026-11-03T08:39:34+0900
+  image: https://developer-blogs.nvidia.com/wp-content/uploads/2026/11/image3-1-768x432.jpg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: low
+  crossSources: 1
+---
+
+분산 환경에서 AI 모델을 학습시킬 때 발생하는 문제는 단순히 한 지점에서 끝나지 않는다. 특정 GPU나 네트워크 패브릭에서 발생한 이벤트가 다른 랭크(rank)의 NCCL 오류나 스케줄러 상태 이상으로 전이되며 복잡한 증상을 만들어내기 때문이다.
+
+이러한 연쇄 반응은 문제의 근본 원인을 파악하기 어렵게 만든다. 시스템의 어느 부분에서 최초의 오류가 시작되었는지, 그리고 그 오류가 어떤 경로로 전파되었는지를 명확히 구분하는 것이 디버깅의 핵심이다.
+
+NVIDIA는 이러한 문제를 해결하기 위해 분산 AI 워크로드의 오류를 진단하는 기술을 제시한다. 특히 오류의 발생 지점과 원인을 추적하는 Attribution 기능을 통해 복잡하게 얽힌 시스템 오류를 보다 효율적으로 분석할 수 있다.
+
+상세한 기술적 구현과 분석 방법은 아래 원문에서 확인할 수 있다.
+
+---
+
+원문: [Diagnose Distributed AI Workload Failures with NVIDIA Attribution](https://developer.nvidia.com/blog/diagnose-distributed-ai-workload-failures-with-nvidia-attribution/)
