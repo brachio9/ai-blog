@@ -1,0 +1,38 @@
+---
+title: WebAssembly의 진화와 2026년 이후의 JavaScript 생태계
+category: news
+axis: vibe-coding
+format: explainer
+summary: 2020년 대비 비약적으로 발전한 WebAssembly(Wasm)의 기술적 변화를 다룬다. WasmGC와 WASI의 도입으로 브라우저와 서버 환경 모두에서 Wasm의 활용도가 어떻게 달라졌는지 살펴본다.
+publishedAt: 2026-11-05T22:00:06+0900
+tags:
+- Claude Code
+- Codex
+- Cursor
+- Copilot
+- Gemini CLI
+- MCP
+draft: false
+source:
+  url: https://d2.naver.com/helloworld/7770448
+  title: 2026년과 이후 JavaScript의 동향 - WebAssembly
+  publishedAt: 2026-11-05T10:42:15+0900
+  image: https://d2-serving.pstatic.net/v1/images?objectPath=d2%2FEDITOR%2F2026%2Fhelloworld-202610-%EB%B0%95%EC%9E%AC%EC%84%B1-3%2Ffiles%2F3-00.gif
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+2020년 당시 WebAssembly는 단순한 컴파일 타깃에 가까웠다. 숫자 타입과 선형 메모리 중심의 구조였기에 JavaScript와 데이터를 주고받는 과정에서도 복잡한 글루 코드가 필요했다. 하지만 지난 6년간 Wasm은 가비지 컬렉션(GC), 예외 처리, 64비트 주소 공간을 포함하는 3.0 버전으로 진화하며 큰 변화를 맞이했다.
+
+특히 WasmGC의 도입은 Java, Kotlin, Dart와 같은 언어들이 자체 런타임을 포함하지 않고도 웹에서 실행될 수 있는 길을 열었다. 브라우저 외부에서는 WASI가 Component Model 기반으로 전환되며 생태계가 확장되었고, 이제는 CDN 업체들이 Wasm 기반의 엣지 플랫폼을 운영하는 단계까지 이르렀다.
+
+최근의 주요 흐름을 살펴보면 2023년 V8 팀의 WasmGC 포팅 가이드 공개와 2024년 WASI 0.2 출시가 중요한 변곡점이 되었다. 이후 2025년 Wasm 3.0 발표와 2026년 WASI 0.3 출시 및 JSPI 지원 등 기술적 성숙도가 높아지는 과정이 이어졌다.
+
+이번 글은 2020년 예고했던 기능들의 구현 결과와 WasmGC를 통한 언어 지원 확대, 그리고 AI 도구와 에이전트가 Wasm의 쓰임새를 어떻게 변화시키고 있는지를 중점적으로 다룬다. 원문은 2026년 10월을 기준으로 작성되었으므로 읽는 시점에 따라 실제 사실과 차이가 있을 수 있다.
+
+---
+
+원문: [2026년과 이후 JavaScript의 동향 - WebAssembly](https://d2.naver.com/helloworld/7770448)

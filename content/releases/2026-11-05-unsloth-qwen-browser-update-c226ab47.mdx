@@ -1,0 +1,38 @@
+---
+title: 'Unsloth 업데이트: Qwen 모델 성능 개선과 브라우저 활용 기능 강화'
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 Qwen 모델의 정확도를 높이고 브라우저 내 파일 상호작용 기능을 추가한 새 버전을 공개했다. 이번 업데이트는 메모리 효율 개선과 사용자 인터페이스 편의성 강화에 초점을 맞췄다.
+publishedAt: 2026-11-05T22:00:06+0900
+tags:
+- RAG
+- MCP
+- LoRA
+- fine-tuning
+- GRPO
+- DPO
+- SFT
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.915-beta
+  title: Improved Customization + Glass + Browser Use
+  author: shimmyshimmer
+  publishedAt: 2026-11-05T02:54:37+0900
+  words: 2287
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 Qwen3.8-Flash-Next 모델의 도입이다. Unsloth는 이 모델을 통해 기존 대비 10~15%의 추가 정확도를 확보했다고 주장한다. 또한 사용자 인터페이스 측면에서 Glass 테마의 시각 효과를 개선하고, 채팅창의 위치를 자유롭게 조절할 수 있는 슬라이더를 추가하여 사용자 편의성을 높였다.
+
+기능적으로는 모델이 내장 브라우저에서 직접 HTML이나 React 페이지를 클릭하고 편집할 수 있는 기능이 강화되었다. 모델은 이제 브라우저에 열린 파일이나 PDF 문서를 읽고 수정할 수 있으며, 이전 버전으로 되돌리는 기능도 지원한다. 이는 모델이 웹 환경과 상호작용하는 방식을 한 단계 끌어올린 변화다.
+
+성능 최적화 측면에서는 메모리 관리 효율이 대폭 개선되었다. 프로그램 시작 시 불필요한 라이브러리를 로드하지 않도록 설정하여 유휴 메모리 사용량을 줄였으며, MLX 모델의 로딩 및 리로딩 속도를 개선했다. 또한 FP8 LoRA 학습 시 GPU 메모리 점유율을 낮추고, GGUF 모델 전환 시 대화 문맥을 유지하는 기능이 추가되어 긴 대화 기록을 다시 읽을 필요가 없도록 개선되었다.
+
+---
+
+원문: [Improved Customization + Glass + Browser Use](https://github.com/unslothai/unsloth/releases/tag/v0.1.915-beta)

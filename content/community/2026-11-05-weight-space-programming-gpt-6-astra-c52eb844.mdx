@@ -1,0 +1,36 @@
+---
+title: LLM이 직접 신경망 가중치를 수정하는 'Weight-Space Programming' 기술
+category: community
+axis: serving
+format: explainer
+summary: MIT CSAIL 연구진은 GPT-6 Astra를 활용해 경사하강법 없이 모델 가중치를 직접 읽고 수정하는 실험을 진행했다. 이 방식은 기존의 학습 방식과는 차별화된 새로운 가중치 생성 및 최적화 경로를 제시한다.
+publishedAt: 2026-11-05T22:00:06+0900
+tags:
+- Codex
+- vLLM
+- fine-tuning
+- MMLU
+- GPQA
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/weight-space-programming-gpt-6-astra-8-feat-mit-csail/12415
+  title: 'Weight-Space Programming: GPT-6 Astra가 모델의 가중치를 직접 읽고 고친 8가지 실험 (feat. MIT CSAIL)'
+  author: 9bow
+  publishedAt: 2026-11-05T18:30:31+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/e/6/e6a087f09a198822e8f3d2486172ab2f51625ea4_2_1028x667.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+MIT CSAIL의 Rikiya Takehi와 Jayden Teoh 등은 범용 LLM이 옵티마이저를 거치지 않고 신경망 가중치를 직접 조작하는 방식을 'Weight-Space Programming'이라 정의했다. 기존에는 데이터와 손실 함수를 이용한 경사하강법이나 별도의 네트워크를 통한 가중치 생성, 혹은 형식 프로그램을 컴파일하는 방식이 주를 이루었으나, 이 연구는 LLM이 가중치 공간을 직접 다루는 새로운 가능성을 보여준다.
+
+연구진은 GPT-6 Astra를 활용해 가중치를 직접 읽고, 수정하고, 처음부터 쓰는 8가지 실험을 수행했다. 그 결과 Qwen3.5-0.8B 모델의 가중치 중 약 0.016%에 해당하는 131,072개를 수정하여 MATH-500 점수를 7.9%에서 48.1%까지 끌어올리는 성과를 거두었다고 주장했다. 다만 연구진은 수학 실험 프롬프트의 경우 반복 루프를 제거했음에도 불구하고 성능 향상이 미미했던 사례를 실패 사례로 함께 제시했다.
+
+이 연구는 프롬프트나 코드를 LLM으로 최적화하는 기존 방식에서 나아가, 모델의 내부 파라미터 자체를 직접 제어하는 방향성을 탐색했다는 점에서 의미가 있다. 연구진은 실험에 사용된 프롬프트, 답변, 코드 실행 기록을 공개했으며, 수정된 체크포인트 모델 또한 Hugging Face를 통해 공유했다.
+
+---
+
+원문: [Weight-Space Programming: GPT-6 Astra가 모델의 가중치를 직접 읽고 고친 8가지 실험 (feat. MIT CSAIL)](https://discuss.pytorch.kr/t/weight-space-programming-gpt-6-astra-8-feat-mit-csail/12415)

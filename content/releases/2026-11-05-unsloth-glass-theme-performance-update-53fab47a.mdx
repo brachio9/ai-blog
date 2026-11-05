@@ -1,0 +1,44 @@
+---
+title: 'Unsloth 업데이트: 더 빠르고 세련된 인터페이스와 성능 개선'
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 사용자 맞춤형 디자인을 강화한 Glass 테마와 대폭 개선된 생성 속도를 포함한 대규모 업데이트를 공개했다. 이번 업데이트는 시각적 편의성뿐만 아니라 멀티 GPU 및 CPU 학습 지원 등 성능 최적화에 집중했다.
+publishedAt: 2026-11-05T22:00:06+0900
+tags:
+- RAG
+- OpenCode
+- MCP
+- quantization
+- LoRA
+- fine-tuning
+- speculative decoding
+- GRPO
+- SFT
+- TTS
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.914-beta
+  title: Glass Theme, Personalize & Faster Generation
+  author: shimmyshimmer
+  publishedAt: 2026-11-03T23:19:42+0900
+  words: 7541
+  image: https://github.com/user-attachments/assets/bc38677f-9e49-4b46-b0ac-f16522541a57
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 디자인 커스터마이징이다. 새로운 Glass 테마는 투명도 조절과 배경 이미지 설정을 지원하며, Mac 사용자에게는 네이티브 글래스 효과를 제공한다. 또한 사용자 정의 인사말, 코드 폰트 설정, 줄 바꿈 옵션 등을 통해 개인의 작업 환경에 최적화된 인터페이스를 구성할 수 있다.
+
+사용자 경험을 개선하는 기능도 대폭 강화되었다. 대화 내비게이터를 통해 이전 대화로 빠르게 이동하거나 특정 지점을 북마크할 수 있으며, 마크다운 형식의 표나 리스트를 포함한 복잡한 데이터도 원활하게 붙여넣을 수 있다. 특히 긴 대화에서도 응답 스트리밍이 끊기지 않도록 반응성을 개선했으며, 코딩 에이전트가 프로젝트 폴더 내 파일에 접근할 수 있는 기능이 추가되었다.
+
+성능 측면에서는 NVIDIA GPU 환경에서 Qwen3 모델의 생성 속도가 최대 3.9배까지 빨라졌다는 Unsloth 측의 테스트 결과가 발표되었다. 이 외에도 SDXL 모델의 VRAM 점유율 최적화, RAG를 위한 대규모 문서 검색 인덱스 개선, 그리고 최대 4시간 분량의 오디오 전사 기능 등이 포함되었다.
+
+학습 및 개발 환경도 확장되었다. 이제 Train 페이지에서 직접 CPU 텍스트 학습을 시작할 수 있으며, 멀티 GPU 학습 옵션이 추가되어 더욱 다양한 하드웨어 구성에서 모델을 미세 조정할 수 있게 되었다. 이번 업데이트는 디자인과 성능이라는 두 마리 토끼를 모두 잡으려는 시도로 보인다.
+
+---
+
+원문: [Glass Theme, Personalize & Faster Generation](https://github.com/unslothai/unsloth/releases/tag/v0.1.914-beta)

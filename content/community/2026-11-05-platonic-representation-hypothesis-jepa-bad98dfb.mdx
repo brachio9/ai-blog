@@ -1,0 +1,32 @@
+---
+title: 작은 텍스트 모델이 거대 언어 모델보다 비전 모델과 더 잘 정렬되는 이유
+category: community
+axis: serving
+format: explainer
+summary: Randall Balestriero와 Yann LeCun은 비전 모델과 언어 모델의 표현이 유사해진다는 플라톤적 표현 가설을 JEPA 구조를 통해 수학적으로 증명했다. 연구 결과, 특정 조건에서 학습된 작은 텍스트 인코더가 거대한 언어 모델보다 시각적 표현과 더 높은 정렬도를 보였다.
+publishedAt: 2026-11-05T22:00:06+0900
+tags:
+- fine-tuning
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/109m-jepa-72b-llm-feat-yann-lecun/12393
+  title: '플라토닉 표현 정리: 같은 장면의 두 묘사로 학습한 109M JEPA 모델이 72B LLM보다 비전 모델과 더 잘 정렬됨을 확인한 연구 (feat. Yann LeCun)'
+  author: 9bow
+  publishedAt: 2026-11-04T15:30:42+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/6/3/63a631af594840a3719d842047b7f622eb3c5ac8_2_1028x690.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+Randall Balestriero와 Yann LeCun은 서로 다른 모달리티로 학습된 모델이 동일한 장면을 관측할 때 같은 표현을 학습한다는 '플라톤적 표현 정리'를 발표했다. 이 연구는 단순히 규모가 커질수록 두 모델이 비슷해진다는 관찰에 그쳤던 기존의 플라톤적 표현 가설(PRH)을 JEPA(Joint-Embedding Predictive Architecture)를 활용해 수학적 정리로 구체화했다.
+
+저자들은 실험을 통해 109M 규모의 작은 텍스트 인코더가 72B 규모의 거대 언어 모델보다 비전 모델과 더 잘 정렬된다는 것을 확인했다. 이는 좋은 뷰를 가진 JEPA 모델이 훨씬 적은 샘플로도 DINOv2 수준의 정렬에 도달할 수 있음을 시사한다. 다만 이 결과는 특정 텍스트 데이터셋과 시드 조건에 의존한다는 점을 저자들도 명시했다.
+
+이 연구는 이론적 증명에 그치지 않고 실제 학습 코드와 수치 검증 테스트를 공개하며 실용성을 확보했다. 연구팀은 특정 조건 하에서 동일한 장면을 두 번 관측한 쌍을 양성 쌍으로 사용할 때, 모델이 회전 차이만 있는 동일한 표현을 배운다는 것을 증명하며 모달리티 간 정렬의 원리를 규명했다.
+
+---
+
+원문: [플라토닉 표현 정리: 같은 장면의 두 묘사로 학습한 109M JEPA 모델이 72B LLM보다 비전 모델과 더 잘 정렬됨을 확인한 연구 (feat. Yann LeCun)](https://discuss.pytorch.kr/t/109m-jepa-72b-llm-feat-yann-lecun/12393)

@@ -1,0 +1,45 @@
+---
+title: 비동기 추측성 디코딩을 위한 독립형 확산 모델 기반 드래프팅 기법
+category: papers
+axis: serving
+format: explainer
+summary: 기존 확산 모델 기반 드래프팅의 순차적 의존성 문제를 해결한 D3D 프레임워크를 제안한다. 타겟 모델의 은닉 상태 없이도 독립적인 블록 생성이 가능하여 비동기적 추측성 디코딩을 구현했다.
+publishedAt: 2026-11-05T22:00:06+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.06425
+  title: 'D3D: Decoupled Diffusion Drafting for Asynchronous Speculative Decoding'
+  author: Baoyou Chen
+  publishedAt: 2026-11-05T14:00:00+0900
+  words: 9873
+  image: https://arxiv.org/html/2611.06425v1/d3d_main.png
+paper:
+  arxivId: '2611.06425'
+  authors:
+  - Baoyou Chen
+  - Ruiqiao Mei
+  - Guancong Lin
+  - Tao Song
+  - Weihao Yuan
+  - Qun Liu
+  - Siyu Zhu
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+기존의 타겟 조건부 확산 드래프터는 병렬적으로 후보 토큰을 예측하지만, 각 블록이 업데이트된 타겟 모델의 은닉 상태를 기다려야 하는 구조적 한계가 있었다. 이로 인해 드래프팅과 검증이 순차적으로 실행되어야 했으며, 각 블록이 한 번의 패스로 생성됨에도 불구하고 속도 향상에 제약이 발생했다.
+
+연구진은 이러한 상호 의존성을 제거한 독립형 확산 드래프터인 D3D를 도입했다. D3D는 블록 단위의 노이즈 제거와 보조 자기회귀 감독을 결합하여, 타겟 모델의 은닉 상태 없이도 긴 수락 접두사를 확보한다. 이러한 독립성 덕분에 검증 과정 중에 다음 블록을 드래프팅하는 패킹 방식을 사용할 수 있으며, 이를 통해 비동기 추측성 디코딩이 가능해진다.
+
+또한 드래프팅 비용을 줄이기 위해 수락 길이에 미치는 영향에 따라 레이어를 점진적으로 제거하는 방식을 적용했다. 저자들의 주장에 따르면 Qwen3-8B 모델을 대상으로 36개 레이어 중 5개를 제거해도 세 가지 벤치마크에서 평균 수락 길이의 99% 이상을 유지했다.
+
+저자들은 D3D가 DFlash보다 우수한 성능을 보였다고 주장한다. Qwen3-8B와 Qwen3-32B 모델을 대상으로 측정한 결과, D3D는 평균 5.00배 및 5.71배의 디코딩 속도 향상을 기록했으며, GSM8K 데이터셋에서는 최대 7.48배의 속도 향상을 달성했다고 밝혔다.
+
+---
+
+원문: [D3D: Decoupled Diffusion Drafting for Asynchronous Speculative Decoding](https://arxiv.org/abs/2611.06425)

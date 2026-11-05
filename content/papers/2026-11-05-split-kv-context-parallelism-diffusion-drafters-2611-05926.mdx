@@ -1,0 +1,40 @@
+---
+title: Diffusion Drafters를 위한 효율적인 컨텍스트 병렬 처리 기법 Split-KV
+category: papers
+axis: serving
+format: explainer
+summary: Diffusion Drafters의 학습 효율을 높이기 위해 컨텍스트 길이에 독립적인 Split-KV 병렬 처리 방식을 제안한다. 이 방식은 쿼리 크기에 비례하는 통신량으로 긴 컨텍스트를 처리하며, LPT 전략을 통해 부하 불균형을 최적화한다.
+publishedAt: 2026-11-05T22:00:06+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.05926
+  title: 'Split-KV: Efficient Context Parallelism for Training Diffusion Drafters'
+  author: Geng Zhang
+  publishedAt: 2026-11-05T14:00:00+0900
+  words: 13661
+paper:
+  arxivId: '2611.05926'
+  authors:
+  - Geng Zhang
+  - Fangzhao Zhang
+  - Cong Xie
+  - Tiantian Fan
+  - Yang You
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Diffusion Drafters는 여러 드래프트 토큰을 동시에 노이즈 제거하며 추론 속도를 높이는 기술이다. 연구진은 실험을 통해 컨텍스트 길이가 길어져도 쿼리 예산이 고정되면 수락 길이는 일정하게 유지되지만, 쿼리 예산을 늘려도 품질 향상은 제한적이라는 점을 확인했다. 이는 실제 활용 시 컨텍스트보다 훨씬 짧은 쿼리를 사용하는 것이 효율적임을 시사한다.
+
+기존의 컨텍스트 병렬 처리(CP) 방식은 이러한 쿼리와 컨텍스트 사이의 비대칭성을 충분히 활용하지 못하며, 앵커 샘플링으로 발생하는 비선형적인 부하 불균형 문제를 해결하는 데 한계가 있다. 이를 해결하기 위해 제안된 Split-KV는 키와 값의 샤드를 로컬에 유지하고, 레이어별 어텐션 통신을 쿼리 크기의 텐서로 제한하여 컨텍스트 길이에 관계없이 통신량을 유지하는 정확한 CP 방법이다.
+
+Split-KV는 전역 쿼리 뷰를 통해 실제 어텐션 비용에 기반하여 컨텍스트 키/값 청크를 분배하는 비용 인식형 최장 처리 시간 우선(LPT) 전략을 지원한다. 저자들의 주장에 따르면, CP 크기가 64일 때 Split-KV는 85~91%의 약한 확장성(weak-scaling efficiency)을 유지하며 기존 최상위 CP 베이스라인 대비 최대 3.67배의 속도 향상을 달성했다. 또한 LPT는 1% 미만의 불균형을 달성하며 기존 방식보다 세 자리 수 더 빠른 계획 수립이 가능하다.
+
+---
+
+원문: [Split-KV: Efficient Context Parallelism for Training Diffusion Drafters](https://arxiv.org/abs/2611.05926)

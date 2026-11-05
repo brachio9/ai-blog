@@ -1,0 +1,41 @@
+---
+title: 실시간 음성 인식의 고질적 문제인 '수정되는 텍스트'를 해결하는 방법
+category: papers
+axis: voice
+format: explainer
+summary: 실시간 음성 인식에서 이미 출력된 텍스트가 나중에 수정되는 문제를 해결하기 위한 Stable-Prefix 방식이 제안되었다. 이 기술은 모델 구조 변경 없이도 높은 정확도와 낮은 지연 시간을 동시에 확보한다.
+publishedAt: 2026-11-05T22:00:06+0900
+tags:
+- ASR
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.06043
+  title: 'Confucius4-R2T2: A Stable-Prefix Streaming ASR Model for Real Real-Time Transcription'
+  author: Daniel Huang
+  publishedAt: 2026-11-05T14:00:00+0900
+  words: 18001
+paper:
+  arxivId: '2611.06043'
+  authors:
+  - Daniel Huang
+  - Qi He
+  - Shaoxiong Duan
+  - Yingjie Li
+  - Qiao Cheng
+  - Yitao Duan
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+실시간 음성 인식 시스템은 단어가 생성되는 즉시 반응해야 하지만, 기존 방식은 나중에 출력된 결과가 앞선 단어를 수정하는 경우가 많았다. 이는 시스템이 잘못된 정보를 처리하거나 불필요한 연산을 반복하게 만드는 원인이 된다. 이를 해결하기 위해 연구진은 한 번 출력된 텍스트가 절대 수정되지 않는 Stable-Prefix 스트리밍 모델인 Confucius4-R2T2를 개발했다.
+
+이 모델은 기존의 Qwen3-ASR-1.7B 모델을 기반으로 하며, 오디오 인코더와 프로젝터를 고정한 상태에서 중국어와 영어 오디오 데이터를 활용해 추가 학습을 거쳤다. 핵심 기술은 연구진이 새롭게 정의한 Longest Stable Prefix(LSP) 개념이다. LSP는 전체 오디오 출력과 일치하면서도 이전 출력과 동일하게 유지되는 가장 긴 접두사를 의미하며, 이를 학습함으로써 전체 문맥을 파악하는 모델을 구조 변경 없이 스트리밍 모델로 전환할 수 있다.
+
+저자들의 주장에 따르면, R2T2는 낮은 지연 시간과 안정적인 텍스트 출력을 유지하면서도 전체 문맥을 고려한 모델 수준의 품질에 근접한 성능을 보여준다. 특히 이 기술은 학습에 사용된 언어 외의 다른 언어에서도 효과가 확인되었으며, 전체 문맥 기반의 음성 인식 모델을 실용적인 스트리밍 모델로 전환하는 효과적인 경로를 제시한다. 연구진은 해당 모델의 가중치와 코드를 공개했다.
+
+---
+
+원문: [Confucius4-R2T2: A Stable-Prefix Streaming ASR Model for Real Real-Time Transcription](https://arxiv.org/abs/2611.06043)

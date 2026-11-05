@@ -1,0 +1,34 @@
+---
+title: 'llama.cpp 업데이트: PocketTTS 지원 및 음성 모델 개선'
+category: releases
+axis: voice
+format: explainer
+summary: llama.cpp가 PocketTTS 모델을 위한 전용 지원을 추가하며 음성 생성 기능을 강화했다. 이번 업데이트는 클로닝 없이도 사전 정의된 목소리를 사용할 수 있게 하며, 모델별 목소리 목록 확인과 오류 처리를 개선한다.
+publishedAt: 2026-11-05T22:00:06+0900
+tags:
+- TTS
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b12061
+  title: b12061
+  author: github-actions[bot]
+  publishedAt: 2026-11-03T08:17:24+0900
+  words: 1186
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 PocketTTS 모델에서 보이스 클로닝 없이도 사전 정의된 목소리를 사용할 수 있도록 지원을 확장한 것이다. 이제 모델은 보이스 프롬프트 이후의 기본 KV 상태를 유지하며, 시스템은 이를 기반으로 미리 정의된 목소리들을 인식하고 선택할 수 있다.
+
+기술적으로는 모델이 제공하는 목소리 상태를 변환하고 저장하는 과정이 개선되었다. 특히 프랑스어와 같은 특정 언어에서 발생하던 상태 불일치 문제를 해결하기 위해 변환 시 상태를 재검증하고 로그를 남기는 기능이 추가되었다. 이를 통해 더 안정적인 음성 생성 품질을 확보할 수 있다.
+
+사용자 편의를 위한 인터페이스 개선도 포함되었다. 이제 서버는 모델이 제공하는 목소리 목록을 자동으로 감지하여 노출하며, 지원하지 않는 목소리를 요청할 경우 명확한 오류 메시지를 출력한다. 또한 목소리 이름을 대소문자 구분 없이 인식하도록 개선하여 사용 편의성을 높였다.
+
+기타 변경 사항으로는 기본 목소리 설정 방식의 개선과 불필요한 코드 정리 등이 포함되어 있다. 이번 업데이트는 전체 변경 사항 중 주요 기능인 PocketTTS 지원과 음성 모델 관리 체계 개선을 중심으로 이루어졌다.
+
+---
+
+원문: [b12061](https://github.com/ggml-org/llama.cpp/releases/tag/b12061)
