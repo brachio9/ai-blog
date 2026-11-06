@@ -1,0 +1,34 @@
+---
+title: 'Claude Code v2.1.317 업데이트: 보안 강화와 안정성 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Claude Code의 최신 업데이트는 사용자 보안과 시스템 안정성에 초점을 맞추고 있다. 특히 네트워크 호출 시 개인정보 노출 방지 기능과 세션 관리 오류 수정이 포함되었다.
+publishedAt: 2026-11-06T22:00:06+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://github.com/anthropics/claude-code/releases/tag/v2.1.317
+  title: v2.1.317
+  author: ashwin-ant
+  publishedAt: 2026-11-03T10:25:46+0900
+  words: 1999
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 v2.1.317 업데이트에서 가장 주목할 변화는 보안 강화이다. 웹이나 셸 도구를 호출할 때 사용자의 계정 이메일 주소가 네트워크로 전송되는 것을 방지하는 확인 절차가 추가되었다. 또한 클라우드 예약 작업 생성 시 사용자가 요청하지 않은 커넥터가 포함될 경우 경고를 표시하고 제거 방법을 안내하는 기능이 도입되었다.
+
+시스템 안정성 측면에서는 다양한 버그 수정이 이루어졌다. 특히 데스크톱 앱에서 프로젝트나 로컬 MCP 서버가 첫 번째 턴 이후 연결이 끊기던 문제와, 자동 모드에서 특정 게이트웨이 응답에 따라 실행이 중단되던 오류가 해결되었다. 인증 상태 유지와 관련된 세션 ID 처리 방식도 개선되어 더 매끄러운 사용 환경을 제공한다.
+
+관리 및 모니터링 기능도 강화되었다. 관리자 API를 통해 개발자별, 일별 비용 리포트를 확인할 수 있는 기능이 추가되었으며, 관측성(Observability)을 위한 OTel 메트릭과 이벤트 수집 항목이 확장되었다. 이는 조직 차원에서 Claude Code의 사용량과 비용을 더 정밀하게 관리할 수 있게 해준다.
+
+이 외에도 화면 낭독기(Screen Reader)의 출력 개선, 세션 제목 유지 오류 수정, 클라우드 세션에서의 자동 모드 승인 로직 수정 등 다양한 세부 개선 사항이 포함되었다. 이번 업데이트는 전체적인 사용자 경험을 개선하고 보안 사고를 미연에 방지하는 데 중점을 두고 있다.
+
+---
+
+원문: [v2.1.317](https://github.com/anthropics/claude-code/releases/tag/v2.1.317)

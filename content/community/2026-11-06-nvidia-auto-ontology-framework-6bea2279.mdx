@@ -1,0 +1,36 @@
+---
+title: NVIDIA가 공개한 데이터베이스 온톨로지 자동 생성 프레임워크
+category: community
+axis: agent
+format: explainer
+summary: NVIDIA는 기업 데이터베이스의 메타데이터를 활용해 온톨로지를 자동으로 생성하는 'Auto Ontology' 프레임워크를 공개했다. 이 프레임워크는 AI 에이전트가 정확한 SQL을 생성하고 실행할 수 있도록 돕는 시맨틱 레이어 역할을 수행한다.
+publishedAt: 2026-11-06T22:00:06+0900
+tags:
+- RAG
+- reranking
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/auto-ontology-db-ai-sql-nvidia/12402
+  title: 'Auto Ontology: DB 메타데이터로 온톨로지를 생성해 AI 에이전트의 SQL을 검증하는 NVIDIA의 시맨틱 레이어 프레임워크'
+  author: 9bow
+  publishedAt: 2026-11-04T08:00:14+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/7/a/7ab023c8c3fb48520eb2647bcf9f2b48796ddc96_2_1028x688.jpeg
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+AI 에이전트가 데이터베이스에서 정보를 추출할 때 가장 큰 문제는 데이터의 정의가 시스템마다 다르다는 점이다. 예를 들어 '매출'이라는 지표가 테이블마다 다른 컬럼에 위치하거나 서로 다른 의미로 사용될 수 있다. NVIDIA는 이러한 문제를 해결하기 위해 데이터의 위치와 의미, 관계를 정의하는 컨텍스트 계층이 필요하다고 주장하며 Auto Ontology를 개발했다.
+
+Auto Ontology는 연결된 데이터베이스의 스키마와 데이터를 수집하여 비즈니스 용어, 물리 컬럼 매핑, SQL 속성 및 의미 관계를 포함하는 온톨로지를 생성한다. 생성된 SQL은 인증된 정의와 계보에 대조하여 검증되며, 모든 답변에는 출처가 포함된다. 이 시스템은 MCP 서버, CLI, REST API를 통해 다양한 에이전트 환경에서 활용할 수 있으며 기존의 시맨틱 모델을 보완하는 용도로 설계되었다.
+
+기술적으로는 FastAPI와 Next.js를 기반으로 한 풀스택 애플리케이션이며, Postgres(pgvector)를 활용한다. 추론 및 임베딩 과정에서는 NVIDIA NIM의 Nemotron 모델을 기본으로 사용하며 OpenAI 호환 엔드포인트로 교체도 가능하다. 지원되는 소스 데이터베이스는 Databricks, Postgres, Snowflake, DuckDB이다.
+
+NVIDIA는 자체 테스트를 통해 이 프레임워크가 온톨로지 작성 시간을 90% 단축했다고 주장했다. 다만 해당 수치는 NVIDIA의 자체 측정치이며 구체적인 측정 조건은 공개되지 않았다. 또한 현재 저장소에는 Text-to-SQL 정확도 수치가 포함되어 있지 않으므로 별도의 평가 도구를 통해 직접 검증이 필요하다.
+
+---
+
+원문: [Auto Ontology: DB 메타데이터로 온톨로지를 생성해 AI 에이전트의 SQL을 검증하는 NVIDIA의 시맨틱 레이어 프레임워크](https://discuss.pytorch.kr/t/auto-ontology-db-ai-sql-nvidia/12402)

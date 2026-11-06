@@ -1,0 +1,44 @@
+---
+title: 언어 모델의 백도어 공격을 방어하는 효율적인 학습 제거 기술
+category: papers
+axis: domain
+format: explainer
+summary: 백도어 공격의 교묘해지는 특성에 대응하기 위해 탐지와 학습 제거를 결합한 DUP 프레임워크를 제안한다. 추가적인 깨끗한 모델 없이도 파라미터 효율적인 방식으로 오염된 데이터를 제거한다.
+publishedAt: 2026-11-06T22:00:06+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2508.01647
+  title: 'DUP: Detection-guided Unlearning for Backdoor Purification in Language Models'
+  author: Man Hu
+  publishedAt: 2026-11-05T14:00:00+0900
+  words: 12620
+  image: https://arxiv.org/html/2508.01647v2/figs/DUP.png
+paper:
+  arxivId: '2508.01647'
+  authors:
+  - Man Hu
+  - Yahui Ding
+  - Yatao Yang
+  - Liangyu Chen
+  - Yanhao Jia
+  - Shuai Zhao
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+최근 백도어 공격은 더욱 은밀하고 강력해지고 있지만, 기존의 방어 전략은 거친 특징 통계에 의존하거나 전체 재학습이 필요한 등의 한계가 있다. 이를 해결하기 위해 저자들은 탐지 기술과 학습 제거 기반의 정화 과정을 통합한 DUP 프레임워크를 제안한다.
+
+DUP는 클래스에 무관한 거리와 레이어 간 전이를 결합하여 특징 수준의 이상 징후를 포착한다. 이러한 편차를 가중치 기반 방식으로 통합하여 오염된 입력을 정밀하게 식별하며, 이를 바탕으로 모델을 정화한다.
+
+정화 과정에서는 전체 재학습을 피하고 외부의 깨끗한 모델도 필요로 하지 않는 파라미터 효율적 학습 제거 메커니즘을 사용한다. 구체적으로는 지식 증류 방식을 재설계하여 학생 모델이 탐지된 오염 샘플에서 교사 모델과 다른 출력을 내도록 유도하며, 이를 통해 백도어 동작을 효과적으로 잊게 만든다.
+
+저자들의 주장에 따르면 DUP는 다양한 공격 방법과 언어 모델 구조에서 탐지 정확도와 정화 효과 측면에서 우수한 방어 성능을 달성한다.
+
+---
+
+원문: [DUP: Detection-guided Unlearning for Backdoor Purification in Language Models](https://arxiv.org/abs/2508.01647)

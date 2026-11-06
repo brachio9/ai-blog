@@ -1,0 +1,44 @@
+---
+title: 멀티모달 추론 속도를 높이는 효율적인 예측 재사용 기술
+category: papers
+axis: serving
+format: explainer
+summary: 시각-언어 모델에서 이미지 맥락을 고려하여 이전 예측을 재사용하는 RECAP 기법을 제안한다. 추가 학습이나 별도의 드래프트 모델 없이도 추론 속도를 개선하는 것이 특징이다.
+publishedAt: 2026-11-06T22:00:06+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.05894
+  title: 'RECAP: Context-Aware Prediction Recycling with Request-Local and Persistent Memories for Multimodal Speculative Decoding'
+  author: Hengjie Zhu
+  publishedAt: 2026-11-05T14:00:00+0900
+  words: 13498
+  image: https://arxiv.org/html/2611.05894v1/intro.png
+paper:
+  arxivId: '2611.05894'
+  authors:
+  - Hengjie Zhu
+  - Dayan Wu
+  - Xinze Liu
+  - Peng Fu
+  - Zheng Lin
+  - Weiping Wang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+멀티모달 모델에서 추측적 디코딩(Speculative Decoding)을 활용할 때, 기존의 예측 재사용 방식은 단순히 마지막 토큰만을 기준으로 인덱싱을 수행한다. 이 방식은 서로 다른 이미지나 접두사에서 생성된 예측을 혼동하는 문제를 일으키며, 특히 이미지에 민감한 디코딩 상태에서 성능이 저하되는 한계가 있다.
+
+연구진은 이러한 문제를 해결하기 위해 RECAP이라는 방법론을 도입했다. RECAP은 예측을 단일, 이중, 삼중 토큰 키로 분류하여 저장한다. 현재 요청에만 유효한 문맥 메모리는 이미지 정보를 포함하고, 요청 간에 유지되는 토큰 단위 메모리는 넓은 커버리지를 확보한다. 검색 시에는 엔트로피와 신뢰도를 기반으로 가중치를 부여하여 추출된 예측을 결합한다.
+
+최종적으로 베스트 퍼스트 서치를 통해 후보 트리 구조를 구성하고, 단 한 번의 타겟 패스로 검증하는 과정을 거친다. 이 방식은 추가적인 학습이나 별도의 드래프트 모델 없이도 작동하며, 다양한 벤치마크에서 기존의 토큰 재사용 방식을 능가하는 성능을 보여준다.
+
+저자들의 주장에 따르면, RECAP은 Qwen2.5-VL-7B와 LLaVA-1.6-7B 모델을 활용한 7개의 단일 턴 벤치마크에서 기존 방식보다 높은 평균 속도 향상을 달성했다.
+
+---
+
+원문: [RECAP: Context-Aware Prediction Recycling with Request-Local and Persistent Memories for Multimodal Speculative Decoding](https://arxiv.org/abs/2611.05894)

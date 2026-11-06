@@ -1,0 +1,42 @@
+---
+title: 동일 구조 내에서 미세 조정된 Stable Diffusion 모델 구분하기
+category: papers
+axis: domain
+format: explainer
+summary: 동일한 아키텍처를 공유하면서 미세 조정으로만 차이가 나는 Stable Diffusion 모델들을 구분하는 새로운 과제가 제안되었다. 연구진은 이를 위해 SDXL 기반의 다양한 파인튜닝 모델로 구성된 14만 장 규모의 벤치마크 데이터셋을 구축했다.
+publishedAt: 2026-11-06T22:00:06+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.06000
+  title: 'Intra-Architecture Source Attribution for Stable Diffusion: A New Task with Benchmark Dataset and Baseline'
+  author: Ashutosh Dayal
+  publishedAt: 2026-11-05T14:00:00+0900
+  words: 12353
+  image: https://arxiv.org/html/2611.06000v1/sample_images/prompt_030_volcanic_landscape_with_lava_flow_meetin/SDXL_Base.jpg
+paper:
+  arxivId: '2611.06000'
+  authors:
+  - Ashutosh Dayal
+  - Mallika Garg
+  - Debashis Sen
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+기존의 이미지 생성 모델 출처 분석 연구는 주로 모델의 구조적 특징을 구분하는 데 집중해 왔다. 하지만 최근에는 동일한 기본 구조를 유지하면서 미세 조정(Fine-tuning)을 통해 서로 다른 스타일을 가진 모델들이 많이 등장하고 있다. 본 연구는 이러한 흐름에 맞춰 동일한 아키텍처 내에서 출처를 식별하는 IntrAA-SD라는 새로운 과제를 정의한다.
+
+연구진은 SDXL을 기반으로 파인튜닝된 다양한 모델들로부터 생성된 14만 장 규모의 이미지 데이터셋을 최초로 공개했다. 이 데이터셋은 동일한 모델에서 생성된 이미지뿐만 아니라 분포 외의 프롬프트로 생성된 이미지까지 포함하고 있어 모델 간의 미세한 차이를 구분하는 데 적합하다.
+
+제안된 기초 프레임워크는 스타일 조건부 Mixture-of-Experts(MoE) 네트워크를 활용한다. 이 구조는 고정된 CLIP 백본을 통해 이미지 스타일을 포착하고, 고해상도 LoRA가 적용된 DINOv2 네트워크에서 추출한 파인튜닝 특징을 처리하는 MoE를 제어하는 방식으로 작동한다.
+
+저자들의 주장에 따르면, 제안된 방식은 데이터셋 내에서 모델 출처를 식별하는 성능을 보여주었으며, 연구진은 이를 검증하기 위해 다양한 프롬프트 전략과 모델 구성에 대한 절제 연구(Ablation studies)를 함께 수행했다.
+
+---
+
+원문: [Intra-Architecture Source Attribution for Stable Diffusion: A New Task with Benchmark Dataset and Baseline](https://arxiv.org/abs/2611.06000)

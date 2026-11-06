@@ -1,0 +1,34 @@
+---
+title: 'LiveKit Agents 1.8.11 업데이트: Responses API와 신규 모델 지원 강화'
+category: releases
+axis: voice
+format: explainer
+summary: LiveKit Agents 1.8.11 버전에서는 Responses API를 통한 구조화된 출력 및 웹 검색 기능이 추가되었다. Zoom AI, Kalpa, Rime 등 다양한 신규 모델과 서비스가 통합되었으며, 보안 및 실시간 음성 처리 성능이 개선되었다.
+publishedAt: 2026-11-06T22:00:06+0900
+tags:
+- TTS
+- speech-to-speech
+- Whisper
+draft: false
+source:
+  url: https://github.com/livekit/agents/releases/tag/livekit-agents%401.8.11
+  title: livekit-agents@1.8.11
+  author: github-actions[bot]
+  publishedAt: 2026-11-06T04:48:29+0900
+  words: 1911
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 LiveKit Inference 자격 증명을 사용하여 Responses API를 활용할 수 있게 된 점이다. 이제 구조화된 출력과 웹 검색 기능을 지원하며, 기본적으로 REST 방식을 사용하지만 WebSocket 옵션을 선택해 연결을 유지하며 대화를 이어갈 수 있다.
+
+다양한 신규 모델과 서비스가 추가된 것도 주목할 만하다. Zoom AI의 Scribe STT, Kalpa의 스트리밍 TTS, Rime의 실시간 인터페이스, 그리고 Fish Audio의 실시간 STT 등이 포함되었다. 또한 OpenAI의 실시간 번역 인터페이스와 Google의 Gemini 기반 번역 기능이 새롭게 지원된다.
+
+사용자 경험과 보안 측면에서도 개선이 이루어졌다. Respeecher 모델의 API 키를 URL이 아닌 핸드셰이크 헤더로 이동시켜 보안을 강화했으며, STT 문장 감지 및 중단 없는 음성 재생 로직이 개선되었다. 이 외에도 실시간 히스토리, 재연결, 작업 인계 등 다양한 세부 기능이 개선되었으나, 이번 요약에서는 주요 변경 사항 위주로 다루었다.
+
+---
+
+원문: [livekit-agents@1.8.11](https://github.com/livekit/agents/releases/tag/livekit-agents%401.8.11)
