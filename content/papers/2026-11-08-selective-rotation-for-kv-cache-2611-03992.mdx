@@ -1,0 +1,47 @@
+---
+title: KV 캐시 압축 효율을 높이는 선택적 회전 기법, FlagRot
+category: papers
+axis: serving
+format: explainer
+summary: LLM의 긴 문맥 추론을 위해 KV 캐시를 저비트로 압축할 때 발생하는 오류를 줄이는 새로운 방식이다. 모든 키를 회전시키는 대신, 오류가 적은 방향을 선택적으로 저장하는 FlagRot 기법을 제안한다.
+publishedAt: 2026-11-08T22:00:05+0900
+tags:
+- vLLM
+- quantization
+- KV cache
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.03992
+  title: 'FlagRot: Selective Rotation for Low-Bit KV Caches'
+  author: Kunming Shao
+  publishedAt: 2026-11-05T14:00:00+0900
+  words: 21292
+paper:
+  arxivId: '2611.03992'
+  authors:
+  - Kunming Shao
+  - Xijie Huang
+  - Jierun Chen
+  - Jiaqi Shao
+  - Yanli Wang
+  - Jiangnan Yu
+  - Qiwei Li
+  - Wei Zhang
+  - Kwang-Ting Cheng
+  - Chi Ying Tsui
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+긴 문맥을 처리하는 LLM은 KV 캐시의 크기에 큰 영향을 받는다. 이를 해결하기 위해 2비트 수준으로 압축하는 시도가 있으나, 양자화 과정에서 발생하는 오류를 제어하는 것이 핵심 과제다. 기존에는 양자화 전 키를 회전시켜 성능을 높이려 했으나, 저자들은 회전이 특정 데이터에는 도움이 되지만 다른 데이터에는 오히려 독이 될 수 있다는 점을 발견했다.
+
+이 문제를 해결하기 위해 제안된 FlagRot은 32개 채널의 각 조각을 검토하여, 양자화 오류가 더 적은 상태를 선택적으로 저장한다. 데이터를 읽을 때는 쿼리(Query)를 대신 회전시켜 대응한다. 이 방식은 기존의 KIVI와 같은 방식과 결합하여 추가적인 쓰기 비용 없이 구현이 가능하다.
+
+저자들의 주장에 따르면, FlagRot은 2.5비트 설정에서 KIVI의 KL 발산 값을 18.7에서 12.4 x 10^-3로 낮추었으며, 12개 모델 중 9개에서 RotateKV보다 우수한 성능을 보였다. 또한 vLLM 플러그인으로 적용했을 때 RULER 및 LongBench 벤치마크에서 성능 향상을 확인했으며, 4비트 정수 및 FP4 캐시의 오류를 줄이는 데에도 효과가 있었다.
+
+---
+
+원문: [FlagRot: Selective Rotation for Low-Bit KV Caches](https://arxiv.org/abs/2611.03992)

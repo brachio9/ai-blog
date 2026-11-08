@@ -1,0 +1,40 @@
+---
+title: 'LLM 추론 최적화와 운영을 위한 실전 가이드: Modular의 핸드북'
+category: community
+axis: serving
+format: explainer
+summary: Modular에서 공개한 LLM Inference Handbook은 추론 지표, 최적화 기법, GPU 커널 및 운영 비용을 총망라한 가이드다. 흩어져 있는 추론 관련 지식을 한데 모아 엔지니어가 실무에서 바로 활용할 수 있도록 구성했다.
+publishedAt: 2026-11-08T22:00:05+0900
+tags:
+- MCP
+- vLLM
+- SGLang
+- quantization
+- distillation
+- fine-tuning
+- speculative decoding
+- KV cache
+- prefix caching
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/llm-inference-handbook-pd-gpu-modular/12414
+  title: 'LLM Inference Handbook: 지표부터 PD 분리, GPU 커널, 추론 비용까지 다룬 Modular의 안내서'
+  author: 9bow
+  publishedAt: 2026-11-06T07:30:44+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/c/4/c49779e46fa9d0fc8ad699703e9114c427c0f78e_2_1028x578.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Modular는 LLM 추론 지식이 논문이나 벤더 블로그, 커뮤니티 등에 파편화되어 있다는 점에 주목했다. 특히 서비스 운영 시 필수적인 SLO 준수를 위한 굿풋(goodput)의 중요성이나 프리필-디코드 분리 메커니즘 같은 핵심 개념들이 체계적으로 정리되지 않았다는 문제를 해결하고자 이 핸드북을 제작했다.
+
+이 문서는 단순한 이론을 넘어 vLLM, SGLang, NVIDIA Dynamo 등 실제 공개 프로젝트를 근거로 삼으며, 추론 엔진 MAX와 Mojo 언어를 개발하는 Modular의 기술적 배경을 바탕으로 작성되었다. 독자는 이를 통해 지표 정의부터 배칭, KV 캐시, GPU 구조, 배포 방식까지 추론 서비스 전반에 필요한 기술적 스택을 학습할 수 있다.
+
+핸드북은 BentoML에서 시작되어 현재 Modular로 리브랜딩되었으며, 누구나 참고할 수 있도록 CC BY 4.0 및 Apache 2.0 라이선스로 공개되어 있다. 문서는 처음부터 끝까지 읽는 가이드로도 활용 가능하며, 필요한 개념만 골라 보는 용어집으로도 활용할 수 있도록 설계되었다. 다만 문서 내 포함된 MAX 프레임워크 관련 성능 수치는 Modular 측의 자체 측정치임을 유의해야 한다.
+
+---
+
+원문: [LLM Inference Handbook: 지표부터 PD 분리, GPU 커널, 추론 비용까지 다룬 Modular의 안내서](https://discuss.pytorch.kr/t/llm-inference-handbook-pd-gpu-modular/12414)

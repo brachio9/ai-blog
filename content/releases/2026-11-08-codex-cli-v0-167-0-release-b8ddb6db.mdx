@@ -1,0 +1,35 @@
+---
+title: 'Codex CLI 0.167.0 업데이트: 에이전트 제어와 멀티 백엔드 지원 강화'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Codex CLI 0.167.0 버전에서는 에이전트 명령 센터와 세션 선택기 기능이 개선되었다. 백엔드 전환 시 드래프트 유지 기능과 로컬 이미지 미리보기 기능이 추가되어 사용자 편의성이 향상되었다.
+publishedAt: 2026-11-08T22:00:05+0900
+tags:
+- Codex
+- MCP
+draft: false
+source:
+  url: https://github.com/openai/codex/releases/tag/rust-v0.167.0
+  title: 0.167.0
+  author: github-actions[bot]
+  publishedAt: 2026-11-06T10:40:00+0900
+  words: 1502
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 에이전트 명령 센터와 세션 선택기의 사용자 경험 개선이다. 이제 `codex agents --no-daemon` 명령으로 에이전트 명령 센터를 열 수 있으며, 읽지 않은 결과에 표시가 붙어 확인이 쉬워졌다. 또한 터미널 세션 선택기에서 연결된 백엔드를 전환할 때 기존에 작성하던 드래프트를 그대로 유지할 수 있게 되었다.
+
+개발 환경의 편의성을 높이는 기능도 포함되었다. 지원되는 터미널에서 로컬 이미지 첨부 파일을 미리 보거나 클릭 가능한 경로를 통해 이미지를 열 수 있는 기능이 추가되었다. 구글 클라우드 Vertex AI 설정을 위한 전용 위저드와 시스템 프록시 설정 옵션도 새롭게 제공된다. 
+
+안정성 측면에서는 모델 제공자를 변경해도 저장된 채팅이 유지되도록 개선되었으며, 네트워크 승인 프롬프트가 요청 종료 시 자동으로 닫히는 등의 버그 수정이 이루어졌다. 긴 실시간 대화의 음성 데이터가 채팅 기록에 저장되는 기능과 컨텍스트 압축 로직이 개선되어 대규모 대화에서도 더 원활한 사용이 가능하다.
+
+이번 릴리스에는 위에서 언급한 주요 기능 외에도 다양한 버그 수정과 성능 최적화가 포함되어 있다. 전체 변경 사항은 공식 릴리즈 노트를 통해 확인할 수 있다.
+
+---
+
+원문: [0.167.0](https://github.com/openai/codex/releases/tag/rust-v0.167.0)

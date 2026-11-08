@@ -1,0 +1,45 @@
+---
+title: 심리치료 챗봇의 안전성과 전문성을 평가하는 THERAPYGYM 프레임워크
+category: papers
+axis: domain
+format: explainer
+summary: 심리치료 챗봇의 성능을 단순히 유창성이나 선호도로 평가하는 기존 방식의 한계를 극복하기 위한 새로운 평가 프레임워크가 제안되었다. 이 프레임워크는 치료의 충실도와 안전성을 핵심 지표로 삼아 모델을 검증하고 개선한다.
+publishedAt: 2026-11-08T22:00:05+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2603.18008
+  title: 'TherapyGym: Evaluating and Aligning Clinical Fidelity and Safety in Therapy Chatbots'
+  author: Fangrui Huang
+  publishedAt: 2026-11-05T14:00:00+0900
+  words: 23672
+  image: https://arxiv.org/html/2603.18008v2/procedure.png
+paper:
+  arxivId: '2603.18008'
+  authors:
+  - Fangrui Huang
+  - Souhad Chbeir
+  - Arpandeep Khatua
+  - Sheng Wang
+  - Sijun Tan
+  - Kenan Ye
+  - Lily Bailey
+  - Merryn Daniel
+  - Ryan Louie
+  - Sanmi Koyejo
+  - Ehsan Adeli
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: mid
+  crossSources: 2
+---
+
+현재 대규모 언어 모델이 정신 건강 지원에 활용되고 있지만, 기존의 유창성이나 일반적인 대화 벤치마크는 실제 심리치료에서 필요한 임상적 요소를 제대로 포착하지 못한다. 이를 해결하기 위해 연구진은 치료의 충실도와 안전성을 평가하고 개선하는 프레임워크인 THERAPYGYM을 도입했다.
+
+THERAPYGYM은 인지행동치료(CBT) 기법의 준수 여부를 측정하는 자동화된 파이프라인을 통해 충실도를 평가하며, 학대나 위해 요소 등 치료 특유의 위험을 다루는 다중 레이블 주석 체계로 안전성을 평가한다. 또한 LLM 기반 평가자의 편향과 신뢰성 문제를 해결하기 위해 실제 임상 전문가의 평가가 포함된 검증 데이터셋인 THERAPYJUDGEBENCH를 함께 공개했다.
+
+이 프레임워크는 단순한 평가 도구를 넘어 모델 학습을 위한 훈련 환경으로도 활용된다. 연구진은 CTRS와 안전성 기반의 보상을 사용하여 다양한 증상 프로파일을 가진 환자 시뮬레이션 환경에서 강화 학습을 수행했다. 저자들의 주장에 따르면, THERAPYGYM을 통해 학습된 모델은 전문가 평가에서 CTRS 점수가 평균 0.10에서 0.60으로 상승했으며, LLM 평가 기준에서도 0.16에서 0.59로 개선되었다.
+
+---
+
+원문: [TherapyGym: Evaluating and Aligning Clinical Fidelity and Safety in Therapy Chatbots](https://arxiv.org/abs/2603.18008)

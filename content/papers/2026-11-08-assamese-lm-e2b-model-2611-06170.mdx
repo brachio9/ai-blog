@@ -1,0 +1,40 @@
+---
+title: 저사양 기기에서도 잘 돌아가는 아삼어 전용 소형 언어 모델 개발
+category: papers
+axis: serving
+format: explainer
+summary: 아삼어와 같은 저자원 언어의 효율적인 처리를 위해 20억 파라미터 규모의 모델인 AssameseLM-E2B가 공개되었다. 이 모델은 토큰화 효율을 극대화하고 제한된 컴퓨팅 자원에서도 로컬 배포가 가능하도록 설계되었다.
+publishedAt: 2026-11-08T22:00:05+0900
+tags:
+- RAG
+- LoRA
+- fine-tuning
+- SFT
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.06170
+  title: 'AssameseLM-E2B: An Open-Weight Assamese Language Model for Efficient Consumer-Grade Deployment'
+  author: Pragyan Phukan
+  publishedAt: 2026-11-05T14:00:00+0900
+paper:
+  arxivId: '2611.06170'
+  authors:
+  - Pragyan Phukan
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 2
+---
+
+기존의 대규모 언어 모델은 고자원 언어에서는 우수한 성능을 보이지만, 아삼어와 같은 저자원 언어에서는 토큰화 효율 저하나 언어적 간섭 문제로 인해 성능이 떨어지는 한계가 있다. 이를 해결하기 위해 연구진은 Gemma-4 구조를 기반으로 한 20억 파라미터 규모의 모델을 개발했다.
+
+연구진은 다국어 모델 대비 토큰화 오버헤드를 약 500% 줄이기 위해 확장된 바이트 수준의 BPE 어휘를 도입했다. 또한 효율적인 파라미터 학습을 위해 Hybrid LoRA를 활용한 지속적 사전 학습(CPT)과 다양한 도메인의 데이터셋을 활용한 지도 미세 조정(SFT)을 거쳐 지시 이행 및 검색 증강 생성(RAG) 능력을 강화했다.
+
+저자들의 주장에 따르면, 이 모델은 FLORES-200에서 0.7488의 Bits-per-Byte 점수를 기록했으며 RAG 점수 96.7%와 적대적 질문에 대한 100% 거부 정확도를 달성했다. 기존 범용 모델들이 로마자 표기 방식에서 성능 저하를 보이거나 벵골어 문자를 잘못 학습하는 문제를 보인 것과 대조되는 결과다.
+
+이번 연구는 제한된 계산 자원 환경에서도 저자원 언어를 위한 성능 좋은 로컬 모델을 구축할 수 있음을 보여준다. 특히 파라미터 효율적인 적응 방식을 통해 특정 언어에 최적화된 모델을 구축하는 것이 중요하다는 점을 시사한다.
+
+---
+
+원문: [AssameseLM-E2B: An Open-Weight Assamese Language Model for Efficient Consumer-Grade Deployment](https://arxiv.org/abs/2611.06170)

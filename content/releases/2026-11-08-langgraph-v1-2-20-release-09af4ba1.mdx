@@ -1,0 +1,30 @@
+---
+title: 'LangGraph 1.2.20 업데이트: 인터럽트 관리와 엄격한 재개 모드 추가'
+category: releases
+axis: agent
+format: explainer
+summary: LangGraph 1.2.20 버전에서는 태스크 내 인터럽트 식별 기능과 엄격한 재개 모드가 새롭게 도입되었다. 이번 업데이트는 복잡한 에이전트 워크플로우에서 상태를 더 정확하게 관리하는 데 초점을 맞춘다.
+publishedAt: 2026-11-08T22:00:05+0900
+draft: false
+source:
+  url: https://github.com/langchain-ai/langgraph/releases/tag/1.2.20
+  title: langgraph==1.2.20
+  author: github-actions[bot]
+  publishedAt: 2026-11-05T11:20:53+0900
+  words: 85
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 각 태스크 내의 인터럽트(interrupt)에 고유 ID를 부여하는 기능이다. 이를 통해 여러 개의 인터럽트가 발생하는 상황에서도 각 단계를 명확하게 구분하고 추적할 수 있게 되었다. 이는 복잡한 에이전트 구조를 설계할 때 발생할 수 있는 혼선을 줄여준다.
+
+또한 사용자의 입력을 처리할 때 유효하지 않은 이전 답변을 거부하는 엄격한 재개(strict resume) 모드가 추가되었다. 이 기능은 워크플로우가 중단된 시점에서 정확한 맥락을 유지하며 이어지도록 보장하며, 데이터의 일관성을 유지하는 데 도움을 준다.
+
+기존 문서에서 발견된 다중 인터럽트 관련 오류도 이번 버전에 포함되어 수정되었다. 이번 릴리스는 에이전트의 안정성과 상태 관리의 정교함을 높이는 데 집중하고 있으며, 그 외에도 의존성 라이브러리 업데이트가 포함되어 있다. 이번 업데이트는 전체 변경 사항 중 주요 기능 개선 사항만을 요약한 것이다.
+
+---
+
+원문: [langgraph==1.2.20](https://github.com/langchain-ai/langgraph/releases/tag/1.2.20)

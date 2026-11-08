@@ -1,0 +1,34 @@
+---
+title: Hugging Face가 제안하는 모델 통합 계약(MIC)을 통한 버그 탐지 방식
+category: community
+axis: serving
+format: explainer
+summary: Hugging Face는 모델이 특정 프레임워크에서 의도대로 동작하는지 검증하는 '모델 통합 계약(MIC)' 표준을 제안했다. 이는 실제 체크포인트를 활용해 축소된 모델을 CPU에서 실행하며 회귀 버그를 잡아내는 방식이다.
+publishedAt: 2026-11-08T22:00:05+0900
+tags:
+- vLLM
+- quantization
+- Whisper
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/transformers-mic-feat-hugging-face/12411
+  title: 특정 프레임워크에서 모델이 버그없이 동작하는지를 확인하기 위한 Transformers 모델 통합 계약(MIC) 제안 소개 (feat. Hugging Face)
+  author: 9bow
+  publishedAt: 2026-11-05T11:30:18+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/d/b/db204dc5633e82b9edca56a18f0dbae081caf4e1_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+Hugging Face의 Tarek Ziadé는 최근 블로그를 통해 모델 통합 계약(MIC)이라는 새로운 검증 표준을 공개했다. 이 방식은 Hugging Face Hub에 올라온 모델이 실제 프레임워크 환경에서 정상적으로 작동하는지 확인하기 위해 CI 단계에서 실행되는 검사 묶음이다. 현재는 `transformers-mic` 저장소를 통해 관련 도구와 실험 기록을 확인할 수 있다.
+
+이 제안은 T5 계열 모델에서 발생했던 특정 버그 사례에서 시작되었다. 당시 SDPA를 도입하는 과정에서 UMT5 디코더가 미래 토큰을 미리 보는 버그가 발생했으나, 오류가 즉시 드러나지 않아 두 달 가까이 메인 코드에 유지되었다. 이후 실험을 통해 CPU에서 실행되는 작은 규모의 UMT5 모델을 활용하면 해당 버그를 모든 커밋에서 잡아낼 수 있음을 확인했다.
+
+실험 결과에 따르면 고정된 계약 방식은 실제 발생한 회귀 버그 5건 중 1건만 탐지했고 나머지 4건은 놓쳤다. 이는 검사 계약이 해당 API를 호출하지 않았을 때 발생하는 한계로 분석된다. 현재 이 시스템은 Transformers CI에서 실패를 보고하는 단계에 있으며, 아직 PR을 자동으로 차단하지는 않는다.
+
+---
+
+원문: [특정 프레임워크에서 모델이 버그없이 동작하는지를 확인하기 위한 Transformers 모델 통합 계약(MIC) 제안 소개 (feat. Hugging Face)](https://discuss.pytorch.kr/t/transformers-mic-feat-hugging-face/12411)

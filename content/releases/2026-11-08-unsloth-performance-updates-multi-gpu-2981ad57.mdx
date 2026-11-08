@@ -1,0 +1,40 @@
+---
+title: 'Unsloth 성능 대폭 개선: 더 빠른 채팅과 멀티 GPU 이미지 생성'
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 대규모 성능 최적화를 포함한 업데이트를 발표했다. 긴 대화 기록에서의 반응 속도 개선과 멀티 GPU를 활용한 이미지 및 비디오 생성 가속화가 핵심이다.
+publishedAt: 2026-11-08T22:00:05+0900
+tags:
+- RAG
+- Codex
+- MCP
+- quantization
+- LoRA
+- fine-tuning
+- GRPO
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.916-beta
+  title: Large Performance Fixes
+  author: shimmyshimmer
+  publishedAt: 2026-11-06T23:43:33+0900
+  words: 5011
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트는 사용자 경험에 직결되는 전반적인 성능 개선에 집중했다. 특히 긴 대화 기록이 쌓였을 때 발생하던 타이핑 지연이나 검색 오류 문제를 해결했으며, Glass 테마 적용 시에도 매끄러운 반응 속도를 유지하도록 최적화했다. 또한 음성 및 오디오 기능 사용 시 발생하던 프리징 현상도 개선되었다.
+
+이미지 및 비디오 생성 분야에서는 하드웨어 활용도가 크게 높아졌다. 두 개의 동일한 NVIDIA GPU를 사용할 경우 SDXL이나 Qwen-Image 같은 모델의 생성 속도가 최대 1.8배까지 빨라질 수 있다는 것이 발표되었다. 특정 GPU 환경에서는 LTX-2.5 모델의 프롬프트 인코딩이 CPU에서 GPU로 전환되어 렌더링 속도가 향상되었으며, SDXL 모델의 로딩 속도도 최대 40% 개선되었다.
+
+사용자 편의를 위한 기능도 대폭 추가되었다. 각 채팅마다 독립적인 브라우저를 실행할 수 있고, 이를 채팅창 위에 띄워놓고 사용할 수 있는 플로팅 브라우저 기능이 도입되었다. 또한 관리자 기능을 강화하여 계정 이름을 변경하거나 모델 다운로드 속도를 제한하는 설정이 가능해졌다.
+
+이번 업데이트는 대규모 성능 개선을 포함하고 있으며, 다음 주에는 Glass 테마에 대한 추가 최적화가 예정되어 있다. 이번 릴리스는 전체 업데이트 내용 중 주요 개선 사항만을 요약한 것이며, 세부적인 기술적 변경 사항은 공식 릴리스 노트를 참조해야 한다.
+
+---
+
+원문: [Large Performance Fixes](https://github.com/unslothai/unsloth/releases/tag/v0.1.916-beta)

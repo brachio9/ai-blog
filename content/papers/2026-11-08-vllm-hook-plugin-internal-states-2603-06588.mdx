@@ -1,0 +1,42 @@
+---
+title: vLLM 모델 내부 상태를 제어하는 플러그인, vLLM Hook 공개
+category: papers
+axis: serving
+format: explainer
+summary: vLLM 모델의 내부 상태를 프로그래밍할 수 있게 해주는 오픈소스 플러그인 vLLM Hook이 발표되었다. 이 도구는 모델 생성 과정에 개입하거나 내부 상태를 분석하는 기능을 제공한다.
+publishedAt: 2026-11-08T22:00:05+0900
+tags:
+- RAG
+- vLLM
+draft: false
+source:
+  url: https://arxiv.org/abs/2603.06588
+  title: 'vLLM Hook v1: A Plug-in for Programming Model Internals on vLLM'
+  author: Ching-Yun Ko
+  publishedAt: 2026-11-05T14:00:00+0900
+  words: 3906
+  image: https://arxiv.org/html/2603.06588v2/Fig_vLLM_Hook_overview.png
+paper:
+  arxivId: '2603.06588'
+  authors:
+  - Ching-Yun Ko
+  - Yunhua Fang
+  - Pin-Yu Chen
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+현재 vLLM은 모델 추론 효율을 극대화하는 데 집중하고 있지만, 모델 내부 상태를 직접 제어하거나 프로그래밍하는 데는 한계가 있다. 이로 인해 어텐션 패턴을 활용한 적대적 프롬프트 탐지나 활성화 조향(activation steering) 같은 최신 모델 정렬 및 강화 기법을 적용하기 어려웠다.
+
+저자들은 이러한 간극을 메우기 위해 vLLM Hook이라는 플러그인을 개발했다. 이 플러그인은 설정 파일을 통해 특정 내부 상태를 지정하며, 모델 생성에 영향을 주지 않고 데이터를 수집하는 수동적 프로그래밍과 모델 생성 과정에 직접 개입하는 능동적 프로그래밍 두 가지 기능을 지원한다.
+
+vLLM Hook v1은 vLLM의 V2 모델 러너에서 작동하며 CUDA 그래프를 유지한다. 저자들의 주장에 따르면, 내부 상태를 캡처하거나 조향할 때 발생하는 디코딩 오버헤드는 매우 작다. 이 플러그인은 오프라인 사용뿐만 아니라 vllm serve를 통한 서빙 환경에서도 활용이 가능하다.
+
+연구진은 이 플러그인을 활용해 프롬프트 주입 탐지, RAG를 위한 어텐션 기반 재순위 지정, 환각 탐지, 텍스트-SQL 스키마 연결 등 다양한 사례를 시연했다. vLLM Hook은 오픈소스로 공개되었으며 커뮤니티의 참여를 독려하고 있다.
+
+---
+
+원문: [vLLM Hook v1: A Plug-in for Programming Model Internals on vLLM](https://arxiv.org/abs/2603.06588)
