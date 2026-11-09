@@ -165,6 +165,44 @@ curl -s -o /dev/null -w "auth=%{http_code}\n" $BASE/api/auth/providers  # 200
 
 관리자 화면에서 글을 저장하면 GitHub 에 커밋되고, Vercel 이 그걸 감지해 재배포한다. **사이트에 보이기까지 약 90초**가 걸린다. 관리자 글 목록은 레포를 직접 읽으므로 그 전에도 바로 보인다.
 
+## Cloudflare Workers 로 옮기기 (OpenNext)
+
+브랜치 `feat-cloudflare-workers` 가 `@opennextjs/cloudflare` 로 같은 앱을 Workers 에서 돌린다.
+설정은 `wrangler.jsonc`(워커 이름 `ai-blog`) · `open-next.config.ts`(읽기 전용 정적 자산 캐시 — 사이트가 전부 SSG 라
+R2·KV·Queue 가 필요 없다) 두 파일이다. **번들이 gzip ~8 MiB 라 Workers 유료 플랜(10 MiB)이 필요하다** (무료 3 MiB).
+
+로컬 확인: `.env.local` 을 `.dev.vars` 로 복사(git 제외)한 뒤 `npm run preview` → <http://localhost:8787>.
+
+**로컬에서 `npm run deploy` 하지 마라.** OpenNext 는 빌드할 때 `.env*` 파일 값을 번들에 굽는다 —
+로컬에서 배포하면 `.env.local` 의 개발용 비밀값이 프로덕션 워커에 들어간다. 배포는 Workers Builds 로만 한다.
+
+### 대시보드에서 할 일 (순서대로)
+
+1. Workers & Pages → Create → **Import a repository** → `brachio9/ai-blog` 연결 (Cloudflare GitHub App 에 이 레포만 허용)
+2. 프로젝트 이름 `ai-blog` (wrangler.jsonc 의 `name` 과 같아야 한다), Production branch `main`
+3. Build command `npx opennextjs-cloudflare build` · Deploy command `npx opennextjs-cloudflare deploy`
+   (`wrangler deploy` 를 직접 쓰지 마라 — 프리렌더 캐시를 자산에 채우는 단계가 빠진다)
+4. 변수 등록 — **두 곳에 나눠 넣는다**:
+
+| 어디 | 변수 | 이유 |
+|---|---|---|
+| Settings → Build → **Build variables** | `NEXT_PUBLIC_SITE_URL` · `NEXT_PUBLIC_GISCUS_REPO` · `_REPO_ID` · `_CATEGORY` · `_CATEGORY_ID` | 빌드 타임에 번들·정적 HTML 로 굽힌다. 런타임에 넣으면 소용없다 |
+| Settings → **Variables and Secrets** (Secret 타입) | `TURSO_DATABASE_URL` · `TURSO_AUTH_TOKEN` · `AUTH_SECRET` · `AUTH_GITHUB_ID` · `AUTH_GITHUB_SECRET` · `ADMIN_GITHUB_LOGINS` · `GITHUB_CONTENT_REPO` · `GITHUB_CONTENT_BRANCH` · `GITHUB_CONTENT_TOKEN` | 요청마다 `process.env` 로 읽는다 |
+
+5. 첫 배포가 `ai-blog.<계정>.workers.dev` 에서 스모크 체크(위 5번)를 통과하는지 본다
+6. Settings → Domains & Routes → **Custom domain** `blog.krunkit.me` 추가. 기존 Vercel 행 CNAME 레코드는 먼저 지워야 붙는다
+7. Vercel 프로젝트의 Git 연결을 끊는다 (안 끊으면 매 커밋이 두 곳에서 빌드된다)
+
+OAuth 콜백(`https://blog.krunkit.me/api/auth/callback/github`)은 도메인이 같으므로 **바꿀 것이 없다.**
+
+### Workers 에서 안 되는 것
+
+- **관리자 에디터의 프리뷰.** `next-mdx-remote` 가 컴파일한 MDX 를 `new Function` 으로 실행하는데
+  Workers 는 문자열 코드 생성을 막는다 ("Code generation from strings disallowed"). 그 앞에서 shiki 의
+  WASM 컴파일도 막힌다. 공개 글은 빌드 타임에 굽으므로 영향이 없다. 저장(`/api/publish`)은 MDX 를 실행하지 않는다.
+- `src/proxy.ts`(Node 미들웨어) 는 OpenNext 에서 **실험적 지원**이다 (빌드 경고). 로컬 workerd 에서 `/admin` → 307 은 확인했다.
+- 이미지 최적화기를 껐다 (`images.unoptimized`). `/_next/image` 경로가 없다.
+
 ## 되돌리기
 
 Vercel 대시보드 → Deployments → 이전 배포 → **Promote to Production**. 빌드 없이 즉시 전환된다.
