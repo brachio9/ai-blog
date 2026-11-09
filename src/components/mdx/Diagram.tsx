@@ -36,6 +36,15 @@ function subscribeToTheme(onChange: () => void) {
   return () => observer.disconnect();
 }
 
+/**
+ * 서버 번들에서 mermaid 를 뺀다. 그리기는 브라우저(useEffect)에서만 하는데도 `import("mermaid")` 가
+ * 그대로 있으면 서버 번들러가 mermaid·cytoscape 전체(gzip ~1.1 MiB)를 서버 청크로 싣는다 —
+ * Cloudflare Workers 무료 한도(3 MiB)에서 감당할 수 없다. 컴파일러가 서버에서 `typeof window` 를
+ * `"undefined"` 로 접어 이 import 를 지운다.
+ */
+const loadMermaid =
+  typeof window === "undefined" ? null : () => import("mermaid");
+
 function isDark() {
   return currentTheme() === "dark";
 }
@@ -61,7 +70,8 @@ export default function Diagram({ chart }: { chart: string }) {
 
     async function draw() {
       try {
-        const mermaid = (await import("mermaid")).default;
+        if (!loadMermaid) return;
+        const mermaid = (await loadMermaid()).default;
         const color = readThemeColors();
 
         mermaid.initialize({

@@ -15,6 +15,12 @@ export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
+/**
+ * 빌드 때 구운 것 말고는 404. Cloudflare Workers 번들에는 OG 렌더러가 없다
+ * (next.config.ts 의 outputFileTracingExcludes) — 런타임에 그리려 들면 500 이 난다.
+ */
+export const dynamicParams = false;
+
 /** 1200×630 에 두 줄 남짓 들어간다. 넘치면 잘라야 카테고리·사이트 이름이 밀려나지 않는다. */
 const MAX_TITLE_LENGTH = 48;
 

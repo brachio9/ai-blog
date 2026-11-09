@@ -157,7 +157,7 @@ curl -s -o /dev/null -w "auth=%{http_code}\n" $BASE/api/auth/providers  # 200
 - [ ] 라이트/다크 전환이 되는가, 새로고침해도 유지되는가
 - [ ] 댓글(Giscus) iframe 이 뜨는가, 테마가 함께 바뀌는가
 - [ ] 조회수가 올라가는가
-- [ ] `/admin` 로그인 → 글 목록 → 에디터 프리뷰 → 저장까지 한 바퀴
+- [ ] `/admin` 로그인 → 글 목록 → 에디터 → 저장까지 한 바퀴
 - [ ] 허용되지 않은 계정으로 로그인하면 거부되는가
 - [ ] 375px 폭에서 페이지가 가로로 밀리지 않는가
 
@@ -169,7 +169,8 @@ curl -s -o /dev/null -w "auth=%{http_code}\n" $BASE/api/auth/providers  # 200
 
 브랜치 `feat-cloudflare-workers` 가 `@opennextjs/cloudflare` 로 같은 앱을 Workers 에서 돌린다.
 설정은 `wrangler.jsonc`(워커 이름 `ai-blog`) · `open-next.config.ts`(읽기 전용 정적 자산 캐시 — 사이트가 전부 SSG 라
-R2·KV·Queue 가 필요 없다) 두 파일이다. **번들이 gzip ~8 MiB 라 Workers 유료 플랜(10 MiB)이 필요하다** (무료 3 MiB).
+R2·KV·Queue 가 필요 없다) 두 파일이다. **Workers 무료 플랜**(워커 번들 gzip 3 MiB)에 맞췄다 —
+2026-11 기준 **2.92 MiB, 여유 ~80 KiB** 뿐이다. 아래 「번들 크기」를 먼저 읽어라.
 
 로컬 확인: `.env.local` 을 `.dev.vars` 로 복사(git 제외)한 뒤 `npm run preview` → <http://localhost:8787>.
 
@@ -197,11 +198,34 @@ OAuth 콜백(`https://blog.krunkit.me/api/auth/callback/github`)은 도메인이
 
 ### Workers 에서 안 되는 것
 
-- **관리자 에디터의 프리뷰.** `next-mdx-remote` 가 컴파일한 MDX 를 `new Function` 으로 실행하는데
-  Workers 는 문자열 코드 생성을 막는다 ("Code generation from strings disallowed"). 그 앞에서 shiki 의
-  WASM 컴파일도 막힌다. 공개 글은 빌드 타임에 굽으므로 영향이 없다. 저장(`/api/publish`)은 MDX 를 실행하지 않는다.
+- **런타임 MDX 컴파일.** `next-mdx-remote` 가 컴파일한 MDX 를 `new Function` 으로 실행하는데
+  Workers 는 문자열 코드 생성을 막는다. 그래서 **관리자 에디터의 프리뷰를 없앴다.** 공개 글은 빌드 타임에
+  굽으므로 영향이 없다. 저장(`/api/publish`)은 MDX 를 실행하지 않는다.
+- **런타임 OG 이미지.** OG 렌더러(resvg WASM)를 번들에서 뺐다. 전부 빌드 때 굽고, 빌드에 없는 글의 OG 는 404 다.
 - `src/proxy.ts`(Node 미들웨어) 는 OpenNext 에서 **실험적 지원**이다 (빌드 경고). 로컬 workerd 에서 `/admin` → 307 은 확인했다.
 - 이미지 최적화기를 껐다 (`images.unoptimized`). `/_next/image` 경로가 없다.
+
+### 번들 크기 (무료 한도 3 MiB)
+
+한도를 넘으면 **Workers Builds 의 배포 단계가 실패하고 사이트는 직전 버전에 머문다** — 야간 봇의 새 글이
+조용히 안 올라간다. 글이 늘어도 번들은 커지지 않는다(글은 정적 자산이다). 커지는 것은 **코드·의존성**이다.
+
+```bash
+npx opennextjs-cloudflare build
+npx wrangler deploy --dry-run --outdir /tmp/cf-dry   # "Total Upload: … / gzip: …" 의 gzip 값이 한도 대상
+```
+
+8.0 MiB → 2.92 MiB 로 줄인 수단 (하나라도 되돌리면 넘는다):
+
+| 수단 | 줄인 양(gzip) | 어디 |
+|---|---|---|
+| gray-matter·zod 를 서버 외부 패키지로 — Turbopack 이 라우트마다 복제하던 청크 11벌을 1벌로 | ~1.3 MiB | `next.config.ts` `serverExternalPackages` |
+| shiki 전체 번들 → 언어 9개·테마 2개만, JS 정규식 엔진 | ~1.7 MiB | `src/lib/mdx.ts` · `src/lib/shiki-stub.ts` · `next.config.ts` `turbopack.resolveAlias` |
+| mermaid 를 서버 번들에서 뺌 (브라우저에서만 그린다) | ~1.1 MiB | `src/components/mdx/Diagram.tsx` |
+| OG 렌더러(resvg·yoga WASM·폰트) 추적 제외 | ~0.75 MiB | `next.config.ts` `outputFileTracingExcludes` |
+
+싣지 않은 언어의 코드 펜스는 **빌드를 깨지 않고 plaintext 로 칠해진다** (`src/lib/mdx.test.ts` 가 고정).
+언어를 늘리면 개당 gzip 1~16 KiB 가 든다.
 
 ## 되돌리기
 
