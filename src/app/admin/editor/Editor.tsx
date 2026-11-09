@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useMemo, useRef, useState } from "react";
 
-import { MdxBody } from "@/components/mdx/MdxBody";
 import { AXES } from "@/lib/axes";
 import { CATEGORIES } from "@/lib/categories";
 import { FORMATS } from "@/lib/formats";
 
-import { previewMdx, serializeDraftFile } from "./actions";
+import { serializeDraftFile } from "./actions";
 import {
   draftFilePath,
   isValidSlug,
@@ -17,15 +16,10 @@ import {
   SLUG_RULE,
 } from "./draft";
 
-/** 매 타건마다 서버를 부르지 않는다. 타이핑이 멎고 나서 한 번 컴파일한다. */
-const PREVIEW_DEBOUNCE_MS = 600;
-
 const INPUT =
   "w-full rounded border border-border bg-surface px-3 py-2 text-sm text-body focus-visible:outline-2 focus-visible:outline-focus";
 const LABEL = "block text-sm text-muted";
 const LEGEND = "text-sm font-medium text-heading";
-const TAB =
-  "rounded border px-3 py-1.5 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-focus";
 const PRIMARY_BUTTON =
   "rounded bg-heading px-4 py-2 text-sm font-medium text-bg transition-opacity focus-visible:outline-2 focus-visible:outline-focus disabled:cursor-not-allowed disabled:opacity-40";
 const SECONDARY_BUTTON =
@@ -35,7 +29,6 @@ const SECONDARY_BUTTON =
 const REDEPLOY_NOTICE =
   "사이트에 반영되기까지 재배포에 ~90초 걸립니다. 바로 새로고침해도 아직 옛 내용입니다.";
 
-type Pane = "write" | "preview";
 type Busy = "save" | "delete" | "upload" | null;
 
 interface Notice {
@@ -56,7 +49,6 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
   const [form, setForm] = useState<DraftForm>(initial);
   // 사용자가 slug 를 직접 건드린 뒤에는 제목을 고쳐도 덮어쓰지 않는다.
   const [slugTouched, setSlugTouched] = useState(initial.slug !== "");
-  const [pane, setPane] = useState<Pane>("write");
 
   /** 커밋할 때마다 바뀐다 — 저장 응답으로 갱신하지 않으면 두 번째 저장이 422 로 실패한다. */
   const [saved, setSaved] = useState<{ path: string; sha: string } | null>(
@@ -68,41 +60,6 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
 
   const bodyRef = useRef<HTMLTextAreaElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-
-  /** 어떤 본문으로 만든 결과인지 함께 들고 있어야 "컴파일 중" 을 상태 없이 알 수 있다. */
-  const [preview, setPreview] = useState<{
-    source: string;
-    content: ReactNode;
-    error: string | null;
-  }>({ source: "", content: null, error: null });
-
-  const { body } = form;
-  const isEmpty = body.trim() === "";
-
-  useEffect(() => {
-    if (body.trim() === "") return;
-
-    let active = true;
-    const timer = setTimeout(async () => {
-      const result = await previewMdx(body);
-      // 타이핑이 이어졌으면 이 결과는 이미 낡았다 — 늦게 도착한 응답이 최신 프리뷰를 덮지 않게 한다.
-      if (!active) return;
-
-      // 실패하면 content 를 비운다. 낡은 프리뷰가 남아 있으면 고쳐진 줄 안다.
-      setPreview(
-        result.ok
-          ? { source: body, content: result.content, error: null }
-          : { source: body, content: null, error: result.message },
-      );
-    }, PREVIEW_DEBOUNCE_MS);
-
-    return () => {
-      active = false;
-      clearTimeout(timer);
-    };
-  }, [body]);
-
-  const compiling = !isEmpty && preview.source !== body;
 
   const issues = useMemo(() => validateDraft(form), [form]);
   const targetPath = draftFilePath(form.category, form.publishedAt, form.slug);
@@ -216,7 +173,7 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
       insertImage(result.url, file.name.replace(/\.[^.]+$/, ""));
       setNotice({
         tone: "ok",
-        text: `이미지를 레포에 커밋했습니다 (${result.url}). 글을 저장하지 않고 나가도 이미지는 레포에 남습니다. 재배포 전까지는 프리뷰에서 깨져 보이는데 정상입니다.`,
+        text: `이미지를 레포에 커밋했습니다 (${result.url}). 글을 저장하지 않고 나가도 이미지는 레포에 남습니다. 재배포 전까지는 사이트에서 깨져 보이는데 정상입니다.`,
         commitUrl: result.commitUrl,
       });
     } catch (error) {
@@ -352,31 +309,8 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
         </div>
       ) : null}
 
-      {/* 좁은 화면에서는 두 칸을 나란히 놓을 수 없다 — 탭으로 바꿔 보여 준다. */}
-      <div className="flex gap-2 lg:hidden">
-        <button
-          type="button"
-          onClick={() => setPane("write")}
-          aria-pressed={pane === "write"}
-          className={`${TAB} ${pane === "write" ? "border-heading font-medium text-heading" : "border-border text-muted"}`}
-        >
-          작성
-        </button>
-        <button
-          type="button"
-          onClick={() => setPane("preview")}
-          aria-pressed={pane === "preview"}
-          className={`${TAB} ${pane === "preview" ? "border-heading font-medium text-heading" : "border-border text-muted"}`}
-        >
-          프리뷰
-        </button>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <section
-          aria-label="작성"
-          className={pane === "write" ? "space-y-6" : "hidden space-y-6 lg:block"}
-        >
+      <div>
+        <section aria-label="작성" className="space-y-6">
           <fieldset className="space-y-3 rounded-md border border-border p-5">
             <legend className={LEGEND}>기본</legend>
 
@@ -694,43 +628,6 @@ export function Editor({ initial, filePath, sha }: EditorProps) {
           </div>
 
           <IssueList issues={issues} />
-        </section>
-
-        <section
-          aria-label="프리뷰"
-          className={pane === "preview" ? "" : "hidden lg:block"}
-        >
-          <div className="flex items-center justify-between border-b border-border pb-2">
-            <h2 className="text-sm font-medium text-heading">프리뷰</h2>
-            <span className="text-xs text-muted">
-              {compiling ? "컴파일 중…" : "공개 글과 같은 렌더 경로"}
-            </span>
-          </div>
-
-          <div className="mt-4">
-            {isEmpty ? (
-              <p className="text-sm text-muted">
-                본문을 입력하면 여기에 프리뷰가 나옵니다.
-              </p>
-            ) : preview.error ? (
-              <div
-                role="alert"
-                className="border-l-[3px] border-l-danger bg-surface py-3 pl-4"
-              >
-                <p className="text-sm text-body">
-                  MDX 를 컴파일하지 못했습니다.
-                </p>
-                <pre className="mt-2 overflow-x-auto font-mono text-xs whitespace-pre-wrap text-muted">
-                  {preview.error}
-                </pre>
-              </div>
-            ) : preview.content ? (
-              // 공개 글 상세와 같은 타이포 컨테이너 — 다르게 보이면 프리뷰의 의미가 없다.
-              <MdxBody>{preview.content}</MdxBody>
-            ) : (
-              <p className="text-sm text-muted">컴파일 중…</p>
-            )}
-          </div>
         </section>
       </div>
 
