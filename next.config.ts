@@ -14,12 +14,11 @@ const nextConfig: NextConfig = {
     // 열거하는 방식은 목록에 없는 호스트가 발행되는 순간 프로덕션 500 이다.
     // 안 열면 이 질문 자체가 사라진다.
 
-    // 본문 도식은 사진이 아니라 직접 그린 SVG 다 (public/sample/*.svg).
-    // 이미지 최적화기는 SVG 를 기본으로 거부하므로(400) 열어 주되,
-    // SVG 안에 실행 가능한 내용이 섞여도 돌지 못하도록 공식 권장 CSP 로 묶는다.
-    dangerouslyAllowSVG: true,
-    contentDispositionType: "attachment",
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // **최적화기 자체를 끈다.** Cloudflare Workers(OpenNext) 에는 Vercel 의 내장 최적화기가
+    // 없다 — 켜 두면 `/_next/image` 가 Cloudflare Images 바인딩(유료 변환)을 요구한다.
+    // 본문 도식은 직접 그린 SVG 이고(public/sample/*.svg) 최적화기는 SVG 를 변환하지 않고
+    // 그대로 넘기므로 잃는 것이 없다. `/sample/x.svg` 를 정적 파일로 바로 낸다.
+    unoptimized: true,
   },
 };
 
