@@ -201,14 +201,15 @@ OAuth 콜백(`https://blog.krunkit.me/api/auth/callback/github`)은 도메인이
 - **런타임 MDX 컴파일.** `next-mdx-remote` 가 컴파일한 MDX 를 `new Function` 으로 실행하는데
   Workers 는 문자열 코드 생성을 막는다. 그래서 **관리자 에디터의 프리뷰를 없앴다.** 공개 글은 빌드 타임에
   굽으므로 영향이 없다. 저장(`/api/publish`)은 MDX 를 실행하지 않는다.
-- **런타임 OG 이미지.** OG 렌더러(resvg WASM)를 번들에서 뺐다. 전부 빌드 때 굽고, 빌드에 없는 글의 OG 는 404 다.
+- **런타임 OG 이미지.** OG 렌더러(resvg WASM)를 번들에서 뺐다. 사이트 공통 OG 하나만 빌드 때 굽는다. 글별 OG 는 없앴다(아래 「번들 크기」).
 - `src/proxy.ts`(Node 미들웨어) 는 OpenNext 에서 **실험적 지원**이다 (빌드 경고). 로컬 workerd 에서 `/admin` → 307 은 확인했다.
 - 이미지 최적화기를 껐다 (`images.unoptimized`). `/_next/image` 경로가 없다.
 
 ### 번들 크기 (무료 한도 3 MiB)
 
 한도를 넘으면 **Workers Builds 의 배포 단계가 실패하고 사이트는 직전 버전에 머문다** — 야간 봇의 새 글이
-조용히 안 올라간다. 글이 늘어도 번들은 커지지 않는다(글은 정적 자산이다). 커지는 것은 **코드·의존성**이다.
+조용히 안 올라간다. **글이 늘어도 번들은 커진다** — 미리 만든 라우트 목록(prerender manifest)이 워커에 들어가서다.
+그래서 글별 OG 를 없앴다(라우트가 글당 둘에서 하나로). Cloudflare 알림에서 「Workers Builds 실패」 메일을 켜 둘 것.
 
 ```bash
 npx opennextjs-cloudflare build
