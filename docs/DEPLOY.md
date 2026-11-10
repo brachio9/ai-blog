@@ -1,6 +1,6 @@
 # 배포 (Vercel)
 
-Vercel 에 배포한다. 팀 `brachio9s-projects` 는 **Pro 요금제**다.
+Vercel 에 배포한다. 팀 `brachio9s-projects` 는 **Hobby(무료) 요금제**다 (2026-11-10 Pro 에서 내렸다).
 
 ## 현재 배포 상태
 
@@ -17,7 +17,7 @@ Vercel 에 배포한다. 팀 `brachio9s-projects` 는 **Pro 요금제**다.
 
 ## 빌드는 비용이다
 
-`main` 에 push 하면 자동으로 프로덕션 빌드가 돈다. Pro 는 사용량 과금이므로 **push 를 모아서 한 번에**
+`main` 에 push 하면 자동으로 프로덕션 빌드가 돈다. Hobby 는 하루 배포 횟수에 한도가 있으므로 **push 를 모아서 한 번에**
 한다. 로컬 커밋은 빌드를 트리거하지 않으니 자유롭게 쌓아도 된다 — 아끼는 것은 push 다.
 
 문서·`phases/` 만 바뀐 커밋이 잦다면 Vercel 의 **Ignored Build Step** 으로 빌드를 건너뛸 수 있다.
