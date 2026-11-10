@@ -157,76 +157,13 @@ curl -s -o /dev/null -w "auth=%{http_code}\n" $BASE/api/auth/providers  # 200
 - [ ] 라이트/다크 전환이 되는가, 새로고침해도 유지되는가
 - [ ] 댓글(Giscus) iframe 이 뜨는가, 테마가 함께 바뀌는가
 - [ ] 조회수가 올라가는가
-- [ ] `/admin` 로그인 → 글 목록 → 에디터 → 저장까지 한 바퀴
+- [ ] `/admin` 로그인 → 글 목록 → 에디터 프리뷰 → 저장까지 한 바퀴
 - [ ] 허용되지 않은 계정으로 로그인하면 거부되는가
 - [ ] 375px 폭에서 페이지가 가로로 밀리지 않는가
 
 ## 발행 후 반영 시간
 
 관리자 화면에서 글을 저장하면 GitHub 에 커밋되고, Vercel 이 그걸 감지해 재배포한다. **사이트에 보이기까지 약 90초**가 걸린다. 관리자 글 목록은 레포를 직접 읽으므로 그 전에도 바로 보인다.
-
-## Cloudflare Workers 로 옮기기 (OpenNext)
-
-브랜치 `feat-cloudflare-workers` 가 `@opennextjs/cloudflare` 로 같은 앱을 Workers 에서 돌린다.
-설정은 `wrangler.jsonc`(워커 이름 `ai-blog`) · `open-next.config.ts`(읽기 전용 정적 자산 캐시 — 사이트가 전부 SSG 라
-R2·KV·Queue 가 필요 없다) 두 파일이다. **Workers 무료 플랜**(워커 번들 gzip 3 MiB)에 맞췄다 —
-2026-11 기준 **2.92 MiB, 여유 ~80 KiB** 뿐이다. 아래 「번들 크기」를 먼저 읽어라.
-
-로컬 확인: `.env.local` 을 `.dev.vars` 로 복사(git 제외)한 뒤 `npm run preview` → <http://localhost:8787>.
-
-**로컬에서 `npm run deploy` 하지 마라.** OpenNext 는 빌드할 때 `.env*` 파일 값을 번들에 굽는다 —
-로컬에서 배포하면 `.env.local` 의 개발용 비밀값이 프로덕션 워커에 들어간다. 배포는 Workers Builds 로만 한다.
-
-### 대시보드에서 할 일 (순서대로)
-
-1. Workers & Pages → Create → **Import a repository** → `brachio9/ai-blog` 연결 (Cloudflare GitHub App 에 이 레포만 허용)
-2. 프로젝트 이름 `ai-blog` (wrangler.jsonc 의 `name` 과 같아야 한다), Production branch `main`
-3. Build command `npx opennextjs-cloudflare build` · Deploy command `npx opennextjs-cloudflare deploy`
-   (`wrangler deploy` 를 직접 쓰지 마라 — 프리렌더 캐시를 자산에 채우는 단계가 빠진다)
-4. 변수 등록 — **두 곳에 나눠 넣는다**:
-
-| 어디 | 변수 | 이유 |
-|---|---|---|
-| Settings → Build → **Build variables** | `NEXT_PUBLIC_SITE_URL` · `NEXT_PUBLIC_GISCUS_REPO` · `_REPO_ID` · `_CATEGORY` · `_CATEGORY_ID` | 빌드 타임에 번들·정적 HTML 로 굽힌다. 런타임에 넣으면 소용없다 |
-| Settings → **Variables and Secrets** (Secret 타입) | `TURSO_DATABASE_URL` · `TURSO_AUTH_TOKEN` · `AUTH_SECRET` · `AUTH_GITHUB_ID` · `AUTH_GITHUB_SECRET` · `ADMIN_GITHUB_LOGINS` · `GITHUB_CONTENT_REPO` · `GITHUB_CONTENT_BRANCH` · `GITHUB_CONTENT_TOKEN` | 요청마다 `process.env` 로 읽는다 |
-
-5. 첫 배포가 `ai-blog.<계정>.workers.dev` 에서 스모크 체크(위 5번)를 통과하는지 본다
-6. Settings → Domains & Routes → **Custom domain** `blog.krunkit.me` 추가. 기존 Vercel 행 CNAME 레코드는 먼저 지워야 붙는다
-7. Vercel 프로젝트의 Git 연결을 끊는다 (안 끊으면 매 커밋이 두 곳에서 빌드된다)
-
-OAuth 콜백(`https://blog.krunkit.me/api/auth/callback/github`)은 도메인이 같으므로 **바꿀 것이 없다.**
-
-### Workers 에서 안 되는 것
-
-- **런타임 MDX 컴파일.** `next-mdx-remote` 가 컴파일한 MDX 를 `new Function` 으로 실행하는데
-  Workers 는 문자열 코드 생성을 막는다. 그래서 **관리자 에디터의 프리뷰를 없앴다.** 공개 글은 빌드 타임에
-  굽으므로 영향이 없다. 저장(`/api/publish`)은 MDX 를 실행하지 않는다.
-- **런타임 OG 이미지.** OG 렌더러(resvg WASM)를 번들에서 뺐다. 사이트 공통 OG 하나만 빌드 때 굽는다. 글별 OG 는 없앴다(아래 「번들 크기」).
-- `src/proxy.ts`(Node 미들웨어) 는 OpenNext 에서 **실험적 지원**이다 (빌드 경고). 로컬 workerd 에서 `/admin` → 307 은 확인했다.
-- 이미지 최적화기를 껐다 (`images.unoptimized`). `/_next/image` 경로가 없다.
-
-### 번들 크기 (무료 한도 3 MiB)
-
-한도를 넘으면 **Workers Builds 의 배포 단계가 실패하고 사이트는 직전 버전에 머문다** — 야간 봇의 새 글이
-조용히 안 올라간다. **글이 늘어도 번들은 커진다** — 미리 만든 라우트 목록(prerender manifest)이 워커에 들어가서다.
-그래서 글별 OG 를 없앴다(라우트가 글당 둘에서 하나로). Cloudflare 알림에서 「Workers Builds 실패」 메일을 켜 둘 것.
-
-```bash
-npx opennextjs-cloudflare build
-npx wrangler deploy --dry-run --outdir /tmp/cf-dry   # "Total Upload: … / gzip: …" 의 gzip 값이 한도 대상
-```
-
-8.0 MiB → 2.92 MiB 로 줄인 수단 (하나라도 되돌리면 넘는다):
-
-| 수단 | 줄인 양(gzip) | 어디 |
-|---|---|---|
-| gray-matter·zod 를 서버 외부 패키지로 — Turbopack 이 라우트마다 복제하던 청크 11벌을 1벌로 | ~1.3 MiB | `next.config.ts` `serverExternalPackages` |
-| shiki 전체 번들 → 언어 9개·테마 2개만, JS 정규식 엔진 | ~1.7 MiB | `src/lib/mdx.ts` · `src/lib/shiki-stub.ts` · `next.config.ts` `turbopack.resolveAlias` |
-| mermaid 를 서버 번들에서 뺌 (브라우저에서만 그린다) | ~1.1 MiB | `src/components/mdx/Diagram.tsx` |
-| OG 렌더러(resvg·yoga WASM·폰트) 추적 제외 | ~0.75 MiB | `next.config.ts` `outputFileTracingExcludes` |
-
-싣지 않은 언어의 코드 펜스는 **빌드를 깨지 않고 plaintext 로 칠해진다** (`src/lib/mdx.test.ts` 가 고정).
-언어를 늘리면 개당 gzip 1~16 KiB 가 든다.
 
 ## 되돌리기
 

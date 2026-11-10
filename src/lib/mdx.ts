@@ -1,14 +1,14 @@
 import type { MDXComponents } from "mdx/types";
-import { MDXRemote, type MDXRemoteProps } from "next-mdx-remote/rsc";
+import {
+  compileMDX,
+  MDXRemote,
+  type MDXRemoteProps,
+} from "next-mdx-remote/rsc";
 import rehypeKatex from "rehype-katex";
-import rehypePrettyCode, {
-  type Options as RehypePrettyCodeOptions,
-} from "rehype-pretty-code";
+import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import { createHighlighterCore } from "shiki/core";
-import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 import { createElement, type ReactElement } from "react";
 
 import { MDX_COMPONENTS } from "@/components/mdx";
@@ -30,50 +30,10 @@ export interface RenderMdxOptions {
  * 단일 테마를 주면 shiki 가 색을 인라인 style 로 박아 다크모드에서 못 바꾼다.
  * 이중 테마여야 --shiki-light / --shiki-dark 변수로 심긴다 (globals.css 가 골라 쓴다).
  */
-const PRETTY_CODE_OPTIONS: RehypePrettyCodeOptions = {
+const PRETTY_CODE_OPTIONS = {
   theme: { light: "github-light", dark: "github-dark" },
   defaultLang: "plaintext",
-  // 타입은 전체 번들의 Highlighter 를 요구하지만 rehype-pretty-code 는 core 의 메서드만 쓴다.
-  getHighlighter: () =>
-    (highlighter ??= createHighlighter()) as ReturnType<
-      NonNullable<RehypePrettyCodeOptions["getHighlighter"]>
-    >,
 };
-
-/**
- * **싣는 언어를 고른다.** 기본(shiki 전체 번들)은 언어 문법만 gzip 1 MiB 가 넘어
- * Cloudflare Workers 무료 한도(3 MiB)를 혼자 깎아 먹는다. 2026-11 기준 글 885편에
- * 코드 펜스는 한 개도 없다 — 흔한 언어만 싣는다.
- *
- * 목록에 없는 언어가 와도 빌드는 깨지지 않는다: rehype-pretty-code 가 언어를 못 찾으면
- * plaintext 로 칠한다 (mdx.test.ts 가 고정한다). 야간 봇이 낯선 언어를 들고 와도
- * 그날 발행이 0편이 되지 않는다. 별칭(`bash`·`sh`·`ts`·`py`·`yml`)은 문법이 함께 등록한다.
- *
- * 엔진은 JS 정규식이다. oniguruma 는 WASM 이라 번들이 더 크고, Workers 는 런타임 WASM 컴파일도 막는다.
- * `forgiving` 은 JS 로 못 옮기는 정규식이 있어도 던지지 않고 그 규칙만 건너뛴다.
- */
-let highlighter: ReturnType<typeof createHighlighterCore> | undefined;
-
-function createHighlighter() {
-  return createHighlighterCore({
-    themes: [
-      import("shiki/themes/github-light.mjs"),
-      import("shiki/themes/github-dark.mjs"),
-    ],
-    langs: [
-      import("shiki/langs/typescript.mjs"),
-      import("shiki/langs/javascript.mjs"),
-      import("shiki/langs/json.mjs"),
-      import("shiki/langs/shellscript.mjs"),
-      import("shiki/langs/python.mjs"),
-      import("shiki/langs/yaml.mjs"),
-      import("shiki/langs/toml.mjs"),
-      import("shiki/langs/diff.mjs"),
-      import("shiki/langs/sql.mjs"),
-    ],
-    engine: createJavaScriptRegexEngine({ forgiving: true }),
-  });
-}
 
 /** 다룰 필드만 추린 mdast 노드. 트리를 직접 걷는 데 필요한 만큼만 정의한다. */
 interface MdastNode {
@@ -118,7 +78,8 @@ type MdxCompilerOptions = NonNullable<
 
 /**
  * 플러그인 설정은 **이 객체 하나**다 (ADR-003).
- * 관리자 프리뷰는 없앴다 — Cloudflare Workers 가 런타임 MDX 실행(`new Function`)을 막는다.
+ * 공개 글 렌더(renderMdx)와 관리자 프리뷰(compileMdxChecked)가 같은 것을 쓴다 —
+ * 두 벌로 갈리는 순간 "프리뷰는 되는데 발행하면 깨진다" 가 시작된다.
  */
 const MDX_OPTIONS: MdxCompilerOptions = {
   remarkPlugins: [remarkGfm, remarkMath, remarkMermaid],
@@ -141,4 +102,34 @@ export function renderMdx(
     components: { ...MDX_COMPONENTS, ...options?.components },
     options: { mdxOptions: MDX_OPTIONS },
   });
+}
+
+export type MdxCompileResult =
+  | { ok: true; content: ReactElement }
+  | { ok: false; message: string };
+
+/**
+ * 컴파일을 **즉시 수행해** 에러를 잡아 반환한다. 관리자 프리뷰용.
+ *
+ * renderMdx 는 MDXRemote 엘리먼트를 지연 반환하므로 컴파일 에러가 RSC 렌더 단계에서 터지고,
+ * 클라이언트에는 `Minified React error #441` 만 도착해 무엇이 잘못됐는지 알 수 없다 (실측).
+ * compileMDX 는 컴파일을 await 하므로 여기서 잡아 사람이 읽을 수 있는 메시지로 돌려준다.
+ */
+export async function compileMdxChecked(
+  source: string,
+  options?: RenderMdxOptions,
+): Promise<MdxCompileResult> {
+  try {
+    const { content } = await compileMDX({
+      source,
+      components: { ...MDX_COMPONENTS, ...options?.components },
+      options: { mdxOptions: MDX_OPTIONS },
+    });
+    return { ok: true, content };
+  } catch (error) {
+    return {
+      ok: false,
+      message: error instanceof Error ? error.message : String(error),
+    };
+  }
 }

@@ -15,10 +15,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@libsql/client": "^0.17.4",
@@ -27,7 +24,7 @@
     "katex": "^0.18.4",
     "mermaid": "^11.16.1",
     "minisearch": "^7.2.0",
-    "next": "16.3.8",
+    "next": "16.3.0",
     "next-auth": "^5.0.0-beta.32",
     "next-mdx-remote": "^6.0.0",
     "react": "19.2.8",
@@ -43,7 +40,6 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "1.20.11",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
@@ -52,11 +48,10 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.0.5",
     "eslint": "^9",
-    "eslint-config-next": "16.3.8",
+    "eslint-config-next": "16.3.0",
     "jsdom": "^30.0.1",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^4.1.10",
-    "wrangler": "4.151.3"
+    "vitest": "^4.1.10"
   }
 }

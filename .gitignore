@@ -27,8 +27,3 @@ __pycache__
 # 작업 메모와 검증 도구 — 레포 산출물이 아니다. 세션 간에만 쓴다.
 handoff*.md
 .review-tools/
-
-# Cloudflare Workers (OpenNext) 빌드 산출물 · 로컬 비밀값 (wrangler dev)
-.open-next
-.wrangler
-.dev.vars

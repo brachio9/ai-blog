@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import matter from "gray-matter";
 
+import { MDX_COMPONENTS } from "@/components/mdx";
 import { requireAdmin } from "@/lib/auth";
+/**
+ * 수식 스타일(katex CSS)은 src/lib/mdx.ts 가 들고 있다. 프리뷰 Server Action 도 그 모듈을 쓰지만
+ * "use server" 모듈의 CSS 는 이 라우트의 스타일시트에 실리지 않는다 — 실측 결과 프리뷰의 수식이
+ * 조판되지 않고 본문 폰트로 남았다. 이 페이지의 모듈 그래프에 넣어 스타일을 딸려 오게 한다.
+ */
+import "@/lib/mdx";
 import { isPublishConfigured, readFile } from "@/services/github";
 
 import { Editor } from "./Editor";
@@ -12,6 +19,19 @@ export const metadata: Metadata = {
   // 관리자 화면은 검색엔진에 실리면 안 된다.
   robots: { index: false, follow: false },
 };
+
+/**
+ * ⚠ 지우지 마라 — "쓰지 않는 import" 가 아니다.
+ *
+ * 프리뷰는 Server Action 이 컴파일한 트리를 **이 라우트에서** 렌더한다. 그 안의 클라이언트
+ * 컴포넌트(Chart · Diagram)는 이 라우트의 React Client Manifest 에 등록되어 있어야 살아난다.
+ * Server Action 파일에서 import 하는 것만으로는 부족하고, 이 페이지가 MDX_COMPONENTS 를
+ * 실제로 참조해야 등록된다 (렌더할 필요는 없다 — 참조만으로 충분함을 실측했다).
+ *
+ * 빠지면 프로덕션은 "Could not find the module ...Chart.tsx#default in the React Client
+ * Manifest", 개발은 에러 없이 프리뷰가 조용히 빈 화면이 된다.
+ */
+const PREVIEW_COMPONENTS = Object.keys(MDX_COMPONENTS).length;
 
 interface LoadedPost {
   form: DraftForm;
@@ -75,7 +95,10 @@ export default async function EditorPage(props: PageProps<"/admin/editor">) {
     loaded && "post" in loaded ? loaded.post.form : newDraft(nowKstIso());
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-8 md:px-8">
+    <div
+      className="mx-auto max-w-6xl px-5 py-8 md:px-8"
+      data-preview-components={PREVIEW_COMPONENTS}
+    >
       {loaded && "error" in loaded ? (
         <div
           role="alert"

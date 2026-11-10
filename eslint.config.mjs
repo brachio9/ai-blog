@@ -12,9 +12,6 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    // Cloudflare Workers (OpenNext) 빌드 산출물 — 번들이 수십 MB 라 eslint 가 메모리 부족으로 죽는다.
-    ".open-next/**",
-    ".wrangler/**",
   ]),
 ]);
 

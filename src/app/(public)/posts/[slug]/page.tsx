@@ -56,9 +56,6 @@ export async function generateMetadata(
       url,
       publishedTime: frontmatter.publishedAt,
       tags: frontmatter.tags,
-      // 글별 OG 는 없앴다 — 글마다 구우면 Workers 번들의 라우트 목록이 글 수만큼 커진다.
-      // `openGraph` 를 여기서 주면 루트의 opengraph-image 를 물려받지 못하므로 직접 가리킨다.
-      images: "/opengraph-image",
     },
   };
 }
