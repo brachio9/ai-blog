@@ -1,0 +1,34 @@
+---
+title: LLM 분산 학습 최적화를 자동화하는 에이전트 하네스, InfraRSI
+category: community
+axis: vibe-coding
+format: explainer
+summary: InfraRSI는 LLM 분산 학습의 실행 설정과 소스 코드를 동시에 최적화하는 에이전트 시스템이다. 연구팀은 이 시스템을 통해 H100 및 H200 환경에서 최대 2.75배의 속도 향상을 확인했다고 주장한다.
+publishedAt: 2026-11-11T22:00:03+0900
+tags:
+- Claude Code
+- Codex
+- vLLM
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/infrarsi-llm/12473
+  title: 'InfraRSI: LLM 분산 학습의 설정과 코드를 함께 최적화하고 검증하는 에이전트 하네스'
+  author: 9bow
+  publishedAt: 2026-11-11T16:30:51+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/6/d/6d15234d57bf5e891edfc660a60daedfa8759b71_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+대규모 언어 모델을 여러 GPU로 학습시킬 때 발생하는 메모리 부족이나 측정 오차 등의 문제를 해결하기 위해 연구팀은 InfraRSI를 제안했다. 이 시스템은 LLM 에이전트에게 인프라 튜닝을 맡기되, 에이전트가 제안한 변경 사항이 실제로 성능을 개선하는지 하네스를 통해 검증하는 구조를 가진다.
+
+연구팀은 기존의 방식들이 개별 알고리즘이나 커널에만 집중되어 있다는 점을 지적하며, 파운데이션 모델의 발전이 분산 학습 인프라의 처리량에 묶여 있다는 점을 강조했다. 이에 따라 InfraRSI는 실행 설정과 소스 코드를 동시에 탐색하며, 검증을 통과한 변경 사항만 반영하는 순환 구조를 채택했다.
+
+연구팀이 발표한 결과에 따르면, InfraRSI는 H100과 H200에서 수행한 4개 워크로드에서 기하평균 1.83배의 속도 향상을 기록했으며 평균 MFU를 17.4%에서 30.0%로 끌어올렸다고 주장한다. 다만 이 수치는 16개 불변 조건을 통과하고 재현된 경우에 한해서만 인정되며, 연구팀은 실험의 신뢰성을 위해 엄격한 검증 절차를 적용했다.
+
+---
+
+원문: [InfraRSI: LLM 분산 학습의 설정과 코드를 함께 최적화하고 검증하는 에이전트 하네스](https://discuss.pytorch.kr/t/infrarsi-llm/12473)

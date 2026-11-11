@@ -1,0 +1,48 @@
+---
+title: 로그 확률 없이 텍스트 피드백만으로 LLM 성능 높이는 법
+category: papers
+axis: serving
+format: explainer
+summary: 교사의 로그 확률(Logits) 없이 텍스트 기반의 루브릭(Rubric)만으로도 효과적인 온폴리시 증류(OPD)가 가능하다. 연구팀은 학생의 결과물과 교사의 답변을 비교하여 생성된 루브릭이 기존 방식보다 효율적임을 증명했다.
+publishedAt: 2026-11-11T22:00:03+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.07396
+  title: 'Rethinking Black-Box On-Policy Distillation: A Rubric-based Analysis'
+  author: Zhepei Hong
+  publishedAt: 2026-11-11T14:00:00+0900
+  words: 12981
+  image: https://arxiv.org/html/2605.07396v2/framework.png
+paper:
+  arxivId: '2605.07396'
+  authors:
+  - Zhepei Hong
+  - Yukai Wang
+  - Mao Zheng
+  - Mingyang Song
+  - Gengsheng Li
+  - Houcheng Jiang
+  - Dan Zhang
+  - Haiyun Guo
+  - Junfeng Fang
+  - Tat-Seng Chua
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+기존의 온폴리시 증류(On-policy Distillation) 방식은 교사 모델의 내부 로그 확률에 의존해야 하므로 화이트박스 모델이 필요하다는 제약이 있었다. 본 연구는 텍스트 기반의 피드백 인터페이스를 제공하는 루브릭 기반 온폴리시 증류(ROPD)를 제안하며, 블랙박스 모델에서도 증류가 가능함을 보여준다.
+
+ROPD는 교사의 답변과 학생의 생성 결과물을 대조하여 루브릭을 유도하고, 이를 바탕으로 학생의 결과물을 평가하여 온폴리시 최적화를 수행한다. 저자들의 주장에 따르면, 동일한 조건에서 ROPD는 4개의 수학 벤치마크에서 로그 확률 기반 방식보다 우수한 성능을 보였으며, 특히 AIME24에서 기존 방식보다 9.6배 적은 학습 샘플로 동일한 정확도에 도달했다고 주장한다.
+
+연구 결과에 따르면 루브릭 기반 보상은 교사의 로그 확률보다 정답 여부를 훨씬 더 잘 추적하며, 로그 확률 기반 지도보다 실패한 기준을 더 많이 복구하고 통과한 기준을 덜 훼손하는 것으로 나타났다. 또한 교사의 답변과 학생의 결과물을 대조하는 과정이 루브릭의 품질을 결정하는 핵심 요소로 확인되었다.
+
+결론적으로 루브릭 기반 OPD는 로그 확률에 의존하지 않으면서도 블랙박스 모델과 호환되는 유연한 대안이 될 수 있다. 연구팀은 해당 구현체를 공개하여 연구의 재현성을 확보했다.
+
+---
+
+원문: [Rethinking Black-Box On-Policy Distillation: A Rubric-based Analysis](https://arxiv.org/abs/2605.07396)

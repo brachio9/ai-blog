@@ -1,0 +1,31 @@
+---
+title: Vercel이 공개한 AI 에이전트용 데스크톱 앱 조작 도구
+category: community
+axis: agent
+format: explainer
+summary: Vercel은 AI 에이전트가 데스크톱 앱을 직접 조작할 수 있는 도구를 공개했다. 이 도구는 운영체제의 접근성 API를 활용해 화면 좌표 대신 요소 ID로 클릭과 입력을 수행한다.
+publishedAt: 2026-11-11T22:00:03+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://news.hada.io/topic?id=36967&utm_source=geeknews&utm_medium=rss&utm_campaign=news
+  title: Vercel agent-desktop - AI 에이전트가 데스크톱 앱을 조작하는 CLI
+  author: xguru
+  publishedAt: 2026-11-11T09:30:02+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Vercel은 AI 에이전트가 맥, 윈도우, 리눅스 환경에서 앱을 실행하고 메뉴를 조작하거나 입력란을 채울 수 있는 기능을 제공한다. 이 도구는 창 이동과 크기 조절, 클립보드 읽기 및 쓰기까지 지원하며 에이전트의 활동 범위를 넓힌다.
+
+핵심 기술은 운영체제의 접근성 API를 활용하는 방식이다. 화면상의 좌표를 계산하는 대신 버튼, 메뉴, 입력란 등의 요소를 JSON 형태로 가져와 각 요소의 고유 ID로 클릭하거나 텍스트를 입력한다. 요소 ID로 조작할 때는 기본적으로 마우스 포인터를 움직이거나 앱 포커스를 가져오지 않지만, 필요에 따라 스크린샷 촬영이나 실제 키보드 및 마우스 입력을 병행할 수도 있다.
+
+개발자는 이 도구를 CLI, MCP 서버, C 라이브러리 형태로 연결하여 사용할 수 있다. 이를 통해 에이전트가 무엇을 조작할지 결정하고 그 결과를 확인하는 프로세스를 구축할 수 있다.
+
+---
+
+원문: [Vercel agent-desktop - AI 에이전트가 데스크톱 앱을 조작하는 CLI](https://news.hada.io/topic?id=36967&utm_source=geeknews&utm_medium=rss&utm_campaign=news)

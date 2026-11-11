@@ -1,0 +1,38 @@
+---
+title: 추측적 디코딩의 속도를 높이는 핵심 지표, EAL 최적화 전략
+category: papers
+axis: serving
+format: explainer
+summary: 추측적 디코딩(Speculative Decoding)의 효율을 결정하는 핵심 지표인 기대 수락 길이(EAL)를 직접 최적화하는 새로운 손실 함수인 REAL을 제안한다. 기존 방식의 한계를 분석하고 편향 없는 추정치를 제공하는 학습 기법을 통해 성능을 개선했다.
+publishedAt: 2026-11-11T22:00:03+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.14399
+  title: 'REAL Loss: Optimizing Real Expected Acceptance Length for Speculative Decoding'
+  author: Yu Tian
+  publishedAt: 2026-11-11T14:00:00+0900
+  words: 15541
+paper:
+  arxivId: '2611.14399'
+  authors:
+  - Yu Tian
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+추측적 디코딩은 드래프트 모델이 생성한 여러 토큰을 타겟 모델이 한 번에 검증함으로써 추론 속도를 높이는 기술이다. 이때 성능의 핵심은 한 번의 검증으로 수락되는 토큰의 평균 개수인 기대 수락 길이(EAL)에 달려 있다. 하지만 기존의 교차 엔트로피나 KL 발산 같은 학습 목표는 분포 일치나 단일 단계 일치에만 집중할 뿐, EAL을 직접적으로 최적화하지 못한다는 한계가 있다.
+
+최근 연구들은 블록 단위의 학습 목표를 통해 EAL을 최적화하려 시도했으나, 이는 EAL의 정확한 수식이 아닌 대리 지표에 불과했다. 예를 들어 일부 방식은 수락된 토큰에 의해 선택된 검증 경로 대신 타겟 분포상의 연속성에 기반한 평균을 계산하는데, 이 과정에서 발생하는 공분산 차이가 오히려 그래디언트 방향을 반대로 만드는 문제를 야기할 수 있다.
+
+저자들은 이러한 공분산 차이를 분석하고, 경로 가중치를 활용한 편향 없는 추정과 분산 감소를 위한 Rao-Blackwellization을 적용한 REAL 손실 함수를 도출했다. REAL은 드래프트 모델의 구조나 추론 절차를 수정하지 않고도 학습 손실 함수 변경만으로 적용이 가능하다는 실용적인 장점이 있다.
+
+저자들의 주장에 따르면, Qwen3.6-35B-A3B 타겟 모델과 Domino 드래프터를 사용한 실험에서 REAL은 WTV, VSD, DBLast 및 정적 LK 베이스라인보다 확률적 서빙 수락 길이에서 우수한 성능을 보였다. 해당 연구는 다양한 작업 하위 집합과 평가 시드에서 이러한 성능 향상을 확인했다고 주장한다.
+
+---
+
+원문: [REAL Loss: Optimizing Real Expected Acceptance Length for Speculative Decoding](https://arxiv.org/abs/2611.14399)

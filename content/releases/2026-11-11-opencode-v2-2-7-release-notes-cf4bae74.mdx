@@ -1,0 +1,36 @@
+---
+title: 'OpenCode v2.2.7 업데이트: 자동 모델 선택 및 사용자 편의성 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: OpenCode v2.2.7 버전에서는 AI 모델 자동 선택 기능과 사이드 패널 단축키 개선이 포함되었다. 또한 MCP 로그인 유지 및 파일 읽기 기능 강화 등 개발 생산성을 높이는 핵심 업데이트가 반영되었다.
+publishedAt: 2026-11-11T22:00:03+0900
+tags:
+- Copilot
+- OpenCode
+- MCP
+draft: false
+source:
+  url: https://github.com/anomalyco/opencode/releases/tag/v2.2.7
+  title: v2.2.7
+  author: github-actions[bot]
+  publishedAt: 2026-11-10T19:37:15+0900
+  words: 1705
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 사용자 편의성과 시스템 안정성이다. 이제 Copilot 계정에 Auto 풀이 있는 경우 모델 선택기에서 Auto를 선택하면, 라우터가 각 세션에 최적화된 모델을 자동으로 할당한다. 만약 라우팅에 실패하더라도 계정의 기본 채팅 모델로 전환되어 끊김 없는 작업이 가능하다.
+
+사용자 인터페이스 측면에서도 유의미한 변화가 있다. 사이드 패널 탭에서 단축키를 통해 탭을 닫거나 이전 탭을 다시 여는 기능이 개선되었으며, 읽지 않은 메시지를 표시하는 기능이 추가되었다. 또한 원격 MCP 서버 연결 시 토큰 갱신 과정에서 발생하던 로그아웃 문제를 해결하여 연결 안정성을 확보했다.
+
+개발 편의를 위한 세부 기능도 강화되었다. 파일 읽기 기능에서 음수 오프셋을 지원하여 파일 끝에서부터 특정 줄을 읽어올 수 있으며, 파일이 없을 경우 유사한 이름을 제안하는 기능이 추가되었다. 셸 실행 결과에 종료 코드를 표시하고 타임아웃 설정을 제안하는 기능도 포함되었다.
+
+주의할 점은 `@opencode/ai` 패키지의 `ImageResponse.image` 속성이 제거되었다는 사실이다. 기존 코드를 사용하는 경우 `response.images[0]`으로 수정해야 하며, SDK의 플러그인 로딩 대기 방식도 변경되었으므로 관련 코드의 업데이트가 필요하다. 이번 릴리스에는 위에서 언급한 주요 변경 사항 외에도 많은 개선 사항이 포함되어 있다.
+
+---
+
+원문: [v2.2.7](https://github.com/anomalyco/opencode/releases/tag/v2.2.7)
