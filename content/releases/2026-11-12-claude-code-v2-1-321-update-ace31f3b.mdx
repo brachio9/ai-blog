@@ -1,0 +1,35 @@
+---
+title: 'Claude Code v2.1.321 업데이트: Fable 모델 기본 탑재 및 보안 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Claude Code의 기본 모델이 Fable 5.2로 변경되었으며, 대규모 컨텍스트 처리가 가능해졌다. 보안 취약점 수정과 네트워크 경로에서의 편집 오류 해결 등 안정성 강화에 집중한 업데이트다.
+publishedAt: 2026-11-12T22:00:01+0900
+tags:
+- Claude Code
+- MCP
+draft: false
+source:
+  url: https://github.com/anthropics/claude-code/releases/tag/v2.1.321
+  title: v2.1.321
+  author: claude-code-publisher[bot]
+  publishedAt: 2026-11-10T04:22:30+0900
+  words: 2709
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 새로운 기본 모델인 Claude Fable 5.2의 도입이다. 이 모델은 100만 토큰의 컨텍스트를 지원하며, 엔터프라이즈 사용자들에게 더욱 효율적인 작업 환경을 제공한다. 기존 모델에서 발생하던 응답 중단이나 거부 현상도 개선되었다.
+
+보안 및 권한 관리 측면에서도 중요한 개선이 이루어졌다. MCP OAuth 요청 시 민감한 정보가 외부로 유출되는 문제를 해결했으며, 샌드박스 외부에서 실행되는 Bash 명령이나 파일 쓰기 권한 체크 로직을 강화했다. 특히 `cp`나 `mv` 명령으로 이동되는 파일에 대한 보호 규칙이 제대로 적용되지 않던 버그를 수정했다.
+
+네트워크 경로 및 파일 시스템 관련 버그 수정도 대폭 포함되었다. UNC 공유 폴더나 WSL 폴더 등 네트워크 경로에서 노트북 편집이나 파일 수정 시 발생하던 데이터 손실 문제를 해결했다. 또한 Windows 환경에서 드라이브 문자의 대소문자 구분으로 인해 파일 감시 기능이 중단되던 오류를 수정했다.
+
+그 외에도 플러그인 자동 업데이트 방식 개선, 컨텍스트 사용량 계산 오류 수정, 클라우드 세션에서의 프로세스 관리 등 다양한 세부 사항이 조정되었다. 이번 릴리즈는 전체적인 안정성 확보와 새로운 모델 성능 활용에 초점을 맞추고 있다.
+
+---
+
+원문: [v2.1.321](https://github.com/anthropics/claude-code/releases/tag/v2.1.321)

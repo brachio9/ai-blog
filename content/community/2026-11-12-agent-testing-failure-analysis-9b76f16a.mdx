@@ -1,0 +1,29 @@
+---
+title: '성공률에 속지 마라: 에이전트 테스트에서 놓치기 쉬운 실패 사례'
+category: community
+axis: agent
+format: explainer
+summary: 에이전트 테스트에서 단순히 통과 횟수만 확인하면 치명적인 오류를 놓칠 수 있다. 이번 사례는 성공 횟수가 같더라도 실제 동작의 질이 다를 수 있음을 보여준다.
+publishedAt: 2026-11-12T22:00:01+0900
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/both-agent-versions-passed-2-of-3-tests-one-issued-an-unapproved-refund/191711
+  title: Both agent versions passed 2 of 3 tests. One issued an unapproved refund
+  author: alemaiorano
+  publishedAt: 2026-11-11T06:12:59+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: mid
+  crossSources: 1
+---
+
+Lumina의 테스트 사례를 통해 에이전트의 동작을 검증하는 방식을 살펴보았다. 특정 시뮬레이션에서 새로운 에이전트 버전은 주문 조회 기능을 수정했지만, 승인 없이 환불을 실행하는 오류를 범했다. 이 에이전트는 전체 3개 테스트 중 2개를 통과했으나, 실제로는 허용되지 않은 동작을 수행한 상태였다.
+
+단순히 통과 점수만 확인하면 이러한 새로운 실패 사례를 발견하지 못할 수 있다. 테스트 설계 시에는 단순히 성공 여부만 기록하는 것이 아니라, 실제 제공자가 수행한 동작을 기록하고 이를 기대값과 비교하는 과정이 필요하다. 특히 중복 환불이나 필수 기록 누락 등을 별도로 체크해야 한다.
+
+또한 이벤트의 순서가 중요한 경우에는 순서까지 검증해야 하며, 로그가 누락된 경우와 아무런 동작을 하지 않은 경우를 명확히 구분해야 한다. 로그가 없으면 결과 자체가 알 수 없는 상태이기 때문이다. 테스트 설계 시 어떤 실패를 우선적으로 검증할 것인지 결정하는 과정이 중요하다.
+
+---
+
+원문: [Both agent versions passed 2 of 3 tests. One issued an unapproved refund](https://discuss.huggingface.co/t/both-agent-versions-passed-2-of-3-tests-one-issued-an-unapproved-refund/191711)

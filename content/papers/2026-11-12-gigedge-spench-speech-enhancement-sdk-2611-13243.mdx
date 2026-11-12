@@ -1,0 +1,40 @@
+---
+title: CPU와 모바일에서 돌아가는 실시간 음성 개선 SDK, GigaEdge Spench
+category: papers
+axis: voice
+format: explainer
+summary: GigaEdge Spench는 CPU 서버, 모바일 기기, 웹 브라우저에서 작동하는 오픈소스 음성 개선 SDK다. 신경망 기반의 노이즈 제거부터 샘플링 변환까지 다양한 처리 단계를 조합하여 사용할 수 있다.
+publishedAt: 2026-11-12T22:00:01+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.13243
+  title: 'GigaEdge Spench: An SDK for Practical Streaming Speech Enhancement'
+  author: Artem Sokolov
+  publishedAt: 2026-11-11T14:00:00+0900
+  words: 11465
+paper:
+  arxivId: '2611.13243'
+  authors:
+  - Artem Sokolov
+  - Artem Khaidarov
+  - Yana Lysova
+  - Alexander Gladkikh
+  - Vitaliy Yulis
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+GigaEdge Spench는 다양한 실행 환경에서 실시간 음성 개선을 구현하기 위한 SDK다. 이 시스템은 신경망 노이즈 제거, 정규화, 동적 처리 블록, 샘플링 변환, 에코 제거 등의 단계를 포함하며, 사용자는 필요에 따라 이러한 기능들을 조합하여 구성할 수 있다. 특히 정규화 단계는 신경망 모델 없이도 실행이 가능하다.
+
+이 SDK는 ONNX Runtime과 TensorFlow Lite를 지원하는 공통 C++ 코어를 기반으로 설계되었다. 안드로이드와 iOS용 SDK는 물론 WebAssembly를 통한 웹 통합까지 지원하며, 독립적인 스트림 컨텍스트가 모델 자원을 공유할 수 있는 구조를 갖췄다. 또한 연속된 프레임을 단일 추론 호출로 처리하여 효율성을 높였다.
+
+저자들은 다양한 환경에서 모델 선택, 청크 크기, 실행 환경이 성능에 미치는 영향을 분석했다. 테스트 결과, 모든 네이티브 및 웹 설정에서 파일 처리가 실시간보다 빠르게 수행되었으며, 공유 모델을 통해 CPU에서 처리 가능한 스트림 수를 측정했다. 다만 큰 청크를 처리할 때는 입력 수집에 더 많은 시간이 소요될 수 있다.
+
+제공되는 모델에는 8kHz INT8 노이즈 제거기 및 48kHz FP32 모델이 포함되어 있다. 저자들의 주장에 따르면, 이 모델들은 EARS-WHAM v2 데이터셋에서 기존 모델들과 비교하여 품질과 처리 비용 측면에서 검증되었다.
+
+---
+
+원문: [GigaEdge Spench: An SDK for Practical Streaming Speech Enhancement](https://arxiv.org/abs/2611.13243)

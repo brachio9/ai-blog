@@ -1,0 +1,34 @@
+---
+title: 로봇의 움직임을 더 빠르게 예측하는 NVIDIA의 VFlash 기술
+category: community
+axis: serving
+format: explainer
+summary: NVIDIA 연구팀은 로봇과 자율주행 시스템의 궤적 좌표를 한 번에 예측하는 VFlash 디코딩 방식을 발표했다. 기존의 순차적 토큰 생성 방식보다 지연 시간을 대폭 단축하면서도 높은 정확도를 유지하는 것이 특징이다.
+publishedAt: 2026-11-12T22:00:01+0900
+tags:
+- distillation
+- fine-tuning
+- speculative decoding
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/vflash/12459
+  title: 'VFlash: 로봇과 자율주행 궤적의 좌표를 한 번에 예측하는 병렬 디코딩에 대한 연구'
+  author: 9bow
+  publishedAt: 2026-11-11T08:30:28+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/1/1/1170390046789976fb863b072be7852a81643e64_2_1028x697.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+로봇이나 자율주행 차량이 복잡한 동작을 수행할 때, 시각 언어 모델(VLM)은 목표 지점까지의 이동 경로를 점이나 경계 상자 같은 시각적 요소로 계획한다. 하지만 기존의 자기회귀(Autoregressive) 방식은 좌표를 하나씩 순서대로 생성해야 하므로, 궤적이 길어질수록 계산량이 늘어나고 실시간 대응이 어려워지는 한계가 있었다.
+
+NVIDIA 연구팀은 이러한 문제를 해결하기 위해 VFlash라는 새로운 디코딩 방법을 제안했다. 이 방식은 작은 초안 모델이 좌표 묶음 전체를 한 번의 순전파로 미리 예측하게 하고, 이를 통해 생성 속도를 높인다. 특히 좌표를 하나씩 검증하는 기존의 추측 디코딩 방식과 달리, VFlash는 초안 모델이 예측한 좌표 전체를 한 번에 처리하는 구조를 취한다.
+
+연구팀은 3차원 로봇 궤적 평가에서 VFlash가 기존 방식보다 평균 변위 오차를 18%에서 61%까지 낮췄다고 주장했다. 또한 Jetson Thor 장치에서 MolmoSpaces 계획 단계를 측정했을 때, 지연 시간을 3552.7ms에서 703.3ms로 줄이는 성과를 확인했다. 다만 경계 상자 검사나 일부 조밀한 3차원 움직임 예측에서는 기존 방식보다 성능이 낮게 나오는 경우도 확인되었다.
+
+---
+
+원문: [VFlash: 로봇과 자율주행 궤적의 좌표를 한 번에 예측하는 병렬 디코딩에 대한 연구](https://discuss.pytorch.kr/t/vflash/12459)

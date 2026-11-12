@@ -1,0 +1,44 @@
+---
+title: 소형 언어 모델의 복잡한 추론 능력을 키우는 Prefix-GRPO 학습법
+category: papers
+axis: agent
+format: explainer
+summary: 소형 언어 모델이 긴 호흡의 상호작용에서 발생하는 복잡한 행동을 제대로 학습하지 못하는 문제를 해결하기 위한 새로운 강화학습 프레임워크를 제안한다. 기존의 단순한 증류 방식 대신 교사의 궤적을 재현하고 이어가는 방식을 통해 학습 효율을 높인다.
+publishedAt: 2026-11-12T22:00:01+0900
+tags:
+- distillation
+- GRPO
+- SFT
+draft: false
+source:
+  url: https://arxiv.org/abs/2607.19395
+  title: 'From Trajectories to Prefixes: Reusing Teacher Trajectories via Replayed Prefixes and Online Continuation'
+  author: Yihan Wang
+  publishedAt: 2026-11-09T14:00:00+0900
+  words: 11059
+  image: https://arxiv.org/html/2607.19395v1/overview.png
+paper:
+  arxivId: '2607.19395'
+  authors:
+  - Yihan Wang
+  - Zhong Guan
+  - Haoran Sun
+  - Jiale Huang
+  - Likang Wu
+  - Hongke Zhao
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+소형 언어 모델을 대화형 에이전트로 활용할 때, 강력한 교사 모델의 데이터를 단순히 모방하는 방식은 긴 호흡의 환경에서 발생하는 복잡한 행동을 충분히 담아내지 못하는 한계가 있다. 특히 초기 결정이 이후의 상태와 보상에 큰 영향을 미치는 환경에서는 단순한 결과 모방만으로는 효율적인 학습이 어렵다. 이를 해결하기 위해 저자들은 교사의 궤적을 재현 가능한 접두사(Prefix)와 온라인 연속 동작으로 분해하는 Prefix-GRPO 프레임워크를 제안한다.
+
+Prefix-GRPO는 각 접두사를 환경에서 실제로 재현하여 유효한 중간 상태를 복구하고, 그 이후에 학생 모델이 온라인으로 상호작용을 이어가며 보상을 받는 구조를 가진다. 이는 단순히 응답만 학습하는 기존의 GRPO와 달리, 재현된 접두사 내부의 과거 토큰들에 대해서도 정책 업데이트를 적용한다는 점이 특징이다. 저자들은 정책 증류된 SFT 체크포인트를 활용해 과거 로그 확률을 추정함으로써 접두사 학습과 연속 학습을 하나의 정책 최적화 형태로 통합했다.
+
+저자들의 주장에 따르면, TextCraft, BabyAI, ALFWorld 등의 환경에서 Prefix-GRPO는 단순 증류나 표준 강화학습 베이스라인보다 소형 모델 에이전트의 성능을 개선하는 결과를 보여주었다. 또한 분석 실험을 통해 단순히 환경을 재현하는 것만으로는 부족하며, 접두사 토큰에 대한 명시적인 최적화가 반드시 필요하다는 점을 확인했다고 밝혔다.
+
+---
+
+원문: [From Trajectories to Prefixes: Reusing Teacher Trajectories via Replayed Prefixes and Online Continuation](https://arxiv.org/abs/2607.19395)

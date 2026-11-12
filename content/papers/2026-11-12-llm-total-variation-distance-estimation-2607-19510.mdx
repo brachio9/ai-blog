@@ -1,0 +1,42 @@
+---
+title: 동일한 가중치를 가진 LLM 엔진 간의 출력 차이를 측정하는 방법
+category: papers
+axis: serving
+format: explainer
+summary: 서로 다른 추론 엔진이 동일한 모델 가중치를 사용할 때 발생하는 출력 분포의 차이를 측정하는 방법론을 제안한다. 특히 KL 발산이 무한대가 되는 상황에서도 측정이 가능한 TV 거리(Total Variation Distance)를 활용한다.
+publishedAt: 2026-11-12T22:00:01+0900
+tags:
+- vLLM
+- SGLang
+- quantization
+draft: false
+source:
+  url: https://arxiv.org/abs/2607.19510
+  title: Total Variation Distance Estimation in Autoregressive Models
+  author: Eric Price
+  publishedAt: 2026-11-11T14:00:00+0900
+  words: 25205
+  image: https://arxiv.org/html/2607.19510v2/figures/app_topk_sweep.png
+paper:
+  arxivId: '2607.19510'
+  authors:
+  - Eric Price
+  - Kevin Tian
+  - Zhiyang Xun
+  - Yusong Zhu
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+최신 대규모 언어 모델(LLM)은 배치 처리, 커스텀 커널, 양자화 등 다양한 최적화 기법을 사용한다. 이로 인해 동일한 모델 가중치를 공유하더라도 엔진에 따라 생성되는 출력 분포가 달라질 수 있으며, 이러한 차이를 정량적으로 비교하는 것이 중요하다.
+
+연구진은 두 자기회귀 모델 분포 사이의 TV 거리를 추정하는 세 가지 접근 방식을 제시한다. 샘플 접근 모델에서는 기존 방식보다 개선된 쿼리 복잡도를 달성했으며, 로짓 접근 모델에서는 최적화된 쿼리 횟수를 확보했다. 또한 노이즈가 포함된 로짓 접근 상황에서도 두 모델 사이의 중간 지점을 보완하는 성능을 보여준다.
+
+저자들은 이론적 결과뿐만 아니라 SGLang과 vLLM을 활용한 실증적 평가를 수행했다. 실험 결과, KL 발산이 무한대가 되어 측정이 불가능한 상황에서도 TV 거리를 통해 모델의 차이를 안정적으로 추정할 수 있음을 확인했다. 이 연구는 서로 다른 추론 엔진의 일관성을 검증하는 데 실용적인 기반을 제공한다.
+
+---
+
+원문: [Total Variation Distance Estimation in Autoregressive Models](https://arxiv.org/abs/2607.19510)
