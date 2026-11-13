@@ -1,0 +1,47 @@
+---
+title: 2비트 KV 캐시 양자화의 한계를 넘는 OSCAR 기술
+category: papers
+axis: serving
+format: explainer
+summary: LLM의 긴 문맥 처리를 위해 필수적인 2비트 KV 캐시 양자화의 정확도 문제를 해결하는 OSCAR 기법을 소개한다. 이 기술은 어텐션 메커니즘의 특성을 반영한 오프라인 공분산 분석을 통해 양자화 품질을 유지한다.
+publishedAt: 2026-11-13T22:00:01+0900
+tags:
+- vLLM
+- SGLang
+- quantization
+- KV cache
+- prefix caching
+draft: false
+source:
+  url: https://arxiv.org/abs/2605.17757
+  title: 'OSCAR: Offline Spectral Covariance-Aware Rotation for 2-bit KV Cache Quantization'
+  author: Zhongzhu Zhou
+  publishedAt: 2026-11-13T14:00:00+0900
+paper:
+  arxivId: '2605.17757'
+  authors:
+  - Zhongzhu Zhou
+  - Donglin Zhuang
+  - Jisen Li
+  - Ziyan Chen
+  - Shuaiwen Leon Song
+  - Ben Athiwaratkun
+  - Xiaoxia Wu
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+대규모 언어 모델(LLM)에서 긴 문맥을 처리하기 위해 KV 캐시를 2비트(INT2)로 양자화하는 기술은 매우 매력적이지만, 정확도와 실용성을 동시에 확보하는 것은 여전히 어려운 과제다. 기존의 Hadamard 변환과 같은 데이터 무관(Data-oblivious) 방식은 채널의 이상치를 평탄화하지만, 실제 어텐션 쿼리가 캐시를 사용하는 방식을 고려하지 못해 2비트 수준에서 성능이 급격히 저하되는 한계가 있다.
+
+저자들은 이러한 문제를 해결하기 위해 OSCAR라는 초저비트 KV 캐시 양자화 방법을 제안한다. OSCAR는 어텐션 인식형 공분산 목표치를 오프라인에서 추정하고, 이를 바탕으로 고정된 레이어별 회전과 클리핑 임계값을 도출한다. 이는 양자화 기저를 어텐션에서 소비되는 2차 모멘트 구조에 정렬함으로써 2비트 정밀도에서도 어텐션의 충실도를 보존하는 방식이다.
+
+연구팀은 이론적 분석을 넘어 SGLang 및 vLLM과 같은 현대적인 서빙 엔진에 통합 가능한 실용적인 시스템을 구축했다. 이 시스템은 Triton을 활용한 융합 커널을 통해 페이지드 KV 캐시 레이아웃과 프리픽스 캐싱을 유지하며 효율적인 추론을 지원한다.
+
+저자들의 주장에 따르면 OSCAR는 Qwen3-4B-Thinking-2507 및 Qwen3-8B 모델에서 Hadamard 방식이 붕괴되는 지점에서도 BF16과의 정확도 차이를 3.78 및 1.21 포인트로 좁혔으며, Qwen3-32B 및 GLM-4.7에서는 BF16과 유사한 성능을 보였다. 또한 시스템 측면에서 KV 캐시 메모리를 약 8배 압축하고, 동일 메모리 예산 내에서 대규모 배치의 처리량을 최대 7.8배 향상시키며, 배치 사이즈 1의 디코딩 속도를 최대 3.1배 가속한다는 결과를 발표했다.
+
+---
+
+원문: [OSCAR: Offline Spectral Covariance-Aware Rotation for 2-bit KV Cache Quantization](https://arxiv.org/abs/2605.17757)

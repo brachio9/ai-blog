@@ -1,0 +1,32 @@
+---
+title: HWP까지 지원하는 LLM용 문서 변환 라이브러리 OpenDocKit
+category: community
+axis: retrieval
+format: explainer
+summary: RAG 구축 시 발생하는 문서 변환 문제를 해결하기 위해 개발된 OpenDocKit이 공개되었다. 이 도구는 HWP를 포함한 다양한 문서 형식을 LLM이 읽기 좋은 Markdown으로 변환한다.
+publishedAt: 2026-11-13T22:00:01+0900
+tags:
+- Cursor
+- MCP
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/hwp-markdown-opendockit-langchain-llamaindex-mcp/12505
+  title: '[오픈소스] HWP까지 읽는 문서 → Markdown 변환기 OpenDocKit을 만들었습니다 (LangChain, LlamaIndex, MCP 지원)'
+  author: hyeonsang010716
+  publishedAt: 2026-11-13T17:28:49+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+RAG 시스템을 구축할 때 PDF의 표가 깨지거나 HWP 파일이 인식되지 않는 등 데이터 전처리 단계에서 어려움을 겪는 경우가 많다. 개발자는 이러한 문제를 해결하기 위해 GPU나 ML 모델 없이 동작하며 네트워크 연결 없이도 작동하는 Python 라이브러리 OpenDocKit을 개발했다.
+
+OpenDocKit은 단순한 텍스트 추출을 넘어 문서의 구조를 유지하는 데 집중한다. 세로 병합된 셀의 값을 반복 배치하거나 엑셀의 화면 표시 값을 추출하며, 다단 PDF의 읽기 순서와 수식의 LaTeX 변환 등을 지원한다. 특히 한국어 문서 환경을 고려하여 HWP 5.x 파서를 직접 구현했으며 HWPX와 CP949 인코딩도 지원한다.
+
+개발자는 본인이 구축한 벤치마크를 통해 OpenDocKit이 구조 검사 및 HWP/HWPX 인식에서 다른 도구보다 우수한 성능을 보였다고 주장한다. 다만 자체 OCR 기능이 없어 스캔된 문서는 비전 모델 API를 연결해야 하며, 처리 속도는 다른 도구에 비해 느릴 수 있다는 점을 명시했다. 현재 LangChain, LlamaIndex 및 MCP 서버와의 연동도 지원한다.
+
+---
+
+원문: [[오픈소스] HWP까지 읽는 문서 → Markdown 변환기 OpenDocKit을 만들었습니다 (LangChain, LlamaIndex, MCP 지원)](https://discuss.pytorch.kr/t/hwp-markdown-opendockit-langchain-llamaindex-mcp/12505)

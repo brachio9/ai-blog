@@ -1,0 +1,35 @@
+---
+title: 'Codex CLI 0.168.0 업데이트: TUI 작업 공간 개선과 멀티모달 기능 강화'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Codex CLI 0.168.0 버전에서는 터미널 사용자 경험을 개선하는 TUI 작업 공간 기능과 애니메이션 생성 기능이 추가되었다. 또한 모델 제공자 관리 및 오디오/이미지 처리 성능이 개선되었다.
+publishedAt: 2026-11-13T22:00:01+0900
+tags:
+- Codex
+- MCP
+draft: false
+source:
+  url: https://github.com/openai/codex/releases/tag/rust-v0.168.0
+  title: 0.168.0
+  author: github-actions[bot]
+  publishedAt: 2026-11-13T12:54:29+0900
+  words: 2555
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 터미널 기반 사용자 인터페이스(TUI)의 활용성 강화다. 이제 `features.tui_workspace` 설정을 통해 메인 채팅 옆에 보조 대화창을 띄울 수 있으며, 구분선을 드래그하여 크기를 조절하거나 단축키로 포커스 창을 확대할 수 있다. 또한 터미널 알림 방식 설정과 전용 알림 메시지 개선을 통해 개발 환경에서의 편의성이 높아졌다.
+
+멀티모달 기능과 콘텐츠 생성 능력도 확장되었다. 오디오 기능이 있는 모델을 사용할 때 녹음 파일을 더 효율적으로 처리하며, `features.image_generation_animation` 설정을 통해 애니메이션 GIF를 생성하거나 편집할 수 있는 기능이 추가되었다. Ghostty나 Kitty 터미널 환경에서 전체 화면 모드를 사용할 때 이미지 미리보기와 페츠(pets)가 정상적으로 표시되는 점도 주목할 만하다.
+
+사용자 편의를 위한 세부적인 버그 수정과 시스템 개선도 포함되었다. 로컬 TUI 히스토리에서 로그인된 계정의 스레드만 필터링하도록 개선되었고, 파일 검색 시 파일명 매칭에 더 높은 가중치를 부여하여 검색 결과의 정확도를 높였다. 또한 Windows 환경에서 유휴 상태인 로컬 MCP 서버가 파일 시스템 I/O를 점유하지 않도록 개선되어 시스템 자원 효율성을 높였다.
+
+이번 릴리스에는 위에서 언급한 주요 기능 외에도 모델 제공자 관리, 커스텀 게이트웨이 설정, 그리고 에이전트 도구 관련 경고 메시지 개선 등 다양한 변경 사항이 포함되어 있다. 상세한 변경 내역은 공식 릴리스 노트를 통해 확인할 수 있다.
+
+---
+
+원문: [0.168.0](https://github.com/openai/codex/releases/tag/rust-v0.168.0)

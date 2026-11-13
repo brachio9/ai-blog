@@ -1,0 +1,38 @@
+---
+title: 긴 문서 기반의 다중 질문을 동시에 처리하는 Parallel Prompting 기술
+category: papers
+axis: serving
+format: explainer
+summary: 동일한 문서를 바탕으로 여러 질문을 던질 때 발생하는 중복 연산을 줄이는 Parallel Prompting 기법을 소개한다. 이 기술은 여러 질문을 독립적인 스트림으로 묶어 동시에 디코딩함으로써 메모리 대역폭 문제를 해결한다.
+publishedAt: 2026-11-13T22:00:01+0900
+tags:
+- SGLang
+- prefix caching
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.15130
+  title: 'Read Once, Answer Many: Parallel Prompting for Shared-Context LLM Inference'
+  author: Zekun Zhao
+  publishedAt: 2026-11-13T14:00:00+0900
+  words: 12810
+paper:
+  arxivId: '2611.15130'
+  authors:
+  - Zekun Zhao
+  - Jeffrey Flanigan
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 3
+---
+
+LLM을 활용해 문서 기반 질의응답이나 데이터 라벨링을 수행할 때, 하나의 긴 문서를 공유하면서 여러 개의 독립적인 질문을 던지는 경우가 많다. 기존의 프리픽스 캐싱(Prefix caching)은 중복되는 입력 부분의 연산을 제거해주지만, 각 질문에 대한 디코딩 단계에서 여전히 문서를 매번 읽어야 한다는 한계가 있다. 이로 인해 질문 수가 늘어날수록 메모리 대역폭에 의한 병목 현상이 발생한다.
+
+저자들은 이러한 문제를 해결하기 위해 Parallel Prompting이라는 방식을 제안한다. 이 방법은 P개의 질문을 하나의 요청 내에서 P개의 독립적인 스트림으로 묶어 동시에 디코딩한다. 핵심은 매 디코딩 단계에서 공유 문서를 단 한 번만 읽고, 스트림 ID 기반의 어텐션 마스크를 사용하여 각 답변이 해당 질문과 문서에만 반응하도록 제어하는 것이다.
+
+이 기술은 SGLang에 통합되어 구현되었으며, CUDA 그래프를 활용해 고정된 형태의 디코딩 단계를 유지한다. 저자들의 주장에 따르면, CodeLlama-7B 모델을 사용하여 8k에서 16k 토큰 분량의 문서에 64개에서 256개의 질문을 처리했을 때, 기존 SGLang 대비 A100에서는 3.7배, RTX A6000에서는 5.9~6.0배 빠른 성능을 보였다고 한다. 모든 테스트 케이스에서 기존 방식보다 빠른 성능을 확인했다는 것이 저자들의 주장이다.
+
+---
+
+원문: [Read Once, Answer Many: Parallel Prompting for Shared-Context LLM Inference](https://arxiv.org/abs/2611.15130)

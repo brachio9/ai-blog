@@ -1,0 +1,32 @@
+---
+title: 내 컴퓨터에서 LLM 추론 속도를 공정하게 비교하는 방법
+category: community
+axis: serving
+format: explainer
+summary: 로컬 환경에서 서로 다른 LLM 서버의 성능을 동일한 조건으로 비교하기 어려운 문제를 해결하기 위한 도구가 공개되었다. 개발자는 동일한 클라이언트 측 코드를 사용하여 측정 오차를 줄인 오픈소스 앱을 제작했다.
+publishedAt: 2026-11-13T22:00:01+0900
+tags:
+- vLLM
+- SGLang
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/tokenrace-compare-local-llm-servers-on-your-own-hardware/191775
+  title: 'TokenRace: compare local LLM servers on your own hardware'
+  author: bitify
+  publishedAt: 2026-11-12T19:57:09+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+로컬 환경에서 LLM을 실행할 때, 하드웨어 사양이나 측정 방식에 따라 토큰 생성 속도가 다르게 나타나는 문제가 자주 발생한다. 작성자는 다른 사람의 벤치마크 수치를 자신의 환경에서 재현하는 데 어려움을 겪었고, 이를 해결하기 위해 동일한 스트리밍 요청을 보내는 측정 도구인 TokenRace를 개발했다.
+
+TokenRace는 다양한 로컬 서버 환경에서 동일한 클라이언트 측 타이밍을 적용하여 TTFT, tok/s, 전체 소요 시간 및 메모리 사용량을 실시간으로 측정한다. 이를 통해 사용자들은 자신의 하드웨어에서 어떤 서버가 가장 효율적인지 객관적으로 비교할 수 있다.
+
+이 도구는 Ollama, LM Studio, llama.cpp 등 다양한 서버를 지원하며, OpenAI 호환 서버라면 추가로 연결이 가능하다. 작성자는 이 프로젝트를 오픈소스로 공개했으며, 사용자는 간단한 명령어로 실행하여 다양한 하드웨어 환경에서 성능 수치를 확인할 수 있다.
+
+---
+
+원문: [TokenRace: compare local LLM servers on your own hardware](https://discuss.huggingface.co/t/tokenrace-compare-local-llm-servers-on-your-own-hardware/191775)

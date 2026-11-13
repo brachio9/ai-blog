@@ -1,0 +1,42 @@
+---
+title: 모델 학습 없이 기술 라이브러리만으로 강화하는 HyperSkill
+category: papers
+axis: retrieval
+format: explainer
+summary: 파라미터 업데이트 없이 하이퍼그래프 구조의 기술 라이브러리를 활용해 LLM의 추론 능력을 강화하는 HyperSkill 프레임워크를 제안한다. 모델의 가중치는 고정된 상태에서 검증된 기술 노드와 조합을 활용해 성능을 개선한다.
+publishedAt: 2026-11-13T22:00:01+0900
+tags:
+- distillation
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.15178
+  title: 'HyperSkill: Training-Free Omnimodal GRPO via Hypergraph-Indexed Skill-Library Evolution'
+  author: Haoran Luo
+  publishedAt: 2026-11-13T14:00:00+0900
+  words: 24597
+  image: https://arxiv.org/html/2611.15178v1/F1.png
+paper:
+  arxivId: '2611.15178'
+  authors:
+  - Haoran Luo
+  - Shangkai Lin
+  - Jinyang Wu
+  - Xinliang Zhou
+  - Luu Anh Tuan
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+기존의 강화 학습은 모델의 파라미터를 업데이트하는 과정에서 높은 비용이 발생하고 지식 망각이나 불투명한 학습 과정이 발생한다는 한계가 있다. 이를 해결하기 위해 연구진은 모델의 가중치를 고정하면서도 텍스트 기반의 저장소에 기술을 저장하고 관리하는 방식을 제안했다.
+
+HyperSkill은 하이퍼그래프 구조를 활용하여 기술을 노드로, 기술 간의 조합을 하이퍼엣지로 정의하는 방식이다. 이 프레임워크는 학습 단계에서 반사실적 검증을 거친 기술을 수집하고 실패 사례로부터 프로토콜 기술을 학습하며, 실행 단계에서는 게이트 기반의 검색을 통해 최적의 기술을 주입한다.
+
+저자들의 주장에 따르면 HyperSkill은 11개의 텍스트, 시각-언어, 멀티모달 벤치마크에서 모든 데이터셋에 대해 최고 성능 혹은 공동 1위를 기록했다. 특히 기존 베이스라인 대비 평균 13.0 F1 포인트 높은 성능을 보여주었으며, 이는 모델의 백본을 고정한 상태에서 달성된 결과다.
+
+---
+
+원문: [HyperSkill: Training-Free Omnimodal GRPO via Hypergraph-Indexed Skill-Library Evolution](https://arxiv.org/abs/2611.15178)
