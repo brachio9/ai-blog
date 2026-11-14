@@ -1,0 +1,41 @@
+---
+title: 복잡한 유통 데이터를 연결하는 에이전트 기반 RAG 기술
+category: papers
+axis: agent
+format: explainer
+summary: 이 연구는 다양한 소스에서 정보를 조합해야 하는 유통 업무 환경을 위한 에이전트 기반 RAG 프레임워크를 제안한다. 다양한 데이터 형태를 연결하는 RetailBridge 벤치마크와 이를 평가하기 위한 RetailRAG 시스템을 구축했다.
+publishedAt: 2026-11-14T22:00:01+0900
+tags:
+- RAG
+draft: false
+source:
+  url: https://arxiv.org/abs/2610.25096
+  title: Toward Agentic Retrieval-Augmented Generation for Enterprise Retail Workflows over Heterogeneous Data Sources
+  author: Jeonghwan Choi
+  publishedAt: 2026-11-13T14:00:00+0900
+  words: 22264
+  image: https://arxiv.org/html/2610.25096v2/BridgeQA_overview.png
+paper:
+  arxivId: '2610.25096'
+  authors:
+  - Jeonghwan Choi
+  - Jibin Hwang
+  - Hayoon Park
+  - Hyeonjae Cheon
+  - Hwanjun Song
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+기업의 유통 업무는 구조화된 주문 기록부터 비정형적인 고객 리뷰까지 서로 다른 성격의 데이터를 통합하여 활용해야 한다. 하지만 기존의 에이전트 기반 RAG 벤치마크는 이러한 복잡한 데이터 연결 과정을 충분히 반영하지 못한다는 한계가 있다. 이를 해결하기 위해 저자들은 다양한 데이터 소스에서 엔티티와 중간 답변을 연결하여 추론해야 하는 RetailBridge 벤치마크를 개발했다.
+
+저자들은 LLM의 성능을 체계적으로 평가하기 위해 자동 스키마 브리핑, 소스 기반 경로 계획, 진단적 계획 수정 기능을 갖춘 RetailRAG 프레임워크를 구축했다. 저자들의 주장에 따르면 RetailRAG는 기존의 에이전트 기반 RAG 베이스라인보다 모든 평가 지표에서 우수한 성능을 보여주며, 유통 업무에서 LLM 에이전트의 성능을 측정하는 강력한 기준점이 된다.
+
+RetailBridge를 통해 10개의 LLM 백본을 평가한 결과, 모델의 크기나 제공사에 관계없이 여러 소스를 연결하는 과정이 주요 병목 구간으로 나타났다. 이는 단순히 모델의 규모를 키우는 것보다 서로 다른 소스 간의 데이터를 조율하는 명확한 오케스트레이션 능력이 신뢰할 수 있는 유통 에이전트 구축에 필수적임을 시사한다.
+
+---
+
+원문: [Toward Agentic Retrieval-Augmented Generation for Enterprise Retail Workflows over Heterogeneous Data Sources](https://arxiv.org/abs/2610.25096)

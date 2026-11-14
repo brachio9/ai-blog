@@ -1,0 +1,51 @@
+---
+title: 실력이 부족한 에이전트도 훌륭한 스승이 될 수 있을까?
+category: papers
+axis: agent
+format: explainer
+summary: 의사결정 모델이 직접 행동하는 능력과 학습을 가르치는 능력은 별개일 수 있다. 행동 결과가 확인된 시점에서 평가를 내리는 방식은 낮은 성능의 모델로도 효과적인 학습을 가능하게 한다.
+publishedAt: 2026-11-14T22:00:01+0900
+tags:
+- GRPO
+draft: false
+source:
+  url: https://huggingface.co/papers/2611.17167
+  title: Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents
+  author: Haochen Liu
+  publishedAt: 2026-11-12T09:00:00+0900
+  words: 12445
+  image: https://arxiv.org/html/2611.17167v1/figure1_vector.png
+paper:
+  arxivId: '2611.17167'
+  authors:
+  - Haochen Liu
+  - Qianhao Zhu
+  - Zixuan Wang
+  - Dingming Li
+  - Tongbo Chen
+  - Peng Qiu
+  - Yingqi Qu
+  - Weiming Lu
+  - Jun Xiao
+  - Yongliang Shen
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 3
+  popularity:
+    kind: hf-upvotes
+    count: 26
+---
+
+의사결정 모델은 선택지 중 하나를 고르거나 특정 행동의 가치를 평가하는 역할을 수행한다. 기존 연구들은 주로 모델이 얼마나 잘 행동하는지에 집중해 왔으나, 본 연구는 행동 능력이 떨어지는 모델이라도 학습을 잘 시킬 수 있는지에 주목한다.
+
+연구진은 ALFWorld와 WebShop 환경에서 다양한 모델을 에이전트, 판정관, 교사 역할로 배치하여 비교했다. 실험 결과, 에이전트로서의 모델들은 목표 달성에 필요한 단계를 건너뛰는 경향을 보였으나, 전체 궤적을 확인하는 판정관 역할에서는 유의미한 행동을 정확히 구분해냈다.
+
+특히 JEV 모델을 교사로 활용했을 때, GRPO 알고리즘을 통해 Qwen2.5-1.5B 정책의 성공률을 유의미하게 끌어올린 것으로 나타났다. 저자들의 주장에 따르면 ALFWorld에서 72.8%에서 82.9%로, WebShop에서 56.8%에서 71.4%로 성능이 향상되었다.
+
+이 결과는 에이전트가 행동을 할 때는 미래를 예측해야 하지만, 교사로서 행동을 평가할 때는 이미 발생한 결과에 기반해 판단할 수 있기 때문에 발생하는 차이다. 즉, 행동 능력이 부족한 모델이라도 사후 평가를 통해 훌륭한 교사가 될 수 있다.
+
+---
+
+원문: [Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents](https://huggingface.co/papers/2611.17167)

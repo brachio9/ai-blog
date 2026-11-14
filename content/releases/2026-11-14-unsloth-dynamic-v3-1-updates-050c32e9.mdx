@@ -1,0 +1,48 @@
+---
+title: 'Unsloth 업데이트: Qwen3.8 지원과 성능 최적화'
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 Dynamic v3.1 GGUF를 포함한 대규모 업데이트를 발표했다. 이번 업데이트는 Qwen3.8-27B 모델 지원과 더불어 전반적인 성능 개선 및 새로운 기능 추가에 집중했다.
+publishedAt: 2026-11-14T22:00:01+0900
+tags:
+- RAG
+- Claude Code
+- Codex
+- MCP
+- vLLM
+- SGLang
+- quantization
+- LoRA
+- fine-tuning
+- KV cache
+- GRPO
+- DPO
+- TTS
+- ASR
+- Whisper
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.917-beta
+  title: Dynamic v3.1 GGUFs + Performance Fixes
+  author: shimmyshimmer
+  publishedAt: 2026-11-12T01:00:56+0900
+  words: 11647
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 Qwen3.8-27B 모델을 위한 Dynamic v3.1 GGUF 지원이다. 이를 통해 사용자들은 해당 모델을 로컬 환경에서 더욱 원활하게 실행할 수 있게 되었다. 또한 긴 대화에서도 성능 저하가 없는 스트리밍과 스크롤링 최적화가 이루어져 사용자 경험이 크게 개선되었다.
+
+사용자 인터페이스 측면에서도 많은 변화가 있었다. 코드 블록과 사고 과정(Thinking) 표시가 개별적으로 스크롤되는 독립형 패널로 개편되었으며, 대화 내용을 HTML이나 PDF로 직접 내보낼 수 있는 기능이 추가되었다. 이미지 생성 시 대기열 시스템이 도입되어 연속적인 작업이 가능해진 점도 눈에 띈다.
+
+이미지 및 비디오 생성 성능도 강화되었다. FLUX 모델의 VRAM 사용량이 줄어들었으며, 이전 세대 NVIDIA GPU에서도 특정 이미지 모델을 실행할 수 있도록 지원이 확대되었다. 또한 Mac 환경에서 MLX 모델을 활용한 코딩 에이전트 실행 기능이 새롭게 추가되었다.
+
+학습 성능 측면에서는 T4 GPU에서 모델 생성 속도가 최대 8배까지 빨라졌다는 결과가 발표되었다. 이번 업데이트는 대규모 성능 개선과 기능 추가를 포함하고 있으며, 전체 변경 사항 중 주요 핵심 기능 위주로 업데이트가 진행되었다.
+
+---
+
+원문: [Dynamic v3.1 GGUFs + Performance Fixes](https://github.com/unslothai/unsloth/releases/tag/v0.1.917-beta)

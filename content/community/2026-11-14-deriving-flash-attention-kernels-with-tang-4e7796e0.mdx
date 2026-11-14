@@ -1,0 +1,33 @@
+---
+title: FlashAttention 커널을 직접 짜지 않고 컴파일러로 생성하는 방법
+category: community
+axis: serving
+format: explainer
+summary: Municipal Robotics의 Cam Pedersen은 Rust 기반 텐서 컴파일러인 tang을 통해 FlashAttention 커널을 자동으로 유도하는 연구를 발표했다. 이 방식은 수동으로 작성된 커널 라이브러리를 대수적 구조와 스케줄 탐색으로 대체하는 것을 목표로 한다.
+publishedAt: 2026-11-14T22:00:01+0900
+tags:
+- vLLM
+- SGLang
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/tang-flashattention-rust/12502
+  title: 'tang: 연산자별 커널 없이 FlashAttention 순전파와 역전파를 유도하는 Rust 텐서 컴파일러'
+  author: 9bow
+  publishedAt: 2026-11-13T20:00:29+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/8/2/823cf206a1ab31f45d42bc9d3cf7f40806e10510_2_1028x644.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+Municipal Robotics의 Cam Pedersen은 연구 보고서 "Don't Write Kernels, Derive Them"을 통해 Rust 라이브러리 tang을 소개했다. 이 컴파일러는 뷰와 모노이드 컴프리헨션이라는 두 가지 개념만으로 FlashAttention의 순전파와 역전파 커널을 손으로 작성하지 않고도 유도해낸다. 현재 이 시스템은 CUDA, Metal, WGSL, OpenCL, GLSL, C 등 다양한 백엔드를 지원한다.
+
+저자는 현대 딥러닝 모델에서 커널의 수가 폭발적으로 증가하는 이유가 연산자와 백엔드의 조합, 그리고 융합(fusion) 때문이라고 분석한다. 특히 FlashAttention처럼 메모리 효율을 위해 손으로 다시 설계된 커널들은 특정 장치와 크기에만 최적화된 복사본에 불과하다는 것이 저자의 주장이다. 따라서 저자는 커널을 프로그램이 아닌 정리(theorem)로 보아야 하며, 이를 유도하고 검증하는 시스템이 필요하다고 강조한다.
+
+실제 측정 결과에 따르면, tang은 특정 조건에서 PyTorch보다 빠른 성능을 보여주기도 하지만 모든 구간에서 우세한 것은 아니다. 예를 들어 특정 헤드 차원에서는 FlashAttention-2보다 느리거나 vLLM보다 약 12배 느린 결과도 포함되어 있다. 또한 저자는 재작성 규칙의 건전성을 Lean 4로 증명했으나, 현재 도출된 시간 하한은 실제 측정치에 비해 아직 느슨한 상태임을 밝히고 있다.
+
+---
+
+원문: [tang: 연산자별 커널 없이 FlashAttention 순전파와 역전파를 유도하는 Rust 텐서 컴파일러](https://discuss.pytorch.kr/t/tang-flashattention-rust/12502)

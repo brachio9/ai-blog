@@ -1,0 +1,46 @@
+---
+title: 다중 기여도 모델을 활용한 전환율 예측의 새로운 벤치마크와 방법론
+category: papers
+axis: domain
+format: explainer
+summary: 다중 기여도 학습(MAL)을 위한 첫 번째 공개 벤치마크인 MAC과 오픈소스 라이브러리 PyMAL이 공개되었다. 이 연구는 다양한 기여도 메커니즘을 통합하여 전환율(CVR) 예측 성능을 높이는 방법론을 제시한다.
+publishedAt: 2026-11-14T22:00:01+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2603.02184
+  title: 'MAC: A Conversion Rate Prediction Benchmark Featuring Labels Under Multiple Attribution Mechanisms'
+  author: Jinqi Wu
+  publishedAt: 2026-11-13T14:00:00+0900
+  words: 10831
+  image: https://arxiv.org/html/2603.02184v3/mac_intro.png
+paper:
+  arxivId: '2603.02184'
+  authors:
+  - Jinqi Wu
+  - Sishuo Chen
+  - Zhangming Chan
+  - Yong Bai
+  - Lei Zhang
+  - Sheng Chen
+  - Chenghuan Hou
+  - Xiang-Rong Sheng
+  - Han Zhu
+  - Jian Xu
+  - Bo Zheng
+  - Chaoyou Fu
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+기존의 전환율(CVR) 예측 데이터셋은 단일 기여도 메커니즘에 기반하여 생성되었기 때문에, 여러 기여도 메커니즘을 동시에 학습하는 다중 기여도 학습(MAL) 연구에 제약이 있었다. 이를 해결하기 위해 연구진은 다양한 기여도 메커니즘의 레이블을 포함하는 최초의 공개 CVR 데이터셋인 MAC을 구축했다. 또한 연구의 재현성을 위해 다양한 베이스라인 모델을 포함하는 오픈소스 라이브러리 PyMAL을 함께 개발했다.
+
+연구진은 MAC 데이터셋을 활용해 세 가지 주요 분석 결과를 도출했다. 첫째, MAL은 다양한 기여도 설정에서 일관된 성능 향상을 보이며 특히 전환 경로가 긴 사용자에게 효과적이다. 둘째, 대부분의 설정에서 목적 함수의 복잡도가 높을수록 성능이 향상되지만, 첫 클릭 전환 목표를 예측할 때는 보조 목적 함수를 추가하는 것이 오히려 역효과를 낼 수 있으므로 목적 함수의 신중한 선택이 필요하다. 셋째, 다중 기여도 지식을 완전히 학습하고 이를 메인 태스크에 효과적으로 활용하는 두 가지 설계 원칙이 중요하다는 점을 확인했다.
+
+이러한 발견을 바탕으로 연구진은 다중 기여도 지식 학습과 메인 태스크 중심의 지식 활용을 결합한 Mixture of Asymmetric Experts(MoAE) 모델을 제안했다. 저자들의 주장에 따르면 MoAE는 MAC 벤치마크에서 기존의 최신 MAL 방법들을 크게 앞서는 성능을 보여주었다. 연구진은 이번에 공개한 벤치마크와 라이브러리가 향후 MAL 분야의 연구를 촉진하는 데 기여할 것이라고 밝혔다.
+
+---
+
+원문: [MAC: A Conversion Rate Prediction Benchmark Featuring Labels Under Multiple Attribution Mechanisms](https://arxiv.org/abs/2603.02184)

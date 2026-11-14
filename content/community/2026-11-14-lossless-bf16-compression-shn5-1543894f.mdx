@@ -1,0 +1,31 @@
+---
+title: 무손실 압축으로 BF16 모델 용량을 1.5배 줄이는 .shn5 포맷
+category: community
+axis: serving
+format: explainer
+summary: Leviathan 프로젝트의 개발자가 BF16 모델 가중치를 무손실로 압축하는 .shn5 포맷을 공개했다. 이 방식은 데이터 손실 없이 디스크와 메모리 점유율을 약 1.5배 줄여준다.
+publishedAt: 2026-11-14T22:00:01+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/shn5-lossless-bf16-model-files-1-5x-smaller-and-a-61-gb-moe-on-a-16-gb-gpu/191801
+  title: '.shn5: lossless BF16 model files ~1.5× smaller, and a 61 GB MoE on a 16 GB GPU'
+  author: Omega-Dev
+  publishedAt: 2026-11-13T13:32:28+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: mid
+  crossSources: 1
+---
+
+Leviathan 프로젝트의 개발자는 윈도우용 로컬 추론 엔진을 개발하며 새로운 모델 파일 포맷인 .shn5를 도입했다. 이 포맷은 모델 가중치를 무손실로 압축하는 컨테이너로, BF16 및 F16 모델의 용량을 디스크와 RAM, PCIe 전송 시 모두 약 1.5배 줄여준다.
+
+개발자는 BF16 가중치가 실제로는 16비트 전체를 활용하지 않는다는 점에 주목했다. 훈련된 가중치는 특정 범위 내에 머물기 때문에 지수(Exponent) 필드의 활용도가 낮으며, 개발자는 이 특징을 이용해 지수 부분을 엔트로피 코딩으로 압축했다. 반면 부호와 가수 부분은 무작위성이 높아 압축하지 않고 그대로 유지했다.
+
+이 방식은 기존의 DFloat11이나 ZipNN과 유사한 원리를 공유하지만, .shn5는 스트리밍에 최적화된 패키징을 제공한다는 차별점이 있다. 개발자는 이 포맷을 통해 16GB GPU에서 61GB 규모의 MoE 모델을 구동할 수 있는 가능성을 제시했다.
+
+---
+
+원문: [.shn5: lossless BF16 model files ~1.5× smaller, and a 61 GB MoE on a 16 GB GPU](https://discuss.huggingface.co/t/shn5-lossless-bf16-model-files-1-5x-smaller-and-a-61-gb-moe-on-a-16-gb-gpu/191801)

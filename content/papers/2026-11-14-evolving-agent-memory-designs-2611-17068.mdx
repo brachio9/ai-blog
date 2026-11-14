@@ -1,0 +1,44 @@
+---
+title: AI 에이전트의 기억 구조를 스스로 진화시키는 MAPE 프레임워크
+category: papers
+axis: agent
+format: explainer
+summary: AI 에이전트의 효율적인 메모리 설계를 위해 프로그램 진화 방식을 도입한 MAPE 프레임워크를 제안한다. 이 프레임워크는 최소한의 초기 설정을 바탕으로 반복적인 진단과 제안 과정을 거쳐 최적의 메모리 구조를 찾아낸다.
+publishedAt: 2026-11-14T22:00:01+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.17068
+  title: Discovering Effective Agent Memory Designs through Program Evolution
+  author: Xinheng Ding
+  publishedAt: 2026-11-13T14:00:00+0900
+  words: 12927
+  image: https://arxiv.org/html/2611.17068v1/system_overview_v4.png
+paper:
+  arxivId: '2611.17068'
+  authors:
+  - Xinheng Ding
+  - Seyyed Saeid Cheshmi
+  - Ziyang Zhang
+  - Tairan Chen
+  - Wenya Xie
+  - Yu Hou
+  - Rui Zhang
+  - Zirui Liu
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+연구진은 에이전트의 메모리 설계 원칙을 탐구하기 위해 프로그램 진화 기법을 활용하는 MAPE 프레임워크를 개발했다. 이 프레임워크는 표준화된 인터페이스를 통해 메모리 프로그램을 생성하고, 반복적인 진단과 제안 루프를 통해 성능을 개선하는 구조를 가진다.
+
+저자들의 주장에 따르면, MAPE를 통해 생성된 메모리 시스템은 수동으로 설계된 베이스라인보다 정확도를 최대 12% 높이면서도 운영 비용은 35% 수준으로 절감할 수 있다. 또한 이러한 성능 개선은 서로 다른 백본 모델과 벤치마크에서도 유지되는 것으로 확인되었다.
+
+실험을 통해 확인된 주요 설계 패턴은 두 가지다. 첫째는 원본 대화 내용을 그대로 유지하여 추출된 메모리에서 누락될 수 있는 세부 정보를 보존하는 것이며, 둘째는 검색된 증거를 질문의 의도에 맞춰 구성하는 것이 답변 모델의 활용도를 높인다는 점이다. 연구진은 이 중 구성 모듈을 기존의 5개 메모리 시스템에 이식하여 모든 시스템의 정확도를 개선했다.
+
+마지막으로 연구진은 최적화 목표에 따라 계산 자원의 배분이 달라진다는 점을 발견했다. 정확도와 운영 비용을 동시에 최적화할 경우, 메모리 구축 단계에서 수행하던 계산을 질의 시점의 선택적 처리로 이동시키면서도 경쟁력 있는 정확도를 유지할 수 있다는 사실을 확인했다.
+
+---
+
+원문: [Discovering Effective Agent Memory Designs through Program Evolution](https://arxiv.org/abs/2611.17068)
