@@ -1,0 +1,47 @@
+---
+title: 멀티 에이전트 통신을 토큰 단위의 보상으로 변환하는 OPSD4MAS 기술
+category: papers
+axis: agent
+format: explainer
+summary: 멀티 에이전트 시스템에서 에이전트 간의 통신 데이터를 활용해 정교한 토큰 단위의 보상을 생성하는 OPSD4MAS 방법론을 소개한다. 기존의 단순한 스칼라 보상 체계를 개선하여 각 에이전트가 어떤 의사결정을 수정하거나 강화해야 하는지 구체적인 가이드를 제공한다.
+publishedAt: 2026-11-15T22:00:01+0900
+tags:
+- distillation
+- GRPO
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.16206
+  title: Turning Multi-Agent Communication into Token-Level Credit with On Policy Self Distillation
+  author: Zixu Wang
+  publishedAt: 2026-11-13T14:00:00+0900
+  words: 8656
+  image: https://arxiv.org/html/2611.16206v1/fig1a_author_edited.png
+paper:
+  arxivId: '2611.16206'
+  authors:
+  - Zixu Wang
+  - Yu Zhao
+  - Xing Zheng
+  - Bingbing Xu
+  - Tian Xueyun
+  - JiaTang Luo
+  - Weiqiang Wang
+  - Bowen Song
+  - Huawei Shen
+  - Xueqi Cheng
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+기존의 멀티 에이전트 강화 학습 방식은 에이전트 간의 통신 지식을 충분히 활용하지 못하거나 이를 단순한 스칼라 보상으로 압축하는 한계가 있었다. 이로 인해 각 에이전트가 어떤 특정 행동을 수정해야 하는지에 대한 세밀한 피드백이 부족한 상태로 학습이 진행되는 문제가 발생했다.
+
+연구진은 이러한 문제를 해결하기 위해 OPSD4MAS라는 방법론을 제안했다. 이 기술은 온폴리시 자기 증류(On Policy Self Distillation)를 통해 미래의 통신 내용을 세밀한 토큰 단위의 보상으로 변환한다. 외부 모델을 활용해 사실 관계를 추출하고 궤적 관계를 평가하여 거친 필터링을 수행하며, 이후 특정 토큰이 에이전트의 결과에 미치는 영향력을 개별적으로 분석하는 필터링 과정을 거친다.
+
+이 방식은 사실 조건부 정책을 통해 토큰 수준의 보상을 제공하며, 이를 GRPO와 선형적으로 조정된 공동 목적 함수를 통해 결합한다. 저자들의 주장에 따르면, 이 방법은 GRPO 대비 수학적 pass@4 지표를 최대 20.00%p 개선하는 성과를 보였다. 실험 결과는 전체 필터링의 유효성과 사실 정보의 유용성을 뒷받침하며, 에이전트 수준의 결과 가이드와 통신 기반의 토큰 수준 보상을 결합하는 것이 효과적임을 시사한다.
+
+---
+
+원문: [Turning Multi-Agent Communication into Token-Level Credit with On Policy Self Distillation](https://arxiv.org/abs/2611.16206)

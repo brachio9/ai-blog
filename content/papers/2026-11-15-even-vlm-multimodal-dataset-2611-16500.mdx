@@ -1,0 +1,38 @@
+---
+title: 소멸 위기 언어인 에벤(Even)을 위한 멀티모달 데이터셋과 학습 기법
+category: papers
+axis: domain
+format: explainer
+summary: 시베리아의 소멸 위기 언어인 에벤(Even)을 위한 최초의 텍스트 및 멀티모달 데이터셋인 EvenVLM이 공개되었다. 이 연구는 언어 특성에 최적화된 토큰화 알고리즘과 효율적인 파인튜닝 기법을 통해 저자원 언어의 모델 성능을 개선했다.
+publishedAt: 2026-11-15T22:00:01+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.16500
+  title: 'EvenVLM: A Text and Multimodal Dataset for the Even Language with Vision-Language Fine-Tuning'
+  author: Daniil Makovetskii
+  publishedAt: 2026-11-13T14:00:00+0900
+  words: 4098
+paper:
+  arxivId: '2611.16500'
+  authors:
+  - Daniil Makovetskii
+  - Ivan Bondarenko
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+연구진은 시베리아 지역의 약 6,800명이 사용하는 북부 퉁구스어 계열인 에벤(Even) 언어를 위한 최초의 텍스트 및 시각 질의응답(VQA) 데이터셋을 구축했다. 이 데이터셋은 사전과 관용구 자료에서 추출한 에벤-러시아어 쌍을 기반으로 하며, 번역, 문법, 독해 및 의미 분류를 포함하는 방대한 학습 데이터를 포함한다.
+
+에벤 언어의 교착적 형태에 따른 토큰화 효율 문제를 해결하기 위해 연구진은 세 단계의 토큰화 확장 알고리즘을 제안했다. 이는 에벤 전용 음소 추가와 화이트리스트 기반 어휘 확장, BPE 병합을 통해 단어당 평균 토큰 수를 줄이는 효과를 가져왔다. 모델 학습에는 Qwen3-VL-4B 모델을 활용했으며, 텍스트 작업과 시각 질의응답 작업을 분리하여 최적화했다.
+
+저자들의 주장에 따르면, 제안된 모델은 텍스트 벤치마크에서 11.4%의 정확도와 0.1283의 chrF 점수를 기록했으며, 시각 질의응답(VQA)에서는 65%의 정확도를 달성했다. 이는 기본 모델이나 텍스트 전용 파인튜닝 모델이 0%에 그쳤던 것과 대조되는 결과다. 연구진은 에벤 언어 및 기타 저자원 언어 연구를 돕기 위해 데이터셋과 평가 벤치마크, 학습 파이프라인을 공개했다.
+
+---
+
+원문: [EvenVLM: A Text and Multimodal Dataset for the Even Language with Vision-Language Fine-Tuning](https://arxiv.org/abs/2611.16500)

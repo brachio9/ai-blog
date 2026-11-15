@@ -1,0 +1,29 @@
+---
+title: Datasette 클러스터 맵 업데이트와 새로운 지도 기능
+category: news
+axis: vibe-coding
+format: explainer
+summary: Datasette의 오래된 플러그인 중 하나인 cluster-map이 최신 버전과 호환되도록 업데이트되었다. 이번 업데이트는 새로운 Leaflet 플러그인과의 연동을 통해 OpenStreetMap 타일 요청 방식을 개선했다.
+publishedAt: 2026-11-15T22:00:01+0900
+draft: false
+source:
+  url: https://simonwillison.net/2026/Nov/13/datasette-cluster-map/
+  title: datasette-cluster-map 0.19
+  publishedAt: 2026-11-14T08:02:45+0900
+  image: https://static.simonwillison.net/static/2026/power-plants-pge.webp
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: low
+  crossSources: 1
+---
+
+Simon Willison은 Datasette의 클러스터 맵 플러그인 0.19 버전을 공개했다. 이 플러그인은 Datasette 1.0a42 버전에서 작동하며, 사용자들의 지리 공간 데이터를 시각화하는 데 유용하게 활용된다.
+
+이번 업데이트의 핵심은 새로운 datasette-leaflet 플러그인과의 통합이다. 이를 통해 OpenStreetMap 타일을 요청할 때 올바른 레퍼러(referrer) 헤더를 포함하도록 보장한다. 이는 지도 데이터를 제공하는 서비스와의 원활한 연동을 위해 필수적인 변경 사항이다.
+
+공개된 예시에서는 캘리포니아 지역의 전력 발전소 데이터를 지도 위에 표시했다. 이 예시를 통해 Datasette의 새롭게 디자인된 파셋(facets) 기능과 결합된 지도 인터페이스를 확인할 수 있다. 상세한 기술적 변경 사항이나 추가적인 기능은 원문 링크를 통해 확인할 수 있다.
+
+---
+
+원문: [datasette-cluster-map 0.19](https://simonwillison.net/2026/Nov/13/datasette-cluster-map/)

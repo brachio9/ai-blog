@@ -1,0 +1,44 @@
+---
+title: 단백질 변이 효과 예측을 위한 다중 소스 데이터 통합 및 증류 프레임워크
+category: papers
+axis: serving
+format: explainer
+summary: 단백질 변이 데이터의 희소성 문제를 해결하기 위해 PDB 구조 기반의 대규모 변이 증강 데이터셋을 구축했다. 물리 기반 에너지 모델, 단백질 언어 모델, 역 폴딩 모델의 신호를 통합하고 불일치를 모델링하는 증류 프레임워크를 제안한다.
+publishedAt: 2026-11-15T22:00:01+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.16361
+  title: 'MutAtlas: A PDB-Wide Energy-Guided Atlas of Protein Mutation Effects'
+  author: Ruihan Guo
+  publishedAt: 2026-11-13T14:00:00+0900
+  words: 8024
+  image: https://arxiv.org/html/2611.16361v1/ICML_MutAtlas_0515.png
+paper:
+  arxivId: '2611.16361'
+  authors:
+  - Ruihan Guo
+  - Chaoran Cheng
+  - Zhanghan Ni
+  - Neil He
+  - Bangji Yang
+  - Ge Liu
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+단백질 변이 효과 예측은 단백질 공학 및 질병 변이 해석에 필수적이지만, 실험적으로 측정된 데이터는 정확함에도 불구하고 매우 희소하다. 이를 해결하기 위해 연구진은 실험적으로 확인된 단백질 구조를 바탕으로 단일 부위 치환을 전수 조사한 PDB 기반 변이 증강 데이터셋을 구축했다.
+
+연구진은 물리 기반 에너지 모델, 단백질 언어 모델, 역 폴딩 모델에서 추출한 변이 신호를 통합하여 분석했다. 분석 결과 모델마다 변이 분포의 일관성, 집중도, 치환 패턴에서 상당한 차이가 발견되었으며, 이는 단순한 노이즈가 아니라 모델마다 서로 다른 귀납적 편향이 존재함을 시사한다.
+
+이러한 발견을 바탕으로 연구진은 여러 소스에서 오는 변이 선호도를 학습하면서 소스 간의 불일치를 명시적으로 모델링하는 비지도 다중 소스 변이 선호 증류 프레임워크를 제안했다. 이 방식은 학습 과정에서 실험적 변이 라벨을 전혀 사용하지 않는다.
+
+저자들의 주장에 따르면, 제안된 방식은 ProteinGym 벤치마크에서 기존의 제로샷 베이스라인 및 단순한 다중 소스 융합 전략보다 우수한 성능을 기록했다. 연구진은 재현 가능한 연구를 지원하기 위해 데이터셋과 평가 파이프라인을 공개했다.
+
+---
+
+원문: [MutAtlas: A PDB-Wide Energy-Guided Atlas of Protein Mutation Effects](https://arxiv.org/abs/2611.16361)

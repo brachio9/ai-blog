@@ -1,0 +1,37 @@
+---
+title: 하이브리드 LLM 에이전트의 긴 문맥 처리를 위한 FlashStates 기술
+category: community
+axis: serving
+format: explainer
+summary: FlashStates는 하이브리드 LLM 구조에서 발생하는 중복 프리필 문제를 해결하기 위한 vLLM 확장 기술이다. 에이전트 워크로드처럼 문맥이 길어지는 환경에서 접두어 캐시 효율을 극대화하는 데 집중한다.
+publishedAt: 2026-11-15T22:00:01+0900
+tags:
+- Claude Code
+- vLLM
+- SGLang
+- prefix caching
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/flashstates-llm-prefix-cache-vllm/12511
+  title: 'FlashStates: 하이브리드 LLM 에이전트 서빙에서 Prefix Cache 재계산을 줄이는 상태 관리에 대한 연구 및 vLLM 확장'
+  author: 9bow
+  publishedAt: 2026-11-14T18:30:49+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/f/a/faccfc7f3b169cf07ebf1f82573d3ad49d1179cc_2_1028x625.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+FlashStates는 Together AI, UIUC, UT Austin 연구팀이 개발한 vLLM 확장으로, 하이브리드 모델을 코딩 에이전트와 같은 긴 문맥 워크로드에 사용할 때 발생하는 중복 계산을 줄이는 데 목적이 있다. 특히 에이전트가 도구를 호출하며 대화 기록을 누적할 때, 이전 요청에서 이미 계산된 접두어를 효율적으로 재사용하는 것이 핵심이다.
+
+기존의 풀 어텐션 모델과 달리 선형 어텐션이나 상태 공간 모델(SSM)이 포함된 하이브리드 모델은 접두어 캐싱이 까다롭다. FlashStates는 이를 해결하기 위해 순환 상태의 체크포인트를 KV 캐시 블록 경계가 아닌 이전 턴이 끝난 정확한 토큰 위치에 저장한다. 또한 체크포인트와 의존하는 KV 블록을 하나의 단위로 묶어 관리함으로써 불필요한 재계산을 방지한다.
+
+연구팀은 B200 GPU를 활용한 실험을 통해 FlashStates가 높은 동시성 환경에서 성능 이득이 크다는 점을 주장했다. 특히 첫 토큰까지의 지연 시간(TTFT)을 대폭 단축하는 효과를 확인했으며, 이는 작업 집합이 캐시 용량에 근접하는 상황에서 두드러지게 나타났다. 다만 부하가 낮은 상황에서는 처리량 차이가 작거나 특정 조건에서 지연 시간이 늘어나는 지점도 관찰되었다.
+
+해당 기술은 vLLM과 Mooncake를 포크하여 공개되었으며, 연구용 코드로 제공된다. 현재 B200용 컨테이너 이미지가 포함되어 있으며 모든 기능은 기본적으로 비활성화된 옵션으로 제공된다.
+
+---
+
+원문: [FlashStates: 하이브리드 LLM 에이전트 서빙에서 Prefix Cache 재계산을 줄이는 상태 관리에 대한 연구 및 vLLM 확장](https://discuss.pytorch.kr/t/flashstates-llm-prefix-cache-vllm/12511)

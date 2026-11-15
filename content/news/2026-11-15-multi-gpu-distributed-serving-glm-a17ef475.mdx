@@ -1,0 +1,32 @@
+---
+title: 거대 언어 모델을 여러 대의 GPU 서버로 분산 처리하는 방법
+category: news
+axis: serving
+format: explainer
+summary: 단일 GPU 메모리로는 수용하기 어려운 대규모 모델을 여러 대의 서버에 분산하여 실행하는 기술에 대해 다룬다. NVIDIA DGX Station을 활용한 GLM-5.3 모델 서빙 사례를 소개한다.
+publishedAt: 2026-11-15T22:00:01+0900
+tags:
+- vLLM
+draft: false
+source:
+  url: https://developer.nvidia.com/blog/when-one-gpu-isnt-enough-serving-glm-5-3-across-two-nvidia-dgx-stations-with-vllm/
+  title: 'When One GPU Isn’t Enough: Serving GLM-5.3 Across Two NVIDIA DGX Stations with vLLM'
+  author: Fatima Fall
+  publishedAt: 2026-11-14T02:00:00+0900
+  image: https://developer-blogs.nvidia.com/wp-content/uploads/2026/11/image3-3-768x432.png
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+최근 프런티어급 모델이 등장하면서 모델의 모든 가중치를 단일 GPU 메모리에 유지하는 것이 점점 어려워지고 있다. 대규모 모델은 이제 단일 장비의 성능만으로는 수용하기 어려운 수준에 도달했다.
+
+이러한 문제를 해결하기 위해 NVIDIA DGX Station 두 대를 활용하여 모델을 분산 배치하는 방식이 주목받고 있다. 특히 vLLM 프레임워크를 활용하여 여러 대의 GPU를 연결하고 효율적으로 모델을 서빙하는 구조를 활용한다.
+
+이번 기술 사례는 GLM-5.3 모델을 기반으로 하며, 분산 환경에서 모델을 어떻게 구동하는지에 대한 기초적인 설정을 다룬다. 상세한 구현 방식과 설정값은 원문에서 확인할 수 있다.
+
+---
+
+원문: [When One GPU Isn’t Enough: Serving GLM-5.3 Across Two NVIDIA DGX Stations with vLLM](https://developer.nvidia.com/blog/when-one-gpu-isnt-enough-serving-glm-5-3-across-two-nvidia-dgx-stations-with-vllm/)

@@ -1,0 +1,34 @@
+---
+title: llama.cpp의 DFlash 기반 추측적 샘플링 구조 개선
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp가 DFlash 기반의 추측적 샘플링(Speculative Decoding) 구조를 대폭 개편했다. 이번 업데이트는 코드 구조를 모듈화하고 새로운 모델 지원을 용이하게 하는 데 초점을 맞췄다.
+publishedAt: 2026-11-15T22:00:01+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b12377
+  title: b12377
+  author: github-actions[bot]
+  publishedAt: 2026-11-14T18:46:55+0900
+  words: 1322
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 DFlash 기반 추측적 샘플링 메서드의 리팩토링이다. 기존에 복잡하게 얽혀 있던 DSpark 마르코프 헤드와 백본 그래프를 별도의 파일로 분리하여 관리 효율성을 높였다. 또한 모델의 헤드와 백본을 한 번만 감지하도록 구조를 변경하여 로더를 파일별로 분리했다.
+
+구조적 개선은 데이터 공유 방식에서도 나타난다. 인젝션 입력, 토큰 임베딩, LM 헤드 조회 등의 기능을 공통화하여 중복 코드를 제거했다. 특히 DFlash 디코더를 헤드별 그래프로 분리함으로써, 각 모델(DFlash, DSpark, LiliCorr 등)이 고유의 헤드 구조를 더 깔끔하게 유지할 수 있게 되었다.
+
+추측적 샘플링 드라이버 역시 클래스 기반으로 재설계되었다. 기존의 DFlash 구현을 기반으로 DSpark, DFlash2, LiliCorr를 파생 클래스로 구성하여 드래프트 메타데이터를 효율적으로 처리한다. 이를 통해 드래프트 유형에 따른 경로 배정 및 실행 로직이 더욱 명확해졌다.
+
+이번 업데이트는 전체 리팩토링을 포함하고 있어 변경 사항이 매우 방대하다. 따라서 DFlash 기반 추측적 샘플링의 구조적 개선과 새로운 모델 타입(DFlash2, LiliCorr) 지원이 핵심이며, 기타 세부적인 코드 정리 사항은 포함되지 않았을 수 있다.
+
+---
+
+원문: [b12377](https://github.com/ggml-org/llama.cpp/releases/tag/b12377)

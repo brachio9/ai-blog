@@ -1,0 +1,32 @@
+---
+title: 'llama.cpp b12410 업데이트: LoRA 설정 변경 시 캐시 초기화 개선'
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp의 최신 릴리즈인 b12410 버전이 공개되었다. 이번 업데이트에서는 전역 LoRA 설정이 변경될 때 슬롯 캐시를 자동으로 비우는 기능이 추가되었다.
+publishedAt: 2026-11-15T22:00:01+0900
+tags:
+- LoRA
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b12410
+  title: b12410
+  author: github-actions[bot]
+  publishedAt: 2026-11-15T20:13:45+0900
+  words: 711
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 릴리즈의 핵심 변화는 서버 환경에서 LoRA 설정을 다룰 때 발생하는 안정성 개선이다. 기존에는 전역 LoRA 설정이 변경되어도 캐시가 유지되어 발생할 수 있는 문제를 방지하기 위해, 설정 변경 시 슬롯 캐시를 명확하게 초기화하도록 수정되었다.
+
+이 개선 사항은 특히 여러 개의 LoRA 어댑터를 교체하며 사용하는 환경에서 모델의 일관성을 유지하는 데 중요한 역할을 한다. 사용자는 이제 더 안정적으로 다양한 LoRA 설정을 전환하며 사용할 수 있다.
+
+이번 업데이트는 macOS, Linux 등 다양한 플랫폼과 CUDA, ROCm, OpenVINO 등 다양한 가속 환경을 지원한다. 이번 릴리즈 노트에는 위 핵심 개선 사항 외에도 여러 기술적 수정이 포함되어 있으나, 주요 변경점은 LoRA 캐시 관리의 안정성 확보에 집중되어 있다.
+
+---
+
+원문: [b12410](https://github.com/ggml-org/llama.cpp/releases/tag/b12410)
