@@ -1,0 +1,34 @@
+---
+title: LLM의 사실 검증을 위한 문맥 및 규칙 기반 평가 프레임워크 GT-FENG
+category: papers
+axis: domain
+format: explainer
+summary: 언어 모델이 생성한 답변의 정답 여부는 문맥이나 법적 정의에 따라 달라질 수 있다. GT-FENG은 이러한 복잡한 규칙 기반 도메인에서 답변의 정확성을 평가하고 오류의 원인을 규명하는 통합 프레임워크를 제공한다.
+publishedAt: 2026-11-16T22:00:03+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.18279
+  title: 'GT-FENG: General Theory of Factual Evaluation and Normative Grounding in Language Models *Author(s)'
+  author: Jiayu Feng
+  publishedAt: 2026-11-16T14:00:00+0900
+  words: 4247
+paper:
+  arxivId: '2611.18279'
+  authors:
+  - Jiayu Feng
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+언어 모델이 생성하는 답변은 특정 관할권이나 날짜, 법적 정의에 따라 정답이 될 수도 있고 오답이 될 수도 있다. 기존의 단순한 정답 비교 방식으로는 이러한 문맥적 차이를 충분히 반영하기 어렵다. 연구진은 법률이나 정책처럼 규칙이 지배하는 영역에서 모델의 답변을 평가하고 오류의 원인을 추적하기 위한 새로운 프레임워크인 GT-FENG을 제안했다.
+
+GT-FENG은 모델의 답변을 해당되는 규칙과 대조하여 검증하며, 오답이 발생했을 때 어떤 규칙이 적용되었는지 확인한다. 연구진에 따르면 동일한 값이라도 서로 다른 규칙에 의해 도출될 수 있기 때문에, 답변 자체만으로는 모델이 어떤 규칙을 참조했는지 알 수 없다. 이를 해결하기 위해 질문과 관련된 특정 지역의 기록을 문서화하여 제공했을 때, 다른 지역의 값과 겹치는 오답의 수가 68~78% 감소했으며, 남아있는 오답 중 절반 이상이 두 개 이상의 문서화된 출처와 일치한다는 결과가 도출되었다.
+
+이 프레임워크은 규칙 기반 도메인에서 언어 모델을 평가하는 기초를 제공하며, 향후 벤치마크 및 평가 도구 개발에 활용될 수 있다. 연구진은 GT-FENG을 오픈 소스 파이썬 패키지로 공개했다.
+
+---
+
+원문: [GT-FENG: General Theory of Factual Evaluation and Normative Grounding in Language Models *Author(s)](https://arxiv.org/abs/2611.18279)

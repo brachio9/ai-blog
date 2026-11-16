@@ -1,0 +1,32 @@
+---
+title: 내 컴퓨터에서 실행되는 로컬 LLM 앱, Brebus 출시
+category: community
+axis: serving
+format: explainer
+summary: Janas 프로젝트에서 클라우드나 계정 없이 로컬에서 실행되는 오픈소스 앱 Brebus를 공개했다. 이 앱은 C 언어로 작성되었으며 다양한 모델을 지원하고 하드웨어 성능에 맞춰 최적화된 실행 환경을 제공한다.
+publishedAt: 2026-11-16T22:00:03+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/brebus-the-models-of-this-hub-on-your-own-computer-in-an-app-written-in-c/191939
+  title: 'Brebus: the models of this hub on your own computer, in an app written in C'
+  author: camauri
+  publishedAt: 2026-11-16T20:44:27+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/8/8/889ad5faa7158a4a62553b2ab279969ae041fe6f_2_690x326.png
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+개발자는 Brebus를 통해 Hugging Face의 다양한 모델을 사용자 기기에서 직접 실행할 수 있다고 설명한다. 사용자는 카탈로그에서 검증된 모델을 선택하거나, 허브에서 GGUF 파일을 검색하여 자신의 기기에서 즉시 변환하고 사용할 수 있다.
+
+Brebus는 하드웨어 자원을 자동으로 측정하여 최적의 실행 방식을 결정한다. 메모리 용량에 따라 모델 전체를 올리거나 전문가 모델(MoE)의 일부를 SSD에서 읽어오는 방식을 선택하며, GPU와 Intel NPU를 상황에 맞춰 활용한다. 개발자는 특정 노트북 환경에서 Qwen3-Next-80B 모델이 llama.cpp보다 훨씬 빠른 속도로 작동한다는 결과를 제시했다.
+
+사용자 경험 측면에서는 개인 문서 폴더를 작업 공간으로 활용하여 PDF나 워드 파일을 검색하고, Claude와 유사한 아티팩트 기능을 통해 HTML이나 React 앱을 별도 프레임에서 확인할 수 있다. 또한 샌드박스 환경의 파이썬 실행과 외부 서비스 연동을 지원하며, OpenAI나 Ollama와 호환되는 API도 제공한다.
+
+---
+
+원문: [Brebus: the models of this hub on your own computer, in an app written in C](https://discuss.huggingface.co/t/brebus-the-models-of-this-hub-on-your-own-computer-in-an-app-written-in-c/191939)

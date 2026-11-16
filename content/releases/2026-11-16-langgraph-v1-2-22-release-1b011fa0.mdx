@@ -1,0 +1,30 @@
+---
+title: 'LangGraph 1.2.22 업데이트: 성능 개선과 스트리밍 버그 수정'
+category: releases
+axis: agent
+format: explainer
+summary: LangGraph 1.2.22 버전에서는 성능 최적화와 스트리밍 관련 버그 수정이 포함되었다. 특히 대규모 상태 관리와 메시지 처리 효율이 개선되었다.
+publishedAt: 2026-11-16T22:00:03+0900
+draft: false
+source:
+  url: https://github.com/langchain-ai/langgraph/releases/tag/1.2.22
+  title: langgraph==1.2.22
+  author: github-actions[bot]
+  publishedAt: 2026-11-14T10:43:55+0900
+  words: 106
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 성능 최적화다. 넓은 상태(wide states)를 다룰 때 업데이트 키를 집합으로 비교하거나, 메시지 추가 시 불필요한 변환을 건너뛰는 등 전반적인 처리 속도가 개선되었다. 또한 실행 중인 작업의 상태를 읽기 전 대기 중인 쓰기 작업을 필터링하는 등 효율적인 리소스 관리가 반영되었다.
+
+사용자 경험과 직결되는 스트리밍 기능도 개선되었다. 하위 그래프를 호출하는 과정에서 자식 그래프를 별도의 스레드에서 스트리밍할 수 있도록 수정되어, 복잡한 그래프 구조에서도 안정적인 데이터 흐름을 보장한다. 실행 조건 확인 시 실패한 미래 값만 체크하는 방식 등 세부적인 실행 로직도 다듬어졌다.
+
+이번 릴리스에는 성능 개선과 버그 수정이 다수 포함되어 있으며, 아래 내용은 전체 변경 사항 중 주요 부분만을 요약한 것이다. 상세한 변경 내역은 공식 릴리스 노트를 확인해야 한다.
+
+---
+
+원문: [langgraph==1.2.22](https://github.com/langchain-ai/langgraph/releases/tag/1.2.22)

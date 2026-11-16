@@ -1,0 +1,33 @@
+---
+title: AMD GPU 사용자라면 주목해야 할 llama.cpp b12433 업데이트
+category: releases
+axis: serving
+format: explainer
+summary: AMD 장치에서 특정 조건의 MoE 모델을 사용할 때 발생하던 오류가 수정되었다. 이번 업데이트는 특히 LoRA를 적용한 MoE 전문가 가중치 계산 시 발생하는 충돌 문제를 해결한다.
+publishedAt: 2026-11-16T22:00:03+0900
+tags:
+- Copilot
+- LoRA
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b12433
+  title: b12433
+  author: github-actions[bot]
+  publishedAt: 2026-11-16T20:16:33+0900
+  words: 793
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+llama.cpp의 최신 릴리스인 b12433에서는 AMD GPU 사용자들을 위한 중요한 버그 수정이 포함되었다. 기존에는 AMD 장치에서 F32, F16, BF16 형식을 사용하며 특정 토큰 수 이하의 데이터를 처리할 때 MMVF 방식을 강제로 사용하면서 문제가 발생했다.
+
+이 오류는 특히 MoE(Mixture of Experts) 모델에 Rank 1 LoRA를 적용했을 때 나타났다. lora_b의 차원이 1인 경우, 시스템이 이를 짝수 단위로 읽으려 시도하면서 충돌이 발생했던 것이다. 이번 업데이트를 통해 해당 조건에서만 MMVF를 사용하도록 로직이 개선되었다.
+
+이번 수정은 AMD ROCm 환경에서 안정적인 추론을 가능하게 하며, 특히 MoE 구조를 활용하는 사용자들에게 필수적인 업데이트다. 이번 릴리스에는 이 외에도 다양한 플랫폼과 하드웨어 가속을 위한 최적화가 포함되어 있다.
+
+---
+
+원문: [b12433](https://github.com/ggml-org/llama.cpp/releases/tag/b12433)

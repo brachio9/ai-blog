@@ -1,0 +1,39 @@
+---
+title: LLM이 신경망 가중치를 직접 수정하는 시대, WeightBench 등장
+category: papers
+axis: vibe-coding
+format: explainer
+summary: 언어 모델이 경사 하강법 없이 신경망의 가중치를 직접 읽고 수정하는 'Weight-Space Programming' 개념이 주목받고 있다. 이를 체계적으로 평가하기 위한 벤치마크인 WeightBench가 공개되었다.
+publishedAt: 2026-11-16T22:00:03+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.18553
+  title: 'WeightBench: Evaluating Language Models as Weight-Space Programmers'
+  author: Aayush Marasini
+  publishedAt: 2026-11-16T14:00:00+0900
+  words: 5536
+  image: https://arxiv.org/html/2611.18553v1/weightbench_architecture.png
+paper:
+  arxivId: '2611.18553'
+  authors:
+  - Aayush Marasini
+  - Barsat Khadka
+  - Nick Rahimi
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+최근 연구에 따르면 대규모 언어 모델(LLM)은 다른 신경망의 파라미터를 직접 조작할 수 있는 능력을 보여주었다. 이는 모델이 학습된 내용을 파악하거나 오류를 수정하고, 기초부터 작동하는 네트워크를 설계하는 과정을 포함한다. 연구진은 이러한 새로운 패러다임을 Weight-Space Programming(WSP)이라 명명했다.
+
+연구진은 WSP 능력을 체계적으로 측정하기 위해 WeightBench를 개발했다. 이 벤치마크는 가중치를 읽고, 수정하고, 쓰는 작업뿐만 아니라 불가능한 편집을 인식하고 데이터 없이 압축하는 작업까지 포함하는 42개의 과제로 구성된다. 대상이 되는 네트워크는 2K 파라미터 규모의 제어 정책부터 7B 파라미터 규모의 언어 모델까지 다양하다.
+
+실험 결과에 따르면, 최신 에이전트들은 네트워크를 실행하지 않고도 작은 네트워크를 읽거나 작동하는 제어 정책을 작성하는 데 성공했다. 그러나 언어 모델을 패치하거나 데이터 없이 압축하는 작업, 그리고 불가능한 편집과 어려운 편집을 구분하는 작업에서는 아직 한계를 보였다.
+
+저자들의 주장에 따르면, Claude Opus 5.5는 42개 과제에서 0.535의 매크로 점수를 기록했으며, GPT-6.1-sol은 38개 과제에서 0.546을 기록한 Opus보다 높은 0.568을 달성했다. 연구진은 관련 코드와 태스크 레지스트리, 샌드박스 환경을 공개했다.
+
+---
+
+원문: [WeightBench: Evaluating Language Models as Weight-Space Programmers](https://arxiv.org/abs/2611.18553)

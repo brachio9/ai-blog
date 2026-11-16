@@ -1,0 +1,33 @@
+---
+title: Microsoft TRELLIS.2 모델을 신발 데이터로 미세조정하는 방법
+category: community
+axis: serving
+format: explainer
+summary: Hugging Face에서 공개한 가이드를 통해 Microsoft의 이미지-3D 모델인 TRELLIS.2를 특정 물체에 맞춰 미세조정하는 방법이 공유되었다. 이 가이드는 LoRA 어댑터를 활용해 모델의 구조와 형상 단계를 효율적으로 학습시키는 과정을 다룬다.
+publishedAt: 2026-11-16T22:00:03+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/microsoft-to-3d-trellis-2-179-lora/12510
+  title: Microsoft의 이미지-to-3D 모델 TRELLIS.2를 신발 스캔 179개로 구조와 형상 단계 LoRA 미세조정하기
+  author: 9bow
+  publishedAt: 2026-11-16T12:30:03+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/6/e/6e4bd8ca92ccfb4b5a14fb3bfead420113d29fbc_2_1028x584.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Hugging Face의 Suvaditya Mukherjee 등은 Microsoft의 이미지-3D 생성 모델인 TRELLIS.2를 특정 카테고리에 최적화하려는 개발자들을 위해 미세조정 가이드를 공개했다. 기존 공식 저장소는 전체 파라미터를 학습하는 방식만 제공했지만, 이번 가이드는 LoRA 어댑터를 사용하여 특정 부분만 학습하는 효율적인 경로를 제시한다.
+
+저자들은 기본 모델이 신발의 밑창(sole) 형상을 제대로 구현하지 못한다는 점을 발견하고, Google Scanned Objects 데이터셋에서 추출한 신발 188개를 학습 데이터로 활용했다. 특히 모델의 전체 파이프라인 중 재질 단계는 고정하고 구조와 형상을 만드는 두 단계에만 LoRA를 적용하여 학습 효율을 높였다.
+
+실험 결과, 저자들은 학습에 포함되지 않은 신발 데이터로 비교했을 때 F-score가 0.475에서 0.855로 향상되었다고 주장했다. 다만 이 수치는 기본 모델이 물체의 자세를 잘못 잡는 특성이 포함되어 있으므로, 방향을 맞춘 상태에서 비교했을 때의 결과임을 명시했다. 학습 과정은 A100 80GB 한 장을 사용하여 전처리 약 1시간, 학습 약 10시간 내외로 완료되었다.
+
+---
+
+원문: [Microsoft의 이미지-to-3D 모델 TRELLIS.2를 신발 스캔 179개로 구조와 형상 단계 LoRA 미세조정하기](https://discuss.pytorch.kr/t/microsoft-to-3d-trellis-2-179-lora/12510)
