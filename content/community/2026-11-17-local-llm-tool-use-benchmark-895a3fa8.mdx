@@ -1,0 +1,31 @@
+---
+title: 로컬 LLM의 도구 활용 능력을 측정하는 Werkbank 벤치마크
+category: community
+axis: agent
+format: explainer
+summary: 로컬 환경에서 LLM의 도구 활용 능력을 테스트하기 위한 Werkbank 프로젝트가 공개되었다. 40개의 고난도 합성 과제를 통해 모델의 성능과 실행 비용을 측정할 수 있다.
+publishedAt: 2026-11-17T22:00:01+0900
+tags:
+- quantization
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/werkbank-40-tasks-for-testing-local-llms-with-tools/191927
+  title: 'Werkbank: 40 tasks for testing local LLMs with tools'
+  author: Schampuswerner
+  publishedAt: 2026-11-16T19:02:52+0900
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+한 개발자가 로컬 LLM 환경에서 도구 활용 능력을 테스트하기 위해 제작한 Werkbank 프로젝트를 공유했다. 이 프로젝트는 기존의 거대한 벤치마크 세트와는 달리, 특정 도구 사용 단계에서 결정적인 결과값을 확인하는 데 집중한다.
+
+Werkbank는 총 40개의 고정된 합성 과제로 구성되어 있으며, 특히 Full 세트의 난이도가 높게 설계되었다. 개발자는 LLM 판독기 대신 최종 상태나 코드, 답변을 직접 검증하는 방식을 채택했다. 이를 통해 테스트에 소요되는 시간과 토큰 비용을 효율적으로 파악할 수 있다.
+
+개발자는 GB10 및 RTX 6000 하드웨어를 사용하여 초기 테스트를 진행했다. 결과 데이터에는 모델 성능뿐만 아니라 실행 시간과 양자화 방식 등 전체 시스템 설정에 대한 정보가 포함되어 있다. 개발자는 자신의 환경에서 이 벤치마크를 실행해보고 과제에 대한 의견을 공유해줄 것을 요청했다.
+
+---
+
+원문: [Werkbank: 40 tasks for testing local LLMs with tools](https://discuss.huggingface.co/t/werkbank-40-tasks-for-testing-local-llms-with-tools/191927)

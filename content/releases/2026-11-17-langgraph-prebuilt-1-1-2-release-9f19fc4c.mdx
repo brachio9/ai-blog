@@ -1,0 +1,30 @@
+---
+title: LangGraph prebuilt 1.1.2 업데이트 주요 변경 사항
+category: releases
+axis: agent
+format: explainer
+summary: LangGraph prebuilt 1.1.2 버전이 출시되었다. 이번 업데이트는 주요 의존성 라이브러리의 버전 업데이트와 성능 최적화를 포함한다.
+publishedAt: 2026-11-17T22:00:01+0900
+draft: false
+source:
+  url: https://github.com/langchain-ai/langgraph/releases/tag/prebuilt%3D%3D1.1.2
+  title: langgraph-prebuilt==1.1.2
+  author: github-actions[bot]
+  publishedAt: 2026-11-14T10:33:52+0900
+  words: 153
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+LangGraph prebuilt 1.1.2 버전에서는 내부 의존성인 langgraph, checkpoint, checkpoint-postgres, checkpoint-sqlite 등의 라이브러리 버전이 대폭 업데이트되었다. 이는 프레임워크의 안정성을 확보하고 최신 기능을 통합하기 위한 조치다.
+
+성능 측면에서는 call_model 에러 발생 시 메시지 포맷팅을 최적화하는 개선 사항이 포함되었다. 불필요한 연산을 줄여 에러 처리 과정에서의 효율성을 높였다.
+
+또한 내부 의존성 그룹의 마이너 및 패치 버전들이 업데이트되었으며, certifi 라이브러리 버전이 2026.1.4에서 2026.10.19로 상향되었다. 이번 릴리즈는 전반적인 유지보수와 의존성 관리에 집중되어 있으며, 모든 변경 사항이 포함된 것은 아니다.
+
+---
+
+원문: [langgraph-prebuilt==1.1.2](https://github.com/langchain-ai/langgraph/releases/tag/prebuilt%3D%3D1.1.2)

@@ -1,0 +1,46 @@
+---
+title: 미세 조정된 LLM의 추론 속도를 높이는 효율적인 드래프트 모델 적응 기술
+category: papers
+axis: serving
+format: explainer
+summary: 미세 조정된 언어 모델에서 발생하는 추론 성능 저하 문제를 해결하기 위한 효율적인 드래프트 모델 적응 프레임워크인 EDA를 소개한다. 이 기술은 파라미터와 데이터 효율성을 극대화하여 비용을 낮추면서도 추론 속도를 개선한다.
+publishedAt: 2026-11-17T22:00:01+0900
+tags:
+- speculative decoding
+draft: false
+source:
+  url: https://arxiv.org/abs/2603.09527
+  title: Efficiently Aligning Draft Models via Parameter- and Data-Efficient Adaptation
+  author: Luxi Lin
+  publishedAt: 2026-11-16T14:00:00+0900
+  words: 9874
+  image: https://arxiv.org/html/2603.09527v2/eda.png
+paper:
+  arxivId: '2603.09527'
+  authors:
+  - Luxi Lin
+  - Zhihang Lin
+  - Zhanpeng Zeng
+  - Yuhao Chen
+  - Qingyu Zhang
+  - Jixiang Luo
+  - Xuelong Li
+  - Rongrong Ji
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+거대 언어 모델(LLM)의 추론 속도를 높이는 기술인 투기적 디코딩(Speculative Decoding)은 특정 도메인에 맞춰 미세 조정된 모델을 사용할 때 성능이 저하되는 문제가 발생한다. 이를 해결하기 위해 매번 드래프트 모델을 새로 학습시키는 방식은 비용이 너무 많이 들기 때문에 효율적인 대안이 필요하다.
+
+연구진은 이러한 문제를 해결하기 위해 EDA라는 프레임워크를 제안했다. EDA는 공유되는 부분과 특정 모델에만 해당하는 부분을 분리하여 모델링하는 구조를 채택한다. 이를 통해 가벼운 구성 요소만 업데이트함으로써 파라미터 효율적인 적응이 가능해진다.
+
+또한 데이터 재생성 전략과 샘플 선택 메커니즘을 도입했다. 미세 조정된 타겟 모델을 활용해 학습 데이터를 다시 생성함으로써 실제 추론 과정과의 정렬을 개선하고, 고가치 데이터를 우선적으로 선택하여 적응 효율을 높인다.
+
+저자들의 주장에 따르면 EDA는 전체 재학습 대비 훨씬 적은 비용으로 미세 조정된 모델의 투기적 디코딩 성능을 효과적으로 복원하며, 더 높은 평균 수락 길이를 달성한다.
+
+---
+
+원문: [Efficiently Aligning Draft Models via Parameter- and Data-Efficient Adaptation](https://arxiv.org/abs/2603.09527)

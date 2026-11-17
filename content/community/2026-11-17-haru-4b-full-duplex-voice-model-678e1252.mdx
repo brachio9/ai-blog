@@ -1,0 +1,37 @@
+---
+title: 사람처럼 말 끊고 끼어드는 실시간 음성 대화 모델 Haru-4B 공개
+category: community
+axis: serving
+format: explainer
+summary: 일본 기업 higurashi가 실제 음성 4,000만 시간을 학습한 전이중(Full-Duplex) 음성 대화 모델 Haru-4B를 공개했다. 이 모델은 사용자의 말을 기다리지 않고 실시간으로 반응하며 자연스러운 대화 흐름을 유지하는 데 최적화되어 있다.
+publishedAt: 2026-11-17T22:00:01+0900
+tags:
+- vLLM
+- quantization
+- distillation
+- fine-tuning
+- TTS
+- ASR
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/haru-4b-4-000-feat-qwen3-5-meanflow/12533
+  title: 'Haru-4B: 4,000만 시간의 실제 음성으로 학습한, 듣는 동안 말하는 전이중 음성 대화 모델 공개 (feat. Qwen3.5, MeanFlow)'
+  author: 9bow
+  publishedAt: 2026-11-16T16:00:54+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/2/1/21bad1ae88f77f51b2e822a2cc2c0b41c3113bf4_2_1028x689.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+기존의 음성 비서 서비스는 대개 사용자가 말을 끝낼 때까지 기다리는 반이중(Half-Duplex) 방식을 사용한다. 이로 인해 대화 도중 말을 끊거나 맞장구를 치는 등의 자연스러운 상호작용이 어려웠으나, higurashi가 공개한 Haru-4B는 사람과 전화하는 것처럼 실시간으로 듣고 말하는 전이중 방식을 지원한다. 개발사는 이를 위해 인위적인 대본 대신 160개 이상의 언어로 구성된 방대한 실제 음성 데이터를 활용했다.
+
+기술적으로 Haru-4B는 Qwen3.5-4B를 기반으로 하며, 사용자 음성, 모델 음성, 텍스트 세 가지 스트림을 133ms마다 통합하는 구조를 가진다. higurashi는 이 모델이 Moshi보다 작은 파라미터 규모를 가졌음에도 불구하고 훨씬 더 많은 양의 데이터를 학습했음을 강조한다. 모델은 현재 사전 학습이 완료된 기반 모델 상태로 제공되며, 바로 서비스에 투입하기보다는 미세조정을 위한 출발점으로 활용될 예정이다.
+
+모델의 가중치와 추론 코드는 Apache 2.0 라이선스로 공개되었으며, NVIDIA GPU와 Apple Silicon 환경을 모두 지원한다. higurashi는 이 모델이 실시간 음성 상호작용 연구나 특정 캐릭터를 가진 페르소나 구현에 유용하게 쓰일 수 있다고 설명한다.
+
+---
+
+원문: [Haru-4B: 4,000만 시간의 실제 음성으로 학습한, 듣는 동안 말하는 전이중 음성 대화 모델 공개 (feat. Qwen3.5, MeanFlow)](https://discuss.pytorch.kr/t/haru-4b-4-000-feat-qwen3-5-meanflow/12533)

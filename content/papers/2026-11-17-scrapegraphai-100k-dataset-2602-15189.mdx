@@ -1,0 +1,42 @@
+---
+title: LLM의 구조화된 데이터 추출 성능을 높이는 ScrapeGraphAI-100k 데이터셋 공개
+category: papers
+axis: agent
+format: explainer
+summary: LLM이 JSON 스키마에 맞춰 정확한 데이터를 추출하도록 돕는 대규모 데이터셋 ScrapeGraphAI-100k가 공개되었다. 실제 사용자 워크로드에서 수집된 9만 건 이상의 데이터는 기존의 합성 데이터나 텍스트 전용 데이터셋의 한계를 보완한다.
+publishedAt: 2026-11-17T22:00:01+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2602.15189
+  title: 'ScrapeGraphAI-100k: Dataset for Schema-Constrained LLM Generation'
+  author: William Brach
+  publishedAt: 2026-11-16T14:00:00+0900
+  words: 10122
+  image: https://arxiv.org/html/2602.15189v3/assets/schema_complexity_combined.png
+paper:
+  arxivId: '2602.15189'
+  authors:
+  - William Brach
+  - Francesco Zuppichini
+  - Marco Vinciguerra
+  - Lorenzo Padoan
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 3
+---
+
+최근 LLM을 활용한 도구 사용이나 지식 베이스 구축에서 핵심적인 역할을 하는 것은 출력 결과가 지정된 JSON 스키마를 엄격히 따르는 것이다. 하지만 기존의 공개 데이터셋은 규모가 작거나 인위적인 합성 데이터에 의존하는 경우가 많았고, 실제 웹 페이지 콘텐츠와 프롬프트, 스키마가 결합된 실무적인 데이터를 충분히 제공하지 못했다.
+
+연구진은 이를 해결하기 위해 2025년 2분기부터 3분기까지 수집된 93,695개의 스키마 제약 추출 이벤트를 포함하는 ScrapeGraphAI-100k 데이터셋을 구축했다. 이 데이터셋은 900만 개의 원시 이벤트에서 중복을 제거하고 스키마별로 균형을 맞춘 것으로, 25,453개의 고유 스키마와 15개 언어를 포함한다. 각 데이터는 마크다운으로 변환된 페이지 콘텐츠, 프롬프트, LLM 응답, 그리고 구조적 일치 여부를 나타내는 레이블로 구성된다.
+
+저자들은 데이터셋을 통해 스키마 복잡도가 높아질 때 발생하는 성능 저하 임계점을 분석했다. 또한 이 데이터를 활용해 1.7B 모델을 파인튜닝한 결과, 해당 모델이 GPT-5-nano 교사 모델의 출력 분포를 밀접하게 추종한다는 것을 확인했다. 다만 저자들의 주장에 따르면, 이 모델은 여전히 30B-A3B 참조 모델보다 스키마 준수 성능이 낮은 수준이다.
+
+이번 연구는 실제 실무 워크로드에 기반한 대규모 데이터가 기존의 합성 데이터나 텍스트 전용 데이터셋이 지원하지 못했던 구조화된 생성 학습과 벤치마킹을 가능하게 한다는 것을 보여준다. ScrapeGraphAI-100k 데이터셋은 현재 허깅페이스에서 공개되어 있다.
+
+---
+
+원문: [ScrapeGraphAI-100k: Dataset for Schema-Constrained LLM Generation](https://arxiv.org/abs/2602.15189)

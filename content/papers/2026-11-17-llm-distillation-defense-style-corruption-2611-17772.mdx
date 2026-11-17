@@ -1,0 +1,38 @@
+---
+title: LLM 지식 추출을 막는 가벼운 스타일 변조 기술
+category: papers
+axis: serving
+format: explainer
+summary: 거대 언어 모델의 지식을 추출하려는 시도를 방어하기 위해 모델의 스타일을 동적으로 변조하는 기술이 제안되었다. 이 방법은 추론 시점에 개입하여 성능 저하를 최소화하면서도 모델 복제를 어렵게 만든다.
+publishedAt: 2026-11-17T22:00:01+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.17772
+  title: 'Antidistillation is Cheap: Lightweight Distillation-Resistance via Stylistic Corruption'
+  author: Anh Tu Ngo
+  publishedAt: 2026-11-16T14:00:00+0900
+  words: 10707
+  image: https://arxiv.org/html/2611.17772v1/distill.drawio.png
+paper:
+  arxivId: '2611.17772'
+  authors:
+  - Anh Tu Ngo
+  - Anupam Chattopadhyay
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+최근 대규모 언어 모델(LLM)의 성능을 작은 모델로 전이시키는 지식 증류(Knowledge Distillation) 기술이 널리 활용되고 있다. 특히 상용 모델의 내부 구조가 공개되지 않은 상황에서 경쟁사들이 낮은 비용으로 모델의 능력을 복제하는 수단으로 활용될 수 있다는 우려가 제기된다. 기존의 방어 방식은 대리 모델을 사용하여 다음 토큰 샘플링을 조작하지만, 이는 계산 비용이 높고 실시간 추론 속도를 저하시키는 단점이 있다.
+
+본 연구에서는 악성 쿼리가 감지될 때 교사 모델의 활성화 값에 스타일 조향 벡터를 동적으로 주입하는 가벼운 방어 프레임워크를 제안한다. 이 방식은 호스트가 방어 스타일을 맞춤형으로 설정하거나 여러 스타일을 혼합하여 스타일 변동성을 극대화할 수 있는 유연성을 제공한다. 핵심은 추론 시점에 개입하면서도 문장의 의미와 유창성을 유지하는 것이다.
+
+이 프레임워크는 공격자가 모델의 순수한 출력을 추출하고 있다고 믿게 만들면서 실제로는 학습을 방해하는 효과를 낸다. 반면 일반 사용자에게는 원래의 수정되지 않은 응답을 그대로 제공한다. 저자들의 주장에 따르면, 이 프레임워크는 추가적인 오버헤드를 거의 발생시키지 않으면서도 텍스트의 자연스러움을 유지하며 지식 증류를 효과적으로 방해하는 성능을 보여준다.
+
+---
+
+원문: [Antidistillation is Cheap: Lightweight Distillation-Resistance via Stylistic Corruption](https://arxiv.org/abs/2611.17772)

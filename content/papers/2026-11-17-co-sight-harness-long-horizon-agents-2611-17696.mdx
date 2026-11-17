@@ -1,0 +1,48 @@
+---
+title: 복잡한 비즈니스 워크플로우를 안정적으로 실행하는 Co-Sight Harness
+category: papers
+axis: agent
+format: explainer
+summary: 긴 단계의 비즈니스 워크플로우에서 발생하는 오류 누적과 지식 불일치 문제를 해결하기 위한 새로운 프레임워크를 소개한다. 모델을 수정하지 않고 외부 제어 자산과 상태 머신을 통해 실행을 강제하는 방식이다.
+publishedAt: 2026-11-17T22:00:01+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.17696
+  title: 'Co-Sight Harness: Externalized Control Assets and Deterministic Enforcement for Long-Horizon Business Agents'
+  author: Luyao Wang
+  publishedAt: 2026-11-16T14:00:00+0900
+  words: 13874
+  image: https://arxiv.org/html/2611.17696v1/fig1_architecture.png
+paper:
+  arxivId: '2611.17696'
+  authors:
+  - Luyao Wang
+  - Xijun Zhu
+  - Zhaohui Hao
+  - Xiwen Zhang
+  - Xingyu Wen
+  - Weishan Li
+  - Yuyang Liao
+  - Yanqin Gao
+  - Yongsheng Du
+  - Lingjun Huang
+  - Shaowei Zhao
+  - Gang Li
+  - Qifan Yu
+  - Baoli Wang
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+긴 호흡의 비즈니스 워크플로우는 활동이 길어질수록 오류가 누적되고, 사용자의 요청과 실제 작업에 필요한 지식 사이의 언어적 차이로 인해 실패하는 고질적인 문제를 안고 있다. 저자들은 언어 모델 자체를 수정하지 않고도 이러한 워크플로우를 신뢰할 수 있게 만드는 방법을 연구했다.
+
+제안된 방법은 워크플로우 정의, 상태 관리, 도메인 지식을 모델 외부의 버전 관리되는 제어 자산으로 분리하는 것이다. 실행 과정에서는 상태 머신과 기계 검증이 가능한 수락 게이트를 통해 이 자산들을 강제하며, 독립적인 감사자가 결과 트레이스를 평가한다. 모든 자산 업데이트는 회귀 테스트와 인간의 승인을 거친 후에만 이루어진다.
+
+저자들의 주장에 따르면, 200단계가 넘는 세 가지 실제 워크플로우에 이 방식을 적용했을 때 상당한 성능 향상이 확인되었다. 도메인 A의 경우, 무인 완료율이 50%에서 100%로 상승했고 검색 재현율은 56%에서 91.67%로 개선되었으며, 전체 지연 시간은 440분에서 159분으로 단축되었다. 또한 다른 두 도메인에서도 자산을 작성하지 않은 팀이 각각 4일과 7일 만에 업무를 인수하는 데 성공했다고 주장한다.
+
+---
+
+원문: [Co-Sight Harness: Externalized Control Assets and Deterministic Enforcement for Long-Horizon Business Agents](https://arxiv.org/abs/2611.17696)

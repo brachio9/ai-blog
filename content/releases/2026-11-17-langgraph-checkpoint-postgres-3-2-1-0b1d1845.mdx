@@ -1,0 +1,30 @@
+---
+title: LangGraph Postgres 체크포인트 성능 개선 업데이트
+category: releases
+axis: agent
+format: explainer
+summary: LangGraph의 checkpoint-postgres 패키지가 3.2.1 버전으로 업데이트되었다. 이번 업데이트는 주로 데이터베이스 연결 및 읽기 성능 최적화에 집중되어 있다.
+publishedAt: 2026-11-17T22:00:01+0900
+draft: false
+source:
+  url: https://github.com/langchain-ai/langgraph/releases/tag/checkpointpostgres%3D%3D3.2.1
+  title: langgraph-checkpoint-postgres==3.2.1
+  author: github-actions[bot]
+  publishedAt: 2026-11-14T10:39:04+0900
+  words: 73
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 3.2.1 릴리스는 LangGraph의 체크포인트 시스템을 PostgreSQL에서 사용할 때 발생하는 성능 병목 현상을 개선하는 데 초점을 맞췄다. 특히 단독 저장소 읽기 작업이나 비동기 저장 시 발생하는 락(lock) 문제를 최적화하여 효율성을 높였다.
+
+주요 개선 사항으로는 파이프라인 외부에서 실행되는 단독 저장소 읽기 성능 향상과 커넥션 풀의 비동기 저장 시 발생하는 락 스킵 기능이 포함되었다. 또한 스레드 전환 없이 대기 중인 쓰기 작업을 처리하도록 개선하여 전반적인 처리 속도를 개선했다.
+
+이번 업데이트는 대규모 상태 관리가 필요한 애플리케이션에서 더 매끄러운 데이터 처리를 가능하게 한다. 다만 이번 릴리스 노트에는 여러 변경 사항이 포함되어 있으며, 위 내용은 그중 핵심적인 성능 개선 사항만을 요약한 것이다.
+
+---
+
+원문: [langgraph-checkpoint-postgres==3.2.1](https://github.com/langchain-ai/langgraph/releases/tag/checkpointpostgres%3D%3D3.2.1)
