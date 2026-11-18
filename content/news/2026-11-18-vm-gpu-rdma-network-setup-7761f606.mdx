@@ -1,0 +1,31 @@
+---
+title: 가상 머신에서 GPU 분산 학습을 위한 고속 네트워크 구성법
+category: news
+axis: serving
+format: explainer
+summary: 분산 학습 시 발생하는 대규모 데이터 전송 문제를 해결하기 위해 RDMA와 GPUDirect RDMA 기술이 활용된다. VM 환경에서 IB NIC을 연결하고 SR-IOV를 통해 네트워크 자원을 효율적으로 분배하는 핵심 원리를 다룬다.
+publishedAt: 2026-11-18T22:00:01+0900
+tags:
+- vLLM
+draft: false
+source:
+  url: https://d2.naver.com/helloworld/5896967
+  title: 컨테이너처럼 쓰고, VM처럼 격리하기 4편 - IB 네트워크와 로컬 NVMe, vCPU 배치, 베어메탈 대비 성능
+  publishedAt: 2026-11-18T14:48:06+0900
+  image: https://d2-serving.pstatic.net/v1/images?objectPath=d2%2FEDITOR%2F2026%2Fhelloworld-202611-%EA%B9%80%EB%8F%99%ED%98%84-4%2Ffiles%2F4-01.svg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+분산 학습은 매 스텝마다 수 GB에 달하는 그레이디언트 데이터를 서버 간에 주고받아야 한다. 일반적인 TCP 소켓 통신을 사용하면 시스템 콜과 커널 네트워크 스택의 복사 과정 때문에 상당한 지연 시간이 발생한다. 이를 해결하기 위해 CPU와 커널을 거치지 않고 메모리에 직접 접근하는 RDMA 기술이 사용된다.
+
+특히 GPU 메모리에서 직접 데이터를 전송하는 GPUDirect RDMA(GDR)는 호스트 메모리로의 복사 단계를 생략하여 효율을 극대화한다. 하지만 VM 환경에서는 호스트 커널의 드라이버 인터페이스에 직접 접근할 수 없으므로, GPU와 동일하게 NIC 자체를 VFIO를 통해 게스트에 연결하는 방식이 필요하다.
+
+서버의 스토리지 네트워크용 NIC은 개수가 제한적이기 때문에 모든 VM에 1:1로 할당하기 어려운 경우가 많다. 이때 SR-IOV 기술을 활용하면 하나의 물리적 NIC(PF)에서 여러 개의 가상 기능(VF)을 생성할 수 있다. 각 VF는 독립적인 PCI 주소와 IOMMU 그룹을 가지므로 여러 VM에 분배하여 할당할 수 있으며, 이를 통해 제한된 네트워크 자원을 효율적으로 공유한다.
+
+---
+
+원문: [컨테이너처럼 쓰고, VM처럼 격리하기 4편 - IB 네트워크와 로컬 NVMe, vCPU 배치, 베어메탈 대비 성능](https://d2.naver.com/helloworld/5896967)

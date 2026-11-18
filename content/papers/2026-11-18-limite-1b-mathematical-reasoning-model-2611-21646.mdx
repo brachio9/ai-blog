@@ -1,0 +1,45 @@
+---
+title: 수학 추론에 특화된 10억 파라미터 모델, Limite 1B 공개
+category: papers
+axis: serving
+format: explainer
+summary: 고속 수학 추론을 위해 설계된 10억 파라미터 규모의 모델 Limite 1B가 공개되었다. 이 모델은 대규모 수학 중심 코퍼스를 기반으로 학습되었으며, 효율적인 추론 성능과 긴 문맥 처리에 최적화되어 있다.
+publishedAt: 2026-11-18T22:00:01+0900
+tags:
+- distillation
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.21646
+  title: 'Limite 1B - Violetto: Technical Report'
+  author: Mario Prignano
+  publishedAt: 2026-11-18T14:00:00+0900
+  words: 18112
+  image: https://arxiv.org/html/2611.21646v1/compute-plot.png
+paper:
+  arxivId: '2611.21646'
+  authors:
+  - Mario Prignano
+  - Gabriele Cirillo
+  - Alessio Morosini
+  - Luca Cerovaz
+  - Alessandro Bartolocci
+  - Emanuele Rodol\`a
+  - Giulio Starace
+  - Francesco Pappone
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+Limite 1B는 고속 수학 추론을 목표로 설계된 10억 파라미터 규모의 모델이다. 연구진은 2,370억 개의 토큰으로 구성된 수학 중심의 정제된 코퍼스를 사용하여 모델을 처음부터 학습시켰다. 이 모델은 최대 131k 토큰의 문맥 길이를 지원하며, 낮은 비용으로 높은 추론 능력을 유지하도록 아키텍처와 학습 방식이 설계되었다.
+
+모델의 성능 향상을 위해 지식 증류, 타겟팅된 지도 학습, 그리고 정제된 커리큘럼 기반의 RLVR 기법이 결합된 사후 학습 과정을 거쳤다. 연구진은 이 모델이 일반적인 용도의 비서보다는 단일 턴 수학 문제 해결사나 대규모 시스템의 빠른 병렬 구성 요소로 활용되도록 의도적으로 가벼운 지시 조정(instruction-tuning)을 적용했다고 설명한다.
+
+저자들의 주장에 따르면 Limite 1B는 AIME 2026에서 94.01%, BeyondAIME에서 74.25%의 성능을 기록했으며, 이는 훨씬 더 큰 규모의 모델들과 비교해도 경쟁력 있는 수준이다. 연구진은 모델과 베이스 및 밸류 체크포인트, 그리고 최적화된 서빙 구현체를 Apache 2.0 라이선스로 공개했다.
+
+---
+
+원문: [Limite 1B - Violetto: Technical Report](https://arxiv.org/abs/2611.21646)

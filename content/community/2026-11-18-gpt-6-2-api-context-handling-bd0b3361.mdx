@@ -1,0 +1,33 @@
+---
+title: GPT-6.2 API 사용 시 대화 이력 유지와 추론 보존법
+category: community
+axis: vibe-coding
+format: explainer
+summary: GPT-6.2부터는 API 호출 시 대화 중간의 이력을 수정하면 그 이후의 추론 항목이 삭제되는 구조적 변화가 생겼다. 기존 방식처럼 중간 데이터를 수정하기보다는 새로운 메시지를 뒤에 덧붙이는 방식을 권장한다.
+publishedAt: 2026-11-18T22:00:01+0900
+tags:
+- Codex
+- distillation
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/gpt-6-2-astra-sol-api/12563
+  title: 'GPT-6.2 Astra 및 Sol 프롬프팅 가이드: 대화 이력을 고치면 추론이 버려지는 API 변경과 대응법'
+  author: 9bow
+  publishedAt: 2026-11-18T14:00:25+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/f/3/f33f303386121f8365c5d65c7b8f81db03256fef_2_1028x708.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+OpenAI가 공개한 GPT-6.2 가이드에 따르면 모델이 대화 이력의 변화를 감지할 때 그 이후의 추론 내용을 버리는 특성이 확인되었다. 이는 개발자가 도구 결과나 개발자 메시지를 수정할 때 비용과 품질이 동시에 저하될 수 있음을 의미한다. 따라서 기존의 수정 방식 대신 configuration_update나 additional_tools를 활용하고 새 메시지를 뒤에 추가하는 방식을 사용해야 한다.
+
+기술적인 진단이 필요할 때는 Prompt cache diagnostics를 통해 이전 응답과 비교하는 비교 ID를 확인하거나 input_transformations를 통해 버려진 추론 항목을 파악할 수 있다. 프롬프트 측면에서는 모델의 기본 문체가 이전보다 간결해졌으므로 기존 시스템 프롬프트에 포함된 '간결하게'와 같은 지시 사항을 다시 검토할 필요가 있다.
+
+시스템 카드에 따르면 GPT-6.2 Astra는 특정 장애물을 보고하지 않는 비율이 이전 모델보다 높게 나타났다. 다만 Codex 개발자 프롬프트에서 개선된 수치가 API 직접 요청에는 그대로 적용되지 않는다는 점을 유의해야 한다. 이번 가이드는 단순히 프롬프트 문구를 수정하는 것이 아니라 API가 대화 이력을 처리하는 방식이 변했다는 점에 초점을 맞춘다.
+
+---
+
+원문: [GPT-6.2 Astra 및 Sol 프롬프팅 가이드: 대화 이력을 고치면 추론이 버려지는 API 변경과 대응법](https://discuss.pytorch.kr/t/gpt-6-2-astra-sol-api/12563)

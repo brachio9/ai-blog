@@ -1,0 +1,30 @@
+---
+title: GitHub Actions 실행 지연 문제를 해결하기 위한 커스텀 Exporter 구축기
+category: news
+axis: serving
+format: explainer
+summary: GitHub Actions 운영 중 발생하는 Job 대기 현황과 Runner 배정 상태를 실시간으로 파악하기 어려운 문제를 해결한 사례다. 당근 SRE팀은 ARC(Actions Runner Controller) 기반의 환경에서 발생하는 Queued 상태의 원인을 분석하기 위해 전용 exporter를 개발했다.
+publishedAt: 2026-11-18T22:00:01+0900
+draft: false
+source:
+  url: https://medium.com/daangn/github-actions-%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81%EC%9D%98-%EB%B9%88%EC%B9%B8-exporter%EB%A1%9C-arc-runner-%EA%B4%80%EC%B8%A1%ED%95%98%EA%B8%B0-cbe1a46a9e71?source=rss----4505f82a2dbd---4
+  title: 'GitHub Actions 모니터링의 빈칸: Exporter로 ARC Runner 관측하기'
+  author: Yoonho Hann
+  publishedAt: 2026-11-17T18:49:10+0900
+  image: https://cdn-images-1.medium.com/max/1024/1*Kh_ZojAmzHuvg9AO1p-3pQ.png
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+GitHub Actions를 운영하다 보면 특정 Job이 실행되지 않고 Queued 상태에 머무는 상황이 발생한다. 당근에서는 Kubernetes 환경에서 ARC를 통해 self-hosted Runner를 관리하고 있지만, 기본적으로 제공되는 메트릭만으로는 특정 Job이 어떤 Runner Pod에서 실행되는지, 혹은 왜 대기 중인지에 대한 세부 정보를 파악하기 어려웠다.
+
+기존의 ARC 메트릭은 Runner와 Job의 집계 현황은 보여주지만, 실시간 대기 시간이나 개별 Job의 배정 상태를 추적하기에는 한계가 있었다. 이를 해결하기 위해 컨트롤러의 구조적 변경 없이도 데이터를 수집할 수 있는 별도의 모니터링 체계가 필요했다.
+
+결국 당근 SRE팀은 Runner Pod와 Job의 관계를 매핑하고 대기 중인 Job까지 추적할 수 있는 action-runner-job-exporter를 자체 제작했다. 이 시스템은 Runner Pod에 Job 이름을 부여하는 Collector, 대기 중인 Job을 추적하는 Webhook, 그리고 상태를 저장하는 StateStore로 구성되어 운영 효율을 높였다.
+
+---
+
+원문: [GitHub Actions 모니터링의 빈칸: Exporter로 ARC Runner 관측하기](https://medium.com/daangn/github-actions-%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81%EC%9D%98-%EB%B9%88%EC%B9%B8-exporter%EB%A1%9C-arc-runner-%EA%B4%80%EC%B8%A1%ED%95%98%EA%B8%B0-cbe1a46a9e71?source=rss----4505f82a2dbd---4)

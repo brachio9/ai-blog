@@ -1,0 +1,31 @@
+---
+title: GPU 없이 CPU만으로 대형 언어 모델을 돌리는 방법
+category: community
+axis: serving
+format: explainer
+summary: Synchopate가 개발한 llama-modchip v3.0을 통해 고사양 GPU 없이 CPU와 RAM만으로 대규모 모델을 구동할 수 있게 되었다. 176B급 Qwen 모델과 284B급 DeepSeek 모델을 일반적인 데스크톱 환경에서 실행할 수 있는 최적화가 포함되었다.
+publishedAt: 2026-11-18T22:00:01+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/running-176b-qwen3-8-flash-next-and-284b-deepseek-v4-on-32gb-64gb-cpu-ram-0-gpus-with-llama-modchip-v3-0/192008
+  title: Running 176B Qwen3.8-Flash-Next and 284B DeepSeek-V4 on 32GB/64GB CPU RAM (0 GPUs) with llama-modchip v3.0
+  author: Synchopate
+  publishedAt: 2026-11-18T09:29:55+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+Synchopate는 최근 llama-modchip v3.0을 출시하며 GPU를 전혀 사용하지 않고 CPU와 RAM만으로 대형 모델을 구동하는 기술을 공개했다. 이 기술을 활용하면 176B 규모의 Qwen3.8-Flash-Next 모델을 32GB 또는 64GB의 CPU RAM 환경에서 실행할 수 있다. 
+
+Synchopate는 Ryzen 9 7950X/9950X 프로세서를 사용했을 때 약 14~18.2 tok/s의 속도가 나왔으며, Claude Code 환경에서 1초 미만의 다중 턴 TTFT를 확인했다고 주장했다. 또한 284B 규모의 DeepSeek-V4-Flash 모델을 64GB RAM에서 약 10.1 tok/s의 속도로 구동할 수 있는 빌드도 함께 제공한다.
+
+이번 업데이트에는 30B 규모의 Nemotron-3.5 모델(16GB RAM, 30~60 tok/s)과 로컬 보안 및 레드팀 테스트를 위한 abliterated 변체들도 포함되었다. Synchopate는 해당 모델들을 Hugging Face와 GitHub을 통해 공개했으며, 사용자들이 자신의 하드웨어에서 테스트한 결과와 속도를 공유해 줄 것을 요청했다.
+
+---
+
+원문: [Running 176B Qwen3.8-Flash-Next and 284B DeepSeek-V4 on 32GB/64GB CPU RAM (0 GPUs) with llama-modchip v3.0](https://discuss.huggingface.co/t/running-176b-qwen3-8-flash-next-and-284b-deepseek-v4-on-32gb-64gb-cpu-ram-0-gpus-with-llama-modchip-v3-0/192008)
