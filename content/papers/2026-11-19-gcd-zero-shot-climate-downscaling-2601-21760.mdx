@@ -1,0 +1,43 @@
+---
+title: 기상 모델의 한계를 넘는 제로샷 기후 다운스케일링 기술
+category: papers
+axis: domain
+format: explainer
+summary: 서로 다른 기상 모델 간의 데이터 불일치 문제를 해결하기 위해 제로샷 확산 모델 기반의 다운스케일링 기법이 제안되었다. 이 기술은 별도의 재학습 없이도 다양한 기상 모델에서 고해상도 데이터를 복원하며 추론 효율성을 극대화한다.
+publishedAt: 2026-11-19T22:00:02+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2601.21760
+  title: 'GCD: GCM-consistent Diffusion for Zero-shot Downscaling across Heterogeneous GCMs'
+  author: Ruian Tie
+  publishedAt: 2026-11-18T14:00:00+0900
+  words: 14538
+  image: https://arxiv.org/html/2601.21760v3/graph_abstract.png
+paper:
+  arxivId: '2601.21760'
+  authors:
+  - Ruian Tie
+  - Wenbo Xiong
+  - Zhengyu Shi
+  - Xinyu Su
+  - Chenyu jiang
+  - Libo Wu
+  - Hao Li
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+기상 모델(GCM)의 출력값과 재분석 데이터는 서로 다른 동역학 시스템에서 생성되기 때문에 이를 정밀하게 매칭하는 것은 매우 어려운 과제다. 기존의 지도 학습 방식은 특정 모델에 의존하거나 인위적인 데이터 변형에 의존해야 하는 한계가 있었다. 이를 해결하기 위해 고해상도 기후 사전 지식과 저해상도 입력 데이터를 결합하는 확산 모델 기반의 추론 방식이 도입되었다.
+
+연구진은 이러한 방식의 일관성과 효율성 문제를 해결하기 위해 GCD(GCM-consistent Diffusion)라는 프레임워크를 제안했다. 이 방법은 지리적 조건화와 스펙트럼 필터링이 적용된 측정 가이드를 활용하며, 증류 기술을 통해 가속화된 공액 경사(Conjugate Gradient) 가이딩을 사용하여 추론 단계를 획기적으로 줄였다.
+
+저자들의 주장에 따르면 GCD는 기존 1,000단계에 달하던 확산 추론 과정을 단 6단계로 단축하면서도 저해상도 입력값과의 일관성을 유지한다. 또한 5종의 서로 다른 기상 모델에서 별도의 재학습 없이도 99백분위수의 극한 현상에 대해 경쟁력 있는 정확도를 보여주었으며, 열대성 저기압의 고주파 구조를 성공적으로 복원했다고 주장한다.
+
+---
+
+원문: [GCD: GCM-consistent Diffusion for Zero-shot Downscaling across Heterogeneous GCMs](https://arxiv.org/abs/2601.21760)

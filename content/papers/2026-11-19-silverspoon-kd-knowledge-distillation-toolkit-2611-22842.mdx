@@ -1,0 +1,40 @@
+---
+title: 지식 증류를 위한 통합 툴킷, SilverSpoon-KD 공개
+category: papers
+axis: serving
+format: explainer
+summary: 다양한 지식 증류 기법을 단일 API로 통합한 오픈소스 PyTorch 툴킷인 SilverSpoon-KD가 발표되었다. 이 툴킷은 다양한 작업 환경과 모델 구조에 대응하며 확장성 있는 블록 단위 지식 증류를 지원한다.
+publishedAt: 2026-11-19T22:00:02+0900
+tags:
+- quantization
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.22842
+  title: 'SilverSpoon-KD: A General-Purpose Toolkit for Knowledge Distillation'
+  author: Xaver R. Davey
+  publishedAt: 2026-11-18T14:00:00+0900
+  words: 15729
+paper:
+  arxivId: '2611.22842'
+  authors:
+  - Xaver R. Davey
+  - David Broman
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+지식 증류는 교사 모델의 지식을 학생 모델로 전달하여 모델 크기를 줄이거나 추론 비용을 절감하는 핵심 기술이다. 하지만 기존 툴킷들은 특정 기법이나 사례에만 국한되어 있어, 빠르게 발전하는 지식 증류 연구의 범위를 모두 포괄하지 못한다는 한계가 있었다.
+
+SilverSpoon-KD는 이러한 문제를 해결하기 위해 설계된 오픈소스 PyTorch 툴킷이다. 이 도구는 서로 다른 지식 증질 패러다임과 아키텍처 관계를 단일 API로 통합하여 제공한다. 특히 독보적인 확장성을 갖춘 범용 블록 단위 지식 증류 구현을 최초로 제공한다는 점이 특징이다.
+
+저자들은 이 툴킷이 시각 지능, 마스크 언어 모델, 인과 언어 모델 등 다양한 작업에서 균일하고 이질적인 증류 및 양자화 증류를 성공적으로 수행함을 확인했다. 또한 기존 툴킷과 비교하여 처리량과 GPU 메모리 사용량 측면에서 우수한 성능을 보였다고 주장한다.
+
+SilverSpoon-KD는 사용자 편의성을 위한 다양한 기능과 지표 계산 및 추적 기능을 포함하고 있다. 저자들의 주장에 따르면, 이 툴킷은 기존 도구들과 대등하거나 오히려 더 나은 성능을 보여준다.
+
+---
+
+원문: [SilverSpoon-KD: A General-Purpose Toolkit for Knowledge Distillation](https://arxiv.org/abs/2611.22842)

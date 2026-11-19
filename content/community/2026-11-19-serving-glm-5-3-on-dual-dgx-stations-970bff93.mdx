@@ -1,0 +1,39 @@
+---
+title: GPU 한 장에 담기지 않는 거대 모델, DGX Station 두 대로 나누어 서빙하기
+category: community
+axis: serving
+format: explainer
+summary: NVIDIA는 7,530억 개의 파라미터를 가진 GLM-5.3 모델을 두 대의 DGX Station에 나누어 서빙하는 방법을 공개했다. vLLM의 텐서 병렬화를 활용하여 단일 GPU 메모리 한계를 극복하는 방식이다.
+publishedAt: 2026-11-19T22:00:02+0900
+tags:
+- vLLM
+- SGLang
+- quantization
+- speculative decoding
+- KV cache
+- prefix caching
+- MMLU
+- GPQA
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/gpu-glm-5-3-753b-dgx-station-2-vllm/12537
+  title: GPU 한 장에 안 들어가는 GLM-5.3 753B 모델을 DGX Station 2대에 나눠 vLLM으로 서빙하기
+  author: 9bow
+  publishedAt: 2026-11-17T11:30:45+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/b/c/bc0b9501d495cb2032d7c092cf1791f05c41f512_2_1028x730.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+GLM-5.3 모델은 전문가 혼합(MoE) 구조를 채택하여 실제 계산량은 적지만, 추론 시 모든 가중치를 메모리에 유지해야 하므로 막대한 용량을 요구한다. NVFP4 양자화 방식을 적용하더라도 약 464GB의 용량이 필요해 단일 GB300 GPU의 메모리 용량으로는 수용이 불가능하다. 이를 해결하기 위해 NVIDIA는 CPU 오프로드 대신 두 대의 DGX Station을 직결하여 모델을 분산 배치하는 방식을 제안한다.
+
+이 구성은 vLLM의 텐서 병렬화(TP=2)를 사용하여 모델을 두 대의 장치에 나누어 올리고 하나의 API 엔드포인트로 통합하여 서빙한다. NVIDIA의 기술 블로그에 따르면, 이 방식은 400Gb/s ConnectX-8 RoCE 링크를 통해 연결되며, 특정 조건에서 동시 요청 16개 처리 시 초당 607.8토큰의 처리량을 기록했다는 결과가 제시되었다.
+
+다만 해당 설정은 컨텍스트를 98,304토큰으로 제한하며, NVIDIA는 이 레시피를 아직 실험적인 단계로 분류하고 있다. 또한 원문에서 제공된 성능 수치는 특정 환경에서의 측정값이며, 모델 카드의 정확도 표와는 별개의 데이터임을 유의해야 한다. 이 방식은 민감한 데이터의 로컬 추론이나 프롬프트 반복 실험에 유용하게 활용될 수 있다.
+
+---
+
+원문: [GPU 한 장에 안 들어가는 GLM-5.3 753B 모델을 DGX Station 2대에 나눠 vLLM으로 서빙하기](https://discuss.pytorch.kr/t/gpu-glm-5-3-753b-dgx-station-2-vllm/12537)

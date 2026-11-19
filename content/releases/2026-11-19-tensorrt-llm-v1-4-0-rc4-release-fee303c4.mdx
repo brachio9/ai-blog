@@ -1,0 +1,39 @@
+---
+title: 'TensorRT-LLM v1.4.0rc4 업데이트: 신규 모델 지원 및 KV 캐시 최적화'
+category: releases
+axis: serving
+format: explainer
+summary: TensorRT-LLM v1.4.0rc4 버전이 공개되었다. 이번 업데이트에서는 Qwen, GLM, MiniMax 등 주요 모델에 대한 최신 하드웨어 최적화와 KV 캐시 관리 기능이 대폭 강화되었다.
+publishedAt: 2026-11-19T22:00:02+0900
+tags:
+- reranking
+- quantization
+- LoRA
+- speculative decoding
+- KV cache
+- Whisper
+draft: false
+source:
+  url: https://github.com/NVIDIA/TensorRT-LLM/releases/tag/v1.4.0rc4
+  title: v1.4.0rc4
+  author: peihu-nv
+  publishedAt: 2026-11-19T04:16:49+0900
+  words: 8759
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 릴리스에서 가장 눈에 띄는 변화는 광범위한 모델 지원 확대이다. Qwen 3.8-Flash-Next와 GLM-5.2, 5.3 모델이 최신 GPU 아키텍처를 포함한 다양한 병렬 구성에서 지원되며, MiniMax-M3 및 Cosmos3-Edge 등 다양한 모델의 체크포인트 로딩과 추론 최적화가 포함되었다. 특히 FP8 및 NVFP4와 같은 저정밀도 데이터 형식을 활용한 고성능 추론 환경이 강화되었다.
+
+기술적으로는 KV 캐시 관리 시스템인 KVCM V2의 기능이 대폭 확장되었다. 혼합 정밀도 KV 캐싱이 투기적 디코딩과 희소 MLA(Sparse MLA)로 확장되었으며, SSD 오프로딩 최적화와 공유 드래프터 KV 풀 지원이 추가되었다. 또한 Qwen 3.8의 QSA 희소 주의(Sparse Attention) 지원과 Gemma 4의 가변 창(Variable-window) 어텐션 지원 등 최신 모델 구조에 대응하는 기술적 개선이 포함되었다.
+
+사용자 편의와 시스템 안정성을 위한 API 변경도 포함되었다. 체크포인트 I/O 정책과 형식을 문자열 열거형으로 변경하고, 기존의 KV 캐시 관리자 V1을 제거하는 등 구조적 개선이 이루어졌다. 또한 분산 클러스터 저장소에서 etcd 자격 증명과 TLS를 지원하며, Anthropic 메시지 ID 유지 및 스트리밍 종료 이유를 별도로 전송하는 기능이 추가되어 서비스 운영의 유연성을 높였다.
+
+다만 이번 업데이트에서는 일부 하드웨어 조합에서 알려진 이슈가 존재한다. DeepSeek-R1의 특정 구성에서 잘못된 출력이 발생하거나, 특정 모델의 초기화 실패 가능성이 보고되었으므로 사용자는 배포 전 해당 이슈를 확인해야 한다. 이번 업데이트는 전체 변경 사항 중 핵심적인 기능과 모델 지원 위주로 요약된 것이며, 세부적인 변경 사항은 공식 릴리스 노트를 참조해야 한다.
+
+---
+
+원문: [v1.4.0rc4](https://github.com/NVIDIA/TensorRT-LLM/releases/tag/v1.4.0rc4)

@@ -1,0 +1,41 @@
+---
+title: AI 코딩 에이전트의 개인정보 보호 취약점 탐지 성능 측정 데이터셋 PrivacyPR 공개
+category: papers
+axis: agent
+format: explainer
+summary: 개인정보 보호 규정을 준수하는 소프트웨어 개발을 돕기 위해 실제 GitHub 풀 리퀘스트(PR) 기반의 데이터셋인 PrivacyPR이 공개되었다. 이 데이터셋은 AI 코딩 에이전트가 개인정보 관련 결함을 얼마나 잘 찾아내는지 평가하는 벤치마크로 활용된다.
+publishedAt: 2026-11-19T22:00:02+0900
+tags:
+- GDPR
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.18293
+  title: 'PrivacyPR: A Dataset of Real-World Privacy Fixes for Benchmarking Privacy-Aware Code Review'
+  author: Hua Yang
+  publishedAt: 2026-11-16T14:00:00+0900
+  words: 4985
+paper:
+  arxivId: '2611.18293'
+  authors:
+  - Hua Yang
+  - Aditya Bhardwaj
+  - Shidong Pan
+  - Bowen Xu
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+최근 AI 코딩 에이전트가 코드 리뷰에 활발하게 도입되고 있지만, GDPR과 같은 법적 규제가 요구하는 개인정보 보호 결함을 제대로 잡아내는지 검증할 수 있는 데이터는 부족했다. 이를 해결하기 위해 연구진은 2018년부터 2024년까지의 실제 GitHub 데이터를 수집하여 개인정보 관련 결함과 수정 사항이 포함된 데이터셋인 PrivacyPR을 구축했다.
+
+PrivacyPR은 약 4,131개의 풀 리퀘스트를 포함하며, 각 데이터에는 수정 사항의 유형과 GDPR 원칙에 따른 레이블이 포함되어 있다. 데이터셋은 신뢰도가 높은 수정 사례와 수정이 아닌 사례를 포함하며, 특히 수동 검증을 거친 Verified 세트를 통해 평가의 정확성을 확보했다. 연구진은 이 데이터셋이 개발자들이 실제로 수용한 수정 사례를 바탕으로 개인정보 보호 코드 리뷰의 성능을 측정하는 기준이 될 것이라고 주장한다.
+
+연구진의 실험 결과에 따르면, 일반적인 리뷰 프롬프트를 사용했을 때 코딩 에이전트는 개인정보 결함을 42~51% 수준으로만 탐지했다. 그러나 개인정보 보호를 명시적으로 확인하도록 요청했을 때는 탐지율이 88~91%까지 상승하는 것으로 나타났다. 다만 이 과정에서 약 11~15%의 오탐지(False Alarms)가 발생하는 것으로 확인되었다.
+
+이번 연구는 개인정보 보호 결함이 AI 에이전트에 의해 탐지될 수 있음을 보여주지만, 탐지 성능이 리뷰의 의도에 크게 의존한다는 점을 시사한다. 연구진은 데이터셋과 코드, 평가 프레임워크를 공개하여 개인정보 보호를 고려한 코드 리뷰 연구를 지원할 계획이다.
+
+---
+
+원문: [PrivacyPR: A Dataset of Real-World Privacy Fixes for Benchmarking Privacy-Aware Code Review](https://arxiv.org/abs/2611.18293)
