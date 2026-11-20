@@ -1,0 +1,41 @@
+---
+title: 텍스트 대신 이미지로 학습하는 AI 에이전트 기술, Skill.png
+category: papers
+axis: agent
+format: explainer
+summary: 텍스트 기반의 에이전트 기술이 가진 불연속적 한계를 극복하기 위해 이미지 기반의 Skill.png 방식을 제안한다. 이는 고정된 시각 언어 모델(VLM)의 인코더를 통해 이미지 픽셀을 직접 최적화하는 방식이다.
+publishedAt: 2026-11-20T22:00:02+0900
+tags:
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.26296
+  title: 'SKILL.PNG: Learning Agent Skills in Pixel Space'
+  author: Maximilian Seeth
+  publishedAt: 2026-11-20T14:00:00+0900
+  words: 10630
+  image: https://arxiv.org/html/2611.26296v1/figures/overview.png
+paper:
+  arxivId: '2611.26296'
+  authors:
+  - Maximilian Seeth
+  - Chengzhi Martin Hu
+  - Marie Kempkes
+  - Paul R\"ottger
+  - Leo Schwinn
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+기존의 AI 에이전트는 자연어 지시문 형태의 기술(Skill)을 사용하여 새로운 작업에 적응해 왔다. 하지만 텍스트는 이산적인 특성 때문에 연속적인 최적화가 어렵고, 파인튜닝 방식은 모델마다 달라 기술을 다른 모델로 전송하는 데 한계가 있다. 이를 해결하기 위해 연구진은 VLM의 시각 인코더를 활용해 이미지 픽셀을 그래디언트 하강으로 최적화하는 Skill.png 방식을 도입했다.
+
+Skill.png은 다양한 VLM과 호환되며, 여러 모델을 동시에 고려한 통합 최적화가 가능하다. 저자들의 주장에 따르면, 이 방식은 16개 설정 중 9개에서 최신 LLM 기반의 텍스트 기술보다 우수한 성능을 보였으며, 추론 시 필요한 토큰 수도 획기적으로 줄였다. 또한 텍스트와 이미지를 결합한 하이브리드 기술을 사용할 때 에이전트의 성능이 더욱 향상되는 것으로 나타났다.
+
+이 연구는 텍스트 기술이 가진 전송 가능성(Transferability)을 유지하면서도 그래디언트 기반의 최적화를 가능하게 한 최초의 에이전트 기술이다. 특히 여러 VLM의 앙상블을 통해 최적화된 이미지가 다른 모델에서도 성공적으로 작동한다는 점이 핵심이다.
+
+---
+
+원문: [SKILL.PNG: Learning Agent Skills in Pixel Space](https://arxiv.org/abs/2611.26296)

@@ -1,0 +1,32 @@
+---
+title: NVIDIA cuBLAS, 정수 Tensor Core를 활용해 FP64 행렬 곱속도를 극대화하다
+category: community
+axis: serving
+format: explainer
+summary: NVIDIA는 CUDA Toolkit 13.4부터 도입된 Ozaki-II 및 2M 알고리즘을 통해 FP64 행렬 곱을 정수 Tensor Core에서 처리하는 에뮬레이션 기술을 선보였다. 이 기술은 높은 정확도를 유지하면서도 최신 GPU 아키텍처에서 FP64 연산 성능의 한계를 극복하는 데 목적이 있다.
+publishedAt: 2026-11-20T22:00:02+0900
+tags:
+- quantization
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/nvidia-cublas-tensor-core-fp64-dgemm-5-5-feat-ozaki-ii-2m/12539
+  title: NVIDIA cuBLAS, 정수 Tensor Core로 FP64 정확도를 유지한 채 DGEMM 최대 5.5배 가속 (feat. Ozaki-II, 2M)
+  author: 9bow
+  publishedAt: 2026-11-19T11:30:50+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/f/2/f2f9ffd02a698bb9eec44df4390e5a05fd5a21c2_2_1028x659.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+분자 화학이나 재료 과학 분야의 시뮬레이션은 배정밀도(FP64) 행렬 곱셈에 많은 자원을 소모한다. 하지만 최근 GPU 하드웨어는 AI 학습에 유리한 저정밀도 연산 성능 위주로 발전해 왔으며, 이로 인해 기존의 FP64 전용 과학 계산 코드는 최신 GPU에서도 기대만큼의 성능 향상을 얻지 못하는 상황이 발생했다.
+
+NVIDIA는 이러한 간극을 메우기 위해 FP64 숫자를 여러 개의 정수로 쪼개어 처리량이 훨씬 큰 정수 Tensor Core에서 계산한 뒤, 다시 FP64 결과로 복원하는 에뮬레이션 방식을 도입했다. 이번에 소개된 Ozaki-II와 2M 알고리즘은 이전 방식보다 더 적은 정수 곱셈으로 동일한 정확도를 확보하는 기술이다.
+
+NVIDIA 측의 측정 결과에 따르면, 이 에뮬레이션 기술을 적용했을 때 Vera Rubin에서 최대 5.5배, GB200에서 최대 3.9배의 속도 향상이 확인되었다. 다만 이는 특정 설정이나 하드웨어 환경에 따라 달라질 수 있으며, 가장 작은 행렬에서는 성능 이득이 없는 경우도 존재한다. 또한, 이 기능은 기본적으로 꺼져 있으므로 사용자는 환경 변수를 통해 활성화해야 하며, 특정 복소수 연산에서 드물게 틀린 결과가 나올 수 있다는 점도 고려해야 한다.
+
+---
+
+원문: [NVIDIA cuBLAS, 정수 Tensor Core로 FP64 정확도를 유지한 채 DGEMM 최대 5.5배 가속 (feat. Ozaki-II, 2M)](https://discuss.pytorch.kr/t/nvidia-cublas-tensor-core-fp64-dgemm-5-5-feat-ozaki-ii-2m/12539)

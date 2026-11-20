@@ -1,0 +1,33 @@
+---
+title: 'Claude Code v2.1.329 업데이트: 안정성 개선과 MCP 서버 연결성 강화'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: 이번 업데이트는 Claude Code의 안정성 개선과 MCP 서버와의 원활한 연결에 집중했다. 특히 파일 시스템 관련 버그 수정과 네트워크 연결 오류 대응이 대폭 강화되었다.
+publishedAt: 2026-11-20T22:00:02+0900
+tags:
+- Claude Code
+- MCP
+draft: false
+source:
+  url: https://github.com/anthropics/claude-code/releases/tag/v2.1.329
+  title: v2.1.329
+  author: claude-code-publisher[bot]
+  publishedAt: 2026-11-20T07:14:41+0900
+  words: 2959
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 v2.1.329 업데이트에서는 사용자 환경의 안정성을 높이는 다양한 버그 수정이 포함되었다. 특히 VS Code 설정 파일이 손상되거나 파일 저장 시 줄 바꿈 및 BOM 정보가 유실되는 등의 파일 시스템 관련 이슈들이 해결되었다. 또한 네트워크 지연이나 파일 잠금으로 인해 설정 파일이 초기화되는 문제도 개선되었다.
+
+MCP(Model Context Protocol) 서버와의 상호작용도 더욱 매끄러워졌다. 원격 HTTP MCP 서버의 연결 거부 메시지를 확인할 수 있는 기능이 추가되었으며, 느린 네트워크 환경에서 연결이 끊겼을 때 자동으로 재연결을 시도하는 기능이 도입되었다. 이는 개발자가 외부 도구와 협업할 때 발생할 수 있는 끊김 현상을 줄여준다.
+
+사용자 편의를 위한 인터페이스 개선도 눈에 띈다. 신뢰할 수 있는 폴더의 훅(hooks) 위치를 알려주는 경고 대화 상자가 추가되었고, 작업 관리 및 세션 관리 기능이 개선되었다. 이번 업데이트는 전체적인 버그 수정이 많지만, 핵심은 개발 환경에서의 데이터 무결성과 외부 서버와의 연결 안정성을 확보하는 데 있다.
+
+---
+
+원문: [v2.1.329](https://github.com/anthropics/claude-code/releases/tag/v2.1.329)

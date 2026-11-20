@@ -1,0 +1,30 @@
+---
+title: LLM으로 매일 아침 주식 리포트를 받아보는 자동화 시스템
+category: community
+axis: agent
+format: explainer
+summary: LLM을 활용해 6개 국가의 주식 시장 데이터를 분석하고 리포트를 생성하는 오픈소스 프로젝트 DSA를 소개한다. 데이터 수집부터 리포트 전송까지의 전 과정을 자동화하여 매일 메신저로 분석 결과를 전달받을 수 있다.
+publishedAt: 2026-11-20T22:00:02+0900
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/dsa-6-llm/12589
+  title: 'DSA: 미국, 중국, 한국 등, 6개 주요 주식 시장의 관심 종목을 매일 LLM으로 분석해 메신저로 보내주는 주식 리서치 시스템'
+  author: 9bow
+  publishedAt: 2026-11-20T15:30:22+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/a/e/ae865e1a985742eaafbf4d6cb91aa4b98eb297f7_2_1028x655.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Linsen Zhu가 공개한 DSA(Daily Stock Analysis)는 관심 종목의 시세, 뉴스, 기술 지표를 종합하여 LLM 기반의 리서치 리포트를 생성하는 파이썬 프로젝트다. 이 시스템은 단순히 LLM에게 질문을 던지는 수준을 넘어, 데이터가 누락되었을 때 모델이 잘못된 판단을 내리지 않도록 데이터 수집과 전처리 과정을 체계적으로 관리한다. 현재 중국, 홍콩, 미국, 일본, 한국, 대만 6개 시장을 지원하며 한국 주식은 기초적인 시세와 재무 정보를 포함한다.
+
+시스템은 AkShare나 yfinance 같은 무료 데이터 소스를 활용하며, LiteLLM을 통해 Gemini, Claude, OpenAI, DeepSeek 등 다양한 모델을 선택해 사용할 수 있다. 사용자는 리포트 언어를 한국어로 설정할 수 있으며, GitHub Actions를 활용해 별도의 서버 없이도 매일 정해진 시간에 리포트를 생성하도록 설정이 가능하다. 결과는 텔레그램, 슬랙, 디스코드, 이메일 등 다양한 메신저 플랫폼으로 전송된다.
+
+개발자는 이 시스템의 구조를 정리한 논문을 arXiv에 공개했으나, 해당 논문은 소프트웨어의 동작 검증에 집중했으며 리포트의 품질이나 투자 수익에 대한 성능은 평가하지 않았다고 밝히고 있다. 이 프로젝트는 인공지능 기술이 금융 데이터 분석과 리서치 자동화에 어떻게 적용될 수 있는지를 보여주는 사례로 활용될 수 있다.
+
+---
+
+원문: [DSA: 미국, 중국, 한국 등, 6개 주요 주식 시장의 관심 종목을 매일 LLM으로 분석해 메신저로 보내주는 주식 리서치 시스템](https://discuss.pytorch.kr/t/dsa-6-llm/12589)

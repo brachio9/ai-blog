@@ -1,0 +1,39 @@
+---
+title: 'Unsloth 업데이트: AMD NPU 지원 강화 및 비디오 모델 학습 개선'
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 AMD NPU 지원을 대폭 강화하고 비디오 및 이미지 모델 학습 성능을 개선했다. 특히 Q4NX 모델의 NPU 로딩과 효율적인 리소스 관리가 이번 업데이트의 핵심이다.
+publishedAt: 2026-11-20T22:00:02+0900
+tags:
+- MCP
+- LoRA
+- QLoRA
+- fine-tuning
+- speculative decoding
+- KV cache
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.920-beta
+  title: AMD NPU + video diffusion LoRA
+  author: danielhanchen
+  publishedAt: 2026-11-19T23:31:01+0900
+  words: 833
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 AMD NPU 지원의 확장이다. 이제 Q4NX 모델을 변환하면 NPU 모델 목록에 표시되며 실제 NPU에서 로드된다. 또한 각 모델이 NPU에서 실행 가능한지 여부를 태그로 표시하여 사용자가 모델 호환성을 쉽게 확인할 수 있게 되었다. 이는 GPU 대비 전력 효율을 극대화하려는 사용자들에게 중요한 변화다.
+
+성능 최적화 측면에서도 유의미한 개선이 있었다. Strix Halo 환경에서 FLUX.3 Klein 모델의 속도가 최대 28% 향상되었으며, Diffusion LoRA 학습 속도 또한 최대 42% 빨라졌다. 이와 더불어 LTX-2.5 및 MOSS-Image와 같은 최신 모델에 대한 LoRA 학습 지원이 추가되었고, NVIDIA Cosmos3 비디오 모델의 로딩도 지원된다.
+
+사용자 편의를 위한 기능도 대폭 강화되었다. Q4NX 변환 과정이 별도의 탭으로 분리되어 관리하기 편해졌으며, 잘못된 양자화로 인해 발생하는 오류를 방지하는 검증 로직이 추가되었다. 또한 NPU 모델 전용 리스트 확인 기능과 메모리 적합성 확인 기능이 도입되어 더욱 쾌적한 개발 환경을 제공한다.
+
+이번 업데이트는 AMD NPU를 활용한 효율적인 추론과 최신 비디오/이미지 모델 학습을 원하는 사용자들에게 최적화된 변화를 제공한다. 다만 이번 요약은 주요 업데이트 사항 중 일부만을 선별한 것이며 전체 변경 사항을 모두 포함하고 있지는 않다.
+
+---
+
+원문: [AMD NPU + video diffusion LoRA](https://github.com/unslothai/unsloth/releases/tag/v0.1.920-beta)
