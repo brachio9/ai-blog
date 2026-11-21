@@ -1,0 +1,34 @@
+---
+title: 'sherpa-onnx v2.0.2 업데이트: Whisper 지원 강화 및 한국어 처리 개선'
+category: releases
+axis: voice
+format: explainer
+summary: sherpa-onnx의 v2.0.2 버전이 공개되었다. 이번 업데이트에서는 Whisper 모델의 언어 후보 지원과 한국어 ASR 결과의 공백 유지 등 실질적인 사용성 개선이 포함되었다.
+publishedAt: 2026-11-21T22:00:01+0900
+tags:
+- TTS
+- ASR
+- Whisper
+draft: false
+source:
+  url: https://github.com/k2-fsa/sherpa-onnx/releases/tag/v2.0.2
+  title: v2.0.2
+  author: github-actions[bot]
+  publishedAt: 2026-11-19T17:16:55+0900
+  words: 1519
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트에서 주목할 만한 변화는 Whisper 모델에 대한 지원 강화다. 이제 스트림별로 언어 후보를 지정할 수 있게 되어 더욱 유연한 처리가 가능해졌다. 또한 NeMo TDT 모델에서 발생하던 음성 누락 문제와 스트리밍 시의 토큰 동기화 오류가 수정되어 안정성이 향상되었다.
+
+한국어 사용자에게 중요한 변화도 포함되었다. 한국어 ASR 결과에서 불필요하게 제거되던 공백이 유지되도록 수정되어 텍스트 품질이 개선되었다. 이 외에도 VoxLock 모델 지원과 Node.js용 소스 분리 API 추가 등 다양한 기능 확장과 버그 수정이 이루어졌다.
+
+성능 및 플랫폼 최적화 측면에서도 변화가 있다. QNN HTP 성능 모드와 Java/Kotlin 바인딩이 추가되었으며, iOS에서의 크래시 문제와 Windows 환경의 테스트 오류가 해결되었다. 이번 릴리스는 전체 업데이트 내용 중 주요 개선 사항만을 요약한 것이며, 상세한 변경 사항은 공식 릴리스 노트를 참조해야 한다.
+
+---
+
+원문: [v2.0.2](https://github.com/k2-fsa/sherpa-onnx/releases/tag/v2.0.2)

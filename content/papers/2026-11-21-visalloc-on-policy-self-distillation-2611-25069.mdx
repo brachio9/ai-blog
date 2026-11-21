@@ -1,0 +1,46 @@
+---
+title: 멀티모달 모델의 시각적 추론을 강화하는 VisAlloc 프레임워크
+category: papers
+axis: serving
+format: explainer
+summary: 멀티모달 대규모 언어 모델의 시각적 추론 능력을 높이기 위해 시각적 가이드의 품질을 선별적으로 학습하는 VisAlloc 프레임워크를 제안한다. 샘플 단위의 필터링과 토큰 단위의 재가중치를 결합하여 불필요한 신호를 제거하고 유의미한 시각적 정보에 집중한다.
+publishedAt: 2026-11-21T22:00:01+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.25069
+  title: 'VisAlloc: Allocating Visual Supervision for On-Policy Self-Distillation'
+  author: Haoran Xu
+  publishedAt: 2026-11-20T14:00:00+0900
+  words: 8463
+  image: https://arxiv.org/html/2611.25069v1/figure1.png
+paper:
+  arxivId: '2611.25069'
+  authors:
+  - Haoran Xu
+  - Tian Chen
+  - Yuhe Wu
+  - Yanbo Zhao
+  - Junchi Liao
+  - Hongyu Wang
+  - Jiaze Li
+  - Wentao Wang
+  - Yanfeng Li
+  - Rui Qian
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+멀티모달 대규모 언어 모델(MLLM)에서 온폴리시 자기 증류(On-policy self-distillation)는 유망한 접근 방식이지만 모든 샘플이 동일한 시각적 가이드를 필요로 하지는 않는다. 모든 토큰에 동일한 감독을 적용하면 시각적으로 근거가 있는 신호가 희석될 수 있다는 문제가 발생한다. 이를 해결하기 위해 저자들은 샘플 수준의 시각적 필터링과 토큰 수준의 반사실적 재가중치를 결합한 이중 수준 프레임워크인 VisAlloc을 제안한다.
+
+VisAlloc은 고정된 쌍 기반 교사 필터를 사용하여 증거 중심의 긍정 크롭에서는 정답을 맞히고 공간적으로 이동된 부정 크롭에서는 틀린 샘플만을 유지한다. 토큰 수준에서는 두 개의 EMA 교사가 동일한 학생 생성 응답을 평가하며, 두 교사의 절대 로그 확률 차이를 통해 시각적 민감도를 측정한다. 민감도나 교사 분포의 불일치가 감지되는 토큰에 추가적인 감독을 부여하며, 이때 공유된 고정 사전 지식과 템플릿 바이그램, 그리고 학생-교사 발산 게이트를 활용한다.
+
+학습 과정에서는 역빈도 재분배를 통해 마이크로 배치 내의 총 추가 가중치를 보존하며, 긍정 교사를 유일한 증류 대상으로 유지한다. 추론 단계에서는 전체 이미지를 사용하는 학생 모델만 필요하다. 저자들의 주장에 따르면 4B 및 9B 모델은 8개 벤치마크에서 각각 81.44와 84.92의 매크로 평균 점수를 기록했으며, 이는 기존의 Vision-OPD 재현 결과보다 각각 0.97 및 0.52 포인트 높은 수치다.
+
+---
+
+원문: [VisAlloc: Allocating Visual Supervision for On-Policy Self-Distillation](https://arxiv.org/abs/2611.25069)

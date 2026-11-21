@@ -1,0 +1,38 @@
+---
+title: 'Hugging Face Transformers v5.24.0 업데이트: 멀티모달 모델과 오디오 토크나이저 추가'
+category: releases
+axis: serving
+format: explainer
+summary: Hugging Face Transformers 라이브러리가 v5.24.0으로 업데이트되며 새로운 멀티모달 모델과 오디오 처리 기능을 포함했다. 이번 업데이트에서는 Inkling 2 Mini와 Apertus 1.5 모델이 새롭게 추가되었다.
+publishedAt: 2026-11-21T22:00:01+0900
+tags:
+- vLLM
+- SGLang
+- quantization
+- KV cache
+- ASR
+- Whisper
+draft: false
+source:
+  url: https://github.com/huggingface/transformers/releases/tag/v5.24.0
+  title: Release v5.24.0
+  author: Cyrilvallez
+  publishedAt: 2026-11-21T21:28:26+0900
+  words: 3909
+  image: https://github.com/user-attachments/assets/beefb5e0-39a9-4205-ab07-0ee707af95f2
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 멀티모달 능력을 강화한 모델들의 추가다. Thinking Machines Lab에서 개발한 Inkling 2 Mini는 텍스트와 이미지를 입력으로 받아 텍스트를 생성하는 모델이다. 이 모델은 기존 Inkling 2 Small보다 작은 규모지만, 루프 메커니즘을 활용해 효율적으로 연산 성능을 확보한 것이 특징이다.
+
+또한 Swiss AI Initiative의 Apertus 1.5 모델이 새롭게 포함되었다. 이 모델은 텍스트, 이미지, 오디오를 동시에 처리할 수 있는 멀티모달 모델로, Chameleon과 동일한 인코더를 사용하는 EMU3.5 비전 토크나이저를 활용한다. 다만 현재는 텍스트 출력만 지원하며 이미지나 오디오 생성은 지원하지 않는다.
+
+오디오 처리 기능을 위한 WavTokenizer도 이번 업데이트에 포함되었다. 이 토크나이저는 24kHz 모노 오디오를 이산 토큰으로 인코딩하고 복원하는 역할을 수행하며, Apertus 1.5 모델의 오디오 토크나이저로도 활용된다. 이 외에도 NVIDIA의 루프형 언어 모델인 Dory가 추가되는 등 다양한 모델과 기능이 업데이트되었다. 이번 릴리스는 전체 업데이트 내용 중 주요 모델 추가를 중심으로 구성되었으며, 상세한 변경 사항은 공식 릴리스 노트를 참조해야 한다.
+
+---
+
+원문: [Release v5.24.0](https://github.com/huggingface/transformers/releases/tag/v5.24.0)

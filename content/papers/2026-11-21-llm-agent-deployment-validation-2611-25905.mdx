@@ -1,0 +1,49 @@
+---
+title: 에이전트 워크로드의 안정적인 LLM 배포를 위한 검증 파이프라인
+category: papers
+axis: serving
+format: explainer
+summary: 기업들이 자체 구축형 LLM으로 에이전트 워크로드를 전환함에 따라 체계적인 배포 검증이 중요해졌다. 본 논문은 에이전트 기반 LLM 서빙을 위한 엔드투엔드 평가 파이프라인과 설계 원칙을 제안한다.
+publishedAt: 2026-11-21T22:00:01+0900
+tags:
+- vLLM
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.25905
+  title: Validation-driven Deployment of LLM Inference Platforms for Agentic Workloads
+  author: Shai Gretz
+  publishedAt: 2026-11-20T14:00:00+0900
+  words: 21684
+  image: https://arxiv.org/html/2611.25905v1/figures/dashboard_runs.png
+paper:
+  arxivId: '2611.25905'
+  authors:
+  - Shai Gretz
+  - Alon Halfon
+  - Yoav Katz
+  - Lena Dankin
+  - Michal Jacovi
+  - Rachel Tzoref-Brill
+  - Kfir Toledo
+  - Elron Bandel
+  - Natan Ergas
+  - Michal Malka
+  - Pravein Govindan Kannan
+  - Maroon Ayoub
+  - Michal Shmueli-Scheuer
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+최근 기업들은 폐쇄형 API에서 벗어나 자체 구축한 오픈 가중치 모델을 활용해 에이전트 워크로드를 운영하는 추세다. 이러한 환경에서는 소규모 테스트부터 생산 환경 배포까지 전체 생애 주기에 걸친 검증이 필수적이지만, 기존의 배포 방식은 정확성이 검증되지 않은 임시 도구에 의존하는 경우가 많다.
+
+저자들은 에이전트 LLM 서빙을 위한 엔드투엔드 평가 파이프라인을 제시하며 각 단계의 설계 선택에 대한 실험적 근거를 제공한다. 실험 결과에 따르면, 기록된 트레이스를 재현했을 때 95퍼센타일 기준 입력 토큰 수의 1.18배 이내에서 원본 세션의 부하를 재현할 수 있으며, 이는 소수의 기록된 세션만으로도 반복 가능한 토큰 부하를 생성할 수 있음을 시사한다.
+
+또한 vLLM에 대한 코드 커버리지 분석을 통해 실제 실행, 재현, 합성 워크로드가 서로 보완적인 관계에 있음을 확인했다. 각 워크로드는 다른 방식으로는 도달할 수 없는 파이썬 서빙 경로를 실행한다. 저자들은 4개의 대규모 MoE 모델을 활용한 사례 연구를 통해, 공개 트레이스 대비 기록된 워크로드에서 목표 모델이 최적 동시성의 약 절반과 처리량의 약 60%에 도달했다는 결과를 발표했다.
+
+---
+
+원문: [Validation-driven Deployment of LLM Inference Platforms for Agentic Workloads](https://arxiv.org/abs/2611.25905)

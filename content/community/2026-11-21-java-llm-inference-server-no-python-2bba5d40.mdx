@@ -1,0 +1,36 @@
+---
+title: 파이썬 없이 Java로 구현한 로컬 LLM 추론 서버
+category: community
+axis: serving
+format: explainer
+summary: Python 없이 Java 25와 Project Panama를 활용해 로컬 LLM 추론 서버를 구축한 사례다. vLLM이나 SGLang을 래핑하는 대신 네이티브 C++/CUDA 브릿지를 직접 연결하여 성능을 최적화했다.
+publishedAt: 2026-11-21T22:00:01+0900
+tags:
+- vLLM
+- SGLang
+- quantization
+- speculative decoding
+- KV cache
+- Whisper
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/i-built-a-zero-python-local-llm-inference-server-in-java-25-panama-ffm-cuda-flashinfer-marlin-onnx-genai-running-qwen3-8-27b-fp8-on-one-40gb-gpu-down-to-0-3b-3-8b-models-on-cpu-npu/191994
+  title: 'I built a zero-Python local LLM inference server in Java 25 (Panama FFM + CUDA/FlashInfer/Marlin + ONNX GenAI): running Qwen3.8-27B-FP8 on one 40GB GPU down to 0.3B-3.8B models on CPU/NPU'
+  author: pdsminer
+  publishedAt: 2026-11-18T05:04:54+0900
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+저자는 파이썬을 전혀 사용하지 않는 실행 환경을 만들기 위해 Java 25의 Project Panama(Foreign Function & Memory API)를 활용했다. 이를 통해 vLLM이나 SGLang 같은 외부 프로세스를 호출하는 대신, C++/CUDA로 작성된 라이브러리와 온닉스런타임(ONNX Runtime)을 Java에서 직접 호출하는 구조를 설계했다.
+
+특히 Qwen 3.8-27B-FP8 모델을 단일 40GB GPU에서 구동하기 위해 메모리 관리와 커널 최적화에 집중했다. 모델 로드 시 발생하는 메모리 점유 문제를 해결하기 위해 플레이스홀더 GEMM 초기화 방식을 도입했으며, GatedDeltaNet 구조에서 공유 메모리 대신 레지스터 기반 커널을 사용하여 연산 비용을 대폭 절감했다.
+
+이러한 최적화를 통해 저자는 Qwen 모델의 추론 속도를 개선했으며, 멀티 GPU 서버뿐만 아니라 리소스가 제한된 기기에서도 작동하는 엔진을 구축했다. 이는 파이썬 의존성을 제거하면서도 고성능 추론을 유지하려는 시도로 평가된다.
+
+---
+
+원문: [I built a zero-Python local LLM inference server in Java 25 (Panama FFM + CUDA/FlashInfer/Marlin + ONNX GenAI): running Qwen3.8-27B-FP8 on one 40GB GPU down to 0.3B-3.8B models on CPU/NPU](https://discuss.huggingface.co/t/i-built-a-zero-python-local-llm-inference-server-in-java-25-panama-ffm-cuda-flashinfer-marlin-onnx-genai-running-qwen3-8-27b-fp8-on-one-40gb-gpu-down-to-0-3b-3-8b-models-on-cpu-npu/191994)

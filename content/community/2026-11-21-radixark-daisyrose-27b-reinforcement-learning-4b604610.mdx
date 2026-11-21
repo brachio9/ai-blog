@@ -1,0 +1,38 @@
+---
+title: 강화학습만으로 훈련한 Qwen 기반 모델 DaisyRose-27B 공개
+category: community
+axis: serving
+format: explainer
+summary: RadixArk가 Qwen3.8-27B를 기반으로 지도 미세조정 없이 강화학습만으로 학습시킨 DaisyRose-27B 모델을 공개했다. 이 모델은 터미널 작업 및 코딩 에이전트 활용에 최적화되었으며 Apache 2.0 라이선스로 제공된다.
+publishedAt: 2026-11-21T22:00:01+0900
+tags:
+- Claude Code
+- SGLang
+- distillation
+- fine-tuning
+- speculative decoding
+- SFT
+- GPQA
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/radixark-1-200-qwen3-8-27b-daisyrose-27b-feat-miles/12588
+  title: RadixArk, 과제 1,200개 강화학습만으로 Qwen3.8-27B를 다듬은 DaisyRose-27B 공개 (feat. Miles)
+  author: 9bow
+  publishedAt: 2026-11-20T19:30:01+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/e/8/e87f3dcf40eb4fdb355f442462685ee7e4b2c337_2_1028x685.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+RadixArk는 약 1,200개의 장기 에이전트 과제를 활용해 H200 144장에서 18일 동안 비동기 강화학습을 진행했다. 이 과정에서 지도 미세조정(SFT)이나 증류 없이 오직 강화학습만으로 모델을 사후 학습시켰으며, 이는 제한된 연산 예산에서 성능을 극대화하기 위한 전략이다. RadixArk는 모델 자체보다 과제 설계, 학습 백엔드, 샌드박스 서비스라는 세 가지 요소가 성능 향상의 핵심이었다고 주장한다.
+
+DaisyRose-27B는 Qwen3.8-27B와 아키텍처, 토크나이저, 채팅 템플릿이 동일하여 기존 추론 환경에서 모델만 교체하여 사용할 수 있다. 모델 카드의 데이터에 따르면 Terminal Bench 점수가 5.6에서 12.0으로 상승했다고 기술되어 있으나, 이는 동일 조건에서의 재측정이 아니라 기존 Qwen3.8-27B의 점수와 비교한 결과이다. 
+
+학습 효율 측면에서 RadixArk는 자체 개발한 학습 백엔드를 통해 MFU 37%를 달성했으며, 이는 비교 대상인 Megatron 기반 오픈소스 트레이너의 16%보다 높은 수치라고 주장한다. 이 모델은 오픈소스 강화학습 프레임워크인 Miles를 통해 학습되었으며, 개발자들은 이를 통해 적은 GPU 예산으로 에이전트 강화학습을 시도할 수 있다.
+
+---
+
+원문: [RadixArk, 과제 1,200개 강화학습만으로 Qwen3.8-27B를 다듬은 DaisyRose-27B 공개 (feat. Miles)](https://discuss.pytorch.kr/t/radixark-1-200-qwen3-8-27b-daisyrose-27b-feat-miles/12588)
