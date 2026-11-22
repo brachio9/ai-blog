@@ -1,0 +1,40 @@
+---
+title: 금융 데이터 분석에서 LLM의 환각을 줄이는 멀티 에이전트 검증 전략
+category: papers
+axis: agent
+format: explainer
+summary: LLM이 금융 데이터 분석에서 범하는 계산 오류와 정보 혼동 문제를 해결하기 위해 다중 에이전트 시스템인 FinVeriQA를 제안한다. 이 시스템은 역할 분담과 독립적인 검증 단계를 통해 데이터의 정확성을 확보하는 데 집중한다.
+publishedAt: 2026-11-22T22:00:02+0900
+tags:
+- MCP
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.25071
+  title: 'FinVeriQA: Financial Research Agents for Question Answering: Routing, Retrieval, MCP Tool Use, and Provenance-Aware Evidence Verification'
+  author: Meenakshi Rajpurohit
+  publishedAt: 2026-11-20T14:00:00+0900
+  words: 13091
+paper:
+  arxivId: '2611.25071'
+  authors:
+  - Meenakshi Rajpurohit
+  - Anna Phan
+  - Ravikumar Komandur Narayanan
+  - Gunanidhi Ramakrishnan
+  - Nathan Howland
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 3
+---
+
+금융 분석에서 대규모 언어 모델은 유창하게 글을 쓰지만 수치 계산이나 최신 가격 반영에서 치명적인 오류를 범한다. 연구진은 이를 해결하기 위해 각 단계를 전문화된 에이전트에게 할당하는 구조를 설계했다. 질문 분류와 필터링은 전용 모델이 담당하고, 수치 계산은 파이썬이 수행하며, 정보 검색과 답변 작성을 각각 별도의 모델이 맡는 방식이다.
+
+저자들의 주장에 따르면, 전용 모델을 활용한 질문 분류가 일반적인 모델보다 높은 정확도를 보였으며 파이썬을 활용한 계산은 100%의 정확도를 기록했다. 또한 하이브리드 검색 방식을 통해 공시 자료 기반 질문에서 높은 적중률을 확보했다. 하지만 실제 사례 분석에서 모델이 서로 다른 기업의 데이터를 혼동하여 답변하는 사례가 여전히 발견되었다.
+
+연구 결과, 모델이 참고한 증거 데이터에 오류가 포함될 경우 모델은 틀린 정보임에도 불구하고 높은 자신감을 가지고 답변하는 경향이 확인되었다. 이를 해결하기 위해 저자들은 답변을 작성할 때 참고한 증거 자체를 검증하는 것보다, 원문 데이터와 대조하는 독립적인 검증 과정이 훨씬 효과적이라는 점을 강조한다. 검증 과정이 참고 데이터와 독립적으로 수행될 때 오류를 더 효과적으로 잡아낼 수 있다는 것이 이 연구의 핵심이다.
+
+---
+
+원문: [FinVeriQA: Financial Research Agents for Question Answering: Routing, Retrieval, MCP Tool Use, and Provenance-Aware Evidence Verification](https://arxiv.org/abs/2611.25071)

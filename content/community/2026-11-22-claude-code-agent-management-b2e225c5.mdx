@@ -1,0 +1,31 @@
+---
+title: 복잡한 AI 에이전트 워크플로우를 관리하는 효율적인 조직 구조 설계법
+category: community
+axis: agent
+format: explainer
+summary: 다수의 에이전트 세션을 동시에 운영할 때 발생하는 정보 과부하 문제를 해결하기 위한 매니저 세션 구조를 제안한다. 업무의 성격에 따라 전결권과 보고 방식을 차등화하여 의사결정 효율을 높이는 것이 핵심이다.
+publishedAt: 2026-11-22T22:00:02+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://news.hada.io/topic?id=37609&utm_source=geeknews&utm_medium=rss&utm_campaign=news
+  title: 결재 서류를 쌓아 두던 부장에서 보고받는 사장으로 – Claude Code 매니저 세션 만들기
+  author: tedkim
+  publishedAt: 2026-11-22T13:52:21+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: mid
+  crossSources: 1
+---
+
+작성자는 여러 개의 Claude Code 세션을 동시에 실행할 때 발생하는 정보 과부하 문제를 지적한다. 세션이 늘어날수록 모든 응답을 실시간으로 확인하기 어렵고, 특히 중간 보고가 섞여 들어오는 구조에서는 집중력이 분산되기 때문이다. 이를 해결하기 위해 에이전트가 기본적으로 요점과 결정 사항만 보고하고, 상세 설명은 요청 시에만 제공하는 계층적 구조를 도입했다.
+
+에이전트가 묻는 질문 중 상당수는 이미 합의된 계획에 따른 당연한 절차인 경우가 많다. 작성자는 이러한 단순 반복 질문을 줄이기 위해 에이전트에게 자율성을 부여하는 대신, 판단 권한을 별도의 매니저 세션으로 이관하는 방식을 선택했다. 이는 마치 회사의 전결 및 결재 시스템을 도입하는 것과 유사한 원리다.
+
+구체적으로는 전결, 사후 보고, 판단이 필요한 결재, 직접 지시가 필요한 결재로 업무 권한을 분류했다. 초기에는 에이전트가 전결을 수행하더라도 결과만 보고하게 하여 신뢰를 쌓는 수습 기간을 거치고, 이후 신뢰도에 따라 전결 범위를 점진적으로 확대하는 방식을 제안한다.
+
+---
+
+원문: [결재 서류를 쌓아 두던 부장에서 보고받는 사장으로 – Claude Code 매니저 세션 만들기](https://news.hada.io/topic?id=37609&utm_source=geeknews&utm_medium=rss&utm_campaign=news)

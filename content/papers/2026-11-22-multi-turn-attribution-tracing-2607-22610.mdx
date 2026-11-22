@@ -1,0 +1,37 @@
+---
+title: AI 답변의 근거를 끝까지 추적하는 기술, Tokengeist
+category: papers
+axis: agent
+format: explainer
+summary: 멀티턴 대화에서 AI 답변의 근거가 되는 이전 단계들을 계층적으로 추적하는 Tokengeist 프레임워크를 소개한다. 기존 방식이 놓치던 복잡한 의존성 구조를 그래프 탐색으로 해결한다.
+publishedAt: 2026-11-22T22:00:02+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2607.22610
+  title: 'Tokengeist: Multi-Turn Attribution Tracing in Agentic Conversations'
+  author: Jessica Tang
+  publishedAt: 2026-11-20T14:00:00+0900
+  words: 21817
+  image: https://arxiv.org/html/2607.22610v2/motivating_example.png
+paper:
+  arxivId: '2607.22610'
+  authors:
+  - Jessica Tang
+  - Shraddha Barke
+  - Sharad Agarwal
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 2
+---
+
+AI 모델이 여러 차례의 대화와 도구 사용을 거쳐 답변을 내놓을 때, 어떤 이전 단계에 근거했는지 파악하는 것은 매우 중요하다. 기존의 속성 추적 방식은 전체 대화 기록을 한 번에 처리하기 때문에 표면적인 의존성만 파악할 뿐, 이전 대화 내용이 응축되거나 변형된 복잡한 계층 구조를 제대로 반영하지 못한다는 한계가 있다.
+
+연구진은 이를 해결하기 위해 멀티턴 문맥 속성(MTCA) 개념을 도입했다. 이는 특정 답변 구간이 어떤 이전 턴에 의존하는지뿐만 아니라, 그 이전 턴들이 또 어떤 과거 맥락에 의존했는지를 역방향으로 추적하는 방식이다. 이를 구현하기 위해 제안된 Tokengeist는 대화 턴을 방향성 비순환 그래프(DAG)로 모델링하고, 이를 재귀적으로 탐색하여 전체 의존성 경로를 복원한다.
+
+연구진은 685개의 멀티턴 대화로 구성된 MTCABench를 구축하여 성능을 검증했다. 저자들의 주장에 따르면, 기존의 단일 통과 방식은 근거 추적을 수행하다가 가장 가까운 답변에서 멈춰버리는 '출처 붕괴(provenance collapse)' 현상을 보였으나, Tokengeist를 적용했을 때 소스 재현율이 11-38%에서 82-94%까지 대폭 향상되었다.
+
+---
+
+원문: [Tokengeist: Multi-Turn Attribution Tracing in Agentic Conversations](https://arxiv.org/abs/2607.22610)

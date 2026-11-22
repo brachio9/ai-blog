@@ -1,0 +1,39 @@
+---
+title: 저사양 GPU에서도 돌아가는 강력한 Inkling 2 Mini 모델 출시
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 16GB RAM 환경에서도 구동 가능한 고성능 모델 Inkling 2 Mini를 공개했다. 이번 업데이트는 이미지 생성 속도 개선과 Mac 사용자들을 위한 비디오 스타일 변환 기능을 포함한다.
+publishedAt: 2026-11-22T22:00:02+0900
+tags:
+- Claude Code
+- Codex
+- MCP
+- vLLM
+- LoRA
+- DPO
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.922-beta
+  title: Inkling Mini + Bug fixes
+  author: danielhanchen
+  publishedAt: 2026-11-21T08:53:26+0900
+  words: 494
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Unsloth는 이번 업데이트를 통해 26.4B 규모의 강력한 모델인 Inkling 2 Mini를 선보였다. 이 모델은 메모리 사용량을 줄이면서도 빠른 속도를 제공하며, 특히 16GB RAM 환경에서도 원활하게 작동하는 것이 특징이다. 또한 MiniMax-H3-Image 모델의 경우 8GB GPU에서 렌더링 속도가 대폭 개선되었으며, GGUF 이미지 모델의 메모리 점유율도 크게 낮아졌다.
+
+사용자 편의를 위한 기능 개선도 대폭 이루어졌다. Mac 환경에서 비디오 스타일을 재설정하는 기능이 추가되었고, MCP 도구를 사용하는 채팅 시 매번 전체 대화를 다시 처리하지 않아도 되는 효율적인 프로세싱이 적용되었다. 또한 스캔된 PDF 파일에 대한 OCR 인식 기능과 테마 파일 공유 기능이 새롭게 도입되었다.
+
+학습 및 성능 최적화 측면에서도 유의미한 변화가 있다. SDXL 및 FLUX.2 모델의 LoRA 학습 속도가 개선되었으며, AsyncGRPO 단계의 처리 속도가 향상되었다. 특히 AMD ROCm 환경에서 Qwen3.5 학습 시 토큰 처리 속도가 빨라졌으며, 다양한 모델의 학습 안정성과 속도가 개선되었다.
+
+이번 업데이트는 방대한 양의 수정 사항을 포함하고 있으며, 위 내용은 그중 핵심적인 변화만을 요약한 것이다. 상세한 기술적 수치나 세부 설정은 공식 릴리즈 노트를 참조해야 한다.
+
+---
+
+원문: [Inkling Mini + Bug fixes](https://github.com/unslothai/unsloth/releases/tag/v0.1.922-beta)

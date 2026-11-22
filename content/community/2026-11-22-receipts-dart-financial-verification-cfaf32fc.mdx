@@ -1,0 +1,31 @@
+---
+title: DART 공시 데이터를 활용한 AI 에이전트용 숫자 검증 도구
+category: community
+axis: agent
+format: explainer
+summary: Claude Code 스킬인 receipts가 한국 공시(DART)를 지원하는 0.2.0 버전으로 업데이트되었다. 이 도구는 에이전트가 작성한 문서의 수치를 DART 재무제표와 대조하여 정확성을 검증한다.
+publishedAt: 2026-11-22T22:00:02+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/receipts-0-2-0-dart/12605
+  title: '[도구 업데이트] receipts 0.2.0: 문서 속 숫자를 한국 공시(DART)와 대조하기'
+  author: sinkytiger
+  publishedAt: 2026-11-22T20:32:39+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+sinkytiger는 에이전트가 생성하는 문서의 숫자마다 출처와 재계산 값을 붙이는 receipts 도구의 최신 버전을 공개했다. 이번 업데이트를 통해 한국 기업의 실적 데이터를 다룰 때 자주 발생하는 오류인 분기/누적 수치 혼동이나 연결/별도 재무제표 혼용 문제를 DART 공시 데이터를 통해 검증할 수 있게 되었다.
+
+도구는 모델이 직접 값을 판정하는 대신, 모델이 특정 보고서의 위치 정보를 제공하면 코드가 실제 값을 읽고 비교하는 방식으로 작동한다. 특히 분기 보고서에서 같은 줄에 위치한 서로 다른 기간의 수치를 구분하기 위해 열 정보를 포함하며, DART API의 특성을 고려해 특정 접수번호를 기준으로 확인 가능 여부를 판정한다.
+
+개발자는 이 도구의 성능을 검증하기 위해 31개 기업의 2025년 사업보고서와 2026년 분기/반기 보고서에서 추출한 44,829개의 금액 데이터를 활용했다. 개발자의 주장에 따르면 132,384건의 판정에서 맞는 금액을 틀렸다고 판정한 사례는 0건으로 나타났다.
+
+---
+
+원문: [[도구 업데이트] receipts 0.2.0: 문서 속 숫자를 한국 공시(DART)와 대조하기](https://discuss.pytorch.kr/t/receipts-0-2-0-dart/12605)

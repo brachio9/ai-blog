@@ -1,0 +1,35 @@
+---
+title: 'Cline v4.1.27 업데이트: 파일 읽기 제한 완화 및 모델 카탈로그 대폭 개편'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline이 v4.1.27 업데이트를 통해 파일 읽기 용량 제한을 대폭 늘리고 모델 카탈로그를 대규모로 갱신했다. 또한 추론(Reasoning) 설정의 안정성을 개선하고 보안 패치를 포함했다.
+publishedAt: 2026-11-22T22:00:02+0900
+tags:
+- Cline
+- MCP
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/v4.1.27
+  title: v4.1.27
+  author: github-actions[bot]
+  publishedAt: 2026-11-21T15:05:04+0900
+  words: 461
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 파일 읽기 기능의 개선이다. 기존에는 `read_files` 결과가 8,000자 수준으로 잘렸으나, 이제는 도구 자체의 제한인 2,000라인 또는 약 48,000자까지 전체 내용을 모델에 전달한다. 이는 더 긴 컨텍스트를 처리해야 하는 복잡한 작업에서 큰 이점이 된다.
+
+모델 카탈로그 역시 대대적으로 수정되었다. 94개의 새로운 제공업체가 추가되었으며, 기존 리스트에서 일부 모델이 제외되거나 업데이트되었다. 특히 기본 모델 설정이 Kimi K3.1 Pro나 Gemini 4 Neon 등으로 변경되는 등 다양한 변화가 포함되었다. 사용자는 API 키나 기본 URL을 저장할 때마다 모델 목록이 자동으로 새로고침되는 편리한 기능도 사용할 수 있다.
+
+추론(Reasoning) 기능의 사용자 경험도 개선되었다. 이제 'None' 설정을 선택하면 정상적으로 저장되고 적용되며, 특정 모델에서 도구 호출이 거부되던 문제들이 해결되었다. 또한 OpenAI 기본 제공업체에서 모델별 지원 사양에 맞춰 추론 수준이 조정되어 GPT-5.x 및 o-시리즈 모델과의 호환성이 높아졌다.
+
+기타 변경 사항으로는 LM Studio 설정을 위한 API 키 필드 추가, MCP 탭의 읽기 전용 도구 표시, 그리고 프로세스 충돌을 방지하기 위한 보안 패치(undici 업데이트) 등이 포함되었다. 이번 업데이트는 전체 변경 사항 중 주요 핵심 기능 위주로 요약된 것이며, 세부적인 수정 사항은 공식 릴리즈 노트를 참조해야 한다.
+
+---
+
+원문: [v4.1.27](https://github.com/cline/cline/releases/tag/v4.1.27)
