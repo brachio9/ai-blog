@@ -1,0 +1,37 @@
+---
+title: 지식 증류 학습 비용을 줄이는 효율적인 그래디언트 추정 기법
+category: papers
+axis: serving
+format: explainer
+summary: 지식 증류(Knowledge Distillation) 과정에서 발생하는 방대한 출력 헤드 역전파 비용을 줄이기 위한 Distillation with Errors(DWE) 기법을 제안한다. 이 방법은 로그잇 그래디언트의 제로섬 구조를 활용하여 희소한 그래디언트 추정치를 생성하며, 학습 효율을 개선한다.
+publishedAt: 2026-11-23T22:00:01+0900
+tags:
+- distillation
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.27131
+  title: 'Distillation with Errors: Sparse Unbiased Backpropagation for Knowledge Distillation'
+  author: Yuyang Zhang
+  publishedAt: 2026-11-23T14:00:00+0900
+  words: 13198
+paper:
+  arxivId: '2611.27131'
+  authors:
+  - Yuyang Zhang
+  - Yuxin Li
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+지식 증류는 학생 모델이 교사 모델의 출력 분포를 모방하도록 학습하는 방식이다. 하지만 전체 어휘를 대상으로 하는 역전파는 막대한 계산 비용을 요구한다. 저자들은 미니배치 학습이 이미 학습 그래디언트를 근사한다는 점에 착안하여, 모든 위치에 대한 역전파가 반드시 정확할 필요는 없다는 가설을 세웠다.
+
+제안된 DWM 방식은 로그잇 그래디언트의 제로섬 구조를 활용하여 희소한 쌍(paired) 그래디언트 추정치를 구성한다. 여기에 기하학적 인지 페어링과 층화 샘플링을 결합하여 추정치의 분산을 추가로 줄였다. 저자들은 이 추정치가 편향되지 않음을 증명하였으며, 샘플링 예산이 동일할 때 중요도 샘플링 대비 높은 정확도를 보인다고 주장한다.
+
+실험 결과에 따르면 DWE는 오프폴리시 지식 증류에서 출력 헤드 속도를 최대 1.95배 높였으며, 온폴리시 지식 증류에서는 최대 2.20배의 출력 헤드 속도 향상을 달성했다고 저자들은 주장한다. 또한 전체 학습 시간을 10.4%에서 15.7%까지 단축하면서도 하위 작업에서 경쟁력 있는 성능을 유지하는 것으로 나타났다.
+
+---
+
+원문: [Distillation with Errors: Sparse Unbiased Backpropagation for Knowledge Distillation](https://arxiv.org/abs/2611.27131)

@@ -1,0 +1,36 @@
+---
+title: 'Pipecat v1.17.0 업데이트: SIP 통신 지원 및 다국어 인식 강화'
+category: releases
+axis: voice
+format: explainer
+summary: Pipecat v1.17.0은 SIP 프로토콜을 통한 음성 통화 지원과 AWS Transcribe STT의 자동 언어 감지 기능을 대폭 강화했다. 개발자들은 이제 더 복잡한 네트워크 환경에서도 안정적인 봇 배포가 가능해졌다.
+publishedAt: 2026-11-23T22:00:01+0900
+tags:
+- TTS
+- speech-to-speech
+- Whisper
+draft: false
+source:
+  url: https://github.com/pipecat-ai/pipecat/releases/tag/v1.17.0
+  title: v1.17.0
+  author: github-actions[bot]
+  publishedAt: 2026-11-23T08:54:45+0900
+  words: 7593
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 SIP 프로토콜 지원이다. `baresip-python`을 기반으로 구축된 네이티브 SIP 트랜스포트가 추가되어, 이제 개발자들은 전화 시스템과 직접 연결되는 봇을 구축할 수 있다. 특히 DTMF 입력, 통화 대기 및 재개, VP8 비디오 스트리밍을 지원하며 다양한 네트워크 환경을 위한 STUN 및 TURN 설정도 포함되었다.
+
+통신 인프라 측면에서도 큰 변화가 있다. 개발용 러너에서 SIP 봇을 실행할 수 있는 서버 기능이 추가되었으며, Pipecat Cloud의 핸들러와 동일한 방식으로 작동하도록 설계되었다. 이를 통해 개발 환경과 실제 운영 환경 간의 간극을 줄이고, 복잡한 SIP 트렁크 설정을 보다 직관적으로 관리할 수 있게 되었다.
+
+음성 인식 성능도 개선되었다. `AWSTranscribeSTTService`에 자동 언어 감지 기능이 도입되어, 대화 도중 언어가 바뀌는 사용자나 여러 언어를 사용하는 환경에서 더욱 정확한 전사 결과를 얻을 수 있다. `identify_multiple_languages` 설정을 통해 각 세그먼트별 언어를 식별하고, `preferred_language`를 통해 인식 속도를 높이는 기능이 강화되었다.
+
+이번 릴리스는 많은 변경 사항을 포함하고 있으며, 위 내용은 그중 핵심적인 기능 업데이트만을 요약한 것이다. 상세한 기술적 사양이나 세부 구현 사항은 공식 릴리스 노트를 참조해야 한다.
+
+---
+
+원문: [v1.17.0](https://github.com/pipecat-ai/pipecat/releases/tag/v1.17.0)

@@ -1,0 +1,29 @@
+---
+title: AI 에이전트의 코드 수정 의도를 확인하는 플러그인 Heirloom
+category: community
+axis: vibe-coding
+format: explainer
+summary: AI 에이전트가 수정한 코드의 동작 변화를 머지 전에 미리 확인하고 검증할 수 있는 Heirloom 플러그인이 공개되었다. 이 도구는 에이전트의 답변을 단순히 믿는 대신 실제 실행 결과를 비교하고 의도를 기록하는 과정을 제공한다.
+publishedAt: 2026-11-23T22:00:01+0900
+draft: false
+source:
+  url: https://news.hada.io/topic?id=37703&utm_source=geeknews&utm_medium=rss&utm_campaign=news
+  title: 'Show GN: Heirloom - AI가 바꾼 코드의 동작을 머지 전에 직접 확인하는 플러그인'
+  author: rlacjddns97
+  publishedAt: 2026-11-23T16:58:09+0900
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+AI 에이전트가 테스트를 통과했다고 보고해도 실제 입력 처리가 어떻게 변했는지 확인하려면 매번 diff를 확인해야 하는 번거로움이 있다. 개발자는 이러한 문제를 해결하기 위해 Claude Code와 Codex용 오픈소스 플러그인인 Heirloom을 개발했다.
+
+Heirloom은 변경 전후의 코드를 별도의 Git worktree에서 실행한다. 에이전트가 질문에 답하기 전에 실제 출력을 먼저 비교하며, 만약 의도와 다른 결과가 나오면 작업을 반려할 수 있다. 또한 할인 적용 기준과 같은 설계 결정 사항을 관련 코드나 테스트에 연결해 저장하면 다음 에이전트가 해당 파일을 수정할 때 이를 다시 읽어 활용한다.
+
+이 플러그인은 Node.js 20 이상과 Git 환경이 있다면 Claude Code에서 간단한 명령어로 설치하여 사용할 수 있다.
+
+---
+
+원문: [Show GN: Heirloom - AI가 바꾼 코드의 동작을 머지 전에 직접 확인하는 플러그인](https://news.hada.io/topic?id=37703&utm_source=geeknews&utm_medium=rss&utm_campaign=news)

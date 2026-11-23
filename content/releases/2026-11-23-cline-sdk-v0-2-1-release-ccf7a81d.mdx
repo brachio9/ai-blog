@@ -1,0 +1,33 @@
+---
+title: 'Cline SDK v0.2.1 업데이트: 더 긴 파일 읽기와 개선된 추론 기능'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Cline SDK v0.2.1이 출시되었다. 이번 업데이트는 파일 읽기 용량 증설과 추론 모델의 안정성 개선에 초점을 맞추고 있다.
+publishedAt: 2026-11-23T22:00:01+0900
+tags:
+- Cline
+- MCP
+draft: false
+source:
+  url: https://github.com/cline/cline/releases/tag/sdk/sdk/v0.2.1
+  title: SDK v0.2.1
+  author: github-actions[bot]
+  publishedAt: 2026-11-21T14:19:22+0900
+  words: 782
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 파일 읽기 기능의 확장이다. 기존에는 도구 결과값이 8k로 제한되었으나, 이제는 50k까지 지원되어 더 긴 파일 내용을 온전히 전달할 수 있게 되었다. 다만 명령이나 검색 결과 등 다른 도구들은 여전히 8k 제한이 유지된다.
+
+추론 모델과의 호환성도 대폭 개선되었다. 모델이 추론 과정에서 중간 단계를 포함해야 하는 경우를 대비해 플레이스홀더를 추가했으며, 모델 전환이나 압축 시 발생하던 오류를 해결했다. 또한 특정 모델에서 지원하지 않는 추론 옵션을 보내지 않도록 조정하여 안정성을 높였다. 
+
+사용자 경험을 위한 도구들도 추가되었다. UX 검증을 위한 서브 에이전트 실행 기능과 구조화된 보고서를 생성하는 도구가 도입되었으며, 클라우드 세션으로 아티팩트를 게시하는 기능이 새롭게 포함되었다. 이번 릴리스에는 많은 변경 사항이 포함되어 있으며, 위 내용은 그중 핵심적인 부분이다.
+
+---
+
+원문: [SDK v0.2.1](https://github.com/cline/cline/releases/tag/sdk/sdk/v0.2.1)

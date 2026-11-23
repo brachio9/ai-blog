@@ -1,0 +1,39 @@
+---
+title: LLM 에이전트의 도구 실행과 메모리 오염을 막는 안전 장치, epistemic-guard
+category: papers
+axis: agent
+format: explainer
+summary: LLM 에이전트가 도구 실행 결과를 조작하거나 검증되지 않은 데이터를 메모리에 저장하는 문제를 해결하기 위한 보안 프레임워크다. GPU 자원을 거의 쓰지 않으면서도 실행 로그의 무결성을 보장하고 데이터 출처를 관리한다.
+publishedAt: 2026-11-23T22:00:01+0900
+tags:
+- RAG
+- MCP
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.27095
+  title: 'Epistemic Guard: Out-of-Process MCP Receipt Proxying, Post-Turn Prose Supervision, and Provenance-Gated Memory for Tool-Using Autonomous Agents'
+  author: Sean Maxwell
+  publishedAt: 2026-11-23T14:00:00+0900
+  words: 6390
+paper:
+  arxivId: '2611.27095'
+  authors:
+  - Sean Maxwell
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+LLM 에이전트가 도구(Tool)를 사용할 때 발생하는 세 가지 주요 보안 결함은 실행 결과가 실제와 다른 텍스트로 묘사되는 현상, 검증되지 않은 웹 데이터가 영구 메모리에 혼입되는 문제, 그리고 동일한 출처의 정보가 중복되어 신뢰성을 왜곡하는 현상이다. 기존의 방어 체계은 실행 전 통신 규약만 검사하거나 막대한 GPU 메모리를 요구하는 모델 기반 검증에 의존하는 한계가 있었다.
+
+연구진은 이러한 문제를 해결하기 위해 오픈소스 라이브러리인 epistemic-guard를 제안한다. 이 시스템은 프로세스 외부에서 실행되는 MCP 영수증 프록시를 통해 Ed25519 서명 키를 격리하고, Merkle 로그를 사용하여 도구 실행의 무결성을 보장한다. 또한 CPU에서 작동하는 OpenVINO 기반 인코더를 활용해 도구 실행 후의 텍스트를 검증하며, 데이터의 출처를 7개 영역으로 분류하여 메모리 쓰기를 제어한다.
+
+저자들의 주장에 따르면, epistemic-guard는 변조된 영수증을 100% 차단하고 권한 없는 메모리 쓰기를 완벽하게 차단하는 성능을 보였다. 특히 250개의 벤치마크 트레이스에서 93.2%의 정확도를 기록했으며, 이는 12B~14B 규모의 GPU 기반 판별 모델보다 높은 정확도를 유지하면서도 훨씬 낮은 지연 시간을 달성했다는 결과가 제시되었다.
+
+이 프레임워크는 GPU VRAM을 거의 사용하지 않으면서도 실시간 에이전트 실행 트레이스에서 위험 요소를 효과적으로 포착한다. 특히 기존의 1단계 검증 방식보다 높은 정확도를 보여주며, 에이전트가 외부 도구와 상호작용할 때 발생할 수 있는 데이터 오염과 허위 정보 생성을 억제하는 데 효과적이다.
+
+---
+
+원문: [Epistemic Guard: Out-of-Process MCP Receipt Proxying, Post-Turn Prose Supervision, and Provenance-Gated Memory for Tool-Using Autonomous Agents](https://arxiv.org/abs/2611.27095)
