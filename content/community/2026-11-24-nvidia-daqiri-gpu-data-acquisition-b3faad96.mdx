@@ -1,0 +1,32 @@
+---
+title: 초당 500Gb 전자현미경 데이터를 GPU로 직접 쏘는 법
+category: community
+axis: agent
+format: explainer
+summary: NVIDIA는 DAQIRI를 통해 초당 500Gb 이상의 고속 센서 데이터를 CPU를 거치지 않고 GPU 메모리로 직접 전송하는 기술을 공개했다. 이 기술은 대용량 데이터를 디스크에 저장하지 않고 실시간으로 분석하고 처리하는 데 최적화되어 있다.
+publishedAt: 2026-11-24T22:00:02+0900
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/nvidia-daqiri-2026-11-500gb-gpu-feat-berkeley-lab/12595
+  title: 'NVIDIA DAQIRI 2026.11 공개: 초당 500Gb 전자현미경 데이터를 GPU 메모리로 바로 받아 처리하기 (feat. Berkeley Lab)'
+  author: 9bow
+  publishedAt: 2026-11-21T17:05:51+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/2/9/29fdeb76cf2c8eddb9047814ced5850da63cdb46_2_1028x688.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+NVIDIA는 과학 및 산업용 장비에서 발생하는 고대역폭 데이터를 처리하기 위한 오픈소스 라이브러리인 DAQIRI를 소개했다. 이 라이브러리는 리눅스 커널 네트워크 스택을 우회하여 NIC 하드웨어를 직접 다루는 커널 우회 방식을 사용한다. 여기에 GPUDirect RDMA 기술을 결합하면 네트워크 카드가 GPU 메모리에 데이터를 직접 기록할 수 있어 CPU 메모리 복사로 인한 지연을 제거할 수 있다.
+
+NVIDIA는 Berkeley Lab의 전자현미경 사례를 통해 초당 500Gb 이상의 데이터를 처리하는 실질적인 활용 사례를 보여주었다. 이 방식은 데이터를 디스크에 저장하는 대신 수집과 동시에 GPU에서 AI 추론이나 분석을 수행하고 그 결과를 장비 제어에 즉각 반영하는 구조를 가능하게 한다. 이는 데이터 처리 속도가 센서의 데이터 생성 속도를 따라갈 수 있을 때 장비 설계를 훨씬 단순하게 만들 수 있다는 점을 시사한다.
+
+이번 DAQIRI v2026.11.00 릴리스에서는 성능 향상을 위한 세 가지 핵심 기능이 포함되었다. 하드웨어 패킷 재정렬, 새로운 기본 엔진인 ibverbs, 그리고 지연을 줄이는 직접 폴링 방식이다. NVIDIA는 IGX Thor 환경에서 측정한 결과, ibverbs 엔진이 기존 DPDK 대비 작은 패킷에서 약 2배의 처리량을 기록했다고 주장했다.
+
+이 기술을 활용하기 위해서는 ConnectX-7 이상의 NIC와 GPUDirect를 지원하는 GPU가 필요하며, 하드웨어 재정렬 기능을 사용하려면 특정 펌웨어 설정과 순환하는 시퀀스 번호가 필요하다. 기존 사용자는 ABI 변경으로 인해 애플리케이션을 다시 빌드해야 할 수도 있다.
+
+---
+
+원문: [NVIDIA DAQIRI 2026.11 공개: 초당 500Gb 전자현미경 데이터를 GPU 메모리로 바로 받아 처리하기 (feat. Berkeley Lab)](https://discuss.pytorch.kr/t/nvidia-daqiri-2026-11-500gb-gpu-feat-berkeley-lab/12595)

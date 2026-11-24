@@ -1,0 +1,32 @@
+---
+title: llama.cpp에 추가된 drama3 음성 복제 기능
+category: releases
+axis: serving
+format: explainer
+summary: llama.cpp의 최신 릴리즈에서 drama3 음성 복제 기능이 새롭게 지원된다. Fish S2 코덱 인코더를 활용하여 효율적인 오디오 처리가 가능해졌다.
+publishedAt: 2026-11-24T22:00:02+0900
+tags:
+- vLLM
+draft: false
+source:
+  url: https://github.com/ggml-org/llama.cpp/releases/tag/b12590
+  title: b12590
+  author: github-actions[bot]
+  publishedAt: 2026-11-21T04:02:52+0900
+  words: 852
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+이번 llama.cpp 업데이트의 핵심은 drama3 음성 복제(voice cloning) 기능의 통합이다. 기존 Fish S2 코덱 인코더를 drama3에서도 사용할 수 있도록 확장되었으며, 이를 통해 오디오 인코딩과 디코딩 과정이 공유된다.
+
+기술적으로는 drama3_gen 모델 프로젝트에서 백본 행을 구성할 때 코덱 인코더를 활용하며, teacher forcing 방식을 통해 다음 프레임의 코드를 예측하는 구조를 갖췄다. 또한 vLLM-Omni fish_omni와 연동되는 reference-bracket-v1 프롬프트를 통해 참조 프레임을 처리하는 파이프라인이 구축되었다.
+
+이번 업데이트에는 기능 추가 외에도 코드의 정확성을 개선하고 불필요한 임포트나 중복 코드를 제거하는 최적화 작업이 포함되었다. 이번 릴리즈는 드라마틱한 변화보다는 특정 기능의 구현과 안정성 확보에 집중한 업데이트다. 전체 변경 사항 중 일부 핵심 내용만 요약하였으며, 상세한 기술적 구현은 공식 릴리즈 노트를 참조해야 한다.
+
+---
+
+원문: [b12590](https://github.com/ggml-org/llama.cpp/releases/tag/b12590)

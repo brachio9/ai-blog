@@ -1,0 +1,36 @@
+---
+title: 파라미터 840개로 시작하는 초소형 임베딩 모델 Atto 공개
+category: community
+axis: retrieval
+format: explainer
+summary: NeuML이 파라미터 840개부터 시작하는 초소형 문맥 임베딩 모델 묶음인 Atto를 공개했다. 이는 대규모 인프라 없이 특정 도메인에 맞는 모델을 학습하고 배포하려는 시도에서 출발했다.
+publishedAt: 2026-11-24T22:00:02+0900
+tags:
+- RAG
+- reranking
+- ColBERT
+- distillation
+- fine-tuning
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/neuml-840-atto-feat-colbert-txtai/12596
+  title: NeuML, 파라미터 840개부터 시작하는 초소형 검색 임베딩 모델 Atto 공개 (feat. ColBERT, txtai)
+  author: 9bow
+  publishedAt: 2026-11-22T11:30:06+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/b/8/b87b0e43238af5aaaf6c205dcda7cf7ddea146ed_2_1028x671.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+NeuML은 txtai를 개발하는 기업으로, 최근 파라미터 840개에서 2,800만 개 사이의 모델 34개를 Hugging Face에 공개했다. 이 모델들은 기존의 대규모 임베딩 모델과 달리, CPU 서버나 오프라인 기기에서 실행하기 적합한 저사양 환경을 타겟으로 한다.
+
+NeuML의 창업자 David Mezzetti는 조직이 큰 아키텍처에 의존하지 않고도 특정 데이터셋에 최적화된 임베딩 모델을 학습할 수 있는 환경을 목표로 Atto를 개발했다. 이번 공개 모델은 영어 범용 검색 데이터로 학습되었으며, 밀집(Dense), 희소(Sparse), 후기 상호작용(Late Interaction) 등 다양한 검색 방식에 맞춘 체크포인트를 포함한다.
+
+글쓴이는 Atto 모델의 성능을 직접 검증한 결과, 90K 모델이 SciFact 데이터셋에서 0.6074의 점수를 기록했음을 확인했다. 다만 토크나이저가 영어 전용으로 설계되어 한국어 문장을 입력할 경우 모든 단어가 [UNK]로 처리되는 한계가 있으며, 서로 다른 한국어 문장이 동일한 벡터로 변환되는 현상이 발생한다.
+
+---
+
+원문: [NeuML, 파라미터 840개부터 시작하는 초소형 검색 임베딩 모델 Atto 공개 (feat. ColBERT, txtai)](https://discuss.pytorch.kr/t/neuml-840-atto-feat-colbert-txtai/12596)

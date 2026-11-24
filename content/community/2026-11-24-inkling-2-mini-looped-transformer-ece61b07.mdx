@@ -1,0 +1,41 @@
+---
+title: 노트북에서 돌아가는 루프 트랜스포머 모델 Inkling 2 Mini 공개
+category: community
+axis: serving
+format: explainer
+summary: Thinking Machines Lab이 개인용 PC에서 실행 가능한 소형 MoE 모델 Inkling 2 Mini를 공개했다. 이 모델은 루프 트랜스포머 구조를 활용해 파라미터 수를 유지하면서도 계산량을 늘려 성능을 확보했다.
+publishedAt: 2026-11-24T22:00:02+0900
+tags:
+- SWE-bench
+- MCP
+- vLLM
+- SGLang
+- quantization
+- distillation
+- speculative decoding
+- SFT
+- GPQA
+- Elo
+draft: false
+source:
+  url: https://discuss.pytorch.kr/t/thinking-machines-lab-32gb-mac-inkling-2-mini/12612
+  title: Thinking Machines Lab, 32GB Mac에서 돌아가는 루프 트랜스포머 Inkling 2 Mini 공개
+  author: 9bow
+  publishedAt: 2026-11-23T11:30:02+0900
+  image: https://discuss.pytorch.kr/uploads/default/optimized/3X/8/9/898c9cd4c626e62ab514e9d450817f4ec1678672_2_1028x658.jpeg
+selection:
+  axisBy: keyword
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+Thinking Machines Lab은 32GB 이상의 메모리를 가진 Apple silicon Mac이나 DGX Spark 환경에서 구동 가능한 Inkling 2 Mini를 공개했다. 이 모델은 총 26.4B 파라미터 중 3.4B를 활성 상태로 사용하는 MoE 구조이며, 약 20GB의 체크포인트를 가진다. 회사는 이 모델을 속도가 중요한 추론이나 로컬 장비에서의 실행에 적합한 모델로 소개했다.
+
+Inkling 2 Mini의 핵심 기술은 루프 트랜스포머(looped transformer) 구조다. 일반적인 트랜스포머와 달리 특정 층을 동일한 가중치로 여러 번 반복해서 통과시키는데, 이 모델은 24개 층 중 가운데 12개 층을 세 번 반복하여 총 48회의 연산을 수행한다. 이를 통해 파라미터를 늘리지 않고도 토큰당 계산량을 확보했으며, 모델이 내부적으로 더 깊은 사고를 할 수 있는 여유를 제공한다.
+
+회사는 Inkling 2 Mini가 100B 미만 오픈 웨이트 모델 중 특정 벤치마크에서 높은 점수를 기록했다고 주장했다. 다만 지식 평가나 다중 턴 대화에서는 Qwen3.8-27B에 뒤처지며, 자체 차트에서도 Ripple-65B-Preview보다 낮은 성능을 보였다. 또한 이 모델은 한국어 토큰 수가 많아 Qwen3.8-27B나 Gemma 4 31B보다 더 많은 토큰을 소비한다는 특징이 있다.
+
+---
+
+원문: [Thinking Machines Lab, 32GB Mac에서 돌아가는 루프 트랜스포머 Inkling 2 Mini 공개](https://discuss.pytorch.kr/t/thinking-machines-lab-32gb-mac-inkling-2-mini/12612)

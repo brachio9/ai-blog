@@ -1,0 +1,46 @@
+---
+title: 자연스러운 대화 흐름을 구현하는 오픈형 스타일 제어 TTS 기술
+category: papers
+axis: voice
+format: explainer
+summary: 기존 TTS 모델이 가진 제한적인 스타일 태그 문제를 해결하기 위해 자연어 묘사를 활용한 대화 합성 기술이 공개되었다. 대규모 멀티 화자 데이터셋과 프롬프트 기반의 미세 조정 방식을 통해 문맥에 맞는 세밀한 감정 표현이 가능하다.
+publishedAt: 2026-11-24T22:00:02+0900
+tags:
+- fine-tuning
+- TTS
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.27601
+  title: 'PromptTTSD: Controllable Text to Spoken Dialogue Synthesis with Open-Ended Text Descriptions'
+  author: Sulong Yang
+  publishedAt: 2026-11-23T14:00:00+0900
+  words: 12103
+  image: https://arxiv.org/html/2611.27601v1/pipeline.png
+paper:
+  arxivId: '2611.27601'
+  authors:
+  - Sulong Yang
+  - Zhi Zeng
+  - Xiupeng Wu
+  - Juewen Hu
+  - Pring Wong
+  - Shuwu Zhang
+  - Shuo Chen
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+기존의 음성 합성 기술은 미리 정의된 태그에 의존하기 때문에 대화의 맥락에 따라 변화하는 미세한 스타일을 충분히 표현하는 데 한계가 있었다. 이를 해결하기 위해 연구진은 오디오북에서 대화 내용을 추출하고 LLM을 활용해 스타일 설명을 생성하는 파이프라인을 구축했다.
+
+연구진은 8,383시간의 중국어와 120시간의 영어 데이터로 구성된 PromptDialog 데이터셋을 공개했다. 이 데이터셋은 발화의 79%에 대해 개방형 스타일 설명을 포함하고 있어, 고정된 태그를 넘어선 다양한 표현력을 확보할 수 있게 한다.
+
+제안된 PromptTTSD 모델은 텍스트와 음성 사이에 스타일 프롬프트를 삽입하는 방식을 통해 학습된다. 이 모델은 제로샷 보이스 클로닝과 자연어 기반의 스타일 제어를 동시에 지원하며, 여러 차례 이어지는 대화에서 문맥에 맞는 적절성을 높이는 데 집중했다.
+
+저자들의 주장에 따르면, PromptTTSD는 기존의 기초적인 합성 능력은 유지하면서도 상용 모델과 경쟁 가능한 수준의 개방형 스타일 제어 성능을 보여준다. 특히 다회차 대화에서 문맥에 맞는 표현력을 대폭 개선했다는 점이 특징이다.
+
+---
+
+원문: [PromptTTSD: Controllable Text to Spoken Dialogue Synthesis with Open-Ended Text Descriptions](https://arxiv.org/abs/2611.27601)

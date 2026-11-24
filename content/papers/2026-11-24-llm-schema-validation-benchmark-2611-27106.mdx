@@ -1,0 +1,40 @@
+---
+title: LLM 출력의 구조적 정확도와 실제 작업 품질의 차이 분석
+category: papers
+axis: agent
+format: explainer
+summary: LLM이 생성한 결과물이 문법적으로 올바른 형식(Schema)을 갖췄다고 해서 반드시 작업 내용이 정확한 것은 아니다. 본 연구는 다양한 프레임워크를 활용해 구조적 유효성과 작업 품질 사이의 상관관계를 분석한 벤치마크 프로토콜을 제시한다.
+publishedAt: 2026-11-24T22:00:02+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.27106
+  title: 'Schema-Validated LLM Workflows: A Benchmark Protocol and Comparative Evaluation Across Six Python Implementations'
+  author: Sidney Shapiro
+  publishedAt: 2026-11-23T14:00:00+0900
+  words: 12345
+paper:
+  arxivId: '2611.27106'
+  authors:
+  - Sidney Shapiro
+  - Sanad Al-Khatib
+  - Aurora Pinz\'on Arzola
+  - Emiliano Sebastian Gonzalez Venegas
+  - Daniel Pearson
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+최근 LLM은 데이터 추출, SQL 생성, 보고서 요약 등 다양한 소프트웨어 경계에서 활용되고 있다. 이러한 환경에서 모델이 출력하는 데이터가 파싱 가능한 형식을 갖추는 것은 필수적이지만, 그것이 곧 작업의 정확성을 보장하지는 않는다. 연구진은 구조적 유효성과 작업별 정확성을 분리하여 평가하기 위해 5가지 비즈니스 워크플로우와 6가지 파이썬 구현 환경을 활용한 재현 가능한 벤치마크 프로토콜을 구축했다.
+
+연구진은 세 가지 가설을 세우고 검증했다. 첫째, 스키마 유효성과 작업 품질은 분리될 수 있다. 둘째, 동일한 모델과 최소 공통 규약을 사용하더라도 구조화된 출력 바인딩 경로는 서로 다르다. 셋째, 특정 조건과 작업 간의 상호작용은 모든 작업에 균일하게 영향을 주기보다 특정 작업에서 실패를 집중시킨다. 이를 확인하기 위해 연구진은 고정된 분석 계획 하에 5,400개의 행으로 구성된 매트릭스를 생성하여 분석을 수행했다.
+
+분석 결과, 전체 스키마 유효성은 0.684였으며 평균 자동화 품질은 0.638로 나타났다. 저자들의 주장에 따르면 PydanticAI, LangGraph, DSPy는 높은 스키마 유효성과 0.91~0.94의 평균 품질을 유지했으나, 일반 SDK, Agno, CrewAI 조건은 해당 패키지와 모델 구성에서 현저히 낮은 수치를 기록했다. 특히 추출 및 규정 준수 질의응답 작업에서 스키마가 유효하더라도 작업 점수에서 오류가 발생하는 사례가 다수 발견되었다.
+
+연구진은 재시도 예산이나 기능 활용 메커니즘과 같은 요소들이 결과에 영향을 미치지만, 핵심적인 차이는 마케팅되는 라이브러리 기능보다는 시스템 구성 자체에서 발생한다고 주장한다. 특히 CrewAI 조건에서는 워크플로우 붕괴 현상이 관찰되었으며, 이는 조건과 작업 간의 상호작용이 결과에 큰 영향을 미친다는 점을 시사한다.
+
+---
+
+원문: [Schema-Validated LLM Workflows: A Benchmark Protocol and Comparative Evaluation Across Six Python Implementations](https://arxiv.org/abs/2611.27106)

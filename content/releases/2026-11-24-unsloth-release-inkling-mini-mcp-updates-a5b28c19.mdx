@@ -1,0 +1,39 @@
+---
+title: 'Unsloth 업데이트: 더 빨라진 이미지 생성과 효율적인 MCP 채팅 지원'
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 새로운 Inkling 2 Mini 모델과 이미지 생성 속도 개선을 포함한 업데이트를 공개했다. 특히 MCP 도구 활용 시 발생하는 불필요한 토큰 재처리 문제를 해결하고, Mac 사용자들을 위한 비디오 스타일 변환 기능을 추가했다.
+publishedAt: 2026-11-24T22:00:02+0900
+tags:
+- Claude Code
+- Codex
+- MCP
+- vLLM
+- LoRA
+- DPO
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.921-beta
+  title: Bug Fixes + Faster images +Inkling Mini + faster MCP chats
+  author: danielhanchen
+  publishedAt: 2026-11-21T04:56:53+0900
+  words: 502
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 효율성이다. 새롭게 공개된 Inkling 2 Mini는 16GB RAM 환경에서도 구동 가능한 강력한 26B 모델로, 긴 컨텍스트를 처리하는 데 최적화되어 있다. 또한 MiniMax-H3 이미지 모델의 렌더링 속도가 대폭 개선되었으며, GGUF 이미지 모델의 메모리 점유율도 대폭 낮아졌다.
+
+사용자 경험을 개선하는 기능도 대폭 강화되었다. MCP 도구를 사용할 때 매 메시지마다 전체 대화를 다시 처리하던 방식에서 벗어나, 새로운 내용만 처리하도록 변경되어 프롬프트 토큰 소모를 최대 87%까지 줄였다. 또한 스캔된 PDF의 OCR 인식 기능과 워드 파일의 서식 유지 기능이 개선되어 문서 작업의 편의성이 높아졌다.
+
+하드웨어 최적화 측면에서도 눈에 띄는 변화가 있다. FLUX.1과 FLUX.3 모델의 생성 속도가 개선되었으며, 특히 저사양 GPU나 특정 그래픽 카드에서 발생하던 오류들이 수정되었다. Mac 사용자들은 Apple Silicon 환경에서 비디오 스타일을 재렌더링하는 기능을 사용할 수 있게 되었으며, 다양한 학습 파라미터와 데이터 처리 속도 역시 개선되었다.
+
+이번 업데이트에는 많은 변경 사항이 포함되어 있으며, 위 내용은 그중에서 가장 중요한 핵심 기능들이다. 전체 변경 사항은 Unsloth 공식 릴리즈 노트를 통해 확인할 수 있다.
+
+---
+
+원문: [Bug Fixes + Faster images +Inkling Mini + faster MCP chats](https://github.com/unslothai/unsloth/releases/tag/v0.1.921-beta)
