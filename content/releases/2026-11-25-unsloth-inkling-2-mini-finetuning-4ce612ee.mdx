@@ -1,0 +1,37 @@
+---
+title: Unsloth에서 Inkling 2 Mini를 3배 더 빠르게 파인튜닝하는 방법
+category: releases
+axis: serving
+format: explainer
+summary: Unsloth가 Inkling 2 Mini 모델의 파인튜닝 성능을 대폭 개선했다. 이번 업데이트를 통해 VRAM 사용량을 절반으로 줄이면서 학습 속도를 3배까지 끌어올릴 수 있다.
+publishedAt: 2026-11-25T22:00:02+0900
+tags:
+- LoRA
+- QLoRA
+- fine-tuning
+- GRPO
+draft: false
+source:
+  url: https://github.com/unslothai/unsloth/releases/tag/v0.1.924-beta
+  title: Inkling finetuning + perf fixes
+  author: danielhanchen
+  publishedAt: 2026-11-24T23:38:51+0900
+  words: 699
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+Unsloth는 이번 업데이트를 통해 Inkling 2 Mini 모델의 파인튜닝 효율을 극대화했다. 특히 LoRA 및 QLoRA 방식을 사용할 때 기존보다 3배 빠른 속도를 제공하며, VRAM 점유율을 50%까지 낮췄다. 이를 통해 Kaggle의 무료 2x T4 환경에서도 원활한 학습이 가능해졌으며, 학습 완료 후에는 GGUF나 16비트 병합 모델로의 내보내기도 지원한다.
+
+성능 최적화 측면에서도 유의미한 개선이 있었다. `adamw_8bit` 최적화를 통해 작은 배치 사이즈에서 학습 시간을 최대 12% 단축했으며, T4 GPU 환경에서 Z-Image LoRA 학습 속도를 1.7배 향상시켰다. 또한 추론 시 발생하던 컨텍스트 길이 오류를 수정하여 2~3배 빠른 추론 속도를 확보했다.
+
+기타 기능 개선도 포함되었다. `unsloth eval`을 통해 사용자 정의 데이터셋에 대한 채팅 파인튜닝 점수를 확인할 수 있게 되었으며, Mamba2 모델을 포함한 다양한 모델에 대한 AsyncGRPO 트리 패킹 지원이 추가되었다. 이번 업데이트는 Inkling 2 Mini 모델을 저사양 환경에서 효율적으로 학습시키고자 하는 사용자들에게 큰 변화를 제공할 것이다.
+
+참고로 이번 릴리즈 노트에는 이미지 및 비디오 관련 최적화와 다양한 버그 수정이 포함되어 있으나, 본 글에서는 Inkling 2 Mini 파인튜닝 성능 개선 사항을 중심으로 요약했다.
+
+---
+
+원문: [Inkling finetuning + perf fixes](https://github.com/unslothai/unsloth/releases/tag/v0.1.924-beta)

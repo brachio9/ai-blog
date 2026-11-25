@@ -1,0 +1,35 @@
+---
+title: 'Claude Code v2.1.332 업데이트: MCP 기능 강화 및 안정성 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: Claude Code의 최신 업데이트는 MCP 서버의 기술 통합과 세션 관리 기능을 강화하는 데 집중했다. 특히 대규모 컨텍스트 처리 시 발생하던 프리징 현상과 메모리 누수 문제를 대폭 개선했다.
+publishedAt: 2026-11-25T22:00:02+0900
+tags:
+- Claude Code
+- MCP
+draft: false
+source:
+  url: https://github.com/anthropics/claude-code/releases/tag/v2.1.332
+  title: v2.1.332
+  author: claude-code-publisher[bot]
+  publishedAt: 2026-11-25T10:32:14+0900
+  words: 3661
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 MCP 서버의 기술(skills)이 `/` 메뉴에 통합된 점이다. 이제 사용자는 서버에서 제공하는 기능을 더 직관적으로 확인할 수 있으며, `PreSkillShellCommand` 훅을 통해 특정 명령이나 기술의 실행을 사전에 차단하는 보안 설정도 가능해졌다. 또한 세션 간 메시지 전달 방식과 모델 전환 시의 피드백이 개선되어 협업 환경에서의 편의성이 높아졌다.
+
+안정성 측면에서는 대규모 데이터를 다룰 때 발생하던 시스템 프리징과 메모리 과다 점유 문제가 대거 수정되었다. 특히 긴 명령어나 로그 파일 처리 시 발생하던 멈춤 현상, 그리고 로컬 MCP 서버가 표준 출력을 과도하게 쏟아낼 때 터미널이 응답하지 않던 문제가 해결되었다. 이는 복잡한 프로젝트를 다루는 개발자들에게 훨씬 쾌적한 환경을 제공할 것이다.
+
+데이터 처리 효율을 높이기 위한 압축(compaction) 로직도 개선되었다. 출력 제한을 초과하는 요약이 발생할 때 더 짧은 요약을 요청하거나, 컨텍스트 한계에 도달했을 때 대화를 지속할 수 있도록 돕는 기능이 강화되었다. 또한 원격 제어(Remote Control) 환경에서 사용량 제한이 초기화되었음에도 제대로 반영되지 않던 오류와 파일 시스템 관련 버그들도 함께 수정되었다.
+
+이번 릴리스 노트에는 수많은 수정 사항이 포함되어 있으나, 핵심은 MCP 생태계와의 연결성 강화와 대규모 컨텍스트에서의 안정성 확보로 요약된다. 전체 수정 사항이 모두 나열되지는 않았지만, 개발 생산성에 직결되는 핵심 기능들이 대거 포함되었다.
+
+---
+
+원문: [v2.1.332](https://github.com/anthropics/claude-code/releases/tag/v2.1.332)

@@ -1,0 +1,29 @@
+---
+title: 파라미터 효율을 극대화하는 루프 트랜스포머 구조의 등장
+category: news
+axis: vibe-coding
+format: explainer
+summary: 중국 AI 연구소 Z.ai가 루프 트랜스포머(Loop Transformer) 구조를 적용한 GLM-5.4 모델을 공개했다. 이 구조는 가중치를 공유하는 레이어를 반복 실행하여 파라미터 수 증가 없이 모델의 깊이를 확보하는 것이 특징이다.
+publishedAt: 2026-11-25T22:00:02+0900
+draft: false
+source:
+  url: https://simonwillison.net/2026/Nov/23/glm-54/
+  title: 'GLM-5.4: Toward Generalized Coding with Our First Loop Transformer'
+  publishedAt: 2026-11-24T08:40:49+0900
+  image: https://static.simonwillison.net/static/2026/glm-5.4-max.webp
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: low
+  crossSources: 1
+---
+
+최근 AI 업계에서는 모델의 추론 능력을 강화하기 위해 루프 트랜스포머 구조를 도입하는 움직임이 포착되고 있다. Z.ai가 발표한 GLM-5.4는 표준 트랜스포머와 달리 특정 레이어를 여러 번 반복 실행하며 이전 단계의 은닉 상태를 정교하게 다듬는 방식을 채택했다.
+
+이러한 방식은 모델의 파라미터 수를 늘리지 않으면서도 네트워크의 깊이를 확보할 수 있다는 장점이 있다. 유사한 사례로 Thinking Machines Lab의 Inkling 2 Mini 역시 중간 레이어를 반복 실행하여 에이전트 기반 코딩과 같은 고차원적 추론이 필요한 작업에서 더 나은 성능을 끌어내려 한다.
+
+현재 GLM-5.4는 안전성 검토를 위해 아직 공개 가중치로 제공되지 않으며, 전용 구독 플랜을 통해 API로만 접근이 가능하다. 저자는 해당 모델을 테스트하며 이전 버전인 GLM-5.3과 비교했을 때 성능이나 품질 면에서 큰 차이가 느껴지지 않는다는 점을 언급했다.
+
+---
+
+원문: [GLM-5.4: Toward Generalized Coding with Our First Loop Transformer](https://simonwillison.net/2026/Nov/23/glm-54/)

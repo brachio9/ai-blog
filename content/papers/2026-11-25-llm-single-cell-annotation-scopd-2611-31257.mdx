@@ -1,0 +1,50 @@
+---
+title: LLM을 활용한 단일 세포 주석 처리의 한계 극복과 scOPD 프레임워크
+category: papers
+axis: domain
+format: explainer
+summary: LLM 기반 단일 세포 주석 처리에서 발생하는 추론 과정의 불투명성과 배치 단위 매칭의 어려움을 해결하기 위한 scOPD 프레임워크를 제안한다. 이 방법은 자기 증류와 불확실성 인지 기반의 정교화 과정을 통해 모델의 성능을 개선한다.
+publishedAt: 2026-11-25T22:00:02+0900
+tags:
+- distillation
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.31257
+  title: 'scOPD: Routed On-Policy Self-Distillation for LLM-Based Single-Cell Annotation'
+  author: Zhiyin Yu
+  publishedAt: 2026-11-25T14:00:00+0900
+  words: 9558
+  image: https://arxiv.org/html/2611.31257v1/intro.png
+paper:
+  arxivId: '2611.31257'
+  authors:
+  - Zhiyin Yu
+  - Yuchen Mou
+  - Songtao Huang
+  - Shuaiyu Zhang
+  - Xing Wei
+  - Chunchun Chen
+  - Wei Ye
+  - Xiao Luo
+  - Zhonghai Wu
+  - Xiangchao Yan
+  - Lei Bai
+  - Shiyang Feng
+  - Bo Zhang
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+기존의 LLM 기반 단일 세포 주석 방식은 단순한 결과 보상에 의존하기 때문에 생물학적 추론 과정에 대한 세밀한 지도 학습이 부족하다는 한계가 있다. 특히 배치 단위의 주석 작업은 개별 세포의 정체성을 파악하는 동시에 전체적인 일대일 매칭 제약 조건을 동시에 해결해야 하므로, 한 곳의 오류가 전체 할당에 영향을 미치는 문제가 발생한다. 또한 단 한 번의 추론만으로는 불확실한 예측의 근거를 파악하기 어렵다는 점도 개선이 필요한 부분이다.
+
+연구진은 이러한 문제를 해결하기 위해 온폴리시(on-policy) 자기 증류 프레임워크인 scOPD를 제안했다. 이 프레임워크는 추론 과정에서 양질의 결과는 보상 기반으로 최적화하고, 오류가 발생한 결과에 대해서는 성공적인 경로로부터 얻은 토큰 단위의 감독 정보를 제공한다. 추론 단계에서는 모델 간의 의견 불일치를 감지하여 불확실한 할당에 대해 제약 조건이 반영된 쌍방 비교 정교화 과정을 수행한다.
+
+저자들의 주장에 따르면 scOPD는 다양한 LLM 백본 모델의 성능을 일관되게 향상시켰으며, Qwen3-8B 모델을 사용했을 때 세포 수준에서 81.71%, 배치 수준에서 44.49%의 정확도를 달성했다고 한다. 이 연구는 CellPuzzles 및 4개의 외부 질병 데이터셋을 통해 검증되었다.
+
+---
+
+원문: [scOPD: Routed On-Policy Self-Distillation for LLM-Based Single-Cell Annotation](https://arxiv.org/abs/2611.31257)

@@ -1,0 +1,42 @@
+---
+title: 딥페이크의 진짜 원인을 파악하기 위한 새로운 벤치마크 MOZAIC 공개
+category: papers
+axis: voice
+format: explainer
+summary: 기존 딥페이크 탐지 방식은 단순히 진짜와 가짜를 구분하는 데 그쳤으나, MOZAIC은 영상과 오디오의 개별 기여도를 측정할 수 있는 4가지 조합의 레이블을 제공한다. 이를 통해 탐지 모델이 이미지, 음성, 혹은 인코딩 흔적 중 무엇에 의존하는지 정밀하게 분석할 수 있다.
+publishedAt: 2026-11-25T22:00:02+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.31301
+  title: 'MOZAIC: An Audio-Video Deepfake Benchmark for Telling What Is Fake'
+  author: Shaina Raza
+  publishedAt: 2026-11-25T14:00:00+0900
+  words: 18768
+  image: https://arxiv.org/html/2611.31301v1/teaser.png
+paper:
+  arxivId: '2611.31301'
+  authors:
+  - Shaina Raza
+  - Mohamed Hafez
+  - Ahmed Y. Radwan
+  - Khalid Elgazzar
+  - Kathryn Hume
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+기존의 오디오-비디오(AV) 딥페이크 벤치마크는 단순히 결과값만 확인하기 때문에 탐지기가 영상의 왜곡을 잡아내는 것인지, 아니면 음성의 변조를 잡아내는 것인지 구분하기 어려웠다. 연구진은 이를 해결하기 위해 동일한 소스 클립을 기반으로 영상과 오디오의 실제/가짜 조합을 구성한 MOZAIC 데이터셋을 제안한다. 이 데이터셋은 얼굴 교체, 비디오 확산, 음성 변환 등 다양한 조작 방식을 포함하며 네 가지 핵심 과제를 제공한다.
+
+연구진은 12개의 멀티모달 대규모 언어 모델(MLLM)과 자체 학습한 탐지기를 평가했다. 저자들의 주장에 따르면, 가장 우수한 MLLM은 4가지 조합 분류에서 35.6%의 정확도를 기록했으며 특히 영상 기반 가짜를 음성 기반 가짜보다 훨씬 더 잘 잡아내는 것으로 나타났다. 또한 LoRA 파인튜닝을 통해 모델의 설명 능력을 개선하는 데 성공했다.
+
+하지만 특정 생성 모델이 학습에서 제외될 경우 탐지 성능이 78.3%까지 하락하는 결과도 확인되었다. 이는 딥페이크 탐지에서 일반화 성능과 설명 가능성이 여전히 해결해야 할 과제임을 시사한다. 연구진은 데이터셋과 소규모 분할 데이터, 코드 및 프롬프트를 공개했다.
+
+---
+
+원문: [MOZAIC: An Audio-Video Deepfake Benchmark for Telling What Is Fake](https://arxiv.org/abs/2611.31301)

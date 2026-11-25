@@ -1,0 +1,59 @@
+---
+title: 토큰 압축 효율을 극대화하는 확률적 컨볼루션 기법
+category: papers
+axis: serving
+format: explainer
+summary: 시퀀스 모델에서 이미지나 비디오 토큰을 압축할 때 발생하는 이웃 토큰의 변화를 효과적으로 학습하는 방법론이다. 확률적 컨볼루션(ProbConv)을 통해 토큰 유지 여부에 따른 변화를 미분 가능한 형태로 학습에 반영한다.
+publishedAt: 2026-11-25T22:00:02+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.33009
+  title: 'Train What You Run: Probabilistic Convolutions for Learning Token Compaction in State Space Models'
+  author: Piotr Kubaty (Faculty of Mathematics and Computer Science
+  publishedAt: 2026-11-25T14:00:00+0900
+  words: 52727
+  image: https://arxiv.org/html/2611.33009v1/figures/fig_teaser_input.png
+paper:
+  arxivId: '2611.33009'
+  authors:
+  - Piotr Kubaty (Faculty of Mathematics and Computer Science
+  - Jagiellonian University
+  - Krak\'ow
+  - Poland
+  - Doctoral School of Exact and Natural Sciences
+  - Jagiellonian University
+  - Krak\'ow
+  - Poland)
+  - Mikhail Saladkou (Faculty of Mathematics and Computer Science
+  - Jagiellonian University
+  - Krak\'ow
+  - Poland)
+  - Jacek Tabor (Faculty of Mathematics and Computer Science
+  - Jagiellonian University
+  - Krak\'ow
+  - Poland
+  - Centre for Credible Artificial Intelligence
+  - Warsaw University of Technology
+  - Poland)
+  - '{\L}ukasz Struski (Faculty of Mathematics and Computer Science'
+  - Jagiellonian University
+  - Krak\'ow
+  - Poland)
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+시각적 토큰 압축은 추론 비용을 줄이기 위해 특정 이미지 패치나 비디오 토큰만 다음 레이어로 전달하는 방식이다. 하지만 지역적 컨볼루션을 사용하는 시퀀스 모델에서는 토큰이 제거될 때마다 인접한 토큰들의 관계가 변하기 때문에, 어떤 토큰을 유지할지 결정하는 과정에서 이러한 변화를 고려한 학습 신호가 필요하다.
+
+저자들은 이를 해결하기 위해 ProbConv라는 연산자를 제안한다. 이는 각 토큰이 독립적으로 유지될 확률 하에서, 유지되는 위치에서의 정확한 기대 컨볼루션 값을 계산하는 방식이다. 이 연산자는 유지 확률에 대해 미분 가능하므로 학습에 활용할 수 있으며, 이진 결정 상황에서는 기존의 Mamba 블록 압축 방식과 동일하게 작동한다.
+
+저자들의 주장에 따르면 ProbConv는 강력한 압축이 필요한 상황에서 특히 효과적이며, 더 많은 토큰을 제거할수록 기존의 대조군 모델보다 성능 우위가 커진다. 또한 Cobra 모델에서 기존의 시각-언어 프루닝 방법보다 동일한 추론 예산에서 더 나은 성능을 보였다고 주장한다.
+
+이 기법은 비디오 프레임 선택이나 음성 프레임 드롭과 같은 작업에서도 제로 마스킹 학습보다 개선된 결과를 보여준다. 연구 결과는 오픈 소스로 공개되어 있다.
+
+---
+
+원문: [Train What You Run: Probabilistic Convolutions for Learning Token Compaction in State Space Models](https://arxiv.org/abs/2611.33009)

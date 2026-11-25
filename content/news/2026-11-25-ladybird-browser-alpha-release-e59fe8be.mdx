@@ -1,0 +1,32 @@
+---
+title: 독자적인 엔진으로 구축된 새로운 브라우저 Ladybird 첫 알파 공개
+category: news
+axis: vibe-coding
+format: explainer
+summary: SerenityOS 프로젝트의 후속인 Ladybird 브라우저가 첫 알파 버전을 공개했다. HTML 파싱부터 JavaScript 엔진까지 자체 구현된 독자적인 브라우저 엔진을 탑재하고 있다.
+publishedAt: 2026-11-25T22:00:02+0900
+tags:
+- Claude Code
+- Codex
+draft: false
+source:
+  url: https://simonwillison.net/2026/Nov/23/ladybird/
+  title: Ladybird's first alpha release
+  publishedAt: 2026-11-24T06:46:35+0900
+  image: https://static.simonwillison.net/static/2026/ladybird-ffmpeg.webp
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 1
+---
+
+Ladybird는 2026년을 목표로 개발 중인 야심 찬 프로젝트로, 대부분의 핵심 구성 요소를 자체적으로 구현하는 것을 목표로 한다. HTML 파싱, CSS 엔진, 레이아웃, JavaScript, 그리고 WebAssembly까지 독자적으로 개발되었으며, 텍스트 셰이핑이나 2D 그래픽 등 일부 외부 라이브러리만 활용한다.
+
+이번에 공개된 첫 알파 버전은 macOS와 Linux 사용자라면 직접 컴파일할 필요 없이 설치하여 실행해 볼 수 있다. Simon Willison의 테스트 결과에 따르면, 브라우저는 빠르고 가벼운 UI를 제공하며 대부분의 웹사이트가 의도대로 작동하는 것으로 확인되었다.
+
+Ladybird는 보안과 안정성을 위해 각 탭을 별도의 프로세스에서 실행하는 격리 메커니즘을 채택하고 있다. 테스트 과정에서 WebAssembly로 컴파일된 ffmpeg나 Python(Pyodide) 실행 환경 등 고성능이 요구되는 도구들도 문제없이 작동하는 것을 확인했다.
+
+---
+
+원문: [Ladybird's first alpha release](https://simonwillison.net/2026/Nov/23/ladybird/)
