@@ -1,0 +1,33 @@
+---
+title: 'Codex CLI 0.172.0 업데이트: 터미널 작업 편의성 및 안정성 강화'
+category: releases
+axis: agent
+format: explainer
+summary: Codex CLI 0.172.0 버전이 공개되었다. 이번 업데이트는 터미널 내 에이전트 조작 편의성과 원격 세션의 안정성 개선에 집중했다.
+publishedAt: 2026-11-26T22:00:01+0900
+tags:
+- Codex
+- MCP
+draft: false
+source:
+  url: https://github.com/openai/codex/releases/tag/rust-v0.172.0
+  title: 0.172.0
+  author: github-actions[bot]
+  publishedAt: 2026-11-24T09:03:55+0900
+  words: 1127
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트에서 가장 눈에 띄는 변화는 터미널 환경에서의 사용자 경험 개선이다. 이제 검색 결과나 트랜스크립트에서 제공되는 스레드 링크를 통해 저장된 대화나 중첩된 에이전트로 바로 이동할 수 있다. 또한 슬래시 명령어를 입력할 때 탭 키를 이용한 자동 완성 기능이 추가되었으며, 에이전트 명령 센터에서 Shift 키를 조합해 작업 그룹 간을 빠르게 이동할 수 있게 되었다.
+
+개발 환경의 연속성도 강화되었다. `codex exec resume` 실행 시 샌드박스 권한과 작업 디렉토리가 유지되며, 서로 다른 운영체제 간의 원격 세션에서도 작업 경로와 쓰기 권한이 보존된다. 이는 복잡한 개발 환경에서 컨텍스트를 유지하며 작업하는 데 큰 도움이 될 것이다. 또한 클라우드 응답이 히스토리 로드 후 완료될 때 응답 위치를 적절히 업데이트하여 터미널 기록의 순서를 유지하는 기능이 개선되었다.
+
+기타 기술적 개선 사항으로는 Amazon Bedrock Runtime 선택 옵션 추가와 gRPC 기반의 호스트 연결 전환이 포함되었다. 이번 릴리스는 전체 업데이트 내용 중 핵심적인 기능 개선과 버그 수정 사항을 중심으로 구성되었으며, 세부적인 변경 사항은 공식 릴리스 노트를 통해 확인할 수 있다.
+
+---
+
+원문: [0.172.0](https://github.com/openai/codex/releases/tag/rust-v0.172.0)

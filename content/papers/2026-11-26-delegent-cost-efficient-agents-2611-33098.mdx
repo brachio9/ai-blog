@@ -1,0 +1,39 @@
+---
+title: 성능은 유지하면서 비용만 깎는 AI 에이전트 설계법
+category: papers
+axis: agent
+format: explainer
+summary: 고성능 언어 모델을 기반으로 한 에이전트의 높은 운영 비용 문제를 해결하기 위해 소형 언어 모델(SLM)을 활용하는 Delegent 프레임워크를 제안한다. 핵심은 고성능 모델이 전체 흐름을 지휘하고 단순 반복 작업만 SLM에 위임하는 구조다.
+publishedAt: 2026-11-26T22:00:01+0900
+tags:
+- Claude Code
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.33098
+  title: 'Delegent: A Multi-Agent Harness That Reduces Cost without Sacrificing Performance'
+  author: Lingwei Gu
+  publishedAt: 2026-11-25T14:00:00+0900
+  words: 7609
+paper:
+  arxivId: '2611.33098'
+  authors:
+  - Lingwei Gu
+  - Jimmy Lin
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+현재의 AI 에이전트는 매 단계마다 전체 컨텍스트를 다시 읽고 모든 하위 작업을 수행하기 때문에 비용 소모가 매우 크다. 저자들은 이러한 낭비를 줄이기 위해 이미 보유한 하드웨어에서 실행 가능한 소형 언어 모델(SLM)에 쉬운 하위 작업을 할당하는 방식을 제안한다.
+
+Delegent는 고성능 모델이 전체 작업을 총괄하되 코드 조사, 테스트 실행, 말뭉치 검색과 같은 특정 하위 작업만 SLM 에이전트에게 넘기는 구조다. 기존의 방식이 모델을 선택하는 라우터나 계층 구조를 사용하는 것과 달리, Delegent는 고성능 모델이 항상 주도권을 유지하며 필요할 때만 SLM을 활용한다.
+
+저자들의 주장에 따르면 27B FP8 SLM을 활용했을 때 장기적인 코딩 작업 비용을 67%, 에이전트 검색 비용을 59% 절감할 수 있으며, 노트북에서 돌아가는 2B SLM으로도 코딩 비용을 66% 줄일 수 있다고 한다. 이러한 비용 절감 효과는 고성능 모델이 직접 수행했을 때 발생하는 단순 반복 작업이 많을수록 커진다.
+
+이 시스템은 별도의 모델 학습 없이 작동하므로 모델 교체가 자유롭다. 특히 짧은 지시문만으로도 SLM이 작업을 놓치지 않게 유지하면서 주요 코딩 작업은 고성능 모델이 처리하도록 분리하는 것이 핵심적인 비용 절감의 비결이다.
+
+---
+
+원문: [Delegent: A Multi-Agent Harness That Reduces Cost without Sacrificing Performance](https://arxiv.org/abs/2611.33098)

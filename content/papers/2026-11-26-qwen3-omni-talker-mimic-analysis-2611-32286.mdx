@@ -1,0 +1,37 @@
+---
+title: Qwen3-Omni의 음성 인코더 추론과 마지막 프레임 노이즈 문제 해결
+category: papers
+axis: voice
+format: explainer
+summary: Qwen3-Omni의 음성 생성 모델인 Talker의 학습 레이블을 생성한 인코더를 역설계로 찾아냈다. 분석 과정에서 발견된 마지막 프레임의 노이즈 발생 원인과 이를 해결하기 위한 패딩 기법을 공유한다.
+publishedAt: 2026-11-26T22:00:01+0900
+tags:
+- LoRA
+- fine-tuning
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.32286
+  title: 'Reproducing the Speech Labels of Qwen3-Omni''s Talker: Mimi in bf16, and a Last-Frame Pitfall'
+  author: Yuxuan Chen
+  publishedAt: 2026-11-25T14:00:00+0900
+  words: 10881
+paper:
+  arxivId: '2611.32286'
+  authors:
+  - Yuxuan Chen
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+---
+
+Qwen3-Omni는 12.5 Hz 오디오 코덱의 16개 코드북을 사용하여 음성을 생성하지만, 학습에 사용된 인코더가 공개되지 않아 새로운 목소리를 학습시키는 데 어려움이 있었다. 연구진은 모델의 동작을 분석하여 이 인코더가 Kyutai의 Mimi 모델과 일치함을 확인했다. 특히 Teacher-forced likelihood를 활용한 검증을 통해 moshi 패키지의 bf16 가중치 모델이 가장 적합하다는 것을 밝혀냈다.
+
+분석 과정에서 트랜스포머 기반의 MimiModel이 특정 입력 길이에 따라 마지막 프레임을 다르게 인코딩한다는 사실을 발견했다. 이로 인해 LoRA 파인튜닝을 거친 모델에서 생성된 문장의 끝에 노이즈가 발생하는 현상이 나타났다. 연구진은 입력에 패딩을 추가함으로써 이 노이즈를 제거할 수 있음을 확인했다.
+
+연구진은 분석을 통해 얻은 인코딩 레시피와 레이블 검증기, 그리고 Talker 파인튜닝 툴킷을 공개했다. 이 자료는 공개되지 않은 모델의 내부 구조를 파악하고 후속 연구를 가능하게 하는 데 도움을 줄 것이다.
+
+---
+
+원문: [Reproducing the Speech Labels of Qwen3-Omni's Talker: Mimi in bf16, and a Last-Frame Pitfall](https://arxiv.org/abs/2611.32286)

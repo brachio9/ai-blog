@@ -1,0 +1,30 @@
+---
+title: Transformers 연속 배치 서빙에서 발견된 동시성 및 비동기 처리 이슈
+category: community
+axis: serving
+format: explainer
+summary: Hugging Face 포럼에서 Transformers 라이브러리의 연속 배치 서빙 경로에서 발견된 두 가지 기술적 결함이 공유되었다. 해당 이슈들은 동시 실행 시의 루프 관리 문제와 비동기 경로에서의 쓰기 순서 보장 부재에 관한 것이다.
+publishedAt: 2026-11-26T22:00:01+0900
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/two-more-measured-notes-for-transformers-with-runnable-checks/192477
+  title: Two more measured notes for transformers, with runnable checks
+  author: nootxlm
+  publishedAt: 2026-11-25T00:02:00+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/4/e/4eb5f8ea7bcbc8eee18be031a6775494f3f0f55a_2_690x372.png
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+한 사용자가 Hugging Face 포럼을 통해 Transformers 5.23.0 버전에서 발견된 두 가지 문제를 보고했다. 첫 번째는 `start()` 함수 호출 시 발생하는 문제로, 여러 호출자가 동시에 접근할 때 매니저가 추적하지 못하는 루프가 생성될 수 있다는 점이다. 이는 체크와 할당 단계가 분리되어 있어 발생하는 현상이며, 체크와 할당을 하나의 락으로 묶어 해결해야 한다.
+
+두 번째는 비동기 경로에서 리셋 쓰기(reset writes)의 순서가 보장되지 않는 문제다. 현재 코드는 계산 스트림이 존재하기 전에 초기화와 리셋 쓰기를 실행하지만, 비동기 래퍼가 스트림을 제거하고 전송을 처리하는 과정에서 리셋 쓰기보다 전송을 우선시하는 순서가 보장되지 않는다. 작성자는 이 현상을 확인하기 위해 GPU 환경에서의 추가적인 실행 결과가 필요하다고 덧붙였다.
+
+작성자는 이 두 가지 이슈를 포함하여 총 130개의 수정 사항이 포함된 'Corrections Desk' 데이터셋을 공유했다. 해당 데이터셋은 각 이슈에 대한 실행 가능한 체크 코드를 포함하고 있으며, 사용자는 제공된 체크 코드를 실행하여 자신의 환경에서 동일한 결과가 나오는지 확인할 수 있다.
+
+---
+
+원문: [Two more measured notes for transformers, with runnable checks](https://discuss.huggingface.co/t/two-more-measured-notes-for-transformers-with-runnable-checks/192477)

@@ -1,0 +1,32 @@
+---
+title: trl 라이브러리에서 DPO 평가 지표가 덮어씌워지는 문제
+category: community
+axis: serving
+format: explainer
+summary: trl의 DPOTrainer에서 여러 평가 세트를 동시에 실행할 때 지표 키가 충돌하는 문제가 발견되었다. 첫 번째 세트 이후의 데이터가 덮어씌워져 정확한 비교가 불가능한 상태다.
+publishedAt: 2026-11-26T22:00:01+0900
+tags:
+- DPO
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/one-more-measured-note-for-trl-with-a-runnable-check/192479
+  title: One more measured note for trl, with a runnable check
+  author: nootxlm
+  publishedAt: 2026-11-25T00:07:28+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/4/e/4eb5f8ea7bcbc8eee18be031a6775494f3f0f55a_2_690x372.png
+selection:
+  axisBy: llm
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+Hugging Face 포럼의 한 사용자가 trl 라이브러리에서 발견한 버그를 공유했다. DPOTrainer는 평가 지표를 저장할 때 고정된 접두사를 사용하는데, 이로 인해 서로 다른 평가 세트가 동일한 키를 공유하게 된다.
+
+이 문제는 단일 세트 평가에서는 드러나지 않지만, 두 개 이상의 세트를 비교할 때 발생한다. 로그 기록에서 두 번째 세트의 지표가 첫 번째 세트의 지표를 덮어쓰기 때문에 정확한 수치 비교가 어렵다.
+
+작성자는 이 문제를 확인하기 위한 실행 가능한 체크 코드를 함께 제공했다. 해당 이슈는 현재 Hugging Face의 Corrections Desk에 등록되어 관리되고 있다.
+
+---
+
+원문: [One more measured note for trl, with a runnable check](https://discuss.huggingface.co/t/one-more-measured-note-for-trl-with-a-runnable-check/192479)
