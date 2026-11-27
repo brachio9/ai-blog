@@ -1,0 +1,32 @@
+---
+title: LLM의 공간 추론 한계를 시험하는 IKIN ZipGate 벤치마크 등장
+category: community
+axis: domain
+format: explainer
+summary: Jadeikin-1이 LLM의 순수 공간 작업 기억과 게이트 판단 능력을 측정하기 위한 새로운 벤치마크를 공개했다. 이 테스트는 기존 학습 데이터에 의존하는 방식이 아니라 정교한 기하학적 구조를 기반으로 모델의 추론 능력을 검증한다.
+publishedAt: 2026-11-27T22:00:03+0900
+draft: false
+source:
+  url: https://discuss.huggingface.co/t/can-any-open-weights-reasoning-model-pass-ikin-zipgate-v2-2-tier-4-interactive-visualizer-auto-grader/192598
+  title: Can Any Open-Weights Reasoning Model Pass IKIN ZipGate v2.2 Tier 4+? (Interactive Visualizer & Auto-Grader)
+  author: Jadeikin-1
+  publishedAt: 2026-11-26T20:42:43+0900
+  image: https://us1.discourse-cdn.com/hellohellohello/optimized/3X/f/b/fb1ffc5a41df282aaac831dc64517257dc42b02b_2_661x500.png
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 1
+---
+
+Jadeikin-1은 60도 삼각형 격자 구조를 활용한 공간 추론 벤치마크인 IKIN ZipGate v2.2를 구축했다. 이 벤치마크는 언어적 노이즈나 학습 데이터 암기 없이 모델이 순수하게 공간적 작업 기억과 게이트 판단을 수행할 수 있는지를 확인하는 데 목적이 있다.
+
+Jadeikin-1은 테스트 결과 Claude, Llama, Grok, GPT, Gemini 등 주요 모델들이 특정 단계에서 공통적으로 실패하는 패턴을 발견했다고 주장했다. 특히 복잡한 장애물 환경에서 모델들이 특정 경로를 선택하는 대신 외곽으로 회피하는 경향을 보인다는 점을 지적했다.
+
+Jadeikin-1은 다양한 실험 조건을 통해 모델의 반응을 분석했다. 규칙이 없는 상황에서는 모델이 정의되지 않은 변수를 정확히 짚어냈으나, 물리적 은유를 섞거나 단계별 추론 과정을 강제하는 방식에서도 특정 단계의 회피 편향은 여전히 유지되었다고 밝혔다.
+
+Jadeikin-1은 이 벤치마크를 통해 DeepSeek-R1이나 Qwen 같은 오픈 웨이트 추론 모델들이 높은 난이도의 과제를 완벽하게 통과할 수 있는지 검증해 볼 것을 제안했다. 현재 Hugging Face를 통해 시각화 도구와 데이터셋이 공개되어 있다.
+
+---
+
+원문: [Can Any Open-Weights Reasoning Model Pass IKIN ZipGate v2.2 Tier 4+? (Interactive Visualizer & Auto-Grader)](https://discuss.huggingface.co/t/can-any-open-weights-reasoning-model-pass-ikin-zipgate-v2-2-tier-4-interactive-visualizer-auto-grader/192598)

@@ -1,0 +1,36 @@
+---
+title: LLM 멀티 에이전트 시스템의 통신 신뢰성을 측정하는 CypherMAS 벤치마크
+category: papers
+axis: agent
+format: explainer
+summary: LLM 기반 멀티 에이전트 시스템에서 발생하는 통신 오류와 라우팅 문제를 독립적으로 평가하는 CypherMAS 벤치마크가 공개되었다. 이 벤치마크는 복잡한 태스크에서 발생하는 오류가 추론 때문인지, 메시지 유실 때문인지 명확히 구분할 수 있는 환경을 제공한다.
+publishedAt: 2026-11-27T22:00:03+0900
+draft: false
+source:
+  url: https://arxiv.org/abs/2611.33242
+  title: 'CypherMAS: Benchmarking Routing Reliability in LLM-Based Multi-Agent Systems'
+  author: Danil Kostromin
+  publishedAt: 2026-11-27T14:00:00+0900
+  words: 15249
+paper:
+  arxivId: '2611.33242'
+  authors:
+  - Danil Kostromin
+  - Andrey Sakhovskiy
+  - Semen Budennyy
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: high
+  crossSources: 2
+---
+
+기존의 멀티 에이전트 시스템 평가는 일반적인 도메인 과제와 통신을 결합하여 평가하기 때문에, 오류의 원인이 추론 과정에 있는지 혹은 메시지 전달이나 도구 사용에 있는지 구분하기 어려웠다. 저자들은 이러한 문제를 해결하기 위해 통신과 라우팅 자체를 분리하여 평가할 수 있는 합성 벤치마크인 CypherMAS를 제안한다.
+
+CypherMAS는 고정된 멀티 에이전트 그래프 구조 내에서 에이전트들이 암호화된 메시지를 전달하고 대응하는 디코더를 가진 동료에게 전달하는 과정을 측정한다. 최적의 경로가 미리 정의되어 있기 때문에 중복되는 LLM 호출 횟수를 측정할 수 있으며, 라우팅 실패 지점을 정확하게 추적할 수 있다.
+
+저자들의 주장에 따르면, 4B에서 753B 규모에 이르는 11개의 오픈 웨이트 모델을 테스트한 결과 작은 모델들은 라우팅과 도구 사용에서 실패하는 경향을 보였다. 또한 27B 이상의 밀집 모델들은 그래프의 지름이 길어질수록 성능이 저하되는 특징을 보였다. 이러한 결과는 통신 신뢰성이 멀티 에이전트 시스템의 중요한 확장성 병목 지점임을 시사한다.
+
+---
+
+원문: [CypherMAS: Benchmarking Routing Reliability in LLM-Based Multi-Agent Systems](https://arxiv.org/abs/2611.33242)

@@ -1,0 +1,33 @@
+---
+title: 'OpenCode v2.4.2 업데이트: GPT-6.2 최적화 및 자동화 기능 개선'
+category: releases
+axis: vibe-coding
+format: explainer
+summary: OpenCode v2.4.2 버전에서는 GPT-6.2를 위한 시스템 프롬프트와 효율적인 토큰 관리가 추가되었다. 또한 자동화 작업의 안정성과 웹 페칭 보안이 강화되었다.
+publishedAt: 2026-11-27T22:00:03+0900
+tags:
+- OpenCode
+- MCP
+draft: false
+source:
+  url: https://github.com/anomalyco/opencode/releases/tag/v2.4.2
+  title: v2.4.2
+  author: github-actions[bot]
+  publishedAt: 2026-11-26T09:59:05+0900
+  words: 1250
+selection:
+  axisBy: source
+  axisConfidence: high
+  band: mid
+  crossSources: 1
+---
+
+이번 업데이트의 핵심은 GPT-6.2 모델에 최적화된 시스템 프롬프트 도입과 효율적인 리소스 관리다. 특히 이미지 및 비디오 생성 도구를 코드 모드 내부로 이동시켜, 매 요청마다 발생하던 불필요한 토큰 소모를 줄였다. 이는 긴 컨텍스트를 다루는 작업에서 비용과 성능을 동시에 개선하는 효과를 준다.
+
+사용자 편의성과 보안 측면에서도 유의미한 변화가 있었다. 웹 페칭 시 허용 범위를 특정 사이트로 제한하여 보안을 강화했으며, 자동화 작업이 실패하더라도 다음 스케줄에 맞춰 실행되도록 안정성을 높였다. 또한 아카이브된 세션에 메시지를 보내면 자동으로 복구되는 기능이 추가되어 워크플로우가 끊기지 않도록 개선되었다.
+
+기타 버그 수정으로는 MCP 서버 로그인 오류 해결과 Plan 모드의 무한 루프 방지 로직이 포함되었다. 이번 릴리스는 전체 업데이트 내용 중 주요 개선 사항만을 요약한 것이며, 세부적인 버그 수정이나 내부 로직 변경은 포함되지 않았을 수 있다.
+
+---
+
+원문: [v2.4.2](https://github.com/anomalyco/opencode/releases/tag/v2.4.2)

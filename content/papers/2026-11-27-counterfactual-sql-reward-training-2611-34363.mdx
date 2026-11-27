@@ -1,0 +1,41 @@
+---
+title: 데이터의 허점을 노린 SQL 생성 오류를 잡아내는 법
+category: papers
+axis: agent
+format: explainer
+summary: 단일 데이터베이스 기반의 보상 체계가 가진 취약점을 분석하고 이를 해결하기 위한 반사실적(Counterfactual) 보상 방식을 제안한다. 가상의 데이터베이스를 생성하여 쿼리의 정확성을 검증함으로써 모델이 잘못된 쿼리로 보상을 획득하는 현상을 억제한다.
+publishedAt: 2026-11-27T22:00:03+0900
+tags:
+- GRPO
+draft: false
+source:
+  url: https://huggingface.co/papers/2611.34363
+  title: 'Single-Database Rewards Are Hackable: Counterfactual Execution for Trustworthy Text-to-SQL RL'
+  author: Shreshth Rai
+  publishedAt: 2026-11-25T09:00:00+0900
+  words: 7140
+paper:
+  arxivId: '2611.34363'
+  authors:
+  - Shreshth Rai
+  - Rishii Kumar Singh
+  - Aksh Aggarwal
+selection:
+  axisBy: llm
+  axisConfidence: low
+  band: high
+  crossSources: 2
+  popularity:
+    kind: hf-upvotes
+    count: 2
+---
+
+기존의 Text-to-SQL 강화 학습은 단일 데이터베이스에서 쿼리 결과가 정답과 일치할 때 보상을 부여하는 방식을 사용한다. 하지만 데이터에 특정 행이 존재하지 않을 경우, 잘못된 쿼리가 우연히 정답과 일치하는 결과(Buggy query)를 낼 수 있다는 문제가 존재한다. 이는 모델이 실제로는 틀린 쿼리를 생성하면서도 보상을 챙기는 '보상 해킹' 문제를 야기한다.
+
+저자들은 이를 해결하기 위해 반사실적 데이터베이스(Counterfactual-database) 보상 방식을 제안한다. 이는 코드 생성기를 통해 만들어진 여러 개의 숨겨진 데이터베이스 복사본에서 최종 쿼리를 실행하고, 모든 결과가 일치할 때만 보상을 주는 방식이다. 저자들의 주장에 따르면, 이 방식을 적용했을 때 오류가 포함된 쿼리가 보상을 받는 비율이 29.5%에서 16.8%로 낮아졌으며, 보상 해킹 비율은 54.1%에서 1.9%로 크게 감소했다.
+
+실험 결과에서 저자들은 이 방식이 정답 쿼리를 거부하는 사례 없이 효과적으로 작동했음을 강조한다. 또한 GRPO를 활용한 비교 실험에서 평균 보상 형태를 사용했을 때 Spider 벤치마크에서 1.6점의 성능 향상을 얻었다고 주장한다. 다만 단일 시드(Seed) 실험에서는 결과가 뒤바뀔 수 있으므로 단일 시드 기반의 보상 비교는 오해를 불러일으킬 수 있음을 주의점으로 명시했다.
+
+---
+
+원문: [Single-Database Rewards Are Hackable: Counterfactual Execution for Trustworthy Text-to-SQL RL](https://huggingface.co/papers/2611.34363)
